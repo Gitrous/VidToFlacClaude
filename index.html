@@ -186,6 +186,20 @@
     }
     .file-chip-meta { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
 
+    .btn-remove-file {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .btn-remove-file:hover { color: var(--error); }
+
     /* ── Command preview ─────────────────────────────────────── */
     .cmd-box {
       background: #080a12;
@@ -403,6 +417,7 @@
         <div class="file-chip-name" id="chipName"></div>
         <div class="file-chip-meta" id="chipMeta"></div>
       </div>
+      <button class="btn-remove-file" id="removeFileBtn" title="Eliminar archivo">✕</button>
     </div>
   </div>
 
@@ -515,9 +530,10 @@ const progressLabel= $('progressLabel');
 const progressPct  = $('progressPct');
 const logCard      = $('logCard');
 const logOutput    = $('logOutput');
-const clearLogsBtn = $('clearLogsBtn');
-const previewCard  = $('previewCard');
-const previewVideo = $('previewVideo');
+const clearLogsBtn  = $('clearLogsBtn');
+const removeFileBtn = $('removeFileBtn');
+const previewCard   = $('previewCard');
+const previewVideo  = $('previewVideo');
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg       = null;
@@ -547,6 +563,18 @@ function log(msg, type = 'info') {
 }
 
 clearLogsBtn.addEventListener('click', () => { logOutput.innerHTML = ''; });
+
+removeFileBtn.addEventListener('click', () => {
+  selectedFile = null;
+  fileInput.value = '';
+  fileChip.classList.remove('visible');
+  convertBtn.disabled = true;
+  downloadBtn.classList.remove('visible');
+  previewCard.classList.remove('visible');
+  previewVideo.src = '';
+  if (outputURL) { URL.revokeObjectURL(outputURL); outputURL = null; }
+  progressCard.classList.remove('visible');
+});
 
 // ─── Engine badge ─────────────────────────────────────────────────────────────
 function setEngine(text, state) {
