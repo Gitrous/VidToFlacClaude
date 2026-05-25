@@ -266,11 +266,69 @@
     .preview-card { display: none; }
     .preview-card.visible { display: block; }
 
-    .preview-card video {
-      width: 100%;
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .btn-download-all {
+      padding: 0.35rem 1rem;
+      background: #16a34a;
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
       border-radius: var(--radius-sm);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .btn-download-all:hover { background: #15803d; }
+
+    .preview-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .preview-item:last-child { margin-bottom: 0; }
+
+    .preview-item-label {
+      padding: 0.5rem 0.85rem;
+      background: var(--surface2);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-item video,
+    .preview-item audio {
+      display: block;
+      width: 100%;
       background: #000;
-      max-height: 380px;
+      max-height: 320px;
+    }
+
+    .preview-item audio { background: var(--surface2); }
+
+    .btn-preview-download {
+      display: block;
+      padding: 0.75rem;
+      background: #16a34a;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.18s, box-shadow 0.18s;
+    }
+    .btn-preview-download:hover {
+      background: #15803d;
+      box-shadow: 0 4px 16px rgba(22,163,74,.35);
     }
 
     /* ── Progress ────────────────────────────────────────────── */
@@ -316,11 +374,36 @@
     .log-card { display: none; }
     .log-card.visible { display: block; }
 
-    .log-header {
+    .log-toggle {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.65rem;
+      cursor: pointer;
+      user-select: none;
+      padding: 0;
+    }
+
+    .log-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .log-chevron {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+    .log-card.open .log-chevron { transform: rotate(180deg); }
+
+    .log-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(99,102,241,.15);
+      color: #818cf8;
     }
 
     .btn-clear {
@@ -334,6 +417,12 @@
       transition: color 0.15s;
     }
     .btn-clear:hover { color: var(--text); }
+
+    .log-body {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .log-card.open .log-body { display: block; }
 
     .log-output {
       background: #060810;
@@ -360,6 +449,65 @@
     .l-success { color: #4ade80; }
 
     /* ── Footer ──────────────────────────────────────────────── */
+    .btn-preview-download {
+      display: block;
+      margin-top: 1rem;
+      padding: 0.9rem;
+      background: #16a34a;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+    }
+    .btn-preview-download:hover {
+      background: #15803d;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(22,163,74,.4);
+    }
+
+    /* ── Format selector ─────────────────────────────────────── */
+    .format-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .format-option input[type="radio"] { display: none; }
+
+    .format-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      text-align: center;
+    }
+
+    .format-option label:hover { border-color: var(--accent); }
+
+    .format-option input:checked + label {
+      border-color: var(--accent);
+      background: rgba(99,102,241,.08);
+    }
+
+    .format-badge {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .format-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
     footer {
       text-align: center;
       color: var(--text-muted);
@@ -400,21 +548,43 @@
         type="file"
         id="fileInput"
         multiple
-        accept="video/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob"
+        accept="video/*,audio/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob,.wav,.mp3,.flac,.aac,.ogg,.m4a,.opus,.wma,.aiff"
       />
       <div class="dz-icon">📂</div>
       <div class="dz-title">Arrastra tus vídeos aquí o haz clic</div>
-      <div class="dz-sub">MP4 · MOV · MKV · AVI · WebM · FLV · TS · y más · varios a la vez</div>
+      <div class="dz-sub">MP4 · MOV · MKV · AVI · WAV · MP3 · AAC · y más · varios a la vez</div>
     </div>
 
     <div class="file-list" id="fileList"></div>
   </div>
 
+  <!-- Format selector -->
+  <div class="card">
+    <div class="card-title">2 · Formato de salida</div>
+    <div class="format-options">
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMkv" value="mkv" checked>
+        <label for="fmtMkv">
+          <span style="font-size:0.7rem;font-weight:700;color:#22c55e;letter-spacing:0.04em">✓ RECOMENDADO</span>
+          <span class="format-badge">MKV</span>
+          <span class="format-desc">H.264 + FLAC · máx. compatibilidad</span>
+        </label>
+      </div>
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMp4" value="mp4">
+        <label for="fmtMp4">
+          <span class="format-badge">MP4</span>
+          <span class="format-desc">H.264 + FLAC · contenedor MP4</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <!-- Convert -->
   <div class="card">
-    <div class="card-title">2 · Convertir</div>
+    <div class="card-title">3 · Convertir</div>
 
-    <div class="cmd-box" style="margin-bottom: 1rem;">
+    <div class="cmd-box" id="cmdPreview" style="margin-bottom: 1rem;">
       <span class="k">ffmpeg</span>
       <span class="f"> -i</span> <span class="v">input</span>
       <span class="f"> -map</span> <span class="v">0:v:0</span>
@@ -440,19 +610,31 @@
     </div>
   </div>
 
-  <!-- Video preview -->
+  <!-- Preview list -->
   <div class="card preview-card" id="previewCard">
-    <div class="card-title">3 · Previsualizar</div>
-    <video id="previewVideo" controls></video>
+    <div class="preview-header">
+      <span class="card-title" style="margin-bottom:0">3 · Previsualizar</span>
+      <a id="downloadAllBtn" class="btn-download-all" style="display:none">⬇ Descargar todo</a>
+    </div>
+    <div id="previewList"></div>
   </div>
 
   <!-- Logs -->
   <div class="card log-card" id="logCard">
-    <div class="log-header">
-      <span class="card-title" style="margin-bottom:0">Logs de FFmpeg</span>
-      <button class="btn-clear" id="clearLogsBtn">Limpiar</button>
+    <div class="log-toggle" id="logToggle">
+      <div class="log-toggle-left">
+        <span class="log-chevron">▼</span>
+        <span class="card-title" style="margin-bottom:0">Logs de FFmpeg</span>
+        <span class="log-badge" id="logCount">0</span>
+      </div>
+      <div style="display:flex;gap:0.4rem">
+        <button class="btn-clear" id="copyLogsBtn">Copiar</button>
+        <button class="btn-clear" id="clearLogsBtn">Limpiar</button>
+      </div>
     </div>
-    <div class="log-output" id="logOutput"></div>
+    <div class="log-body">
+      <div class="log-output" id="logOutput"></div>
+    </div>
   </div>
 
   <footer>
@@ -512,9 +694,45 @@ const progressLabel= $('progressLabel');
 const progressPct  = $('progressPct');
 const logCard      = $('logCard');
 const logOutput    = $('logOutput');
+const logCount     = $('logCount');
+const logToggle    = $('logToggle');
 const clearLogsBtn = $('clearLogsBtn');
-const previewCard  = $('previewCard');
-const previewVideo = $('previewVideo');
+
+logToggle.addEventListener('click', e => {
+  if (e.target === clearLogsBtn) return;
+  logCard.classList.toggle('open');
+});
+
+const copyLogsBtn = $('copyLogsBtn');
+
+copyLogsBtn.addEventListener('click', async () => {
+  const text = [...logOutput.querySelectorAll('span')].map(s => s.textContent).join('');
+  await navigator.clipboard.writeText(text);
+  copyLogsBtn.textContent = '✓ Copiado';
+  setTimeout(() => { copyLogsBtn.textContent = 'Copiar'; }, 1500);
+});
+
+clearLogsBtn.addEventListener('click', () => {
+  logOutput.innerHTML = '';
+  logCount.textContent = '0';
+});
+const previewCard    = $('previewCard');
+const previewList    = $('previewList');
+const downloadAllBtn = $('downloadAllBtn');
+const cmdPreview     = $('cmdPreview');
+
+function getFormat() {
+  return document.querySelector('input[name="outFormat"]:checked').value; // 'mkv' | 'mp4'
+}
+
+function updateCmdPreview() {
+  const fmt = getFormat();
+  cmdPreview.innerHTML = `<span class="k">ffmpeg</span><span class="f"> -i</span> <span class="v">input</span> <span class="f">-map</span> <span class="v">0:v:0</span> <span class="f">-map</span> <span class="v">0:a:0</span> <span class="f">-c:v</span> <span class="v">libx264</span> <span class="f">-preset</span> <span class="v">fast</span> <span class="f">-crf</span> <span class="v">18</span> <span class="f">-c:a</span> <span class="v">flac</span> <span class="o">output.${fmt}</span>`;
+}
+
+document.querySelectorAll('input[name="outFormat"]').forEach(r =>
+  r.addEventListener('change', () => { updateCmdPreview(); updateConvertBtn(); })
+);
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg = null;
@@ -542,14 +760,16 @@ function isAudioOnly(file) {
 // ─── Logging ──────────────────────────────────────────────────────────────────
 function log(msg, type = 'info') {
   logCard.classList.add('visible');
+  if (type === 'error') logCard.classList.add('open');
   const span = document.createElement('span');
   span.className = `l-${type}`;
   span.textContent = msg + '\n';
   logOutput.appendChild(span);
-  logOutput.scrollTop = logOutput.scrollHeight;
+  logCount.textContent = logOutput.childElementCount;
+  if (logCard.classList.contains('open')) {
+    logOutput.scrollTop = logOutput.scrollHeight;
+  }
 }
-
-clearLogsBtn.addEventListener('click', () => { logOutput.innerHTML = ''; });
 
 // ─── Engine badge ─────────────────────────────────────────────────────────────
 function setEngine(text, state) {
@@ -611,8 +831,7 @@ function renderFileList() {
     if (entry.status === 'done') {
       chip.addEventListener('click', e => {
         if (e.target.closest('button')) return;
-        previewVideo.src = entry.outputURL;
-        previewCard.classList.add('visible');
+        renderPreviewList();
         previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
@@ -646,10 +865,56 @@ function renderFileList() {
 
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
+  const fmt = getFormat();
+  const fmtLabel = fmt === 'mp4' ? 'MP4 (H.264 + FLAC)' : 'MKV (H.264 + FLAC)';
   convertBtn.disabled = !ffmpeg || pending === 0;
   convertBtn.textContent = pending > 1
-    ? `⚙️ Convertir ${pending} archivos`
-    : '⚙️ Convertir a MKV + FLAC';
+    ? `⚙️ Convertir ${pending} archivos a ${fmtLabel}`
+    : `⚙️ Convertir a ${fmtLabel}`;
+}
+
+// ─── Preview list render ──────────────────────────────────────────────────────
+function renderPreviewList() {
+  const done = [...files.values()].filter(e => e.status === 'done');
+  if (!done.length) {
+    previewCard.classList.remove('visible');
+    return;
+  }
+
+  previewCard.classList.add('visible');
+
+  // rebuild list
+  previewList.innerHTML = '';
+  for (const entry of done) {
+    const isAudio = entry.outBaseName.endsWith('.flac') && !entry.outBaseName.endsWith('_flac.mkv');
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    item.innerHTML = `
+      <div class="preview-item-label">${entry.outBaseName}</div>
+      ${isAudio
+        ? `<audio src="${entry.outputURL}" controls></audio>`
+        : `<video  src="${entry.outputURL}" controls></video>`}
+      <a href="${entry.outputURL}" download="${entry.outBaseName}" class="btn-preview-download">⬇ Descargar</a>
+    `;
+    previewList.appendChild(item);
+  }
+
+  // show/hide "download all" button (only useful with 2+ files)
+  if (done.length > 1) {
+    downloadAllBtn.style.display = 'inline-block';
+    downloadAllBtn.onclick = () => {
+      done.forEach(e => {
+        const a = document.createElement('a');
+        a.href = e.outputURL;
+        a.download = e.outBaseName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    };
+  } else {
+    downloadAllBtn.style.display = 'none';
+  }
 }
 
 // ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
@@ -741,7 +1006,8 @@ convertBtn.addEventListener('click', async () => {
     const ext        = file.name.split('.').pop().toLowerCase() || 'mp4';
     const inputName  = `input_${id}.${ext}`;
     const audioOnly  = isAudioOnly(file);
-    const outputExt  = audioOnly ? 'flac' : 'mkv';
+    const selFmt     = getFormat();                          // 'mkv' | 'mp4'
+    const outputExt  = audioOnly ? 'flac' : selFmt;
     const outputName = `output_${id}.${outputExt}`;
 
     setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
@@ -751,12 +1017,14 @@ convertBtn.addEventListener('click', async () => {
       // 1 · Write input to WASM virtual FS
       log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
       const buffer = await file.arrayBuffer();
+      const fileSize = file.size;
       await ffmpeg.writeFile(inputName, new Uint8Array(buffer));
-      log(`✓ Escrito: ${inputName} (${fmt(buffer.byteLength)})`, 'success');
+      log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
 
-      // 2 · Execute FFmpeg. Audio-only files: convert directly to FLAC.
-      //     Video files: copy video stream, re-encode audio to FLAC in MKV.
-      setProgress(`[${i + 1}/${pending.length}] Convirtiendo a FLAC…`, null);
+      // 2 · Build FFmpeg command based on file type and selected format.
+      //     MP4 always re-encodes video to H.264 — MP4 doesn't support most
+      //     professional codecs (DNxHD, ProRes, etc.) with stream copy.
+      setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
 
       const t0 = Date.now();
       let cmd;
@@ -764,7 +1032,10 @@ convertBtn.addEventListener('click', async () => {
       if (audioOnly) {
         cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', outputName];
       } else {
-        cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0', '-c:v', 'copy', '-tag:v', '0x0000', '-c:a', 'flac', outputName];
+        cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
+               '-c:v', 'libx264', '-preset', 'fast', '-crf', '18',
+               '-c:a', 'flac',
+               outputName];
       }
 
       log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
@@ -778,26 +1049,30 @@ convertBtn.addEventListener('click', async () => {
       const data = await ffmpeg.readFile(outputName);
 
       // 4 · Create blob & object URL
-      const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
+      const mimeType = audioOnly ? 'audio/flac' : selFmt === 'mp4' ? 'video/mp4' : 'video/x-matroska';
       const blob = new Blob([data.buffer], { type: mimeType });
+      const suffix = audioOnly ? '.flac' : `_flac.${selFmt}`;
       entry.outputURL   = URL.createObjectURL(blob);
-      entry.outBaseName = file.name.replace(/\.[^.]+$/, '') + (audioOnly ? '.flac' : '_flac.mkv');
+      entry.outBaseName = file.name.replace(/\.[^.]+$/, '') + suffix;
       entry.status      = 'done';
 
       log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
       setProgress(`[${i + 1}/${pending.length}] ${file.name} ✓`, ((i + 1) / pending.length) * 100);
 
-      // show preview of latest converted file
-      previewVideo.src = entry.outputURL;
-      previewCard.classList.add('visible');
+      // update preview list after each file
+      renderPreviewList();
 
       // 5 · Clean up WASM FS
       try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
 
     } catch (err) {
       entry.status = 'error';
-      log(`✗ Error en "${file.name}": ${err.message}`, 'error');
-      try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
+      log(`✗ Error en "${file.name}": ${err.message ?? 'error desconocido'}`, 'error');
+      // ffmpeg.wasm can crash (Aborted). Reinitialize so next files work.
+      try { await ffmpeg.deleteFile(inputName); } catch (_) {}
+      try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+      log('↺ Reiniciando motor FFmpeg…', 'sys');
+      await loadFFmpeg();
     }
 
     renderFileList();
