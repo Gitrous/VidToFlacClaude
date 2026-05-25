@@ -251,6 +251,17 @@
       transform: translateY(-1px);
     }
 
+    /* ── Video preview ───────────────────────────────────────── */
+    .preview-card { display: none; }
+    .preview-card.visible { display: block; }
+
+    .preview-card video {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      background: #000;
+      max-height: 380px;
+    }
+
     /* ── Progress ────────────────────────────────────────────── */
     .progress-card {
       display: none;
@@ -429,6 +440,12 @@
     </div>
   </div>
 
+  <!-- Video preview -->
+  <div class="card preview-card" id="previewCard">
+    <div class="card-title">3 · Previsualizar</div>
+    <video id="previewVideo" controls></video>
+  </div>
+
   <!-- Logs -->
   <div class="card log-card" id="logCard">
     <div class="log-header">
@@ -499,6 +516,8 @@ const progressPct  = $('progressPct');
 const logCard      = $('logCard');
 const logOutput    = $('logOutput');
 const clearLogsBtn = $('clearLogsBtn');
+const previewCard  = $('previewCard');
+const previewVideo = $('previewVideo');
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg       = null;
@@ -618,6 +637,8 @@ function handleFile(file) {
 
   // Reset previous output
   downloadBtn.classList.remove('visible');
+  previewCard.classList.remove('visible');
+  previewVideo.src = '';
   if (outputURL) { URL.revokeObjectURL(outputURL); outputURL = null; }
   progressCard.classList.remove('visible');
 
@@ -709,6 +730,9 @@ convertBtn.addEventListener('click', async () => {
       a.click();
       document.body.removeChild(a);
     };
+
+    previewVideo.src = outputURL;
+    previewCard.classList.add('visible');
 
     convertBtn.disabled = false;
 
