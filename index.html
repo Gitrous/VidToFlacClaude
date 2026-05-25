@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VidToFLAC — Video › MKV+FLAC en el navegador</title>
+  <style>
+    :root {
+      --bg:          #0d0f18;
+      --surface:     #161927;
+      --surface2:    #1e2235;
+      --surface3:    #252a42;
+      --accent:      #6366f1;
+      --accent2:     #a78bfa;
+      --text:        #e2e8f0;
+      --text-muted:  #64748b;
+      --success:     #22c55e;
+      --warn:        #fbbf24;
+      --error:       #ef4444;
+      --border:      #2a2f4a;
+      --radius:      14px;
+      --radius-sm:   8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 660px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ── Header ──────────────────────────────────────────────── */
+    .header {
+      text-align: center;
+      padding: 1rem 0 0.5rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .card-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Engine status ───────────────────────────────────────── */
+    .engine-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .engine-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .engine-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: background 0.4s;
+      flex-shrink: 0;
+    }
+
+    .engine-dot.loading  { background: var(--warn);    animation: pulse 1.2s ease-in-out infinite; }
+    .engine-dot.ready    { background: var(--success); }
+    .engine-dot.busy     { background: var(--accent);  animation: pulse 1.2s ease-in-out infinite; }
+    .engine-dot.error    { background: var(--error);   }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+
+    .badge {
+      padding: 0.22rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-loading   { background: rgba(251,191,36,.12);  color: var(--warn); }
+    .badge-ready     { background: rgba(99,102,241,.14);  color: #818cf8; }
+    .badge-busy      { background: rgba(99,102,241,.14);  color: #818cf8; }
+    .badge-done      { background: rgba(34,197,94,.12);   color: var(--success); }
+    .badge-error     { background: rgba(239,68,68,.12);   color: var(--error); }
+
+    /* ── Drop zone ───────────────────────────────────────────── */
+    .drop-zone {
+      position: relative;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(99,102,241,.04);
+    }
+
+    .drop-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .dz-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.75rem; }
+    .dz-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .dz-sub { color: var(--text-muted); font-size: 0.82rem; }
+
+    /* ── File chip ───────────────────────────────────────────── */
+    .file-chip {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.85rem;
+      padding: 0.7rem 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .file-chip.visible { display: flex; }
+    .file-chip-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+    .file-chip-info { flex: 1; overflow: hidden; }
+    .file-chip-name {
+      font-weight: 500;
+      font-size: 0.88rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-chip-meta { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
+
+    /* ── Command preview ─────────────────────────────────────── */
+    .cmd-box {
+      background: #080a12;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #64748b;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .cmd-box .k { color: #818cf8; }
+    .cmd-box .f { color: #a78bfa; }
+    .cmd-box .v { color: #38bdf8; }
+    .cmd-box .o { color: #4ade80; }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.82rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent2);
+      box-shadow: 0 4px 20px rgba(99,102,241,.35);
+      transform: translateY(-1px);
+    }
+    .btn-primary:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-download {
+      background: rgba(34,197,94,.1);
+      color: var(--success);
+      border: 1px solid rgba(34,197,94,.3);
+      margin-top: 0.75rem;
+      display: none;
+    }
+    .btn-download.visible { display: flex; }
+    .btn-download:hover {
+      background: rgba(34,197,94,.18);
+      box-shadow: 0 4px 16px rgba(34,197,94,.2);
+      transform: translateY(-1px);
+    }
+
+    /* ── Progress ────────────────────────────────────────────── */
+    .progress-card {
+      display: none;
+    }
+    .progress-card.visible { display: block; }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+      margin-bottom: 0.6rem;
+    }
+    .progress-meta-label { font-weight: 500; }
+    .progress-meta-pct   { color: var(--accent2); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .progress-track {
+      background: var(--surface2);
+      border-radius: 999px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 999px;
+      transition: width 0.35s ease;
+      width: 0%;
+    }
+
+    .progress-fill.indeterminate {
+      width: 35%;
+      animation: indeterminate 1.4s ease-in-out infinite;
+    }
+
+    @keyframes indeterminate {
+      0%   { transform: translateX(-120%); }
+      100% { transform: translateX(400%); }
+    }
+
+    /* ── Log ─────────────────────────────────────────────────── */
+    .log-card { display: none; }
+    .log-card.visible { display: block; }
+
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
+    }
+
+    .btn-clear {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .btn-clear:hover { color: var(--text); }
+
+    .log-output {
+      background: #060810;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      height: 210px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.76rem;
+      line-height: 1.65;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .log-output::-webkit-scrollbar { width: 4px; }
+    .log-output::-webkit-scrollbar-track { background: transparent; }
+    .log-output::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .l-sys     { color: #818cf8; }
+    .l-info    { color: #475569; }
+    .l-warn    { color: var(--warn); }
+    .l-error   { color: #f87171; }
+    .l-success { color: #4ade80; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      padding-top: 0.5rem;
+    }
+
+    footer strong { color: #818cf8; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>VidToFLAC</h1>
+    <p>Convierte cualquier vídeo a MKV con audio FLAC — 100% en tu navegador, sin servidor</p>
+  </div>
+
+  <!-- Engine status -->
+  <div class="card">
+    <div class="engine-row">
+      <div class="engine-label">
+        <span class="engine-dot loading" id="engineDot"></span>
+        <span id="engineText">Cargando FFmpeg WASM…</span>
+      </div>
+      <span class="badge badge-loading" id="engineBadge">Iniciando</span>
+    </div>
+  </div>
+
+  <!-- File selector -->
+  <div class="card">
+    <div class="card-title">1 · Selecciona el vídeo de entrada</div>
+
+    <div class="drop-zone" id="dropZone">
+      <input
+        type="file"
+        id="fileInput"
+        accept="video/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob"
+      />
+      <div class="dz-icon">📂</div>
+      <div class="dz-title">Arrastra tu vídeo aquí o haz clic</div>
+      <div class="dz-sub">MP4 · MOV · MKV · AVI · WebM · FLV · TS · y más</div>
+    </div>
+
+    <div class="file-chip" id="fileChip">
+      <span class="file-chip-icon">🎞️</span>
+      <div class="file-chip-info">
+        <div class="file-chip-name" id="chipName"></div>
+        <div class="file-chip-meta" id="chipMeta"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Convert -->
+  <div class="card">
+    <div class="card-title">2 · Convertir</div>
+
+    <div class="cmd-box" style="margin-bottom: 1rem;">
+      <span class="k">ffmpeg</span>
+      <span class="f"> -i</span> <span class="v">input</span>
+      <span class="f"> -map</span> <span class="v">0:v:0</span>
+      <span class="f"> -map</span> <span class="v">0:a:0</span>
+      <span class="f"> -c:v</span> <span class="v">copy</span>
+      <span class="f"> -c:a</span> <span class="v">flac</span>
+      <span class="o"> output.mkv</span>
+    </div>
+
+    <button class="btn btn-primary" id="convertBtn" disabled>
+      ⚙️ Convertir a MKV + FLAC
+    </button>
+
+    <button class="btn btn-download" id="downloadBtn">
+      ⬇️ Descargar output.mkv
+    </button>
+  </div>
+
+  <!-- Progress -->
+  <div class="card progress-card" id="progressCard">
+    <div class="progress-meta">
+      <span class="progress-meta-label" id="progressLabel">Procesando…</span>
+      <span class="progress-meta-pct" id="progressPct">—</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill indeterminate" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- Logs -->
+  <div class="card log-card" id="logCard">
+    <div class="log-header">
+      <span class="card-title" style="margin-bottom:0">Logs de FFmpeg</span>
+      <button class="btn-clear" id="clearLogsBtn">Limpiar</button>
+    </div>
+    <div class="log-output" id="logOutput"></div>
+  </div>
+
+  <footer>
+    Todo el procesamiento ocurre en tu dispositivo usando
+    <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<script type="module">
+// ─────────────────────────────────────────────────────────────────────────────
+//  worker.js vive en la CDN (cross-origin). Chrome bloquea new Worker(crossOriginURL)
+//  cuando el tipo es 'module'. Solución: fetch del worker, reescribir sus imports
+//  relativos a URLs absolutas, crear un Blob URL (same-origin) y parchear
+//  window.Worker para que FFmpeg use ese blob en lugar de la URL original.
+//  Sin service workers, sin recargas, sin SharedArrayBuffer.
+// ─────────────────────────────────────────────────────────────────────────────
+const FFMPEG_BASE   = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/esm';
+const WORKER_URL    = `${FFMPEG_BASE}/worker.js`;
+const CORE_BASE     = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+
+// 1. Descargar worker.js y reescribir imports relativos → absolutos
+const workerText    = await fetch(WORKER_URL).then(r => r.text());
+const patchedWorker = workerText.replace(
+  /from\s+['"](\.[^'"]+)['"]/g,
+  (_, rel) => `from '${new URL(rel, WORKER_URL).href}'`
+);
+const workerBlobURL = URL.createObjectURL(
+  new Blob([patchedWorker], { type: 'text/javascript' })
+);
+
+// 2. Parchear window.Worker: interceptar la URL cross-origin del worker de FFmpeg
+const _Worker = window.Worker;
+window.Worker = function(url, options) {
+  const href = url instanceof URL ? url.href : String(url ?? '');
+  return new _Worker(href === WORKER_URL ? workerBlobURL : url, options);
+};
+window.Worker.prototype = _Worker.prototype;
+
+// 3. Ahora importar FFmpeg — el parche ya está activo cuando instancie el Worker
+const { FFmpeg }    = await import(`${FFMPEG_BASE}/index.js`);
+const { toBlobURL } = await import('https://unpkg.com/@ffmpeg/util@0.12.1/dist/esm/index.js');
+
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const engineDot    = $('engineDot');
+const engineText   = $('engineText');
+const engineBadge  = $('engineBadge');
+const dropZone     = $('dropZone');
+const fileInput    = $('fileInput');
+const fileChip     = $('fileChip');
+const chipName     = $('chipName');
+const chipMeta     = $('chipMeta');
+const convertBtn   = $('convertBtn');
+const downloadBtn  = $('downloadBtn');
+const progressCard = $('progressCard');
+const progressFill = $('progressFill');
+const progressLabel= $('progressLabel');
+const progressPct  = $('progressPct');
+const logCard      = $('logCard');
+const logOutput    = $('logOutput');
+const clearLogsBtn = $('clearLogsBtn');
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let ffmpeg       = null;
+let selectedFile = null;
+let outputURL    = null;
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function fmt(bytes) {
+  if (bytes < 1024)       return bytes + ' B';
+  if (bytes < 1_048_576)  return (bytes / 1024).toFixed(1) + ' KB';
+  if (bytes < 1_073_741_824) return (bytes / 1_048_576).toFixed(1) + ' MB';
+  return (bytes / 1_073_741_824).toFixed(2) + ' GB';
+}
+
+function isVideo(name) {
+  return /\.(mp4|mov|mkv|avi|webm|flv|wmv|m4v|ts|m2ts|mpg|mpeg|3gp|ogv|rm|rmvb|vob|divx|xvid|f4v|asf|mts)$/i.test(name);
+}
+
+// ─── Logging ──────────────────────────────────────────────────────────────────
+function log(msg, type = 'info') {
+  logCard.classList.add('visible');
+  const span = document.createElement('span');
+  span.className = `l-${type}`;
+  span.textContent = msg + '\n';
+  logOutput.appendChild(span);
+  logOutput.scrollTop = logOutput.scrollHeight;
+}
+
+clearLogsBtn.addEventListener('click', () => { logOutput.innerHTML = ''; });
+
+// ─── Engine badge ─────────────────────────────────────────────────────────────
+function setEngine(text, state) {
+  engineText.textContent  = text;
+  engineDot.className     = `engine-dot ${state}`;
+  engineBadge.textContent = { loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
+  engineBadge.className   = `badge badge-${state === 'busy' ? 'busy' : state}`;
+}
+
+// ─── Progress helpers ─────────────────────────────────────────────────────────
+function setProgress(label, pct) {
+  progressCard.classList.add('visible');
+  progressLabel.textContent = label;
+
+  if (pct === null) {
+    // indeterminate
+    progressFill.classList.add('indeterminate');
+    progressFill.style.width = '';
+    progressPct.textContent = '…';
+  } else {
+    progressFill.classList.remove('indeterminate');
+    progressFill.style.width = pct + '%';
+    progressPct.textContent  = pct + '%';
+  }
+}
+
+// ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
+async function loadFFmpeg() {
+  log('Iniciando carga de FFmpeg WASM (core single-thread)…', 'sys');
+  setEngine('Cargando FFmpeg WASM…', 'loading');
+
+  try {
+    ffmpeg = new FFmpeg();
+
+    // Forward FFmpeg internal logs to the UI log panel
+    ffmpeg.on('log', ({ message }) => {
+      // Skip very verbose libavcodec lines (start with spaces), keep the rest
+      const isVerbose = message.startsWith('    ') && !message.includes('Error');
+      if (!isVerbose) log(message, 'info');
+    });
+
+    // Progress events (0–1). Works best for audio transcoding;
+    // for -c:v copy it may stay at 0 until done — that's normal FFmpeg behaviour.
+    ffmpeg.on('progress', ({ progress }) => {
+      if (progress > 0 && progress <= 1) {
+        const pct = Math.min(99, Math.round(progress * 100));
+        progressFill.classList.remove('indeterminate');
+        progressFill.style.width = pct + '%';
+        progressPct.textContent  = pct + '%';
+      }
+    });
+
+    log('Descargando ffmpeg-core.js desde CDN…', 'sys');
+    const coreURL = await toBlobURL(`${CORE_BASE}/ffmpeg-core.js`,   'text/javascript');
+
+    log('Descargando ffmpeg-core.wasm desde CDN…', 'sys');
+    const wasmURL = await toBlobURL(`${CORE_BASE}/ffmpeg-core.wasm`, 'application/wasm');
+
+    log('Inicializando motor…', 'sys');
+    await ffmpeg.load({ coreURL, wasmURL });
+
+    setEngine('Motor listo', 'ready');
+    log('✓ FFmpeg WASM cargado y listo', 'success');
+
+    if (selectedFile) convertBtn.disabled = false;
+
+  } catch (err) {
+    setEngine('Error al cargar el motor', 'error');
+    log('✗ Error cargando FFmpeg: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+// ─── File selection ───────────────────────────────────────────────────────────
+function handleFile(file) {
+  if (!file) return;
+
+  const valid = file.type.startsWith('video/') || isVideo(file.name);
+  if (!valid) {
+    log('⚠ El archivo seleccionado no parece un vídeo. Se intentará de todos modos.', 'warn');
+  }
+
+  selectedFile = file;
+
+  chipName.textContent = file.name;
+  chipMeta.textContent = fmt(file.size) + (file.type ? ' · ' + file.type : '');
+  fileChip.classList.add('visible');
+
+  // Reset previous output
+  downloadBtn.classList.remove('visible');
+  if (outputURL) { URL.revokeObjectURL(outputURL); outputURL = null; }
+  progressCard.classList.remove('visible');
+
+  if (ffmpeg) convertBtn.disabled = false;
+  log(`Archivo seleccionado: ${file.name} (${fmt(file.size)})`, 'sys');
+}
+
+fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+});
+
+// ─── Convert ──────────────────────────────────────────────────────────────────
+convertBtn.addEventListener('click', async () => {
+  if (!selectedFile || !ffmpeg) return;
+
+  convertBtn.disabled = true;
+  downloadBtn.classList.remove('visible');
+  setEngine('Procesando…', 'busy');
+  setProgress('Escribiendo archivo en memoria…', null);
+
+  const ext       = selectedFile.name.split('.').pop().toLowerCase() || 'mp4';
+  const inputName = `input.${ext}`;
+  const outputName = 'output.mkv';
+
+  try {
+    // 1 · Write input to WASM virtual FS
+    log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+    const buffer = await selectedFile.arrayBuffer();
+    await ffmpeg.writeFile(inputName, new Uint8Array(buffer));
+    log(`✓ Escrito: ${inputName} (${fmt(buffer.byteLength)})`, 'success');
+
+    // 2 · Execute: map only first video + audio stream, copy video, encode audio to FLAC
+    setProgress('Convirtiendo audio a FLAC, copiando vídeo sin recodificar…', null);
+    log(`Ejecutando: ffmpeg -i ${inputName} -map 0:v:0 -map 0:a:0 -c:v copy -tag:v 0x0000 -c:a flac ${outputName}`, 'sys');
+
+    const t0 = Date.now();
+
+    await ffmpeg.exec([
+      '-i',      inputName,
+      '-map',    '0:v:0',
+      '-map',    '0:a:0',
+      '-c:v',    'copy',
+      '-tag:v',  '0x0000',  // fuerza V_DNXHD en MKV en vez de V_MS/VFW/FOURCC
+      '-c:a',    'flac',
+      outputName
+    ]);
+
+    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+    log(`✓ Conversión completada en ${elapsed}s`, 'success');
+
+    // 3 · Read output
+    setProgress('Leyendo archivo resultante…', null);
+    log('Leyendo output.mkv desde sistema de archivos virtual…', 'sys');
+    const data = await ffmpeg.readFile(outputName);
+
+    // 4 · Create blob & download URL
+    const blob = new Blob([data.buffer], { type: 'video/x-matroska' });
+    outputURL  = URL.createObjectURL(blob);
+
+    const outSize    = fmt(blob.size);
+    const outBaseName = selectedFile.name.replace(/\.[^.]+$/, '') + '_flac.mkv';
+
+    log(`✓ Archivo generado: ${outBaseName} (${outSize})`, 'success');
+
+    // 5 · Clean up WASM FS to free memory
+    try {
+      await ffmpeg.deleteFile(inputName);
+      await ffmpeg.deleteFile(outputName);
+    } catch (_) { /* best-effort */ }
+
+    // 6 · Update UI
+    setEngine('Motor listo', 'ready');
+    setProgress('Conversión completada ✓', 100);
+
+    downloadBtn.textContent = `⬇️ Descargar ${outBaseName} (${outSize})`;
+    downloadBtn.classList.add('visible');
+    downloadBtn.onclick = () => {
+      const a = document.createElement('a');
+      a.href     = outputURL;
+      a.download = outBaseName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+
+    convertBtn.disabled = false;
+
+  } catch (err) {
+    log('✗ Error durante la conversión: ' + err.message, 'error');
+    setProgress('Error en la conversión', null);
+    setEngine('Error', 'error');
+    console.error(err);
+    convertBtn.disabled = false;
+  }
+});
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+loadFFmpeg();
+</script>
+</body>
+</html>
