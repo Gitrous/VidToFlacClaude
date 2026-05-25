@@ -161,19 +161,29 @@
     .dz-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
     .dz-sub { color: var(--text-muted); font-size: 0.82rem; }
 
-    /* ── File chip ───────────────────────────────────────────── */
+    /* ── File list ───────────────────────────────────────────── */
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+    }
+
     .file-chip {
-      display: none;
+      display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-top: 0.85rem;
       padding: 0.7rem 1rem;
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
+      transition: border-color 0.2s;
     }
 
-    .file-chip.visible { display: flex; }
+    .file-chip.is-done { border-color: rgba(34,197,94,.25); cursor: pointer; }
+    .file-chip.is-done:hover { border-color: rgba(34,197,94,.5); }
+    .file-chip.is-error { border-color: rgba(239,68,68,.25); }
+
     .file-chip-icon { font-size: 1.4rem; flex-shrink: 0; }
 
     .file-chip-info { flex: 1; overflow: hidden; }
@@ -186,19 +196,20 @@
     }
     .file-chip-meta { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
 
-    .btn-remove-file {
+    .btn-chip-action {
       background: none;
       border: none;
-      color: var(--text-muted);
       font-size: 1.1rem;
       cursor: pointer;
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
       line-height: 1;
       flex-shrink: 0;
-      transition: color 0.15s;
+      transition: opacity 0.15s, color 0.15s;
+      color: var(--text-muted);
     }
-    .btn-remove-file:hover { color: var(--error); }
+    .btn-chip-action:hover { opacity: 0.75; }
+    .btn-chip-remove:hover { color: var(--error); }
 
     /* ── Command preview ─────────────────────────────────────── */
     .cmd-box {
@@ -251,20 +262,6 @@
       box-shadow: none;
     }
 
-    .btn-download {
-      background: rgba(34,197,94,.1);
-      color: var(--success);
-      border: 1px solid rgba(34,197,94,.3);
-      margin-top: 0.75rem;
-      display: none;
-    }
-    .btn-download.visible { display: flex; }
-    .btn-download:hover {
-      background: rgba(34,197,94,.18);
-      box-shadow: 0 4px 16px rgba(34,197,94,.2);
-      transform: translateY(-1px);
-    }
-
     /* ── Video preview ───────────────────────────────────────── */
     .preview-card { display: none; }
     .preview-card.visible { display: block; }
@@ -277,9 +274,7 @@
     }
 
     /* ── Progress ────────────────────────────────────────────── */
-    .progress-card {
-      display: none;
-    }
+    .progress-card { display: none; }
     .progress-card.visible { display: block; }
 
     .progress-meta {
@@ -398,27 +393,21 @@
 
   <!-- File selector -->
   <div class="card">
-    <div class="card-title">1 · Selecciona el vídeo de entrada</div>
+    <div class="card-title">1 · Selecciona los vídeos de entrada</div>
 
     <div class="drop-zone" id="dropZone">
       <input
         type="file"
         id="fileInput"
+        multiple
         accept="video/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob"
       />
       <div class="dz-icon">📂</div>
-      <div class="dz-title">Arrastra tu vídeo aquí o haz clic</div>
-      <div class="dz-sub">MP4 · MOV · MKV · AVI · WebM · FLV · TS · y más</div>
+      <div class="dz-title">Arrastra tus vídeos aquí o haz clic</div>
+      <div class="dz-sub">MP4 · MOV · MKV · AVI · WebM · FLV · TS · y más · varios a la vez</div>
     </div>
 
-    <div class="file-chip" id="fileChip">
-      <span class="file-chip-icon">🎞️</span>
-      <div class="file-chip-info">
-        <div class="file-chip-name" id="chipName"></div>
-        <div class="file-chip-meta" id="chipMeta"></div>
-      </div>
-      <button class="btn-remove-file" id="removeFileBtn" title="Eliminar archivo">✕</button>
-    </div>
+    <div class="file-list" id="fileList"></div>
   </div>
 
   <!-- Convert -->
@@ -437,10 +426,6 @@
 
     <button class="btn btn-primary" id="convertBtn" disabled>
       ⚙️ Convertir a MKV + FLAC
-    </button>
-
-    <button class="btn btn-download" id="downloadBtn">
-      ⬇️ Descargar output.mkv
     </button>
   </div>
 
@@ -519,37 +504,39 @@ const engineText   = $('engineText');
 const engineBadge  = $('engineBadge');
 const dropZone     = $('dropZone');
 const fileInput    = $('fileInput');
-const fileChip     = $('fileChip');
-const chipName     = $('chipName');
-const chipMeta     = $('chipMeta');
+const fileListEl   = $('fileList');
 const convertBtn   = $('convertBtn');
-const downloadBtn  = $('downloadBtn');
 const progressCard = $('progressCard');
 const progressFill = $('progressFill');
 const progressLabel= $('progressLabel');
 const progressPct  = $('progressPct');
 const logCard      = $('logCard');
 const logOutput    = $('logOutput');
-const clearLogsBtn  = $('clearLogsBtn');
-const removeFileBtn = $('removeFileBtn');
-const previewCard   = $('previewCard');
-const previewVideo  = $('previewVideo');
+const clearLogsBtn = $('clearLogsBtn');
+const previewCard  = $('previewCard');
+const previewVideo = $('previewVideo');
 
 // ─── State ────────────────────────────────────────────────────────────────────
-let ffmpeg       = null;
-let selectedFile = null;
-let outputURL    = null;
+let ffmpeg = null;
+let nextId = 0;
+// Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
+const files = new Map();
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function fmt(bytes) {
-  if (bytes < 1024)       return bytes + ' B';
-  if (bytes < 1_048_576)  return (bytes / 1024).toFixed(1) + ' KB';
+  if (bytes < 1024)          return bytes + ' B';
+  if (bytes < 1_048_576)     return (bytes / 1024).toFixed(1) + ' KB';
   if (bytes < 1_073_741_824) return (bytes / 1_048_576).toFixed(1) + ' MB';
   return (bytes / 1_073_741_824).toFixed(2) + ' GB';
 }
 
 function isVideo(name) {
   return /\.(mp4|mov|mkv|avi|webm|flv|wmv|m4v|ts|m2ts|mpg|mpeg|3gp|ogv|rm|rmvb|vob|divx|xvid|f4v|asf|mts)$/i.test(name);
+}
+
+function isAudioOnly(file) {
+  if (file.type.startsWith('audio/')) return true;
+  return /\.(wav|mp3|flac|aac|ogg|m4a|opus|wma|aiff|aif)$/i.test(file.name);
 }
 
 // ─── Logging ──────────────────────────────────────────────────────────────────
@@ -563,18 +550,6 @@ function log(msg, type = 'info') {
 }
 
 clearLogsBtn.addEventListener('click', () => { logOutput.innerHTML = ''; });
-
-removeFileBtn.addEventListener('click', () => {
-  selectedFile = null;
-  fileInput.value = '';
-  fileChip.classList.remove('visible');
-  convertBtn.disabled = true;
-  downloadBtn.classList.remove('visible');
-  previewCard.classList.remove('visible');
-  previewVideo.src = '';
-  if (outputURL) { URL.revokeObjectURL(outputURL); outputURL = null; }
-  progressCard.classList.remove('visible');
-});
 
 // ─── Engine badge ─────────────────────────────────────────────────────────────
 function setEngine(text, state) {
@@ -590,15 +565,91 @@ function setProgress(label, pct) {
   progressLabel.textContent = label;
 
   if (pct === null) {
-    // indeterminate
     progressFill.classList.add('indeterminate');
     progressFill.style.width = '';
     progressPct.textContent = '…';
   } else {
     progressFill.classList.remove('indeterminate');
     progressFill.style.width = pct + '%';
-    progressPct.textContent  = pct + '%';
+    progressPct.textContent  = Math.round(pct) + '%';
   }
+}
+
+// ─── File list render ─────────────────────────────────────────────────────────
+function renderFileList() {
+  fileListEl.innerHTML = '';
+
+  for (const [id, entry] of files) {
+    const chip = document.createElement('div');
+    chip.className = 'file-chip' +
+      (entry.status === 'done'  ? ' is-done'  : '') +
+      (entry.status === 'error' ? ' is-error' : '');
+
+    const badgeMap = {
+      pending:    '<span class="badge badge-loading" style="font-size:.7rem;flex-shrink:0">Pendiente</span>',
+      converting: '<span class="badge badge-busy"    style="font-size:.7rem;flex-shrink:0">Convirtiendo</span>',
+      done:       '<span class="badge badge-done"    style="font-size:.7rem;flex-shrink:0">Listo ✓</span>',
+      error:      '<span class="badge badge-error"   style="font-size:.7rem;flex-shrink:0">Error</span>',
+    };
+
+    chip.innerHTML = `
+      <span class="file-chip-icon">🎞️</span>
+      <div class="file-chip-info">
+        <div class="file-chip-name">${entry.file.name}</div>
+        <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
+      </div>
+      ${badgeMap[entry.status] ?? ''}
+      ${entry.status === 'done'
+        ? `<button class="btn-chip-action" data-action="download" data-id="${id}" title="Descargar">⬇️</button>`
+        : ''}
+      ${entry.status !== 'converting'
+        ? `<button class="btn-chip-action btn-chip-remove" data-action="remove" data-id="${id}" title="Eliminar">✕</button>`
+        : ''}
+    `;
+
+    // click chip to preview (done files only)
+    if (entry.status === 'done') {
+      chip.addEventListener('click', e => {
+        if (e.target.closest('button')) return;
+        previewVideo.src = entry.outputURL;
+        previewCard.classList.add('visible');
+        previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    fileListEl.appendChild(chip);
+  }
+
+  // event delegation for buttons
+  fileListEl.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = Number(btn.dataset.id);
+      if (btn.dataset.action === 'remove') {
+        const entry = files.get(id);
+        if (entry?.outputURL) URL.revokeObjectURL(entry.outputURL);
+        files.delete(id);
+        renderFileList();
+        updateConvertBtn();
+      } else if (btn.dataset.action === 'download') {
+        const entry = files.get(id);
+        if (!entry?.outputURL) return;
+        const a = document.createElement('a');
+        a.href = entry.outputURL;
+        a.download = entry.outBaseName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    });
+  });
+}
+
+function updateConvertBtn() {
+  const pending = [...files.values()].filter(e => e.status === 'pending').length;
+  convertBtn.disabled = !ffmpeg || pending === 0;
+  convertBtn.textContent = pending > 1
+    ? `⚙️ Convertir ${pending} archivos`
+    : '⚙️ Convertir a MKV + FLAC';
 }
 
 // ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
@@ -609,15 +660,11 @@ async function loadFFmpeg() {
   try {
     ffmpeg = new FFmpeg();
 
-    // Forward FFmpeg internal logs to the UI log panel
     ffmpeg.on('log', ({ message }) => {
-      // Skip very verbose libavcodec lines (start with spaces), keep the rest
       const isVerbose = message.startsWith('    ') && !message.includes('Error');
       if (!isVerbose) log(message, 'info');
     });
 
-    // Progress events (0–1). Works best for audio transcoding;
-    // for -c:v copy it may stay at 0 until done — that's normal FFmpeg behaviour.
     ffmpeg.on('progress', ({ progress }) => {
       if (progress > 0 && progress <= 1) {
         const pct = Math.min(99, Math.round(progress * 100));
@@ -638,8 +685,7 @@ async function loadFFmpeg() {
 
     setEngine('Motor listo', 'ready');
     log('✓ FFmpeg WASM cargado y listo', 'success');
-
-    if (selectedFile) convertBtn.disabled = false;
+    updateConvertBtn();
 
   } catch (err) {
     setEngine('Error al cargar el motor', 'error');
@@ -649,128 +695,116 @@ async function loadFFmpeg() {
 }
 
 // ─── File selection ───────────────────────────────────────────────────────────
-function handleFile(file) {
-  if (!file) return;
+function addFiles(fileList) {
+  let added = 0;
+  for (const file of fileList) {
+    const valid = file.type.startsWith('video/') || file.type.startsWith('audio/') || isVideo(file.name) || isAudioOnly(file);
+    if (!valid) {
+      log(`⚠ "${file.name}" no es un formato reconocido. Se intentará de todos modos.`, 'warn');
+    }
+    // skip duplicates (same name + size)
+    const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
+    if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
 
-  const valid = file.type.startsWith('video/') || isVideo(file.name);
-  if (!valid) {
-    log('⚠ El archivo seleccionado no parece un vídeo. Se intentará de todos modos.', 'warn');
+    files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null });
+    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    added++;
   }
-
-  selectedFile = file;
-
-  chipName.textContent = file.name;
-  chipMeta.textContent = fmt(file.size) + (file.type ? ' · ' + file.type : '');
-  fileChip.classList.add('visible');
-
-  // Reset previous output
-  downloadBtn.classList.remove('visible');
-  previewCard.classList.remove('visible');
-  previewVideo.src = '';
-  if (outputURL) { URL.revokeObjectURL(outputURL); outputURL = null; }
-  progressCard.classList.remove('visible');
-
-  if (ffmpeg) convertBtn.disabled = false;
-  log(`Archivo seleccionado: ${file.name} (${fmt(file.size)})`, 'sys');
+  if (added) { renderFileList(); updateConvertBtn(); }
 }
 
-fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
 
 dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
 dropZone.addEventListener('drop', e => {
   e.preventDefault();
   dropZone.classList.remove('drag-over');
-  const f = e.dataTransfer.files[0];
-  if (f) handleFile(f);
+  if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
 
 // ─── Convert ──────────────────────────────────────────────────────────────────
 convertBtn.addEventListener('click', async () => {
-  if (!selectedFile || !ffmpeg) return;
+  if (!ffmpeg) return;
+  const pending = [...files.entries()].filter(([, e]) => e.status === 'pending');
+  if (!pending.length) return;
 
   convertBtn.disabled = true;
-  downloadBtn.classList.remove('visible');
   setEngine('Procesando…', 'busy');
-  setProgress('Escribiendo archivo en memoria…', null);
 
-  const ext       = selectedFile.name.split('.').pop().toLowerCase() || 'mp4';
-  const inputName = `input.${ext}`;
-  const outputName = 'output.mkv';
+  for (let i = 0; i < pending.length; i++) {
+    const [id, entry] = pending[i];
+    const file = entry.file;
+    entry.status = 'converting';
+    renderFileList();
 
-  try {
-    // 1 · Write input to WASM virtual FS
-    log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
-    const buffer = await selectedFile.arrayBuffer();
-    await ffmpeg.writeFile(inputName, new Uint8Array(buffer));
-    log(`✓ Escrito: ${inputName} (${fmt(buffer.byteLength)})`, 'success');
+    const ext        = file.name.split('.').pop().toLowerCase() || 'mp4';
+    const inputName  = `input_${id}.${ext}`;
+    const audioOnly  = isAudioOnly(file);
+    const outputExt  = audioOnly ? 'flac' : 'mkv';
+    const outputName = `output_${id}.${outputExt}`;
 
-    // 2 · Execute: map only first video + audio stream, copy video, encode audio to FLAC
-    setProgress('Convirtiendo audio a FLAC, copiando vídeo sin recodificar…', null);
-    log(`Ejecutando: ffmpeg -i ${inputName} -map 0:v:0 -map 0:a:0 -c:v copy -tag:v 0x0000 -c:a flac ${outputName}`, 'sys');
+    setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
+    log(`[${i + 1}/${pending.length}] Procesando: ${file.name}`, 'sys');
 
-    const t0 = Date.now();
-
-    await ffmpeg.exec([
-      '-i',      inputName,
-      '-map',    '0:v:0',
-      '-map',    '0:a:0',
-      '-c:v',    'copy',
-      '-tag:v',  '0x0000',  // fuerza V_DNXHD en MKV en vez de V_MS/VFW/FOURCC
-      '-c:a',    'flac',
-      outputName
-    ]);
-
-    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-    log(`✓ Conversión completada en ${elapsed}s`, 'success');
-
-    // 3 · Read output
-    setProgress('Leyendo archivo resultante…', null);
-    log('Leyendo output.mkv desde sistema de archivos virtual…', 'sys');
-    const data = await ffmpeg.readFile(outputName);
-
-    // 4 · Create blob & download URL
-    const blob = new Blob([data.buffer], { type: 'video/x-matroska' });
-    outputURL  = URL.createObjectURL(blob);
-
-    const outSize    = fmt(blob.size);
-    const outBaseName = selectedFile.name.replace(/\.[^.]+$/, '') + '_flac.mkv';
-
-    log(`✓ Archivo generado: ${outBaseName} (${outSize})`, 'success');
-
-    // 5 · Clean up WASM FS to free memory
     try {
-      await ffmpeg.deleteFile(inputName);
-      await ffmpeg.deleteFile(outputName);
-    } catch (_) { /* best-effort */ }
+      // 1 · Write input to WASM virtual FS
+      log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+      const buffer = await file.arrayBuffer();
+      await ffmpeg.writeFile(inputName, new Uint8Array(buffer));
+      log(`✓ Escrito: ${inputName} (${fmt(buffer.byteLength)})`, 'success');
 
-    // 6 · Update UI
-    setEngine('Motor listo', 'ready');
-    setProgress('Conversión completada ✓', 100);
+      // 2 · Execute FFmpeg. Audio-only files: convert directly to FLAC.
+      //     Video files: copy video stream, re-encode audio to FLAC in MKV.
+      setProgress(`[${i + 1}/${pending.length}] Convirtiendo a FLAC…`, null);
 
-    downloadBtn.textContent = `⬇️ Descargar ${outBaseName} (${outSize})`;
-    downloadBtn.classList.add('visible');
-    downloadBtn.onclick = () => {
-      const a = document.createElement('a');
-      a.href     = outputURL;
-      a.download = outBaseName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    };
+      const t0 = Date.now();
+      let cmd;
 
-    previewVideo.src = outputURL;
-    previewCard.classList.add('visible');
+      if (audioOnly) {
+        cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', outputName];
+      } else {
+        cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0', '-c:v', 'copy', '-tag:v', '0x0000', '-c:a', 'flac', outputName];
+      }
 
-    convertBtn.disabled = false;
+      log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
+      await ffmpeg.exec(cmd);
 
-  } catch (err) {
-    log('✗ Error durante la conversión: ' + err.message, 'error');
-    setProgress('Error en la conversión', null);
-    setEngine('Error', 'error');
-    console.error(err);
-    convertBtn.disabled = false;
+      const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+      log(`✓ Conversión completada en ${elapsed}s`, 'success');
+
+      // 3 · Read output
+      setProgress(`[${i + 1}/${pending.length}] Leyendo archivo resultante…`, null);
+      const data = await ffmpeg.readFile(outputName);
+
+      // 4 · Create blob & object URL
+      const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
+      const blob = new Blob([data.buffer], { type: mimeType });
+      entry.outputURL   = URL.createObjectURL(blob);
+      entry.outBaseName = file.name.replace(/\.[^.]+$/, '') + (audioOnly ? '.flac' : '_flac.mkv');
+      entry.status      = 'done';
+
+      log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
+      setProgress(`[${i + 1}/${pending.length}] ${file.name} ✓`, ((i + 1) / pending.length) * 100);
+
+      // show preview of latest converted file
+      previewVideo.src = entry.outputURL;
+      previewCard.classList.add('visible');
+
+      // 5 · Clean up WASM FS
+      try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
+
+    } catch (err) {
+      entry.status = 'error';
+      log(`✗ Error en "${file.name}": ${err.message}`, 'error');
+      try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
+    }
+
+    renderFileList();
   }
+
+  setEngine('Motor listo', 'ready');
+  updateConvertBtn();
 });
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
