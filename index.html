@@ -171,14 +171,38 @@
 
     .file-chip {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.7rem 1rem;
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
+      overflow: hidden;
       transition: border-color 0.2s;
     }
+
+    .file-chip-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 1rem;
+    }
+
+    .chip-bar-track {
+      height: 3px;
+      background: var(--surface3);
+      width: 100%;
+    }
+
+    .chip-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .file-chip.is-done .chip-bar-fill  { background: #22c55e; width: 100%; }
+    .file-chip.is-error .chip-bar-fill { background: #ef4444; width: 100%; }
 
     .file-chip.is-done { border-color: rgba(34,197,94,.25); cursor: pointer; }
     .file-chip.is-done:hover { border-color: rgba(34,197,94,.5); }
@@ -508,6 +532,66 @@
       color: var(--text-muted);
     }
 
+    /* ── Auto-download toggle ────────────────────────────────── */
+    .auto-dl-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .toggle-track input { display: none; }
+
+    .toggle-thumb {
+      position: absolute;
+      inset: 0;
+      background: var(--surface3);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .toggle-thumb::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .toggle-track input:checked + .toggle-thumb {
+      background: #16a34a;
+      border-color: #16a34a;
+    }
+
+    .toggle-track input:checked + .toggle-thumb::after {
+      transform: translateX(18px);
+      background: #fff;
+    }
+
+    .toggle-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .auto-dl-toggle:has(input:checked) .toggle-label {
+      color: var(--text);
+    }
+
     footer {
       text-align: center;
       color: var(--text-muted);
@@ -592,7 +676,16 @@
       <span class="f"> -c:v</span> <span class="v">copy</span>
       <span class="f"> -c:a</span> <span class="v">flac</span>
       <span class="o"> output.mkv</span>
+
     </div>
+
+    <label class="auto-dl-toggle">
+      <span class="toggle-track">
+        <input type="checkbox" id="autoDlCheck">
+        <span class="toggle-thumb"></span>
+      </span>
+      <span class="toggle-label">Descargar automáticamente al convertir</span>
+    </label>
 
     <button class="btn btn-primary" id="convertBtn" disabled>
       ⚙️ Convertir a MKV + FLAC
@@ -688,6 +781,7 @@ const dropZone     = $('dropZone');
 const fileInput    = $('fileInput');
 const fileListEl   = $('fileList');
 const convertBtn   = $('convertBtn');
+const autoDlCheck  = $('autoDlCheck');
 const progressCard = $('progressCard');
 const progressFill = $('progressFill');
 const progressLabel= $('progressLabel');
@@ -727,7 +821,11 @@ function getFormat() {
 
 function updateCmdPreview() {
   const fmt = getFormat();
-  cmdPreview.innerHTML = `<span class="k">ffmpeg</span><span class="f"> -i</span> <span class="v">input</span> <span class="f">-map</span> <span class="v">0:v:0</span> <span class="f">-map</span> <span class="v">0:a:0</span> <span class="f">-c:v</span> <span class="v">libx264</span> <span class="f">-preset</span> <span class="v">fast</span> <span class="f">-crf</span> <span class="v">18</span> <span class="f">-c:a</span> <span class="v">flac</span> <span class="o">output.${fmt}</span>`;
+  if (fmt === 'mkv') {
+    cmdPreview.innerHTML = `<span class="k">ffmpeg</span><span class="f"> -i</span> <span class="v">input</span> <span class="f">-map</span> <span class="v">0:v:0</span> <span class="f">-map</span> <span class="v">0:a:0</span> <span class="f">-c:v</span> <span class="v">copy</span> <span class="f">-c:a</span> <span class="v">flac</span> <span class="o">output.mkv</span>`;
+  } else {
+    cmdPreview.innerHTML = `<span class="k">ffmpeg</span><span class="f"> -i</span> <span class="v">input</span> <span class="f">-map</span> <span class="v">0:v:0</span> <span class="f">-map</span> <span class="v">0:a:0</span> <span class="f">-c:v</span> <span class="v">libx264</span> <span class="f">-preset</span> <span class="v">ultrafast</span> <span class="f">-crf</span> <span class="v">18</span> <span class="f">-c:a</span> <span class="v">flac</span> <span class="o">output.mp4</span>`;
+  }
 }
 
 document.querySelectorAll('input[name="outFormat"]').forEach(r =>
@@ -737,6 +835,7 @@ document.querySelectorAll('input[name="outFormat"]').forEach(r =>
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg = null;
 let nextId = 0;
+let currentId = null;
 // Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
 const files = new Map();
 
@@ -813,18 +912,23 @@ function renderFileList() {
     };
 
     chip.innerHTML = `
-      <span class="file-chip-icon">🎞️</span>
-      <div class="file-chip-info">
-        <div class="file-chip-name">${entry.file.name}</div>
-        <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
+      <div class="file-chip-row">
+        <span class="file-chip-icon">🎞️</span>
+        <div class="file-chip-info">
+          <div class="file-chip-name">${entry.file.name}</div>
+          <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
+        </div>
+        ${badgeMap[entry.status] ?? ''}
+        ${entry.status === 'done'
+          ? `<button class="btn-chip-action" data-action="download" data-id="${id}" title="Descargar">⬇️</button>`
+          : ''}
+        ${entry.status !== 'converting'
+          ? `<button class="btn-chip-action btn-chip-remove" data-action="remove" data-id="${id}" title="Eliminar">✕</button>`
+          : ''}
       </div>
-      ${badgeMap[entry.status] ?? ''}
-      ${entry.status === 'done'
-        ? `<button class="btn-chip-action" data-action="download" data-id="${id}" title="Descargar">⬇️</button>`
-        : ''}
-      ${entry.status !== 'converting'
-        ? `<button class="btn-chip-action btn-chip-remove" data-action="remove" data-id="${id}" title="Eliminar">✕</button>`
-        : ''}
+      <div class="chip-bar-track">
+        <div class="chip-bar-fill" id="bar-${id}"></div>
+      </div>
     `;
 
     // click chip to preview (done files only)
@@ -936,6 +1040,8 @@ async function loadFFmpeg() {
         progressFill.classList.remove('indeterminate');
         progressFill.style.width = pct + '%';
         progressPct.textContent  = pct + '%';
+        const bar = document.getElementById(`bar-${currentId}`);
+        if (bar) bar.style.width = pct + '%';
       }
     });
 
@@ -1001,6 +1107,7 @@ convertBtn.addEventListener('click', async () => {
     const [id, entry] = pending[i];
     const file = entry.file;
     entry.status = 'converting';
+    currentId = id;
     renderFileList();
 
     const ext        = file.name.split('.').pop().toLowerCase() || 'mp4';
@@ -1031,9 +1138,16 @@ convertBtn.addEventListener('click', async () => {
 
       if (audioOnly) {
         cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', outputName];
-      } else {
+      } else if (selFmt === 'mkv') {
+        // MKV supports any codec — stream-copy video, only encode audio
         cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
-               '-c:v', 'libx264', '-preset', 'fast', '-crf', '18',
+               '-c:v', 'copy',
+               '-c:a', 'flac',
+               outputName];
+      } else {
+        // MP4 needs H.264; use ultrafast preset to minimise encode time
+        cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
+               '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
                '-c:a', 'flac',
                outputName];
       }
@@ -1061,6 +1175,16 @@ convertBtn.addEventListener('click', async () => {
 
       // update preview list after each file
       renderPreviewList();
+
+      // auto-download if toggle is on
+      if (autoDlCheck.checked) {
+        const a = document.createElement('a');
+        a.href = entry.outputURL;
+        a.download = entry.outBaseName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
 
       // 5 · Clean up WASM FS
       try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
