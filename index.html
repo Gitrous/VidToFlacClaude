@@ -1179,11 +1179,13 @@ convertBtn.addEventListener('click', async () => {
       // 1 · Write input to WASM virtual FS
       log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
       const buffer = await file.arrayBuffer();
+      const fileData = new Uint8Array(buffer);
       const fileSize = file.size;
-      await ffmpeg.writeFile(inputName, new Uint8Array(buffer));
+      await ffmpeg.writeFile(inputName, fileData);
       log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
 
       // 2 · Build FFmpeg command based on file type and selected format.
+      //     -sample_fmt s32 forces float PCM → integer conversion before FLAC encoding.
       //     MP4 always re-encodes video to H.264 — MP4 doesn't support most
       //     professional codecs (DNxHD, ProRes, etc.) with stream copy.
       setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
@@ -1192,23 +1194,42 @@ convertBtn.addEventListener('click', async () => {
       let cmd;
 
       if (audioOnly) {
-        cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', outputName];
+        cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', '-sample_fmt', 's32', outputName];
       } else if (selFmt === 'mkv') {
         // MKV supports any codec — stream-copy video, only encode audio
         cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
                '-c:v', 'copy',
-               '-c:a', 'flac',
+               '-c:a', 'flac', '-sample_fmt', 's32',
                outputName];
       } else {
         // MP4 needs H.264; use ultrafast preset to minimise encode time
         cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
-               '-c:a', 'flac',
+               '-c:a', 'flac', '-sample_fmt', 's32',
                outputName];
       }
 
       log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
-      await ffmpeg.exec(cmd);
+      try {
+        await ffmpeg.exec(cmd);
+      } catch (execErr) {
+        // For MKV, stream-copy can fail when the source video codec is incompatible
+        // (e.g. ProRes, MJPEG, DNxHD in MOV/AVI with PCM audio). Retry with libx264.
+        if (!audioOnly && selFmt === 'mkv') {
+          log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+          try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
+          try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+          await loadFFmpeg();
+          await ffmpeg.writeFile(inputName, fileData);
+          const fallbackCmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
+                               '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
+                               '-c:a', 'flac', '-sample_fmt', 's32', outputName];
+          log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
+          await ffmpeg.exec(fallbackCmd);
+        } else {
+          throw execErr;
+        }
+      }
 
       const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
       log(`✓ Conversión completada en ${elapsed}s`, 'success');
