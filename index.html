@@ -218,6 +218,27 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .file-chip-name.is-editable {
+      cursor: text;
+      border-bottom: 1px dashed var(--text-muted);
+      padding-bottom: 1px;
+    }
+    .file-chip-name.is-editable:hover {
+      border-bottom-color: var(--accent2);
+      color: var(--accent2);
+    }
+    .name-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--accent);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 500;
+      font-family: inherit;
+      width: 100%;
+      outline: none;
+      padding: 0 0 1px;
+    }
     .file-chip-meta { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.15rem; }
 
     .btn-chip-action {
@@ -911,11 +932,16 @@ function renderFileList() {
       error:      '<span class="badge badge-error"   style="font-size:.7rem;flex-shrink:0">Error</span>',
     };
 
+    const displayName = entry.customBaseName ?? entry.file.name.replace(/\.[^.]+$/, '');
+    const nameEl = entry.status === 'pending'
+      ? `<div class="file-chip-name is-editable" data-id="${id}" title="Clic para renombrar">${displayName}</div>`
+      : `<div class="file-chip-name">${entry.outBaseName ?? entry.file.name}</div>`;
+
     chip.innerHTML = `
       <div class="file-chip-row">
         <span class="file-chip-icon">🎞️</span>
         <div class="file-chip-info">
-          <div class="file-chip-name">${entry.file.name}</div>
+          ${nameEl}
           <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
         </div>
         ${badgeMap[entry.status] ?? ''}
@@ -963,6 +989,35 @@ function renderFileList() {
         a.click();
         document.body.removeChild(a);
       }
+    });
+  });
+
+  // inline name editing for pending files
+  fileListEl.querySelectorAll('.file-chip-name.is-editable').forEach(nameDiv => {
+    nameDiv.addEventListener('click', () => {
+      const id = Number(nameDiv.dataset.id);
+      const entry = files.get(id);
+      if (!entry || entry.status !== 'pending') return;
+
+      const current = entry.customBaseName ?? entry.file.name.replace(/\.[^.]+$/, '');
+      const input = document.createElement('input');
+      input.className = 'name-input';
+      input.value = current;
+      nameDiv.replaceWith(input);
+      input.focus();
+      input.select();
+
+      function save() {
+        const val = input.value.trim();
+        entry.customBaseName = val || current;
+        renderFileList();
+      }
+
+      input.addEventListener('blur', save);
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+        if (e.key === 'Escape') { input.value = current; input.blur(); }
+      });
     });
   });
 }
@@ -1077,7 +1132,7 @@ function addFiles(fileList) {
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
     if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
 
-    files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null });
+    files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
     log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
     added++;
   }
@@ -1166,8 +1221,9 @@ convertBtn.addEventListener('click', async () => {
       const mimeType = audioOnly ? 'audio/flac' : selFmt === 'mp4' ? 'video/mp4' : 'video/x-matroska';
       const blob = new Blob([data.buffer], { type: mimeType });
       const suffix = audioOnly ? '.flac' : `_flac.${selFmt}`;
+      const baseName = entry.customBaseName ?? file.name.replace(/\.[^.]+$/, '');
       entry.outputURL   = URL.createObjectURL(blob);
-      entry.outBaseName = file.name.replace(/\.[^.]+$/, '') + suffix;
+      entry.outBaseName = baseName + suffix;
       entry.status      = 'done';
 
       log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
