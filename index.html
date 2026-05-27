@@ -257,23 +257,7 @@
     .btn-chip-remove:hover { color: var(--error); }
 
     /* ── Command preview ─────────────────────────────────────── */
-    .cmd-box {
-      background: #080a12;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.7rem 1rem;
-      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-      font-size: 0.82rem;
-      line-height: 1.7;
-      color: #64748b;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
 
-    .cmd-box .k { color: #818cf8; }
-    .cmd-box .f { color: #a78bfa; }
-    .cmd-box .v { color: #38bdf8; }
-    .cmd-box .o { color: #4ade80; }
 
     /* ── Buttons ─────────────────────────────────────────────── */
     .btn {
@@ -513,45 +497,6 @@
       box-shadow: 0 6px 20px rgba(22,163,74,.4);
     }
 
-    /* ── Format selector ─────────────────────────────────────── */
-    .format-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-
-    .format-option input[type="radio"] { display: none; }
-
-    .format-option label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.85rem 1rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: border-color 0.18s, background 0.18s;
-      text-align: center;
-    }
-
-    .format-option label:hover { border-color: var(--accent); }
-
-    .format-option input:checked + label {
-      border-color: var(--accent);
-      background: rgba(99,102,241,.08);
-    }
-
-    .format-badge {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-
-    .format-desc {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-    }
 
     /* ── Auto-download toggle ────────────────────────────────── */
     .auto-dl-toggle {
@@ -663,42 +608,9 @@
     <div class="file-list" id="fileList"></div>
   </div>
 
-  <!-- Format selector -->
-  <div class="card">
-    <div class="card-title">2 · Formato de salida</div>
-    <div class="format-options">
-      <div class="format-option">
-        <input type="radio" name="outFormat" id="fmtMkv" value="mkv" checked>
-        <label for="fmtMkv">
-          <span style="font-size:0.7rem;font-weight:700;color:#22c55e;letter-spacing:0.04em">✓ RECOMENDADO</span>
-          <span class="format-badge">MKV</span>
-          <span class="format-desc">H.264 + FLAC · máx. compatibilidad</span>
-        </label>
-      </div>
-      <div class="format-option">
-        <input type="radio" name="outFormat" id="fmtMp4" value="mp4">
-        <label for="fmtMp4">
-          <span class="format-badge">MP4</span>
-          <span class="format-desc">H.264 + FLAC · contenedor MP4</span>
-        </label>
-      </div>
-    </div>
-  </div>
-
   <!-- Convert -->
   <div class="card">
-    <div class="card-title">3 · Convertir</div>
-
-    <div class="cmd-box" id="cmdPreview" style="margin-bottom: 1rem;">
-      <span class="k">ffmpeg</span>
-      <span class="f"> -i</span> <span class="v">input</span>
-      <span class="f"> -map</span> <span class="v">0:v:0</span>
-      <span class="f"> -map</span> <span class="v">0:a:0</span>
-      <span class="f"> -c:v</span> <span class="v">copy</span>
-      <span class="f"> -c:a</span> <span class="v">flac</span>
-      <span class="o"> output.mkv</span>
-
-    </div>
+    <div class="card-title">2 · Convertir</div>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -727,7 +639,7 @@
   <!-- Preview list -->
   <div class="card preview-card" id="previewCard">
     <div class="preview-header">
-      <span class="card-title" style="margin-bottom:0">3 · Previsualizar</span>
+      <span class="card-title" style="margin-bottom:0">3 · Resultados</span>
       <a id="downloadAllBtn" class="btn-download-all" style="display:none">⬇ Descargar todo</a>
     </div>
     <div id="previewList"></div>
@@ -834,24 +746,7 @@ clearLogsBtn.addEventListener('click', () => {
 const previewCard    = $('previewCard');
 const previewList    = $('previewList');
 const downloadAllBtn = $('downloadAllBtn');
-const cmdPreview     = $('cmdPreview');
 
-function getFormat() {
-  return document.querySelector('input[name="outFormat"]:checked').value; // 'mkv' | 'mp4'
-}
-
-function updateCmdPreview() {
-  const fmt = getFormat();
-  if (fmt === 'mkv') {
-    cmdPreview.innerHTML = `<span class="k">ffmpeg</span><span class="f"> -i</span> <span class="v">input</span> <span class="f">-map</span> <span class="v">0:v:0</span> <span class="f">-map</span> <span class="v">0:a:0</span> <span class="f">-c:v</span> <span class="v">copy</span> <span class="f">-c:a</span> <span class="v">flac</span> <span class="o">output.mkv</span>`;
-  } else {
-    cmdPreview.innerHTML = `<span class="k">ffmpeg</span><span class="f"> -i</span> <span class="v">input</span> <span class="f">-map</span> <span class="v">0:v:0</span> <span class="f">-map</span> <span class="v">0:a:0</span> <span class="f">-c:v</span> <span class="v">libx264</span> <span class="f">-preset</span> <span class="v">ultrafast</span> <span class="f">-crf</span> <span class="v">18</span> <span class="f">-c:a</span> <span class="v">flac</span> <span class="o">output.mp4</span>`;
-  }
-}
-
-document.querySelectorAll('input[name="outFormat"]').forEach(r =>
-  r.addEventListener('change', () => { updateCmdPreview(); updateConvertBtn(); })
-);
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg = null;
@@ -1024,12 +919,10 @@ function renderFileList() {
 
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
-  const fmt = getFormat();
-  const fmtLabel = fmt === 'mp4' ? 'MP4 (H.264 + FLAC)' : 'MKV (H.264 + FLAC)';
   convertBtn.disabled = !ffmpeg || pending === 0;
   convertBtn.textContent = pending > 1
-    ? `⚙️ Convertir ${pending} archivos a ${fmtLabel}`
-    : `⚙️ Convertir a ${fmtLabel}`;
+    ? `⚙️ Convertir ${pending} archivos a MKV + FLAC`
+    : `⚙️ Convertir a MKV + FLAC`;
 }
 
 // ─── Preview list render ──────────────────────────────────────────────────────
@@ -1132,11 +1025,19 @@ function addFiles(fileList) {
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
     if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
 
-    files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
-    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    const alreadyMkv = file.name.toLowerCase().endsWith('.mkv');
+    if (alreadyMkv) {
+      const id = nextId++;
+      const outputURL = URL.createObjectURL(file);
+      files.set(id, { file, status: 'done', outputURL, outBaseName: file.name, customBaseName: null });
+      log(`Archivo MKV añadido directamente a resultados: ${file.name} (${fmt(file.size)})`, 'sys');
+    } else {
+      files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
+      log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    }
     added++;
   }
-  if (added) { renderFileList(); updateConvertBtn(); }
+  if (added) { renderFileList(); renderPreviewList(); updateConvertBtn(); }
 }
 
 fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
@@ -1165,11 +1066,10 @@ convertBtn.addEventListener('click', async () => {
     currentId = id;
     renderFileList();
 
-    const ext        = file.name.split('.').pop().toLowerCase() || 'mp4';
+    const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
     const inputName  = `input_${id}.${ext}`;
     const audioOnly  = isAudioOnly(file);
-    const selFmt     = getFormat();                          // 'mkv' | 'mp4'
-    const outputExt  = audioOnly ? 'flac' : selFmt;
+    const outputExt  = audioOnly ? 'flac' : 'mkv';
     const outputName = `output_${id}.${outputExt}`;
 
     setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
@@ -1184,10 +1084,8 @@ convertBtn.addEventListener('click', async () => {
       await ffmpeg.writeFile(inputName, fileData);
       log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
 
-      // 2 · Build FFmpeg command based on file type and selected format.
+      // 2 · Build FFmpeg command.
       //     -sample_fmt s32 forces float PCM → integer conversion before FLAC encoding.
-      //     MP4 always re-encodes video to H.264 — MP4 doesn't support most
-      //     professional codecs (DNxHD, ProRes, etc.) with stream copy.
       setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
 
       const t0 = Date.now();
@@ -1195,17 +1093,10 @@ convertBtn.addEventListener('click', async () => {
 
       if (audioOnly) {
         cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', '-sample_fmt', 's32', outputName];
-      } else if (selFmt === 'mkv') {
-        // MKV supports any codec — stream-copy video, only encode audio
-        cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
-               '-c:v', 'copy',
-               '-c:a', 'flac', '-sample_fmt', 's32',
-               outputName];
       } else {
-        // MP4 needs H.264; use ultrafast preset to minimise encode time
+        // stream-copy video, only re-encode audio to FLAC
         cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
-               '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
-               '-c:a', 'flac', '-sample_fmt', 's32',
+               '-c:v', 'copy', '-c:a', 'flac', '-sample_fmt', 's32',
                outputName];
       }
 
@@ -1213,9 +1104,9 @@ convertBtn.addEventListener('click', async () => {
       try {
         await ffmpeg.exec(cmd);
       } catch (execErr) {
-        // For MKV, stream-copy can fail when the source video codec is incompatible
-        // (e.g. ProRes, MJPEG, DNxHD in MOV/AVI with PCM audio). Retry with libx264.
-        if (!audioOnly && selFmt === 'mkv') {
+        // stream-copy can fail when the source video codec is incompatible
+        // (e.g. ProRes, MJPEG, DNxHD). Retry with libx264.
+        if (!audioOnly) {
           log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
           try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
           try { await ffmpeg.deleteFile(outputName); } catch (_) {}
@@ -1239,9 +1130,9 @@ convertBtn.addEventListener('click', async () => {
       const data = await ffmpeg.readFile(outputName);
 
       // 4 · Create blob & object URL
-      const mimeType = audioOnly ? 'audio/flac' : selFmt === 'mp4' ? 'video/mp4' : 'video/x-matroska';
+      const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
       const blob = new Blob([data.buffer], { type: mimeType });
-      const suffix = audioOnly ? '.flac' : `_flac.${selFmt}`;
+      const suffix = audioOnly ? '.flac' : '_flac.mkv';
       const baseName = entry.customBaseName ?? file.name.replace(/\.[^.]+$/, '');
       entry.outputURL   = URL.createObjectURL(blob);
       entry.outBaseName = baseName + suffix;
