@@ -344,6 +344,14 @@
 
     .preview-item audio { background: var(--surface2); }
 
+    .preview-no-support {
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background: var(--surface2);
+    }
+
     .btn-preview-download {
       display: block;
       padding: 0.75rem;
@@ -498,6 +506,47 @@
     }
 
 
+    /* ── Format selector ─────────────────────────────────────── */
+    .format-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .format-option input[type="radio"] { display: none; }
+
+    .format-option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      text-align: center;
+    }
+
+    .format-option label:hover { border-color: var(--accent); }
+
+    .format-option input:checked + label {
+      border-color: var(--accent);
+      background: rgba(99,102,241,.08);
+    }
+
+    .format-badge {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .format-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
     /* ── Auto-download toggle ────────────────────────────────── */
     .auto-dl-toggle {
       display: flex;
@@ -611,6 +660,17 @@
   <!-- Convert -->
   <div class="card">
     <div class="card-title">2 · Convertir</div>
+
+    <div class="format-options">
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMkv" value="mkv" checked>
+        <label for="fmtMkv">
+          <span style="font-size:0.7rem;font-weight:700;color:#22c55e;letter-spacing:0.04em">✓ RECOMENDADO</span>
+          <span class="format-badge">MKV</span>
+          <span class="format-desc">H.264 + FLAC · máx. compatibilidad</span>
+        </label>
+      </div>
+    </div>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -925,6 +985,13 @@ function updateConvertBtn() {
     : `⚙️ Convertir a MKV + FLAC`;
 }
 
+function noPreviewMsg() {
+  const div = document.createElement('div');
+  div.className = 'preview-no-support';
+  div.textContent = 'Preview no disponible en este navegador — descarga el archivo para reproducirlo.';
+  return div;
+}
+
 // ─── Preview list render ──────────────────────────────────────────────────────
 function renderPreviewList() {
   const done = [...files.values()].filter(e => e.status === 'done');
@@ -941,13 +1008,34 @@ function renderPreviewList() {
     const isAudio = entry.outBaseName.endsWith('.flac') && !entry.outBaseName.endsWith('_flac.mkv');
     const item = document.createElement('div');
     item.className = 'preview-item';
-    item.innerHTML = `
-      <div class="preview-item-label">${entry.outBaseName}</div>
-      ${isAudio
-        ? `<audio src="${entry.outputURL}" controls></audio>`
-        : `<video  src="${entry.outputURL}" controls></video>`}
-      <a href="${entry.outputURL}" download="${entry.outBaseName}" class="btn-preview-download">⬇ Descargar</a>
-    `;
+
+    const label = document.createElement('div');
+    label.className = 'preview-item-label';
+    label.textContent = entry.outBaseName;
+    item.appendChild(label);
+
+    if (isAudio) {
+      const audio = document.createElement('audio');
+      audio.src = entry.outputURL;
+      audio.controls = true;
+      item.appendChild(audio);
+    } else {
+      const video = document.createElement('video');
+      video.src = entry.outputURL;
+      video.controls = true;
+      video.addEventListener('error', () => {
+        video.replaceWith(noPreviewMsg());
+      });
+      item.appendChild(video);
+    }
+
+    const dl = document.createElement('a');
+    dl.href = entry.outputURL;
+    dl.download = entry.outBaseName;
+    dl.className = 'btn-preview-download';
+    dl.textContent = '⬇ Descargar';
+    item.appendChild(dl);
+
     previewList.appendChild(item);
   }
 
@@ -1131,7 +1219,7 @@ convertBtn.addEventListener('click', async () => {
 
       // 4 · Create blob & object URL
       const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
-      const blob = new Blob([data.buffer], { type: mimeType });
+      const blob = new Blob([data], { type: mimeType });
       const suffix = audioOnly ? '.flac' : '_flac.mkv';
       const baseName = entry.customBaseName ?? file.name.replace(/\.[^.]+$/, '');
       entry.outputURL   = URL.createObjectURL(blob);
