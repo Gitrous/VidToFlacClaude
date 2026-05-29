@@ -1172,20 +1172,37 @@ convertBtn.addEventListener('click', async () => {
       await ffmpeg.writeFile(inputName, fileData);
       log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
 
-      // 2 · Build FFmpeg command.
-      //     -sample_fmt s32 forces float PCM → integer conversion before FLAC encoding.
+      // 2 · Probe audio codec to detect float PCM, then build command.
+      setProgress(`[${i + 1}/${pending.length}] Analizando formato…`, null);
+
+      let probeAudioCodec = '';
+      const probeCapture = ({ message }) => {
+        const m = message.match(/Audio:\s+([a-z0-9_]+)/i);
+        if (m) probeAudioCodec = m[1].toLowerCase();
+      };
+      ffmpeg.on('log', probeCapture);
+      try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
+      ffmpeg.off('log', probeCapture);
+
+      // Float PCM (pcm_f32le, pcm_f64le, pcm_flt…) needs an explicit integer
+      // conversion before FLAC encoding; all other codecs work directly.
+      const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
+      if (isFloatPCM) {
+        log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
+      }
+      const audioFlacArgs = isFloatPCM
+        ? ['-af', 'aformat=sample_fmts=s32', '-c:a', 'flac']
+        : ['-c:a', 'flac'];
+
       setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
 
       const t0 = Date.now();
       let cmd;
 
       if (audioOnly) {
-        cmd = ['-i', inputName, '-map', '0:a:0', '-c:a', 'flac', '-sample_fmt', 's32', outputName];
+        cmd = ['-i', inputName, '-vn', ...audioFlacArgs, outputName];
       } else {
-        // stream-copy video, only re-encode audio to FLAC
-        cmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
-               '-c:v', 'copy', '-c:a', 'flac', '-sample_fmt', 's32',
-               outputName];
+        cmd = ['-i', inputName, '-c:v', 'copy', ...audioFlacArgs, outputName];
       }
 
       log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
@@ -1200,9 +1217,9 @@ convertBtn.addEventListener('click', async () => {
           try { await ffmpeg.deleteFile(outputName); } catch (_) {}
           await loadFFmpeg();
           await ffmpeg.writeFile(inputName, fileData);
-          const fallbackCmd = ['-i', inputName, '-map', '0:v:0', '-map', '0:a:0',
+          const fallbackCmd = ['-i', inputName,
                                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
-                               '-c:a', 'flac', '-sample_fmt', 's32', outputName];
+                               ...audioFlacArgs, outputName];
           log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
           await ffmpeg.exec(fallbackCmd);
         } else {
