@@ -1172,13 +1172,16 @@ convertBtn.addEventListener('click', async () => {
       await ffmpeg.writeFile(inputName, fileData);
       log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
 
-      // 2 · Probe audio codec to detect float PCM, then build command.
+      // 2 · Probe audio/video codecs, then build command.
       setProgress(`[${i + 1}/${pending.length}] Analizando formato…`, null);
 
       let probeAudioCodec = '';
+      let probeVideoCodec = '';
       const probeCapture = ({ message }) => {
-        const m = message.match(/Audio:\s+([a-z0-9_]+)/i);
-        if (m) probeAudioCodec = m[1].toLowerCase();
+        const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
+        if (ma) probeAudioCodec = ma[1].toLowerCase();
+        const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
+        if (mv) probeVideoCodec = mv[1].toLowerCase();
       };
       ffmpeg.on('log', probeCapture);
       try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
@@ -1194,6 +1197,15 @@ convertBtn.addEventListener('click', async () => {
         ? ['-af', 'aformat=sample_fmts=s32', '-c:a', 'flac']
         : ['-c:a', 'flac'];
 
+      // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
+      const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
+      if (!audioOnly && browserIncompatibleVideo) {
+        log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
+      }
+      const videoArgs = (!audioOnly && browserIncompatibleVideo)
+        ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
+        : ['-c:v', 'copy'];
+
       setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
 
       const t0 = Date.now();
@@ -1202,16 +1214,16 @@ convertBtn.addEventListener('click', async () => {
       if (audioOnly) {
         cmd = ['-i', inputName, '-vn', ...audioFlacArgs, outputName];
       } else {
-        cmd = ['-i', inputName, '-c:v', 'copy', ...audioFlacArgs, outputName];
+        cmd = ['-i', inputName, ...videoArgs, ...audioFlacArgs, outputName];
       }
 
       log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
       try {
         await ffmpeg.exec(cmd);
       } catch (execErr) {
-        // stream-copy can fail when the source video codec is incompatible
-        // (e.g. ProRes, MJPEG, DNxHD). Retry with libx264.
-        if (!audioOnly) {
+        // stream-copy can fail when the source video codec is incompatible.
+        // Retry with libx264 as a last resort.
+        if (!audioOnly && !browserIncompatibleVideo) {
           log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
           try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
           try { await ffmpeg.deleteFile(outputName); } catch (_) {}
