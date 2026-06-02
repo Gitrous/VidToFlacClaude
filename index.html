@@ -7,9 +7,23 @@
   <meta name="description" content="¿DaVinci Resolve sin sonido? Convierte el audio de tus vídeos a FLAC sin pérdida, gratis y 100% en tu navegador. Sin subir archivos." />
   <meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux" />
   <meta name="author" content="VidToFLAC" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
+  <meta name="application-name" content="VidToFLAC" />
+  <meta name="apple-mobile-web-app-title" content="VidToFLAC" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="canonical" href="https://vidtoflac.tech/" />
+
+  <!-- Icons & PWA manifest -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Speed up the ffmpeg.wasm engine download (Core Web Vitals) -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
 
   <!-- Open Graph (Facebook, Reddit, Discord, LinkedIn…) -->
   <meta property="og:type" content="website" />
@@ -60,6 +74,64 @@
   }
   </script>
 
+  <!-- Structured data: site & publisher entity -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://vidtoflac.tech/#organization",
+        "name": "VidToFLAC",
+        "url": "https://vidtoflac.tech/",
+        "logo": "https://vidtoflac.tech/icon-512.png",
+        "description": "Herramienta gratuita para convertir el audio de vídeos a FLAC (remux a MKV) y solucionar problemas de códec de audio en editores como DaVinci Resolve."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://vidtoflac.tech/#website",
+        "url": "https://vidtoflac.tech/",
+        "name": "VidToFLAC",
+        "inLanguage": "es",
+        "publisher": { "@id": "https://vidtoflac.tech/#organization" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured data: how-to (3 steps) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Cómo convertir el audio de un vídeo a FLAC para DaVinci Resolve",
+    "description": "Convierte el audio de tus vídeos a FLAC dentro de un MKV (remux sin pérdida) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid, sin subir archivos.",
+    "totalTime": "PT1M",
+    "tool": [{ "@type": "HowToTool", "name": "VidToFLAC (FFmpeg en el navegador)" }],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Selecciona",
+        "text": "Arrastra tu vídeo o haz clic para elegirlo. El archivo se queda en tu equipo, no se sube a ningún servidor.",
+        "url": "https://vidtoflac.tech/#problema-titulo"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Transcodifica solo el audio",
+        "text": "El vídeo conserva el 100% de su calidad original: no se vuelve a renderizar, solo se reempaqueta el audio a FLAC sin pérdida."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Descarga al instante",
+        "text": "Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida."
+      }
+    ]
+  }
+  </script>
+
   <!-- Structured data: FAQ rich results -->
   <script type="application/ld+json">
   {
@@ -96,6 +168,22 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Vídeo: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB y más. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF y FLAC. Si el clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Funciona para DaVinci Resolve en Linux?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. DaVinci Resolve en Linux es donde más aparece el error de códec de audio, porque no incluye los decodificadores de AAC o MP3. Al convertir el audio a FLAC dentro de un MKV obtienes un archivo que DaVinci Resolve en Linux reproduce de forma nativa, recuperando el sonido sin instalar códecs de pago."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿VidToFLAC es gratis y tiene límite de tamaño?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño por servidor: puedes convertir vídeos de varios gigabytes; el único límite práctico es la memoria de tu equipo."
         }
       }
     ]
@@ -909,9 +997,9 @@
     .hero-title {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.78rem;
-      line-height: 1.12;
-      letter-spacing: -0.03em;
+      font-size: 2.35rem;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
       color: var(--ink);
       margin-top: 1.15rem;
       max-width: 21ch;
@@ -1028,7 +1116,7 @@
         right: auto;
         left: 0;
       }
-      .hero-title { font-size: 1.55rem; }
+      .hero-title { font-size: 1.95rem; }
     }
 
     /* ── SEO content / long-form prose ───────────────────────── */
@@ -1417,6 +1505,20 @@
         <summary>¿Qué formatos de entrada son compatibles?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>Vídeo: <strong>MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB</strong> y más. Audio: <strong>WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF</strong> y FLAC. Si tu clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264 para garantizar que se vea correctamente.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Funciona para DaVinci Resolve en Linux?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>Sí.</strong> <strong>DaVinci Resolve en Linux</strong> es justo donde más aparece el <strong>error de códec de audio</strong>, porque no incluye los decodificadores de AAC o MP3. Al convertir el audio a <strong>FLAC dentro de un MKV</strong> obtienes un archivo que DaVinci Resolve reproduce de forma nativa, recuperando el sonido sin instalar códecs de pago.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Es gratis y tiene límite de tamaño?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Es <strong>totalmente gratis</strong> y sin registro. Como el procesamiento ocurre en tu propio ordenador con <strong>FFmpeg (WebAssembly)</strong> y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor: puedes convertir vídeos de <strong>varios gigabytes</strong>; el único límite práctico es la memoria de tu equipo.</p>
         </div>
       </details>
     </div>
