@@ -3,8 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VidToFLAC — Audio de vídeo a FLAC para DaVinci Resolve · 100% privado y local</title>
-  <meta name="description" content="Convierte el audio de tus vídeos a FLAC para DaVinci Resolve, Premiere y Avid de forma instantánea y 100% privada. Sin subidas, sin servidores: todo se procesa en tu navegador." />
+  <title>VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve</title>
+  <meta name="description" content="¿DaVinci Resolve sin sonido? Convierte el audio de tus vídeos a FLAC sin pérdida, gratis y 100% en tu navegador. Sin subir archivos." />
+  <meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux" />
+  <meta name="author" content="VidToFLAC" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://vidtoflac.tech/" />
+
+  <!-- Open Graph (Facebook, Reddit, Discord, LinkedIn…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VidToFLAC" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://vidtoflac.tech/" />
+  <meta property="og:title" content="VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve" />
+  <meta property="og:description" content="Soluciona el audio que DaVinci Resolve no reproduce. Remux a MKV con audio FLAC sin pérdida, 100% en tu navegador y privado. Sin subir archivos." />
+  <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve" />
+  <meta name="twitter:description" content="Soluciona el audio que DaVinci Resolve no reproduce. Remux a MKV con audio FLAC sin pérdida, 100% en tu navegador y privado." />
+  <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+
+  <!-- Structured data: the tool itself -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "VidToFLAC",
+    "url": "https://vidtoflac.tech/",
+    "description": "Conversor que cambia el audio de tus vídeos a FLAC dentro de un contenedor MKV (remux sin pérdida) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos a ningún servidor.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript and WebAssembly. Compatible con Chrome, Firefox, Edge y Safari modernos.",
+    "softwareVersion": "1.0",
+    "inLanguage": "es",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "featureList": [
+      "Remux sin pérdida: copia el vídeo bit a bit",
+      "Conversión de audio a FLAC sin pérdida",
+      "Procesamiento 100% local en el navegador",
+      "Soporta MP4, MOV, MKV, AVI, WebM y más"
+    ]
+  }
+  </script>
+
+  <!-- Structured data: FAQ rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿VidToFLAC reduce la calidad de mi vídeo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. El flujo de vídeo se copia directamente bit a bit, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode. Solo el audio se transforma a FLAC, un formato sin pérdida. La imagen que obtienes es idéntica a la del archivo original."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué es mejor usar FLAC que extraer el audio a un archivo WAV aparte?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Al mantener el audio y el vídeo sincronizados dentro del mismo archivo MKV, evitas tener que alinearlos manualmente en la línea de tiempo de tu editor. Si extraes el audio a un WAV separado tienes que volver a sincronizarlo a mano; con FLAC dentro del contenedor arrastras un único archivo y todo encaja, ocupando además menos que WAV con la misma calidad sin pérdida."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Mis archivos de vídeo se suben a algún servidor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nunca. Toda la conversión se ejecuta en tu propio dispositivo gracias a FFmpeg compilado a WebAssembly, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio: es 100% privado y local."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué formatos de entrada son compatibles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vídeo: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB y más. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF y FLAC. Si el clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264."
+        }
+      }
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -935,6 +1031,131 @@
       .hero-title { font-size: 1.55rem; }
     }
 
+    /* ── SEO content / long-form prose ───────────────────────── */
+    .seo-card { line-height: 1.65; }
+
+    .seo-card h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.32rem;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 0.85rem;
+      text-wrap: balance;
+    }
+    .seo-card h2 .accent { color: var(--amber); }
+
+    .seo-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin: 1.4rem 0 0.5rem;
+    }
+
+    .seo-card p {
+      font-size: 0.9rem;
+      color: var(--ink-dim);
+      margin-bottom: 0.85rem;
+    }
+    .seo-card p:last-child { margin-bottom: 0; }
+    .seo-card strong { color: var(--ink); font-weight: 600; }
+    .seo-card .hl { color: var(--amber-2); font-weight: 600; }
+
+    .seo-card .lede {
+      font-size: 0.96rem;
+      color: var(--ink);
+      border-left: 2px solid var(--amber-line);
+      padding-left: 0.9rem;
+    }
+
+    .seo-card ul {
+      list-style: none;
+      margin: 0 0 0.85rem;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .seo-card li {
+      font-size: 0.88rem;
+      color: var(--ink-dim);
+      padding-left: 1.3rem;
+      position: relative;
+    }
+    .seo-card li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+    }
+
+    /* ── FAQ accordion (native details/summary) ──────────────── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .faq-item {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .faq-item[open] { border-color: var(--amber-line); }
+    .faq-item:hover { border-color: var(--line-strong); }
+    .faq-item[open]:hover { border-color: var(--amber-line); }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.95rem 1.05rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      user-select: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      position: relative;
+      transition: transform .25s;
+    }
+    .faq-icon::before,
+    .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--amber);
+      border-radius: 2px;
+      transition: opacity .2s;
+    }
+    .faq-icon::before { top: 8px; left: 2px; width: 14px; height: 2px; }
+    .faq-icon::after  { top: 2px; left: 8px; width: 2px; height: 14px; }
+    .faq-item[open] .faq-icon { transform: rotate(135deg); }
+
+    .faq-answer {
+      padding: 0 1.05rem 1rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--ink-dim);
+    }
+    .faq-answer p { margin: 0; }
+    .faq-answer strong { color: var(--ink); font-weight: 600; }
+    .faq-item[open] .faq-answer { animation: rise .3s ease both; }
+
     /* ── Footer ──────────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -982,7 +1203,7 @@
   <header class="header">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
           <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
           <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
           <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
@@ -1034,10 +1255,11 @@
         type="file"
         id="fileInput"
         multiple
+        aria-label="Seleccionar vídeos o audios para convertir a FLAC"
         accept="video/*,audio/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob,.wav,.mp3,.flac,.aac,.ogg,.m4a,.opus,.wma,.aiff"
       />
       <div class="dz-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M8 30v6a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-6"/>
           <path d="M24 32V10"/>
           <path d="M15 19l9-9 9 9"/>
@@ -1075,7 +1297,7 @@
       <span class="toggle-label">Descargar automáticamente al convertir</span>
     </label>
 
-    <button class="btn btn-primary" id="convertBtn" disabled>
+    <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a MKV con audio FLAC" disabled>
       ⚙️ Convertir a MKV + FLAC
     </button>
   </div>
@@ -1095,22 +1317,22 @@
   <div class="card preview-card" id="previewCard">
     <div class="preview-header">
       <span class="card-title" style="margin-bottom:0"><span class="step">03</span> Resultados</span>
-      <a id="downloadAllBtn" class="btn-download-all" style="display:none">⬇ Descargar todo</a>
+      <a id="downloadAllBtn" class="btn-download-all" role="button" aria-label="Descargar todos los archivos convertidos" style="display:none">⬇ Descargar todo</a>
     </div>
     <div id="previewList"></div>
   </div>
 
   <!-- Logs -->
   <div class="card log-card" id="logCard">
-    <div class="log-toggle" id="logToggle">
+    <div class="log-toggle" id="logToggle" role="button" tabindex="0" aria-label="Mostrar u ocultar los detalles técnicos de FFmpeg">
       <div class="log-toggle-left">
-        <span class="log-chevron">▼</span>
+        <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount">0</span>
+        <span class="log-badge" id="logCount" aria-label="Número de líneas de registro">0</span>
       </div>
       <div style="display:flex;gap:0.4rem">
-        <button class="btn-clear" id="copyLogsBtn">Copiar</button>
-        <button class="btn-clear" id="clearLogsBtn">Limpiar</button>
+        <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
+        <button class="btn-clear" id="clearLogsBtn" aria-label="Limpiar el registro técnico">Limpiar</button>
       </div>
     </div>
     <div class="log-body">
@@ -1139,6 +1361,66 @@
       </div>
     </div>
   </div>
+
+  <!-- SEO: the problem we solve -->
+  <section class="card seo-card" aria-labelledby="problema-titulo">
+    <div class="card-title">El problema que solucionamos</div>
+    <article>
+      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus vídeos?</h2>
+
+      <p class="lede">Si has abierto un clip en DaVinci Resolve y aparece <strong>sin sonido</strong> —o directamente con la pista de audio en gris— casi siempre es un <strong>error de códec de audio</strong>, no un problema de tu micrófono ni de tu proyecto.</p>
+
+      <p>Muchas cámaras, grabadores y aplicaciones de captura como <strong>OBS Studio</strong>, los <strong>smartphones</strong> o las cámaras de acción guardan el audio con códecs comprimidos como <strong>AAC</strong> o <strong>MP3</strong> dentro de contenedores MP4 o MOV. La versión gratuita de DaVinci Resolve —y de forma muy marcada <strong>DaVinci Resolve en Linux</strong> y en entornos profesionales— no incluye las licencias para decodificar todos esos formatos de audio. El resultado es el clásico <span class="hl">DaVinci Resolve sin sonido</span>, audio desincronizado o clips que ni siquiera importan.</p>
+
+      <h3>La solución: cambiar el contenedor, no recodificar el vídeo</h3>
+      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que los programas de edición profesionales decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
+
+      <p>Esto significa tres cosas para tu flujo de trabajo:</p>
+      <ul>
+        <li><strong>Cero pérdida de calidad:</strong> es un <span class="hl">remux de vídeo sin pérdida de calidad</span>, los frames originales quedan intactos.</li>
+        <li><strong>Velocidad:</strong> no hay re-encoding del vídeo, así que el proceso tarda segundos en lugar de minutos.</li>
+        <li><strong>Compatibilidad inmediata:</strong> el MKV resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
+      </ul>
+
+      <p>Y todo ocurre con <strong>FFmpeg en el navegador</strong> mediante WebAssembly: la misma herramienta estándar de la industria que usan los profesionales, ejecutándose localmente en tu equipo.</p>
+    </article>
+  </section>
+
+  <!-- SEO: FAQ accordion -->
+  <section class="card seo-card" aria-labelledby="faq-titulo">
+    <div class="card-title">Preguntas frecuentes</div>
+    <h2 id="faq-titulo" style="margin-bottom:1.1rem">Dudas habituales sobre la conversión a FLAC</h2>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>¿VidToFLAC reduce la calidad de mi vídeo?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>No.</strong> El flujo de vídeo se copia directamente <strong>bit a bit</strong>, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode. Solo el audio se transforma a <strong>FLAC</strong>, un formato sin pérdida. La imagen que obtienes es idéntica a la del archivo original.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Por qué es mejor usar FLAC que extraer el audio a un WAV aparte?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Porque al mantener el audio y el vídeo <strong>sincronizados dentro del mismo archivo MKV</strong>, evitas tener que alinearlos manualmente en la línea de tiempo de tu editor. Si extraes el audio a un WAV separado, tienes que volver a sincronizarlo a mano clip por clip; con FLAC dentro del contenedor, arrastras un único archivo y todo encaja. FLAC además ocupa menos que WAV manteniendo la misma calidad sin pérdida.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Mis archivos de vídeo se suben a algún servidor?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>Nunca.</strong> Toda la conversión se ejecuta en tu propio dispositivo gracias a <strong>FFmpeg compilado a WebAssembly</strong>, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es <strong>100% privado y local</strong>: por eso también puedes procesar archivos de varios gigabytes sin esperas de subida.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Qué formatos de entrada son compatibles?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Vídeo: <strong>MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB</strong> y más. Audio: <strong>WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF</strong> y FLAC. Si tu clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264 para garantizar que se vea correctamente.</p>
+        </div>
+      </details>
+    </div>
+  </section>
 
   <footer>
     Todo el procesamiento ocurre en tu dispositivo usando
