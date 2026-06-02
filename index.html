@@ -544,16 +544,16 @@
       transition: all .18s;
     }
 
-    /* Premium high-contrast CTA (Vercel-style) */
+    /* Premium green CTA (brand signal accent) */
     .btn-primary {
-      background: var(--ink);
-      color: #0a0a0b;
-      box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
+      background: linear-gradient(180deg, var(--amber-2), var(--amber));
+      color: #04140c;
+      box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 8px 24px -10px rgba(25,195,125,.55);
     }
     .btn-primary:hover:not(:disabled) {
-      background: #fff;
+      background: linear-gradient(180deg, #6ef0b4, var(--amber-2));
       transform: translateY(-1px);
-      box-shadow: 0 10px 30px -10px rgba(255,255,255,.25);
+      box-shadow: 0 1px 0 rgba(255,255,255,.3) inset, 0 12px 32px -8px rgba(25,195,125,.65);
     }
     .btn-primary:active:not(:disabled) { transform: translateY(0); }
     .btn-primary:disabled {
@@ -1297,8 +1297,8 @@
       <span class="toggle-label">Descargar automáticamente al convertir</span>
     </label>
 
-    <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a MKV con audio FLAC" disabled>
-      ⚙️ Convertir a MKV + FLAC
+    <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
+      ⚙️ Convertir a vídeo + FLAC
     </button>
   </div>
 
@@ -1531,6 +1531,11 @@ function isAudioOnly(file) {
   return /\.(wav|mp3|flac|aac|ogg|m4a|opus|wma|aiff|aif)$/i.test(file.name);
 }
 
+// Nombre por defecto del archivo de salida: nombre original (sin extensión) + " flac".
+function defaultBaseName(file) {
+  return file.name.replace(/\.[^.]+$/, '') + ' flac';
+}
+
 // ─── Logging ──────────────────────────────────────────────────────────────────
 function log(msg, type = 'info') {
   logCard.classList.add('visible');
@@ -1586,8 +1591,12 @@ function renderFileList() {
       error:      '<span class="badge badge-error"   style="font-size:.7rem;flex-shrink:0">Error</span>',
     };
 
-    const displayName = entry.customBaseName ?? entry.file.name.replace(/\.[^.]+$/, '');
-    const nameEl = entry.status === 'pending'
+    // Nombre editable mientras esté pendiente o ya convertido (no durante la conversión).
+    const isEditable = entry.status === 'pending' || entry.status === 'done';
+    const displayName = entry.status === 'done'
+      ? entry.outBaseName.replace(/\.[^.]+$/, '')
+      : (entry.customBaseName ?? defaultBaseName(entry.file));
+    const nameEl = isEditable
       ? `<div class="file-chip-name is-editable" data-id="${id}" title="Clic para renombrar">${displayName}</div>`
       : `<div class="file-chip-name">${entry.outBaseName ?? entry.file.name}</div>`;
 
@@ -1611,11 +1620,11 @@ function renderFileList() {
       </div>
     `;
 
-    // click chip to preview (done files only)
+    // click chip to scroll to its preview (done files only) — sin reconstruir el medio.
+    // Se ignoran clics en botones y en el nombre editable (esos tienen su propia acción).
     if (entry.status === 'done') {
       chip.addEventListener('click', e => {
-        if (e.target.closest('button')) return;
-        renderPreviewList();
+        if (e.target.closest('button') || e.target.closest('.file-chip-name.is-editable') || e.target.closest('.name-input')) return;
         previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
@@ -1632,6 +1641,7 @@ function renderFileList() {
         if (entry?.outputURL) URL.revokeObjectURL(entry.outputURL);
         files.delete(id);
         renderFileList();
+        renderPreviewList();   // prune su preview si lo tenía
         updateConvertBtn();
       } else if (btn.dataset.action === 'download') {
         const entry = files.get(id);
@@ -1646,14 +1656,17 @@ function renderFileList() {
     });
   });
 
-  // inline name editing for pending files
+  // inline name editing — para archivos pendientes y ya convertidos
   fileListEl.querySelectorAll('.file-chip-name.is-editable').forEach(nameDiv => {
-    nameDiv.addEventListener('click', () => {
+    nameDiv.addEventListener('click', e => {
+      e.stopPropagation();   // no disparar el scroll del chip (archivos "Listos")
       const id = Number(nameDiv.dataset.id);
       const entry = files.get(id);
-      if (!entry || entry.status !== 'pending') return;
+      if (!entry || (entry.status !== 'pending' && entry.status !== 'done')) return;
 
-      const current = entry.customBaseName ?? entry.file.name.replace(/\.[^.]+$/, '');
+      const current = entry.status === 'done'
+        ? entry.outBaseName.replace(/\.[^.]+$/, '')
+        : (entry.customBaseName ?? defaultBaseName(entry.file));
       const input = document.createElement('input');
       input.className = 'name-input';
       input.value = current;
@@ -1662,9 +1675,16 @@ function renderFileList() {
       input.select();
 
       function save() {
-        const val = input.value.trim();
-        entry.customBaseName = val || current;
+        const val = input.value.trim() || current;
+        entry.customBaseName = val;
+        // Si ya está convertido, renombrar el resultado SIN reconvertir:
+        // se conserva la misma extensión/contenedor y el mismo archivo de salida.
+        if (entry.status === 'done') {
+          const ext = (entry.outBaseName.match(/\.[^.]+$/) || ['.mkv'])[0];
+          entry.outBaseName = val + ext;
+        }
         renderFileList();
+        renderPreviewList();   // idempotente: solo refresca etiqueta y enlace, no recarga el medio
       }
 
       input.addEventListener('blur', save);
@@ -1680,8 +1700,8 @@ function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0;
   convertBtn.textContent = pending > 1
-    ? `⚙️ Convertir ${pending} archivos a MKV + FLAC`
-    : `⚙️ Convertir a MKV + FLAC`;
+    ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
+    : `⚙️ Convertir a vídeo + FLAC`;
 }
 
 function noPreviewMsg() {
@@ -1692,57 +1712,76 @@ function noPreviewMsg() {
 }
 
 // ─── Preview list render ──────────────────────────────────────────────────────
+// Idempotente: reutiliza los <video>/<audio> ya creados y solo crea/elimina/actualiza
+// lo necesario. Así, volver a llamarla (p. ej. al renombrar) no reinicia la reproducción.
 function renderPreviewList() {
-  const done = [...files.values()].filter(e => e.status === 'done');
+  const done = [...files.entries()].filter(([, e]) => e.status === 'done');
   if (!done.length) {
     previewCard.classList.remove('visible');
+    previewList.innerHTML = '';
+    downloadAllBtn.style.display = 'none';
     return;
   }
 
   previewCard.classList.add('visible');
 
-  // rebuild list
-  previewList.innerHTML = '';
-  for (const entry of done) {
-    const isAudio = entry.outBaseName.endsWith('.flac') && !entry.outBaseName.endsWith('_flac.mkv');
-    const item = document.createElement('div');
-    item.className = 'preview-item';
+  const doneIds = new Set(done.map(([id]) => String(id)));
+  // quitar items de archivos que ya no están
+  previewList.querySelectorAll('.preview-item').forEach(item => {
+    if (!doneIds.has(item.dataset.id)) item.remove();
+  });
 
-    const label = document.createElement('div');
-    label.className = 'preview-item-label';
-    label.textContent = entry.outBaseName;
-    item.appendChild(label);
+  for (const [id, entry] of done) {
+    let item = previewList.querySelector(`.preview-item[data-id="${id}"]`);
+    const isAudio = entry.outBaseName.endsWith('.flac');
 
-    if (isAudio) {
-      const audio = document.createElement('audio');
-      audio.src = entry.outputURL;
-      audio.controls = true;
-      item.appendChild(audio);
-    } else {
-      const video = document.createElement('video');
-      video.src = entry.outputURL;
-      video.controls = true;
-      video.addEventListener('error', () => {
-        video.replaceWith(noPreviewMsg());
-      });
-      item.appendChild(video);
+    // crear el item solo la primera vez (el medio no se recrea en llamadas posteriores)
+    if (!item) {
+      item = document.createElement('div');
+      item.className = 'preview-item';
+      item.dataset.id = id;
+
+      const label = document.createElement('div');
+      label.className = 'preview-item-label';
+      item.appendChild(label);
+
+      const media = document.createElement(isAudio ? 'audio' : 'video');
+      media.className = 'preview-media';
+      media.controls = true;
+      media.src = entry.outputURL;
+      item.dataset.url = entry.outputURL;
+      if (!isAudio) {
+        media.addEventListener('error', () => { media.replaceWith(noPreviewMsg()); });
+      }
+      item.appendChild(media);
+
+      const dl = document.createElement('a');
+      dl.className = 'btn-preview-download';
+      dl.textContent = '⬇ Descargar';
+      item.appendChild(dl);
+
+      previewList.appendChild(item);
     }
 
-    const dl = document.createElement('a');
+    // refrescar etiqueta + enlace de descarga en el sitio (sin recargar el medio)
+    item.querySelector('.preview-item-label').textContent = entry.outBaseName;
+    const dl = item.querySelector('.btn-preview-download');
     dl.href = entry.outputURL;
     dl.download = entry.outBaseName;
-    dl.className = 'btn-preview-download';
-    dl.textContent = '⬇ Descargar';
-    item.appendChild(dl);
 
-    previewList.appendChild(item);
+    // si la salida cambió de verdad (reconversión), actualizar la fuente del medio
+    const media = item.querySelector('.preview-media');
+    if (media && item.dataset.url !== entry.outputURL) {
+      media.src = entry.outputURL;
+      item.dataset.url = entry.outputURL;
+    }
   }
 
   // show/hide "download all" button (only useful with 2+ files)
   if (done.length > 1) {
     downloadAllBtn.style.display = 'inline-block';
     downloadAllBtn.onclick = () => {
-      done.forEach(e => {
+      done.forEach(([, e]) => {
         const a = document.createElement('a');
         a.href = e.outputURL;
         a.download = e.outBaseName;
@@ -1812,16 +1851,9 @@ function addFiles(fileList) {
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
     if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
 
-    const alreadyMkv = file.name.toLowerCase().endsWith('.mkv');
-    if (alreadyMkv) {
-      const id = nextId++;
-      const outputURL = URL.createObjectURL(file);
-      files.set(id, { file, status: 'done', outputURL, outBaseName: file.name, customBaseName: null });
-      log(`Archivo MKV añadido directamente a resultados: ${file.name} (${fmt(file.size)})`, 'sys');
-    } else {
-      files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
-      log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
-    }
+    // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
+    files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
+    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
     added++;
   }
   if (added) { renderFileList(); renderPreviewList(); updateConvertBtn(); }
@@ -1948,10 +1980,12 @@ convertBtn.addEventListener('click', async () => {
       // 4 · Create blob & object URL
       const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
       const blob = new Blob([data], { type: mimeType });
-      const suffix = audioOnly ? '.flac' : '_flac.mkv';
-      const baseName = entry.customBaseName ?? file.name.replace(/\.[^.]+$/, '');
+      // El nombre base ya incluye "flac" por defecto (o el que el usuario haya puesto);
+      // solo se añade la extensión del contenedor de salida.
+      const ext = audioOnly ? '.flac' : '.mkv';
+      const baseName = entry.customBaseName ?? defaultBaseName(file);
       entry.outputURL   = URL.createObjectURL(blob);
-      entry.outBaseName = baseName + suffix;
+      entry.outBaseName = baseName + ext;
       entry.status      = 'done';
 
       log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
