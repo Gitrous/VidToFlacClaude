@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VidToFLAC — Video › MKV+FLAC en el navegador</title>
+  <title>VidToFLAC — Audio de vídeo a FLAC para DaVinci Resolve · 100% privado y local</title>
+  <meta name="description" content="Convierte el audio de tus vídeos a FLAC para DaVinci Resolve, Premiere y Avid de forma instantánea y 100% privada. Sin subidas, sin servidores: todo se procesa en tu navegador." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -808,6 +809,132 @@
     .l-error   { color: var(--red); }
     .l-success { color: var(--green); }
 
+    /* ── Hero headline ───────────────────────────────────────── */
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.78rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-top: 1.15rem;
+      max-width: 21ch;
+      text-wrap: balance;
+    }
+    .hero-title .accent { color: var(--amber); }
+
+    .hero-sub {
+      margin-top: 0.85rem;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      color: var(--ink-dim);
+      max-width: 47ch;
+      text-wrap: balance;
+    }
+
+    /* ── Trust cards ─────────────────────────────────────────── */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+      animation: rise .6s cubic-bezier(.2,.7,.3,1) both;
+      animation-delay: .12s;
+    }
+
+    .trust-card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 1rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+    .trust-card:hover {
+      border-color: var(--amber-line);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -22px rgba(25,195,125,.6);
+    }
+
+    .trust-icon {
+      font-size: 1.15rem;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      line-height: 1;
+    }
+    .trust-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .trust-desc {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--ink-dim);
+    }
+
+    /* ── How-it-works steps ──────────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+    }
+    /* connector arrow between steps (desktop) */
+    .step-item:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      top: -2px;
+      right: -0.7rem;
+      color: var(--ink-mute);
+      font-size: 0.85rem;
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+    }
+    .step-item-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .step-desc {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 560px) {
+      .trust-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 1.1rem; }
+      .step-item:not(:last-child)::after {
+        content: '↓';
+        top: auto;
+        bottom: -0.95rem;
+        right: auto;
+        left: 0;
+      }
+      .hero-title { font-size: 1.55rem; }
+    }
+
     /* ── Footer ──────────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -864,8 +991,28 @@
       </span>
       <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
     </div>
-    <p class="tagline">Vídeo → MKV con audio FLAC sin pérdidas · 100% en tu navegador, sin servidores</p>
+    <h1 class="hero-title">Convierte el audio de tus vídeos a <span class="accent">FLAC para DaVinci Resolve</span></h1>
+    <p class="hero-sub">De forma instantánea y 100% privada. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>
   </header>
+
+  <!-- Trust / security badges -->
+  <div class="trust-grid">
+    <div class="trust-card">
+      <span class="trust-icon" aria-hidden="true">🔒</span>
+      <span class="trust-title">100% Privado y Local</span>
+      <span class="trust-desc">Tus vídeos nunca salen de tu ordenador. Sin servidores, sin subidas y sin almacenamiento de datos.</span>
+    </div>
+    <div class="trust-card">
+      <span class="trust-icon" aria-hidden="true">⚡</span>
+      <span class="trust-title">Sin Límites de Tamaño</span>
+      <span class="trust-desc">Al no subir el archivo a internet, procesas vídeos de varios gigabytes en segundos.</span>
+    </div>
+    <div class="trust-card">
+      <span class="trust-icon" aria-hidden="true">🛠️</span>
+      <span class="trust-title">Optimizado para Editores</span>
+      <span class="trust-desc">Remux a MKV con audio FLAC: soluciona pantallas negras y falta de audio en DaVinci Resolve, Premiere y Avid.</span>
+    </div>
+  </div>
 
   <!-- Engine status -->
   <div class="card engine-card">
@@ -968,6 +1115,28 @@
     </div>
     <div class="log-body">
       <div class="log-output" id="logOutput"></div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="card steps-card">
+    <div class="card-title">Cómo funciona</div>
+    <div class="steps">
+      <div class="step-item">
+        <span class="step-num">PASO 01</span>
+        <span class="step-item-title">Selecciona</span>
+        <span class="step-desc">Arrastra tu vídeo o haz clic para elegirlo. El archivo se queda en tu equipo.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num">PASO 02</span>
+        <span class="step-item-title">Transcodifica solo el audio</span>
+        <span class="step-desc">El vídeo conserva el 100% de su calidad original: no se vuelve a renderizar, solo se reempaqueta el audio a FLAC.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num">PASO 03</span>
+        <span class="step-item-title">Descarga al instante</span>
+        <span class="step-desc">Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida.</span>
+      </div>
     </div>
   </div>
 
