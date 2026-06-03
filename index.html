@@ -1032,6 +1032,7 @@
       padding: 1rem 0.95rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 0.55rem;
       transition: border-color .2s, transform .2s, box-shadow .2s;
     }
@@ -1042,27 +1043,47 @@
     }
 
     .trust-icon {
-      font-size: 1.15rem;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       display: grid;
       place-items: center;
       border-radius: 10px;
       background: var(--amber-soft);
       border: 1px solid var(--amber-line);
+      color: var(--amber-2);
       line-height: 1;
+      flex-shrink: 0;
+      align-self: center;
     }
+    .trust-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    .trust-card:hover .trust-icon { color: var(--amber); }
     .trust-title {
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.92rem;
       letter-spacing: -0.01em;
       color: var(--ink);
+      text-align: center;
     }
     .trust-desc {
       font-size: 0.78rem;
       line-height: 1.5;
       color: var(--ink-dim);
+      text-align: justify;
+      text-align-last: center;
+      hyphens: auto;
+    }
+    .trust-desc strong { color: var(--ink); font-weight: 600; }
+    .trust-desc code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--amber-2);
+      background: var(--amber-soft);
+      padding: 0.05em 0.32em;
+      border-radius: 4px;
     }
 
     /* ── How-it-works steps ──────────────────────────────────── */
@@ -1157,6 +1178,13 @@
       color: var(--ink);
       border-left: 2px solid var(--amber-line);
       padding-left: 0.9rem;
+    }
+
+    /* Justify body copy in the "problema que solucionamos" section only */
+    [aria-labelledby="problema-titulo"] p,
+    [aria-labelledby="problema-titulo"] li {
+      text-align: justify;
+      hyphens: auto;
     }
 
     .seo-card ul {
@@ -1304,22 +1332,38 @@
     <p class="hero-sub">De forma instantánea y 100% privada. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>
   </header>
 
-  <!-- Trust / security badges -->
+  <!-- Trust pillars: seguridad · calidad lossless · velocidad -->
   <div class="trust-grid">
     <div class="trust-card">
-      <span class="trust-icon" aria-hidden="true">🔒</span>
-      <span class="trust-title">100% Privado y Local</span>
-      <span class="trust-desc">Tus vídeos nunca salen de tu ordenador. Sin servidores, sin subidas y sin almacenamiento de datos.</span>
+      <span class="trust-icon" aria-hidden="true">
+        <!-- shield / lock -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M12 3 4.5 6v5.5c0 4.4 3.1 7.6 7.5 9 4.4-1.4 7.5-4.6 7.5-9V6L12 3Z"/>
+          <path d="M9.3 12.2 11 14l3.7-3.8"/>
+        </svg>
+      </span>
+      <span class="trust-title">Seguridad y privacidad</span>
+      <span class="trust-desc">Todo se procesa <strong>en local</strong> con <code>FFmpeg.wasm</code> dentro de tu navegador. Tus vídeos no se suben ni se almacenan en ningún servidor: cero bytes salen de tu equipo.</span>
     </div>
     <div class="trust-card">
-      <span class="trust-icon" aria-hidden="true">⚡</span>
-      <span class="trust-title">Sin Límites de Tamaño</span>
-      <span class="trust-desc">Al no subir el archivo a internet, procesas vídeos de varios gigabytes en segundos.</span>
+      <span class="trust-icon" aria-hidden="true">
+        <!-- waveform / lossless -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M3 12h2.2L7.4 5l3 14 2.6-9 1.8 5 1.4-3H21"/>
+        </svg>
+      </span>
+      <span class="trust-title">Calidad lossless</span>
+      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. El vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
     </div>
     <div class="trust-card">
-      <span class="trust-icon" aria-hidden="true">🛠️</span>
-      <span class="trust-title">Optimizado para Editores</span>
-      <span class="trust-desc">Remux a MKV con audio FLAC: soluciona pantallas negras y falta de audio en DaVinci Resolve, Premiere y Avid.</span>
+      <span class="trust-icon" aria-hidden="true">
+        <!-- lightning / speed -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+        </svg>
+      </span>
+      <span class="trust-title">Velocidad</span>
+      <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos, incluso con archivos de varios gigabytes.</span>
     </div>
   </div>
 
