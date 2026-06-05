@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convertir VOB a FLAC – Audio de DVD sin pérdida para DaVinci Resolve | VidToFLAC</title>
+  <meta name="description" content="Convierte el audio de tus archivos VOB (DVD) a FLAC sin pérdida, 100% en tu navegador. Soluciona el error de códec AC3/DTS de DaVinci Resolve con copias de DVD." />
+  <meta name="keywords" content="convertir VOB a FLAC, VOB DVD audio FLAC, VOB DaVinci Resolve sin sonido, remux VOB MKV FLAC, DVD VOB FLAC, AC3 FLAC DaVinci Resolve" />
+  <meta name="author" content="VidToFLAC" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <meta name="application-name" content="VidToFLAC" />
+  <meta name="apple-mobile-web-app-title" content="VidToFLAC" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="canonical" href="https://vidtoflac.tech/convertir-vob-a-flac/" />
+
+  <!-- Icons & PWA manifest -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Speed up the ffmpeg.wasm engine download (Core Web Vitals) -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+
+  <!-- Open Graph (Facebook, Reddit, Discord, LinkedIn…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VidToFLAC" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://vidtoflac.tech/convertir-vob-a-flac/" />
+  <meta property="og:title" content="Convertir VOB a FLAC – Audio DVD sin pérdida | VidToFLAC" />
+  <meta property="og:description" content="Convierte el audio de tus archivos VOB de DVD a FLAC en tu navegador. Soluciona el error de AC3/DTS de DaVinci Resolve — sin subir nada." />
+  <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Convertir VOB a FLAC – Audio DVD sin pérdida | VidToFLAC" />
+  <meta name="twitter:description" content="Convierte el audio de tus VOB de DVD a FLAC en tu navegador. Soluciona el error de DaVinci Resolve — sin subir nada." />
+  <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+
+  <!-- Structured data: the tool itself -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "VidToFLAC",
+    "url": "https://vidtoflac.tech/convertir-vob-a-flac/",
+    "description": "Convierte el audio de archivos VOB (DVD) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec AC3/DTS en DaVinci Resolve. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript and WebAssembly. Compatible con Chrome, Firefox, Edge y Safari modernos.",
+    "softwareVersion": "1.0",
+    "inLanguage": "es",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "featureList": [
+      "Remux sin pérdida: copia el vídeo bit a bit",
+      "Conversión de audio a FLAC sin pérdida",
+      "Procesamiento 100% local en el navegador",
+      "Soporta MP4, MOV, MKV, AVI, WebM y más"
+    ]
+  }
+  </script>
+
+  <!-- Structured data: site & publisher entity -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://vidtoflac.tech/#organization",
+        "name": "VidToFLAC",
+        "url": "https://vidtoflac.tech/",
+        "logo": "https://vidtoflac.tech/icon-512.png",
+        "description": "Herramienta gratuita para convertir el audio de vídeos a FLAC (remux a MKV) y solucionar problemas de códec de audio en editores como DaVinci Resolve."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://vidtoflac.tech/#website",
+        "url": "https://vidtoflac.tech/",
+        "name": "VidToFLAC",
+        "inLanguage": "es",
+        "publisher": { "@id": "https://vidtoflac.tech/#organization" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured data: how-to (3 steps) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Cómo convertir el audio de un VOB de DVD a FLAC para DaVinci Resolve",
+    "description": "Convierte el audio de tus vídeos a FLAC dentro de un MKV (remux sin pérdida) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid, sin subir archivos.",
+    "totalTime": "PT1M",
+    "tool": [{ "@type": "HowToTool", "name": "VidToFLAC (FFmpeg en el navegador)" }],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Selecciona",
+        "text": "Arrastra tu vídeo o haz clic para elegirlo. El archivo se queda en tu equipo, no se sube a ningún servidor.",
+        "url": "https://vidtoflac.tech/convertir-vob-a-flac/"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Transcodifica solo el audio",
+        "text": "El vídeo conserva el 100% de su calidad original: no se vuelve a renderizar, solo se reempaqueta el audio a FLAC sin pérdida."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Descarga al instante",
+        "text": "Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida."
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured data: FAQ rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿VidToFLAC reduce la calidad de mi vídeo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. El flujo de vídeo se copia directamente bit a bit, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode. Solo el audio se transforma a FLAC, un formato sin pérdida. La imagen que obtienes es idéntica a la del archivo original."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué es mejor usar FLAC que extraer el audio a un archivo WAV aparte?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Al mantener el audio y el vídeo sincronizados dentro del mismo archivo MKV, evitas tener que alinearlos manualmente en la línea de tiempo de tu editor. Si extraes el audio a un WAV separado tienes que volver a sincronizarlo a mano; con FLAC dentro del contenedor arrastras un único archivo y todo encaja, ocupando además menos que WAV con la misma calidad sin pérdida."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Mis archivos de vídeo se suben a algún servidor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nunca. Toda la conversión se ejecuta en tu propio dispositivo gracias a FFmpeg compilado a WebAssembly, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio: es 100% privado y local."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué formatos de entrada son compatibles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vídeo: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB y más. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF y FLAC. Si el clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Funciona para DaVinci Resolve en Linux?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. DaVinci Resolve en Linux es donde más aparece el error de códec de audio, porque no incluye los decodificadores de AAC o MP3. Al convertir el audio a FLAC dentro de un MKV obtienes un archivo que DaVinci Resolve en Linux reproduce de forma nativa, recuperando el sonido sin instalar códecs de pago."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿VidToFLAC es gratis y tiene límite de tamaño?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño por servidor: puedes convertir vídeos de varios gigabytes; el único límite práctico es la memoria de tu equipo."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* ── Warm near-black "mastering console" canvas ─────────── */
+      --bg:          #0a0a0b;
+      --panel:       #0f0f11;
+      --panel-2:     #151518;
+      --elev:        #1b1b1f;
+      --line:        rgba(255,255,255,.07);
+      --line-strong: rgba(255,255,255,.13);
+
+      --ink:         #f3f3ef;
+      --ink-dim:     #a7a7ad;
+      --ink-mute:    #66666e;
+
+      /* ── Single green signal accent + status colors ─────────── */
+      --amber:       #19c37d;
+      --amber-2:     #4ee6a8;
+      --amber-soft:  rgba(25,195,125,.14);
+      --amber-line:  rgba(25,195,125,.42);
+
+      --green:       #4ade80;
+      --green-soft:  rgba(74,222,128,.13);
+      --red:         #ff6058;
+      --red-soft:    rgba(255,96,88,.13);
+      --warn:        #fbbf24;
+
+      --radius:      16px;
+      --radius-sm:   10px;
+
+      --font-display:'Bricolage Grotesque', system-ui, sans-serif;
+      --font-body:   'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+      --font-mono:   'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3.5rem 1.25rem 5rem;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Warm overhead glow */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(900px 520px at 50% -8%, rgba(25,195,125,.12), transparent 60%),
+        radial-gradient(700px 700px at 50% 120%, rgba(25,195,125,.05), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Fine film grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      opacity: .035;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Staggered page-load reveal */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .header,
+    .container > .card:nth-of-type(1),
+    .container > .card:nth-of-type(2),
+    .container > .card:nth-of-type(3) {
+      animation: rise .6s cubic-bezier(.2,.7,.3,1) both;
+    }
+    .header                          { animation-delay: .02s; }
+    .container > .card:nth-of-type(1){ animation-delay: .08s; }
+    .container > .card:nth-of-type(2){ animation-delay: .14s; }
+    .container > .card:nth-of-type(3){ animation-delay: .20s; }
+
+    /* ── Header / brand lockup ───────────────────────────────── */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0.5rem 0 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(160deg, #1f1f25, #121215);
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 24px rgba(0,0,0,.5);
+    }
+
+    .brand-mark .bar {
+      transform-origin: center bottom;
+      animation: eq 1.1s ease-in-out infinite;
+    }
+    .brand-mark .bar:nth-child(1) { animation-delay: 0s;    }
+    .brand-mark .bar:nth-child(2) { animation-delay: .18s;  }
+    .brand-mark .bar:nth-child(3) { animation-delay: .36s;  }
+    .brand-mark .bar:nth-child(4) { animation-delay: .54s;  }
+    @keyframes eq {
+      0%, 100% { transform: scaleY(.4); }
+      50%      { transform: scaleY(1); }
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.9rem;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .brand-accent { color: var(--amber); }
+
+    .tagline {
+      margin-top: 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      color: var(--ink-mute);
+      max-width: 34ch;
+    }
+
+    /* ── Card ────────────────────────────────────────────────── */
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--bg));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      box-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 18px 40px -28px rgba(0,0,0,.9);
+    }
+
+    .card-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--ink-mute);
+      margin-bottom: 1.1rem;
+    }
+    .card-title .step {
+      color: var(--amber);
+      margin-right: 0.15rem;
+    }
+
+    /* ── Engine status ───────────────────────────────────────── */
+    .engine-card { padding: 0.85rem 1.2rem; }
+
+    .engine-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .engine-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink-dim);
+    }
+
+    .engine-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--ink-mute);
+      transition: background 0.4s, box-shadow 0.4s;
+      flex-shrink: 0;
+    }
+
+    .engine-dot.loading { background: var(--warn);  box-shadow: 0 0 0 4px rgba(251,191,36,.14);  animation: pulse 1.3s ease-in-out infinite; }
+    .engine-dot.ready   { background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+    .engine-dot.busy    { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft);   animation: pulse 1.1s ease-in-out infinite; }
+    .engine-dot.error   { background: var(--red);   box-shadow: 0 0 0 4px var(--red-soft); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.4; }
+    }
+
+    /* ── Badge (shared: engine + file chips) ─────────────────── */
+    .badge {
+      font-family: var(--font-mono);
+      padding: 0.26rem 0.62rem;
+      border-radius: 6px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .badge-loading { background: rgba(251,191,36,.10); color: var(--warn);  border-color: rgba(251,191,36,.22); }
+    .badge-ready   { background: var(--green-soft);    color: var(--green); border-color: rgba(74,222,128,.25); }
+    .badge-busy    { background: var(--amber-soft);    color: var(--amber-2); border-color: var(--amber-line); }
+    .badge-done    { background: var(--green-soft);    color: var(--green); border-color: rgba(74,222,128,.3);
+                     animation: badgePop .45s cubic-bezier(.2,1.3,.4,1) both; }
+    .badge-error   { background: var(--red-soft);      color: var(--red);   border-color: rgba(255,96,88,.3); }
+
+    @keyframes badgePop {
+      0%   { opacity: 0; transform: scale(.7); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Drop zone ───────────────────────────────────────────── */
+    .drop-zone {
+      position: relative;
+      border: 1.5px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      padding: 2.6rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      color: var(--ink-mute);
+      transition: border-color .2s, background .2s, color .2s, transform .2s;
+      background:
+        radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,.015), transparent 70%);
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-over {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+      color: var(--amber);
+      transform: translateY(-1px);
+    }
+    .drop-zone.drag-over { border-style: solid; }
+
+    .drop-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .dz-icon {
+      margin-bottom: 0.9rem;
+      display: flex;
+      justify-content: center;
+    }
+    .dz-icon svg {
+      width: 40px;
+      height: 40px;
+      transition: transform .25s;
+    }
+    .drop-zone:hover .dz-icon svg,
+    .drop-zone.drag-over .dz-icon svg { transform: translateY(-3px); }
+
+    .dz-title {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .dz-sub {
+      font-family: var(--font-mono);
+      color: var(--ink-mute);
+      font-size: 0.68rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── File list ───────────────────────────────────────────── */
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-top: 0.9rem;
+    }
+    .file-list:empty { margin-top: 0; }
+
+    .file-chip {
+      display: flex;
+      flex-direction: column;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: border-color .2s, box-shadow .2s;
+      animation: rise .35s ease both;
+    }
+    .file-chip:hover { border-color: var(--line-strong); }
+
+    .file-chip-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 0.85rem;
+    }
+
+    .chip-bar-track {
+      height: 3px;
+      background: rgba(255,255,255,.05);
+      width: 100%;
+    }
+    .chip-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--amber-2));
+      width: 0%;
+      transition: width .35s ease;
+    }
+
+    .file-chip.is-done  { border-color: rgba(74,222,128,.3);  cursor: pointer; animation: doneFlash .8s ease; }
+    .file-chip.is-done:hover { border-color: rgba(74,222,128,.55); }
+    .file-chip.is-done  .chip-bar-fill  { background: var(--green); width: 100%; }
+    .file-chip.is-error { border-color: rgba(255,96,88,.3); }
+    .file-chip.is-error .chip-bar-fill  { background: var(--red); width: 100%; }
+
+    @keyframes doneFlash {
+      0%   { box-shadow: 0 0 0 0 var(--green-soft); }
+      40%  { box-shadow: 0 0 0 5px var(--green-soft); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
+
+    .file-chip-icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1; opacity: .9; }
+
+    .file-chip-info { flex: 1; overflow: hidden; }
+    .file-chip-name {
+      font-weight: 600;
+      font-size: 0.86rem;
+      color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-chip-name.is-editable {
+      cursor: text;
+      border-bottom: 1px dashed var(--ink-mute);
+      display: inline-block;
+      max-width: 100%;
+      padding-bottom: 1px;
+      transition: color .15s, border-color .15s;
+    }
+    .file-chip-name.is-editable:hover {
+      border-bottom-color: var(--amber);
+      color: var(--amber-2);
+    }
+    .name-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--amber);
+      color: var(--ink);
+      font-size: 0.86rem;
+      font-weight: 600;
+      font-family: inherit;
+      width: 100%;
+      outline: none;
+      padding: 0 0 1px;
+    }
+    .file-chip-meta {
+      font-family: var(--font-mono);
+      color: var(--ink-mute);
+      font-size: 0.68rem;
+      letter-spacing: 0.02em;
+      margin-top: 0.22rem;
+    }
+
+    .btn-chip-action {
+      background: none;
+      border: 1px solid transparent;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: background .15s, color .15s, border-color .15s;
+      color: var(--ink-dim);
+    }
+    .btn-chip-action:hover { background: rgba(255,255,255,.06); border-color: var(--line-strong); }
+    .btn-chip-remove:hover { color: var(--red); background: var(--red-soft); border-color: rgba(255,96,88,.3); }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.85rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    /* Premium green CTA (brand signal accent) */
+    .btn-primary {
+      background: linear-gradient(180deg, var(--amber-2), var(--amber));
+      color: #04140c;
+      box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 8px 24px -10px rgba(25,195,125,.55);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(180deg, #6ef0b4, var(--amber-2));
+      transform: translateY(-1px);
+      box-shadow: 0 1px 0 rgba(255,255,255,.3) inset, 0 12px 32px -8px rgba(25,195,125,.65);
+    }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
+    .btn-primary:disabled {
+      background: var(--elev);
+      color: var(--ink-mute);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* ── Format selector ─────────────────────────────────────── */
+    .format-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .format-option input[type="radio"] { display: none; }
+
+    .format-option label {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .18s, background .18s;
+      background: var(--panel-2);
+    }
+    .format-option label:hover { border-color: var(--line-strong); }
+    .format-option input:checked + label {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+    }
+
+    .format-badge {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+    .format-meta { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+    .format-rec {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--green);
+    }
+    .format-desc {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.02em;
+      color: var(--ink-mute);
+    }
+
+    /* ── Auto-download toggle ────────────────────────────────── */
+    .auto-dl-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-track input { display: none; }
+
+    .toggle-thumb {
+      position: absolute;
+      inset: 0;
+      background: var(--elev);
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      transition: background .2s, border-color .2s;
+    }
+    .toggle-thumb::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      background: var(--ink-mute);
+      border-radius: 50%;
+      transition: transform .2s, background .2s;
+    }
+    .toggle-track input:checked + .toggle-thumb {
+      background: var(--amber);
+      border-color: var(--amber);
+    }
+    .toggle-track input:checked + .toggle-thumb::after {
+      transform: translateX(18px);
+      background: #04140c;
+    }
+
+    .toggle-label {
+      font-size: 0.87rem;
+      color: var(--ink-mute);
+      transition: color .2s;
+    }
+    .auto-dl-toggle:has(input:checked) .toggle-label { color: var(--ink-dim); }
+
+    /* ── Progress (VU-meter styling) ─────────────────────────── */
+    .progress-card { display: none; }
+    .progress-card.visible { display: block; animation: rise .4s ease both; }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.82rem;
+      margin-bottom: 0.7rem;
+    }
+    .progress-meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--ink-dim);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .progress-meta-pct {
+      font-family: var(--font-mono);
+      color: var(--amber-2);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .progress-track {
+      position: relative;
+      background: rgba(255,255,255,.05);
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+    }
+    /* meter tick marks */
+    .progress-track::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(90deg, transparent 0 11px, rgba(10,10,11,.55) 11px 13px);
+      pointer-events: none;
+    }
+
+    .progress-fill {
+      position: relative;
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--amber-2));
+      border-radius: 999px;
+      transition: width .35s ease;
+      width: 0%;
+      box-shadow: 0 0 12px rgba(25,195,125,.5);
+    }
+    .progress-fill::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+      transform: translateX(-100%);
+      animation: sheen 1.8s ease-in-out infinite;
+    }
+    @keyframes sheen {
+      0%   { transform: translateX(-100%); }
+      60%, 100% { transform: translateX(220%); }
+    }
+
+    .progress-fill.indeterminate {
+      width: 35%;
+      animation: indeterminate 1.4s ease-in-out infinite;
+    }
+    @keyframes indeterminate {
+      0%   { transform: translateX(-120%); }
+      100% { transform: translateX(400%); }
+    }
+
+    /* ── Preview / results ───────────────────────────────────── */
+    .preview-card { display: none; }
+    .preview-card.visible { display: block; animation: rise .4s ease both; }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .btn-download-all {
+      font-family: var(--font-mono);
+      padding: 0.4rem 0.85rem;
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid rgba(74,222,128,.3);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .18s, border-color .18s;
+    }
+    .btn-download-all:hover { background: rgba(74,222,128,.2); border-color: rgba(74,222,128,.5); }
+
+    .preview-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 0.9rem;
+      background: var(--panel-2);
+    }
+    .preview-item:last-child { margin-bottom: 0; }
+
+    .preview-item-label {
+      font-family: var(--font-mono);
+      padding: 0.55rem 0.85rem;
+      background: rgba(255,255,255,.025);
+      border-bottom: 1px solid var(--line);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--ink-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-item video,
+    .preview-item audio {
+      display: block;
+      width: 100%;
+      background: #000;
+      max-height: 320px;
+    }
+    .preview-item audio { background: var(--panel-2); }
+
+    .preview-no-support {
+      padding: 1.2rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-mute);
+      background: var(--panel-2);
+    }
+
+    .btn-preview-download {
+      display: block;
+      padding: 0.8rem;
+      background: var(--green);
+      color: #06160c;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      transition: background .18s, box-shadow .18s;
+    }
+    .btn-preview-download:hover {
+      background: #6ee79b;
+      box-shadow: 0 6px 20px -6px rgba(74,222,128,.5);
+    }
+
+    /* ── Logs (terminal readout) ─────────────────────────────── */
+    .log-card { display: none; padding: 1.1rem 1.35rem; }
+    .log-card.visible { display: block; }
+
+    .log-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .log-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .log-chevron {
+      font-size: 0.65rem;
+      color: var(--ink-mute);
+      transition: transform .2s;
+      display: inline-block;
+    }
+    .log-card.open .log-chevron { transform: rotate(180deg); }
+
+    .log-badge {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      padding: 0.12rem 0.45rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,.06);
+      color: var(--ink-dim);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .btn-clear {
+      font-family: var(--font-mono);
+      background: none;
+      border: none;
+      color: var(--ink-mute);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+    }
+    .btn-clear:hover { color: var(--ink); background: rgba(255,255,255,.06); }
+
+    .log-body {
+      display: none;
+      margin-top: 0.9rem;
+    }
+    .log-card.open .log-body { display: block; }
+
+    .log-output {
+      background: #060608;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+      height: 210px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.7;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line-strong) transparent;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .log-output::-webkit-scrollbar { width: 5px; }
+    .log-output::-webkit-scrollbar-track { background: transparent; }
+    .log-output::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
+
+    .l-sys     { color: var(--amber-2); }
+    .l-info    { color: #5a5a63; }
+    .l-warn    { color: var(--warn); }
+    .l-error   { color: var(--red); }
+    .l-success { color: var(--green); }
+
+    /* ── Hero headline ───────────────────────────────────────── */
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2.35rem;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-top: 1.15rem;
+      max-width: 21ch;
+      text-wrap: balance;
+    }
+    .hero-title .accent { color: var(--amber); }
+
+    .hero-sub {
+      margin-top: 0.85rem;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      color: var(--ink-dim);
+      max-width: 47ch;
+      text-wrap: balance;
+    }
+
+    /* ── Trust cards ─────────────────────────────────────────── */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+      animation: rise .6s cubic-bezier(.2,.7,.3,1) both;
+      animation-delay: .12s;
+    }
+
+    .trust-card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 1rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+    .trust-card:hover {
+      border-color: var(--amber-line);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -22px rgba(25,195,125,.6);
+    }
+
+    .trust-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      color: var(--amber-2);
+      line-height: 1;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    .trust-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    .trust-card:hover .trust-icon { color: var(--amber); }
+    .trust-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-align: center;
+    }
+    .trust-desc {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--ink-dim);
+      text-align: justify;
+      text-align-last: center;
+      hyphens: auto;
+    }
+    .trust-desc strong { color: var(--ink); font-weight: 600; }
+    .trust-desc code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--amber-2);
+      background: var(--amber-soft);
+      padding: 0.05em 0.32em;
+      border-radius: 4px;
+    }
+
+    /* ── How-it-works steps ──────────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+    }
+    /* connector arrow between steps (desktop) */
+    .step-item:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      top: -2px;
+      right: -0.7rem;
+      color: var(--ink-mute);
+      font-size: 0.85rem;
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+    }
+    .step-item-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .step-desc {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--ink-dim);
+    }
+
+    @media (max-width: 560px) {
+      .trust-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 1.1rem; }
+      .step-item:not(:last-child)::after {
+        content: '↓';
+        top: auto;
+        bottom: -0.95rem;
+        right: auto;
+        left: 0;
+      }
+      .hero-title { font-size: 1.95rem; }
+    }
+
+    /* ── SEO content / long-form prose ───────────────────────── */
+    .seo-card { line-height: 1.65; }
+
+    .seo-card h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.32rem;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 0.85rem;
+      text-wrap: balance;
+    }
+    .seo-card h2 .accent { color: var(--amber); }
+
+    .seo-card h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin: 1.4rem 0 0.5rem;
+    }
+
+    .seo-card p {
+      font-size: 0.9rem;
+      color: var(--ink-dim);
+      margin-bottom: 0.85rem;
+    }
+    .seo-card p:last-child { margin-bottom: 0; }
+    .seo-card strong { color: var(--ink); font-weight: 600; }
+    .seo-card .hl { color: var(--amber-2); font-weight: 600; }
+
+    .seo-card .lede {
+      font-size: 0.96rem;
+      color: var(--ink);
+      border-left: 2px solid var(--amber-line);
+      padding-left: 0.9rem;
+    }
+
+    /* Justify body copy in the "problema que solucionamos" section only */
+    [aria-labelledby="problema-titulo"] p,
+    [aria-labelledby="problema-titulo"] li {
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .seo-card ul {
+      list-style: none;
+      margin: 0 0 0.85rem;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .seo-card li {
+      font-size: 0.88rem;
+      color: var(--ink-dim);
+      padding-left: 1.3rem;
+      position: relative;
+    }
+    .seo-card li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+    }
+
+    /* ── FAQ accordion (native details/summary) ──────────────── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .faq-item {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .faq-item[open] { border-color: var(--amber-line); }
+    .faq-item:hover { border-color: var(--line-strong); }
+    .faq-item[open]:hover { border-color: var(--amber-line); }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.95rem 1.05rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      user-select: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      position: relative;
+      transition: transform .25s;
+    }
+    .faq-icon::before,
+    .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--amber);
+      border-radius: 2px;
+      transition: opacity .2s;
+    }
+    .faq-icon::before { top: 8px; left: 2px; width: 14px; height: 2px; }
+    .faq-icon::after  { top: 2px; left: 8px; width: 2px; height: 14px; }
+    .faq-item[open] .faq-icon { transform: rotate(135deg); }
+
+    .faq-answer {
+      padding: 0 1.05rem 1rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--ink-dim);
+    }
+    .faq-answer p { margin: 0; }
+    .faq-answer strong { color: var(--ink); font-weight: 600; }
+    .faq-item[open] .faq-answer { animation: rise .3s ease both; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      color: var(--ink-mute);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      padding-top: 0.75rem;
+    }
+    footer strong { color: var(--amber-2); font-weight: 600; }
+
+    @media (max-width: 480px) {
+      body { padding: 2.25rem 0.9rem 4rem; }
+      .brand-name { font-size: 1.65rem; }
+      .card { padding: 1.15rem; }
+    }
+
+    /* ── Keyboard focus (a11y polish) ────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .btn-primary:focus-visible { outline-offset: 3px; }
+    .drop-zone:focus-within {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    /* Smooth-scroll target offset when JS scrolls results into view */
+    .preview-card { scroll-margin-top: 1.5rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  .brand-home-link { text-decoration: none; color: inherit; }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "VidToFLAC", "item": "https://vidtoflac.tech/"},
+      {"@type": "ListItem", "position": 2, "name": "Convertir VOB a FLAC", "item": "https://vidtoflac.tech/convertir-vob-a-flac/"}
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+          <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+          <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+          <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+          <rect class="bar" x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+        </svg>
+      </span>
+      <a href="/" class="brand-home-link"><span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span></a>
+    </div>
+    <h1 class="hero-title">Convierte tu <span class="accent">VOB a FLAC</span> sin pérdida de calidad</h1>
+    <p class="hero-sub">Soluciona el error de códec AC3/DTS de DaVinci Resolve en archivos VOB de DVD. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado, en tu navegador.</p>
+  </header>
+
+  <!-- Trust pillars: seguridad · calidad lossless · velocidad -->
+  <div class="trust-grid">
+    <div class="trust-card">
+      <span class="trust-icon" aria-hidden="true">
+        <!-- shield / lock -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M12 3 4.5 6v5.5c0 4.4 3.1 7.6 7.5 9 4.4-1.4 7.5-4.6 7.5-9V6L12 3Z"/>
+          <path d="M9.3 12.2 11 14l3.7-3.8"/>
+        </svg>
+      </span>
+      <span class="trust-title">Seguridad y privacidad</span>
+      <span class="trust-desc">Todo se procesa <strong>en local</strong> con <code>FFmpeg.wasm</code> dentro de tu navegador. Tus vídeos no se suben ni se almacenan en ningún servidor: cero bytes salen de tu equipo.</span>
+    </div>
+    <div class="trust-card">
+      <span class="trust-icon" aria-hidden="true">
+        <!-- waveform / lossless -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M3 12h2.2L7.4 5l3 14 2.6-9 1.8 5 1.4-3H21"/>
+        </svg>
+      </span>
+      <span class="trust-title">Calidad lossless</span>
+      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. El vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
+    </div>
+    <div class="trust-card">
+      <span class="trust-icon" aria-hidden="true">
+        <!-- lightning / speed -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+        </svg>
+      </span>
+      <span class="trust-title">Velocidad</span>
+      <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos, incluso con archivos de varios gigabytes.</span>
+    </div>
+  </div>
+
+  <!-- Engine status -->
+  <div class="card engine-card">
+    <div class="engine-row">
+      <div class="engine-label">
+        <span class="engine-dot loading" id="engineDot"></span>
+        <span id="engineText">Cargando FFmpeg WASM…</span>
+      </div>
+      <span class="badge badge-loading" id="engineBadge">Iniciando</span>
+    </div>
+  </div>
+
+  <!-- File selector -->
+  <div class="card">
+    <div class="card-title"><span class="step">01</span> Selecciona los vídeos de entrada</div>
+
+    <div class="drop-zone" id="dropZone">
+      <input
+        type="file"
+        id="fileInput"
+        multiple
+        aria-label="Seleccionar vídeos o audios para convertir a FLAC"
+        accept="video/*,audio/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob,.wav,.mp3,.flac,.aac,.ogg,.m4a,.opus,.wma,.aiff"
+      />
+      <div class="dz-icon">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M8 30v6a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-6"/>
+          <path d="M24 32V10"/>
+          <path d="M15 19l9-9 9 9"/>
+        </svg>
+      </div>
+      <div class="dz-title">Arrastra tus vídeos aquí o haz clic</div>
+      <div class="dz-sub">MP4 · MOV · MKV · AVI · WAV · MP3 · AAC · varios a la vez</div>
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <!-- Convert -->
+  <div class="card">
+    <div class="card-title"><span class="step">02</span> Convertir</div>
+
+    <div class="format-options">
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMkv" value="mkv" checked>
+        <label for="fmtMkv">
+          <span class="format-badge">MKV</span>
+          <span class="format-meta">
+            <span class="format-rec">✓ RECOMENDADO</span>
+            <span class="format-desc">H.264 + FLAC · máxima compatibilidad</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <label class="auto-dl-toggle">
+      <span class="toggle-track">
+        <input type="checkbox" id="autoDlCheck">
+        <span class="toggle-thumb"></span>
+      </span>
+      <span class="toggle-label">Descargar automáticamente al convertir</span>
+    </label>
+
+    <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
+      ⚙️ Convertir a vídeo + FLAC
+    </button>
+  </div>
+
+  <!-- Progress -->
+  <div class="card progress-card" id="progressCard">
+    <div class="progress-meta">
+      <span class="progress-meta-label" id="progressLabel">Procesando…</span>
+      <span class="progress-meta-pct" id="progressPct">—</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill indeterminate" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- Preview list -->
+  <div class="card preview-card" id="previewCard">
+    <div class="preview-header">
+      <span class="card-title" style="margin-bottom:0"><span class="step">03</span> Resultados</span>
+      <a id="downloadAllBtn" class="btn-download-all" role="button" aria-label="Descargar todos los archivos convertidos" style="display:none">⬇ Descargar todo</a>
+    </div>
+    <div id="previewList"></div>
+  </div>
+
+  <!-- Logs -->
+  <div class="card log-card" id="logCard">
+    <div class="log-toggle" id="logToggle" role="button" tabindex="0" aria-label="Mostrar u ocultar los detalles técnicos de FFmpeg">
+      <div class="log-toggle-left">
+        <span class="log-chevron" aria-hidden="true">▼</span>
+        <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
+        <span class="log-badge" id="logCount" aria-label="Número de líneas de registro">0</span>
+      </div>
+      <div style="display:flex;gap:0.4rem">
+        <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
+        <button class="btn-clear" id="clearLogsBtn" aria-label="Limpiar el registro técnico">Limpiar</button>
+      </div>
+    </div>
+    <div class="log-body">
+      <div class="log-output" id="logOutput"></div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="card steps-card">
+    <div class="card-title">Cómo funciona</div>
+    <div class="steps">
+      <div class="step-item">
+        <span class="step-num">PASO 01</span>
+        <span class="step-item-title">Selecciona</span>
+        <span class="step-desc">Arrastra tu vídeo o haz clic para elegirlo. El archivo se queda en tu equipo.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num">PASO 02</span>
+        <span class="step-item-title">Transcodifica solo el audio</span>
+        <span class="step-desc">El vídeo conserva el 100% de su calidad original: no se vuelve a renderizar, solo se reempaqueta el audio a FLAC.</span>
+      </div>
+      <div class="step-item">
+        <span class="step-num">PASO 03</span>
+        <span class="step-item-title">Descarga al instante</span>
+        <span class="step-desc">Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEO: the problem we solve -->
+  <section class="card seo-card" aria-labelledby="problema-titulo">
+    <div class="card-title">El problema que solucionamos</div>
+    <article>
+      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos VOB?</h2>
+
+      <p class="lede">Los archivos <strong>VOB</strong> de copias de DVD llevan audio en <strong>AC3 (Dolby Digital) o DTS</strong>. DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye los decodificadores para estos formatos sin licencias de pago, lo que provoca que las pistas de audio aparezcan en gris o que el clip no se importe con sonido.</p>
+
+      <p>Muchas cámaras, grabadores y aplicaciones de captura como <strong>OBS Studio</strong>, los <strong>smartphones</strong> o las cámaras de acción guardan el audio con códecs comprimidos como <strong>AAC</strong> o <strong>MP3</strong> dentro de contenedores MP4 o MOV. La versión gratuita de DaVinci Resolve —y de forma muy marcada <strong>DaVinci Resolve en Linux</strong> y en entornos profesionales— no incluye las licencias para decodificar todos esos formatos de audio. El resultado es el clásico <span class="hl">DaVinci Resolve sin sonido</span>, audio desincronizado o clips que ni siquiera importan.</p>
+
+      <h3>La solución: cambiar el contenedor, no recodificar el vídeo</h3>
+      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que los programas de edición profesionales decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
+
+      <p>Esto significa tres cosas para tu flujo de trabajo:</p>
+      <ul>
+        <li><strong>Cero pérdida de calidad:</strong> es un <span class="hl">remux de vídeo sin pérdida de calidad</span>, los frames originales quedan intactos.</li>
+        <li><strong>Velocidad:</strong> no hay re-encoding del vídeo, así que el proceso tarda segundos en lugar de minutos.</li>
+        <li><strong>Compatibilidad inmediata:</strong> el MKV resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
+      </ul>
+
+      <p>Y todo ocurre con <strong>FFmpeg en el navegador</strong> mediante WebAssembly: la misma herramienta estándar de la industria que usan los profesionales, ejecutándose localmente en tu equipo.</p>
+    </article>
+  </section>
+
+  <!-- SEO: FAQ accordion -->
+  <section class="card seo-card" aria-labelledby="faq-titulo">
+    <div class="card-title">Preguntas frecuentes</div>
+    <h2 id="faq-titulo" style="margin-bottom:1.1rem">Dudas habituales sobre la conversión a FLAC</h2>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>¿VidToFLAC reduce la calidad de mi vídeo?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>No.</strong> El flujo de vídeo se copia directamente <strong>bit a bit</strong>, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode. Solo el audio se transforma a <strong>FLAC</strong>, un formato sin pérdida. La imagen que obtienes es idéntica a la del archivo original.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Por qué es mejor usar FLAC que extraer el audio a un WAV aparte?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Porque al mantener el audio y el vídeo <strong>sincronizados dentro del mismo archivo MKV</strong>, evitas tener que alinearlos manualmente en la línea de tiempo de tu editor. Si extraes el audio a un WAV separado, tienes que volver a sincronizarlo a mano clip por clip; con FLAC dentro del contenedor, arrastras un único archivo y todo encaja. FLAC además ocupa menos que WAV manteniendo la misma calidad sin pérdida.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Mis archivos de vídeo se suben a algún servidor?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>Nunca.</strong> Toda la conversión se ejecuta en tu propio dispositivo gracias a <strong>FFmpeg compilado a WebAssembly</strong>, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es <strong>100% privado y local</strong>: por eso también puedes procesar archivos de varios gigabytes sin esperas de subida.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Qué formatos de entrada son compatibles?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Vídeo: <strong>MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB</strong> y más. Audio: <strong>WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF</strong> y FLAC. Si tu clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264 para garantizar que se vea correctamente.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Funciona para DaVinci Resolve en Linux?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>Sí.</strong> <strong>DaVinci Resolve en Linux</strong> es justo donde más aparece el <strong>error de códec de audio</strong>, porque no incluye los decodificadores de AAC o MP3. Al convertir el audio a <strong>FLAC dentro de un MKV</strong> obtienes un archivo que DaVinci Resolve reproduce de forma nativa, recuperando el sonido sin instalar códecs de pago.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Es gratis y tiene límite de tamaño?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Es <strong>totalmente gratis</strong> y sin registro. Como el procesamiento ocurre en tu propio ordenador con <strong>FFmpeg (WebAssembly)</strong> y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor: puedes convertir vídeos de <strong>varios gigabytes</strong>; el único límite práctico es la memoria de tu equipo.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    Todo el procesamiento ocurre en tu dispositivo usando
+    <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════ -->
+<script type="module">
+// ─────────────────────────────────────────────────────────────────────────────
+//  worker.js vive en la CDN (cross-origin). Chrome bloquea new Worker(crossOriginURL)
+//  cuando el tipo es 'module'. Solución: fetch del worker, reescribir sus imports
+//  relativos a URLs absolutas, crear un Blob URL (same-origin) y parchear
+//  window.Worker para que FFmpeg use ese blob en lugar de la URL original.
+//  Sin service workers, sin recargas, sin SharedArrayBuffer.
+// ─────────────────────────────────────────────────────────────────────────────
+const FFMPEG_BASE   = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/esm';
+const WORKER_URL    = `${FFMPEG_BASE}/worker.js`;
+const CORE_BASE     = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+
+// 1. Descargar worker.js y reescribir imports relativos → absolutos
+const workerText    = await fetch(WORKER_URL).then(r => r.text());
+const patchedWorker = workerText.replace(
+  /from\s+['"](\.[^'"]+)['"]/g,
+  (_, rel) => `from '${new URL(rel, WORKER_URL).href}'`
+);
+const workerBlobURL = URL.createObjectURL(
+  new Blob([patchedWorker], { type: 'text/javascript' })
+);
+
+// 2. Parchear window.Worker: interceptar la URL cross-origin del worker de FFmpeg
+const _Worker = window.Worker;
+window.Worker = function(url, options) {
+  const href = url instanceof URL ? url.href : String(url ?? '');
+  return new _Worker(href === WORKER_URL ? workerBlobURL : url, options);
+};
+window.Worker.prototype = _Worker.prototype;
+
+// 3. Ahora importar FFmpeg — el parche ya está activo cuando instancie el Worker
+const { FFmpeg }    = await import(`${FFMPEG_BASE}/index.js`);
+const { toBlobURL } = await import('https://unpkg.com/@ffmpeg/util@0.12.1/dist/esm/index.js');
+
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const engineDot    = $('engineDot');
+const engineText   = $('engineText');
+const engineBadge  = $('engineBadge');
+const dropZone     = $('dropZone');
+const fileInput    = $('fileInput');
+const fileListEl   = $('fileList');
+const convertBtn   = $('convertBtn');
+const autoDlCheck  = $('autoDlCheck');
+const progressCard = $('progressCard');
+const progressFill = $('progressFill');
+const progressLabel= $('progressLabel');
+const progressPct  = $('progressPct');
+const logCard      = $('logCard');
+const logOutput    = $('logOutput');
+const logCount     = $('logCount');
+const logToggle    = $('logToggle');
+const clearLogsBtn = $('clearLogsBtn');
+
+logToggle.addEventListener('click', e => {
+  if (e.target === clearLogsBtn) return;
+  logCard.classList.toggle('open');
+});
+
+const copyLogsBtn = $('copyLogsBtn');
+
+copyLogsBtn.addEventListener('click', async () => {
+  const text = [...logOutput.querySelectorAll('span')].map(s => s.textContent).join('');
+  await navigator.clipboard.writeText(text);
+  copyLogsBtn.textContent = '✓ Copiado';
+  setTimeout(() => { copyLogsBtn.textContent = 'Copiar'; }, 1500);
+});
+
+clearLogsBtn.addEventListener('click', () => {
+  logOutput.innerHTML = '';
+  logCount.textContent = '0';
+});
+const previewCard    = $('previewCard');
+const previewList    = $('previewList');
+const downloadAllBtn = $('downloadAllBtn');
+
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let ffmpeg = null;
+let nextId = 0;
+let currentId = null;
+// Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
+const files = new Map();
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function fmt(bytes) {
+  if (bytes < 1024)          return bytes + ' B';
+  if (bytes < 1_048_576)     return (bytes / 1024).toFixed(1) + ' KB';
+  if (bytes < 1_073_741_824) return (bytes / 1_048_576).toFixed(1) + ' MB';
+  return (bytes / 1_073_741_824).toFixed(2) + ' GB';
+}
+
+function isVideo(name) {
+  return /\.(mp4|mov|mkv|avi|webm|flv|wmv|m4v|ts|m2ts|mpg|mpeg|3gp|ogv|rm|rmvb|vob|divx|xvid|f4v|asf|mts)$/i.test(name);
+}
+
+function isAudioOnly(file) {
+  if (file.type.startsWith('audio/')) return true;
+  return /\.(wav|mp3|flac|aac|ogg|m4a|opus|wma|aiff|aif)$/i.test(file.name);
+}
+
+// Nombre por defecto del archivo de salida: nombre original (sin extensión) + " flac".
+function defaultBaseName(file) {
+  return file.name.replace(/\.[^.]+$/, '') + ' flac';
+}
+
+// ─── Logging ──────────────────────────────────────────────────────────────────
+function log(msg, type = 'info') {
+  logCard.classList.add('visible');
+  if (type === 'error') logCard.classList.add('open');
+  const span = document.createElement('span');
+  span.className = `l-${type}`;
+  span.textContent = msg + '\n';
+  logOutput.appendChild(span);
+  logCount.textContent = logOutput.childElementCount;
+  if (logCard.classList.contains('open')) {
+    logOutput.scrollTop = logOutput.scrollHeight;
+  }
+}
+
+// ─── Engine badge ─────────────────────────────────────────────────────────────
+function setEngine(text, state) {
+  engineText.textContent  = text;
+  engineDot.className     = `engine-dot ${state}`;
+  engineBadge.textContent = { loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
+  engineBadge.className   = `badge badge-${state === 'busy' ? 'busy' : state}`;
+}
+
+// ─── Progress helpers ─────────────────────────────────────────────────────────
+function setProgress(label, pct) {
+  progressCard.classList.add('visible');
+  progressLabel.textContent = label;
+
+  if (pct === null) {
+    progressFill.classList.add('indeterminate');
+    progressFill.style.width = '';
+    progressPct.textContent = '…';
+  } else {
+    progressFill.classList.remove('indeterminate');
+    progressFill.style.width = pct + '%';
+    progressPct.textContent  = Math.round(pct) + '%';
+  }
+}
+
+// ─── File list render ─────────────────────────────────────────────────────────
+function renderFileList() {
+  fileListEl.innerHTML = '';
+
+  for (const [id, entry] of files) {
+    const chip = document.createElement('div');
+    chip.className = 'file-chip' +
+      (entry.status === 'done'  ? ' is-done'  : '') +
+      (entry.status === 'error' ? ' is-error' : '');
+
+    const badgeMap = {
+      pending:    '<span class="badge badge-loading" style="font-size:.7rem;flex-shrink:0">Pendiente</span>',
+      converting: '<span class="badge badge-busy"    style="font-size:.7rem;flex-shrink:0">Convirtiendo</span>',
+      done:       '<span class="badge badge-done"    style="font-size:.7rem;flex-shrink:0">Listo ✓</span>',
+      error:      '<span class="badge badge-error"   style="font-size:.7rem;flex-shrink:0">Error</span>',
+    };
+
+    // Nombre editable mientras esté pendiente o ya convertido (no durante la conversión).
+    const isEditable = entry.status === 'pending' || entry.status === 'done';
+    const displayName = entry.status === 'done'
+      ? entry.outBaseName.replace(/\.[^.]+$/, '')
+      : (entry.customBaseName ?? defaultBaseName(entry.file));
+    const nameEl = isEditable
+      ? `<div class="file-chip-name is-editable" data-id="${id}" title="Clic para renombrar">${displayName}</div>`
+      : `<div class="file-chip-name">${entry.outBaseName ?? entry.file.name}</div>`;
+
+    chip.innerHTML = `
+      <div class="file-chip-row">
+        <span class="file-chip-icon">🎞️</span>
+        <div class="file-chip-info">
+          ${nameEl}
+          <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
+        </div>
+        ${badgeMap[entry.status] ?? ''}
+        ${entry.status === 'done'
+          ? `<button class="btn-chip-action" data-action="download" data-id="${id}" title="Descargar">⬇️</button>`
+          : ''}
+        ${entry.status !== 'converting'
+          ? `<button class="btn-chip-action btn-chip-remove" data-action="remove" data-id="${id}" title="Eliminar">✕</button>`
+          : ''}
+      </div>
+      <div class="chip-bar-track">
+        <div class="chip-bar-fill" id="bar-${id}"></div>
+      </div>
+    `;
+
+    // click chip to scroll to its preview (done files only) — sin reconstruir el medio.
+    // Se ignoran clics en botones y en el nombre editable (esos tienen su propia acción).
+    if (entry.status === 'done') {
+      chip.addEventListener('click', e => {
+        if (e.target.closest('button') || e.target.closest('.file-chip-name.is-editable') || e.target.closest('.name-input')) return;
+        previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    fileListEl.appendChild(chip);
+  }
+
+  // event delegation for buttons
+  fileListEl.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = Number(btn.dataset.id);
+      if (btn.dataset.action === 'remove') {
+        const entry = files.get(id);
+        if (entry?.outputURL) URL.revokeObjectURL(entry.outputURL);
+        files.delete(id);
+        renderFileList();
+        renderPreviewList();   // prune su preview si lo tenía
+        updateConvertBtn();
+      } else if (btn.dataset.action === 'download') {
+        const entry = files.get(id);
+        if (!entry?.outputURL) return;
+        const a = document.createElement('a');
+        a.href = entry.outputURL;
+        a.download = entry.outBaseName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    });
+  });
+
+  // inline name editing — para archivos pendientes y ya convertidos
+  fileListEl.querySelectorAll('.file-chip-name.is-editable').forEach(nameDiv => {
+    nameDiv.addEventListener('click', e => {
+      e.stopPropagation();   // no disparar el scroll del chip (archivos "Listos")
+      const id = Number(nameDiv.dataset.id);
+      const entry = files.get(id);
+      if (!entry || (entry.status !== 'pending' && entry.status !== 'done')) return;
+
+      const current = entry.status === 'done'
+        ? entry.outBaseName.replace(/\.[^.]+$/, '')
+        : (entry.customBaseName ?? defaultBaseName(entry.file));
+      const input = document.createElement('input');
+      input.className = 'name-input';
+      input.value = current;
+      nameDiv.replaceWith(input);
+      input.focus();
+      input.select();
+
+      function save() {
+        const val = input.value.trim() || current;
+        entry.customBaseName = val;
+        // Si ya está convertido, renombrar el resultado SIN reconvertir:
+        // se conserva la misma extensión/contenedor y el mismo archivo de salida.
+        if (entry.status === 'done') {
+          const ext = (entry.outBaseName.match(/\.[^.]+$/) || ['.mkv'])[0];
+          entry.outBaseName = val + ext;
+        }
+        renderFileList();
+        renderPreviewList();   // idempotente: solo refresca etiqueta y enlace, no recarga el medio
+      }
+
+      input.addEventListener('blur', save);
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+        if (e.key === 'Escape') { input.value = current; input.blur(); }
+      });
+    });
+  });
+}
+
+function updateConvertBtn() {
+  const pending = [...files.values()].filter(e => e.status === 'pending').length;
+  convertBtn.disabled = !ffmpeg || pending === 0;
+  convertBtn.textContent = pending > 1
+    ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
+    : `⚙️ Convertir a vídeo + FLAC`;
+}
+
+function noPreviewMsg() {
+  const div = document.createElement('div');
+  div.className = 'preview-no-support';
+  div.textContent = 'Preview no disponible en este navegador — descarga el archivo para reproducirlo.';
+  return div;
+}
+
+// ─── Preview list render ──────────────────────────────────────────────────────
+// Idempotente: reutiliza los <video>/<audio> ya creados y solo crea/elimina/actualiza
+// lo necesario. Así, volver a llamarla (p. ej. al renombrar) no reinicia la reproducción.
+function renderPreviewList() {
+  const done = [...files.entries()].filter(([, e]) => e.status === 'done');
+  if (!done.length) {
+    previewCard.classList.remove('visible');
+    previewList.innerHTML = '';
+    downloadAllBtn.style.display = 'none';
+    return;
+  }
+
+  previewCard.classList.add('visible');
+
+  const doneIds = new Set(done.map(([id]) => String(id)));
+  // quitar items de archivos que ya no están
+  previewList.querySelectorAll('.preview-item').forEach(item => {
+    if (!doneIds.has(item.dataset.id)) item.remove();
+  });
+
+  for (const [id, entry] of done) {
+    let item = previewList.querySelector(`.preview-item[data-id="${id}"]`);
+    const isAudio = entry.outBaseName.endsWith('.flac');
+
+    // crear el item solo la primera vez (el medio no se recrea en llamadas posteriores)
+    if (!item) {
+      item = document.createElement('div');
+      item.className = 'preview-item';
+      item.dataset.id = id;
+
+      const label = document.createElement('div');
+      label.className = 'preview-item-label';
+      item.appendChild(label);
+
+      const media = document.createElement(isAudio ? 'audio' : 'video');
+      media.className = 'preview-media';
+      media.controls = true;
+      media.src = entry.outputURL;
+      item.dataset.url = entry.outputURL;
+      if (!isAudio) {
+        media.addEventListener('error', () => { media.replaceWith(noPreviewMsg()); });
+      }
+      item.appendChild(media);
+
+      const dl = document.createElement('a');
+      dl.className = 'btn-preview-download';
+      dl.textContent = '⬇ Descargar';
+      item.appendChild(dl);
+
+      previewList.appendChild(item);
+    }
+
+    // refrescar etiqueta + enlace de descarga en el sitio (sin recargar el medio)
+    item.querySelector('.preview-item-label').textContent = entry.outBaseName;
+    const dl = item.querySelector('.btn-preview-download');
+    dl.href = entry.outputURL;
+    dl.download = entry.outBaseName;
+
+    // si la salida cambió de verdad (reconversión), actualizar la fuente del medio
+    const media = item.querySelector('.preview-media');
+    if (media && item.dataset.url !== entry.outputURL) {
+      media.src = entry.outputURL;
+      item.dataset.url = entry.outputURL;
+    }
+  }
+
+  // show/hide "download all" button (only useful with 2+ files)
+  if (done.length > 1) {
+    downloadAllBtn.style.display = 'inline-block';
+    downloadAllBtn.onclick = () => {
+      done.forEach(([, e]) => {
+        const a = document.createElement('a');
+        a.href = e.outputURL;
+        a.download = e.outBaseName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    };
+  } else {
+    downloadAllBtn.style.display = 'none';
+  }
+}
+
+// ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
+async function loadFFmpeg() {
+  log('Iniciando carga de FFmpeg WASM (core single-thread)…', 'sys');
+  setEngine('Cargando FFmpeg WASM…', 'loading');
+
+  try {
+    ffmpeg = new FFmpeg();
+
+    ffmpeg.on('log', ({ message }) => {
+      const isVerbose = message.startsWith('    ') && !message.includes('Error');
+      if (!isVerbose) log(message, 'info');
+    });
+
+    ffmpeg.on('progress', ({ progress }) => {
+      if (progress > 0 && progress <= 1) {
+        const pct = Math.min(99, Math.round(progress * 100));
+        progressFill.classList.remove('indeterminate');
+        progressFill.style.width = pct + '%';
+        progressPct.textContent  = pct + '%';
+        const bar = document.getElementById(`bar-${currentId}`);
+        if (bar) bar.style.width = pct + '%';
+      }
+    });
+
+    log('Descargando ffmpeg-core.js desde CDN…', 'sys');
+    const coreURL = await toBlobURL(`${CORE_BASE}/ffmpeg-core.js`,   'text/javascript');
+
+    log('Descargando ffmpeg-core.wasm desde CDN…', 'sys');
+    const wasmURL = await toBlobURL(`${CORE_BASE}/ffmpeg-core.wasm`, 'application/wasm');
+
+    log('Inicializando motor…', 'sys');
+    await ffmpeg.load({ coreURL, wasmURL });
+
+    setEngine('Motor listo', 'ready');
+    log('✓ FFmpeg WASM cargado y listo', 'success');
+    updateConvertBtn();
+
+  } catch (err) {
+    setEngine('Error al cargar el motor', 'error');
+    log('✗ Error cargando FFmpeg: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+// ─── File selection ───────────────────────────────────────────────────────────
+function addFiles(fileList) {
+  let added = 0;
+  for (const file of fileList) {
+    const valid = file.type.startsWith('video/') || file.type.startsWith('audio/') || isVideo(file.name) || isAudioOnly(file);
+    if (!valid) {
+      log(`⚠ "${file.name}" no es un formato reconocido. Se intentará de todos modos.`, 'warn');
+    }
+    // skip duplicates (same name + size)
+    const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
+    if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
+
+    // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
+    files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
+    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    added++;
+  }
+  if (added) { renderFileList(); renderPreviewList(); updateConvertBtn(); }
+}
+
+fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
+
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+});
+
+// ─── Convert ──────────────────────────────────────────────────────────────────
+convertBtn.addEventListener('click', async () => {
+  if (!ffmpeg) return;
+  const pending = [...files.entries()].filter(([, e]) => e.status === 'pending');
+  if (!pending.length) return;
+
+  convertBtn.disabled = true;
+  setEngine('Procesando…', 'busy');
+
+  for (let i = 0; i < pending.length; i++) {
+    const [id, entry] = pending[i];
+    const file = entry.file;
+    entry.status = 'converting';
+    currentId = id;
+    renderFileList();
+
+    const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
+    const inputName  = `input_${id}.${ext}`;
+    const audioOnly  = isAudioOnly(file);
+    const outputExt  = audioOnly ? 'flac' : 'mkv';
+    const outputName = `output_${id}.${outputExt}`;
+
+    setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
+    log(`[${i + 1}/${pending.length}] Procesando: ${file.name}`, 'sys');
+
+    try {
+      // 1 · Write input to WASM virtual FS
+      log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+      const buffer = await file.arrayBuffer();
+      const fileData = new Uint8Array(buffer);
+      const fileSize = file.size;
+      await ffmpeg.writeFile(inputName, fileData);
+      log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
+
+      // 2 · Probe audio/video codecs, then build command.
+      setProgress(`[${i + 1}/${pending.length}] Analizando formato…`, null);
+
+      let probeAudioCodec = '';
+      let probeVideoCodec = '';
+      const probeCapture = ({ message }) => {
+        const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
+        if (ma) probeAudioCodec = ma[1].toLowerCase();
+        const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
+        if (mv) probeVideoCodec = mv[1].toLowerCase();
+      };
+      ffmpeg.on('log', probeCapture);
+      try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
+      ffmpeg.off('log', probeCapture);
+
+      // Float PCM (pcm_f32le, pcm_f64le, pcm_flt…) needs an explicit integer
+      // conversion before FLAC encoding; all other codecs work directly.
+      const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
+      if (isFloatPCM) {
+        log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
+      }
+      const audioFlacArgs = isFloatPCM
+        ? ['-af', 'aformat=sample_fmts=s32', '-c:a', 'flac']
+        : ['-c:a', 'flac'];
+
+      // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
+      const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
+      if (!audioOnly && browserIncompatibleVideo) {
+        log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
+      }
+      const videoArgs = (!audioOnly && browserIncompatibleVideo)
+        ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
+        : ['-c:v', 'copy'];
+
+      setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
+
+      const t0 = Date.now();
+      let cmd;
+
+      if (audioOnly) {
+        cmd = ['-i', inputName, '-vn', ...audioFlacArgs, outputName];
+      } else {
+        cmd = ['-i', inputName, ...videoArgs, ...audioFlacArgs, outputName];
+      }
+
+      log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
+      try {
+        await ffmpeg.exec(cmd);
+      } catch (execErr) {
+        // stream-copy can fail when the source video codec is incompatible.
+        // Retry with libx264 as a last resort.
+        if (!audioOnly && !browserIncompatibleVideo) {
+          log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+          try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
+          try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+          await loadFFmpeg();
+          await ffmpeg.writeFile(inputName, fileData);
+          const fallbackCmd = ['-i', inputName,
+                               '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
+                               ...audioFlacArgs, outputName];
+          log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
+          await ffmpeg.exec(fallbackCmd);
+        } else {
+          throw execErr;
+        }
+      }
+
+      const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+      log(`✓ Conversión completada en ${elapsed}s`, 'success');
+
+      // 3 · Read output
+      setProgress(`[${i + 1}/${pending.length}] Leyendo archivo resultante…`, null);
+      const data = await ffmpeg.readFile(outputName);
+
+      // 4 · Create blob & object URL
+      const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
+      const blob = new Blob([data], { type: mimeType });
+      // El nombre base ya incluye "flac" por defecto (o el que el usuario haya puesto);
+      // solo se añade la extensión del contenedor de salida.
+      const ext = audioOnly ? '.flac' : '.mkv';
+      const baseName = entry.customBaseName ?? defaultBaseName(file);
+      entry.outputURL   = URL.createObjectURL(blob);
+      entry.outBaseName = baseName + ext;
+      entry.status      = 'done';
+
+      log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
+      setProgress(`[${i + 1}/${pending.length}] ${file.name} ✓`, ((i + 1) / pending.length) * 100);
+
+      // update preview list after each file
+      renderPreviewList();
+
+      // auto-download if toggle is on
+      if (autoDlCheck.checked) {
+        const a = document.createElement('a');
+        a.href = entry.outputURL;
+        a.download = entry.outBaseName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      // 5 · Clean up WASM FS
+      try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
+
+    } catch (err) {
+      entry.status = 'error';
+      log(`✗ Error en "${file.name}": ${err.message ?? 'error desconocido'}`, 'error');
+      // ffmpeg.wasm can crash (Aborted). Reinitialize so next files work.
+      try { await ffmpeg.deleteFile(inputName); } catch (_) {}
+      try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+      log('↺ Reiniciando motor FFmpeg…', 'sys');
+      await loadFFmpeg();
+    }
+
+    renderFileList();
+  }
+
+  setEngine('Motor listo', 'ready');
+  updateConvertBtn();
+});
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+loadFFmpeg();
+</script>
+</body>
+</html>
