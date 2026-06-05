@@ -16,11 +16,14 @@ Al editar, conserva la estructura de archivo único — no separes en archivos J
 
 **Después de completar cualquier cambio**, pregunta siempre al usuario:
 
-> "¿Quieres previsualizarlo en local o subirlo a GitHub?"
-> - **Previsualizar**: arranca `python3 -m http.server 8000` (si no hay ya un servidor corriendo en ese puerto) y muestra una captura headless del resultado.
-> - **Subir a GitHub**: haz commit de los archivos modificados directamente a `main` y push. El despliegue en GitHub Pages se dispara automáticamente.
+> "¿Quieres arrancar un servidor para verlo (**s**) o subirlo a GitHub (**g**)?"
 
-No hagas el push ni arranques el servidor sin confirmación explícita del usuario.
+El usuario responde con una sola letra:
+
+- **`s`** → **Servidor / previsualizar**: arranca `python3 -m http.server 8000` (si no hay ya un servidor corriendo en ese puerto) y muestra una captura headless del resultado.
+- **`g`** → **Subir a GitHub**: haz commit de los archivos modificados directamente a `main` y push. El despliegue en GitHub Pages se dispara automáticamente.
+
+Interpreta `s` y `g` (en mayúscula o minúscula) como estos atajos siempre que vengan como respuesta a esta pregunta. No hagas el push ni arranques el servidor sin confirmación explícita del usuario.
 
 ## Desarrollo local
 

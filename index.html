@@ -1458,7 +1458,16 @@
           <span class="format-badge">MKV</span>
           <span class="format-meta">
             <span class="format-rec">✓ RECOMENDADO</span>
-            <span class="format-desc">H.264 + FLAC · máxima compatibilidad</span>
+            <span class="format-desc">Vídeo copiado + FLAC · máxima compatibilidad</span>
+          </span>
+        </label>
+      </div>
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMp4" value="mp4">
+        <label for="fmtMp4">
+          <span class="format-badge">MP4</span>
+          <span class="format-meta">
+            <span class="format-desc">Vídeo idéntico al original (copia bit a bit) · audio FLAC</span>
           </span>
         </label>
       </div>
@@ -2096,6 +2105,9 @@ convertBtn.addEventListener('click', async () => {
   convertBtn.disabled = true;
   setEngine('Procesando…', 'busy');
 
+  // Formato de salida elegido para los vídeos (los archivos solo-audio salen siempre en FLAC).
+  const selectedFormat = document.querySelector('input[name="outFormat"]:checked')?.value || 'mkv';
+
   for (let i = 0; i < pending.length; i++) {
     const [id, entry] = pending[i];
     const file = entry.file;
@@ -2106,7 +2118,8 @@ convertBtn.addEventListener('click', async () => {
     const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
     const inputName  = `input_${id}.${ext}`;
     const audioOnly  = isAudioOnly(file);
-    const outputExt  = audioOnly ? 'flac' : 'mkv';
+    const outFormat  = audioOnly ? 'flac' : selectedFormat;   // 'flac' | 'mkv' | 'mp4'
+    const outputExt  = outFormat;
     const outputName = `output_${id}.${outputExt}`;
 
     setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
@@ -2142,9 +2155,12 @@ convertBtn.addEventListener('click', async () => {
       if (isFloatPCM) {
         log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
       }
-      const audioFlacArgs = isFloatPCM
-        ? ['-af', 'aformat=sample_fmts=s32', '-c:a', 'flac']
-        : ['-c:a', 'flac'];
+      const audioFlacArgs = [
+        ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
+        '-c:a', 'flac',
+        // FLAC dentro de un contenedor MP4 requiere desbloquear el muxer "experimental".
+        ...(outFormat === 'mp4' ? ['-strict', 'experimental'] : []),
+      ];
 
       // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
       const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
@@ -2196,11 +2212,13 @@ convertBtn.addEventListener('click', async () => {
       const data = await ffmpeg.readFile(outputName);
 
       // 4 · Create blob & object URL
-      const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
+      const mimeType = outFormat === 'flac' ? 'audio/flac'
+                     : outFormat === 'mp4'  ? 'video/mp4'
+                     :                        'video/x-matroska';
       const blob = new Blob([data], { type: mimeType });
       // El nombre base ya incluye "flac" por defecto (o el que el usuario haya puesto);
       // solo se añade la extensión del contenedor de salida.
-      const ext = audioOnly ? '.flac' : '.mkv';
+      const ext = `.${outFormat}`;
       const baseName = entry.customBaseName ?? defaultBaseName(file);
       entry.outputURL   = URL.createObjectURL(blob);
       entry.outBaseName = baseName + ext;
