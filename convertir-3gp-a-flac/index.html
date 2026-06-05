@@ -185,6 +185,30 @@
           "@type": "Answer",
           "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño por servidor: puedes convertir vídeos de varios gigabytes; el único límite práctico es la memoria de tu equipo."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo extraer el audio de un vídeo en formato FLAC sin perder calidad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "VidToFLAC utiliza FFmpeg para hacer un remux: copia el flujo de vídeo bit a bit sin volver a comprimirlo y recodifica únicamente la pista de audio al códec FLAC oficial, que es sin pérdida. El resultado es un archivo MKV con audio FLAC idéntico en calidad al original. Todo el procesamiento ocurre dentro de tu navegador mediante WebAssembly, sin subir el archivo a ningún servidor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Es seguro usar vidtoflac.tech?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. VidToFLAC procesa tus archivos 100% en local gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y no se almacena en ningún sitio. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario, ni cookies de seguimiento, ni ningún tercero con acceso a tus archivos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué diferencia hay entre MP3 y FLAC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MP3 es un formato con pérdida: comprime el audio eliminando frecuencias que el oído humano percibe con menos intensidad, lo que reduce el tamaño pero degrada la calidad de forma irreversible. FLAC (Free Lossless Audio Codec) es un formato sin pérdida: comprime los datos de audio sin descartar ninguna información, por lo que la calidad es idéntica al original. Para edición de vídeo profesional y archivado de alta calidad, FLAC es la opción recomendada; además, editores como DaVinci Resolve lo soportan de forma nativa."
+        }
       }
     ]
   }
@@ -1280,9 +1304,28 @@
       font-size: 0.68rem;
       letter-spacing: 0.02em;
       line-height: 1.7;
-      padding-top: 0.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
     }
     footer strong { color: var(--amber-2); font-weight: 600; }
+    .footer-tagline { margin: 0; }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 1.5rem;
+    }
+    .footer-links a {
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--amber); }
+    .footer-copy { margin: 0; opacity: 0.7; }
 
     @media (max-width: 480px) {
       body { padding: 2.25rem 0.9rem 4rem; }
@@ -1576,12 +1619,41 @@
           <p>Es <strong>totalmente gratis</strong> y sin registro. Como el procesamiento ocurre en tu propio ordenador con <strong>FFmpeg (WebAssembly)</strong> y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor: puedes convertir vídeos de <strong>varios gigabytes</strong>; el único límite práctico es la memoria de tu equipo.</p>
         </div>
       </details>
+
+      <details class="faq-item">
+        <summary>¿Cómo extraer el audio de un vídeo en formato FLAC sin perder calidad?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>VidToFLAC usa <strong>FFmpeg</strong> para hacer un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong> sin volver a comprimirlo y recodifica únicamente la pista de audio al códec <strong>FLAC</strong> oficial, que es sin pérdida. El resultado es un archivo MKV con audio FLAC de calidad idéntica al original. Todo ocurre dentro de tu navegador mediante WebAssembly — sin subir el archivo a ningún servidor.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Es seguro usar vidtoflac.tech?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>Sí.</strong> VidToFLAC procesa tus archivos <strong>100% en local</strong> gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y no se almacena en ningún sitio. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario, ni cookies de seguimiento, ni ningún tercero con acceso a tus archivos.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>¿Qué diferencia hay entre MP3 y FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p><strong>MP3</strong> es un formato <strong>con pérdida</strong>: comprime el audio eliminando frecuencias que el oído percibe con menos intensidad, reduciendo el tamaño pero degradando la calidad de forma irreversible. <strong>FLAC</strong> es un formato <strong>sin pérdida</strong>: comprime los datos sin descartar ninguna información, por lo que la calidad es idéntica al original. Para edición de vídeo profesional y archivado de alta fidelidad, FLAC es la opción recomendada — y DaVinci Resolve lo soporta de forma nativa.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <footer>
-    Todo el procesamiento ocurre en tu dispositivo usando
-    <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+    <p class="footer-tagline">
+      Todo el procesamiento ocurre en tu dispositivo usando
+      <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+    </p>
+    <nav class="footer-links" aria-label="Páginas legales">
+      <a href="/politica-de-privacidad/">Política de privacidad</a>
+      <a href="/terminos-de-servicio/">Términos de servicio</a>
+      <a href="/contacto/">Contacto</a>
+    </nav>
+    <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
   </footer>
 
 </div>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de Privacidad – VidToFLAC</title>
+  <meta name="description" content="Política de privacidad de VidToFLAC. Todo el procesamiento de archivos es 100% local en tu navegador. No recogemos datos personales ni usamos cookies de seguimiento." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vidtoflac.tech/politica-de-privacidad/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a0a0b; --panel:#0f0f11; --elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);
+      --ink:#f3f3ef; --ink-dim:#a7a7ad; --ink-mute:#66666e;
+      --amber:#19c37d; --amber-2:#4ee6a8;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+    html { -webkit-text-size-adjust:100% }
+    body {
+      background:var(--bg); color:var(--ink);
+      font-family:var(--font-body); font-size:1rem; line-height:1.75;
+      padding:2.5rem 1.25rem 5rem; max-width:780px; margin:0 auto;
+    }
+    a { color:var(--amber); text-decoration:none }
+    a:hover { text-decoration:underline }
+    /* brand */
+    .brand-header { margin-bottom:2.5rem }
+    .brand-link {
+      display:inline-flex; align-items:center; gap:0.55rem;
+      text-decoration:none; color:inherit;
+    }
+    .brand-name {
+      font-family:var(--font-display); font-size:1.5rem;
+      font-weight:800; letter-spacing:-0.02em; color:var(--ink);
+    }
+    .brand-accent { color:var(--amber) }
+    /* legal content */
+    .legal-title {
+      font-family:var(--font-display); font-size:2rem; font-weight:800;
+      line-height:1.15; letter-spacing:-0.02em; margin-bottom:0.4rem;
+    }
+    .legal-date {
+      font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-mute);
+      letter-spacing:0.03em; margin-bottom:2.5rem; display:block;
+    }
+    h2 {
+      font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+      color:var(--ink); margin:2rem 0 0.5rem;
+    }
+    p { color:var(--ink-dim); font-size:0.97rem; margin-bottom:0.75rem }
+    ul { padding-left:1.4rem; display:flex; flex-direction:column; gap:0.3rem; margin-bottom:0.75rem }
+    li { color:var(--ink-dim); font-size:0.97rem }
+    strong { color:var(--ink); font-weight:600 }
+    /* footer */
+    footer {
+      text-align:center; color:var(--ink-mute);
+      font-family:var(--font-mono); font-size:0.68rem;
+      letter-spacing:0.02em; line-height:1.7;
+      padding-top:1.25rem; border-top:1px solid var(--line);
+      margin-top:3rem; display:flex; flex-direction:column; gap:0.6rem;
+    }
+    footer strong { color:var(--amber-2); font-weight:600 }
+    .footer-tagline { margin:0 }
+    .footer-links { display:flex; justify-content:center; flex-wrap:wrap; gap:0.25rem 1.5rem }
+    .footer-links a { color:var(--ink-dim); text-decoration:none; transition:color .15s }
+    .footer-links a:hover { color:var(--amber) }
+    .footer-copy { margin:0; opacity:.7 }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation:none !important; transition:none !important }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="brand-header">
+    <a href="/" class="brand-link" aria-label="VidToFLAC – inicio">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+        <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+        <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+        <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+      </svg>
+      <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
+    </a>
+  </header>
+
+  <main>
+    <h1 class="legal-title">Política de privacidad</h1>
+    <span class="legal-date">Última actualización: junio de 2026</span>
+
+    <h2>1. Quién somos</h2>
+    <p>VidToFLAC (<strong>vidtoflac.tech</strong>) es una herramienta web gratuita que convierte el audio de archivos de vídeo y audio al formato FLAC sin pérdida, directamente en tu navegador. El servicio es operado de forma independiente y alojado en GitHub Pages.</p>
+
+    <h2>2. Datos que NO recogemos</h2>
+    <p>La herramienta de conversión funciona <strong>100% en local</strong>, dentro de tu propio navegador, mediante <strong>FFmpeg compilado a WebAssembly</strong>. Esto significa:</p>
+    <ul>
+      <li>Tus archivos de vídeo y audio <strong>nunca se suben a ningún servidor</strong>.</li>
+      <li>No almacenamos, analizamos ni procesamos el contenido de tus archivos.</li>
+      <li>No creamos perfiles de usuario ni usamos cookies de seguimiento o publicidad.</li>
+      <li>No hay registro de usuario, ni cuentas, ni contraseñas.</li>
+    </ul>
+
+    <h2>3. Datos que sí se transmiten a terceros</h2>
+    <p>Aunque la herramienta es completamente local, el hecho de visitar la página web implica ciertas transmisiones técnicas:</p>
+    <ul>
+      <li><strong>GitHub Pages (Microsoft):</strong> el alojamiento del sitio es gestionado por GitHub Pages. GitHub puede registrar registros de acceso estándar (dirección IP, fecha/hora, páginas solicitadas) según su propia <a href="https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">política de privacidad</a>.</li>
+      <li><strong>Google Fonts:</strong> las tipografías del sitio se cargan desde los servidores de Google (<code>fonts.googleapis.com</code>). Tu dirección IP puede quedar registrada en los servidores de Google según su <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">política de privacidad</a>.</li>
+      <li><strong>unpkg (CDN de npm):</strong> el motor FFmpeg.wasm se descarga desde <code>unpkg.com</code> en tu primera visita. Tu dirección IP puede registrarse en los servidores de unpkg.</li>
+    </ul>
+    <p>No tenemos control sobre los datos registrados por estos terceros proveedores de infraestructura.</p>
+
+    <h2>4. Cookies</h2>
+    <p>VidToFLAC <strong>no utiliza cookies</strong> propias de ningún tipo: ni analíticas, ni de sesión, ni publicitarias. Es posible que los servicios de terceros mencionados en el punto 3 establezcan sus propias cookies técnicas; consulta sus respectivas políticas para más información.</p>
+
+    <h2>5. Servicios de analítica</h2>
+    <p>Actualmente <strong>no utilizamos ninguna herramienta de analítica web</strong> (Google Analytics, Plausible, etc.). No se registra ningún dato sobre el comportamiento del usuario dentro del sitio.</p>
+
+    <h2>6. Tus derechos</h2>
+    <p>Dado que no almacenamos ningún dato personal identificable, no existe ningún perfil tuyo que consultar, rectificar ni eliminar. Si tienes alguna duda sobre el tratamiento de tus datos por parte de los terceros mencionados, deberás dirigirte a ellos directamente.</p>
+    <p>Para cualquier consulta relativa a esta política, puedes escribirnos a <a href="mailto:hola@vidtoflac.tech">hola@vidtoflac.tech</a>.</p>
+
+    <h2>7. Cambios en esta política</h2>
+    <p>Nos reservamos el derecho a actualizar esta política de privacidad cuando sea necesario. La fecha de la última modificación siempre estará indicada al inicio de esta página. El uso continuado del servicio tras cualquier cambio implica la aceptación de la nueva versión.</p>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">
+      Todo el procesamiento ocurre en tu dispositivo usando
+      <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+    </p>
+    <nav class="footer-links" aria-label="Páginas legales">
+      <a href="/politica-de-privacidad/">Política de privacidad</a>
+      <a href="/terminos-de-servicio/">Términos de servicio</a>
+      <a href="/contacto/">Contacto</a>
+    </nav>
+    <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>
