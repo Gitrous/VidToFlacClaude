@@ -678,7 +678,7 @@
     /* ── Format selector ─────────────────────────────────────── */
     .format-options {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
       margin-bottom: 1.1rem;
     }
@@ -687,14 +687,18 @@
 
     .format-option label {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.85rem;
-      padding: 0.85rem 1rem;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.1rem 1rem;
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: border-color .18s, background .18s;
       background: var(--panel-2);
+      text-align: center;
+      height: 100%;
     }
     .format-option label:hover { border-color: var(--line-strong); }
     .format-option input:checked + label {
@@ -704,12 +708,12 @@
 
     .format-badge {
       font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-size: 1.4rem;
       font-weight: 800;
       letter-spacing: 0.02em;
       color: var(--ink);
     }
-    .format-meta { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+    .format-meta { display: flex; flex-direction: column; gap: 0.15rem; align-items: center; }
     .format-rec {
       font-family: var(--font-mono);
       font-size: 0.6rem;
