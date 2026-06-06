@@ -732,6 +732,13 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .format-note {
+      font-size: 0.72rem;
+      color: var(--ink-dim);
+      text-align: center;
+      margin: 0.1rem 0 0.75rem;
+    }
+    .format-note strong { color: var(--amber); font-weight: 600; }
 
     /* ── Auto-download toggle ────────────────────────────────── */
     .auto-dl-toggle {
@@ -1607,7 +1614,7 @@
           <span class="format-badge">MKV</span>
           <span class="format-meta">
             <span class="format-rec">✓ RECOMENDADO</span>
-            <span class="format-desc">Vídeo copiado + FLAC · máxima compatibilidad</span>
+            <span class="format-desc">Audio → FLAC · vídeo sin tocar · máxima compatibilidad</span>
           </span>
         </label>
       </div>
@@ -1616,11 +1623,12 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Vídeo idéntico al original (copia bit a bit) · audio FLAC</span>
+            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
           </span>
         </label>
       </div>
     </div>
+    <p class="format-note">Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
