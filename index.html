@@ -909,18 +909,27 @@
     .btn-download-all {
       font-family: var(--font-mono);
       padding: 0.4rem 0.85rem;
-      background: var(--green-soft);
-      color: var(--green);
-      border: 1px solid rgba(74,222,128,.3);
+      background: var(--green);
+      color: #06160c;
+      border: 1px solid transparent;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.04em;
       border-radius: 8px;
       text-decoration: none;
       cursor: pointer;
-      transition: background .18s, border-color .18s;
+      transition: background .18s, box-shadow .18s;
     }
-    .btn-download-all:hover { background: rgba(74,222,128,.2); border-color: rgba(74,222,128,.5); }
+    .btn-download-all:hover {
+      background: #6ee79b;
+      box-shadow: 0 6px 20px -6px rgba(74,222,128,.5);
+    }
+    .download-all-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+    }
+    .download-all-row:has(> a[style*="none"]) { margin-bottom: 0; }
 
     .preview-item {
       border: 1px solid var(--line);
@@ -1659,6 +1668,8 @@
   <div class="card preview-card" id="previewCard">
     <div class="preview-header">
       <span class="card-title" style="margin-bottom:0"><span class="step">03</span> Resultados</span>
+    </div>
+    <div class="download-all-row">
       <a id="downloadAllBtn" class="btn-download-all" role="button" aria-label="Descargar todos los archivos convertidos" style="display:none">⬇ Descargar todo</a>
     </div>
     <div id="previewList"></div>
