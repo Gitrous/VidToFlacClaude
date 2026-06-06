@@ -786,6 +786,32 @@
     }
     .auto-dl-toggle:has(input:checked) .toggle-label { color: var(--ink-dim); }
 
+    /* ── Conversion counter ──────────────────────────────────── */
+    .conv-counter {
+      display: none;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 0.75rem;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--amber-line);
+      border-radius: var(--radius-sm);
+      background: var(--amber-soft);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.03em;
+      color: var(--ink-dim);
+      animation: rise .35s ease both;
+    }
+    .conv-counter.visible { display: flex; }
+    .conv-counter-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px var(--amber-soft);
+    }
+    .conv-counter strong { color: var(--amber); font-weight: 700; }
+
     /* ── Progress (VU-meter styling) ─────────────────────────── */
     .progress-card { display: none; }
     .progress-card.visible { display: block; animation: rise .4s ease both; }
@@ -1361,10 +1387,117 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
+
+    /* ── Ad modal ────────────────────────────────────────────── */
+    .ad-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,.82);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .ad-modal.open { display: flex; animation: rise .25s ease both; }
+
+    .ad-modal-box {
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.6rem 1.4rem;
+      max-width: 420px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      box-shadow: 0 24px 64px rgba(0,0,0,.6);
+    }
+
+    .ad-modal-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .ad-modal-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .ad-modal-sub {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-mute);
+    }
+
+    .ad-slot-wrap {
+      background: var(--panel-2);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ad-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ad-countdown {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-mute);
+      letter-spacing: 0.04em;
+    }
+    .ad-countdown strong { color: var(--warn); }
+
+    .ad-continue-btn {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--amber);
+      color: #000;
+      cursor: pointer;
+      transition: opacity .18s, transform .18s;
+    }
+    .ad-continue-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
+    .ad-continue-btn:not(:disabled):hover { opacity: .88; transform: translateY(-1px); }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<!-- Ad modal -->
+<div class="ad-modal" id="adModal" role="dialog" aria-modal="true" aria-labelledby="adModalTitle">
+  <div class="ad-modal-box">
+    <div class="ad-modal-header">
+      <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
+      <span class="ad-modal-sub">VidToFLAC es gratis gracias a los anuncios · espera unos segundos para continuar</span>
+    </div>
+    <div class="ad-slot-wrap">
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-layout="in-article"
+           data-ad-format="fluid"
+           data-ad-client="ca-pub-1123812992313934"
+           data-ad-slot="9253210070"></ins>
+    </div>
+    <div class="ad-modal-footer">
+      <span class="ad-countdown" id="adCountdown">Espera <strong id="adSecs">5</strong>s…</span>
+      <button class="ad-continue-btn" id="adContinueBtn" disabled>Continuar conversión</button>
+    </div>
+  </div>
+</div>
 
 <div class="container">
 
@@ -1418,6 +1551,12 @@
       <span class="trust-title">Velocidad</span>
       <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos, incluso con archivos de varios gigabytes.</span>
     </div>
+  </div>
+
+  <!-- Conversion counter -->
+  <div class="conv-counter" id="convCounter">
+    <span class="conv-counter-dot"></span>
+    <span><strong id="convCount">0</strong> archivos convertidos en este navegador · ninguno ha salido de tu equipo</span>
   </div>
 
   <!-- Engine status -->
@@ -1937,9 +2076,13 @@ function renderFileList() {
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0;
-  convertBtn.textContent = pending > 1
+  const left = freeLeft();
+  const label = pending > 1
     ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
+  convertBtn.textContent = left > 0
+    ? `${label} (${left} gratis)`
+    : `${label} · ver anuncio`;
 }
 
 function noPreviewMsg() {
@@ -2125,6 +2268,13 @@ convertBtn.addEventListener('click', async () => {
   const pending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!pending.length) return;
 
+  if (freeLeft() > 0) {
+    incUsed();
+  } else {
+    await showAdModal();
+  }
+  updateConvertBtn();
+
   convertBtn.disabled = true;
   setEngine('Procesando…', 'busy');
 
@@ -2262,6 +2412,7 @@ convertBtn.addEventListener('click', async () => {
       entry.outputURL   = URL.createObjectURL(blob);
       entry.outBaseName = baseName + ext;
       entry.status      = 'done';
+      incConvCount();
 
       log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
       setProgress(`[${i + 1}/${pending.length}] ${file.name} ✓`, ((i + 1) / pending.length) * 100);
@@ -2298,6 +2449,67 @@ convertBtn.addEventListener('click', async () => {
   setEngine('Motor listo', 'ready');
   updateConvertBtn();
 });
+
+// ─── Freemium: 3 free conversions, then ad per batch ─────────────────────────
+const FREE_LIMIT    = 3;
+const LS_USED_KEY   = 'vidtoflac_used';
+
+function getUsed()  { return parseInt(localStorage.getItem(LS_USED_KEY) || '0', 10); }
+function incUsed()  { localStorage.setItem(LS_USED_KEY, getUsed() + 1); }
+function freeLeft() { return Math.max(0, FREE_LIMIT - getUsed()); }
+
+function showAdModal() {
+  return new Promise(resolve => {
+    const modal      = $('adModal');
+    const secsEl     = $('adSecs');
+    const countEl    = $('adCountdown');
+    const continueBtn = $('adContinueBtn');
+
+    modal.classList.add('open');
+    continueBtn.disabled = true;
+    let secs = 5;
+    secsEl.textContent = secs;
+
+    // Push AdSense ad
+    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+
+    const tick = setInterval(() => {
+      secs--;
+      if (secs <= 0) {
+        clearInterval(tick);
+        countEl.innerHTML = '¡Listo!';
+        continueBtn.disabled = false;
+        continueBtn.focus();
+      } else {
+        secsEl.textContent = secs;
+      }
+    }, 1000);
+
+    continueBtn.addEventListener('click', function handler() {
+      continueBtn.removeEventListener('click', handler);
+      modal.classList.remove('open');
+      resolve();
+    }, { once: true });
+  });
+}
+
+// ─── Conversion counter (localStorage) ───────────────────────────────────────
+const convCounter = $('convCounter');
+const convCountEl = $('convCount');
+
+function getConvCount() { return parseInt(localStorage.getItem('vidtoflac_conv') || '0', 10); }
+function incConvCount() {
+  const n = getConvCount() + 1;
+  localStorage.setItem('vidtoflac_conv', n);
+  renderConvCount(n);
+}
+function renderConvCount(n) {
+  if (n > 0) {
+    convCountEl.textContent = n;
+    convCounter.classList.add('visible');
+  }
+}
+renderConvCount(getConvCount());
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 setEngine('Selecciona un archivo para iniciar el motor', 'idle');
