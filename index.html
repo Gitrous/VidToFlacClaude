@@ -1714,13 +1714,13 @@
       <p>Muchas cámaras, grabadores y aplicaciones de captura como <strong>OBS Studio</strong>, los <strong>smartphones</strong> o las cámaras de acción guardan el audio con códecs comprimidos como <strong>AAC</strong> o <strong>MP3</strong> dentro de contenedores MP4 o MOV. La versión gratuita de DaVinci Resolve —y de forma muy marcada <strong>DaVinci Resolve en Linux</strong> y en entornos profesionales— no incluye las licencias para decodificar todos esos formatos de audio. El resultado es el clásico <span class="hl">DaVinci Resolve sin sonido</span>, audio desincronizado o clips que ni siquiera importan.</p>
 
       <h3>La solución: cambiar el contenedor, no recodificar el vídeo</h3>
-      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que los programas de edición profesionales decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
+      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV o MP4</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que los programas de edición profesionales decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
 
       <p>Esto significa tres cosas para tu flujo de trabajo:</p>
       <ul>
         <li><strong>Cero pérdida de calidad:</strong> es un <span class="hl">remux de vídeo sin pérdida de calidad</span>, los frames originales quedan intactos.</li>
         <li><strong>Velocidad:</strong> no hay re-encoding del vídeo, así que el proceso tarda segundos en lugar de minutos.</li>
-        <li><strong>Compatibilidad inmediata:</strong> el MKV resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
+        <li><strong>Compatibilidad inmediata:</strong> el MKV/MP4 resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
       </ul>
 
       <p>Y todo ocurre con <strong>FFmpeg en el navegador</strong> mediante WebAssembly: la misma herramienta estándar de la industria que usan los profesionales, ejecutándose localmente en tu equipo.</p>
