@@ -2045,16 +2045,6 @@ async function loadFFmpeg() {
       if (!isVerbose) log(message, 'info');
     });
 
-    ffmpeg.on('progress', ({ progress }) => {
-      if (progress > 0 && progress <= 1) {
-        const pct = Math.min(99, Math.round(progress * 100));
-        progressFill.classList.remove('indeterminate');
-        progressFill.style.width = pct + '%';
-        progressPct.textContent  = pct + '%';
-        const bar = document.getElementById(`bar-${currentId}`);
-        if (bar) bar.style.width = pct + '%';
-      }
-    });
 
     log('Descargando ffmpeg-core.js desde CDN…', 'sys');
     const coreURL = await toBlobURL(`${CORE_BASE}/ffmpeg-core.js`,   'text/javascript');
@@ -2212,6 +2202,19 @@ convertBtn.addEventListener('click', async () => {
         cmd = ['-i', inputName, ...videoArgs, ...audioFlacArgs, outputName];
       }
 
+      const onProgress = ({ progress }) => {
+        if (progress > 0 && progress <= 1) {
+          const filePct    = Math.min(99, progress * 100);
+          const overallPct = Math.min(99, (i / pending.length) * 100 + (progress * 100 / pending.length));
+          progressFill.classList.remove('indeterminate');
+          progressFill.style.width = overallPct + '%';
+          progressPct.textContent  = Math.round(overallPct) + '%';
+          const bar = document.getElementById(`bar-${currentId}`);
+          if (bar) bar.style.width = filePct + '%';
+        }
+      };
+      ffmpeg.on('progress', onProgress);
+
       log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
       try {
         await ffmpeg.exec(cmd);
@@ -2228,10 +2231,13 @@ convertBtn.addEventListener('click', async () => {
                                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
                                ...audioFlacArgs, outputName];
           log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
+          ffmpeg.on('progress', onProgress);
           await ffmpeg.exec(fallbackCmd);
         } else {
           throw execErr;
         }
+      } finally {
+        ffmpeg.off('progress', onProgress);
       }
 
       const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
