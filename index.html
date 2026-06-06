@@ -431,6 +431,7 @@
       flex-shrink: 0;
     }
 
+    .engine-dot.idle    { background: var(--line-strong); }
     .engine-dot.loading { background: var(--warn);  box-shadow: 0 0 0 4px rgba(251,191,36,.14);  animation: pulse 1.3s ease-in-out infinite; }
     .engine-dot.ready   { background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
     .engine-dot.busy    { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft);   animation: pulse 1.1s ease-in-out infinite; }
@@ -454,6 +455,7 @@
       border: 1px solid transparent;
     }
 
+    .badge-idle    { background: transparent;           color: var(--ink-mute); border-color: var(--line); }
     .badge-loading { background: rgba(251,191,36,.10); color: var(--warn);  border-color: rgba(251,191,36,.22); }
     .badge-ready   { background: var(--green-soft);    color: var(--green); border-color: rgba(74,222,128,.25); }
     .badge-busy    { background: var(--amber-soft);    color: var(--amber-2); border-color: var(--amber-line); }
@@ -1357,6 +1359,7 @@
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -1418,10 +1421,10 @@
   <div class="card engine-card">
     <div class="engine-row">
       <div class="engine-label">
-        <span class="engine-dot loading" id="engineDot"></span>
-        <span id="engineText">Cargando FFmpeg WASM…</span>
+        <span class="engine-dot idle" id="engineDot"></span>
+        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
       </div>
-      <span class="badge badge-loading" id="engineBadge">Iniciando</span>
+      <span class="badge badge-idle" id="engineBadge">En espera</span>
     </div>
   </div>
 
@@ -1740,6 +1743,7 @@ const downloadAllBtn = $('downloadAllBtn');
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg = null;
+let ffmpegLoading = false;
 let nextId = 0;
 let currentId = null;
 // Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
@@ -1786,7 +1790,7 @@ function setEngine(text, state) {
   engineText.textContent  = text;
   engineDot.className     = `engine-dot ${state}`;
   engineBadge.textContent = { loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
-  engineBadge.className   = `badge badge-${state === 'busy' ? 'busy' : state}`;
+  engineBadge.className   = `badge badge-${state}`;
 }
 
 // ─── Progress helpers ─────────────────────────────────────────────────────────
@@ -2028,6 +2032,8 @@ function renderPreviewList() {
 
 // ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
 async function loadFFmpeg() {
+  if (ffmpegLoading) return;
+  ffmpegLoading = true;
   log('Iniciando carga de FFmpeg WASM (core single-thread)…', 'sys');
   setEngine('Cargando FFmpeg WASM…', 'loading');
 
@@ -2064,6 +2070,7 @@ async function loadFFmpeg() {
     updateConvertBtn();
 
   } catch (err) {
+    ffmpegLoading = false;
     setEngine('Error al cargar el motor', 'error');
     log('✗ Error cargando FFmpeg: ' + err.message, 'error');
     console.error(err);
@@ -2087,15 +2094,34 @@ function addFiles(fileList) {
     log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
     added++;
   }
-  if (added) { renderFileList(); renderPreviewList(); updateConvertBtn(); }
+  if (added) {
+    renderFileList(); renderPreviewList(); updateConvertBtn();
+    if (!ffmpeg && !ffmpegLoading) loadFFmpeg();
+  }
 }
 
 fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
 
-dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => {
+let dragCounter = 0;
+
+document.addEventListener('dragenter', e => {
+  if (!e.dataTransfer?.types.includes('Files')) return;
   e.preventDefault();
+  dragCounter++;
+  dropZone.classList.add('drag-over');
+});
+document.addEventListener('dragleave', e => {
+  if (!e.dataTransfer?.types.includes('Files')) return;
+  dragCounter--;
+  if (dragCounter === 0) dropZone.classList.remove('drag-over');
+});
+document.addEventListener('dragover', e => {
+  if (!e.dataTransfer?.types.includes('Files')) return;
+  e.preventDefault();
+});
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  dragCounter = 0;
   dropZone.classList.remove('drag-over');
   if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
@@ -2265,7 +2291,7 @@ convertBtn.addEventListener('click', async () => {
 });
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
-loadFFmpeg();
+setEngine('Selecciona un archivo para iniciar el motor', 'idle');
 </script>
 </body>
 </html>
