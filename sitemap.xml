@@ -3,12 +3,22 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://vidtoflac.tech/</loc>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://vidtoflac.tech/og-image.png</image:loc>
       <image:title>VidToFLAC — Audio de vídeo a FLAC para DaVinci Resolve</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://vidtoflac.tech/og-image.png</image:loc>
+      <image:title>VidToFLAC — Convert Video Audio to FLAC for DaVinci Resolve</image:title>
     </image:image>
   </url>
   <url>
