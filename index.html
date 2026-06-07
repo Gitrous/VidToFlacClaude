@@ -460,9 +460,26 @@
       animation: card-glow 1.8s ease-in-out infinite;
     }
 
+    /* ── Celebración: transición a "Motor listo" ─────────────── */
+    .engine-card.is-celebrating { animation: card-celebrate .9s cubic-bezier(.2,1,.3,1) both; }
+    .engine-dot.is-celebrating  { animation: dot-celebrate .9s cubic-bezier(.2,1,.3,1) both; }
+
+    @keyframes card-celebrate {
+      0%   { box-shadow: 0 0 0 1px rgba(25,195,125,.12), 0 0 0 0 rgba(25,195,125,.4); }
+      35%  { box-shadow: 0 0 0 1px rgba(25,195,125,.5),  0 0 28px -2px rgba(25,195,125,.55); }
+      100% { box-shadow: 0 0 0 1px rgba(25,195,125,.12), 0 0 16px -6px rgba(25,195,125,0); }
+    }
+    @keyframes dot-celebrate {
+      0%   { transform: scale(1);   box-shadow: 0 0 0 4px var(--green-soft); }
+      40%  { transform: scale(1.6); box-shadow: 0 0 0 9px rgba(74,222,128,.22); }
+      100% { transform: scale(1);   box-shadow: 0 0 0 4px var(--green-soft); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .engine-dot.loading { animation: none; }
       .engine-card.is-loading { animation: none; }
+      .engine-card.is-celebrating,
+      .engine-dot.is-celebrating { animation: none; }
     }
 
     /* ── Badge (shared: engine + file chips) ─────────────────── */
@@ -549,6 +566,65 @@
       color: var(--ink-mute);
       font-size: 0.68rem;
       letter-spacing: 0.02em;
+    }
+
+    /* ── Selector de formato de entrada (guía / navegación) ───── */
+    .format-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+    .format-picker-label {
+      font-size: 0.82rem;
+      color: var(--ink-dim);
+    }
+    .format-picker-label .ink-mute { color: var(--ink-mute); }
+    .format-picker-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .format-picker-wrap::before {
+      content: '';
+      position: absolute;
+      left: 0.95rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 0 3px var(--amber-soft);
+      pointer-events: none;
+    }
+    .format-picker select {
+      appearance: none;
+      width: 100%;
+      padding: 0.78rem 2.6rem 0.78rem 2.5rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23a7a7ad' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") calc(100% - 1rem) center / 14px 14px no-repeat,
+        var(--elev);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+      transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+    }
+    .format-picker select:hover {
+      border-color: var(--line-strong);
+    }
+    .format-picker select:focus-visible {
+      border-color: var(--amber-line);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--amber-soft);
+    }
+    .format-picker select option {
+      background: var(--panel-2);
+      color: var(--ink);
+      padding: 0.5rem;
     }
 
     /* ── File list ───────────────────────────────────────────── */
@@ -1303,6 +1379,31 @@
       color: var(--amber);
     }
 
+    /* ── Enlaces a páginas de formato (navegación interna / SEO) ─ */
+    .format-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .format-links a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.95rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: border-color .15s ease, color .15s ease, background .15s ease;
+    }
+    .format-links a:hover,
+    .format-links a:focus-visible {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+      color: var(--amber-2);
+    }
+
     /* ── FAQ accordion (native details/summary) ──────────────── */
     .faq-list {
       display: flex;
@@ -1611,6 +1712,35 @@
   <div class="card">
     <div class="card-title"><span class="step">01</span> Selecciona los vídeos de entrada</div>
 
+    <label class="format-picker">
+      <span class="format-picker-label">¿Sabes qué formato vas a convertir? <span class="ink-mute">(opcional)</span></span>
+      <span class="format-picker-wrap">
+      <select id="formatPicker" aria-label="Ir directamente a la guía de tu formato de entrada">
+        <option value="" selected>Detectar automáticamente (recomendado)</option>
+        <option value="/convertir-mp4-a-flac/">MP4 → FLAC</option>
+        <option value="/convertir-mov-a-flac/">MOV → FLAC</option>
+        <option value="/convertir-mkv-a-flac/">MKV → FLAC</option>
+        <option value="/convertir-avi-a-flac/">AVI → FLAC</option>
+        <option value="/convertir-webm-a-flac/">WEBM → FLAC</option>
+        <option value="/convertir-wmv-a-flac/">WMV → FLAC</option>
+        <option value="/convertir-flv-a-flac/">FLV → FLAC</option>
+        <option value="/convertir-mpeg-a-flac/">MPEG → FLAC</option>
+        <option value="/convertir-ts-a-flac/">TS → FLAC</option>
+        <option value="/convertir-vob-a-flac/">VOB → FLAC</option>
+        <option value="/convertir-3gp-a-flac/">3GP → FLAC</option>
+        <option value="/convertir-m4v-a-flac/">M4V → FLAC</option>
+        <option value="/convertir-mp3-a-flac/">MP3 → FLAC</option>
+        <option value="/convertir-aac-a-flac/">AAC → FLAC</option>
+        <option value="/convertir-m4a-a-flac/">M4A → FLAC</option>
+        <option value="/convertir-wav-a-flac/">WAV → FLAC</option>
+        <option value="/convertir-aiff-a-flac/">AIFF → FLAC</option>
+        <option value="/convertir-ogg-a-flac/">OGG → FLAC</option>
+        <option value="/convertir-opus-a-flac/">Opus → FLAC</option>
+        <option value="/convertir-wma-a-flac/">WMA → FLAC</option>
+      </select>
+      </span>
+    </label>
+
     <div class="drop-zone" id="dropZone">
       <input
         type="file"
@@ -1830,6 +1960,34 @@
     </div>
   </section>
 
+  <section class="card seo-card" aria-labelledby="formatos-titulo">
+    <div class="card-title">Convierte desde otros formatos</div>
+    <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Guías para convertir cada formato a FLAC</h2>
+    <p>VidToFLAC acepta cualquiera de estos formatos de entrada. Si quieres ver el proceso paso a paso para el tuyo, consulta su guía específica:</p>
+    <nav class="format-links" aria-label="Guías de conversión por formato">
+      <a href="/convertir-mp4-a-flac/">MP4 → FLAC</a>
+      <a href="/convertir-mov-a-flac/">MOV → FLAC</a>
+      <a href="/convertir-mkv-a-flac/">MKV → FLAC</a>
+      <a href="/convertir-avi-a-flac/">AVI → FLAC</a>
+      <a href="/convertir-webm-a-flac/">WEBM → FLAC</a>
+      <a href="/convertir-wmv-a-flac/">WMV → FLAC</a>
+      <a href="/convertir-flv-a-flac/">FLV → FLAC</a>
+      <a href="/convertir-mpeg-a-flac/">MPEG → FLAC</a>
+      <a href="/convertir-ts-a-flac/">TS → FLAC</a>
+      <a href="/convertir-vob-a-flac/">VOB → FLAC</a>
+      <a href="/convertir-3gp-a-flac/">3GP → FLAC</a>
+      <a href="/convertir-m4v-a-flac/">M4V → FLAC</a>
+      <a href="/convertir-mp3-a-flac/">MP3 → FLAC</a>
+      <a href="/convertir-aac-a-flac/">AAC → FLAC</a>
+      <a href="/convertir-m4a-a-flac/">M4A → FLAC</a>
+      <a href="/convertir-wav-a-flac/">WAV → FLAC</a>
+      <a href="/convertir-aiff-a-flac/">AIFF → FLAC</a>
+      <a href="/convertir-ogg-a-flac/">OGG → FLAC</a>
+      <a href="/convertir-opus-a-flac/">Opus → FLAC</a>
+      <a href="/convertir-wma-a-flac/">WMA → FLAC</a>
+    </nav>
+  </section>
+
   <footer>
     <p class="footer-tagline">
       Todo el procesamiento ocurre en tu dispositivo usando
@@ -1969,12 +2127,26 @@ function log(msg, type = 'info') {
 }
 
 // ─── Engine badge ─────────────────────────────────────────────────────────────
+let lastEngineState = null;
+
 function setEngine(text, state) {
+  const justBecameReady = state === 'ready' && lastEngineState !== 'ready';
+  lastEngineState = state;
+
   engineText.textContent  = text;
   engineDot.className     = `engine-dot ${state}`;
   engineBadge.textContent = { loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
   engineBadge.className   = `badge badge-${state}`;
   engineCard.classList.toggle('is-loading', state === 'loading');
+
+  if (justBecameReady) {
+    engineCard.classList.add('is-celebrating');
+    engineDot.classList.add('is-celebrating');
+    setTimeout(() => {
+      engineCard.classList.remove('is-celebrating');
+      engineDot.classList.remove('is-celebrating');
+    }, 900);
+  }
 }
 
 // ─── Progress helpers ─────────────────────────────────────────────────────────
@@ -2279,6 +2451,12 @@ function addFiles(fileList) {
 }
 
 fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
+
+const formatPicker = $('formatPicker');
+formatPicker?.addEventListener('change', e => {
+  const url = e.target.value;
+  if (url) window.location.href = url;
+});
 
 let dragCounter = 0;
 
