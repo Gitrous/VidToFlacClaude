@@ -337,18 +337,19 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 1rem;
+      margin-bottom: 0.3rem;
     }
 
     .brand-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
       display: grid;
       place-items: center;
       background: linear-gradient(160deg, #1f1f25, #121215);
       border: 1px solid var(--line-strong);
-      box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 24px rgba(0,0,0,.5);
+      box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 24px rgba(0,0,0,.5), 0 0 32px -8px var(--amber-soft);
     }
 
     .brand-mark .bar {
@@ -367,10 +368,11 @@
     .brand-name {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.9rem;
-      letter-spacing: -0.035em;
+      font-size: 3rem;
+      letter-spacing: -0.04em;
       line-height: 1;
       color: var(--ink);
+      text-shadow: 0 0 38px var(--amber-soft);
     }
     .brand-accent { color: var(--amber); }
 
@@ -608,7 +610,6 @@
       font-size: 0.88rem;
       font-weight: 600;
       color: var(--ink);
-      overflow: hidden;
     }
     .format-dropdown-dot {
       width: 9px;
@@ -619,10 +620,23 @@
       box-shadow: 0 0 0 3px var(--amber-soft);
       transition: background .2s, box-shadow .2s;
     }
+    /* Mismo efecto "ripple" que el punto del motor al arrancar (engine-dot.loading) */
+    .format-dropdown-dot.is-pulsing {
+      animation: dot-ripple 1.4s ease-out infinite;
+    }
+    /* Un único pulso al cerrar el desplegable */
+    .format-dropdown-dot.is-rippling {
+      animation: dot-ripple 1.4s ease-out 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .format-dropdown-dot.is-pulsing,
+      .format-dropdown-dot.is-rippling { animation: none; }
+    }
     #formatDropdownLabel {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      min-width: 0;
     }
 
     .format-dropdown-chevron {
@@ -1588,7 +1602,9 @@
 
     @media (max-width: 480px) {
       body { padding: 2.25rem 0.9rem 4rem; }
-      .brand-name { font-size: 1.65rem; }
+      .brand-mark { width: 46px; height: 46px; border-radius: 13px; }
+      .brand-mark svg { width: 28px; height: 28px; }
+      .brand-name { font-size: 2.2rem; }
       .card { padding: 1.15rem; }
     }
 
@@ -1730,7 +1746,7 @@
   <header class="header">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <svg width="34" height="34" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
           <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
           <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
           <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
@@ -2556,6 +2572,7 @@ const formatDropdownLabel = $('formatDropdownLabel');
 // ─── Apertura/cierre animados del desplegable (en vez del toggle brusco nativo) ─
 const ddSummary = formatDropdown?.querySelector('summary');
 const ddPanel   = formatDropdown?.querySelector('.format-dropdown-panel');
+const ddDot     = formatDropdown?.querySelector('.format-dropdown-dot');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let ddAnim = null;
 
@@ -2574,6 +2591,15 @@ function ddFinish(open) {
 
 function closeFormatDropdown() {
   if (!formatDropdown.open) return;
+  if (ddDot) {
+    ddDot.classList.remove('is-pulsing');
+    if (!reduceMotion) {
+      ddDot.classList.remove('is-rippling');
+      void ddDot.offsetWidth; // reinicia la animación si ya estaba en marcha
+      ddDot.classList.add('is-rippling');
+      ddDot.addEventListener('animationend', () => ddDot.classList.remove('is-rippling'), { once: true });
+    }
+  }
   if (reduceMotion) { formatDropdown.removeAttribute('open'); return; }
   formatDropdown.style.overflow = 'hidden';
   const start = formatDropdown.offsetHeight;
@@ -2586,11 +2612,16 @@ function closeFormatDropdown() {
 
 if (ddSummary && ddPanel) {
   ddSummary.addEventListener('click', e => {
-    if (reduceMotion) return; // deja que el navegador alterne [open] de forma instantánea
+    if (reduceMotion) {
+      // El navegador alterna [open] de forma instantánea; solo sincronizamos el pulso.
+      requestAnimationFrame(() => ddDot?.classList.toggle('is-pulsing', formatDropdown.open));
+      return;
+    }
     e.preventDefault();
 
     if (formatDropdown.open) { closeFormatDropdown(); return; }
 
+    ddDot?.classList.add('is-pulsing');
     formatDropdown.style.overflow = 'hidden';
     const start = formatDropdown.offsetHeight;
     formatDropdown.style.height = `${start}px`;
