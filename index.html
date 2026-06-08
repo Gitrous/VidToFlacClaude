@@ -569,62 +569,149 @@
     }
 
     /* ── Selector de formato de entrada (guía / navegación) ───── */
-    .format-picker {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 0.9rem;
-    }
     .format-picker-label {
+      display: block;
       font-size: 0.82rem;
       color: var(--ink-dim);
+      margin-bottom: 0.5rem;
     }
     .format-picker-label .ink-mute { color: var(--ink-mute); }
-    .format-picker-wrap {
+
+    .format-dropdown {
       position: relative;
+      margin-bottom: 1.1rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .format-dropdown:hover            { border-color: var(--line-strong); }
+    .format-dropdown[open]            { border-color: var(--amber-line); box-shadow: 0 0 0 3px var(--amber-soft); }
+    .format-dropdown[open]:hover      { border-color: var(--amber-line); }
+
+    .format-dropdown-summary {
+      list-style: none;
+      cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.85rem 1.05rem;
+      user-select: none;
     }
-    .format-picker-wrap::before {
-      content: '';
-      position: absolute;
-      left: 0.95rem;
+    .format-dropdown-summary::-webkit-details-marker { display: none; }
+
+    .format-dropdown-current {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+      overflow: hidden;
+    }
+    .format-dropdown-dot {
       width: 9px;
       height: 9px;
       border-radius: 50%;
+      flex-shrink: 0;
       background: var(--amber);
       box-shadow: 0 0 0 3px var(--amber-soft);
-      pointer-events: none;
+      transition: background .2s, box-shadow .2s;
     }
-    .format-picker select {
-      appearance: none;
+    #formatDropdownLabel {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .format-dropdown-chevron {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      position: relative;
+      transition: transform .25s ease;
+    }
+    .format-dropdown-chevron::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ink-mute);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+    }
+    .format-dropdown[open] .format-dropdown-chevron        { transform: rotate(180deg); }
+    .format-dropdown[open] .format-dropdown-chevron::before { background: var(--amber-2); }
+
+    .format-dropdown-panel {
+      padding: 0 1.05rem 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .format-dropdown-auto {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
       width: 100%;
-      padding: 0.78rem 2.6rem 0.78rem 2.5rem;
-      border: 1px solid var(--line);
+      padding: 0.6rem 0.9rem;
+      border: 1px solid var(--amber-line);
       border-radius: var(--radius-sm);
-      background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23a7a7ad' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") calc(100% - 1rem) center / 14px 14px no-repeat,
-        var(--elev);
+      background: var(--amber-soft);
       color: var(--ink);
       font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 500;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-align: left;
       cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
-      transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+      transition: background .15s ease, border-color .15s ease;
     }
-    .format-picker select:hover {
-      border-color: var(--line-strong);
+    .format-dropdown-auto:hover,
+    .format-dropdown-auto:focus-visible { background: var(--amber-line); outline: none; }
+    .format-dropdown-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-2);
     }
-    .format-picker select:focus-visible {
+
+    .format-dropdown-hint {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-mute);
+      padding: 0 0.1rem;
+    }
+
+    .format-dropdown-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .format-dropdown-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--ink-dim);
+      cursor: pointer;
+      transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;
+    }
+    .format-dropdown-chip:hover,
+    .format-dropdown-chip:focus-visible {
       border-color: var(--amber-line);
+      background: var(--amber-soft);
+      color: var(--amber-2);
+      transform: translateY(-1px);
       outline: none;
-      box-shadow: 0 0 0 3px var(--amber-soft);
-    }
-    .format-picker select option {
-      background: var(--panel-2);
-      color: var(--ink);
-      padding: 0.5rem;
     }
 
     /* ── File list ───────────────────────────────────────────── */
@@ -1712,34 +1799,45 @@
   <div class="card">
     <div class="card-title"><span class="step">01</span> Selecciona los vídeos de entrada</div>
 
-    <label class="format-picker">
-      <span class="format-picker-label">¿Sabes qué formato vas a convertir? <span class="ink-mute">(opcional)</span></span>
-      <span class="format-picker-wrap">
-      <select id="formatPicker" aria-label="Ir directamente a la guía de tu formato de entrada">
-        <option value="" selected>Detectar automáticamente (recomendado)</option>
-        <option value="/convertir-mp4-a-flac/">MP4 → FLAC</option>
-        <option value="/convertir-mov-a-flac/">MOV → FLAC</option>
-        <option value="/convertir-mkv-a-flac/">MKV → FLAC</option>
-        <option value="/convertir-avi-a-flac/">AVI → FLAC</option>
-        <option value="/convertir-webm-a-flac/">WEBM → FLAC</option>
-        <option value="/convertir-wmv-a-flac/">WMV → FLAC</option>
-        <option value="/convertir-flv-a-flac/">FLV → FLAC</option>
-        <option value="/convertir-mpeg-a-flac/">MPEG → FLAC</option>
-        <option value="/convertir-ts-a-flac/">TS → FLAC</option>
-        <option value="/convertir-vob-a-flac/">VOB → FLAC</option>
-        <option value="/convertir-3gp-a-flac/">3GP → FLAC</option>
-        <option value="/convertir-m4v-a-flac/">M4V → FLAC</option>
-        <option value="/convertir-mp3-a-flac/">MP3 → FLAC</option>
-        <option value="/convertir-aac-a-flac/">AAC → FLAC</option>
-        <option value="/convertir-m4a-a-flac/">M4A → FLAC</option>
-        <option value="/convertir-wav-a-flac/">WAV → FLAC</option>
-        <option value="/convertir-aiff-a-flac/">AIFF → FLAC</option>
-        <option value="/convertir-ogg-a-flac/">OGG → FLAC</option>
-        <option value="/convertir-opus-a-flac/">Opus → FLAC</option>
-        <option value="/convertir-wma-a-flac/">WMA → FLAC</option>
-      </select>
-      </span>
-    </label>
+    <span class="format-picker-label">¿Sabes qué formato vas a convertir? <span class="ink-mute">(opcional)</span></span>
+    <details class="format-dropdown" id="formatDropdown">
+      <summary class="format-dropdown-summary" aria-label="Elegir formato de entrada para ir a su guía específica">
+        <span class="format-dropdown-current">
+          <span class="format-dropdown-dot" aria-hidden="true"></span>
+          <span id="formatDropdownLabel">Detectar automáticamente</span>
+        </span>
+        <span class="format-dropdown-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="format-dropdown-panel">
+        <button type="button" class="format-dropdown-auto is-active" data-url="" data-label="Detectar automáticamente">
+          <span>Detectar automáticamente</span>
+          <span class="format-dropdown-tag">Recomendado</span>
+        </button>
+        <span class="format-dropdown-hint">— o ve directo a la guía de tu formato —</span>
+        <div class="format-dropdown-grid">
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mp4-a-flac/"  data-label="MP4 → FLAC">MP4 → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mov-a-flac/"  data-label="MOV → FLAC">MOV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mkv-a-flac/"  data-label="MKV → FLAC">MKV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-avi-a-flac/"  data-label="AVI → FLAC">AVI → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-webm-a-flac/" data-label="WEBM → FLAC">WEBM → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-wmv-a-flac/"  data-label="WMV → FLAC">WMV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-flv-a-flac/"  data-label="FLV → FLAC">FLV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mpeg-a-flac/" data-label="MPEG → FLAC">MPEG → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-ts-a-flac/"   data-label="TS → FLAC">TS → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-vob-a-flac/"  data-label="VOB → FLAC">VOB → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-3gp-a-flac/"  data-label="3GP → FLAC">3GP → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-m4v-a-flac/"  data-label="M4V → FLAC">M4V → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mp3-a-flac/"  data-label="MP3 → FLAC">MP3 → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-aac-a-flac/"  data-label="AAC → FLAC">AAC → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-m4a-a-flac/"  data-label="M4A → FLAC">M4A → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-wav-a-flac/"  data-label="WAV → FLAC">WAV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-aiff-a-flac/" data-label="AIFF → FLAC">AIFF → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-ogg-a-flac/"  data-label="OGG → FLAC">OGG → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-opus-a-flac/" data-label="Opus → FLAC">Opus → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-wma-a-flac/"  data-label="WMA → FLAC">WMA → FLAC</button>
+        </div>
+      </div>
+    </details>
 
     <div class="drop-zone" id="dropZone">
       <input
@@ -2452,10 +2550,75 @@ function addFiles(fileList) {
 
 fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
 
-const formatPicker = $('formatPicker');
-formatPicker?.addEventListener('change', e => {
-  const url = e.target.value;
-  if (url) window.location.href = url;
+const formatDropdown      = $('formatDropdown');
+const formatDropdownLabel = $('formatDropdownLabel');
+
+// ─── Apertura/cierre animados del desplegable (en vez del toggle brusco nativo) ─
+const ddSummary = formatDropdown?.querySelector('summary');
+const ddPanel   = formatDropdown?.querySelector('.format-dropdown-panel');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ddAnim = null;
+
+function ddRun(keyframes, opts, onDone) {
+  ddAnim?.cancel();
+  ddAnim = formatDropdown.animate(keyframes, opts);
+  ddAnim.onfinish = ddAnim.oncancel = onDone;
+}
+
+function ddFinish(open) {
+  formatDropdown.open   = open;
+  formatDropdown.style.height   = '';
+  formatDropdown.style.overflow = '';
+  ddAnim = null;
+}
+
+function closeFormatDropdown() {
+  if (!formatDropdown.open) return;
+  if (reduceMotion) { formatDropdown.removeAttribute('open'); return; }
+  formatDropdown.style.overflow = 'hidden';
+  const start = formatDropdown.offsetHeight;
+  const end   = ddSummary.offsetHeight;
+  ddPanel.animate({ opacity: [1, 0] }, { duration: 140, easing: 'ease', fill: 'forwards' });
+  ddRun({ height: [`${start}px`, `${end}px`] },
+        { duration: 240, easing: 'cubic-bezier(.4,0,.6,1)' },
+        () => ddFinish(false));
+}
+
+if (ddSummary && ddPanel) {
+  ddSummary.addEventListener('click', e => {
+    if (reduceMotion) return; // deja que el navegador alterne [open] de forma instantánea
+    e.preventDefault();
+
+    if (formatDropdown.open) { closeFormatDropdown(); return; }
+
+    formatDropdown.style.overflow = 'hidden';
+    const start = formatDropdown.offsetHeight;
+    formatDropdown.style.height = `${start}px`;
+    formatDropdown.open = true;
+
+    requestAnimationFrame(() => {
+      const end = ddSummary.offsetHeight + ddPanel.offsetHeight;
+      ddRun({ height: [`${start}px`, `${end}px`] },
+            { duration: 340, easing: 'cubic-bezier(.22,.85,.32,1)' },
+            () => ddFinish(true));
+      ddPanel.animate(
+        { opacity: [0, 1], transform: ['translateY(-8px)', 'translateY(0)'] },
+        { duration: 280, easing: 'ease', fill: 'forwards' }
+      );
+    });
+  });
+}
+
+formatDropdown?.addEventListener('click', e => {
+  const opt = e.target.closest('[data-url]');
+  if (!opt) return;
+  const url = opt.dataset.url;
+  if (url) { window.location.href = url; return; }
+
+  formatDropdownLabel.textContent = opt.dataset.label;
+  formatDropdown.querySelectorAll('.format-dropdown-auto, .format-dropdown-chip')
+    .forEach(el => el.classList.toggle('is-active', el === opt));
+  closeFormatDropdown();
 });
 
 let dragCounter = 0;
