@@ -1137,6 +1137,12 @@
     }
     .preview-item:last-child { margin-bottom: 0; }
 
+    .preview-ad {
+      margin-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      padding-top: 1rem;
+    }
+
     .preview-item-label {
       font-family: var(--font-mono);
       padding: 0.55rem 0.85rem;
@@ -2201,6 +2207,7 @@ let ffmpeg = null;
 let ffmpegLoading = false;
 let nextId = 0;
 let currentId = null;
+let adUnitsCreated = 0;
 // Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
 const files = new Map();
 
@@ -2457,6 +2464,7 @@ function renderPreviewList() {
       const media = document.createElement(isAudio ? 'audio' : 'video');
       media.className = 'preview-media';
       media.controls = true;
+      if (!isAudio) media.preload = 'metadata';
       media.src = entry.outputURL;
       item.dataset.url = entry.outputURL;
       if (!isAudio) {
@@ -2502,6 +2510,28 @@ function renderPreviewList() {
   } else {
     downloadAllBtn.style.display = 'none';
   }
+
+  // Mostrar 1 anuncio por cada 5 archivos convertidos (5→1, 10→2, …)
+  const adsNeeded = Math.floor(done.length / 5);
+  while (adUnitsCreated < adsNeeded) {
+    adUnitsCreated++;
+    const adDiv = document.createElement('div');
+    adDiv.className = 'preview-ad';
+    adDiv.dataset.adIndex = adUnitsCreated;
+    const ins = document.createElement('ins');
+    ins.className = 'adsbygoogle';
+    ins.style.cssText = 'display:block; text-align:center;';
+    ins.dataset.adLayout = 'in-article';
+    ins.dataset.adFormat = 'fluid';
+    ins.dataset.adClient = 'ca-pub-1123812992313934';
+    ins.dataset.adSlot = '2037769304';
+    adDiv.appendChild(ins);
+    previewList.appendChild(adDiv);
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }
+  previewList.querySelectorAll('.preview-ad').forEach((ad, i) => {
+    ad.style.display = i < adsNeeded ? 'block' : 'none';
+  });
 }
 
 // ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
