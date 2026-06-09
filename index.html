@@ -1803,7 +1803,7 @@
   <!-- Conversion counter -->
   <div class="conv-counter" id="convCounter">
     <span class="conv-counter-dot"></span>
-    <span><strong id="convCount">0</strong> archivos convertidos en este navegador · ninguno ha salido de tu equipo</span>
+    <span><strong id="convCount">0</strong> archivos convertidos en este navegador · <strong id="convToday">0</strong> conversiones hoy · ninguno ha salido de tu equipo</span>
   </div>
 
   <!-- Engine status -->
@@ -2938,18 +2938,27 @@ function showAdModal() {
 }
 
 // ─── Conversion counter (localStorage) ───────────────────────────────────────
-const convCounter = $('convCounter');
-const convCountEl = $('convCount');
+const convCounter  = $('convCounter');
+const convCountEl  = $('convCount');
+const convTodayEl  = $('convToday');
 
 function getConvCount() { return parseInt(localStorage.getItem('vidtoflac_conv') || '0', 10); }
+
+function getTodayKey() { return 'vidtoflac_today_' + new Date().toISOString().slice(0, 10); }
+function getConvToday() { return parseInt(localStorage.getItem(getTodayKey()) || '0', 10); }
+
 function incConvCount() {
   const n = getConvCount() + 1;
   localStorage.setItem('vidtoflac_conv', n);
-  renderConvCount(n);
+  const key = getTodayKey();
+  const t = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+  localStorage.setItem(key, t);
+  renderConvCount(n, t);
 }
-function renderConvCount(n) {
+function renderConvCount(n, t) {
   if (n > 0) {
     convCountEl.textContent = n;
+    convTodayEl.textContent = t ?? getConvToday();
     convCounter.classList.add('visible');
   }
 }
