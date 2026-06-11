@@ -884,6 +884,11 @@
       gap: 0.75rem;
       margin-bottom: 1.1rem;
     }
+    .format-option:last-child {
+      grid-column: 1 / -1;
+      width: calc(50% - 0.375rem);
+      margin: 0 auto;
+    }
 
     .format-option input[type="radio"] { display: none; }
 
@@ -1907,8 +1912,17 @@
           </span>
         </label>
       </div>
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMp3" value="flac-only">
+        <label for="fmtMp3">
+          <span class="format-badge">MP3</span>
+          <span class="format-meta">
+            <span class="format-desc">Solo audio FLAC · extrae la pista de audio sin el vídeo</span>
+          </span>
+        </label>
+      </div>
     </div>
-    <p class="format-note">Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar</p>
+    <p class="format-note" id="formatNote">Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -2228,9 +2242,8 @@ function isAudioOnly(file) {
   return /\.(wav|mp3|flac|aac|ogg|m4a|opus|wma|aiff|aif)$/i.test(file.name);
 }
 
-// Nombre por defecto del archivo de salida: nombre original (sin extensión) + " flac".
 function defaultBaseName(file) {
-  return file.name.replace(/\.[^.]+$/, '') + ' flac';
+  return file.name.replace(/\.[^.]+$/, '');
 }
 
 // ─── Logging ──────────────────────────────────────────────────────────────────
@@ -2415,9 +2428,10 @@ function updateConvertBtn() {
   const label = pending > 1
     ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
-  convertBtn.textContent = left > 0
-    ? `${label} (${left} gratis)`
-    : `${label} · ver anuncio`;
+  const needsAd = pending >= 5 || left <= 0;
+  convertBtn.textContent = needsAd
+    ? `${label} · ver anuncio`
+    : `${label} (${left} gratis)`;
 }
 
 function noPreviewMsg() {
@@ -2596,6 +2610,18 @@ function addFiles(fileList) {
 
 fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
 
+document.querySelectorAll('input[name="outFormat"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const note = $('formatNote');
+    if (!note) return;
+    if (radio.value === 'flac-only') {
+      note.innerHTML = 'Extrae solo el audio → <strong>FLAC</strong> · el vídeo <strong>no</strong> se incluye en el resultado';
+    } else {
+      note.innerHTML = 'Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar';
+    }
+  });
+});
+
 const formatDropdown      = $('formatDropdown');
 const formatDropdownLabel = $('formatDropdownLabel');
 
@@ -2712,10 +2738,10 @@ convertBtn.addEventListener('click', async () => {
   const pending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!pending.length) return;
 
-  if (freeLeft() > 0) {
-    incUsed();
-  } else {
+  if (pending.length >= 5 || freeLeft() <= 0) {
     await showAdModal();
+  } else {
+    incUsed();
   }
   updateConvertBtn();
 
@@ -2735,7 +2761,8 @@ convertBtn.addEventListener('click', async () => {
     const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
     const inputName  = `input_${id}.${ext}`;
     const audioOnly  = isAudioOnly(file);
-    const outFormat  = audioOnly ? 'flac' : selectedFormat;   // 'flac' | 'mkv' | 'mp4'
+    const outFormat  = (selectedFormat === 'flac-only' || audioOnly) ? 'flac'
+                     : selectedFormat;   // 'flac' | 'mkv' | 'mp4'
     const outputExt  = outFormat;
     const outputName = `output_${id}.${outputExt}`;
 
@@ -2767,12 +2794,12 @@ convertBtn.addEventListener('click', async () => {
       ffmpeg.off('log', probeCapture);
 
       // Float PCM (pcm_f32le, pcm_f64le, pcm_flt…) needs an explicit integer
-      // conversion before FLAC encoding; all other codecs work directly.
+      // conversion before FLAC encoding; libmp3lame handles float PCM natively.
       const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
       if (isFloatPCM) {
         log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
       }
-      const audioFlacArgs = [
+      const audioEncArgs = [
         ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
         '-c:a', 'flac',
         // FLAC dentro de un contenedor MP4 requiere desbloquear el muxer "experimental".
@@ -2780,11 +2807,12 @@ convertBtn.addEventListener('click', async () => {
       ];
 
       // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
+      const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly;
       const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
-      if (!audioOnly && browserIncompatibleVideo) {
+      if (!isAudioOnlyOutput && browserIncompatibleVideo) {
         log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
       }
-      const videoArgs = (!audioOnly && browserIncompatibleVideo)
+      const videoArgs = (!isAudioOnlyOutput && browserIncompatibleVideo)
         ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
         : ['-c:v', 'copy'];
 
@@ -2793,10 +2821,10 @@ convertBtn.addEventListener('click', async () => {
       const t0 = Date.now();
       let cmd;
 
-      if (audioOnly) {
-        cmd = ['-i', inputName, '-vn', ...audioFlacArgs, outputName];
+      if (isAudioOnlyOutput) {
+        cmd = ['-i', inputName, '-vn', ...audioEncArgs, outputName];
       } else {
-        cmd = ['-i', inputName, ...videoArgs, ...audioFlacArgs, outputName];
+        cmd = ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
       }
 
       const onProgress = ({ progress }) => {
@@ -2818,7 +2846,7 @@ convertBtn.addEventListener('click', async () => {
       } catch (execErr) {
         // stream-copy can fail when the source video codec is incompatible.
         // Retry with libx264 as a last resort.
-        if (!audioOnly && !browserIncompatibleVideo) {
+        if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
           log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
           try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
           try { await ffmpeg.deleteFile(outputName); } catch (_) {}
@@ -2826,7 +2854,7 @@ convertBtn.addEventListener('click', async () => {
           await ffmpeg.writeFile(inputName, fileData);
           const fallbackCmd = ['-i', inputName,
                                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
-                               ...audioFlacArgs, outputName];
+                               ...audioEncArgs, outputName];
           log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
           ffmpeg.on('progress', onProgress);
           await ffmpeg.exec(fallbackCmd);
