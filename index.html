@@ -2761,10 +2761,9 @@ convertBtn.addEventListener('click', async () => {
     const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
     const inputName  = `input_${id}.${ext}`;
     const audioOnly  = isAudioOnly(file);
-    const outFormat  = (selectedFormat === 'flac-only' || audioOnly) ? 'flac'
-                     : selectedFormat;   // 'flac' | 'mkv' | 'mp4'
-    const outputExt  = outFormat;
-    const outputName = `output_${id}.${outputExt}`;
+    let outFormat  = (selectedFormat === 'flac-only' || audioOnly) ? 'flac'
+                   : selectedFormat;   // 'flac' | 'mkv' | 'mp4'
+    let outputName = `output_${id}.${outFormat}`;
 
     setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
     log(`[${i + 1}/${pending.length}] Procesando: ${file.name}`, 'sys');
@@ -2793,13 +2792,23 @@ convertBtn.addEventListener('click', async () => {
       try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
       ffmpeg.off('log', probeCapture);
 
+      // Si el probe no detecta stream de vídeo, tratar como audio-only independientemente
+      // del formato seleccionado (p. ej. un MP4 que solo contiene audio FLAC).
+      if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
+        log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
+        outFormat  = 'flac';
+        outputName = `output_${id}.flac`;
+      }
+
       // Float PCM (pcm_f32le, pcm_f64le, pcm_flt…) needs an explicit integer
       // conversion before FLAC encoding; libmp3lame handles float PCM natively.
       const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
       if (isFloatPCM) {
         log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
       }
-      const audioEncArgs = [
+      // Si el audio ya es FLAC, copiar el stream directamente sin re-encodear.
+      const audioAlreadyFlac = probeAudioCodec === 'flac';
+      const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy'] : [
         ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
         '-c:a', 'flac',
         // FLAC dentro de un contenedor MP4 requiere desbloquear el muxer "experimental".
@@ -2807,7 +2816,7 @@ convertBtn.addEventListener('click', async () => {
       ];
 
       // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
-      const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly;
+      const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
       const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
       if (!isAudioOnlyOutput && browserIncompatibleVideo) {
         log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
