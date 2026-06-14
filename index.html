@@ -301,12 +301,65 @@
 
     .container {
       width: 100%;
-      max-width: 600px;
+      max-width: 1160px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 0.9rem;
       position: relative;
       z-index: 2;
+    }
+
+    /* ── Desktop two-column tool area ───────────────────── */
+    /* display:contents on mobile: wrappers are invisible,  */
+    /* children flow directly into the container flex col.  */
+    .tool-grid, .tool-left, .tool-right { display: contents; }
+
+    @media (min-width: 880px) {
+      .tool-grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 1.25rem;
+        align-items: start;
+      }
+      .tool-left, .tool-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        min-width: 0;
+      }
+
+      /* Header: centered and compact on wide screens */
+      .header {
+        padding: 0.5rem 0 1rem;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-title {
+        font-size: 2.6rem;
+        max-width: 20ch;
+        margin: 0.75rem auto 0;
+      }
+      .hero-sub { margin: 0.75rem auto 0; max-width: 54ch; }
+
+      /* Trust grid: centered with max width for readability */
+      .trust-grid {
+        gap: 1rem;
+        max-width: 860px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .trust-card { padding: 1.4rem 1.2rem; }
+
+      /* Conv counter: centered */
+      .conv-counter { justify-content: center; }
+
+      /* Steps + SEO sections: constrain width and center */
+      .steps-card, .seo-card, .faq-card {
+        max-width: 860px;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
 
     /* Staggered page-load reveal */
@@ -1893,16 +1946,8 @@
     <span><strong id="convCount">0</strong> archivos convertidos en este navegador · <strong id="convToday">0</strong> conversiones hoy · ninguno ha salido de tu equipo</span>
   </div>
 
-  <!-- Engine status -->
-  <div class="card engine-card" id="engineCard">
-    <div class="engine-row">
-      <div class="engine-label">
-        <span class="engine-dot idle" id="engineDot"></span>
-        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
-      </div>
-      <span class="badge badge-idle" id="engineBadge">En espera</span>
-    </div>
-  </div>
+  <div class="tool-grid">
+  <div class="tool-left">
 
   <!-- File selector -->
   <div class="card">
@@ -2025,6 +2070,20 @@
     </div>
   </div>
 
+  </div><!-- /tool-left -->
+  <div class="tool-right">
+
+  <!-- Engine status -->
+  <div class="card engine-card" id="engineCard">
+    <div class="engine-row">
+      <div class="engine-label">
+        <span class="engine-dot idle" id="engineDot"></span>
+        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
+      </div>
+      <span class="badge badge-idle" id="engineBadge">En espera</span>
+    </div>
+  </div>
+
   <!-- Progress -->
   <div class="card progress-card" id="progressCard">
     <div class="progress-meta">
@@ -2064,6 +2123,9 @@
       <div class="log-output" id="logOutput"></div>
     </div>
   </div>
+
+  </div><!-- /tool-right -->
+  </div><!-- /tool-grid -->
 
   <!-- How it works -->
   <div class="card steps-card">
