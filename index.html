@@ -2269,7 +2269,7 @@ function setEngine(text, state) {
 
   engineText.textContent  = text;
   engineDot.className     = `engine-dot ${state}`;
-  engineBadge.textContent = { loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
+  engineBadge.textContent = { idle: 'En espera', loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
   engineBadge.className   = `badge badge-${state}`;
   engineCard.classList.toggle('is-loading', state === 'loading');
 
@@ -2952,7 +2952,7 @@ function showAdModal() {
     secsEl.textContent = secs;
 
     // Push AdSense ad
-    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
 
     const tick = setInterval(() => {
       secs--;
