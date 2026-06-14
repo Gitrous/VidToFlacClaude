@@ -780,7 +780,30 @@
       100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
     }
 
-    .file-chip-icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1; opacity: .9; }
+    .file-ext-tag {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .file-ext-tag.is-video {
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      color: var(--amber);
+    }
+    .file-ext-tag.is-audio {
+      background: var(--green-soft);
+      border: 1px solid rgba(74,222,128,.28);
+      color: var(--green);
+    }
 
     .file-chip-info { flex: 1; overflow: hidden; }
     .file-chip-name {
@@ -1725,6 +1748,20 @@
     .ad-continue-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
     .ad-continue-btn:not(:disabled):hover { opacity: .88; transform: translateY(-1px); }
 
+    .quota-countdown {
+      display: none;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-mute);
+      letter-spacing: 0.03em;
+      padding: 0.3rem 0;
+    }
+    .quota-countdown.visible { display: flex; }
+    .quota-countdown svg { width: 0.85rem; height: 0.85rem; flex-shrink: 0; opacity: .55; }
+    #quotaTime { color: var(--warn); font-weight: 700; }
+
     .large-file-icon {
       display: flex;
       align-items: center;
@@ -1779,7 +1816,7 @@
   <div class="ad-modal-box">
     <div class="ad-modal-header">
       <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
-      <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>desbloqueas conversiones ilimitadas durante las próximas 3 horas</strong>.</span>
+      <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>todos los archivos que tengas en cola se convertirán sin límite</strong>.</span>
     </div>
     <div class="ad-slot-wrap">
       <ins class="adsbygoogle"
@@ -1980,6 +2017,12 @@
     <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
       ⚙️ Convertir a vídeo + FLAC
     </button>
+    <div class="quota-countdown" id="quotaCountdown" aria-live="polite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span>3 conversiones gratis en <strong id="quotaTime">--:--</strong></span>
+    </div>
   </div>
 
   <!-- Progress -->
@@ -2345,6 +2388,12 @@ function setProgress(label, pct) {
 }
 
 // ─── File list render ─────────────────────────────────────────────────────────
+function fileExtTag(file) {
+  const ext = (file.name.includes('.') ? file.name.split('.').pop() : '?').toUpperCase().slice(0, 5);
+  const cls = isAudioOnly(file) ? 'is-audio' : 'is-video';
+  return `<span class="file-ext-tag ${cls}" aria-label="${ext}">${ext}</span>`;
+}
+
 function renderFileList() {
   fileListEl.innerHTML = '';
 
@@ -2372,7 +2421,7 @@ function renderFileList() {
 
     chip.innerHTML = `
       <div class="file-chip-row">
-        <span class="file-chip-icon">🎞️</span>
+        ${fileExtTag(entry.file)}
         <div class="file-chip-info">
           ${nameEl}
           <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
@@ -2410,6 +2459,9 @@ function renderFileList() {
         const entry = files.get(id);
         if (entry?.outputURL) URL.revokeObjectURL(entry.outputURL);
         files.delete(id);
+        // Si el usuario vacía la lista, el desbloqueo de tanda se reinicia:
+        // el próximo lote requerirá un anuncio aunque la cuota no haya expirado.
+        if (files.size === 0) { tandaUnlocked = false; }
         renderFileList();
         renderPreviewList();   // prune su preview si lo tenía
         updateConvertBtn();
@@ -2469,21 +2521,20 @@ function renderFileList() {
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0;
-  const left      = freeLeft();
-  const unlocked  = isSessionUnlocked();
-  const needsAd   = left <= 0 && !unlocked;
-  const batchSize = Math.min(pending, BATCH_LIMIT);
-  const willConvert = (needsAd || unlocked) ? batchSize : Math.min(batchSize, left);
+  const left = freeLeft();
+  const needsAd = left <= 0 && !tandaUnlocked;
+  const willConvert = (needsAd || tandaUnlocked) ? pending : Math.min(pending, left);
   const label = willConvert > 1
     ? `⚙️ Convertir ${willConvert} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
-  if (unlocked) {
-    convertBtn.textContent = `${label} · sesión activa`;
+  if (tandaUnlocked) {
+    convertBtn.textContent = `${label} · tanda activa`;
   } else if (needsAd) {
     convertBtn.textContent = `${label} · ver anuncio`;
   } else {
     convertBtn.textContent = `${label} · ${left} gratis`;
   }
+  updateCountdownDisplay();
 }
 
 function noPreviewMsg() {
@@ -2790,220 +2841,217 @@ document.addEventListener('drop', e => {
   if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
 
+// ─── Per-file processor ───────────────────────────────────────────────────────
+async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat) {
+  const file = entry.file;
+  entry.status = 'converting';
+  currentId = id;
+  renderFileList();
+
+  const ext       = file.name.split('.').pop().toLowerCase() || 'mkv';
+  const inputName = `input_${id}.${ext}`;
+  const audioOnly = isAudioOnly(file);
+  let outFormat   = (selectedFormat === 'flac-only' || audioOnly) ? 'flac' : selectedFormat;
+  let outputName  = `output_${id}.${outFormat}`;
+
+  setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name}`, null);
+  log(`[${globalIdx + 1}/${totalCount}] Procesando: ${file.name}`, 'sys');
+
+  try {
+    // 1 · Write input to WASM virtual FS
+    log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+    const buffer   = await file.arrayBuffer();
+    const fileData = new Uint8Array(buffer);
+    const fileSize = file.size;
+    await ffmpeg.writeFile(inputName, fileData);
+    log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
+
+    // 2 · Probe audio/video codecs, then build command.
+    setProgress(`[${globalIdx + 1}/${totalCount}] Analizando formato…`, null);
+    let probeAudioCodec = '';
+    let probeVideoCodec = '';
+    const probeCapture = ({ message }) => {
+      const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
+      if (ma) probeAudioCodec = ma[1].toLowerCase();
+      const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
+      if (mv) probeVideoCodec = mv[1].toLowerCase();
+    };
+    ffmpeg.on('log', probeCapture);
+    try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
+    ffmpeg.off('log', probeCapture);
+
+    if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
+      log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
+      outFormat  = 'flac';
+      outputName = `output_${id}.flac`;
+    }
+
+    const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
+    if (isFloatPCM) log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
+
+    const audioAlreadyFlac = probeAudioCodec === 'flac';
+    const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy'] : [
+      ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
+      '-c:a', 'flac',
+      ...(outFormat === 'mp4' ? ['-strict', 'experimental'] : []),
+    ];
+
+    const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
+    const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
+    if (!isAudioOnlyOutput && browserIncompatibleVideo) {
+      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
+    }
+    const videoArgs = (!isAudioOnlyOutput && browserIncompatibleVideo)
+      ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
+      : ['-c:v', 'copy'];
+
+    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…`, null);
+    const t0 = Date.now();
+    const cmd = isAudioOnlyOutput
+      ? ['-i', inputName, '-vn', ...audioEncArgs, outputName]
+      : ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
+
+    const onProgress = ({ progress }) => {
+      if (progress > 0 && progress <= 1) {
+        const filePct    = Math.min(99, progress * 100);
+        const overallPct = Math.min(99, (globalIdx / totalCount) * 100 + (progress * 100 / totalCount));
+        progressFill.classList.remove('indeterminate');
+        progressFill.style.width = overallPct + '%';
+        progressPct.textContent  = Math.round(overallPct) + '%';
+        const bar = document.getElementById(`bar-${currentId}`);
+        if (bar) bar.style.width = filePct + '%';
+      }
+    };
+    ffmpeg.on('progress', onProgress);
+
+    log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
+    try {
+      await ffmpeg.exec(cmd);
+    } catch (execErr) {
+      if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
+        log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+        try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
+        try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+        await loadFFmpeg();
+        await ffmpeg.writeFile(inputName, fileData);
+        const fallbackCmd = ['-i', inputName,
+                             '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
+                             ...audioEncArgs, outputName];
+        log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
+        ffmpeg.on('progress', onProgress);
+        await ffmpeg.exec(fallbackCmd);
+      } else {
+        throw execErr;
+      }
+    } finally {
+      ffmpeg.off('progress', onProgress);
+    }
+
+    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+    log(`✓ Conversión completada en ${elapsed}s`, 'success');
+
+    // 3 · Read output
+    setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
+    const data = await ffmpeg.readFile(outputName);
+
+    // 4 · Create blob & object URL
+    const mimeType = outFormat === 'flac' ? 'audio/flac'
+                   : outFormat === 'mp4'  ? 'video/mp4'
+                   :                        'video/x-matroska';
+    const blob     = new Blob([data], { type: mimeType });
+    const outExt   = `.${outFormat}`;
+    const baseName = entry.customBaseName ?? defaultBaseName(file);
+    entry.outputURL   = URL.createObjectURL(blob);
+    entry.outBaseName = baseName + outExt;
+    entry.status      = 'done';
+    incConvCount();
+
+    log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
+    setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
+    renderPreviewList();
+
+    if (autoDlCheck.checked) {
+      const a = document.createElement('a');
+      a.href = entry.outputURL;
+      a.download = entry.outBaseName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // 5 · Clean up WASM FS
+    try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
+
+  } catch (err) {
+    entry.status = 'error';
+    const msg = err.message ?? 'error desconocido';
+    if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
+      log(`✗ Error de memoria en "${file.name}": el archivo es demasiado grande para la memoria WebAssembly (~2 GB). Divide el vídeo en partes más cortas e intenta de nuevo.`, 'error');
+    } else {
+      log(`✗ Error en "${file.name}": ${msg}`, 'error');
+    }
+    try { await ffmpeg.deleteFile(inputName); } catch (_) {}
+    try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+    log('↺ Reiniciando motor FFmpeg…', 'sys');
+    await loadFFmpeg();
+  }
+
+  renderFileList();
+}
+
 // ─── Convert ──────────────────────────────────────────────────────────────────
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
   const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!allPending.length) return;
 
-  // Límite de lote: máx. BATCH_LIMIT archivos por conversión.
-  if (allPending.length > BATCH_LIMIT) {
-    log(`⚠ Máximo ${BATCH_LIMIT} archivos por lote. Los ${allPending.length - BATCH_LIMIT} restantes quedarán pendientes para la siguiente conversión.`, 'warn');
-  }
-  const batchPending = allPending.slice(0, BATCH_LIMIT);
+  const selectedFormat = document.querySelector('input[name="outFormat"]:checked')?.value || 'mkv';
 
-  let pending;
-  const left = freeLeft();
-  if (isSessionUnlocked()) {
-    // Sesión desbloqueada por anuncio reciente: procesar el lote completo.
-    pending = batchPending;
-  } else if (left > 0) {
-    // Cuota gratuita disponible: convertir hasta `left` archivos.
-    pending = batchPending.slice(0, left);
-    for (let k = 0; k < pending.length; k++) incUsed();
+  // Determinar qué archivos van en fase 1 (gratis) y fase 2 (tras el anuncio).
+  let fase1, fase2;
+  if (tandaUnlocked) {
+    fase1 = allPending;
+    fase2 = [];
   } else {
-    // Cuota agotada: ver un anuncio desbloquea conversiones durante 3 horas.
-    await showAdModal();
-    setSessionUnlock();
-    pending = batchPending;
+    const left = freeLeft();
+    if (left >= allPending.length) {
+      // Todo cabe en la cuota gratuita.
+      fase1 = allPending;
+      fase2 = [];
+      incQuota(allPending.length);
+    } else if (left > 0) {
+      // Parte gratis, el resto tras ver el anuncio.
+      fase1 = allPending.slice(0, left);
+      fase2 = allPending.slice(left);
+      incQuota(left);
+    } else {
+      // Cuota agotada: anuncio antes de empezar.
+      fase1 = [];
+      fase2 = allPending;
+    }
   }
-  updateConvertBtn();
 
   convertBtn.disabled = true;
   setEngine('Procesando…', 'busy');
+  updateConvertBtn();
 
-  // Formato de salida elegido para los vídeos (los archivos solo-audio salen siempre en FLAC).
-  const selectedFormat = document.querySelector('input[name="outFormat"]:checked')?.value || 'mkv';
+  const total = fase1.length + fase2.length;
 
-  for (let i = 0; i < pending.length; i++) {
-    const [id, entry] = pending[i];
-    const file = entry.file;
-    entry.status = 'converting';
-    currentId = id;
-    renderFileList();
+  // Fase 1: archivos gratuitos.
+  for (let i = 0; i < fase1.length; i++) {
+    await processOneFile(fase1[i], i, total, selectedFormat);
+  }
 
-    const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
-    const inputName  = `input_${id}.${ext}`;
-    const audioOnly  = isAudioOnly(file);
-    let outFormat  = (selectedFormat === 'flac-only' || audioOnly) ? 'flac'
-                   : selectedFormat;   // 'flac' | 'mkv' | 'mp4'
-    let outputName = `output_${id}.${outFormat}`;
+  // Anuncio intermedio (si hay archivos en la fase 2).
+  if (fase2.length > 0) {
+    await showAdModal();
+    tandaUnlocked = true;
+    updateConvertBtn();
+  }
 
-    setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
-    log(`[${i + 1}/${pending.length}] Procesando: ${file.name}`, 'sys');
-
-    try {
-      // 1 · Write input to WASM virtual FS
-      log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
-      const buffer = await file.arrayBuffer();
-      const fileData = new Uint8Array(buffer);
-      const fileSize = file.size;
-      await ffmpeg.writeFile(inputName, fileData);
-      log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
-
-      // 2 · Probe audio/video codecs, then build command.
-      setProgress(`[${i + 1}/${pending.length}] Analizando formato…`, null);
-
-      let probeAudioCodec = '';
-      let probeVideoCodec = '';
-      const probeCapture = ({ message }) => {
-        const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
-        if (ma) probeAudioCodec = ma[1].toLowerCase();
-        const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
-        if (mv) probeVideoCodec = mv[1].toLowerCase();
-      };
-      ffmpeg.on('log', probeCapture);
-      try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
-      ffmpeg.off('log', probeCapture);
-
-      // Si el probe no detecta stream de vídeo, tratar como audio-only independientemente
-      // del formato seleccionado (p. ej. un MP4 que solo contiene audio FLAC).
-      if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
-        log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
-        outFormat  = 'flac';
-        outputName = `output_${id}.flac`;
-      }
-
-      // Float PCM (pcm_f32le, pcm_f64le, pcm_flt…) needs an explicit integer
-      // conversion before FLAC encoding; libmp3lame handles float PCM natively.
-      const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
-      if (isFloatPCM) {
-        log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
-      }
-      // Si el audio ya es FLAC, copiar el stream directamente sin re-encodear.
-      const audioAlreadyFlac = probeAudioCodec === 'flac';
-      const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy'] : [
-        ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
-        '-c:a', 'flac',
-        // FLAC dentro de un contenedor MP4 requiere desbloquear el muxer "experimental".
-        ...(outFormat === 'mp4' ? ['-strict', 'experimental'] : []),
-      ];
-
-      // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
-      const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
-      const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
-      if (!isAudioOnlyOutput && browserIncompatibleVideo) {
-        log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
-      }
-      const videoArgs = (!isAudioOnlyOutput && browserIncompatibleVideo)
-        ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
-        : ['-c:v', 'copy'];
-
-      setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
-
-      const t0 = Date.now();
-      let cmd;
-
-      if (isAudioOnlyOutput) {
-        cmd = ['-i', inputName, '-vn', ...audioEncArgs, outputName];
-      } else {
-        cmd = ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
-      }
-
-      const onProgress = ({ progress }) => {
-        if (progress > 0 && progress <= 1) {
-          const filePct    = Math.min(99, progress * 100);
-          const overallPct = Math.min(99, (i / pending.length) * 100 + (progress * 100 / pending.length));
-          progressFill.classList.remove('indeterminate');
-          progressFill.style.width = overallPct + '%';
-          progressPct.textContent  = Math.round(overallPct) + '%';
-          const bar = document.getElementById(`bar-${currentId}`);
-          if (bar) bar.style.width = filePct + '%';
-        }
-      };
-      ffmpeg.on('progress', onProgress);
-
-      log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
-      try {
-        await ffmpeg.exec(cmd);
-      } catch (execErr) {
-        // stream-copy can fail when the source video codec is incompatible.
-        // Retry with libx264 as a last resort.
-        if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
-          log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
-          try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
-          try { await ffmpeg.deleteFile(outputName); } catch (_) {}
-          await loadFFmpeg();
-          await ffmpeg.writeFile(inputName, fileData);
-          const fallbackCmd = ['-i', inputName,
-                               '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
-                               ...audioEncArgs, outputName];
-          log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
-          ffmpeg.on('progress', onProgress);
-          await ffmpeg.exec(fallbackCmd);
-        } else {
-          throw execErr;
-        }
-      } finally {
-        ffmpeg.off('progress', onProgress);
-      }
-
-      const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-      log(`✓ Conversión completada en ${elapsed}s`, 'success');
-
-      // 3 · Read output
-      setProgress(`[${i + 1}/${pending.length}] Leyendo archivo resultante…`, null);
-      const data = await ffmpeg.readFile(outputName);
-
-      // 4 · Create blob & object URL
-      const mimeType = outFormat === 'flac' ? 'audio/flac'
-                     : outFormat === 'mp4'  ? 'video/mp4'
-                     :                        'video/x-matroska';
-      const blob = new Blob([data], { type: mimeType });
-      // El nombre base ya incluye "flac" por defecto (o el que el usuario haya puesto);
-      // solo se añade la extensión del contenedor de salida.
-      const ext = `.${outFormat}`;
-      const baseName = entry.customBaseName ?? defaultBaseName(file);
-      entry.outputURL   = URL.createObjectURL(blob);
-      entry.outBaseName = baseName + ext;
-      entry.status      = 'done';
-      incConvCount();
-
-      log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
-      setProgress(`[${i + 1}/${pending.length}] ${file.name} ✓`, ((i + 1) / pending.length) * 100);
-
-      // update preview list after each file
-      renderPreviewList();
-
-      // auto-download if toggle is on
-      if (autoDlCheck.checked) {
-        const a = document.createElement('a');
-        a.href = entry.outputURL;
-        a.download = entry.outBaseName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
-
-      // 5 · Clean up WASM FS
-      try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
-
-    } catch (err) {
-      entry.status = 'error';
-      const msg = err.message ?? 'error desconocido';
-      if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
-        log(`✗ Error de memoria en "${file.name}": el archivo es demasiado grande para la memoria WebAssembly (~2 GB). Divide el vídeo en partes más cortas e intenta de nuevo.`, 'error');
-      } else {
-        log(`✗ Error en "${file.name}": ${msg}`, 'error');
-      }
-      // ffmpeg.wasm can crash (Aborted). Reinitialize so next files work.
-      try { await ffmpeg.deleteFile(inputName); } catch (_) {}
-      try { await ffmpeg.deleteFile(outputName); } catch (_) {}
-      log('↺ Reiniciando motor FFmpeg…', 'sys');
-      await loadFFmpeg();
-    }
-
-    renderFileList();
+  // Fase 2: archivos desbloqueados.
+  for (let i = 0; i < fase2.length; i++) {
+    await processOneFile(fase2[i], fase1.length + i, total, selectedFormat);
   }
 
   setEngine('Motor listo', 'ready');
@@ -3023,24 +3071,62 @@ function showLargeFileModal(name, size) {
   btn.addEventListener('click', () => modal.classList.remove('open'), { once: true });
 }
 
-// ─── Freemium: 3 archivos gratis al día; un anuncio desbloquea la sesión ──────
-const FREE_LIMIT   = 3;    // archivos gratuitos por día
-const BATCH_LIMIT  = 10;   // máximo de archivos procesados por lote
-const UNLOCK_HOURS = 3;    // horas que dura el desbloqueo tras ver el anuncio
+// ─── Freemium ──────────────────────────────────────────────────────────────────
+const FREE_LIMIT   = 3;
+const QUOTA_PERIOD = 24 * 3600 * 1000;   // 24 horas
+const QUOTA_KEY    = 'vidtoflac_quota_v2';
+let tandaUnlocked  = false;   // true después de ver el anuncio en la tanda actual
 
-// Cuota gratuita diaria. Una vez agotada, ver un anuncio desbloquea conversiones
-// ilimitadas (en lotes de BATCH_LIMIT) durante UNLOCK_HOURS horas.
-function usedKey()  { return 'vidtoflac_used_' + new Date().toISOString().slice(0, 10); }
-function getUsed()  { return parseInt(localStorage.getItem(usedKey()) || '0', 10); }
-function incUsed()  { localStorage.setItem(usedKey(), getUsed() + 1); }
-function freeLeft() { return Math.max(0, FREE_LIMIT - getUsed()); }
-
-function isSessionUnlocked() {
-  const until = parseInt(localStorage.getItem('vidtoflac_unlocked_until') || '0', 10);
-  return Date.now() < until;
+// La cuota se guarda en localStorage para que borrar archivos no la reinicie.
+function getQuota() {
+  try {
+    const q = JSON.parse(localStorage.getItem(QUOTA_KEY) || '{}');
+    if (!q.resetAt || Date.now() >= q.resetAt) return { count: 0, resetAt: 0 };
+    return q;
+  } catch { return { count: 0, resetAt: 0 }; }
 }
-function setSessionUnlock() {
-  localStorage.setItem('vidtoflac_unlocked_until', String(Date.now() + UNLOCK_HOURS * 3600 * 1000));
+function freeLeft() { return Math.max(0, FREE_LIMIT - getQuota().count); }
+function quotaResetAt() { return getQuota().resetAt || 0; }
+function incQuota(n = 1) {
+  const q = getQuota();
+  const count   = Math.min(FREE_LIMIT, (q.count || 0) + n);
+  const resetAt = q.resetAt > Date.now() ? q.resetAt : Date.now() + QUOTA_PERIOD;
+  localStorage.setItem(QUOTA_KEY, JSON.stringify({ count, resetAt }));
+}
+
+// ─── Countdown ─────────────────────────────────────────────────────────────────
+let countdownInterval = null;
+
+function formatCountdown(ms) {
+  const s   = Math.max(0, Math.ceil(ms / 1000));
+  const h   = Math.floor(s / 3600);
+  const m   = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return h > 0
+    ? `${h}h ${String(m).padStart(2, '0')}m ${String(sec).padStart(2, '0')}s`
+    : `${m}m ${String(sec).padStart(2, '0')}s`;
+}
+
+function updateCountdownDisplay() {
+  const el     = $('quotaCountdown');
+  const timeEl = $('quotaTime');
+  if (freeLeft() > 0 || tandaUnlocked) {
+    el.classList.remove('visible');
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    return;
+  }
+  const remaining = quotaResetAt() - Date.now();
+  if (remaining <= 0) {
+    el.classList.remove('visible');
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    updateConvertBtn();   // cuota reiniciada: actualizar el botón
+    return;
+  }
+  timeEl.textContent = formatCountdown(remaining);
+  el.classList.add('visible');
+  if (!countdownInterval) {
+    countdownInterval = setInterval(updateCountdownDisplay, 1000);
+  }
 }
 
 function showAdModal() {
