@@ -2425,13 +2425,15 @@ function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0;
   const left = freeLeft();
-  const label = pending > 1
-    ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
+  const needsAd = left <= 0;
+  // Sin anuncio se convierten hasta `left` archivos; con anuncio, todos los restantes.
+  const batch = needsAd ? pending : Math.min(pending, left);
+  const label = batch > 1
+    ? `⚙️ Convertir ${batch} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
-  const needsAd = pending >= 5 || left <= 0;
   convertBtn.textContent = needsAd
     ? `${label} · ver anuncio`
-    : `${label} (${left} gratis)`;
+    : `${label} · ${FREE_LIMIT} archivos sin anuncios`;
 }
 
 function noPreviewMsg() {
@@ -2735,13 +2737,20 @@ document.addEventListener('drop', e => {
 // ─── Convert ──────────────────────────────────────────────────────────────────
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
-  const pending = [...files.entries()].filter(([, e]) => e.status === 'pending');
-  if (!pending.length) return;
+  const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
+  if (!allPending.length) return;
 
-  if (pending.length >= 5 || freeLeft() <= 0) {
-    await showAdModal();
+  const left = freeLeft();   // archivos gratis que quedan hoy
+  let pending;
+  if (left > 0) {
+    // Aún queda cuota diaria: convertir hasta `left` archivos sin anuncio.
+    // Si hay más en cola, los restantes quedan pendientes para otra pulsación.
+    pending = allPending.slice(0, left);
+    for (let k = 0; k < pending.length; k++) incUsed();
   } else {
-    incUsed();
+    // Cuota agotada: ver un anuncio desbloquea TODOS los archivos restantes.
+    await showAdModal();
+    pending = allPending;
   }
   updateConvertBtn();
 
@@ -2931,12 +2940,14 @@ convertBtn.addEventListener('click', async () => {
   updateConvertBtn();
 });
 
-// ─── Freemium: 3 free conversions, then ad per batch ─────────────────────────
-const FREE_LIMIT    = 3;
-const LS_USED_KEY   = 'vidtoflac_used';
+// ─── Freemium: 3 archivos gratis al día; un anuncio desbloquea el resto ───────
+const FREE_LIMIT    = 3;   // archivos convertibles sin anuncio cada día
 
-function getUsed()  { return parseInt(localStorage.getItem(LS_USED_KEY) || '0', 10); }
-function incUsed()  { localStorage.setItem(LS_USED_KEY, getUsed() + 1); }
+// La cuota gratuita es diaria (se reinicia con la fecha). Una vez agotada, ver
+// un anuncio permite convertir todos los archivos restantes sin límite.
+function usedKey()  { return 'vidtoflac_used_' + new Date().toISOString().slice(0, 10); }
+function getUsed()  { return parseInt(localStorage.getItem(usedKey()) || '0', 10); }
+function incUsed()  { localStorage.setItem(usedKey(), getUsed() + 1); }
 function freeLeft() { return Math.max(0, FREE_LIMIT - getUsed()); }
 
 function showAdModal() {
