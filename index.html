@@ -1724,10 +1724,55 @@
     }
     .ad-continue-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
     .ad-continue-btn:not(:disabled):hover { opacity: .88; transform: translateY(-1px); }
+
+    .large-file-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background: rgba(251,191,36,.15);
+      border: 1px solid rgba(251,191,36,.35);
+      margin-bottom: 0.2rem;
+    }
+    .large-file-icon svg { width: 1.1rem; height: 1.1rem; }
+    .large-file-dismiss-btn {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(251,191,36,.4);
+      background: rgba(251,191,36,.12);
+      color: var(--warn);
+      cursor: pointer;
+      transition: opacity .18s, transform .18s;
+    }
+    .large-file-dismiss-btn:hover { opacity: .82; transform: translateY(-1px); }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<!-- Large file warning modal -->
+<div class="ad-modal" id="largeFileModal" role="dialog" aria-modal="true" aria-labelledby="largeFileModalTitle">
+  <div class="ad-modal-box">
+    <div class="ad-modal-header">
+      <span class="large-file-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </span>
+      <span class="ad-modal-title" id="largeFileModalTitle">Archivo demasiado grande</span>
+      <span class="ad-modal-sub" id="largeFileModalSub"></span>
+    </div>
+    <div class="ad-modal-footer" style="justify-content:flex-end">
+      <button class="large-file-dismiss-btn" id="largeFileModalBtn">Entendido, intentar de todos modos</button>
+    </div>
+  </div>
+</div>
 
 <!-- Ad modal -->
 <div class="ad-modal" id="adModal" role="dialog" aria-modal="true" aria-labelledby="adModalTitle">
@@ -2607,6 +2652,12 @@ function addFiles(fileList) {
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
     log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
+    // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
+    if (file.size > 800 * 1024 * 1024) {
+      log(`⚠ "${file.name}" supera 800 MB — puede fallar por límite de memoria WebAssembly.`, 'warn');
+      showLargeFileModal(file.name, file.size);
+    }
     added++;
   }
   if (added) {
@@ -2939,7 +2990,12 @@ convertBtn.addEventListener('click', async () => {
 
     } catch (err) {
       entry.status = 'error';
-      log(`✗ Error en "${file.name}": ${err.message ?? 'error desconocido'}`, 'error');
+      const msg = err.message ?? 'error desconocido';
+      if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
+        log(`✗ Error de memoria en "${file.name}": el archivo es demasiado grande para la memoria WebAssembly (~2 GB). Divide el vídeo en partes más cortas e intenta de nuevo.`, 'error');
+      } else {
+        log(`✗ Error en "${file.name}": ${msg}`, 'error');
+      }
       // ffmpeg.wasm can crash (Aborted). Reinitialize so next files work.
       try { await ffmpeg.deleteFile(inputName); } catch (_) {}
       try { await ffmpeg.deleteFile(outputName); } catch (_) {}
@@ -2953,6 +3009,19 @@ convertBtn.addEventListener('click', async () => {
   setEngine('Motor listo', 'ready');
   updateConvertBtn();
 });
+
+// ─── Large file warning modal ─────────────────────────────────────────────────
+function showLargeFileModal(name, size) {
+  const modal  = $('largeFileModal');
+  const subEl  = $('largeFileModalSub');
+  const btn    = $('largeFileModalBtn');
+  subEl.innerHTML =
+    `<strong>${name}</strong> pesa <strong>${fmt(size)}</strong>. ` +
+    `El motor WebAssembly dispone de unos 2 GB de memoria: con la entrada y la salida juntas es posible que se quede sin espacio y la conversión falle a mitad.<br><br>` +
+    `Si ocurre, divide el vídeo en partes más cortas antes de subirlo (por ejemplo con HandBrake o con <code>ffmpeg -t 3600 -c copy parte1.mp4</code> en tu terminal).`;
+  modal.classList.add('open');
+  btn.addEventListener('click', () => modal.classList.remove('open'), { once: true });
+}
 
 // ─── Freemium: 3 archivos gratis al día; un anuncio desbloquea la sesión ──────
 const FREE_LIMIT   = 3;    // archivos gratuitos por día
