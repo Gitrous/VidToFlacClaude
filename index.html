@@ -3007,27 +3007,23 @@ convertBtn.addEventListener('click', async () => {
 
   const selectedFormat = document.querySelector('input[name="outFormat"]:checked')?.value || 'mkv';
 
-  // Determinar qué archivos van en fase 1 (gratis) y fase 2 (tras el anuncio).
-  let fase1, fase2;
+  // Determinar qué archivos se procesan en este clic.
+  let toProcesar;
   if (tandaUnlocked) {
-    fase1 = allPending;
-    fase2 = [];
+    // Anuncio ya visto: convertir todo lo pendiente.
+    toProcesar = allPending;
   } else {
     const left = freeLeft();
-    if (left >= allPending.length) {
-      // Todo cabe en la cuota gratuita.
-      fase1 = allPending;
-      fase2 = [];
-      incQuota(allPending.length);
-    } else if (left > 0) {
-      // Parte gratis, el resto tras ver el anuncio.
-      fase1 = allPending.slice(0, left);
-      fase2 = allPending.slice(left);
-      incQuota(left);
+    if (left > 0) {
+      // Quedan conversiones gratuitas: convertir solo hasta agotar la cuota.
+      // Si hay más archivos, quedan pendientes para el siguiente clic (con anuncio).
+      toProcesar = allPending.slice(0, left);
+      incQuota(toProcesar.length);
     } else {
-      // Cuota agotada: anuncio antes de empezar.
-      fase1 = [];
-      fase2 = allPending;
+      // Cuota agotada: el usuario pulsa Convertir a sabiendas → mostrar anuncio.
+      await showAdModal();
+      tandaUnlocked = true;
+      toProcesar = allPending;
     }
   }
 
@@ -3035,23 +3031,8 @@ convertBtn.addEventListener('click', async () => {
   setEngine('Procesando…', 'busy');
   updateConvertBtn();
 
-  const total = fase1.length + fase2.length;
-
-  // Fase 1: archivos gratuitos.
-  for (let i = 0; i < fase1.length; i++) {
-    await processOneFile(fase1[i], i, total, selectedFormat);
-  }
-
-  // Anuncio intermedio (si hay archivos en la fase 2).
-  if (fase2.length > 0) {
-    await showAdModal();
-    tandaUnlocked = true;
-    updateConvertBtn();
-  }
-
-  // Fase 2: archivos desbloqueados.
-  for (let i = 0; i < fase2.length; i++) {
-    await processOneFile(fase2[i], fase1.length + i, total, selectedFormat);
+  for (let i = 0; i < toProcesar.length; i++) {
+    await processOneFile(toProcesar[i], i, toProcesar.length, selectedFormat);
   }
 
   setEngine('Motor listo', 'ready');
@@ -3073,7 +3054,7 @@ function showLargeFileModal(name, size) {
 
 // ─── Freemium ──────────────────────────────────────────────────────────────────
 const FREE_LIMIT   = 3;
-const QUOTA_PERIOD = 24 * 3600 * 1000;   // 24 horas
+const QUOTA_PERIOD = 30 * 60 * 1000;   // 30 minutos
 const QUOTA_KEY    = 'vidtoflac_quota_v2';
 let tandaUnlocked  = false;   // true después de ver el anuncio en la tanda actual
 
