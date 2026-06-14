@@ -1734,7 +1734,7 @@
   <div class="ad-modal-box">
     <div class="ad-modal-header">
       <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
-      <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador, así que no tenemos ninguno de tus datos, ni queriendo podríamos venderlos. Lo que sí cuesta es mantenerla y mejorarla — un anuncio ocasional nos ayuda a seguir ofreciendo este servicio.</span>
+      <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>desbloqueas conversiones ilimitadas durante las próximas 3 horas</strong>.</span>
     </div>
     <div class="ad-slot-wrap">
       <ins class="adsbygoogle"
@@ -2424,16 +2424,21 @@ function renderFileList() {
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0;
-  const left = freeLeft();
-  const needsAd = left <= 0;
-  // Sin anuncio se convierten hasta `left` archivos; con anuncio, todos los restantes.
-  const batch = needsAd ? pending : Math.min(pending, left);
-  const label = batch > 1
-    ? `⚙️ Convertir ${batch} archivos a vídeo + FLAC`
+  const left      = freeLeft();
+  const unlocked  = isSessionUnlocked();
+  const needsAd   = left <= 0 && !unlocked;
+  const batchSize = Math.min(pending, BATCH_LIMIT);
+  const willConvert = (needsAd || unlocked) ? batchSize : Math.min(batchSize, left);
+  const label = willConvert > 1
+    ? `⚙️ Convertir ${willConvert} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
-  convertBtn.textContent = needsAd
-    ? `${label} · ver anuncio`
-    : `${label} · ${FREE_LIMIT} archivos sin anuncios`;
+  if (unlocked) {
+    convertBtn.textContent = `${label} · sesión activa`;
+  } else if (needsAd) {
+    convertBtn.textContent = `${label} · ver anuncio`;
+  } else {
+    convertBtn.textContent = `${label} · ${left} gratis`;
+  }
 }
 
 function noPreviewMsg() {
@@ -2740,17 +2745,26 @@ convertBtn.addEventListener('click', async () => {
   const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!allPending.length) return;
 
-  const left = freeLeft();   // archivos gratis que quedan hoy
+  // Límite de lote: máx. BATCH_LIMIT archivos por conversión.
+  if (allPending.length > BATCH_LIMIT) {
+    log(`⚠ Máximo ${BATCH_LIMIT} archivos por lote. Los ${allPending.length - BATCH_LIMIT} restantes quedarán pendientes para la siguiente conversión.`, 'warn');
+  }
+  const batchPending = allPending.slice(0, BATCH_LIMIT);
+
   let pending;
-  if (left > 0) {
-    // Aún queda cuota diaria: convertir hasta `left` archivos sin anuncio.
-    // Si hay más en cola, los restantes quedan pendientes para otra pulsación.
-    pending = allPending.slice(0, left);
+  const left = freeLeft();
+  if (isSessionUnlocked()) {
+    // Sesión desbloqueada por anuncio reciente: procesar el lote completo.
+    pending = batchPending;
+  } else if (left > 0) {
+    // Cuota gratuita disponible: convertir hasta `left` archivos.
+    pending = batchPending.slice(0, left);
     for (let k = 0; k < pending.length; k++) incUsed();
   } else {
-    // Cuota agotada: ver un anuncio desbloquea TODOS los archivos restantes.
+    // Cuota agotada: ver un anuncio desbloquea conversiones durante 3 horas.
     await showAdModal();
-    pending = allPending;
+    setSessionUnlock();
+    pending = batchPending;
   }
   updateConvertBtn();
 
@@ -2940,15 +2954,25 @@ convertBtn.addEventListener('click', async () => {
   updateConvertBtn();
 });
 
-// ─── Freemium: 3 archivos gratis al día; un anuncio desbloquea el resto ───────
-const FREE_LIMIT    = 3;   // archivos convertibles sin anuncio cada día
+// ─── Freemium: 3 archivos gratis al día; un anuncio desbloquea la sesión ──────
+const FREE_LIMIT   = 3;    // archivos gratuitos por día
+const BATCH_LIMIT  = 10;   // máximo de archivos procesados por lote
+const UNLOCK_HOURS = 3;    // horas que dura el desbloqueo tras ver el anuncio
 
-// La cuota gratuita es diaria (se reinicia con la fecha). Una vez agotada, ver
-// un anuncio permite convertir todos los archivos restantes sin límite.
+// Cuota gratuita diaria. Una vez agotada, ver un anuncio desbloquea conversiones
+// ilimitadas (en lotes de BATCH_LIMIT) durante UNLOCK_HOURS horas.
 function usedKey()  { return 'vidtoflac_used_' + new Date().toISOString().slice(0, 10); }
 function getUsed()  { return parseInt(localStorage.getItem(usedKey()) || '0', 10); }
 function incUsed()  { localStorage.setItem(usedKey(), getUsed() + 1); }
 function freeLeft() { return Math.max(0, FREE_LIMIT - getUsed()); }
+
+function isSessionUnlocked() {
+  const until = parseInt(localStorage.getItem('vidtoflac_unlocked_until') || '0', 10);
+  return Date.now() < until;
+}
+function setSessionUnlock() {
+  localStorage.setItem('vidtoflac_unlocked_until', String(Date.now() + UNLOCK_HOURS * 3600 * 1000));
+}
 
 function showAdModal() {
   return new Promise(resolve => {
