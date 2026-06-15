@@ -6,6 +6,10 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 
 VidToFLAC es una aplicación web de **una sola página y 100% del lado del cliente** que reempaqueta (remux) vídeo en un MKV con una pista de audio FLAC sin pérdida (o transcodifica archivos solo de audio a FLAC), para solucionar el problema de "sin audio / error de códec de audio" en DaVinci Resolve, Premiere y Avid. Todo el procesamiento ocurre localmente en el navegador mediante **ffmpeg.wasm** — nunca se sube nada. El sitio está en **español** (textos de UI, logs, comentarios) y está muy optimizado para SEO en torno al caso de uso del códec de audio de DaVinci Resolve.
 
+## Sincronización con la versión en inglés
+
+**Cualquier cambio en `index.html` (versión principal en español) debe aplicarse también a `en/index.html` (versión en inglés).** Esto incluye cambios de CSS, layout, lógica JS, slots de anuncios, y cualquier elemento estructural. Los textos de UI van traducidos al inglés; el resto del código es idéntico.
+
 ## Toda la app es `index.html`
 
 **No hay sistema de build, dependencias, tests ni package.json.** `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
