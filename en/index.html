@@ -318,9 +318,10 @@
     @media (min-width: 880px) {
       .tool-grid {
         display: grid;
-        grid-template-columns: 1fr 460px;
+        grid-template-columns: minmax(300px, 700px) 460px;
         gap: 1.5rem;
         align-items: start;
+        justify-content: center;
       }
       .tool-left, .tool-right {
         display: flex;
@@ -359,6 +360,12 @@
         max-width: 860px;
         margin-left: auto;
         margin-right: auto;
+      }
+
+      /* File selector card: center title and format label */
+      .tool-left .card:first-child .card-title,
+      .tool-left .card:first-child .format-picker-label {
+        text-align: center;
       }
     }
 

@@ -301,7 +301,7 @@
 
     .container {
       width: 100%;
-      max-width: 1160px;
+      max-width: 1500px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -318,9 +318,10 @@
     @media (min-width: 880px) {
       .tool-grid {
         display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 1.25rem;
+        grid-template-columns: minmax(300px, 700px) 460px;
+        gap: 1.5rem;
         align-items: start;
+        justify-content: center;
       }
       .tool-left, .tool-right {
         display: flex;
@@ -359,6 +360,12 @@
         max-width: 860px;
         margin-left: auto;
         margin-right: auto;
+      }
+
+      /* File selector card: center title and format label */
+      .tool-left .card:first-child .card-title,
+      .tool-left .card:first-child .format-picker-label {
+        text-align: center;
       }
     }
 
@@ -509,7 +516,8 @@
       50%      { box-shadow: 0 0 0 1px rgba(25,195,125,.32), 0 0 22px -4px rgba(25,195,125,.28); }
     }
 
-    .engine-card { padding: 0.85rem 1.2rem; transition: border-color 0.5s, box-shadow 0.5s; }
+    .engine-card { padding: 1.2rem 1.4rem; min-height: 80px; display: flex; align-items: center; transition: border-color 0.5s, box-shadow 0.5s; }
+    .engine-card .engine-row { width: 100%; }
     .engine-card.is-loading {
       border-color: rgba(25,195,125,.3);
       animation: card-glow 1.8s ease-in-out infinite;
@@ -568,7 +576,7 @@
       position: relative;
       border: 1.5px dashed var(--line-strong);
       border-radius: var(--radius-sm);
-      padding: 2.6rem 2rem;
+      padding: 4rem 2rem;
       text-align: center;
       cursor: pointer;
       color: var(--ink-mute);
@@ -601,8 +609,8 @@
       justify-content: center;
     }
     .dz-icon svg {
-      width: 40px;
-      height: 40px;
+      width: 56px;
+      height: 56px;
       transition: transform .25s;
     }
     .drop-zone:hover .dz-icon svg,
@@ -610,7 +618,7 @@
 
     .dz-title {
       font-family: var(--font-display);
-      font-size: 1.02rem;
+      font-size: 1.18rem;
       font-weight: 700;
       letter-spacing: -0.01em;
       color: var(--ink);
