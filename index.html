@@ -202,7 +202,7 @@
         "name": "¿Es seguro usar vidtoflac.tech?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. VidToFLAC procesa tus archivos 100% en local gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y no se almacena en ningún sitio. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario, ni cookies de seguimiento, ni ningún tercero con acceso a tus archivos."
+          "text": "Sí. VidToFLAC procesa tus archivos 100% en local gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y ningún tercero tiene acceso a tus archivos. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario ni cuentas. El sitio se financia con anuncios de Google AdSense, que pueden usar cookies; lo detallamos en nuestra política de privacidad."
         }
       },
       {
@@ -1889,8 +1889,7 @@
            data-ad-slot="9253210070"></ins>
     </div>
     <div class="ad-modal-footer">
-      <span class="ad-countdown" id="adCountdown">Espera <strong id="adSecs">5</strong>s…</span>
-      <button class="ad-continue-btn" id="adContinueBtn" disabled>Continuar conversión</button>
+      <button class="ad-continue-btn" id="adContinueBtn">Continuar conversión</button>
     </div>
   </div>
 </div>
@@ -2262,7 +2261,7 @@
       <details class="faq-item">
         <summary>¿Es seguro usar vidtoflac.tech?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Sí.</strong> VidToFLAC procesa tus archivos <strong>100% en local</strong> gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y no se almacena en ningún sitio. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario, ni cookies de seguimiento, ni ningún tercero con acceso a tus archivos.</p>
+          <p><strong>Sí.</strong> VidToFLAC procesa tus archivos <strong>100% en local</strong> gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y <strong>ningún tercero tiene acceso a tus archivos</strong>. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario ni cuentas. El sitio se financia con anuncios de Google AdSense, que pueden usar cookies; lo detallamos en nuestra <a href="/politica-de-privacidad/">política de privacidad</a>.</p>
         </div>
       </details>
 
@@ -3205,36 +3204,31 @@ function updateCountdownDisplay() {
 
 function showAdModal() {
   return new Promise(resolve => {
-    const modal      = $('adModal');
-    const secsEl     = $('adSecs');
-    const countEl    = $('adCountdown');
+    const modal       = $('adModal');
     const continueBtn = $('adContinueBtn');
 
     modal.classList.add('open');
-    continueBtn.disabled = true;
-    let secs = 5;
-    secsEl.textContent = secs;
+    // El modal se puede cerrar de inmediato: sin cuenta atrás ni espera.
+    continueBtn.disabled = false;
+    continueBtn.focus();
 
     // Push AdSense ad
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
 
-    const tick = setInterval(() => {
-      secs--;
-      if (secs <= 0) {
-        clearInterval(tick);
-        countEl.innerHTML = '¡Listo!';
-        continueBtn.disabled = false;
-        continueBtn.focus();
-      } else {
-        secsEl.textContent = secs;
-      }
-    }, 1000);
-
-    continueBtn.addEventListener('click', function handler() {
-      continueBtn.removeEventListener('click', handler);
+    // Cerrar con el botón, clic en el fondo o tecla Escape → continúa la conversión.
+    function close() {
+      continueBtn.removeEventListener('click', close);
+      modal.removeEventListener('click', onBackdrop);
+      document.removeEventListener('keydown', onKey);
       modal.classList.remove('open');
       resolve();
-    }, { once: true });
+    }
+    function onBackdrop(e) { if (e.target === modal) close(); }
+    function onKey(e)      { if (e.key === 'Escape') close(); }
+
+    continueBtn.addEventListener('click', close);
+    modal.addEventListener('click', onBackdrop);
+    document.addEventListener('keydown', onKey);
   });
 }
 

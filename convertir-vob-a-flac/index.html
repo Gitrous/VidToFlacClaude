@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir VOB a FLAC – Audio de DVD sin pérdida para DaVinci Resolve | VidToFLAC</title>
   <meta name="description" content="Convierte el audio de tus archivos VOB (DVD) a FLAC sin pérdida, 100% en tu navegador. Soluciona el error de códec AC3/DTS de DaVinci Resolve con copias de DVD." />
-  <meta name="keywords" content="convertir VOB a FLAC, VOB DVD audio FLAC, VOB DaVinci Resolve sin sonido, remux VOB MKV FLAC, DVD VOB FLAC, AC3 FLAC DaVinci Resolve" />
+  <meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux, cómo arreglar audio en DaVinci Resolve, DaVinci Resolve no reproduce audio MP4, convertir MOV a MKV con audio FLAC, códec de audio no compatible con Premiere, Avid Media Composer sin sonido al importar vídeo, convertidor de vídeo a FLAC online gratis, transcodificar audio AAC a FLAC sin perder calidad, solución error audio AC3 DaVinci Resolve, convertir audio de vídeo sin subir archivos, herramienta privada de conversión de audio en el navegador, remuxar MP4 a MKV sin recodificar vídeo, arreglar audio E-AC3 en edición de vídeo, convertir pista de audio a FLAC manteniendo el vídeo, DaVinci Resolve Linux problema de audio, herramienta online sin subir vídeos a servidores, convertir audio Opus a FLAC para edición, solucionar audio Dolby Digital en DaVinci Resolve, convertir vídeo MKV MP4 a formato compatible con edición, FFmpeg WebAssembly procesamiento local de vídeo, extraer y convertir audio de vídeo a FLAC sin pérdida" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
@@ -14,6 +14,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="canonical" href="https://vidtoflac.tech/convertir-vob-a-flac/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/" />
 
   <!-- Icons & PWA manifest -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -199,7 +202,7 @@
         "name": "¿Es seguro usar vidtoflac.tech?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. VidToFLAC procesa tus archivos 100% en local gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y no se almacena en ningún sitio. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario, ni cookies de seguimiento, ni ningún tercero con acceso a tus archivos."
+          "text": "Sí. VidToFLAC procesa tus archivos 100% en local gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y ningún tercero tiene acceso a tus archivos. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario ni cuentas. El sitio se financia con anuncios de Google AdSense, que pueden usar cookies; lo detallamos en nuestra política de privacidad."
         }
       },
       {
@@ -298,12 +301,73 @@
 
     .container {
       width: 100%;
-      max-width: 600px;
+      max-width: 1500px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 0.9rem;
       position: relative;
       z-index: 2;
+    }
+
+    /* ── Desktop two-column tool area ───────────────────── */
+    /* display:contents on mobile: wrappers are invisible,  */
+    /* children flow directly into the container flex col.  */
+    .tool-grid, .tool-left, .tool-right { display: contents; }
+
+    @media (min-width: 880px) {
+      .tool-grid {
+        display: grid;
+        grid-template-columns: minmax(300px, 700px) 460px;
+        gap: 1.5rem;
+        align-items: start;
+        justify-content: center;
+      }
+      .tool-left, .tool-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        min-width: 0;
+      }
+
+      /* Header: centered and compact on wide screens */
+      .header {
+        padding: 0.5rem 0 1rem;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-title {
+        font-size: 2.6rem;
+        max-width: 20ch;
+        margin: 0.75rem auto 0;
+      }
+      .hero-sub { margin: 0.75rem auto 0; max-width: 54ch; }
+
+      /* Trust grid: centered with max width for readability */
+      .trust-grid {
+        gap: 1rem;
+        max-width: 860px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .trust-card { padding: 1.4rem 1.2rem; }
+
+      /* Conv counter: centered */
+      .conv-counter { justify-content: center; }
+
+      /* Steps + SEO sections: constrain width and center */
+      .steps-card, .seo-card, .faq-card {
+        max-width: 860px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+    }
+
+    /* File selector card: center title and format label (all breakpoints) */
+    .tool-left .card:first-child .card-title,
+    .tool-left .card:first-child .format-picker-label {
+      text-align: center;
     }
 
     /* Staggered page-load reveal */
@@ -334,18 +398,19 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 1rem;
+      margin-bottom: 0.3rem;
     }
 
     .brand-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
       display: grid;
       place-items: center;
       background: linear-gradient(160deg, #1f1f25, #121215);
       border: 1px solid var(--line-strong);
-      box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 24px rgba(0,0,0,.5);
+      box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 24px rgba(0,0,0,.5), 0 0 32px -8px var(--amber-soft);
     }
 
     .brand-mark .bar {
@@ -364,10 +429,11 @@
     .brand-name {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.9rem;
-      letter-spacing: -0.035em;
+      font-size: 3rem;
+      letter-spacing: -0.04em;
       line-height: 1;
       color: var(--ink);
+      text-shadow: 0 0 38px var(--amber-soft);
     }
     .brand-accent { color: var(--amber); }
 
@@ -404,8 +470,6 @@
     }
 
     /* ── Engine status ───────────────────────────────────────── */
-    .engine-card { padding: 0.85rem 1.2rem; }
-
     .engine-row {
       display: flex;
       align-items: center;
@@ -431,14 +495,55 @@
       flex-shrink: 0;
     }
 
-    .engine-dot.loading { background: var(--warn);  box-shadow: 0 0 0 4px rgba(251,191,36,.14);  animation: pulse 1.3s ease-in-out infinite; }
+    .engine-dot.idle    { background: var(--line-strong); }
+    .engine-dot.loading { background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); animation: dot-ripple 1.4s ease-out infinite; }
     .engine-dot.ready   { background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
-    .engine-dot.busy    { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft);   animation: pulse 1.1s ease-in-out infinite; }
+    .engine-dot.busy    { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft); animation: pulse 1.1s ease-in-out infinite; }
     .engine-dot.error   { background: var(--red);   box-shadow: 0 0 0 4px var(--red-soft); }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50%      { opacity: 0.4; }
+    }
+
+    @keyframes dot-ripple {
+      0%   { box-shadow: 0 0 0 0 rgba(25,195,125,.55), 0 0 0 0 rgba(25,195,125,.25); }
+      60%  { box-shadow: 0 0 0 7px rgba(25,195,125,0),  0 0 0 13px rgba(25,195,125,0); }
+      100% { box-shadow: 0 0 0 0 rgba(25,195,125,0),   0 0 0 0 rgba(25,195,125,0); }
+    }
+
+    @keyframes card-glow {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(25,195,125,.12), 0 0 16px -6px rgba(25,195,125,.12); }
+      50%      { box-shadow: 0 0 0 1px rgba(25,195,125,.32), 0 0 22px -4px rgba(25,195,125,.28); }
+    }
+
+    .engine-card { padding: 1.2rem 1.4rem; min-height: 80px; display: flex; align-items: center; transition: border-color 0.5s, box-shadow 0.5s; }
+    .engine-card .engine-row { width: 100%; }
+    .engine-card.is-loading {
+      border-color: rgba(25,195,125,.3);
+      animation: card-glow 1.8s ease-in-out infinite;
+    }
+
+    /* ── Celebración: transición a "Motor listo" ─────────────── */
+    .engine-card.is-celebrating { animation: card-celebrate .9s cubic-bezier(.2,1,.3,1) both; }
+    .engine-dot.is-celebrating  { animation: dot-celebrate .9s cubic-bezier(.2,1,.3,1) both; }
+
+    @keyframes card-celebrate {
+      0%   { box-shadow: 0 0 0 1px rgba(25,195,125,.12), 0 0 0 0 rgba(25,195,125,.4); }
+      35%  { box-shadow: 0 0 0 1px rgba(25,195,125,.5),  0 0 28px -2px rgba(25,195,125,.55); }
+      100% { box-shadow: 0 0 0 1px rgba(25,195,125,.12), 0 0 16px -6px rgba(25,195,125,0); }
+    }
+    @keyframes dot-celebrate {
+      0%   { transform: scale(1);   box-shadow: 0 0 0 4px var(--green-soft); }
+      40%  { transform: scale(1.6); box-shadow: 0 0 0 9px rgba(74,222,128,.22); }
+      100% { transform: scale(1);   box-shadow: 0 0 0 4px var(--green-soft); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .engine-dot.loading { animation: none; }
+      .engine-card.is-loading { animation: none; }
+      .engine-card.is-celebrating,
+      .engine-dot.is-celebrating { animation: none; }
     }
 
     /* ── Badge (shared: engine + file chips) ─────────────────── */
@@ -454,6 +559,7 @@
       border: 1px solid transparent;
     }
 
+    .badge-idle    { background: transparent;           color: var(--ink-mute); border-color: var(--line); }
     .badge-loading { background: rgba(251,191,36,.10); color: var(--warn);  border-color: rgba(251,191,36,.22); }
     .badge-ready   { background: var(--green-soft);    color: var(--green); border-color: rgba(74,222,128,.25); }
     .badge-busy    { background: var(--amber-soft);    color: var(--amber-2); border-color: var(--amber-line); }
@@ -471,7 +577,7 @@
       position: relative;
       border: 1.5px dashed var(--line-strong);
       border-radius: var(--radius-sm);
-      padding: 2.6rem 2rem;
+      padding: 4rem 2rem;
       text-align: center;
       cursor: pointer;
       color: var(--ink-mute);
@@ -504,8 +610,8 @@
       justify-content: center;
     }
     .dz-icon svg {
-      width: 40px;
-      height: 40px;
+      width: 56px;
+      height: 56px;
       transition: transform .25s;
     }
     .drop-zone:hover .dz-icon svg,
@@ -513,7 +619,7 @@
 
     .dz-title {
       font-family: var(--font-display);
-      font-size: 1.02rem;
+      font-size: 1.18rem;
       font-weight: 700;
       letter-spacing: -0.01em;
       color: var(--ink);
@@ -524,6 +630,164 @@
       color: var(--ink-mute);
       font-size: 0.68rem;
       letter-spacing: 0.02em;
+    }
+
+    /* ── Selector de formato de entrada (guía / navegación) ───── */
+    .format-picker-label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--ink-dim);
+      margin-bottom: 0.5rem;
+    }
+    .format-picker-label .ink-mute { color: var(--ink-mute); }
+
+    .format-dropdown {
+      position: relative;
+      margin-bottom: 1.1rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .format-dropdown:hover            { border-color: var(--line-strong); }
+    .format-dropdown[open]            { border-color: var(--amber-line); box-shadow: 0 0 0 3px var(--amber-soft); }
+    .format-dropdown[open]:hover      { border-color: var(--amber-line); }
+
+    .format-dropdown-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.85rem 1.05rem;
+      user-select: none;
+    }
+    .format-dropdown-summary::-webkit-details-marker { display: none; }
+
+    .format-dropdown-current {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .format-dropdown-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--amber);
+      box-shadow: 0 0 0 3px var(--amber-soft);
+      transition: background .2s, box-shadow .2s;
+    }
+    /* Mismo efecto "ripple" que el punto del motor al arrancar (engine-dot.loading) */
+    .format-dropdown-dot.is-pulsing {
+      animation: dot-ripple 1.4s ease-out infinite;
+    }
+    /* Un único pulso al cerrar el desplegable */
+    .format-dropdown-dot.is-rippling {
+      animation: dot-ripple 1.4s ease-out 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .format-dropdown-dot.is-pulsing,
+      .format-dropdown-dot.is-rippling { animation: none; }
+    }
+    #formatDropdownLabel {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .format-dropdown-chevron {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      position: relative;
+      transition: transform .25s ease;
+    }
+    .format-dropdown-chevron::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ink-mute);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+    }
+    .format-dropdown[open] .format-dropdown-chevron        { transform: rotate(180deg); }
+    .format-dropdown[open] .format-dropdown-chevron::before { background: var(--amber-2); }
+
+    .format-dropdown-panel {
+      padding: 0 1.05rem 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .format-dropdown-auto {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      border: 1px solid var(--amber-line);
+      border-radius: var(--radius-sm);
+      background: var(--amber-soft);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .format-dropdown-auto:hover,
+    .format-dropdown-auto:focus-visible { background: var(--amber-line); outline: none; }
+    .format-dropdown-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-2);
+    }
+
+    .format-dropdown-hint {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-mute);
+      padding: 0 0.1rem;
+    }
+
+    .format-dropdown-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .format-dropdown-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--ink-dim);
+      cursor: pointer;
+      transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;
+    }
+    .format-dropdown-chip:hover,
+    .format-dropdown-chip:focus-visible {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+      color: var(--amber-2);
+      transform: translateY(-1px);
+      outline: none;
     }
 
     /* ── File list ───────────────────────────────────────────── */
@@ -578,7 +842,30 @@
       100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
     }
 
-    .file-chip-icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1; opacity: .9; }
+    .file-ext-tag {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .file-ext-tag.is-video {
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      color: var(--amber);
+    }
+    .file-ext-tag.is-audio {
+      background: var(--green-soft);
+      border: 1px solid rgba(74,222,128,.28);
+      color: var(--green);
+    }
 
     .file-chip-info { flex: 1; overflow: hidden; }
     .file-chip-name {
@@ -678,23 +965,32 @@
     /* ── Format selector ─────────────────────────────────────── */
     .format-options {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 0.75rem;
       margin-bottom: 1.1rem;
+    }
+    .format-option:last-child {
+      grid-column: 1 / -1;
+      width: calc(50% - 0.375rem);
+      margin: 0 auto;
     }
 
     .format-option input[type="radio"] { display: none; }
 
     .format-option label {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.85rem;
-      padding: 0.85rem 1rem;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.1rem 1rem;
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: border-color .18s, background .18s;
       background: var(--panel-2);
+      text-align: center;
+      height: 100%;
     }
     .format-option label:hover { border-color: var(--line-strong); }
     .format-option input:checked + label {
@@ -704,12 +1000,12 @@
 
     .format-badge {
       font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-size: 1.4rem;
       font-weight: 800;
       letter-spacing: 0.02em;
       color: var(--ink);
     }
-    .format-meta { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+    .format-meta { display: flex; flex-direction: column; gap: 0.15rem; align-items: center; }
     .format-rec {
       font-family: var(--font-mono);
       font-size: 0.6rem;
@@ -723,6 +1019,13 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .format-note {
+      font-size: 0.72rem;
+      color: var(--ink-dim);
+      text-align: center;
+      margin: 0.1rem 0 0.75rem;
+    }
+    .format-note strong { color: var(--amber); font-weight: 600; }
 
     /* ── Auto-download toggle ────────────────────────────────── */
     .auto-dl-toggle {
@@ -776,6 +1079,32 @@
       transition: color .2s;
     }
     .auto-dl-toggle:has(input:checked) .toggle-label { color: var(--ink-dim); }
+
+    /* ── Conversion counter ──────────────────────────────────── */
+    .conv-counter {
+      display: none;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 0.75rem;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--amber-line);
+      border-radius: var(--radius-sm);
+      background: var(--amber-soft);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.03em;
+      color: var(--ink-dim);
+      animation: rise .35s ease both;
+    }
+    .conv-counter.visible { display: flex; }
+    .conv-counter-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px var(--amber-soft);
+    }
+    .conv-counter strong { color: var(--amber); font-weight: 700; }
 
     /* ── Progress (VU-meter styling) ─────────────────────────── */
     .progress-card { display: none; }
@@ -867,18 +1196,27 @@
     .btn-download-all {
       font-family: var(--font-mono);
       padding: 0.4rem 0.85rem;
-      background: var(--green-soft);
-      color: var(--green);
-      border: 1px solid rgba(74,222,128,.3);
+      background: var(--green);
+      color: #06160c;
+      border: 1px solid transparent;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.04em;
       border-radius: 8px;
       text-decoration: none;
       cursor: pointer;
-      transition: background .18s, border-color .18s;
+      transition: background .18s, box-shadow .18s;
     }
-    .btn-download-all:hover { background: rgba(74,222,128,.2); border-color: rgba(74,222,128,.5); }
+    .btn-download-all:hover {
+      background: #6ee79b;
+      box-shadow: 0 6px 20px -6px rgba(74,222,128,.5);
+    }
+    .download-all-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+    }
+    .download-all-row:has(> a[style*="none"]) { margin-bottom: 0; }
 
     .preview-item {
       border: 1px solid var(--line);
@@ -888,6 +1226,12 @@
       background: var(--panel-2);
     }
     .preview-item:last-child { margin-bottom: 0; }
+
+    .preview-ad {
+      margin-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      padding-top: 1rem;
+    }
 
     .preview-item-label {
       font-family: var(--font-mono);
@@ -1232,6 +1576,31 @@
       color: var(--amber);
     }
 
+    /* ── Enlaces a páginas de formato (navegación interna / SEO) ─ */
+    .format-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .format-links a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.95rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-dim);
+      text-decoration: none;
+      transition: border-color .15s ease, color .15s ease, background .15s ease;
+    }
+    .format-links a:hover,
+    .format-links a:focus-visible {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+      color: var(--amber-2);
+    }
+
     /* ── FAQ accordion (native details/summary) ──────────────── */
     .faq-list {
       display: flex;
@@ -1329,7 +1698,9 @@
 
     @media (max-width: 480px) {
       body { padding: 2.25rem 0.9rem 4rem; }
-      .brand-name { font-size: 1.65rem; }
+      .brand-mark { width: 46px; height: 46px; border-radius: 13px; }
+      .brand-mark svg { width: 28px; height: 28px; }
+      .brand-name { font-size: 2.2rem; }
       .card { padding: 1.15rem; }
     }
 
@@ -1352,8 +1723,134 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
-  .brand-home-link { text-decoration: none; color: inherit; }
+
+    /* ── Ad modal ────────────────────────────────────────────── */
+    .ad-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,.82);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .ad-modal.open { display: flex; animation: rise .25s ease both; }
+
+    .ad-modal-box {
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.6rem 1.4rem;
+      max-width: 420px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      box-shadow: 0 24px 64px rgba(0,0,0,.6);
+    }
+
+    .ad-modal-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .ad-modal-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .ad-modal-sub {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--ink-mute);
+    }
+    .ad-modal-sub strong { color: var(--ink); font-weight: 600; }
+
+    .ad-slot-wrap {
+      background: var(--panel-2);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ad-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ad-countdown {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-mute);
+      letter-spacing: 0.04em;
+    }
+    .ad-countdown strong { color: var(--warn); }
+
+    .ad-continue-btn {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--amber);
+      color: #000;
+      cursor: pointer;
+      transition: opacity .18s, transform .18s;
+    }
+    .ad-continue-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
+    .ad-continue-btn:not(:disabled):hover { opacity: .88; transform: translateY(-1px); }
+
+    .quota-countdown {
+      display: none;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-mute);
+      letter-spacing: 0.03em;
+      padding: 0.3rem 0;
+    }
+    .quota-countdown.visible { display: flex; }
+    .quota-countdown svg { width: 0.85rem; height: 0.85rem; flex-shrink: 0; opacity: .55; }
+    #quotaTime { color: var(--warn); font-weight: 700; }
+
+    .large-file-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background: rgba(251,191,36,.15);
+      border: 1px solid rgba(251,191,36,.35);
+      margin-bottom: 0.2rem;
+    }
+    .large-file-icon svg { width: 1.1rem; height: 1.1rem; }
+    .large-file-dismiss-btn {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(251,191,36,.4);
+      background: rgba(251,191,36,.12);
+      color: var(--warn);
+      cursor: pointer;
+      transition: opacity .18s, transform .18s;
+    }
+    .large-file-dismiss-btn:hover { opacity: .82; transform: translateY(-1px); }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -1364,9 +1861,48 @@
     ]
   }
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<!-- Large file warning modal -->
+<div class="ad-modal" id="largeFileModal" role="dialog" aria-modal="true" aria-labelledby="largeFileModalTitle">
+  <div class="ad-modal-box">
+    <div class="ad-modal-header">
+      <span class="large-file-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </span>
+      <span class="ad-modal-title" id="largeFileModalTitle">Archivo demasiado grande</span>
+      <span class="ad-modal-sub" id="largeFileModalSub"></span>
+    </div>
+    <div class="ad-modal-footer" style="justify-content:flex-end">
+      <button class="large-file-dismiss-btn" id="largeFileModalBtn">Entendido, intentar de todos modos</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ad modal -->
+<div class="ad-modal" id="adModal" role="dialog" aria-modal="true" aria-labelledby="adModalTitle">
+  <div class="ad-modal-box">
+    <div class="ad-modal-header">
+      <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
+      <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>todos los archivos que tengas en cola se convertirán sin límite</strong>.</span>
+    </div>
+    <div class="ad-slot-wrap">
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-layout="in-article"
+           data-ad-format="fluid"
+           data-ad-client="ca-pub-1123812992313934"
+           data-ad-slot="9253210070"></ins>
+    </div>
+    <div class="ad-modal-footer">
+      <button class="ad-continue-btn" id="adContinueBtn">Continuar conversión</button>
+    </div>
+  </div>
+</div>
 
 <div class="container">
 
@@ -1374,7 +1910,7 @@
   <header class="header">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <svg width="34" height="34" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
           <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
           <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
           <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
@@ -1422,20 +1958,58 @@
     </div>
   </div>
 
-  <!-- Engine status -->
-  <div class="card engine-card">
-    <div class="engine-row">
-      <div class="engine-label">
-        <span class="engine-dot loading" id="engineDot"></span>
-        <span id="engineText">Cargando FFmpeg WASM…</span>
-      </div>
-      <span class="badge badge-loading" id="engineBadge">Iniciando</span>
-    </div>
+  <!-- Conversion counter -->
+  <div class="conv-counter" id="convCounter">
+    <span class="conv-counter-dot"></span>
+    <span><strong id="convCount">0</strong> archivos convertidos en este navegador · <strong id="convToday">0</strong> conversiones hoy · ninguno ha salido de tu equipo</span>
   </div>
+
+  <div class="tool-grid">
+  <div class="tool-left">
 
   <!-- File selector -->
   <div class="card">
     <div class="card-title"><span class="step">01</span> Selecciona los vídeos de entrada</div>
+
+    <span class="format-picker-label">¿Sabes qué formato vas a convertir? <span class="ink-mute">(opcional)</span></span>
+    <details class="format-dropdown" id="formatDropdown">
+      <summary class="format-dropdown-summary" aria-label="Elegir formato de entrada para ir a su guía específica">
+        <span class="format-dropdown-current">
+          <span class="format-dropdown-dot" aria-hidden="true"></span>
+          <span id="formatDropdownLabel">Detectar automáticamente</span>
+        </span>
+        <span class="format-dropdown-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="format-dropdown-panel">
+        <button type="button" class="format-dropdown-auto is-active" data-url="" data-label="Detectar automáticamente">
+          <span>Detectar automáticamente</span>
+          <span class="format-dropdown-tag">Recomendado</span>
+        </button>
+        <span class="format-dropdown-hint">— o ve directo a la guía de tu formato —</span>
+        <div class="format-dropdown-grid">
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mp4-a-flac/"  data-label="MP4 → FLAC">MP4 → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mov-a-flac/"  data-label="MOV → FLAC">MOV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mkv-a-flac/"  data-label="MKV → FLAC">MKV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-avi-a-flac/"  data-label="AVI → FLAC">AVI → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-webm-a-flac/" data-label="WEBM → FLAC">WEBM → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-wmv-a-flac/"  data-label="WMV → FLAC">WMV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-flv-a-flac/"  data-label="FLV → FLAC">FLV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mpeg-a-flac/" data-label="MPEG → FLAC">MPEG → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-ts-a-flac/"   data-label="TS → FLAC">TS → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-vob-a-flac/"  data-label="VOB → FLAC">VOB → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-3gp-a-flac/"  data-label="3GP → FLAC">3GP → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-m4v-a-flac/"  data-label="M4V → FLAC">M4V → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-mp3-a-flac/"  data-label="MP3 → FLAC">MP3 → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-aac-a-flac/"  data-label="AAC → FLAC">AAC → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-m4a-a-flac/"  data-label="M4A → FLAC">M4A → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-wav-a-flac/"  data-label="WAV → FLAC">WAV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-aiff-a-flac/" data-label="AIFF → FLAC">AIFF → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-ogg-a-flac/"  data-label="OGG → FLAC">OGG → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-opus-a-flac/" data-label="Opus → FLAC">Opus → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/convertir-wma-a-flac/"  data-label="WMA → FLAC">WMA → FLAC</button>
+        </div>
+      </div>
+    </details>
 
     <div class="drop-zone" id="dropZone">
       <input
@@ -1470,11 +2044,30 @@
           <span class="format-badge">MKV</span>
           <span class="format-meta">
             <span class="format-rec">✓ RECOMENDADO</span>
-            <span class="format-desc">H.264 + FLAC · máxima compatibilidad</span>
+            <span class="format-desc">Audio → FLAC · vídeo sin tocar · máxima compatibilidad</span>
+          </span>
+        </label>
+      </div>
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMp4" value="mp4">
+        <label for="fmtMp4">
+          <span class="format-badge">MP4</span>
+          <span class="format-meta">
+            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+          </span>
+        </label>
+      </div>
+      <div class="format-option">
+        <input type="radio" name="outFormat" id="fmtMp3" value="flac-only">
+        <label for="fmtMp3">
+          <span class="format-badge">MP3</span>
+          <span class="format-meta">
+            <span class="format-desc">Solo audio FLAC · extrae la pista de audio sin el vídeo</span>
           </span>
         </label>
       </div>
     </div>
+    <p class="format-note" id="formatNote">Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -1487,6 +2080,26 @@
     <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
       ⚙️ Convertir a vídeo + FLAC
     </button>
+    <div class="quota-countdown" id="quotaCountdown" aria-live="polite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span>3 conversiones gratis en <strong id="quotaTime">--:--</strong></span>
+    </div>
+  </div>
+
+  </div><!-- /tool-left -->
+  <div class="tool-right">
+
+  <!-- Engine status -->
+  <div class="card engine-card" id="engineCard">
+    <div class="engine-row">
+      <div class="engine-label">
+        <span class="engine-dot idle" id="engineDot"></span>
+        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
+      </div>
+      <span class="badge badge-idle" id="engineBadge">En espera</span>
+    </div>
   </div>
 
   <!-- Progress -->
@@ -1504,6 +2117,8 @@
   <div class="card preview-card" id="previewCard">
     <div class="preview-header">
       <span class="card-title" style="margin-bottom:0"><span class="step">03</span> Resultados</span>
+    </div>
+    <div class="download-all-row">
       <a id="downloadAllBtn" class="btn-download-all" role="button" aria-label="Descargar todos los archivos convertidos" style="display:none">⬇ Descargar todo</a>
     </div>
     <div id="previewList"></div>
@@ -1527,6 +2142,9 @@
     </div>
   </div>
 
+  </div><!-- /tool-right -->
+  </div><!-- /tool-grid -->
+
   <!-- How it works -->
   <div class="card steps-card">
     <div class="card-title">Cómo funciona</div>
@@ -1549,6 +2167,17 @@
     </div>
   </div>
 
+  <!-- Ad: between tool and SEO content (visible to all users) -->
+  <div style="text-align:center;overflow:hidden;">
+    <ins class="adsbygoogle"
+         style="display:block;"
+         data-ad-client="ca-pub-1123812992313934"
+         data-ad-slot="9253210070"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">
     <div class="card-title">El problema que solucionamos</div>
@@ -1560,13 +2189,13 @@
       <p>Muchas cámaras, grabadores y aplicaciones de captura como <strong>OBS Studio</strong>, los <strong>smartphones</strong> o las cámaras de acción guardan el audio con códecs comprimidos como <strong>AAC</strong> o <strong>MP3</strong> dentro de contenedores MP4 o MOV. La versión gratuita de DaVinci Resolve —y de forma muy marcada <strong>DaVinci Resolve en Linux</strong> y en entornos profesionales— no incluye las licencias para decodificar todos esos formatos de audio. El resultado es el clásico <span class="hl">DaVinci Resolve sin sonido</span>, audio desincronizado o clips que ni siquiera importan.</p>
 
       <h3>La solución: cambiar el contenedor, no recodificar el vídeo</h3>
-      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que los programas de edición profesionales decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
+      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV o MP4</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que los programas de edición profesionales decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
 
       <p>Esto significa tres cosas para tu flujo de trabajo:</p>
       <ul>
         <li><strong>Cero pérdida de calidad:</strong> es un <span class="hl">remux de vídeo sin pérdida de calidad</span>, los frames originales quedan intactos.</li>
         <li><strong>Velocidad:</strong> no hay re-encoding del vídeo, así que el proceso tarda segundos en lugar de minutos.</li>
-        <li><strong>Compatibilidad inmediata:</strong> el MKV resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
+        <li><strong>Compatibilidad inmediata:</strong> el MKV/MP4 resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
       </ul>
 
       <p>Y todo ocurre con <strong>FFmpeg en el navegador</strong> mediante WebAssembly: la misma herramienta estándar de la industria que usan los profesionales, ejecutándose localmente en tu equipo.</p>
@@ -1621,6 +2250,17 @@
         </div>
       </details>
 
+      <!-- Ad: mid-FAQ (visible on scroll, no conversion required) -->
+      <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">
+        <ins class="adsbygoogle"
+             style="display:block;"
+             data-ad-client="ca-pub-1123812992313934"
+             data-ad-slot="2037769304"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
       <details class="faq-item">
         <summary>¿Cómo extraer el audio de un vídeo en formato FLAC sin perder calidad?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
@@ -1631,7 +2271,7 @@
       <details class="faq-item">
         <summary>¿Es seguro usar vidtoflac.tech?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Sí.</strong> VidToFLAC procesa tus archivos <strong>100% en local</strong> gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y no se almacena en ningún sitio. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario, ni cookies de seguimiento, ni ningún tercero con acceso a tus archivos.</p>
+          <p><strong>Sí.</strong> VidToFLAC procesa tus archivos <strong>100% en local</strong> gracias a FFmpeg compilado a WebAssembly: el vídeo nunca abandona tu dispositivo, no se sube a ningún servidor y <strong>ningún tercero tiene acceso a tus archivos</strong>. Una vez que cierras la pestaña, los archivos temporales del sistema de ficheros virtual de WASM se eliminan automáticamente. No hay registro de usuario ni cuentas. El sitio se financia con anuncios de Google AdSense, que pueden usar cookies; lo detallamos en nuestra <a href="/politica-de-privacidad/">política de privacidad</a>.</p>
         </div>
       </details>
 
@@ -1642,6 +2282,34 @@
         </div>
       </details>
     </div>
+  </section>
+
+  <section class="card seo-card" aria-labelledby="formatos-titulo">
+    <div class="card-title">Convierte desde otros formatos</div>
+    <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Guías para convertir cada formato a FLAC</h2>
+    <p>VidToFLAC acepta cualquiera de estos formatos de entrada. Si quieres ver el proceso paso a paso para el tuyo, consulta su guía específica:</p>
+    <nav class="format-links" aria-label="Guías de conversión por formato">
+      <a href="/convertir-mp4-a-flac/">MP4 → FLAC</a>
+      <a href="/convertir-mov-a-flac/">MOV → FLAC</a>
+      <a href="/convertir-mkv-a-flac/">MKV → FLAC</a>
+      <a href="/convertir-avi-a-flac/">AVI → FLAC</a>
+      <a href="/convertir-webm-a-flac/">WEBM → FLAC</a>
+      <a href="/convertir-wmv-a-flac/">WMV → FLAC</a>
+      <a href="/convertir-flv-a-flac/">FLV → FLAC</a>
+      <a href="/convertir-mpeg-a-flac/">MPEG → FLAC</a>
+      <a href="/convertir-ts-a-flac/">TS → FLAC</a>
+      <a href="/convertir-vob-a-flac/">VOB → FLAC</a>
+      <a href="/convertir-3gp-a-flac/">3GP → FLAC</a>
+      <a href="/convertir-m4v-a-flac/">M4V → FLAC</a>
+      <a href="/convertir-mp3-a-flac/">MP3 → FLAC</a>
+      <a href="/convertir-aac-a-flac/">AAC → FLAC</a>
+      <a href="/convertir-m4a-a-flac/">M4A → FLAC</a>
+      <a href="/convertir-wav-a-flac/">WAV → FLAC</a>
+      <a href="/convertir-aiff-a-flac/">AIFF → FLAC</a>
+      <a href="/convertir-ogg-a-flac/">OGG → FLAC</a>
+      <a href="/convertir-opus-a-flac/">Opus → FLAC</a>
+      <a href="/convertir-wma-a-flac/">WMA → FLAC</a>
+    </nav>
   </section>
 
   <footer>
@@ -1696,6 +2364,7 @@ const { toBlobURL } = await import('https://unpkg.com/@ffmpeg/util@0.12.1/dist/e
 
 // ─── DOM refs ─────────────────────────────────────────────────────────────────
 const $  = id => document.getElementById(id);
+const engineCard   = $('engineCard');
 const engineDot    = $('engineDot');
 const engineText   = $('engineText');
 const engineBadge  = $('engineBadge');
@@ -1739,8 +2408,10 @@ const downloadAllBtn = $('downloadAllBtn');
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let ffmpeg = null;
+let ffmpegLoading = false;
 let nextId = 0;
 let currentId = null;
+let adUnitsCreated = 0;
 // Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
 const files = new Map();
 
@@ -1761,9 +2432,8 @@ function isAudioOnly(file) {
   return /\.(wav|mp3|flac|aac|ogg|m4a|opus|wma|aiff|aif)$/i.test(file.name);
 }
 
-// Nombre por defecto del archivo de salida: nombre original (sin extensión) + " flac".
 function defaultBaseName(file) {
-  return file.name.replace(/\.[^.]+$/, '') + ' flac';
+  return file.name.replace(/\.[^.]+$/, '');
 }
 
 // ─── Logging ──────────────────────────────────────────────────────────────────
@@ -1781,11 +2451,26 @@ function log(msg, type = 'info') {
 }
 
 // ─── Engine badge ─────────────────────────────────────────────────────────────
+let lastEngineState = null;
+
 function setEngine(text, state) {
+  const justBecameReady = state === 'ready' && lastEngineState !== 'ready';
+  lastEngineState = state;
+
   engineText.textContent  = text;
   engineDot.className     = `engine-dot ${state}`;
-  engineBadge.textContent = { loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
-  engineBadge.className   = `badge badge-${state === 'busy' ? 'busy' : state}`;
+  engineBadge.textContent = { idle: 'En espera', loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
+  engineBadge.className   = `badge badge-${state}`;
+  engineCard.classList.toggle('is-loading', state === 'loading');
+
+  if (justBecameReady) {
+    engineCard.classList.add('is-celebrating');
+    engineDot.classList.add('is-celebrating');
+    setTimeout(() => {
+      engineCard.classList.remove('is-celebrating');
+      engineDot.classList.remove('is-celebrating');
+    }, 900);
+  }
 }
 
 // ─── Progress helpers ─────────────────────────────────────────────────────────
@@ -1805,6 +2490,12 @@ function setProgress(label, pct) {
 }
 
 // ─── File list render ─────────────────────────────────────────────────────────
+function fileExtTag(file) {
+  const ext = (file.name.includes('.') ? file.name.split('.').pop() : '?').toUpperCase().slice(0, 5);
+  const cls = isAudioOnly(file) ? 'is-audio' : 'is-video';
+  return `<span class="file-ext-tag ${cls}" aria-label="${ext}">${ext}</span>`;
+}
+
 function renderFileList() {
   fileListEl.innerHTML = '';
 
@@ -1832,7 +2523,7 @@ function renderFileList() {
 
     chip.innerHTML = `
       <div class="file-chip-row">
-        <span class="file-chip-icon">🎞️</span>
+        ${fileExtTag(entry.file)}
         <div class="file-chip-info">
           ${nameEl}
           <div class="file-chip-meta">${fmt(entry.file.size)}${entry.file.type ? ' · ' + entry.file.type : ''}</div>
@@ -1870,6 +2561,9 @@ function renderFileList() {
         const entry = files.get(id);
         if (entry?.outputURL) URL.revokeObjectURL(entry.outputURL);
         files.delete(id);
+        // Si el usuario vacía la lista, el desbloqueo de tanda se reinicia:
+        // el próximo lote requerirá un anuncio aunque la cuota no haya expirado.
+        if (files.size === 0) { tandaUnlocked = false; }
         renderFileList();
         renderPreviewList();   // prune su preview si lo tenía
         updateConvertBtn();
@@ -1929,9 +2623,20 @@ function renderFileList() {
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0;
-  convertBtn.textContent = pending > 1
-    ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
+  const left = freeLeft();
+  const needsAd = left <= 0 && !tandaUnlocked;
+  const willConvert = (needsAd || tandaUnlocked) ? pending : Math.min(pending, left);
+  const label = willConvert > 1
+    ? `⚙️ Convertir ${willConvert} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
+  if (tandaUnlocked) {
+    convertBtn.textContent = `${label} · tanda activa`;
+  } else if (needsAd) {
+    convertBtn.textContent = `${label} · ver anuncio`;
+  } else {
+    convertBtn.textContent = `${label} · ${left} gratis`;
+  }
+  updateCountdownDisplay();
 }
 
 function noPreviewMsg() {
@@ -1978,6 +2683,7 @@ function renderPreviewList() {
       const media = document.createElement(isAudio ? 'audio' : 'video');
       media.className = 'preview-media';
       media.controls = true;
+      if (!isAudio) media.preload = 'metadata';
       media.src = entry.outputURL;
       item.dataset.url = entry.outputURL;
       if (!isAudio) {
@@ -2023,10 +2729,34 @@ function renderPreviewList() {
   } else {
     downloadAllBtn.style.display = 'none';
   }
+
+  // Mostrar 1 anuncio por cada 5 archivos convertidos (5→1, 10→2, …)
+  const adsNeeded = Math.floor(done.length / 5);
+  while (adUnitsCreated < adsNeeded) {
+    adUnitsCreated++;
+    const adDiv = document.createElement('div');
+    adDiv.className = 'preview-ad';
+    adDiv.dataset.adIndex = adUnitsCreated;
+    const ins = document.createElement('ins');
+    ins.className = 'adsbygoogle';
+    ins.style.cssText = 'display:block; text-align:center;';
+    ins.dataset.adLayout = 'in-article';
+    ins.dataset.adFormat = 'fluid';
+    ins.dataset.adClient = 'ca-pub-1123812992313934';
+    ins.dataset.adSlot = '2037769304';
+    adDiv.appendChild(ins);
+    previewList.appendChild(adDiv);
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  }
+  previewList.querySelectorAll('.preview-ad').forEach((ad, i) => {
+    ad.style.display = i < adsNeeded ? 'block' : 'none';
+  });
 }
 
 // ─── Load FFmpeg WASM ──────────────────────────────────────────────────────────
 async function loadFFmpeg() {
+  if (ffmpegLoading) return;
+  ffmpegLoading = true;
   log('Iniciando carga de FFmpeg WASM (core single-thread)…', 'sys');
   setEngine('Cargando FFmpeg WASM…', 'loading');
 
@@ -2038,16 +2768,6 @@ async function loadFFmpeg() {
       if (!isVerbose) log(message, 'info');
     });
 
-    ffmpeg.on('progress', ({ progress }) => {
-      if (progress > 0 && progress <= 1) {
-        const pct = Math.min(99, Math.round(progress * 100));
-        progressFill.classList.remove('indeterminate');
-        progressFill.style.width = pct + '%';
-        progressPct.textContent  = pct + '%';
-        const bar = document.getElementById(`bar-${currentId}`);
-        if (bar) bar.style.width = pct + '%';
-      }
-    });
 
     log('Descargando ffmpeg-core.js desde CDN…', 'sys');
     const coreURL = await toBlobURL(`${CORE_BASE}/ffmpeg-core.js`,   'text/javascript');
@@ -2063,6 +2783,7 @@ async function loadFFmpeg() {
     updateConvertBtn();
 
   } catch (err) {
+    ffmpegLoading = false;
     setEngine('Error al cargar el motor', 'error');
     log('✗ Error cargando FFmpeg: ' + err.message, 'error');
     console.error(err);
@@ -2084,178 +2805,472 @@ function addFiles(fileList) {
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
     log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
+    // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
+    if (file.size > 800 * 1024 * 1024) {
+      log(`⚠ "${file.name}" supera 800 MB — puede fallar por límite de memoria WebAssembly.`, 'warn');
+      showLargeFileModal(file.name, file.size);
+    }
     added++;
   }
-  if (added) { renderFileList(); renderPreviewList(); updateConvertBtn(); }
+  if (added) {
+    renderFileList(); renderPreviewList(); updateConvertBtn();
+    if (!ffmpeg && !ffmpegLoading) loadFFmpeg();
+  }
 }
 
 fileInput.addEventListener('change', e => { if (e.target.files.length) addFiles(e.target.files); fileInput.value = ''; });
 
-dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => {
+document.querySelectorAll('input[name="outFormat"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const note = $('formatNote');
+    if (!note) return;
+    if (radio.value === 'flac-only') {
+      note.innerHTML = 'Extrae solo el audio → <strong>FLAC</strong> · el vídeo <strong>no</strong> se incluye en el resultado';
+    } else {
+      note.innerHTML = 'Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar';
+    }
+  });
+});
+
+const formatDropdown      = $('formatDropdown');
+const formatDropdownLabel = $('formatDropdownLabel');
+
+// ─── Apertura/cierre animados del desplegable (en vez del toggle brusco nativo) ─
+const ddSummary = formatDropdown?.querySelector('summary');
+const ddPanel   = formatDropdown?.querySelector('.format-dropdown-panel');
+const ddDot     = formatDropdown?.querySelector('.format-dropdown-dot');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ddAnim = null;
+
+function ddRun(keyframes, opts, onDone) {
+  ddAnim?.cancel();
+  ddAnim = formatDropdown.animate(keyframes, opts);
+  ddAnim.onfinish = ddAnim.oncancel = onDone;
+}
+
+function ddFinish(open) {
+  formatDropdown.open   = open;
+  formatDropdown.style.height   = '';
+  formatDropdown.style.overflow = '';
+  ddAnim = null;
+}
+
+function closeFormatDropdown() {
+  if (!formatDropdown.open) return;
+  if (ddDot) {
+    ddDot.classList.remove('is-pulsing');
+    if (!reduceMotion) {
+      ddDot.classList.remove('is-rippling');
+      void ddDot.offsetWidth; // reinicia la animación si ya estaba en marcha
+      ddDot.classList.add('is-rippling');
+      ddDot.addEventListener('animationend', () => ddDot.classList.remove('is-rippling'), { once: true });
+    }
+  }
+  if (reduceMotion) { formatDropdown.removeAttribute('open'); return; }
+  formatDropdown.style.overflow = 'hidden';
+  const start = formatDropdown.offsetHeight;
+  const end   = ddSummary.offsetHeight;
+  ddPanel.animate({ opacity: [1, 0] }, { duration: 140, easing: 'ease', fill: 'forwards' });
+  ddRun({ height: [`${start}px`, `${end}px`] },
+        { duration: 240, easing: 'cubic-bezier(.4,0,.6,1)' },
+        () => ddFinish(false));
+}
+
+if (ddSummary && ddPanel) {
+  ddSummary.addEventListener('click', e => {
+    if (reduceMotion) {
+      // El navegador alterna [open] de forma instantánea; solo sincronizamos el pulso.
+      requestAnimationFrame(() => ddDot?.classList.toggle('is-pulsing', formatDropdown.open));
+      return;
+    }
+    e.preventDefault();
+
+    if (formatDropdown.open) { closeFormatDropdown(); return; }
+
+    ddDot?.classList.add('is-pulsing');
+    formatDropdown.style.overflow = 'hidden';
+    const start = formatDropdown.offsetHeight;
+    formatDropdown.style.height = `${start}px`;
+    formatDropdown.open = true;
+
+    requestAnimationFrame(() => {
+      const end = ddSummary.offsetHeight + ddPanel.offsetHeight;
+      ddRun({ height: [`${start}px`, `${end}px`] },
+            { duration: 340, easing: 'cubic-bezier(.22,.85,.32,1)' },
+            () => ddFinish(true));
+      ddPanel.animate(
+        { opacity: [0, 1], transform: ['translateY(-8px)', 'translateY(0)'] },
+        { duration: 280, easing: 'ease', fill: 'forwards' }
+      );
+    });
+  });
+}
+
+formatDropdown?.addEventListener('click', e => {
+  const opt = e.target.closest('[data-url]');
+  if (!opt) return;
+  const url = opt.dataset.url;
+  if (url) { window.location.href = url; return; }
+
+  formatDropdownLabel.textContent = opt.dataset.label;
+  formatDropdown.querySelectorAll('.format-dropdown-auto, .format-dropdown-chip')
+    .forEach(el => el.classList.toggle('is-active', el === opt));
+  closeFormatDropdown();
+});
+
+let dragCounter = 0;
+
+document.addEventListener('dragenter', e => {
+  if (!e.dataTransfer?.types.includes('Files')) return;
   e.preventDefault();
+  dragCounter++;
+  dropZone.classList.add('drag-over');
+});
+document.addEventListener('dragleave', e => {
+  if (!e.dataTransfer?.types.includes('Files')) return;
+  dragCounter--;
+  if (dragCounter === 0) dropZone.classList.remove('drag-over');
+});
+document.addEventListener('dragover', e => {
+  if (!e.dataTransfer?.types.includes('Files')) return;
+  e.preventDefault();
+});
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  dragCounter = 0;
   dropZone.classList.remove('drag-over');
   if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
 
+// ─── Per-file processor ───────────────────────────────────────────────────────
+async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat) {
+  const file = entry.file;
+  entry.status = 'converting';
+  currentId = id;
+  renderFileList();
+
+  const ext       = file.name.split('.').pop().toLowerCase() || 'mkv';
+  const inputName = `input_${id}.${ext}`;
+  const audioOnly = isAudioOnly(file);
+  let outFormat   = (selectedFormat === 'flac-only' || audioOnly) ? 'flac' : selectedFormat;
+  let outputName  = `output_${id}.${outFormat}`;
+
+  setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name}`, null);
+  log(`[${globalIdx + 1}/${totalCount}] Procesando: ${file.name}`, 'sys');
+
+  try {
+    // 1 · Write input to WASM virtual FS
+    log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+    const buffer   = await file.arrayBuffer();
+    const fileData = new Uint8Array(buffer);
+    const fileSize = file.size;
+    await ffmpeg.writeFile(inputName, fileData);
+    log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
+
+    // 2 · Probe audio/video codecs, then build command.
+    setProgress(`[${globalIdx + 1}/${totalCount}] Analizando formato…`, null);
+    let probeAudioCodec = '';
+    let probeVideoCodec = '';
+    const probeCapture = ({ message }) => {
+      const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
+      if (ma) probeAudioCodec = ma[1].toLowerCase();
+      const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
+      if (mv) probeVideoCodec = mv[1].toLowerCase();
+    };
+    ffmpeg.on('log', probeCapture);
+    try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
+    ffmpeg.off('log', probeCapture);
+
+    if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
+      log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
+      outFormat  = 'flac';
+      outputName = `output_${id}.flac`;
+    }
+
+    const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
+    if (isFloatPCM) log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
+
+    const audioAlreadyFlac = probeAudioCodec === 'flac';
+    const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy'] : [
+      ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
+      '-c:a', 'flac',
+      ...(outFormat === 'mp4' ? ['-strict', 'experimental'] : []),
+    ];
+
+    const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
+    const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
+    if (!isAudioOnlyOutput && browserIncompatibleVideo) {
+      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
+    }
+    const videoArgs = (!isAudioOnlyOutput && browserIncompatibleVideo)
+      ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
+      : ['-c:v', 'copy'];
+
+    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…`, null);
+    const t0 = Date.now();
+    const cmd = isAudioOnlyOutput
+      ? ['-i', inputName, '-vn', ...audioEncArgs, outputName]
+      : ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
+
+    const onProgress = ({ progress }) => {
+      if (progress > 0 && progress <= 1) {
+        const filePct    = Math.min(99, progress * 100);
+        const overallPct = Math.min(99, (globalIdx / totalCount) * 100 + (progress * 100 / totalCount));
+        progressFill.classList.remove('indeterminate');
+        progressFill.style.width = overallPct + '%';
+        progressPct.textContent  = Math.round(overallPct) + '%';
+        const bar = document.getElementById(`bar-${currentId}`);
+        if (bar) bar.style.width = filePct + '%';
+      }
+    };
+    ffmpeg.on('progress', onProgress);
+
+    log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
+    try {
+      await ffmpeg.exec(cmd);
+    } catch (execErr) {
+      if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
+        log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+        try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
+        try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+        await loadFFmpeg();
+        await ffmpeg.writeFile(inputName, fileData);
+        const fallbackCmd = ['-i', inputName,
+                             '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
+                             ...audioEncArgs, outputName];
+        log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
+        ffmpeg.on('progress', onProgress);
+        await ffmpeg.exec(fallbackCmd);
+      } else {
+        throw execErr;
+      }
+    } finally {
+      ffmpeg.off('progress', onProgress);
+    }
+
+    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+    log(`✓ Conversión completada en ${elapsed}s`, 'success');
+
+    // 3 · Read output
+    setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
+    const data = await ffmpeg.readFile(outputName);
+
+    // 4 · Create blob & object URL
+    const mimeType = outFormat === 'flac' ? 'audio/flac'
+                   : outFormat === 'mp4'  ? 'video/mp4'
+                   :                        'video/x-matroska';
+    const blob     = new Blob([data], { type: mimeType });
+    const outExt   = `.${outFormat}`;
+    const baseName = entry.customBaseName ?? defaultBaseName(file);
+    entry.outputURL   = URL.createObjectURL(blob);
+    entry.outBaseName = baseName + outExt;
+    entry.status      = 'done';
+    incConvCount();
+
+    log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
+    setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
+    renderPreviewList();
+
+    if (autoDlCheck.checked) {
+      const a = document.createElement('a');
+      a.href = entry.outputURL;
+      a.download = entry.outBaseName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // 5 · Clean up WASM FS
+    try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
+
+  } catch (err) {
+    entry.status = 'error';
+    const msg = err.message ?? 'error desconocido';
+    if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
+      log(`✗ Error de memoria en "${file.name}": el archivo es demasiado grande para la memoria WebAssembly (~2 GB). Divide el vídeo en partes más cortas e intenta de nuevo.`, 'error');
+    } else {
+      log(`✗ Error en "${file.name}": ${msg}`, 'error');
+    }
+    try { await ffmpeg.deleteFile(inputName); } catch (_) {}
+    try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+    log('↺ Reiniciando motor FFmpeg…', 'sys');
+    await loadFFmpeg();
+  }
+
+  renderFileList();
+}
+
 // ─── Convert ──────────────────────────────────────────────────────────────────
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
-  const pending = [...files.entries()].filter(([, e]) => e.status === 'pending');
-  if (!pending.length) return;
+  const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
+  if (!allPending.length) return;
+
+  const selectedFormat = document.querySelector('input[name="outFormat"]:checked')?.value || 'mkv';
+
+  // Determinar qué archivos se procesan en este clic.
+  let toProcesar;
+  if (tandaUnlocked) {
+    // Anuncio ya visto: convertir todo lo pendiente.
+    toProcesar = allPending;
+  } else {
+    const left = freeLeft();
+    if (left > 0) {
+      // Quedan conversiones gratuitas: convertir solo hasta agotar la cuota.
+      // Si hay más archivos, quedan pendientes para el siguiente clic (con anuncio).
+      toProcesar = allPending.slice(0, left);
+      incQuota(toProcesar.length);
+    } else {
+      // Cuota agotada: el usuario pulsa Convertir a sabiendas → mostrar anuncio.
+      await showAdModal();
+      tandaUnlocked = true;
+      toProcesar = allPending;
+    }
+  }
 
   convertBtn.disabled = true;
   setEngine('Procesando…', 'busy');
+  updateConvertBtn();
 
-  for (let i = 0; i < pending.length; i++) {
-    const [id, entry] = pending[i];
-    const file = entry.file;
-    entry.status = 'converting';
-    currentId = id;
-    renderFileList();
-
-    const ext        = file.name.split('.').pop().toLowerCase() || 'mkv';
-    const inputName  = `input_${id}.${ext}`;
-    const audioOnly  = isAudioOnly(file);
-    const outputExt  = audioOnly ? 'flac' : 'mkv';
-    const outputName = `output_${id}.${outputExt}`;
-
-    setProgress(`[${i + 1}/${pending.length}] ${file.name}`, null);
-    log(`[${i + 1}/${pending.length}] Procesando: ${file.name}`, 'sys');
-
-    try {
-      // 1 · Write input to WASM virtual FS
-      log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
-      const buffer = await file.arrayBuffer();
-      const fileData = new Uint8Array(buffer);
-      const fileSize = file.size;
-      await ffmpeg.writeFile(inputName, fileData);
-      log(`✓ Escrito: ${inputName} (${fmt(fileSize)})`, 'success');
-
-      // 2 · Probe audio/video codecs, then build command.
-      setProgress(`[${i + 1}/${pending.length}] Analizando formato…`, null);
-
-      let probeAudioCodec = '';
-      let probeVideoCodec = '';
-      const probeCapture = ({ message }) => {
-        const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
-        if (ma) probeAudioCodec = ma[1].toLowerCase();
-        const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
-        if (mv) probeVideoCodec = mv[1].toLowerCase();
-      };
-      ffmpeg.on('log', probeCapture);
-      try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
-      ffmpeg.off('log', probeCapture);
-
-      // Float PCM (pcm_f32le, pcm_f64le, pcm_flt…) needs an explicit integer
-      // conversion before FLAC encoding; all other codecs work directly.
-      const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
-      if (isFloatPCM) {
-        log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
-      }
-      const audioFlacArgs = isFloatPCM
-        ? ['-af', 'aformat=sample_fmts=s32', '-c:a', 'flac']
-        : ['-c:a', 'flac'];
-
-      // Codecs that browsers cannot decode → re-encode to H.264 for compatibility.
-      const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
-      if (!audioOnly && browserIncompatibleVideo) {
-        log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
-      }
-      const videoArgs = (!audioOnly && browserIncompatibleVideo)
-        ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
-        : ['-c:v', 'copy'];
-
-      setProgress(`[${i + 1}/${pending.length}] Convirtiendo…`, null);
-
-      const t0 = Date.now();
-      let cmd;
-
-      if (audioOnly) {
-        cmd = ['-i', inputName, '-vn', ...audioFlacArgs, outputName];
-      } else {
-        cmd = ['-i', inputName, ...videoArgs, ...audioFlacArgs, outputName];
-      }
-
-      log(`Ejecutando: ffmpeg ${cmd.join(' ')}`, 'sys');
-      try {
-        await ffmpeg.exec(cmd);
-      } catch (execErr) {
-        // stream-copy can fail when the source video codec is incompatible.
-        // Retry with libx264 as a last resort.
-        if (!audioOnly && !browserIncompatibleVideo) {
-          log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
-          try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
-          try { await ffmpeg.deleteFile(outputName); } catch (_) {}
-          await loadFFmpeg();
-          await ffmpeg.writeFile(inputName, fileData);
-          const fallbackCmd = ['-i', inputName,
-                               '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
-                               ...audioFlacArgs, outputName];
-          log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
-          await ffmpeg.exec(fallbackCmd);
-        } else {
-          throw execErr;
-        }
-      }
-
-      const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-      log(`✓ Conversión completada en ${elapsed}s`, 'success');
-
-      // 3 · Read output
-      setProgress(`[${i + 1}/${pending.length}] Leyendo archivo resultante…`, null);
-      const data = await ffmpeg.readFile(outputName);
-
-      // 4 · Create blob & object URL
-      const mimeType = audioOnly ? 'audio/flac' : 'video/x-matroska';
-      const blob = new Blob([data], { type: mimeType });
-      // El nombre base ya incluye "flac" por defecto (o el que el usuario haya puesto);
-      // solo se añade la extensión del contenedor de salida.
-      const ext = audioOnly ? '.flac' : '.mkv';
-      const baseName = entry.customBaseName ?? defaultBaseName(file);
-      entry.outputURL   = URL.createObjectURL(blob);
-      entry.outBaseName = baseName + ext;
-      entry.status      = 'done';
-
-      log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
-      setProgress(`[${i + 1}/${pending.length}] ${file.name} ✓`, ((i + 1) / pending.length) * 100);
-
-      // update preview list after each file
-      renderPreviewList();
-
-      // auto-download if toggle is on
-      if (autoDlCheck.checked) {
-        const a = document.createElement('a');
-        a.href = entry.outputURL;
-        a.download = entry.outBaseName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
-
-      // 5 · Clean up WASM FS
-      try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile(outputName); } catch (_) {}
-
-    } catch (err) {
-      entry.status = 'error';
-      log(`✗ Error en "${file.name}": ${err.message ?? 'error desconocido'}`, 'error');
-      // ffmpeg.wasm can crash (Aborted). Reinitialize so next files work.
-      try { await ffmpeg.deleteFile(inputName); } catch (_) {}
-      try { await ffmpeg.deleteFile(outputName); } catch (_) {}
-      log('↺ Reiniciando motor FFmpeg…', 'sys');
-      await loadFFmpeg();
-    }
-
-    renderFileList();
+  for (let i = 0; i < toProcesar.length; i++) {
+    await processOneFile(toProcesar[i], i, toProcesar.length, selectedFormat);
   }
 
   setEngine('Motor listo', 'ready');
   updateConvertBtn();
 });
 
+// ─── Large file warning modal ─────────────────────────────────────────────────
+function showLargeFileModal(name, size) {
+  const modal  = $('largeFileModal');
+  const subEl  = $('largeFileModalSub');
+  const btn    = $('largeFileModalBtn');
+  subEl.innerHTML =
+    `<strong>${name}</strong> pesa <strong>${fmt(size)}</strong>. ` +
+    `El motor WebAssembly dispone de unos 2 GB de memoria: con la entrada y la salida juntas es posible que se quede sin espacio y la conversión falle a mitad.<br><br>` +
+    `Si ocurre, divide el vídeo en partes más cortas antes de subirlo (por ejemplo con HandBrake o con <code>ffmpeg -t 3600 -c copy parte1.mp4</code> en tu terminal).`;
+  modal.classList.add('open');
+  btn.addEventListener('click', () => modal.classList.remove('open'), { once: true });
+}
+
+// ─── Freemium ──────────────────────────────────────────────────────────────────
+const FREE_LIMIT   = 3;
+const QUOTA_PERIOD = 30 * 60 * 1000;   // 30 minutos
+const QUOTA_KEY    = 'vidtoflac_quota_v2';
+let tandaUnlocked  = false;   // true después de ver el anuncio en la tanda actual
+
+// La cuota se guarda en localStorage para que borrar archivos no la reinicie.
+function getQuota() {
+  try {
+    const q = JSON.parse(localStorage.getItem(QUOTA_KEY) || '{}');
+    if (!q.resetAt || Date.now() >= q.resetAt) return { count: 0, resetAt: 0 };
+    return q;
+  } catch { return { count: 0, resetAt: 0 }; }
+}
+function freeLeft() { return Math.max(0, FREE_LIMIT - getQuota().count); }
+function quotaResetAt() { return getQuota().resetAt || 0; }
+function incQuota(n = 1) {
+  const q = getQuota();
+  const count   = Math.min(FREE_LIMIT, (q.count || 0) + n);
+  const resetAt = q.resetAt > Date.now() ? q.resetAt : Date.now() + QUOTA_PERIOD;
+  localStorage.setItem(QUOTA_KEY, JSON.stringify({ count, resetAt }));
+}
+
+// ─── Countdown ─────────────────────────────────────────────────────────────────
+let countdownInterval = null;
+
+function formatCountdown(ms) {
+  const s   = Math.max(0, Math.ceil(ms / 1000));
+  const h   = Math.floor(s / 3600);
+  const m   = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return h > 0
+    ? `${h}h ${String(m).padStart(2, '0')}m ${String(sec).padStart(2, '0')}s`
+    : `${m}m ${String(sec).padStart(2, '0')}s`;
+}
+
+function updateCountdownDisplay() {
+  const el     = $('quotaCountdown');
+  const timeEl = $('quotaTime');
+  if (freeLeft() > 0 || tandaUnlocked) {
+    el.classList.remove('visible');
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    return;
+  }
+  const remaining = quotaResetAt() - Date.now();
+  if (remaining <= 0) {
+    el.classList.remove('visible');
+    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    updateConvertBtn();   // cuota reiniciada: actualizar el botón
+    return;
+  }
+  timeEl.textContent = formatCountdown(remaining);
+  el.classList.add('visible');
+  if (!countdownInterval) {
+    countdownInterval = setInterval(updateCountdownDisplay, 1000);
+  }
+}
+
+function showAdModal() {
+  return new Promise(resolve => {
+    const modal       = $('adModal');
+    const continueBtn = $('adContinueBtn');
+
+    modal.classList.add('open');
+    // El modal se puede cerrar de inmediato: sin cuenta atrás ni espera.
+    continueBtn.disabled = false;
+    continueBtn.focus();
+
+    // Push AdSense ad
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+
+    // Cerrar con el botón, clic en el fondo o tecla Escape → continúa la conversión.
+    function close() {
+      continueBtn.removeEventListener('click', close);
+      modal.removeEventListener('click', onBackdrop);
+      document.removeEventListener('keydown', onKey);
+      modal.classList.remove('open');
+      resolve();
+    }
+    function onBackdrop(e) { if (e.target === modal) close(); }
+    function onKey(e)      { if (e.key === 'Escape') close(); }
+
+    continueBtn.addEventListener('click', close);
+    modal.addEventListener('click', onBackdrop);
+    document.addEventListener('keydown', onKey);
+  });
+}
+
+// ─── Conversion counter (localStorage) ───────────────────────────────────────
+const convCounter  = $('convCounter');
+const convCountEl  = $('convCount');
+const convTodayEl  = $('convToday');
+
+function getConvCount() { return parseInt(localStorage.getItem('vidtoflac_conv') || '0', 10); }
+
+function getTodayKey() { return 'vidtoflac_today_' + new Date().toISOString().slice(0, 10); }
+function getConvToday() { return parseInt(localStorage.getItem(getTodayKey()) || '0', 10); }
+
+function incConvCount() {
+  const n = getConvCount() + 1;
+  localStorage.setItem('vidtoflac_conv', n);
+  const key = getTodayKey();
+  const t = parseInt(localStorage.getItem(key) || '0', 10) + 1;
+  localStorage.setItem(key, t);
+  renderConvCount(n, t);
+}
+function renderConvCount(n, t) {
+  if (n > 0) {
+    convCountEl.textContent = n;
+    convTodayEl.textContent = t ?? getConvToday();
+    convCounter.classList.add('visible');
+  }
+}
+renderConvCount(getConvCount());
+
 // ─── Boot ─────────────────────────────────────────────────────────────────────
-loadFFmpeg();
+setEngine('Selecciona un archivo para iniciar el motor', 'idle');
 </script>
 </body>
 </html>

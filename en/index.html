@@ -202,7 +202,7 @@
         "name": "Is it safe to use vidtoflac.tech?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. VidToFLAC processes your files 100% locally thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it is not uploaded to any server, and it is not stored anywhere. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no tracking cookies, no third party with access to your files."
+          "text": "Yes. VidToFLAC processes your files 100% locally thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it is not uploaded to any server, and no third party has access to your files. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site is funded by Google AdSense ads, which may use cookies; this is detailed in our privacy policy."
         }
       },
       {
@@ -1889,8 +1889,7 @@
            data-ad-slot="9253210070"></ins>
     </div>
     <div class="ad-modal-footer">
-      <span class="ad-countdown" id="adCountdown">Wait <strong id="adSecs">5</strong>s…</span>
-      <button class="ad-continue-btn" id="adContinueBtn" disabled>Continue conversion</button>
+      <button class="ad-continue-btn" id="adContinueBtn">Continue conversion</button>
     </div>
   </div>
 </div>
@@ -2262,7 +2261,7 @@
       <details class="faq-item">
         <summary>Is vidtoflac.tech safe to use?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Yes.</strong> VidToFLAC processes your files <strong>100% locally</strong> thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and it's not stored anywhere. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no tracking cookies, no third party with access to your files.</p>
+          <p><strong>Yes.</strong> VidToFLAC processes your files <strong>100% locally</strong> thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and <strong>no third party has access to your files</strong>. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site is funded by Google AdSense ads, which may use cookies; this is detailed in our privacy policy.</p>
         </div>
       </details>
 
@@ -3205,36 +3204,31 @@ function updateCountdownDisplay() {
 
 function showAdModal() {
   return new Promise(resolve => {
-    const modal      = $('adModal');
-    const secsEl     = $('adSecs');
-    const countEl    = $('adCountdown');
+    const modal       = $('adModal');
     const continueBtn = $('adContinueBtn');
 
     modal.classList.add('open');
-    continueBtn.disabled = true;
-    let secs = 5;
-    secsEl.textContent = secs;
+    // The modal can be closed right away: no countdown, no waiting.
+    continueBtn.disabled = false;
+    continueBtn.focus();
 
     // Push AdSense ad
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
 
-    const tick = setInterval(() => {
-      secs--;
-      if (secs <= 0) {
-        clearInterval(tick);
-        countEl.innerHTML = 'Ready!';
-        continueBtn.disabled = false;
-        continueBtn.focus();
-      } else {
-        secsEl.textContent = secs;
-      }
-    }, 1000);
-
-    continueBtn.addEventListener('click', function handler() {
-      continueBtn.removeEventListener('click', handler);
+    // Close with the button, a backdrop click or the Escape key → continue.
+    function close() {
+      continueBtn.removeEventListener('click', close);
+      modal.removeEventListener('click', onBackdrop);
+      document.removeEventListener('keydown', onKey);
       modal.classList.remove('open');
       resolve();
-    }, { once: true });
+    }
+    function onBackdrop(e) { if (e.target === modal) close(); }
+    function onKey(e)      { if (e.key === 'Escape') close(); }
+
+    continueBtn.addEventListener('click', close);
+    modal.addEventListener('click', onBackdrop);
+    document.addEventListener('keydown', onKey);
   });
 }
 
