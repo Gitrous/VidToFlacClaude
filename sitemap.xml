@@ -159,4 +159,34 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc>https://vidtoflac.tech/aviso-legal/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/legal-notice/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/privacy-policy/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/terms-of-service/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/contact/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>
