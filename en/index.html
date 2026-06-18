@@ -352,8 +352,8 @@
     }
 
     /* File selector card: center title and format label (all breakpoints) */
-    .tool-left .card:first-child .card-title,
-    .tool-left .card:first-child .format-picker-label {
+    .tool-left .card:nth-child(2) .card-title,
+    .tool-left .card:nth-child(2) .format-picker-label {
       text-align: center;
     }
 
@@ -1944,6 +1944,17 @@
   <div class="tool-grid">
   <div class="tool-left">
 
+  <!-- Engine status -->
+  <div class="card engine-card" id="engineCard">
+    <div class="engine-row">
+      <div class="engine-label">
+        <span class="engine-dot idle" id="engineDot"></span>
+        <span id="engineText">Select a file to start the engine</span>
+      </div>
+      <span class="badge badge-idle" id="engineBadge">Idle</span>
+    </div>
+  </div>
+
   <!-- File selector -->
   <div class="card">
     <div class="card-title"><span class="step">01</span> Select input videos</div>
@@ -2067,17 +2078,6 @@
 
   </div><!-- /tool-left -->
   <div class="tool-right">
-
-  <!-- Engine status -->
-  <div class="card engine-card" id="engineCard">
-    <div class="engine-row">
-      <div class="engine-label">
-        <span class="engine-dot idle" id="engineDot"></span>
-        <span id="engineText">Select a file to start the engine</span>
-      </div>
-      <span class="badge badge-idle" id="engineBadge">Idle</span>
-    </div>
-  </div>
 
   <!-- Progress -->
   <div class="card progress-card" id="progressCard">
