@@ -25,7 +25,7 @@ Al editar, conserva la estructura de archivo único — no separes en archivos J
 El usuario responde con una sola letra:
 
 - **`s`** → **Servidor / previsualizar**: arranca `python3 -m http.server 8000` (si no hay ya un servidor corriendo en ese puerto) y muestra una captura headless del resultado.
-- **`g`** → **Subir a GitHub**: haz commit de los archivos modificados directamente a `main` y push. El despliegue en GitHub Pages se dispara automáticamente.
+- **`g`** → **Subir a GitHub**: haz commit de los archivos modificados directamente a `main` y push. El despliegue en GitHub Pages se dispara automáticamente. **Tras el push, programa siempre un `ScheduleWakeup` de ~70 s para monitorizar el despliegue** y avisar al usuario en cuanto el build de GitHub Pages esté en estado `built` con un `updated_at` posterior al momento del push. Usa `gh api repos/Gitrous/VidToFlacClaude/pages/builds/latest` para comprobarlo. Si aún no ha terminado, reprograma otro wakeup de 60 s hasta que esté listo.
 
 Interpreta `s` y `g` (en mayúscula o minúscula) como estos atajos siempre que vengan como respuesta a esta pregunta. No hagas el push ni arranques el servidor sin confirmación explícita del usuario.
 
