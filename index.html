@@ -1496,6 +1496,68 @@
       .hero-title { font-size: 1.95rem; }
     }
 
+    /* ── Before / after comparison card ─────────────────────── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.2rem;
+    }
+    .compare-col {
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+    }
+    .compare-before {
+      background: var(--red-soft);
+      border: 1px solid rgba(255,96,88,.22);
+    }
+    .compare-after {
+      background: var(--green-soft);
+      border: 1px solid rgba(74,222,128,.22);
+    }
+    .compare-header {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.85rem;
+    }
+    .compare-before .compare-header { color: var(--red); }
+    .compare-after  .compare-header { color: var(--green); }
+    .compare-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .compare-list li {
+      font-size: 0.875rem;
+      line-height: 1.45;
+      padding-left: 1.5rem;
+      position: relative;
+      color: var(--ink-dim);
+    }
+    .compare-before .compare-list li::before {
+      content: '✗';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+      font-weight: 700;
+    }
+    .compare-after .compare-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+    @media (max-width: 560px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── SEO content / long-form prose ───────────────────────── */
     .seo-card { line-height: 1.65; }
 
@@ -2141,6 +2203,33 @@
         <span class="step-num">PASO 03</span>
         <span class="step-item-title">Descarga al instante</span>
         <span class="step-desc">Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Before / after comparison -->
+  <div class="card">
+    <div class="card-title">Antes y después</div>
+    <div class="compare-grid">
+      <div class="compare-col compare-before">
+        <div class="compare-header">Sin VidToFLAC</div>
+        <ul class="compare-list">
+          <li>Pista de audio en gris en DaVinci Resolve</li>
+          <li>"Audio codec not supported (AAC)"</li>
+          <li>Códec AAC o MP3 no compatible en Linux</li>
+          <li>Buscar codecs de pago o Resolve Studio</li>
+          <li>Recodificar el vídeo completo (lento)</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-after">
+        <div class="compare-header">Con VidToFLAC</div>
+        <ul class="compare-list">
+          <li>Audio FLAC lossless importado correctamente</li>
+          <li>Sin errores de códec en ninguna plataforma</li>
+          <li>Funciona con DaVinci Resolve gratuito</li>
+          <li>Sin instalaciones ni licencias adicionales</li>
+          <li>Proceso en segundos, solo se toca el audio</li>
+        </ul>
       </div>
     </div>
   </div>
