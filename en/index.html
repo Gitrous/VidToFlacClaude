@@ -2262,6 +2262,44 @@
     </div>
   </section>
 
+  <section class="card seo-card" aria-labelledby="guia-titulo">
+    <div class="card-title">Technical guide</div>
+    <article>
+      <h2 id="guia-titulo">Containers, codecs, and DaVinci Resolve: everything you need to know</h2>
+
+      <h3>Containers vs. codecs: the difference that matters</h3>
+      <p>When you record a video, the resulting file — a .mp4, .mov, or .mkv — is not the video itself: it is a <strong>container</strong>, a kind of envelope that packages multiple tracks inside: the picture and the audio. What actually defines quality and compatibility is the <strong>codec</strong>, the algorithm that compresses and decompresses each of those tracks.</p>
+      <p>A single container can hold multiple codecs. An MP4 file, for example, can contain H.264 or H.265 (HEVC) video, and audio in AAC, MP3, AC3, or even FLAC. When DaVinci Resolve — or another editor — cannot open the audio of a clip, the problem is rarely the container (.mp4, .mov, .mkv): almost always it is the <strong>audio codec</strong> inside.</p>
+
+      <h3>Why DaVinci Resolve cannot decode certain audio</h3>
+      <p>DaVinci Resolve free edition <strong>does not include licenses</strong> for certain proprietary decoders — especially <strong>AAC</strong> (the standard format for iOS cameras, GoPro, and most smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong>, and <strong>DTS</strong>. This restriction is especially pronounced <strong>on Linux</strong>, where Resolve relies entirely on the decoders included in the operating system.</p>
+      <p>The most common symptom is finding the audio track grayed out in the media inspector, or seeing the message <em>"Audio codec not supported"</em> when trying to import the clip. Another frequent cause is audio encoded as <strong>floating-point PCM</strong> (pcm_f32le), which some USB microphones and recording software use, which is also not directly compatible with all Resolve workflows.</p>
+      <p>The solution is not to reinstall DaVinci Resolve or look for paid codecs: it is to change the audio codec of the file to one that Resolve always decodes natively.</p>
+
+      <h3>FLAC: the lossless standard for professional editing</h3>
+      <p><strong>FLAC (Free Lossless Audio Codec)</strong> is an open-source lossless audio format: it compresses the data without discarding any information, so the reconstructed signal is <strong>bit-for-bit identical to the original</strong>. Unlike AAC or MP3, which discard frequency information to reduce size, FLAC guarantees that no nuance of the original audio is lost. Compared to its lossless alternatives:</p>
+      <ul>
+        <li><strong>Compared to WAV / uncompressed PCM:</strong> WAV and AIFF are also lossless, but they do not compress. A 10-minute audio at 48 kHz / 24 bits can weigh more than 170 MB in WAV; FLAC reduces this by 40 to 60 % without losing a single bit.</li>
+        <li><strong>Compared to floating-point PCM (pcm_f32le):</strong> Some USB microphones export audio as 32-bit floating-point PCM. FLAC requires integer samples; VidToFLAC automatically inserts a format conversion step before encoding to FLAC to guarantee compatibility.</li>
+        <li><strong>Universal compatibility:</strong> FLAC is natively supported in DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X, and virtually all modern editors. No plugins or additional licenses required on any platform.</li>
+      </ul>
+
+      <h3>Remux: why it is faster than a conventional conversion</h3>
+      <p>A traditional video conversion involves decoding each frame (a costly CPU or GPU operation) and then re-encoding it. For a 30-minute 4K video, this process can take hours even on powerful hardware.</p>
+      <p>VidToFLAC performs a <strong>remux</strong> instead: it copies the video stream <strong>bit by bit</strong>, without decoding or re-encoding it, and only transcodes the audio track. Since audio typically represents less than 5 % of the total file size, the process takes <strong>seconds instead of minutes</strong>. The resulting image is identical to the original: no additional artifacts, no degradation, not a single frame lost.</p>
+      <p>Only when the video codec is not compatible with the browser (ProRes, DNxHD, MJPEG…) does VidToFLAC automatically fall back to re-encoding the video to H.264 at high quality (<code>libx264 -crf 18</code>) to enable preview in the page itself.</p>
+
+      <h3>Recommended workflows by editor</h3>
+      <p>The MKV file with FLAC audio that VidToFLAC generates is directly compatible with the major non-linear editors (NLE):</p>
+      <ul>
+        <li><strong>DaVinci Resolve (free version, Linux / Windows / macOS):</strong> Import the .mkv directly from the Media Pool. Resolve natively detects the FLAC audio and assigns it to the audio track in the timeline. If the track previously appeared gray, it should now appear blue and play correctly.</li>
+        <li><strong>Adobe Premiere Pro:</strong> Premiere natively supports MKV and FLAC in recent versions. Import the file from the Project Panel and drag the clip to the sequence. If you use an older version that does not support MKV, you can change the output format to MP4 in VidToFLAC's format selector before converting.</li>
+        <li><strong>Avid Media Composer:</strong> Avid supports FLAC in MKV for AMA (Avid Media Access) projects. For a more integrated workflow on large projects, consider transcoding to DNxHD via Avid after the initial import.</li>
+        <li><strong>Final Cut Pro X:</strong> FCP X on macOS imports FLAC in MKV without additional steps in recent versions. On older versions, the free MKV support plug-in for Final Cut may be needed.</li>
+      </ul>
+    </article>
+  </section>
+
   <section class="card seo-card" aria-labelledby="formatos-titulo">
     <div class="card-title">Convert from other formats</div>
     <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Guides to convert each format to FLAC</h2>

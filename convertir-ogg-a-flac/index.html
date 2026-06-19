@@ -316,20 +316,6 @@
     .tool-grid, .tool-left, .tool-right { display: contents; }
 
     @media (min-width: 880px) {
-      .tool-grid {
-        display: grid;
-        grid-template-columns: minmax(300px, 700px) 460px;
-        gap: 1.5rem;
-        align-items: start;
-        justify-content: center;
-      }
-      .tool-left, .tool-right {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        min-width: 0;
-      }
-
       /* Header: centered and compact on wide screens */
       .header {
         padding: 0.5rem 0 1rem;
@@ -352,11 +338,13 @@
       }
       .trust-card { padding: 1.4rem 1.2rem; }
 
-      /* Conv counter: centered */
-      .conv-counter { justify-content: center; }
+      /* Conv counter: same width as tool sections */
+      .conv-counter { justify-content: center; width: 100%; max-width: 860px; margin-left: auto; margin-right: auto; }
 
       /* Steps + SEO sections: constrain width and center */
-      .steps-card, .seo-card, .faq-card {
+      .steps-card, .seo-card, .faq-card,
+      .tool-left > .card, .tool-right > .card {
+        width: 100%;
         max-width: 860px;
         margin-left: auto;
         margin-right: auto;
@@ -365,8 +353,8 @@
     }
 
     /* File selector card: center title and format label (all breakpoints) */
-    .tool-left .card:first-child .card-title,
-    .tool-left .card:first-child .format-picker-label {
+    .tool-left .card:nth-child(2) .card-title,
+    .tool-left .card:nth-child(2) .format-picker-label {
       text-align: center;
     }
 
@@ -517,7 +505,7 @@
       50%      { box-shadow: 0 0 0 1px rgba(25,195,125,.32), 0 0 22px -4px rgba(25,195,125,.28); }
     }
 
-    .engine-card { padding: 1.2rem 1.4rem; min-height: 80px; display: flex; align-items: center; transition: border-color 0.5s, box-shadow 0.5s; }
+    .engine-card { padding: 1.2rem 1.4rem; min-height: 80px; display: flex; align-items: center; width: 100%; transition: border-color 0.5s, box-shadow 0.5s; }
     .engine-card .engine-row { width: 100%; }
     .engine-card.is-loading {
       border-color: rgba(25,195,125,.3);
@@ -1085,7 +1073,7 @@
       display: none;
       align-items: center;
       gap: 0.55rem;
-      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
       padding: 0.55rem 0.9rem;
       border: 1px solid var(--amber-line);
       border-radius: var(--radius-sm);
@@ -1967,6 +1955,17 @@
   <div class="tool-grid">
   <div class="tool-left">
 
+  <!-- Engine status -->
+  <div class="card engine-card" id="engineCard">
+    <div class="engine-row">
+      <div class="engine-label">
+        <span class="engine-dot idle" id="engineDot"></span>
+        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
+      </div>
+      <span class="badge badge-idle" id="engineBadge">En espera</span>
+    </div>
+  </div>
+
   <!-- File selector -->
   <div class="card">
     <div class="card-title"><span class="step">01</span> Selecciona los vídeos de entrada</div>
@@ -2090,17 +2089,6 @@
 
   </div><!-- /tool-left -->
   <div class="tool-right">
-
-  <!-- Engine status -->
-  <div class="card engine-card" id="engineCard">
-    <div class="engine-row">
-      <div class="engine-label">
-        <span class="engine-dot idle" id="engineDot"></span>
-        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
-      </div>
-      <span class="badge badge-idle" id="engineBadge">En espera</span>
-    </div>
-  </div>
 
   <!-- Progress -->
   <div class="card progress-card" id="progressCard">
@@ -2282,6 +2270,66 @@
         </div>
       </details>
     </div>
+  </section>
+
+    <section class="card seo-card" aria-labelledby="guia-formato-titulo">
+    <div class="card-title">Guía de conversión</div>
+    <article>
+      <h2 id="guia-formato-titulo">Todo sobre la conversión de OGG a FLAC</h2>
+      <h3>¿Qué es OGG y cuándo lo encuentras?</h3>
+      <p>OGG es un formato contenedor de código abierto desarrollado por la Fundación Xiph.Org. El archivo .ogg contiene habitualmente audio con el códec <strong>Vorbis</strong>, aunque también puede contener FLAC u Opus. OGG Vorbis fue diseñado como alternativa libre a MP3 y AAC: ofrece calidad comparable a bitrates más bajos y sin restricciones de patentes. Lo encontrarás en: efectos de sonido de videojuegos (muchos motores como Godot o Unity exportan audio en OGG), música distribuida en plataformas de código abierto, archivos de audio de algunas distribuciones Linux, y exportaciones de software de código abierto como Audacity en ciertas configuraciones.</p>
+      <h3>Vorbis vs. FLAC: con pérdida vs. sin pérdida</h3>
+      <p>Vorbis —el códec más común dentro de OGG— es un formato con pérdida, comparable en calidad a AAC o MP3 de similar bitrate. FLAC, en cambio, es sin pérdida. La diferencia es crucial para edición de audio profesional: al editar con audio con pérdida y exportar de nuevo, se acumulan artefactos de compresión. Con FLAC, el audio que editas y exportas es matemáticamente idéntico al original en cada generación.</p>
+      <h3>Por qué OGG Vorbis no funciona en los principales editores de vídeo</h3>
+      <p>DaVinci Resolve, Adobe Premiere Pro y Avid Media Composer están diseñados para flujos de trabajo de producción profesional y no incluyen soporte nativo para Vorbis ni para el contenedor OGG. La razón histórica es que el mercado profesional de vídeo se desarrolló sobre codecs propietarios (AAC, AC3, DTS, PCM) mucho antes de que los formatos de código abierto como Vorbis madurecen. Importar un .ogg en Resolve suele resultar en un error de importación o en que el clip aparece sin pista de audio.</p>
+      <h3>Paso a paso: convertir tu OGG a FLAC</h3>
+      <ol>
+        <li>Arrastra tu archivo .ogg a VidToFLAC.</li>
+        <li>La herramienta identifica el códec interno (Vorbis u Opus) y lo transcodifica a FLAC.</li>
+        <li>Pulsa <strong>Convertir</strong> y descarga el .flac resultante.</li>
+        <li>Importa el .flac en DaVinci Resolve o tu editor preferido. La compatibilidad será total.</li>
+      </ol>
+      <h3>Nota sobre OGG FLAC vs. archivos .flac</h3>
+      <p>Existe una variante llamada <em>OGG FLAC</em> que encapsula el códec FLAC dentro del contenedor OGG. Aunque el audio es sin pérdida, algunos editores no reconocen la extensión .ogg con FLAC dentro. VidToFLAC detecta este caso y produce un archivo .flac estándar, que tiene mayor compatibilidad universal.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" aria-labelledby="guia-titulo">
+    <div class="card-title">Guía técnica</div>
+    <article>
+      <h2 id="guia-titulo">Contenedores, códecs y DaVinci Resolve: todo lo que necesitas saber</h2>
+
+      <h3>Contenedores vs. códecs: la diferencia que importa</h3>
+      <p>Cuando grabas un vídeo, el archivo resultante —un .mp4, un .mov o un .mkv— no <em>es</em> el vídeo en sí: es un <strong>contenedor</strong>, una especie de sobre que empaqueta varias pistas dentro: la imagen y el audio. Lo que realmente define la calidad y la compatibilidad es el <strong>códec</strong>, el algoritmo que comprime y descomprime cada una de esas pistas.</p>
+      <p>Un mismo contenedor admite múltiples códecs. Un archivo MP4, por ejemplo, puede contener vídeo H.264 o H.265 (HEVC), y audio en AAC, MP3, AC3 o incluso FLAC. Cuando DaVinci Resolve —u otro editor— no puede abrir el audio de un clip, el problema raramente es el contenedor (.mp4, .mov, .mkv): casi siempre es el <strong>códec de audio</strong> que hay dentro.</p>
+
+      <h3>Por qué DaVinci Resolve no decodifica ciertos audios</h3>
+      <p>DaVinci Resolve gratuito <strong>no incluye las licencias</strong> de ciertos decodificadores propietarios —en especial <strong>AAC</strong> (el formato estándar de cámaras iOS, GoPro y la mayoría de smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong> y <strong>DTS</strong>—. Esta restricción es especialmente pronunciada <strong>en Linux</strong>, donde Resolve depende enteramente de los decodificadores incluidos en el sistema operativo.</p>
+      <p>El síntoma más habitual es encontrar la pista de audio en gris en el inspector de medios, o ver el mensaje <em>"Audio codec not supported"</em> al intentar importar el clip. Hay otra causa frecuente: el audio codificado como <strong>PCM flotante</strong> (pcm_f32le), que algunos micrófonos y software de grabación usan, tampoco es compatible de forma directa con todos los flujos de trabajo en Resolve.</p>
+      <p>La solución no es reinstalar DaVinci Resolve ni buscar códecs de pago: es cambiar el códec de audio del archivo a uno que Resolve decodifica siempre de serie.</p>
+
+      <h3>FLAC: el estándar lossless para edición profesional</h3>
+      <p><strong>FLAC (Free Lossless Audio Codec)</strong> es un formato de audio sin pérdida de código abierto: comprime los datos sin descartar ninguna información, de modo que la señal reconstruida es <strong>bit a bit idéntica a la original</strong>. A diferencia de AAC o MP3, que eliminan frecuencias para reducir el tamaño, FLAC garantiza que ningún matiz del audio original se pierde. Frente a sus alternativas sin pérdida:</p>
+      <ul>
+        <li><strong>Frente a WAV / PCM sin comprimir:</strong> WAV y AIFF son también sin pérdida, pero no comprimen. Un audio de 10 minutos a 48 kHz / 24 bits puede pesar más de 170 MB en WAV; FLAC lo reduce entre un 40 y un 60 % sin perder ni un bit.</li>
+        <li><strong>Frente a PCM flotante (pcm_f32le):</strong> Algunos micrófonos USB exportan audio como PCM de 32 bits en coma flotante. FLAC requiere muestras enteras; VidToFLAC inserta automáticamente un paso de conversión de formato antes de codificar a FLAC para garantizar la compatibilidad.</li>
+        <li><strong>Compatibilidad universal:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en ninguna plataforma.</li>
+      </ul>
+
+      <h3>El remux: por qué es más rápido que una conversión convencional</h3>
+      <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
+      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso tarda <strong>segundos en lugar de minutos</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
+      <p>Solo cuando el códec de vídeo no es compatible con el navegador (ProRes, DNxHD, MJPEG…), VidToFLAC recurre automáticamente a recodificar el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
+
+      <h3>Flujos de trabajo recomendados por editor</h3>
+      <p>El archivo MKV con audio FLAC que genera VidToFLAC es compatible directamente con los principales editores no lineales (NLE):</p>
+      <ul>
+        <li><strong>DaVinci Resolve (versión gratuita, Linux / Windows / macOS):</strong> Importa el .mkv directamente desde el Media Pool. Resolve detecta el audio FLAC de forma nativa y lo asigna a la pista de audio del timeline. Si antes la pista aparecía en gris, ahora debería verse en azul y reproducirse sin problemas.</li>
+        <li><strong>Adobe Premiere Pro:</strong> Premiere soporta MKV y FLAC de forma nativa en versiones recientes. Importa el archivo desde el Project Panel y arrastra el clip a la secuencia. Si usas una versión antigua que no soporta MKV, puedes cambiar el formato de salida a MP4 desde el selector de formato de VidToFLAC antes de convertir.</li>
+        <li><strong>Avid Media Composer:</strong> Avid admite FLAC en MKV para proyectos AMA (Avid Media Access). Para un flujo de trabajo más integrado en proyectos grandes, considera transcodificar después a DNxHD mediante el propio Avid.</li>
+        <li><strong>Final Cut Pro X:</strong> FCP X en macOS importa FLAC en MKV sin pasos adicionales en versiones recientes. En versiones antiguas puede ser necesario el complemento gratuito de soporte MKV para Final Cut.</li>
+      </ul>
+    </article>
   </section>
 
   <section class="card seo-card" aria-labelledby="formatos-titulo">

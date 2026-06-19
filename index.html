@@ -2262,6 +2262,46 @@
     </div>
   </section>
 
+  <!--{{UNIQUE_GUIDE}}-->
+
+  <section class="card seo-card" aria-labelledby="guia-titulo">
+    <div class="card-title">Guía técnica</div>
+    <article>
+      <h2 id="guia-titulo">Contenedores, códecs y DaVinci Resolve: todo lo que necesitas saber</h2>
+
+      <h3>Contenedores vs. códecs: la diferencia que importa</h3>
+      <p>Cuando grabas un vídeo, el archivo resultante —un .mp4, un .mov o un .mkv— no <em>es</em> el vídeo en sí: es un <strong>contenedor</strong>, una especie de sobre que empaqueta varias pistas dentro: la imagen y el audio. Lo que realmente define la calidad y la compatibilidad es el <strong>códec</strong>, el algoritmo que comprime y descomprime cada una de esas pistas.</p>
+      <p>Un mismo contenedor admite múltiples códecs. Un archivo MP4, por ejemplo, puede contener vídeo H.264 o H.265 (HEVC), y audio en AAC, MP3, AC3 o incluso FLAC. Cuando DaVinci Resolve —u otro editor— no puede abrir el audio de un clip, el problema raramente es el contenedor (.mp4, .mov, .mkv): casi siempre es el <strong>códec de audio</strong> que hay dentro.</p>
+
+      <h3>Por qué DaVinci Resolve no decodifica ciertos audios</h3>
+      <p>DaVinci Resolve gratuito <strong>no incluye las licencias</strong> de ciertos decodificadores propietarios —en especial <strong>AAC</strong> (el formato estándar de cámaras iOS, GoPro y la mayoría de smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong> y <strong>DTS</strong>—. Esta restricción es especialmente pronunciada <strong>en Linux</strong>, donde Resolve depende enteramente de los decodificadores incluidos en el sistema operativo.</p>
+      <p>El síntoma más habitual es encontrar la pista de audio en gris en el inspector de medios, o ver el mensaje <em>"Audio codec not supported"</em> al intentar importar el clip. Hay otra causa frecuente: el audio codificado como <strong>PCM flotante</strong> (pcm_f32le), que algunos micrófonos y software de grabación usan, tampoco es compatible de forma directa con todos los flujos de trabajo en Resolve.</p>
+      <p>La solución no es reinstalar DaVinci Resolve ni buscar códecs de pago: es cambiar el códec de audio del archivo a uno que Resolve decodifica siempre de serie.</p>
+
+      <h3>FLAC: el estándar lossless para edición profesional</h3>
+      <p><strong>FLAC (Free Lossless Audio Codec)</strong> es un formato de audio sin pérdida de código abierto: comprime los datos sin descartar ninguna información, de modo que la señal reconstruida es <strong>bit a bit idéntica a la original</strong>. A diferencia de AAC o MP3, que eliminan frecuencias para reducir el tamaño, FLAC garantiza que ningún matiz del audio original se pierde. Frente a sus alternativas sin pérdida:</p>
+      <ul>
+        <li><strong>Frente a WAV / PCM sin comprimir:</strong> WAV y AIFF son también sin pérdida, pero no comprimen. Un audio de 10 minutos a 48 kHz / 24 bits puede pesar más de 170 MB en WAV; FLAC lo reduce entre un 40 y un 60 % sin perder ni un bit.</li>
+        <li><strong>Frente a PCM flotante (pcm_f32le):</strong> Algunos micrófonos USB exportan audio como PCM de 32 bits en coma flotante. FLAC requiere muestras enteras; VidToFLAC inserta automáticamente un paso de conversión de formato antes de codificar a FLAC para garantizar la compatibilidad.</li>
+        <li><strong>Compatibilidad universal:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en ninguna plataforma.</li>
+      </ul>
+
+      <h3>El remux: por qué es más rápido que una conversión convencional</h3>
+      <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
+      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso tarda <strong>segundos en lugar de minutos</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
+      <p>Solo cuando el códec de vídeo no es compatible con el navegador (ProRes, DNxHD, MJPEG…), VidToFLAC recurre automáticamente a recodificar el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
+
+      <h3>Flujos de trabajo recomendados por editor</h3>
+      <p>El archivo MKV con audio FLAC que genera VidToFLAC es compatible directamente con los principales editores no lineales (NLE):</p>
+      <ul>
+        <li><strong>DaVinci Resolve (versión gratuita, Linux / Windows / macOS):</strong> Importa el .mkv directamente desde el Media Pool. Resolve detecta el audio FLAC de forma nativa y lo asigna a la pista de audio del timeline. Si antes la pista aparecía en gris, ahora debería verse en azul y reproducirse sin problemas.</li>
+        <li><strong>Adobe Premiere Pro:</strong> Premiere soporta MKV y FLAC de forma nativa en versiones recientes. Importa el archivo desde el Project Panel y arrastra el clip a la secuencia. Si usas una versión antigua que no soporta MKV, puedes cambiar el formato de salida a MP4 desde el selector de formato de VidToFLAC antes de convertir.</li>
+        <li><strong>Avid Media Composer:</strong> Avid admite FLAC en MKV para proyectos AMA (Avid Media Access). Para un flujo de trabajo más integrado en proyectos grandes, considera transcodificar después a DNxHD mediante el propio Avid.</li>
+        <li><strong>Final Cut Pro X:</strong> FCP X en macOS importa FLAC en MKV sin pasos adicionales en versiones recientes. En versiones antiguas puede ser necesario el complemento gratuito de soporte MKV para Final Cut.</li>
+      </ul>
+    </article>
+  </section>
+
   <section class="card seo-card" aria-labelledby="formatos-titulo">
     <div class="card-title">Convierte desde otros formatos</div>
     <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Guías para convertir cada formato a FLAC</h2>
