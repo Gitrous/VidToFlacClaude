@@ -1899,10 +1899,99 @@
       transition: opacity .18s, transform .18s;
     }
     .large-file-dismiss-btn:hover { opacity: .82; transform: translateY(-1px); }
+
+    /* ── Navbar ────────────────────────────────────────────────────────── */
+    body { padding-top: 56px; }
+    #site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.25rem;
+      background: rgba(9,9,11,.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      box-sizing: border-box;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+    .nav-brand-accent { color: var(--amber); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      justify-content: center;
+    }
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink-dim);
+      text-decoration: none;
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color .15s, background .15s;
+      white-space: nowrap;
+      position: relative;
+    }
+    .nav-link:hover { color: var(--ink); background: rgba(255,255,255,.05); }
+    .nav-link-active { color: var(--amber); font-weight: 600; }
+    .nav-link-active::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0.8rem;
+      right: 0.8rem;
+      height: 2px;
+      background: var(--amber);
+      border-radius: 1px;
+    }
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<!-- Navbar -->
+<nav id="site-nav" aria-label="Navegación principal">
+  <a class="nav-brand" href="/" aria-label="VidToFLAC — inicio">
+    <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+      <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+      <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+      <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+      <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+    </svg>
+    <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
+  </ul>
+</nav>
 
 <!-- Large file warning modal -->
 <div class="ad-modal" id="largeFileModal" role="dialog" aria-modal="true" aria-labelledby="largeFileModalTitle">
@@ -3263,10 +3352,13 @@ function showLargeFileModal(name, size) {
 }
 
 // ─── Freemium ──────────────────────────────────────────────────────────────────
-const FREE_LIMIT   = 3;
-const QUOTA_PERIOD = 30 * 60 * 1000;   // 30 minutos
-const QUOTA_KEY    = 'vidtoflac_quota_v2';
-let tandaUnlocked  = false;   // true después de ver el anuncio en la tanda actual
+const FREE_LIMIT = 3;
+const QUOTA_KEY  = 'vidtoflac_quota_v2';
+let tandaUnlocked = false;   // true después de ver el anuncio en la tanda actual
+
+function nextMidnight() {
+  const d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime();
+}
 
 // La cuota se guarda en localStorage para que borrar archivos no la reinicie.
 function getQuota() {
@@ -3281,7 +3373,7 @@ function quotaResetAt() { return getQuota().resetAt || 0; }
 function incQuota(n = 1) {
   const q = getQuota();
   const count   = Math.min(FREE_LIMIT, (q.count || 0) + n);
-  const resetAt = q.resetAt > Date.now() ? q.resetAt : Date.now() + QUOTA_PERIOD;
+  const resetAt = q.resetAt > Date.now() ? q.resetAt : nextMidnight();
   localStorage.setItem(QUOTA_KEY, JSON.stringify({ count, resetAt }));
 }
 
