@@ -1999,90 +1999,6 @@
       white-space: nowrap;
     }
     .nav-lang:hover { color: var(--ink); border-color: var(--amber); background: rgba(25,195,125,.08); }
-    /* ── Historial modal ─────────────────────────────────────── */
-    .hist-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 400;
-      background: rgba(0,0,0,.72);
-      align-items: flex-start;
-      justify-content: center;
-      padding: 72px 1rem 2rem;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-    .hist-modal.open { display: flex; animation: rise .22s ease both; }
-    .hist-box {
-      background: var(--panel);
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 480px;
-      max-height: 72vh;
-      overflow-y: auto;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .hist-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .hist-title {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .hist-close {
-      background: none;
-      border: none;
-      color: var(--ink-dim);
-      cursor: pointer;
-      font-size: 1.1rem;
-      line-height: 1;
-      padding: 0.3rem 0.4rem;
-      border-radius: 4px;
-      transition: color .15s;
-      flex-shrink: 0;
-    }
-    .hist-close:hover { color: var(--ink); }
-    .hist-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-    }
-    .hist-table th {
-      text-align: left;
-      color: var(--ink-dim);
-      font-weight: 500;
-      padding: 0.3rem 0.5rem;
-      border-bottom: 1px solid var(--line);
-    }
-    .hist-table td {
-      color: var(--ink);
-      padding: 0.4rem 0.5rem;
-      border-bottom: 1px solid rgba(255,255,255,.04);
-    }
-    .hist-table td:last-child { text-align: right; color: var(--ink-dim); font-weight: 400; white-space: nowrap; }
-    .hist-table td:first-child { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .hist-empty { text-align: center; color: var(--ink-dim); font-size: 0.875rem; padding: 1.5rem 0; }
-    .hist-total {
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      color: var(--ink-dim);
-      text-align: center;
-      padding-top: 0.5rem;
-      border-top: 1px solid var(--line);
-      margin: 0;
-    }
-    .hist-total strong { color: var(--ink); }
-    .hist-privacy { font-size: 0.72rem; color: var(--ink-dim); text-align: center; margin: 0; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
@@ -2101,24 +2017,12 @@
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
-    <li><button class="nav-link" id="historialBtn" type="button">Historial</button></li>
+    <li><a href="/historial/" class="nav-link">Historial</a></li>
   </ul>
   <div class="nav-end">
     <a href="/en/" class="nav-lang" aria-label="Switch to English" hreflang="en">English</a>
   </div>
 </nav>
-
-<!-- History modal -->
-<div class="hist-modal" id="histModal" role="dialog" aria-modal="true" aria-labelledby="histModalTitle">
-  <div class="hist-box">
-    <div class="hist-header">
-      <span class="hist-title" id="histModalTitle">Tu historial de conversiones</span>
-      <button class="hist-close" id="histModalClose" aria-label="Cerrar">✕</button>
-    </div>
-    <div id="histContent"></div>
-    <p class="hist-privacy">Solo visible en este navegador · tus archivos nunca salen de tu equipo</p>
-  </div>
-</div>
 
 <!-- Large file warning modal -->
 <div class="ad-modal" id="largeFileModal" role="dialog" aria-modal="true" aria-labelledby="largeFileModalTitle">
@@ -3391,6 +3295,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outBaseName = baseName + outExt;
     entry.status      = 'done';
     incConvCount(entry.outBaseName);
+    saveConversionToDB(entry.outBaseName, blob, mimeType);
 
     log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
     setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
@@ -3602,42 +3507,50 @@ function renderConvCount(n, t) {
 }
 renderConvCount(getConvCount());
 
-// ─── Historial modal ──────────────────────────────────────────────────────────
-{
-  const histModal  = $('histModal');
-  const histContent = $('histContent');
-  const histBtn    = $('historialBtn');
-  const histClose  = $('histModalClose');
+// ─── Conversion history (IndexedDB) ──────────────────────────────────────────
+const HIST_DB = 'vidtoflac_hist';
+const HIST_STORE = 'conversions';
+let _histDB = null;
 
-  function renderHistorial() {
-    const list  = JSON.parse(localStorage.getItem('vidtoflac_history') || '[]');
-    const total = getConvCount();
-    if (list.length === 0) {
-      histContent.innerHTML = '<p class="hist-empty">Aún no has convertido ningún archivo en este navegador.</p>';
-      return;
-    }
-    const rows = list.map(({ name, date }) => {
-      const d = new Date(date);
-      const dateStr = d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      const timeStr = d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-      return `<tr><td title="${name}">${name}</td><td>${dateStr} ${timeStr}</td></tr>`;
-    }).join('');
-    histContent.innerHTML = `
-      <table class="hist-table">
-        <thead><tr><th>Archivo</th><th style="text-align:right">Fecha</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-      <p class="hist-total">Total: <strong>${total} archivo${total !== 1 ? 's' : ''}</strong> convertidos en este navegador</p>
-    `;
-  }
+function openHistDB() {
+  if (_histDB) return Promise.resolve(_histDB);
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(HIST_DB, 1);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(HIST_STORE))
+        db.createObjectStore(HIST_STORE, { keyPath: 'id', autoIncrement: true });
+    };
+    req.onsuccess = e => { _histDB = e.target.result; resolve(_histDB); };
+    req.onerror = () => reject(req.error);
+  });
+}
 
-  const openHist  = () => { renderHistorial(); histModal.classList.add('open'); };
-  const closeHist = () => histModal.classList.remove('open');
-
-  histBtn.addEventListener('click', openHist);
-  histClose.addEventListener('click', closeHist);
-  histModal.addEventListener('click', e => { if (e.target === histModal) closeHist(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && histModal.classList.contains('open')) closeHist(); });
+async function saveConversionToDB(name, blob, mimeType) {
+  try {
+    const db = await openHistDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(HIST_STORE, 'readwrite');
+      const store = tx.objectStore(HIST_STORE);
+      store.add({ name, date: new Date().toISOString(), blob, mimeType, size: blob.size });
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+    // Keep only the last 50 entries
+    await new Promise((resolve) => {
+      const tx = db.transaction(HIST_STORE, 'readwrite');
+      const store = tx.objectStore(HIST_STORE);
+      const ids = [];
+      store.openCursor().onsuccess = e => {
+        const cursor = e.target.result;
+        if (cursor) { ids.push(cursor.key); cursor.continue(); }
+        else {
+          if (ids.length > 50) ids.slice(0, ids.length - 50).forEach(id => store.delete(id));
+          tx.oncomplete = resolve;
+        }
+      };
+    });
+  } catch { /* silent — history is non-critical */ }
 }
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
