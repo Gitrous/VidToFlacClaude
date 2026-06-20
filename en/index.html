@@ -342,7 +342,7 @@
       .conv-counter { justify-content: center; width: 100%; max-width: 860px; margin-left: auto; margin-right: auto; }
 
       /* Steps + SEO sections: constrain width and center */
-      .steps-card, .seo-card, .faq-card,
+      .steps-card, .seo-card, .faq-card, .compare-card,
       .tool-left > .card, .tool-right > .card {
         width: 100%;
         max-width: 860px;
@@ -1522,6 +1522,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 0.85rem;
+      text-align: center;
     }
     .compare-before .compare-header { color: var(--red); }
     .compare-after  .compare-header { color: var(--green); }
@@ -1536,21 +1537,17 @@
     .compare-list li {
       font-size: 0.875rem;
       line-height: 1.45;
-      padding-left: 1.5rem;
-      position: relative;
+      padding-left: 0;
       color: var(--ink-dim);
+      text-align: center;
     }
     .compare-before .compare-list li::before {
-      content: '✗';
-      position: absolute;
-      left: 0;
+      content: '✗ ';
       color: var(--red);
       font-weight: 700;
     }
     .compare-after .compare-list li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
+      content: '✓ ';
       color: var(--green);
       font-weight: 700;
     }
@@ -2072,7 +2069,8 @@
       padding: 0.4rem 0.5rem;
       border-bottom: 1px solid rgba(255,255,255,.04);
     }
-    .hist-table td:last-child { text-align: right; color: var(--amber); font-weight: 600; }
+    .hist-table td:last-child { text-align: right; color: var(--ink-dim); font-weight: 400; white-space: nowrap; }
+    .hist-table td:first-child { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .hist-empty { text-align: center; color: var(--ink-dim); font-size: 0.875rem; padding: 1.5rem 0; }
     .hist-total {
       font-family: var(--font-body);
@@ -2426,7 +2424,7 @@
   </div>
 
   <!-- Before / after comparison -->
-  <div class="card">
+  <div class="card compare-card">
     <div class="card-title">Before and after</div>
     <div class="compare-grid">
       <div class="compare-col compare-before">
@@ -3390,7 +3388,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outputURL   = URL.createObjectURL(blob);
     entry.outBaseName = baseName + outExt;
     entry.status      = 'done';
-    incConvCount();
+    incConvCount(entry.outBaseName);
 
     log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
     setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
@@ -3579,12 +3577,18 @@ function getConvCount() { return parseInt(localStorage.getItem('vidtoflac_conv')
 function getTodayKey() { return 'vidtoflac_today_' + new Date().toISOString().slice(0, 10); }
 function getConvToday() { return parseInt(localStorage.getItem(getTodayKey()) || '0', 10); }
 
-function incConvCount() {
+function incConvCount(name) {
   const n = getConvCount() + 1;
   localStorage.setItem('vidtoflac_conv', n);
   const key = getTodayKey();
   const t = parseInt(localStorage.getItem(key) || '0', 10) + 1;
   localStorage.setItem(key, t);
+  if (name) {
+    const list = JSON.parse(localStorage.getItem('vidtoflac_history') || '[]');
+    list.unshift({ name, date: new Date().toISOString() });
+    if (list.length > 300) list.length = 300;
+    localStorage.setItem('vidtoflac_history', JSON.stringify(list));
+  }
   renderConvCount(n, t);
 }
 function renderConvCount(n, t) {
@@ -3604,28 +3608,21 @@ renderConvCount(getConvCount());
   const histClose   = $('histModalClose');
 
   function renderHistorial() {
-    const entries = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('vidtoflac_today_')) {
-        const date  = key.replace('vidtoflac_today_', '');
-        const count = parseInt(localStorage.getItem(key) || '0', 10);
-        if (count > 0) entries.push({ date, count });
-      }
-    }
-    entries.sort((a, b) => b.date.localeCompare(a.date));
+    const list  = JSON.parse(localStorage.getItem('vidtoflac_history') || '[]');
     const total = getConvCount();
-    if (entries.length === 0) {
+    if (list.length === 0) {
       histContent.innerHTML = '<p class="hist-empty">You haven\'t converted any files in this browser yet.</p>';
       return;
     }
-    const rows = entries.map(({ date, count }) => {
-      const [y, m, d] = date.split('-');
-      return `<tr><td>${m}/${d}/${y}</td><td>${count} file${count !== 1 ? 's' : ''}</td></tr>`;
+    const rows = list.map(({ name, date }) => {
+      const d = new Date(date);
+      const dateStr = d.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const timeStr = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      return `<tr><td title="${name}">${name}</td><td>${dateStr} ${timeStr}</td></tr>`;
     }).join('');
     histContent.innerHTML = `
       <table class="hist-table">
-        <thead><tr><th>Date</th><th style="text-align:right">Files</th></tr></thead>
+        <thead><tr><th>File</th><th style="text-align:right">Date</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
       <p class="hist-total">Total: <strong>${total} file${total !== 1 ? 's' : ''}</strong> converted in this browser</p>
