@@ -269,7 +269,7 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 3.5rem 1.25rem 5rem;
+      padding: 3.5rem 1.25rem 0;
       position: relative;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -1718,17 +1718,19 @@
     /* ── Footer ──────────────────────────────────────────────── */
     footer {
       text-align: center;
-      color: var(--ink-mute);
+      color: var(--ink-dim);
       font-family: var(--font-mono);
       font-size: 0.68rem;
       letter-spacing: 0.02em;
       line-height: 1.7;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--line);
-      margin-top: 0.5rem;
+      padding: 2.5rem 2.75rem 2.25rem;
+      background: #1a1a20;
+      border-top: 1px solid var(--line-strong);
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.65rem;
+      margin: 0.5rem -1.25rem 0;
+      position: relative;
     }
     footer strong { color: var(--amber-2); font-weight: 600; }
     .footer-tagline { margin: 0; }
@@ -1932,6 +1934,14 @@
       color: var(--ink);
     }
     .nav-brand-accent { color: var(--amber); }
+    .nav-brand .bar {
+      transform-origin: center bottom;
+      animation: eq 1.1s ease-in-out infinite;
+    }
+    .nav-brand .bar:nth-child(1) { animation-delay: 0s; }
+    .nav-brand .bar:nth-child(2) { animation-delay: .18s; }
+    .nav-brand .bar:nth-child(3) { animation-delay: .36s; }
+    .nav-brand .bar:nth-child(4) { animation-delay: .54s; }
     .nav-links {
       display: flex;
       align-items: center;
@@ -1972,6 +1982,109 @@
     @media (max-width: 560px) {
       .nav-links { display: none; }
     }
+    .nav-end {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .nav-lang {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-dim);
+      text-decoration: none;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      transition: color .15s, background .15s, border-color .15s;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .nav-lang:hover { color: var(--ink); border-color: var(--amber); background: rgba(25,195,125,.08); }
+    /* ── Historial modal ─────────────────────────────────────── */
+    .hist-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: rgba(0,0,0,.72);
+      align-items: flex-start;
+      justify-content: center;
+      padding: 72px 1rem 2rem;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .hist-modal.open { display: flex; animation: rise .22s ease both; }
+    .hist-box {
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 480px;
+      max-height: 72vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .hist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .hist-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .hist-close {
+      background: none;
+      border: none;
+      color: var(--ink-dim);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0.3rem 0.4rem;
+      border-radius: 4px;
+      transition: color .15s;
+      flex-shrink: 0;
+    }
+    .hist-close:hover { color: var(--ink); }
+    .hist-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+    .hist-table th {
+      text-align: left;
+      color: var(--ink-dim);
+      font-weight: 500;
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .hist-table td {
+      color: var(--ink);
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .hist-table td:last-child { text-align: right; color: var(--amber); font-weight: 600; }
+    .hist-empty { text-align: center; color: var(--ink-dim); font-size: 0.875rem; padding: 1.5rem 0; }
+    .hist-total {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--ink-dim);
+      text-align: center;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--line);
+      margin: 0;
+    }
+    .hist-total strong { color: var(--ink); }
+    .hist-privacy { font-size: 0.72rem; color: var(--ink-dim); text-align: center; margin: 0; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
@@ -1981,17 +2094,33 @@
 <nav id="site-nav" aria-label="Navegación principal">
   <a class="nav-brand" href="/" aria-label="VidToFLAC — inicio">
     <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
-      <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
-      <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
-      <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
-      <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+      <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+      <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
     </svg>
     <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
+    <li><button class="nav-link" id="historialBtn" type="button">Historial</button></li>
   </ul>
+  <div class="nav-end">
+    <a href="/en/" class="nav-lang" aria-label="Switch to English" hreflang="en">English</a>
+  </div>
 </nav>
+
+<!-- History modal -->
+<div class="hist-modal" id="histModal" role="dialog" aria-modal="true" aria-labelledby="histModalTitle">
+  <div class="hist-box">
+    <div class="hist-header">
+      <span class="hist-title" id="histModalTitle">Tu historial de conversiones</span>
+      <button class="hist-close" id="histModalClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div id="histContent"></div>
+    <p class="hist-privacy">Solo visible en este navegador · tus archivos nunca salen de tu equipo</p>
+  </div>
+</div>
 
 <!-- Large file warning modal -->
 <div class="ad-modal" id="largeFileModal" role="dialog" aria-modal="true" aria-labelledby="largeFileModalTitle">
@@ -3468,6 +3597,51 @@ function renderConvCount(n, t) {
   }
 }
 renderConvCount(getConvCount());
+
+// ─── Historial modal ──────────────────────────────────────────────────────────
+{
+  const histModal  = $('histModal');
+  const histContent = $('histContent');
+  const histBtn    = $('historialBtn');
+  const histClose  = $('histModalClose');
+
+  function renderHistorial() {
+    const entries = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('vidtoflac_today_')) {
+        const date  = key.replace('vidtoflac_today_', '');
+        const count = parseInt(localStorage.getItem(key) || '0', 10);
+        if (count > 0) entries.push({ date, count });
+      }
+    }
+    entries.sort((a, b) => b.date.localeCompare(a.date));
+    const total = getConvCount();
+    if (entries.length === 0) {
+      histContent.innerHTML = '<p class="hist-empty">Aún no has convertido ningún archivo en este navegador.</p>';
+      return;
+    }
+    const rows = entries.map(({ date, count }) => {
+      const [y, m, d] = date.split('-');
+      return `<tr><td>${d}/${m}/${y}</td><td>${count} archivo${count !== 1 ? 's' : ''}</td></tr>`;
+    }).join('');
+    histContent.innerHTML = `
+      <table class="hist-table">
+        <thead><tr><th>Fecha</th><th style="text-align:right">Archivos</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <p class="hist-total">Total: <strong>${total} archivo${total !== 1 ? 's' : ''}</strong> convertidos en este navegador</p>
+    `;
+  }
+
+  const openHist  = () => { renderHistorial(); histModal.classList.add('open'); };
+  const closeHist = () => histModal.classList.remove('open');
+
+  histBtn.addEventListener('click', openHist);
+  histClose.addEventListener('click', closeHist);
+  histModal.addEventListener('click', e => { if (e.target === histModal) closeHist(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && histModal.classList.contains('open')) closeHist(); });
+}
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 setEngine('Selecciona un archivo para iniciar el motor', 'idle');
