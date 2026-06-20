@@ -355,6 +355,78 @@
       border-top: 1px solid var(--line);
     }
 
+    /* ── Clickable rows ─────────────────────────────────────────────── */
+    tbody tr.has-blob { cursor: pointer; }
+    tbody tr.has-blob:hover { background: rgba(25,195,125,.05); }
+    tbody tr.has-blob.active { background: rgba(25,195,125,.08); outline: none; }
+    tbody tr.has-blob td.td-name { color: var(--amber); }
+
+    /* ── Preview card ───────────────────────────────────────────────── */
+    .preview-card {
+      background: var(--panel);
+      border: 1px solid var(--amber-line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 1rem;
+      animation: rise .2s ease both;
+    }
+    .preview-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .preview-filename {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--ink);
+      font-weight: 500;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .preview-close {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      color: var(--ink-dim);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0.3rem 0.4rem;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+    }
+    .preview-close:hover { color: var(--ink); background: rgba(255,255,255,.06); }
+    .preview-media {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+    }
+    .preview-media video {
+      width: 100%;
+      max-height: 420px;
+      display: block;
+    }
+    .preview-media audio {
+      width: 100%;
+      display: block;
+      padding: 1rem;
+      box-sizing: border-box;
+      background: var(--panel-2, #151518);
+    }
+    .preview-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--line);
+    }
+
     /* ── Footer ─────────────────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -429,6 +501,25 @@
       <p class="empty-sub">Cargando…</p>
     </div>
   </div>
+
+  <!-- Preview panel (shown when a row is clicked) -->
+  <div class="preview-card" id="previewCard" hidden>
+    <div class="preview-header">
+      <span class="preview-filename" id="previewFilename"></span>
+      <button class="preview-close" id="previewClose" aria-label="Cerrar previsualización">✕</button>
+    </div>
+    <div class="preview-media" id="previewMedia"></div>
+    <div class="preview-footer">
+      <a class="dl-btn" id="previewDl" href="#" download>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Descargar
+      </a>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -446,6 +537,16 @@
   const HIST_DB    = 'vidtoflac_hist';
   const HIST_STORE = 'conversions';
   const card       = document.getElementById('histCard');
+  const previewCard    = document.getElementById('previewCard');
+  const previewMedia   = document.getElementById('previewMedia');
+  const previewFilename = document.getElementById('previewFilename');
+  const previewDl      = document.getElementById('previewDl');
+  const previewClose   = document.getElementById('previewClose');
+
+  // entries[i] corresponds to row data-idx="i" (newest-first order)
+  let entries = [];
+  // Track active blob URLs created for preview so we can revoke them
+  let activeBlobUrl = null;
 
   function fmt(bytes) {
     if (bytes >= 1e9) return (bytes / 1e9).toFixed(2) + ' GB';
@@ -492,6 +593,49 @@
     });
   }
 
+  function isAudio(mimeType, name) {
+    if (mimeType && mimeType.startsWith('audio/')) return true;
+    return name.endsWith('.flac') || name.endsWith('.mp3') || name.endsWith('.wav') || name.endsWith('.ogg');
+  }
+
+  function openPreview(idx) {
+    const entry = entries[idx];
+    if (!entry || !entry.blob) return;
+
+    // Revoke previous blob URL
+    if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
+    activeBlobUrl = URL.createObjectURL(entry.blob);
+
+    // Mark active row, clear others
+    document.querySelectorAll('tbody tr.active').forEach(tr => tr.classList.remove('active'));
+    const activeRow = document.querySelector(`tbody tr[data-idx="${idx}"]`);
+    if (activeRow) activeRow.classList.add('active');
+
+    // Set filename and download link
+    previewFilename.textContent = entry.name;
+    previewDl.href = activeBlobUrl;
+    previewDl.download = entry.name;
+
+    // Build media element
+    const useAudio = isAudio(entry.mimeType, entry.name);
+    previewMedia.innerHTML = useAudio
+      ? `<audio controls autoplay src="${activeBlobUrl}"></audio>`
+      : `<video controls autoplay playsinline src="${activeBlobUrl}"></video>`;
+
+    // Show panel and scroll to it
+    previewCard.hidden = false;
+    previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function closePreview() {
+    previewCard.hidden = true;
+    previewMedia.innerHTML = '';
+    if (activeBlobUrl) { URL.revokeObjectURL(activeBlobUrl); activeBlobUrl = null; }
+    document.querySelectorAll('tbody tr.active').forEach(tr => tr.classList.remove('active'));
+  }
+
+  previewClose.addEventListener('click', closePreview);
+
   function dlIcon() {
     return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -522,12 +666,17 @@
 
   function renderList(rows, db) {
     const total = rows.length;
-    const tableRows = [...rows].reverse().map(r => {
-      const blobUrl = r.blob ? URL.createObjectURL(r.blob) : null;
-      const dlCell = blobUrl
-        ? `<a class="dl-btn" href="${blobUrl}" download="${r.name}">${dlIcon()} Descargar</a>`
+    entries = [...rows].reverse();
+
+    const tableRows = entries.map((r, i) => {
+      const hasBlob = !!r.blob;
+      const dlCell = hasBlob
+        ? (() => {
+            const u = URL.createObjectURL(r.blob);
+            return `<a class="dl-btn" href="${u}" download="${r.name}">${dlIcon()} Descargar</a>`;
+          })()
         : `<span style="color:var(--ink-mute);font-size:.75rem">expirado</span>`;
-      return `<tr>
+      return `<tr${hasBlob ? ` class="has-blob" data-idx="${i}" tabindex="0" title="Haz clic para previsualizar"` : ''}>
         <td class="td-name" title="${r.name}">${r.name}</td>
         <td class="td-date">${fmtDate(r.date)}</td>
         <td class="td-size">${r.size ? fmt(r.size) : '—'}</td>
@@ -550,7 +699,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody>${tableRows}</tbody>
+          <tbody id="histTbody">${tableRows}</tbody>
         </table>
       </div>
       <p class="privacy-note">Solo visible en este navegador · tus archivos nunca salen de tu equipo</p>`;
@@ -558,7 +707,25 @@
     document.getElementById('clearBtn').addEventListener('click', async () => {
       if (!confirm('¿Borrar todo el historial de conversiones? Esta acción no se puede deshacer.')) return;
       await clearAll(db);
+      closePreview();
       renderEmpty();
+    });
+
+    // Click delegation on tbody
+    document.getElementById('histTbody').addEventListener('click', e => {
+      const tr = e.target.closest('tr[data-idx]');
+      // Don't intercept clicks on the download link itself
+      if (!tr || e.target.closest('a.dl-btn')) return;
+      openPreview(+tr.dataset.idx);
+    });
+
+    // Keyboard support
+    document.getElementById('histTbody').addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const tr = e.target.closest('tr[data-idx]');
+      if (!tr) return;
+      e.preventDefault();
+      openPreview(+tr.dataset.idx);
     });
   }
 
