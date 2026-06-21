@@ -2122,7 +2122,7 @@
   <!-- Conversion counter -->
   <div class="conv-counter" id="convCounter">
     <span class="conv-counter-dot"></span>
-    <span><strong id="convCount">0</strong> files converted in this browser · <strong id="convToday">0</strong> conversions today · none has left your device</span>
+    <span><strong id="convCount">0</strong> files converted in this browser · none has left your device</span>
   </div>
 
   <div class="tool-grid">
@@ -3476,31 +3476,23 @@ function showAdModal() {
 // ─── Conversion counter (localStorage) ───────────────────────────────────────
 const convCounter  = $('convCounter');
 const convCountEl  = $('convCount');
-const convTodayEl  = $('convToday');
 
 function getConvCount() { return parseInt(localStorage.getItem('vidtoflac_conv') || '0', 10); }
-
-function getTodayKey() { return 'vidtoflac_today_' + new Date().toISOString().slice(0, 10); }
-function getConvToday() { return parseInt(localStorage.getItem(getTodayKey()) || '0', 10); }
 
 function incConvCount(name) {
   const n = getConvCount() + 1;
   localStorage.setItem('vidtoflac_conv', n);
-  const key = getTodayKey();
-  const t = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-  localStorage.setItem(key, t);
   if (name) {
     const list = JSON.parse(localStorage.getItem('vidtoflac_history') || '[]');
     list.unshift({ name, date: new Date().toISOString() });
     if (list.length > 300) list.length = 300;
     localStorage.setItem('vidtoflac_history', JSON.stringify(list));
   }
-  renderConvCount(n, t);
+  renderConvCount(n);
 }
-function renderConvCount(n, t) {
+function renderConvCount(n) {
   if (n > 0) {
     convCountEl.textContent = n;
-    convTodayEl.textContent = t ?? getConvToday();
     convCounter.classList.add('visible');
   }
 }

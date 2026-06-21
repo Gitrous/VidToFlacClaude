@@ -6,6 +6,10 @@ Uso: python3 build_pages.py
 Añadir una página nueva = agregar una entrada a PAGES y volver a ejecutar.
 """
 import os
+import re
+import json
+
+from landing_content import CONTENT
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 
@@ -873,6 +877,66 @@ O_BRAND        = '<span class="brand-name">VidTo<span class="brand-accent">FLAC<
 O_STYLE_END    = '  </style>\n</head>'
 O_UNIQUE_GUIDE = '<!--{{UNIQUE_GUIDE}}-->'
 
+# Bloques que se sustituyen por contenido único de cada formato (anti-duplicado).
+O_FAQ_H2     = '<h2 id="faq-titulo" style="margin-bottom:1.1rem">Dudas habituales sobre la conversión a FLAC</h2>'
+RE_SOLUTION  = re.compile(r'      <h3>La solución: cambiar el contenedor.*?\n    </article>', re.S)
+RE_FAQ_LIST  = re.compile(r'    <div class="faq-list">.*?</details>\s*</div>\s*</section>', re.S)
+RE_FAQ_JSON  = re.compile(
+    r'  <script type="application/ld\+json">\s*\{\s*"@context": "https://schema\.org",'
+    r'\s*"@type": "FAQPage".*?</script>', re.S)
+
+FAQ_AD = (
+    '      <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">\n'
+    '        <ins class="adsbygoogle"\n'
+    '             style="display:block;"\n'
+    '             data-ad-client="ca-pub-1123812992313934"\n'
+    '             data-ad-slot="2037769304"\n'
+    '             data-ad-format="auto"\n'
+    '             data-full-width-responsive="true"></ins>\n'
+    '        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>\n'
+    '      </div>'
+)
+
+
+def _strip_tags(s: str) -> str:
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', s)).strip()
+
+
+def render_faq_html(faqs: list) -> str:
+    """FAQ visible, con el anuncio insertado tras la 3ª pregunta."""
+    parts = ['    <div class="faq-list">']
+    for i, (q, a) in enumerate(faqs):
+        parts += [
+            '      <details class="faq-item">',
+            f'        <summary>{q}<span class="faq-icon" aria-hidden="true"></span></summary>',
+            '        <div class="faq-answer">',
+            f'          <p>{a}</p>',
+            '        </div>',
+            '      </details>',
+        ]
+        if i == 2:
+            parts.append(FAQ_AD)
+    parts += ['    </div>', '  </section>']
+    return '\n'.join(parts)
+
+
+def render_faq_jsonld(faqs: list) -> str:
+    """JSON-LD FAQPage sincronizado con la FAQ visible."""
+    obj = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": _strip_tags(q),
+                "acceptedAnswer": {"@type": "Answer", "text": _strip_tags(a)},
+            }
+            for q, a in faqs
+        ],
+    }
+    body = json.dumps(obj, ensure_ascii=False, indent=2).replace('\n', '\n  ')
+    return '  <script type="application/ld+json">\n  ' + body + '\n  </script>'
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 def build_page(page: dict, template: str) -> str:
@@ -900,6 +964,16 @@ def build_page(page: dict, template: str) -> str:
     h = h.replace(O_SEO_H2,   f'      <h2 id="problema-titulo">{page["seo_h2"]}</h2>')
     h = h.replace(O_SEO_LEDE, f'      <p class="lede">{page["seo_lede"]}</p>')
     h = h.replace(O_UNIQUE_GUIDE, page.get("unique_guide", ""))
+
+    # Contenido único por formato: sección "La solución", FAQ visible y JSON-LD.
+    if page.get("seo_body"):
+        h = RE_SOLUTION.sub(lambda _: page["seo_body"] + '\n    </article>', h, count=1)
+    if page.get("faq_h2"):
+        h = h.replace(O_FAQ_H2,
+            f'<h2 id="faq-titulo" style="margin-bottom:1.1rem">{page["faq_h2"]}</h2>')
+    if page.get("faqs"):
+        h = RE_FAQ_LIST.sub(lambda _: render_faq_html(page["faqs"]), h, count=1)
+        h = RE_FAQ_JSON.sub(lambda _: render_faq_jsonld(page["faqs"]), h, count=1)
 
     # Brand name → enlace de vuelta al inicio
     h = h.replace(O_BRAND,
@@ -958,6 +1032,7 @@ def main() -> None:
         template = f.read()
 
     for page in PAGES:
+        page = {**page, **CONTENT.get(page['slug'], {})}
         out_dir  = os.path.join(BASE, page['slug'])
         out_path = os.path.join(out_dir, 'index.html')
         os.makedirs(out_dir, exist_ok=True)
