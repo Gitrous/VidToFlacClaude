@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cómo exportar vídeo de DaVinci Resolve sin perder calidad de audio</title>
+  <meta name="description" content="Guía paso a paso para exportar desde DaVinci Resolve sin degradar el audio: ajustes de la página Deliver, códecs recomendados y errores habituales." />
+  <meta name="keywords" content="exportar DaVinci Resolve sin perder calidad audio, exportar audio DaVinci Resolve, DaVinci Resolve Deliver audio, DaVinci Resolve exportar FLAC, DaVinci Resolve exportar PCM, configuración exportación DaVinci Resolve, DaVinci Resolve audio settings export" />
+  <meta name="author" content="VidToFLAC" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VidToFLAC" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/" />
+  <meta property="og:title" content="Cómo exportar vídeo de DaVinci Resolve sin perder calidad de audio" />
+  <meta property="og:description" content="Guía paso a paso para exportar desde DaVinci Resolve sin degradar el audio: ajustes de la página Deliver, códecs recomendados y errores habituales." />
+  <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cómo exportar vídeo de DaVinci Resolve sin perder calidad de audio" />
+  <meta name="twitter:description" content="Guía paso a paso para exportar desde DaVinci Resolve sin degradar el audio: ajustes de la página Deliver, códecs recomendados y errores habituales." />
+  <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Cómo exportar vídeo de DaVinci Resolve sin perder calidad de audio",
+    "description": "Guía paso a paso para exportar desde DaVinci Resolve sin degradar el audio: ajustes de la página Deliver, códecs recomendados y errores habituales.",
+    "url": "https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/",
+    "datePublished": "2026-06-28",
+    "dateModified": "2026-06-28",
+    "inLanguage": "es",
+    "author": { "@type": "Organization", "name": "VidToFLAC", "url": "https://vidtoflac.tech/" },
+    "publisher": {
+      "@type": "Organization", "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/", "logo": "https://vidtoflac.tech/icon-512.png"
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/" }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cómo exportar desde DaVinci Resolve sin perder calidad de audio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En la página Deliver de DaVinci Resolve, en la sección Audio, elige el códec PCM (WAV sin comprimir) o FLAC (sin pérdida comprimido). Ambos preservan el 100% de la calidad de audio original. Evita AAC o MP3 si quieres calidad sin pérdida."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué el audio pierde calidad al exportar en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Porque DaVinci Resolve aplica por defecto una recompresión en AAC o MP3 al exportar, lo que introduce pérdida de calidad. Además, si el audio ya venía comprimido (AAC) y se vuelve a comprimir (AAC), la calidad se degrada acumulativamente. La solución es exportar siempre a FLAC o PCM/WAV."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuál es el mejor códec de audio para exportar desde DaVinci Resolve a YouTube?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para YouTube, AAC a 320 kbps es suficiente y es el estándar que acepta la plataforma. YouTube recomprime el vídeo al subir de todas formas, así que exportar en AAC de alta calidad es la opción más práctica. Si quieres conservar el máster sin pérdida, exporta a FLAC o PCM y guarda una copia aparte."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿DaVinci Resolve puede exportar en FLAC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. En la página Deliver, selecciona el contenedor MKV y en la sección Audio elige el códec FLAC. DaVinci Resolve exportará el audio en formato FLAC sin pérdida dentro del archivo MKV."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué el audio exportado de DaVinci Resolve va desincronizado?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La desincronización al exportar suele tener dos causas: el material de entrada era Variable Frame Rate (VFR) y DaVinci Resolve no lo gestionó correctamente, o hay un conflicto entre la frecuencia de muestreo del proyecto (timeline) y la del material fuente. Comprueba que el proyecto está configurado a 48.000 Hz si trabajas con audio de cámara o micrófono externo."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://vidtoflac.tech/" },
+      { "@type": "ListItem", "position": 2, "name": "Artículos", "item": "https://vidtoflac.tech/articulos/" },
+      { "@type": "ListItem", "position": 3, "name": "Exportar DaVinci Resolve sin perder calidad de audio", "item": "https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a0a0b; --panel:#0f0f11; --panel-2:#151518; --elev:#1b1b1f;
+      --line:rgba(255,255,255,.07); --line-strong:rgba(255,255,255,.13);
+      --ink:#f3f3ef; --ink-dim:#a7a7ad; --ink-mute:#66666e;
+      --amber:#19c37d; --amber-2:#4ee6a8; --amber-soft:rgba(25,195,125,.14); --amber-line:rgba(25,195,125,.42);
+      --green:#4ade80; --green-soft:rgba(74,222,128,.13);
+      --red:#ff6058; --red-soft:rgba(255,96,88,.13); --warn:#fbbf24;
+      --radius:16px; --radius-sm:10px;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;padding-top:56px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(900px 520px at 50% -8%,rgba(25,195,125,.10),transparent 60%),radial-gradient(700px 700px at 50% 120%,rgba(25,195,125,.04),transparent 60%);pointer-events:none;z-index:0}
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.03;mix-blend-mode:screen;pointer-events:none;z-index:1}
+
+    #site-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;gap:1rem;padding:0 1.25rem;background:rgba(9,9,11,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-sizing:border-box}
+    .nav-brand{display:flex;align-items:center;gap:0.55rem;text-decoration:none;flex-shrink:0}
+    .nav-brand-name{font-family:var(--font-display);font-weight:800;font-size:1.05rem;letter-spacing:-0.03em;color:var(--ink)}
+    .nav-brand-accent{color:var(--amber)}
+    @keyframes eq{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.45)}}
+    .nav-brand .bar{transform-origin:center bottom;animation:eq 1.1s ease-in-out infinite}
+    .nav-brand .bar:nth-child(1){animation-delay:0s}.nav-brand .bar:nth-child(2){animation-delay:.18s}.nav-brand .bar:nth-child(3){animation-delay:.36s}.nav-brand .bar:nth-child(4){animation-delay:.54s}
+    .nav-links{display:flex;align-items:center;gap:0.1rem;list-style:none;flex:1;justify-content:center}
+    .nav-link{font-family:var(--font-body);font-size:0.875rem;font-weight:500;color:var(--ink-dim);text-decoration:none;padding:0.35rem 0.8rem;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;position:relative}
+    .nav-link:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+    .nav-link-active{color:var(--amber);font-weight:600}
+    .nav-link-active::after{content:'';position:absolute;bottom:-3px;left:0.8rem;right:0.8rem;height:2px;background:var(--amber);border-radius:1px}
+    @media(max-width:560px){.nav-links{display:none}}
+    .nav-end{margin-left:auto;flex-shrink:0}
+    .nav-lang{font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:var(--ink-mute);text-decoration:none;border:1px solid var(--line-strong);border-radius:6px;padding:0.25rem 0.6rem;transition:color .15s,border-color .15s,background .15s;letter-spacing:0.04em}
+    .nav-lang:hover{color:var(--ink);border-color:var(--amber);background:rgba(25,195,125,.08)}
+
+    .page-wrap{max-width:780px;margin:0 auto;padding:3rem 1.25rem 4rem;position:relative;z-index:2}
+
+    .breadcrumb{display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-mute);margin-bottom:2.5rem;flex-wrap:wrap}
+    .breadcrumb a{color:var(--ink-mute);text-decoration:none;transition:color .15s}
+    .breadcrumb a:hover{color:var(--amber)}
+    .breadcrumb-sep{opacity:.4}
+
+    .article-meta{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+    .article-badge{font-family:var(--font-mono);font-size:0.68rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border:1px solid var(--amber-line);border-radius:6px;padding:0.2rem 0.55rem}
+    .article-date,.article-read-time{font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-mute)}
+
+    h1.article-title{font-family:var(--font-display);font-size:clamp(1.75rem,4.5vw,2.5rem);font-weight:800;line-height:1.15;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.1rem}
+    .article-lead{font-size:1.05rem;color:var(--ink-dim);line-height:1.7;margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px solid var(--line)}
+
+    .toc{background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius);padding:1.4rem 1.6rem;margin-bottom:2.5rem}
+    .toc-title{font-family:var(--font-mono);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:0.9rem}
+    .toc ol{padding-left:1.3rem;display:flex;flex-direction:column;gap:0.45rem}
+    .toc a{color:var(--ink-dim);text-decoration:none;font-size:0.875rem;transition:color .15s}
+    .toc a:hover{color:var(--amber)}
+
+    .article-body{display:flex;flex-direction:column;gap:0}
+    .article-body h2{font-family:var(--font-display);font-size:1.45rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin-top:2.75rem;margin-bottom:1rem;scroll-margin-top:72px}
+    .article-body h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--ink);margin-top:1.75rem;margin-bottom:0.65rem;scroll-margin-top:72px}
+    .article-body p{color:var(--ink-dim);line-height:1.8;margin-bottom:1rem}
+    .article-body p strong{color:var(--ink);font-weight:600}
+    .article-body ul,.article-body ol{padding-left:1.5rem;color:var(--ink-dim);line-height:1.8;margin-bottom:1rem;display:flex;flex-direction:column;gap:0.35rem}
+    .article-body li strong{color:var(--ink)}
+    .article-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px;transition:opacity .15s}
+    .article-body a:hover{opacity:0.8}
+    .article-body code{font-family:var(--font-mono);font-size:0.82em;background:var(--elev);border:1px solid var(--line-strong);border-radius:4px;padding:0.1em 0.4em;color:var(--amber-2)}
+
+    .info-box{background:var(--amber-soft);border:1px solid var(--amber-line);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .info-box strong{color:var(--ink)}
+    .warn-box{background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.3);border-left:3px solid var(--warn);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .warn-box strong{color:var(--ink)}
+    .warn-box code{font-family:var(--font-mono);font-size:0.82em;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);border-radius:4px;padding:0.1em 0.4em;color:var(--warn)}
+
+    /* Steps */
+    .steps{display:flex;flex-direction:column;gap:1rem;margin:1.25rem 0}
+    .step{display:flex;gap:1rem;align-items:flex-start}
+    .step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--amber-soft);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.72rem;font-weight:700;color:var(--amber);margin-top:2px}
+    .step-body{flex:1}
+    .step-body strong{display:block;color:var(--ink);font-weight:600;margin-bottom:0.2rem;font-size:0.95rem}
+    .step-body p{color:var(--ink-dim);font-size:0.875rem;line-height:1.65;margin:0}
+
+    /* Export settings table */
+    .settings-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.875rem;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line-strong)}
+    .settings-table th{background:var(--panel-2);color:var(--ink-dim);font-family:var(--font-mono);font-size:0.72rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:0.75rem 1rem;text-align:left;border-bottom:1px solid var(--line-strong)}
+    .settings-table td{padding:0.65rem 1rem;color:var(--ink-dim);border-bottom:1px solid var(--line);vertical-align:top}
+    .settings-table tr:last-child td{border-bottom:none}
+    .settings-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+    .settings-table td strong{color:var(--ink)}
+    .badge-rec{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.15rem 0.45rem;border-radius:4px;background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-line)}
+    .badge-ok{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.15rem 0.45rem;border-radius:4px;background:var(--green-soft);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+    .badge-warn{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.15rem 0.45rem;border-radius:4px;background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.3)}
+
+    .tool-cta{background:var(--panel);border:1px solid var(--amber-line);border-radius:var(--radius);padding:1.75rem 2rem;margin:2.5rem 0;display:flex;flex-direction:column;align-items:flex-start;gap:0.75rem}
+    .tool-cta-label{font-family:var(--font-mono);font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber)}
+    .tool-cta h3{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--ink);margin:0}
+    .tool-cta p{color:var(--ink-dim);font-size:0.9rem;margin:0;line-height:1.65}
+    .tool-cta-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--amber);color:#051e12;font-family:var(--font-body);font-size:0.9rem;font-weight:700;padding:0.7rem 1.4rem;border-radius:var(--radius-sm);text-decoration:none;transition:opacity .15s,transform .15s;margin-top:0.25rem}
+    .tool-cta-btn:hover{opacity:0.88;transform:translateY(-1px)}
+
+    .ad-slot{margin:2rem 0;text-align:center;min-height:90px}
+    .ad-label{font-family:var(--font-mono);font-size:0.62rem;color:var(--ink-mute);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem}
+
+    .faq-section{margin-top:2.5rem}
+    .faq-item{border:none;border-bottom:1px solid var(--line);padding:0}
+    .faq-item summary{font-family:var(--font-body);font-size:0.95rem;font-weight:600;color:var(--ink);padding:1rem 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-chevron{flex-shrink:0;width:18px;height:18px;color:var(--ink-mute);transition:transform .2s}
+    .faq-item[open] .faq-chevron{transform:rotate(180deg)}
+    .faq-answer{padding:0 0 1rem;color:var(--ink-dim);font-size:0.9rem;line-height:1.75}
+    .faq-answer p{margin:0}
+    .faq-answer strong{color:var(--ink)}
+    .faq-answer code{font-family:var(--font-mono);font-size:0.82em;background:var(--elev);border:1px solid var(--line-strong);border-radius:4px;padding:0.1em 0.4em;color:var(--amber-2)}
+
+    footer{text-align:center;color:var(--ink-dim);font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.02em;line-height:1.7;padding:2.5rem 2.75rem 2.25rem;background:#1a1a20;border-top:1px solid var(--line-strong);display:flex;flex-direction:column;gap:0.65rem}
+    footer strong{color:var(--amber-2);font-weight:600}
+    .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:0.25rem 1.5rem}
+    .footer-links a{color:var(--ink-dim);text-decoration:none;transition:color 0.15s}
+    .footer-links a:hover{color:var(--amber)}
+
+    :focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .page-wrap{animation:rise .4s ease both}
+    @media(max-width:480px){.page-wrap{padding:2rem 0.9rem 3rem}.tool-cta{padding:1.25rem}.settings-table{font-size:0.8rem}.settings-table th,.settings-table td{padding:0.55rem 0.7rem}}
+    @media(prefers-reduced-motion:reduce){*,.page-wrap{animation:none!important;transition:none!important}}
+  </style>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav id="site-nav" aria-label="Navegación principal">
+  <a class="nav-brand" href="/" aria-label="VidToFLAC — inicio">
+    <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+      <rect class="bar" x="2" y="6" width="3" height="10" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="7" y="3" width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+      <rect class="bar" x="12" y="5" width="3" height="12" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="17" y="8" width="3" height="6" rx="1.5" fill="#b7f5da"/>
+    </svg>
+    <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/" class="nav-link">Inicio</a></li>
+    <li><a href="/articulos/" class="nav-link nav-link-active" aria-current="page">Artículos</a></li>
+    <li><a href="/historial/" class="nav-link">Historial</a></li>
+    <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/en/" class="nav-lang" aria-label="Switch to English" hreflang="en">English</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <nav class="breadcrumb" aria-label="Ruta de navegación">
+    <a href="/">Inicio</a>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <a href="/articulos/">Artículos</a>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <span aria-current="page">Exportar DaVinci Resolve sin perder calidad de audio</span>
+  </nav>
+
+  <article itemscope itemtype="https://schema.org/Article">
+
+    <div class="article-meta">
+      <span class="article-badge">Guía</span>
+      <time class="article-date" datetime="2026-06-28" itemprop="datePublished">28 de junio de 2026</time>
+      <span class="article-read-time">· 8 min de lectura</span>
+    </div>
+
+    <h1 class="article-title" itemprop="headline">
+      Cómo exportar vídeo de DaVinci Resolve sin perder calidad de audio
+    </h1>
+
+    <p class="article-lead">
+      Exportas desde DaVinci Resolve y el resultado suena peor que el original: más plano, con menos detalle, o directamente distorsionado. O el audio llega desincronizado al reproducir el archivo exportado. Es uno de los problemas más frustrantes del proceso de post-producción, y casi siempre tiene solución en la configuración de la página Deliver. En esta guía explicamos cómo exportar desde DaVinci Resolve conservando la calidad de audio al 100%.
+    </p>
+
+    <nav class="toc" aria-label="Tabla de contenidos">
+      <p class="toc-title">En este artículo</p>
+      <ol>
+        <li><a href="#por-que-pierde-calidad">Por qué el audio pierde calidad al exportar</a></li>
+        <li><a href="#pagina-deliver">La página Deliver: ajustes de audio explicados</a></li>
+        <li><a href="#codecs-exportacion">Qué códec de audio elegir al exportar en DaVinci Resolve</a></li>
+        <li><a href="#por-destino">Configuración óptima según el destino del vídeo</a></li>
+        <li><a href="#errores-comunes">Errores comunes al exportar audio en DaVinci Resolve</a></li>
+        <li><a href="#antes-de-exportar">Prepara el audio antes de importar para mejores resultados</a></li>
+        <li><a href="#faq-exportar">Preguntas frecuentes sobre exportar audio en DaVinci Resolve</a></li>
+      </ol>
+    </nav>
+
+    <!-- Ad: top -->
+    <div class="ad-slot">
+      <p class="ad-label">Publicidad</p>
+      <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="article-body" itemprop="articleBody">
+
+      <h2 id="por-que-pierde-calidad">Por qué el audio pierde calidad al exportar desde DaVinci Resolve</h2>
+
+      <p>Cuando exportas un vídeo desde DaVinci Resolve, el programa aplica por defecto una <strong>recompresión del audio</strong>. Si el audio de tu proyecto ya venía comprimido (AAC, MP3) y lo vuelves a exportar en AAC o MP3, cada ciclo de compresión introduce nuevos artefactos y degrada la calidad de forma acumulativa. Es lo que se conoce como <strong>recompresión generacional</strong>.</p>
+
+      <p>Además, si la configuración de audio del proyecto (frecuencia de muestreo, profundidad de bits) no coincide con la del material fuente, DaVinci Resolve hace una conversión que puede introducir sutiles diferencias de calidad o, en casos extremos, desincronización.</p>
+
+      <p>Las causas más habituales de pérdida de calidad de audio al exportar son:</p>
+
+      <ul>
+        <li><strong>Exportar en AAC o MP3 cuando el original era PCM o FLAC</strong> — introduces compresión con pérdida donde antes no había ninguna.</li>
+        <li><strong>Bitrate de audio demasiado bajo</strong> — un AAC a 128 kbps suena notablemente peor que a 320 kbps.</li>
+        <li><strong>Incompatibilidad de frecuencia de muestreo</strong> — el proyecto está a 44.100 Hz pero el material es a 48.000 Hz (o viceversa).</li>
+        <li><strong>Recompresión generacional</strong> — el audio original ya era AAC y se vuelve a comprimir en AAC al exportar.</li>
+        <li><strong>Normalización no deseada</strong> — DaVinci Resolve aplica un ajuste de volumen automático que altera la dinámica del audio.</li>
+      </ul>
+
+      <h2 id="pagina-deliver">La página Deliver de DaVinci Resolve: ajustes de audio explicados</h2>
+
+      <p>La página Deliver es donde se configuran todos los ajustes de exportación. Para acceder a los controles de audio, ve a la sección <strong>Audio</strong> dentro del panel de configuración del render. Los ajustes clave son:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Codec (Códec de audio)</strong>
+            <p>Elige el algoritmo de compresión. Las opciones más importantes son PCM (sin compresión), FLAC (sin pérdida comprimido), AAC (con pérdida) y MP3 (con pérdida). Para máxima calidad, usa PCM o FLAC.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Data Rate / Bitrate</strong>
+            <p>Solo aparece con códecs con pérdida (AAC, MP3). A mayor bitrate, mejor calidad. Para distribución en internet, 320 kbps es el máximo práctico con AAC.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Sample Rate (Frecuencia de muestreo)</strong>
+            <p>Usa siempre <code>48.000 Hz</code> para vídeo — es el estándar de cine y televisión. Solo usa 44.100 Hz si el destino es exclusivamente música o podcasts.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Bit Depth (Profundidad de bits)</strong>
+            <p>Con PCM o FLAC, elige <code>24 bits</code> para archivos máster y <code>16 bits</code> para distribución. Con AAC o MP3 este ajuste no aplica (el códec usa su propia cuantización).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <strong>Channels (Canales)</strong>
+            <p>Stereo para la mayoría de proyectos. 5.1 o 7.1 si mezclas audio envolvente. Mono solo si el destino lo requiere explícitamente (p. ej. algunos podcasts).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        <strong>Opción a desactivar:</strong> En algunos presets, DaVinci Resolve activa la opción <strong>"Normalize Audio"</strong> (normalizar audio). Si tu mezcla de audio ya está masterizada con los niveles correctos, desactívala — la normalización automática puede alterar la dinámica de tu mezcla.
+      </div>
+
+      <!-- Ad: mid -->
+      <div class="ad-slot">
+        <p class="ad-label">Publicidad</p>
+        <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <h2 id="codecs-exportacion">Qué códec de audio elegir al exportar en DaVinci Resolve</h2>
+
+      <p>La elección del códec de audio en la exportación depende del destino del vídeo. Esta es la comparativa:</p>
+
+      <table class="settings-table">
+        <thead>
+          <tr>
+            <th>Códec</th>
+            <th>Calidad</th>
+            <th>Tamaño</th>
+            <th>Mejor para</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>PCM / WAV</strong> <span class="badge-rec">Máster</span></td>
+            <td>Sin pérdida</td>
+            <td>Grande</td>
+            <td>Archivo máster, entrega a cliente, post-producción</td>
+          </tr>
+          <tr>
+            <td><strong>FLAC</strong> <span class="badge-rec">Máster</span></td>
+            <td>Sin pérdida</td>
+            <td>Mediano</td>
+            <td>Archivo máster comprimido, MKV sin pérdida</td>
+          </tr>
+          <tr>
+            <td><strong>AAC 320 kbps</strong> <span class="badge-ok">Distribución</span></td>
+            <td>Alta (con pérdida)</td>
+            <td>Pequeño</td>
+            <td>YouTube, Vimeo, streaming, redes sociales</td>
+          </tr>
+          <tr>
+            <td><strong>AAC 128–192 kbps</strong> <span class="badge-warn">Aceptable</span></td>
+            <td>Media (con pérdida)</td>
+            <td>Muy pequeño</td>
+            <td>Web, móvil, cuando el tamaño importa más que la calidad</td>
+          </tr>
+          <tr>
+            <td><strong>MP3</strong> <span class="badge-warn">Evitar para vídeo</span></td>
+            <td>Media (con pérdida)</td>
+            <td>Pequeño</td>
+            <td>Solo audio, podcasts — no recomendado para vídeo</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        <strong>Regla de oro:</strong> Si el destino final va a recomprimir el audio de todas formas (YouTube, Instagram, TikTok), exporta en AAC 320 kbps — no hay ventaja práctica en exportar a FLAC si la plataforma lo va a convertir después. Guarda el FLAC para tu archivo máster.
+      </div>
+
+      <h2 id="por-destino">Configuración óptima de audio al exportar según el destino</h2>
+
+      <h3>Exportar para YouTube</h3>
+      <p>YouTube recodifica todo el vídeo que subes, así que exportar a calidades exageradamente altas no mejora el resultado final en la plataforma. La configuración óptima para audio es:</p>
+      <ul>
+        <li><strong>Códec:</strong> AAC</li>
+        <li><strong>Bitrate:</strong> 320 kbps</li>
+        <li><strong>Sample Rate:</strong> 48.000 Hz</li>
+        <li><strong>Canales:</strong> Stereo</li>
+      </ul>
+      <p>Usa el preset "YouTube" de DaVinci Resolve como punto de partida y ajusta el bitrate de audio a 320 kbps si no está ya en ese valor.</p>
+
+      <h3>Exportar para entrega a cliente o archivo máster</h3>
+      <p>Aquí sí importa exportar sin pérdida. El cliente o el siguiente eslabón de la cadena de post-producción necesita la máxima calidad para poder editar de nuevo si hace falta.</p>
+      <ul>
+        <li><strong>Códec:</strong> PCM (WAV sin comprimir) o FLAC</li>
+        <li><strong>Bit Depth:</strong> 24 bits</li>
+        <li><strong>Sample Rate:</strong> 48.000 Hz</li>
+        <li><strong>Contenedor:</strong> MOV o MKV (para FLAC)</li>
+      </ul>
+
+      <h3>Exportar para Instagram o TikTok</h3>
+      <p>Estas plataformas recomprimen agresivamente. Instagram limita la resolución a 1080p y recodifica en H.264 con audio AAC. No tiene sentido exportar en calidad máxima — exporta en AAC 256 kbps y H.264, que es lo que la plataforma va a producir de todas formas. Ahorras tiempo de render y espacio en disco sin impacto en la calidad final publicada.</p>
+
+      <h3>Exportar para Premiere Pro, Avid u otro editor</h3>
+      <p>Si el archivo exportado va a ser importado en otro software de edición (flujo de trabajo con múltiples herramientas), exporta siempre en <strong>PCM 24 bits a 48.000 Hz</strong>. Es el formato que todos los editores profesionales aceptan sin problemas y sin recompresiones.</p>
+
+      <h2 id="errores-comunes">Errores comunes al exportar audio en DaVinci Resolve y cómo solucionarlos</h2>
+
+      <h3>El audio exportado suena diferente al original</h3>
+      <p>La causa más frecuente es la recompresión generacional. Si el audio de tu proyecto ya era AAC y exportas en AAC, el resultado sonará peor porque se aplican dos ciclos de compresión con pérdida. <strong>Solución:</strong> exporta en PCM o FLAC para el archivo máster y guarda una copia en AAC solo para distribución.</p>
+
+      <h3>El audio exportado va desincronizado</h3>
+      <p>Dos causas principales. Primera: el material fuente era Variable Frame Rate (VFR) — los vídeos de smartphone en modo automático varían la tasa de fotogramas, lo que desajusta la sincronía de audio al exportar. Segunda: incompatibilidad de frecuencia de muestreo entre el proyecto y el material. <strong>Comprueba</strong> que el proyecto de DaVinci Resolve está configurado a la misma frecuencia de muestreo que tu material (<code>Archivo → Configuración del proyecto → Master Settings → Audio sample rate</code>).</p>
+
+      <div class="warn-box">
+        <strong>Si el material era Variable Frame Rate:</strong> antes de importarlo en DaVinci Resolve, conviértelo a Constant Frame Rate con FFmpeg: <code>ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv</code>. Así eliminas la causa raíz de la desincronización.
+      </div>
+
+      <h3>El vídeo exportado no tiene audio</h3>
+      <p>Ocurre cuando la pista de audio del proyecto está en mute, cuando la pista de audio tiene el volumen a cero, o cuando DaVinci Resolve ha perdido el vínculo con el archivo de audio original (aparece en rojo en el Media Pool). Verifica que la pista de audio está activa en la línea de tiempo y que todos los clips tienen el icono de audio visible antes de exportar.</p>
+
+      <h3>El archivo exportado es demasiado grande</h3>
+      <p>Si exportas en PCM, el audio sin comprimir ocupa mucho más que en AAC o FLAC. Para reducir el tamaño sin perder calidad, usa FLAC en vez de PCM: comprime el audio entre un 40 y un 60 % sin perder ningún dato. En un vídeo de 2 horas, la diferencia puede ser de varios gigabytes.</p>
+
+      <!-- Ad: before last section -->
+      <div class="ad-slot">
+        <p class="ad-label">Publicidad</p>
+        <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <h2 id="antes-de-exportar">Prepara el audio antes de importar en DaVinci Resolve para mejores resultados</h2>
+
+      <p>La calidad del audio exportado depende en gran parte de la calidad del audio que entra. Si importas vídeos con audio AAC, MP3 u Opus, DaVinci Resolve trabaja con ese audio comprimido durante toda la edición — y cualquier procesamiento adicional (corrección de color, efectos de audio) se aplica sobre datos ya degradados.</p>
+
+      <p>La práctica recomendada es <strong>convertir el audio a FLAC antes de importar el material</strong> en DaVinci Resolve. Así el editor trabaja con audio sin pérdida desde el principio y la exportación final preserva toda la calidad posible.</p>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">Herramienta gratuita</span>
+        <h3>Convierte el audio a FLAC antes de editar</h3>
+        <p>VidToFLAC hace un remux sin pérdida: copia el vídeo bit a bit y convierte solo el audio a FLAC. 100% local, sin subir archivos, en segundos. Compatible con MP4, MOV, MKV, WebM, AVI y más.</p>
+        <a href="/" class="tool-cta-btn" aria-label="Usar VidToFLAC gratis">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convertir audio a FLAC gratis
+        </a>
+      </div>
+
+      <p>Para saber más sobre por qué el audio falla al importar material en DaVinci Resolve, lee nuestra guía sobre <a href="/articulos/errores-audio-davinci-resolve/">errores de audio en DaVinci Resolve</a>. Si quieres entender qué formatos y códecs funcionan mejor durante la edición, consulta la guía sobre <a href="/articulos/que-formato-video-usar-davinci-resolve/">qué formato de vídeo usar en DaVinci Resolve</a>.</p>
+
+      <section class="faq-section" aria-labelledby="faq-exportar">
+        <h2 id="faq-exportar">Preguntas frecuentes sobre exportar audio en DaVinci Resolve</h2>
+
+        <details class="faq-item">
+          <summary>
+            ¿Cómo exportar desde DaVinci Resolve sin perder calidad de audio?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>En la página Deliver, sección Audio, elige el códec <strong>PCM</strong> (WAV sin comprimir) o <strong>FLAC</strong> (sin pérdida comprimido). Ambos preservan el 100 % de la calidad del audio original. Configura la frecuencia de muestreo a 48.000 Hz y la profundidad de bits a 24 bits para máxima calidad.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Por qué el audio pierde calidad al exportar en DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Porque DaVinci Resolve recomprime el audio al exportar. Si el audio original ya era AAC y exportas en AAC, aplicas dos ciclos de compresión con pérdida (recompresión generacional). La solución es exportar siempre a <strong>FLAC o PCM</strong> para el archivo máster.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Cuál es el mejor códec de audio para exportar a YouTube desde DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>AAC a 320 kbps</strong> es suficiente y es el estándar que acepta YouTube. La plataforma recomprime el vídeo al subir de todas formas, así que exportar en FLAC no mejora el resultado en YouTube. Guarda el FLAC para tu copia de archivo máster.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿DaVinci Resolve puede exportar en FLAC?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Sí. En la página Deliver, selecciona el contenedor <strong>MKV</strong> y en la sección Audio elige el códec <strong>FLAC</strong>. DaVinci Resolve exportará el audio en formato FLAC sin pérdida dentro del archivo MKV.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Por qué el audio exportado de DaVinci Resolve va desincronizado?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Las causas más habituales son: el material fuente era <strong>Variable Frame Rate (VFR)</strong> — típico de vídeos de smartphone —, o hay una incompatibilidad de frecuencia de muestreo entre el proyecto y el material. Para VFR, convierte el archivo a CFR antes de importar: <code>ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv</code></p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Qué frecuencia de muestreo debo usar al exportar desde DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>48.000 Hz</strong> es el estándar para todo el contenido de vídeo (cine, televisión, plataformas de streaming). Solo usa 44.100 Hz si el destino es exclusivamente audio (CD, plataformas de música). Usar la frecuencia equivocada puede causar pequeñas variaciones en el pitch del audio.</p>
+          </div>
+        </details>
+
+      </section>
+
+    </div>
+  </article>
+
+</div>
+
+<footer>
+  <p class="footer-tagline">
+    Todo el procesamiento ocurre en tu dispositivo usando
+    <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+  </p>
+  <nav class="footer-links" aria-label="Páginas legales">
+    <a href="/politica-de-privacidad/">Política de privacidad</a>
+    <a href="/terminos-de-servicio/">Términos de servicio</a>
+    <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/contacto/">Contacto</a>
+  </nav>
+  <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
