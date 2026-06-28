@@ -16,9 +16,29 @@ VidToFLAC es una aplicación web de **una sola página y 100% del lado del clien
 
 Al editar, conserva la estructura de archivo único — no separes en archivos JS/CSS aparte.
 
+## Revisión de políticas de Google AdSense
+
+**Después de completar cualquier cambio** y antes de preguntar al usuario qué hacer, revisa si el cambio podría incumplir alguna política de Google AdSense. Las políticas más relevantes para este sitio son:
+
+- **Contenido valioso para el usuario**: la página debe ofrecer contenido original y útil, no ser un sitio vacío o de relleno.
+- **Navegación clara**: el sitio debe ser fácil de navegar; los anuncios no deben interferir con la navegación ni con el contenido principal.
+- **Anuncios no engañosos**: los anuncios no pueden colocarse de forma que induzcan a clics accidentales (p. ej., junto a botones de acción, demasiado cerca del contenido interactivo, ni encima de elementos clicables).
+- **Sin contenido restringido**: nada de contenido para adultos, violento, engañoso, de juegos de azar no regulados, etc.
+- **Sin manipulación del tráfico artificial**: no implementar nada que genere impresiones o clics falsos en anuncios.
+- **Política de privacidad y cumplimiento GDPR/CCPA**: si se añade recogida de datos (formularios, cookies, analítica), debe existir política de privacidad visible y consentimiento adecuado.
+- **Contenido suficiente**: no publicar páginas casi vacías ni stubs; cada página debe tener contenido sustancial.
+
+Si el cambio **incumple alguna política**, NO lo apliques directamente. En su lugar:
+
+1. Indica exactamente **qué política incumple** y por qué.
+2. Explica **qué harías** para corregirlo o adaptarlo.
+3. **Pregunta al usuario si quiere que lo hagas** antes de proceder.
+
+Si el cambio no presenta ningún problema con AdSense, continúa con el flujo normal.
+
 ## Flujo de trabajo tras cada cambio
 
-**Después de completar cualquier cambio**, pregunta siempre al usuario:
+**Después de completar cualquier cambio** (y tras la revisión AdSense anterior), pregunta siempre al usuario:
 
 > "¿Quieres arrancar un servidor para verlo (**s**) o subirlo a GitHub (**g**)?"
 
