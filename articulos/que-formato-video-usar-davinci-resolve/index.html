@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qué formato de vídeo usar en DaVinci Resolve: guía de códecs 2026</title>
+  <meta name="description" content="Guía completa de formatos y códecs para DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW y cuál elegir según tu cámara y flujo de trabajo." />
+  <meta name="keywords" content="formato vídeo DaVinci Resolve, qué formato usar DaVinci Resolve, códec DaVinci Resolve, mejor formato edición DaVinci Resolve, DaVinci Resolve H.264 H.265, DaVinci Resolve ProRes, DaVinci Resolve DNxHD, formato audio DaVinci Resolve, MKV DaVinci Resolve, MOV DaVinci Resolve" />
+  <meta name="author" content="VidToFLAC" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VidToFLAC" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/" />
+  <meta property="og:title" content="Qué formato de vídeo usar en DaVinci Resolve: guía de códecs 2026" />
+  <meta property="og:description" content="Guía completa de formatos y códecs para DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW y cuál elegir según tu cámara y flujo de trabajo." />
+  <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Qué formato de vídeo usar en DaVinci Resolve: guía de códecs 2026" />
+  <meta name="twitter:description" content="Guía completa de formatos y códecs para DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW y cuál elegir según tu cámara y flujo de trabajo." />
+  <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Qué formato de vídeo usar en DaVinci Resolve: guía de códecs 2026",
+    "description": "Guía completa de formatos y códecs para DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW y cuál elegir según tu cámara y flujo de trabajo.",
+    "url": "https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/",
+    "datePublished": "2026-06-28",
+    "dateModified": "2026-06-28",
+    "inLanguage": "es",
+    "author": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/",
+      "logo": "https://vidtoflac.tech/icon-512.png"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Qué formato de vídeo es mejor para editar en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para edición profesional, ProRes (Mac) o DNxHD/DNxHR (Windows/Linux) son los formatos óptimos: alta calidad, poca carga en la CPU y sin artefactos de compresión. Para proyectos sin cámara profesional, MKV con vídeo H.264 y audio FLAC es la mejor opción práctica: compatible en todas las plataformas y sin problemas de códec."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿DaVinci Resolve soporta H.265 (HEVC)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, DaVinci Resolve soporta H.265 en Windows y macOS, pero requiere más potencia de CPU/GPU para decodificar en tiempo real. En Linux el soporte es limitado en la versión gratuita. Si tienes problemas de rendimiento con H.265, convertir a H.264 o a un códec de edición como ProRes mejora notablemente la fluidez."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Puedo editar archivos MP4 directamente en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, pero con matices. El vídeo H.264 dentro de un MP4 funciona bien, pero el audio AAC puede no reproducirse en Linux. Además, H.264 es un códec de distribución (muy comprimido), lo que hace que la edición sea más pesada que con ProRes o DNxHD. Para edición cómoda, un remux a MKV con audio FLAC es suficiente para la mayoría de proyectos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué códec de audio debo usar en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FLAC o PCM/WAV. Son los únicos códecs de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux. AAC y MP3 funcionan en Windows y macOS pero no en Linux. E-AC-3 (Dolby Digital Plus) no funciona en ninguna plataforma."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿MKV o MOV para DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ambos funcionan bien como contenedor. MOV es el formato nativo de Apple y es preferible si trabajas en Mac con ProRes. MKV es más abierto, funciona en todas las plataformas y es la mejor opción si el audio va en FLAC o si trabajas en Linux. El contenedor importa menos que el códec que lleva dentro."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://vidtoflac.tech/" },
+      { "@type": "ListItem", "position": 2, "name": "Artículos", "item": "https://vidtoflac.tech/articulos/" },
+      { "@type": "ListItem", "position": 3, "name": "Qué formato de vídeo usar en DaVinci Resolve", "item": "https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:          #0a0a0b;
+      --panel:       #0f0f11;
+      --panel-2:     #151518;
+      --elev:        #1b1b1f;
+      --line:        rgba(255,255,255,.07);
+      --line-strong: rgba(255,255,255,.13);
+      --ink:         #f3f3ef;
+      --ink-dim:     #a7a7ad;
+      --ink-mute:    #66666e;
+      --amber:       #19c37d;
+      --amber-2:     #4ee6a8;
+      --amber-soft:  rgba(25,195,125,.14);
+      --amber-line:  rgba(25,195,125,.42);
+      --green:       #4ade80;
+      --green-soft:  rgba(74,222,128,.13);
+      --red:         #ff6058;
+      --red-soft:    rgba(255,96,88,.13);
+      --warn:        #fbbf24;
+      --radius:      16px;
+      --radius-sm:   10px;
+      --font-display:'Bricolage Grotesque', system-ui, sans-serif;
+      --font-body:   'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+      --font-mono:   'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-top: 56px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(900px 520px at 50% -8%, rgba(25,195,125,.10), transparent 60%),
+        radial-gradient(700px 700px at 50% 120%, rgba(25,195,125,.04), transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+      opacity: .03; mix-blend-mode: screen; pointer-events: none; z-index: 1;
+    }
+
+    /* Navbar */
+    #site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 56px; display: flex; align-items: center; gap: 1rem;
+      padding: 0 1.25rem;
+      background: rgba(9,9,11,.95);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line); box-sizing: border-box;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; flex-shrink: 0; }
+    .nav-brand-name { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -0.03em; color: var(--ink); }
+    .nav-brand-accent { color: var(--amber); }
+    @keyframes eq { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(.45); } }
+    .nav-brand .bar { transform-origin: center bottom; animation: eq 1.1s ease-in-out infinite; }
+    .nav-brand .bar:nth-child(1) { animation-delay: 0s; }
+    .nav-brand .bar:nth-child(2) { animation-delay: .18s; }
+    .nav-brand .bar:nth-child(3) { animation-delay: .36s; }
+    .nav-brand .bar:nth-child(4) { animation-delay: .54s; }
+    .nav-links { display: flex; align-items: center; gap: 0.1rem; list-style: none; flex: 1; justify-content: center; }
+    .nav-link {
+      font-family: var(--font-body); font-size: 0.875rem; font-weight: 500;
+      color: var(--ink-dim); text-decoration: none;
+      padding: 0.35rem 0.8rem; border-radius: 8px;
+      transition: color .15s, background .15s; white-space: nowrap; position: relative;
+    }
+    .nav-link:hover { color: var(--ink); background: rgba(255,255,255,.05); }
+    .nav-link-active { color: var(--amber); font-weight: 600; }
+    .nav-link-active::after {
+      content: ''; position: absolute; bottom: -3px; left: 0.8rem; right: 0.8rem;
+      height: 2px; background: var(--amber); border-radius: 1px;
+    }
+    @media (max-width: 560px) { .nav-links { display: none; } }
+    .nav-end { margin-left: auto; flex-shrink: 0; }
+    .nav-lang {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+      color: var(--ink-mute); text-decoration: none;
+      border: 1px solid var(--line-strong); border-radius: 6px; padding: 0.25rem 0.6rem;
+      transition: color .15s, border-color .15s, background .15s; letter-spacing: 0.04em;
+    }
+    .nav-lang:hover { color: var(--ink); border-color: var(--amber); background: rgba(25,195,125,.08); }
+
+    /* Layout */
+    .page-wrap { max-width: 780px; margin: 0 auto; padding: 3rem 1.25rem 4rem; position: relative; z-index: 2; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-mute);
+      margin-bottom: 2.5rem; flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--ink-mute); text-decoration: none; transition: color .15s; }
+    .breadcrumb a:hover { color: var(--amber); }
+    .breadcrumb-sep { opacity: .4; }
+
+    /* Article header */
+    .article-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .article-badge {
+      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--amber); background: var(--amber-soft);
+      border: 1px solid var(--amber-line); border-radius: 6px; padding: 0.2rem 0.55rem;
+    }
+    .article-date, .article-read-time { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-mute); }
+
+    h1.article-title {
+      font-family: var(--font-display); font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+      font-weight: 800; line-height: 1.15; letter-spacing: -0.03em;
+      color: var(--ink); margin-bottom: 1.1rem;
+    }
+    .article-lead {
+      font-size: 1.05rem; color: var(--ink-dim); line-height: 1.7;
+      margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--panel); border: 1px solid var(--line-strong);
+      border-radius: var(--radius); padding: 1.4rem 1.6rem; margin-bottom: 2.5rem;
+    }
+    .toc-title {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 0.9rem;
+    }
+    .toc ol { padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.45rem; }
+    .toc a { color: var(--ink-dim); text-decoration: none; font-size: 0.875rem; transition: color .15s; }
+    .toc a:hover { color: var(--amber); }
+
+    /* Body */
+    .article-body { display: flex; flex-direction: column; gap: 0; }
+    .article-body h2 {
+      font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--ink);
+      margin-top: 2.75rem; margin-bottom: 1rem; scroll-margin-top: 72px;
+    }
+    .article-body h3 {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+      color: var(--ink); margin-top: 1.75rem; margin-bottom: 0.65rem; scroll-margin-top: 72px;
+    }
+    .article-body p { color: var(--ink-dim); line-height: 1.8; margin-bottom: 1rem; }
+    .article-body p strong { color: var(--ink); font-weight: 600; }
+    .article-body ul, .article-body ol {
+      padding-left: 1.5rem; color: var(--ink-dim); line-height: 1.8;
+      margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.35rem;
+    }
+    .article-body li strong { color: var(--ink); }
+    .article-body a { color: var(--amber); text-decoration: underline; text-underline-offset: 3px; transition: opacity .15s; }
+    .article-body a:hover { opacity: 0.8; }
+    .article-body code {
+      font-family: var(--font-mono); font-size: 0.82em;
+      background: var(--elev); border: 1px solid var(--line-strong);
+      border-radius: 4px; padding: 0.1em 0.4em; color: var(--amber-2);
+    }
+
+    /* Info box */
+    .info-box {
+      background: var(--amber-soft); border: 1px solid var(--amber-line);
+      border-left: 3px solid var(--amber); border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem; margin: 1.25rem 0;
+      color: var(--ink-dim); font-size: 0.875rem; line-height: 1.65;
+    }
+    .info-box strong { color: var(--ink); }
+
+    /* Warning box */
+    .warn-box {
+      background: rgba(251,191,36,.10); border: 1px solid rgba(251,191,36,.3);
+      border-left: 3px solid var(--warn); border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem; margin: 1.25rem 0;
+      color: var(--ink-dim); font-size: 0.875rem; line-height: 1.65;
+    }
+    .warn-box strong { color: var(--ink); }
+
+    /* Codec comparison table */
+    .codec-table {
+      width: 100%; border-collapse: collapse; margin: 1.25rem 0;
+      font-size: 0.875rem; border-radius: var(--radius-sm);
+      overflow: hidden; border: 1px solid var(--line-strong);
+    }
+    .codec-table th {
+      background: var(--panel-2); color: var(--ink-dim);
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--line-strong);
+    }
+    .codec-table td {
+      padding: 0.65rem 1rem; color: var(--ink-dim);
+      border-bottom: 1px solid var(--line); vertical-align: top;
+    }
+    .codec-table tr:last-child td { border-bottom: none; }
+    .codec-table tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+    .codec-table td strong { color: var(--ink); }
+    .badge-rec {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.65rem;
+      font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 4px;
+      background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber-line);
+    }
+    .badge-ok {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.65rem;
+      font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 4px;
+      background: var(--green-soft); color: var(--green); border: 1px solid rgba(74,222,128,.25);
+    }
+    .badge-warn {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.65rem;
+      font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 4px;
+      background: rgba(251,191,36,.12); color: var(--warn); border: 1px solid rgba(251,191,36,.3);
+    }
+    .badge-fail {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.65rem;
+      font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 4px;
+      background: var(--red-soft); color: var(--red); border: 1px solid rgba(255,96,88,.25);
+    }
+    .codec-legend {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-mute);
+      margin-top: 0.6rem !important; margin-bottom: 1.25rem !important;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0;
+    }
+
+    /* CTA */
+    .tool-cta {
+      background: var(--panel); border: 1px solid var(--amber-line);
+      border-radius: var(--radius); padding: 1.75rem 2rem; margin: 2.5rem 0;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem;
+    }
+    .tool-cta-label {
+      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber);
+    }
+    .tool-cta h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--ink); margin: 0; }
+    .tool-cta p { color: var(--ink-dim); font-size: 0.9rem; margin: 0; line-height: 1.65; }
+    .tool-cta-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--amber); color: #051e12;
+      font-family: var(--font-body); font-size: 0.9rem; font-weight: 700;
+      padding: 0.7rem 1.4rem; border-radius: var(--radius-sm);
+      text-decoration: none; transition: opacity .15s, transform .15s; margin-top: 0.25rem;
+    }
+    .tool-cta-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* Ad slot */
+    .ad-slot { margin: 2rem 0; text-align: center; min-height: 90px; }
+    .ad-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-mute); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem; }
+
+    /* FAQ */
+    .faq-section { margin-top: 2.5rem; }
+    .faq-item { border: none; border-bottom: 1px solid var(--line); padding: 0; }
+    .faq-item summary {
+      font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
+      color: var(--ink); padding: 1rem 0; cursor: pointer; list-style: none;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-chevron { flex-shrink: 0; width: 18px; height: 18px; color: var(--ink-mute); transition: transform .2s; }
+    .faq-item[open] .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { padding: 0 0 1rem; color: var(--ink-dim); font-size: 0.9rem; line-height: 1.75; }
+    .faq-answer p { margin: 0; }
+    .faq-answer strong { color: var(--ink); }
+
+    /* Footer */
+    footer {
+      text-align: center; color: var(--ink-dim); font-family: var(--font-mono);
+      font-size: 0.68rem; letter-spacing: 0.02em; line-height: 1.7;
+      padding: 2.5rem 2.75rem 2.25rem; background: #1a1a20;
+      border-top: 1px solid var(--line-strong);
+      display: flex; flex-direction: column; gap: 0.65rem;
+    }
+    footer strong { color: var(--amber-2); font-weight: 600; }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+    .footer-links a { color: var(--ink-dim); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--amber); }
+
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-radius: 4px; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .page-wrap { animation: rise .4s ease both; }
+
+    @media (max-width: 480px) {
+      .page-wrap { padding: 2rem 0.9rem 3rem; }
+      .tool-cta { padding: 1.25rem; }
+      .codec-table { font-size: 0.8rem; }
+      .codec-table th, .codec-table td { padding: 0.55rem 0.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, .page-wrap { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav id="site-nav" aria-label="Navegación principal">
+  <a class="nav-brand" href="/" aria-label="VidToFLAC — inicio">
+    <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+      <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+      <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+    </svg>
+    <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/" class="nav-link">Inicio</a></li>
+    <li><a href="/articulos/" class="nav-link nav-link-active" aria-current="page">Artículos</a></li>
+    <li><a href="/historial/" class="nav-link">Historial</a></li>
+    <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/en/" class="nav-lang" aria-label="Switch to English" hreflang="en">English</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <nav class="breadcrumb" aria-label="Ruta de navegación">
+    <a href="/">Inicio</a>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <a href="/articulos/">Artículos</a>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <span aria-current="page">Qué formato de vídeo usar en DaVinci Resolve</span>
+  </nav>
+
+  <article itemscope itemtype="https://schema.org/Article">
+
+    <div class="article-meta">
+      <span class="article-badge">Guía</span>
+      <time class="article-date" datetime="2026-06-28" itemprop="datePublished">28 de junio de 2026</time>
+      <span class="article-read-time">· 9 min de lectura</span>
+    </div>
+
+    <h1 class="article-title" itemprop="headline">
+      Qué formato de vídeo usar en DaVinci Resolve: guía de códecs 2026
+    </h1>
+
+    <p class="article-lead">
+      Elegir el formato de vídeo correcto en DaVinci Resolve marca la diferencia entre una edición fluida y una llena de tirones, errores de códec y problemas de audio. No todos los formatos se comportan igual en el editor: algunos son ideales para editar, otros para distribuir, y mezclarlos causa más de un dolor de cabeza. Esta guía explica qué códec de vídeo y de audio usar en DaVinci Resolve según tu caso.
+    </p>
+
+    <nav class="toc" aria-label="Tabla de contenidos">
+      <p class="toc-title">En este artículo</p>
+      <ol>
+        <li><a href="#contenedor-vs-codec">Contenedor vs. códec: la confusión más habitual</a></li>
+        <li><a href="#codecs-video">Códecs de vídeo en DaVinci Resolve: comparativa completa</a></li>
+        <li><a href="#codecs-audio">Códecs de audio en DaVinci Resolve: cuál usar</a></li>
+        <li><a href="#por-camara">Qué formato usar según tu cámara o fuente</a></li>
+        <li><a href="#formato-ideal">El formato ideal para editar en DaVinci Resolve</a></li>
+        <li><a href="#exportar">Qué formato elegir al exportar desde DaVinci Resolve</a></li>
+        <li><a href="#faq-formatos">Preguntas frecuentes sobre formatos en DaVinci Resolve</a></li>
+      </ol>
+    </nav>
+
+    <!-- Ad: top -->
+    <div class="ad-slot">
+      <p class="ad-label">Publicidad</p>
+      <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="article-body" itemprop="articleBody">
+
+      <h2 id="contenedor-vs-codec">Contenedor vs. códec: la confusión más habitual en DaVinci Resolve</h2>
+
+      <p>Antes de hablar de formatos concretos, hay que aclarar una distinción que genera mucha confusión: el <strong>contenedor</strong> y el <strong>códec</strong> son cosas diferentes.</p>
+
+      <ul>
+        <li><strong>El contenedor</strong> (o formato de archivo) es la "caja" que agrupa las pistas de vídeo, audio y metadatos: <code>.mp4</code>, <code>.mov</code>, <code>.mkv</code>, <code>.mxf</code>…</li>
+        <li><strong>El códec</strong> es el algoritmo que comprime el vídeo o el audio dentro de esa caja: H.264, H.265, ProRes, AAC, FLAC…</li>
+      </ul>
+
+      <p>Un mismo contenedor puede llevar distintos códecs. Un <code>.mp4</code> puede tener vídeo H.264 o H.265, y audio AAC o MP3. Un <code>.mkv</code> puede llevar exactamente los mismos códecs. Lo que determina la compatibilidad con DaVinci Resolve <strong>es el códec, no el contenedor</strong>.</p>
+
+      <div class="info-box">
+        <strong>Ejemplo práctico:</strong> Un archivo <code>.mkv</code> con audio AAC tendrá exactamente los mismos problemas en DaVinci Resolve Linux que un <code>.mp4</code> con audio AAC. Cambiar la extensión de MP4 a MKV no soluciona nada — hay que cambiar el códec de audio.
+      </div>
+
+      <h2 id="codecs-video">Códecs de vídeo en DaVinci Resolve: comparativa completa</h2>
+
+      <p>DaVinci Resolve soporta una amplia variedad de códecs de vídeo, pero no todos se comportan igual durante la edición. Los hay de dos tipos: <strong>códecs de distribución</strong> (muy comprimidos, pesados de decodificar) y <strong>códecs de edición</strong> (menos comprimidos, mucho más ligeros de procesar en tiempo real).</p>
+
+      <table class="codec-table">
+        <thead>
+          <tr>
+            <th>Códec de vídeo</th>
+            <th>Tipo</th>
+            <th>Rendimiento en edición</th>
+            <th>Plataformas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>H.264 (AVC)</strong></td>
+            <td>Distribución</td>
+            <td><span class="badge-warn">Moderado</span></td>
+            <td>Todas</td>
+          </tr>
+          <tr>
+            <td><strong>H.265 (HEVC)</strong></td>
+            <td>Distribución</td>
+            <td><span class="badge-warn">Exigente</span></td>
+            <td>Win/Mac (Linux limitado)</td>
+          </tr>
+          <tr>
+            <td><strong>ProRes 422 / 4444</strong></td>
+            <td>Edición <span class="badge-rec">Recomendado</span></td>
+            <td><span class="badge-ok">Excelente</span></td>
+            <td>Win/Mac</td>
+          </tr>
+          <tr>
+            <td><strong>DNxHD / DNxHR</strong></td>
+            <td>Edición <span class="badge-rec">Recomendado</span></td>
+            <td><span class="badge-ok">Excelente</span></td>
+            <td>Todas</td>
+          </tr>
+          <tr>
+            <td><strong>BRAW (Blackmagic RAW)</strong></td>
+            <td>RAW</td>
+            <td><span class="badge-ok">Excelente</span></td>
+            <td>Todas</td>
+          </tr>
+          <tr>
+            <td><strong>CinemaDNG / R3D</strong></td>
+            <td>RAW</td>
+            <td><span class="badge-ok">Excelente</span></td>
+            <td>Todas (Studio)</td>
+          </tr>
+          <tr>
+            <td><strong>AV1</strong></td>
+            <td>Distribución</td>
+            <td><span class="badge-fail">Muy exigente</span></td>
+            <td>Win/Mac (experimental)</td>
+          </tr>
+          <tr>
+            <td><strong>MJPEG</strong></td>
+            <td>Legado</td>
+            <td><span class="badge-warn">Moderado</span></td>
+            <td>Todas</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="codec-legend">
+        <span class="badge-rec">Recomendado</span> Óptimo para edición &nbsp;·&nbsp;
+        <span class="badge-ok">Excelente</span> Sin problemas de rendimiento &nbsp;·&nbsp;
+        <span class="badge-warn">Moderado/Exigente</span> Puede requerir proxies &nbsp;·&nbsp;
+        <span class="badge-fail">Muy exigente</span> Poco práctico para edición
+      </p>
+
+      <h3>H.264: el más común, no el más cómodo para editar</h3>
+      <p>H.264 es el códec de vídeo más extendido del mundo: lo usan los smartphones, las cámaras de acción, las grabaciones de pantalla y la mayoría de vídeos de YouTube. DaVinci Resolve lo soporta en todas las plataformas, pero tiene un inconveniente: es un códec <strong>inter-frame</strong>, lo que significa que cada fotograma depende de los fotogramas anteriores y posteriores para decodificarse. Esto hace que buscar en la línea de tiempo sea lento y que la edición consuma mucha CPU.</p>
+
+      <p>Para proyectos cortos o si tu equipo es potente, H.264 es perfectamente usable. Para proyectos largos o equipos con pocos recursos, considera generar <strong>proxies</strong> (copias en baja resolución) desde el menú de DaVinci Resolve.</p>
+
+      <h3>H.265 (HEVC): mejor calidad, más carga de proceso</h3>
+      <p>H.265 ofrece la misma calidad visual que H.264 en la mitad del espacio — por eso lo usan las cámaras 4K modernas. El problema es que decodificarlo en tiempo real exige el doble de potencia de cómputo. <strong>En Linux, el soporte en la versión gratuita es limitado</strong>. Si tu material es H.265 y la edición va a tirones, genera proxies o transcode a DNxHR antes de editar.</p>
+
+      <h3>ProRes: el estándar profesional en Mac</h3>
+      <p>Apple ProRes (422, 422 HQ, 4444) es el códec de edición por excelencia en entornos Mac. Es <strong>intra-frame</strong> — cada fotograma es independiente —, lo que hace que buscar en la línea de tiempo sea instantáneo. DaVinci Resolve lo soporta nativamente en Mac y Windows. En Linux, el soporte de ProRes está limitado a lectura (no escritura) y puede requerir paquetes adicionales.</p>
+
+      <h3>DNxHD / DNxHR: el ProRes para Windows y Linux</h3>
+      <p>Desarrollado por Avid, DNxHD (para HD) y DNxHR (para 2K/4K) son el equivalente de ProRes pero multiplataforma. Funcionan igual de bien en Windows, Mac y Linux, y DaVinci Resolve los soporta sin problemas. Si trabajas en Linux o en un entorno mixto, <strong>DNxHR es tu mejor opción para materiales de edición</strong>.</p>
+
+      <!-- Ad: mid -->
+      <div class="ad-slot">
+        <p class="ad-label">Publicidad</p>
+        <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <h2 id="codecs-audio">Códecs de audio en DaVinci Resolve: cuál usar y cuál evitar</h2>
+
+      <p>El audio es donde más errores se producen al importar material en DaVinci Resolve, especialmente en Linux. La regla es sencilla: <strong>usa siempre FLAC o PCM/WAV</strong>. Cualquier otro códec puede darte problemas.</p>
+
+      <table class="codec-table">
+        <thead>
+          <tr>
+            <th>Códec de audio</th>
+            <th>Windows / macOS</th>
+            <th>Linux</th>
+            <th>Recomendación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>FLAC</strong></td>
+            <td><span class="badge-ok">Compatible</span></td>
+            <td><span class="badge-ok">Compatible</span></td>
+            <td><span class="badge-rec">Mejor opción</span></td>
+          </tr>
+          <tr>
+            <td><strong>PCM / WAV</strong></td>
+            <td><span class="badge-ok">Compatible</span></td>
+            <td><span class="badge-ok">Compatible</span></td>
+            <td><span class="badge-ok">Válido</span></td>
+          </tr>
+          <tr>
+            <td><strong>AAC</strong></td>
+            <td><span class="badge-ok">Compatible</span></td>
+            <td><span class="badge-fail">No compatible</span></td>
+            <td><span class="badge-warn">Evitar en Linux</span></td>
+          </tr>
+          <tr>
+            <td><strong>MP3</strong></td>
+            <td><span class="badge-ok">Compatible</span></td>
+            <td><span class="badge-fail">No compatible</span></td>
+            <td><span class="badge-warn">Evitar en Linux</span></td>
+          </tr>
+          <tr>
+            <td><strong>Opus / Vorbis</strong></td>
+            <td><span class="badge-warn">Parcial</span></td>
+            <td><span class="badge-fail">No compatible</span></td>
+            <td><span class="badge-fail">Evitar</span></td>
+          </tr>
+          <tr>
+            <td><strong>E-AC-3 (Dolby Digital+)</strong></td>
+            <td><span class="badge-fail">No compatible</span></td>
+            <td><span class="badge-fail">No compatible</span></td>
+            <td><span class="badge-fail">No usar</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>FLAC frente a WAV: ambos son sin pérdida y funcionan perfectamente en DaVinci Resolve. La ventaja de FLAC es que comprime el audio entre un 40 y un 60 % sin perder ningún dato. Para vídeos largos, la diferencia de tamaño es notable. <strong>FLAC es la mejor opción</strong> salvo que necesites máxima compatibilidad con software muy antiguo.</p>
+
+      <div class="info-box">
+        <strong>¿Tienes vídeos con audio AAC, MP3 u Opus?</strong> Puedes convertir el audio a FLAC sin recomprimir el vídeo (remux sin pérdida) usando <a href="/">VidToFLAC</a>. El proceso tarda segundos y el resultado es un MKV con audio FLAC listo para importar en DaVinci Resolve. Consulta también nuestra guía sobre <a href="/articulos/errores-audio-davinci-resolve/">errores de audio en DaVinci Resolve</a> para más detalle.
+      </div>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">Herramienta gratuita</span>
+        <h3>Convierte el audio de tus vídeos a FLAC</h3>
+        <p>Remux sin pérdida: el vídeo se copia bit a bit y solo el audio cambia a FLAC. 100% local, sin subir archivos, sin registro.</p>
+        <a href="/" class="tool-cta-btn" aria-label="Usar VidToFLAC gratis">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convertir audio a FLAC gratis
+        </a>
+      </div>
+
+      <h2 id="por-camara">Qué formato usar en DaVinci Resolve según tu cámara o fuente</h2>
+
+      <h3>Smartphone (iPhone, Android)</h3>
+      <p>Los smartphones graban en <code>.mp4</code> con vídeo H.264 o H.265 y audio AAC. El vídeo es perfectamente usable en DaVinci Resolve; el audio AAC puede dar problemas en Linux. La solución más práctica: <a href="/convertir-mp4-a-flac/">convierte el MP4 a MKV con audio FLAC</a> antes de importar. El vídeo queda intacto y el audio funciona en todas las plataformas.</p>
+
+      <h3>Cámara mirrorless o réflex (Sony, Canon, Fuji, Nikon)</h3>
+      <p>Graban en <code>.mp4</code> o <code>.mov</code> con H.264 o H.265 y audio AAC o PCM. El PCM funciona bien; el AAC puede fallar en Linux. Si la cámara ofrece grabación en <strong>ALL-I</strong> (todos los fotogramas son independientes), úsala: la edición será mucho más fluida que con la grabación estándar IPB. Para el audio, <a href="/convertir-mov-a-flac/">convierte el MOV a FLAC</a> si tienes Linux.</p>
+
+      <h3>Cámara de cine (Blackmagic, RED, ARRI)</h3>
+      <p>Estas cámaras graban en formatos RAW nativos (BRAW, R3D, ARRIRAW) o en códecs de alta calidad (ProRes, DNxHD). DaVinci Resolve está especialmente optimizado para estos formatos — de hecho, Blackmagic diseñó DaVinci Resolve para trabajar con BRAW de manera nativa. No necesitas convertir nada; importa directamente.</p>
+
+      <h3>Grabación de pantalla (OBS, Bandicam, QuickTime)</h3>
+      <p>OBS puede grabar en MKV o MP4 con H.264/H.265 y audio AAC u Opus. <strong>Opus en WebM es especialmente problemático</strong> en DaVinci Resolve. Configura OBS para grabar en MKV con audio PCM o, si ya tienes los archivos grabados, <a href="/convertir-webm-a-flac/">convierte el WebM a FLAC</a>.</p>
+
+      <h3>Vídeos descargados de internet (YouTube, etc.)</h3>
+      <p>Los vídeos de YouTube suelen descargarse en WebM con audio Opus, o en MP4 con audio AAC. En ambos casos el audio puede fallar en DaVinci Resolve Linux. Convierte el audio a FLAC antes de importar. Consulta nuestra guía de <a href="/convertir-webm-a-flac/">conversión de WebM a FLAC</a> para hacerlo en segundos.</p>
+
+      <h2 id="formato-ideal">El formato ideal para editar en DaVinci Resolve</h2>
+
+      <p>No hay una única respuesta, pero sí una recomendación práctica según el contexto:</p>
+
+      <ul>
+        <li><strong>Producción profesional en Mac:</strong> ProRes 422 HQ en contenedor MOV con audio PCM o FLAC.</li>
+        <li><strong>Producción profesional en Windows o Linux:</strong> DNxHR en contenedor MXF o MOV con audio PCM o FLAC.</li>
+        <li><strong>Proyectos de YouTube / redes sociales:</strong> MKV con vídeo H.264 (o H.265 si tienes GPU potente) y audio FLAC. Es la combinación más compatible y práctica.</li>
+        <li><strong>Edición de material de smartphone:</strong> Remux el MP4 original a MKV cambiando solo el audio a FLAC. Así conservas la calidad original del vídeo sin gastar tiempo en transcodificar.</li>
+      </ul>
+
+      <div class="warn-box">
+        <strong>Evita editar directamente archivos Variable Frame Rate (VFR).</strong> Los vídeos grabados con smartphone en modo automático suelen ser VFR: la tasa de fotogramas varía según la escena. DaVinci Resolve puede desincronizar el audio con este tipo de archivos. Convierte a Constant Frame Rate (CFR) con FFmpeg antes de editar: <code>ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv</code>
+      </div>
+
+      <!-- Ad: before export section -->
+      <div class="ad-slot">
+        <p class="ad-label">Publicidad</p>
+        <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <h2 id="exportar">Qué formato elegir al exportar desde DaVinci Resolve</h2>
+
+      <p>Exportar es diferente a editar: aquí buscas compatibilidad y tamaño reducido, no rendimiento de edición.</p>
+
+      <h3>Para YouTube o Vimeo</h3>
+      <p>H.264 en MP4 con audio AAC es el estándar universal. En DaVinci Resolve, usa el preset "YouTube" o "Vimeo" de la página de entrega — están optimizados para estas plataformas. Bitrate recomendado: 16–25 Mbps para 1080p, 35–45 Mbps para 4K.</p>
+
+      <h3>Para archivo o entrega máster</h3>
+      <p>ProRes 4444 (Mac) o DNxHR 444 (todas las plataformas) con audio PCM o FLAC. Son archivos grandes pero preservan toda la información del color y el audio para futuras reediciones.</p>
+
+      <h3>Para redes sociales (Instagram, TikTok)</h3>
+      <p>H.264 en MP4, resolución máxima 1080p (Instagram limita a 1080p aunque subas 4K), audio AAC a 320 kbps. Muchas plataformas recomprimen el vídeo al subir, así que no tiene sentido exportar en calidad exageradamente alta.</p>
+
+      <h3>Para entrega a cliente o post-producción</h3>
+      <p>Usa el formato que especifique el cliente o el siguiente eslabón de la cadena de producción. Si no hay especificaciones, ProRes 422 HQ o DNxHR HQ son los formatos de entrega profesional más aceptados universalmente.</p>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">¿Tienes problemas de audio al importar?</span>
+        <h3>Soluciona el audio antes de editar</h3>
+        <p>Si tu material tiene audio AAC, Opus o E-AC-3, conviértelo a FLAC en segundos. Sin instalar nada, sin subir archivos, sin perder calidad de vídeo.</p>
+        <a href="/" class="tool-cta-btn" aria-label="Ir a VidToFLAC">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Ir a VidToFLAC
+        </a>
+      </div>
+
+      <section class="faq-section" aria-labelledby="faq-formatos">
+        <h2 id="faq-formatos">Preguntas frecuentes sobre formatos en DaVinci Resolve</h2>
+
+        <details class="faq-item">
+          <summary>
+            ¿Qué formato de vídeo es mejor para editar en DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Para edición profesional, <strong>ProRes 422</strong> (Mac) o <strong>DNxHR</strong> (Windows/Linux) son los óptimos: intra-frame, sin artefactos de compresión y con rendimiento excelente en tiempo real. Para proyectos domésticos o de YouTube, <strong>MKV con H.264 y audio FLAC</strong> es la opción más práctica y compatible.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿DaVinci Resolve soporta H.265 (HEVC)?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Sí en Windows y macOS. En Linux el soporte es limitado en la versión gratuita. Además, H.265 requiere mucha más potencia de CPU/GPU que H.264 para decodificar en tiempo real. Si la edición va a tirones, genera proxies desde el menú Clip → Generate Optimized Media.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Puedo editar archivos MP4 directamente en DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Sí. El vídeo H.264 dentro de un MP4 es compatible en todas las plataformas. El audio AAC puede no reproducirse en Linux. Para edición cómoda con proyectos largos, considera generar proxies o hacer un remux a MKV con audio FLAC para evitar problemas de códec.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Qué códec de audio debo usar en DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>FLAC o PCM/WAV</strong>. Son los únicos códecs de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿MKV o MOV para DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Ambos funcionan bien. MOV es preferible en Mac con ProRes; MKV es más abierto y es la mejor opción en Linux o con audio FLAC. Lo que realmente importa es el <strong>códec que lleva dentro</strong>, no el contenedor.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            ¿Qué es Variable Frame Rate y por qué da problemas en DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Variable Frame Rate (VFR) significa que la tasa de fotogramas varía durante la grabación — algo habitual en vídeos de smartphone en modo automático. DaVinci Resolve puede desincronizar el audio con estos archivos. La solución es convertir a Constant Frame Rate (CFR) con FFmpeg antes de importar: <code>ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv</code></p>
+          </div>
+        </details>
+
+      </section>
+
+    </div>
+  </article>
+
+</div>
+
+<footer>
+  <p class="footer-tagline">
+    Todo el procesamiento ocurre en tu dispositivo usando
+    <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+  </p>
+  <nav class="footer-links" aria-label="Páginas legales">
+    <a href="/politica-de-privacidad/">Política de privacidad</a>
+    <a href="/terminos-de-servicio/">Términos de servicio</a>
+    <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/contacto/">Contacto</a>
+  </nav>
+  <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
