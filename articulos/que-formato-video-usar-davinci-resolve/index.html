@@ -94,7 +94,7 @@
         "name": "¿Qué códec de audio debo usar en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FLAC o PCM/WAV. Son los únicos códecs de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux. AAC y MP3 funcionan en Windows y macOS pero no en Linux. E-AC-3 (Dolby Digital Plus) no funciona en ninguna plataforma."
+          "text": "FLAC. Es el códec de audio sin pérdida más compacto y compatible con DaVinci Resolve en todas las plataformas, incluido Linux. Ocupa entre un 40 y un 60 % menos que PCM/WAV sin perder ningún dato. AAC y MP3 funcionan en Windows y macOS pero no en Linux. E-AC-3 (Dolby Digital Plus) no funciona en ninguna plataforma."
         }
       },
       {
@@ -168,16 +168,14 @@
     }
 
     body::before {
-      content: '';
-      position: fixed; inset: 0;
+      content: ''; position: fixed; inset: 0;
       background:
         radial-gradient(900px 520px at 50% -8%, rgba(25,195,125,.10), transparent 60%),
         radial-gradient(700px 700px at 50% 120%, rgba(25,195,125,.04), transparent 60%);
       pointer-events: none; z-index: 0;
     }
     body::after {
-      content: '';
-      position: fixed; inset: 0;
+      content: ''; position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
       opacity: .03; mix-blend-mode: screen; pointer-events: none; z-index: 1;
     }
@@ -610,7 +608,7 @@
 
       <h2 id="codecs-audio">Códecs de audio en DaVinci Resolve: cuál usar y cuál evitar</h2>
 
-      <p>El audio es donde más errores se producen al importar material en DaVinci Resolve, especialmente en Linux. La regla es sencilla: <strong>usa siempre FLAC o PCM/WAV</strong>. Cualquier otro códec puede darte problemas.</p>
+      <p>El audio es donde más errores se producen al importar material en DaVinci Resolve, especialmente en Linux. La regla es sencilla: <strong>usa siempre FLAC</strong>. Cualquier otro códec puede darte problemas.</p>
 
       <table class="codec-table">
         <thead>
@@ -689,7 +687,7 @@
       <p>Estas cámaras graban en formatos RAW nativos (BRAW, R3D, ARRIRAW) o en códecs de alta calidad (ProRes, DNxHD). DaVinci Resolve está especialmente optimizado para estos formatos — de hecho, Blackmagic diseñó DaVinci Resolve para trabajar con BRAW de manera nativa. No necesitas convertir nada; importa directamente.</p>
 
       <h3>Grabación de pantalla (OBS, Bandicam, QuickTime)</h3>
-      <p>OBS puede grabar en MKV o MP4 con H.264/H.265 y audio AAC u Opus. <strong>Opus en WebM es especialmente problemático</strong> en DaVinci Resolve. Configura OBS para grabar en MKV con audio PCM o, si ya tienes los archivos grabados, <a href="/convertir-webm-a-flac/">convierte el WebM a FLAC</a>.</p>
+      <p>OBS puede grabar en MKV o MP4 con H.264/H.265 y audio AAC u Opus. <strong>Opus en WebM es especialmente problemático</strong> en DaVinci Resolve. Configura OBS para grabar en MKV con audio FLAC o, si ya tienes los archivos grabados, <a href="/convertir-webm-a-flac/">convierte el WebM a FLAC</a>.</p>
 
       <h3>Vídeos descargados de internet (YouTube, etc.)</h3>
       <p>Los vídeos de YouTube suelen descargarse en WebM con audio Opus, o en MP4 con audio AAC. En ambos casos el audio puede fallar en DaVinci Resolve Linux. Convierte el audio a FLAC antes de importar. Consulta nuestra guía de <a href="/convertir-webm-a-flac/">conversión de WebM a FLAC</a> para hacerlo en segundos.</p>
@@ -699,8 +697,8 @@
       <p>No hay una única respuesta, pero sí una recomendación práctica según el contexto:</p>
 
       <ul>
-        <li><strong>Producción profesional en Mac:</strong> ProRes 422 HQ en contenedor MOV con audio PCM o FLAC.</li>
-        <li><strong>Producción profesional en Windows o Linux:</strong> DNxHR en contenedor MXF o MOV con audio PCM o FLAC.</li>
+        <li><strong>Producción profesional en Mac:</strong> ProRes 422 HQ en contenedor MOV con audio FLAC.</li>
+        <li><strong>Producción profesional en Windows o Linux:</strong> DNxHR en contenedor MXF o MOV con audio FLAC.</li>
         <li><strong>Proyectos de YouTube / redes sociales:</strong> MKV con vídeo H.264 (o H.265 si tienes GPU potente) y audio FLAC. Es la combinación más compatible y práctica.</li>
         <li><strong>Edición de material de smartphone:</strong> Remux el MP4 original a MKV cambiando solo el audio a FLAC. Así conservas la calidad original del vídeo sin gastar tiempo en transcodificar.</li>
       </ul>
@@ -724,7 +722,7 @@
       <p>H.264 en MP4 con audio AAC es el estándar universal. En DaVinci Resolve, usa el preset "YouTube" o "Vimeo" de la página de entrega — están optimizados para estas plataformas. Bitrate recomendado: 16–25 Mbps para 1080p, 35–45 Mbps para 4K.</p>
 
       <h3>Para archivo o entrega máster</h3>
-      <p>ProRes 4444 (Mac) o DNxHR 444 (todas las plataformas) con audio PCM o FLAC. Son archivos grandes pero preservan toda la información del color y el audio para futuras reediciones.</p>
+      <p>ProRes 4444 (Mac) o DNxHR 444 (todas las plataformas) con audio FLAC. Son archivos grandes pero preservan toda la información del color y el audio para futuras reediciones.</p>
 
       <h3>Para redes sociales (Instagram, TikTok)</h3>
       <p>H.264 en MP4, resolución máxima 1080p (Instagram limita a 1080p aunque subas 4K), audio AAC a 320 kbps. Muchas plataformas recomprimen el vídeo al subir, así que no tiene sentido exportar en calidad exageradamente alta.</p>
@@ -735,7 +733,7 @@
       <div class="tool-cta">
         <span class="tool-cta-label">¿Tienes problemas de audio al importar?</span>
         <h3>Soluciona el audio antes de editar</h3>
-        <p>Si tu material tiene audio AAC, Opus o E-AC-3, conviértelo a FLAC en segundos. Sin instalar nada, sin subir archivos, sin perder calidad de vídeo.</p>
+        <p>Si tu material tiene audio AAC, Opus o E-AC-3, convíiertelo a FLAC en segundos. Sin instalar nada, sin subir archivos, sin perder calidad de vídeo.</p>
         <a href="/" class="tool-cta-btn" aria-label="Ir a VidToFLAC">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Ir a VidToFLAC
@@ -781,7 +779,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p><strong>FLAC o PCM/WAV</strong>. Son los únicos códecs de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma.</p>
+            <p><strong>FLAC</strong>. Es el códec de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux, y ocupa mucho menos que PCM/WAV sin perder ningún dato. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma.</p>
           </div>
         </details>
 
