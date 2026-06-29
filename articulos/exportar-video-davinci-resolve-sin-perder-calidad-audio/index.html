@@ -61,7 +61,7 @@
         "name": "¿Cómo exportar desde DaVinci Resolve sin perder calidad de audio?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "En la página Deliver de DaVinci Resolve, en la sección Audio, elige el códec PCM (WAV sin comprimir) o FLAC (sin pérdida comprimido). Ambos preservan el 100% de la calidad de audio original. Evita AAC o MP3 si quieres calidad sin pérdida."
+          "text": "En la página Deliver de DaVinci Resolve, en la sección Audio, elige el códec FLAC (sin pérdida comprimido). Preserva el 100% de la calidad de audio original ocupando mucho menos que PCM. Evita AAC o MP3 si quieres calidad sin pérdida."
         }
       },
       {
@@ -69,7 +69,7 @@
         "name": "¿Por qué el audio pierde calidad al exportar en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Porque DaVinci Resolve aplica por defecto una recompresión en AAC o MP3 al exportar, lo que introduce pérdida de calidad. Además, si el audio ya venía comprimido (AAC) y se vuelve a comprimir (AAC), la calidad se degrada acumulativamente. La solución es exportar siempre a FLAC o PCM/WAV."
+          "text": "Porque DaVinci Resolve aplica por defecto una recompresión en AAC o MP3 al exportar, lo que introduce pérdida de calidad. Además, si el audio ya venía comprimido (AAC) y se vuelve a comprimir (AAC), la calidad se degrada acumulativamente. La solución es exportar siempre a FLAC para el archivo máster."
         }
       },
       {
@@ -77,7 +77,7 @@
         "name": "¿Cuál es el mejor códec de audio para exportar desde DaVinci Resolve a YouTube?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Para YouTube, AAC a 320 kbps es suficiente y es el estándar que acepta la plataforma. YouTube recomprime el vídeo al subir de todas formas, así que exportar en AAC de alta calidad es la opción más práctica. Si quieres conservar el máster sin pérdida, exporta a FLAC o PCM y guarda una copia aparte."
+          "text": "Para YouTube, AAC a 320 kbps es suficiente y es el estándar que acepta la plataforma. YouTube recomprime el vídeo al subir de todas formas, así que exportar en AAC de alta calidad es la opción más práctica. Si quieres conservar el máster sin pérdida, exporta a FLAC y guarda una copia aparte."
         }
       },
       {
@@ -340,7 +340,7 @@
           <div class="step-num">1</div>
           <div class="step-body">
             <strong>Codec (Códec de audio)</strong>
-            <p>Elige el algoritmo de compresión. Las opciones más importantes son PCM (sin compresión), FLAC (sin pérdida comprimido), AAC (con pérdida) y MP3 (con pérdida). Para máxima calidad, usa PCM o FLAC.</p>
+            <p>Elige el algoritmo de compresión. Las opciones más importantes son FLAC (sin pérdida comprimido), PCM (sin compresión), AAC (con pérdida) y MP3 (con pérdida). Para máxima calidad, usa <strong>FLAC</strong>: misma calidad que PCM pero ocupa entre un 40 y un 60 % menos.</p>
           </div>
         </div>
         <div class="step">
@@ -361,7 +361,7 @@
           <div class="step-num">4</div>
           <div class="step-body">
             <strong>Bit Depth (Profundidad de bits)</strong>
-            <p>Con PCM o FLAC, elige <code>24 bits</code> para archivos máster y <code>16 bits</code> para distribución. Con AAC o MP3 este ajuste no aplica (el códec usa su propia cuantización).</p>
+            <p>Con FLAC, elige <code>24 bits</code> para archivos máster y <code>16 bits</code> para distribución. Con AAC o MP3 este ajuste no aplica (el códec usa su propia cuantización).</p>
           </div>
         </div>
         <div class="step">
@@ -374,7 +374,7 @@
       </div>
 
       <div class="warn-box">
-        <strong>Opción a desactivar:</strong> En algunos presets, DaVinci Resolve activa la opción <strong>"Normalize Audio"</strong> (normalizar audio). Si tu mezcla de audio ya está masterizada con los niveles correctos, desactívala — la normalización automática puede alterar la dinámica de tu mezcla.
+        <strong>Opción a desactivar:</strong> En algunos presets, DaVinci Resolve activa la opción <strong>"Normalize Audio"</strong> (normalizar audio). Si tu mezcla de audio ya está masterizada con los niveles correctos, desáctivala — la normalización automática puede alterar la dinámica de tu mezcla.
       </div>
 
       <!-- Ad: mid -->
@@ -450,7 +450,7 @@
       <h3>Exportar para entrega a cliente o archivo máster</h3>
       <p>Aquí sí importa exportar sin pérdida. El cliente o el siguiente eslabón de la cadena de post-producción necesita la máxima calidad para poder editar de nuevo si hace falta.</p>
       <ul>
-        <li><strong>Códec:</strong> PCM (WAV sin comprimir) o FLAC</li>
+        <li><strong>Códec:</strong> FLAC</li>
         <li><strong>Bit Depth:</strong> 24 bits</li>
         <li><strong>Sample Rate:</strong> 48.000 Hz</li>
         <li><strong>Contenedor:</strong> MOV o MKV (para FLAC)</li>
@@ -460,25 +460,25 @@
       <p>Estas plataformas recomprimen agresivamente. Instagram limita la resolución a 1080p y recodifica en H.264 con audio AAC. No tiene sentido exportar en calidad máxima — exporta en AAC 256 kbps y H.264, que es lo que la plataforma va a producir de todas formas. Ahorras tiempo de render y espacio en disco sin impacto en la calidad final publicada.</p>
 
       <h3>Exportar para Premiere Pro, Avid u otro editor</h3>
-      <p>Si el archivo exportado va a ser importado en otro software de edición (flujo de trabajo con múltiples herramientas), exporta siempre en <strong>PCM 24 bits a 48.000 Hz</strong>. Es el formato que todos los editores profesionales aceptan sin problemas y sin recompresiones.</p>
+      <p>Si el archivo exportado va a ser importado en otro software de edición (flujo de trabajo con múltiples herramientas), exporta siempre en <strong>FLAC 24 bits a 48.000 Hz</strong>. Es el formato sin pérdida más compacto y compatible con todos los editores profesionales modernos.</p>
 
       <h2 id="errores-comunes">Errores comunes al exportar audio en DaVinci Resolve y cómo solucionarlos</h2>
 
       <h3>El audio exportado suena diferente al original</h3>
-      <p>La causa más frecuente es la recompresión generacional. Si el audio de tu proyecto ya era AAC y exportas en AAC, el resultado sonará peor porque se aplican dos ciclos de compresión con pérdida. <strong>Solución:</strong> exporta en PCM o FLAC para el archivo máster y guarda una copia en AAC solo para distribución.</p>
+      <p>La causa más frecuente es la recompresión generacional. Si el audio de tu proyecto ya era AAC y exportas en AAC, el resultado sonará peor porque se aplican dos ciclos de compresión con pérdida. <strong>Solución:</strong> exporta en FLAC para el archivo máster y guarda una copia en AAC solo para distribución.</p>
 
       <h3>El audio exportado va desincronizado</h3>
       <p>Dos causas principales. Primera: el material fuente era Variable Frame Rate (VFR) — los vídeos de smartphone en modo automático varían la tasa de fotogramas, lo que desajusta la sincronía de audio al exportar. Segunda: incompatibilidad de frecuencia de muestreo entre el proyecto y el material. <strong>Comprueba</strong> que el proyecto de DaVinci Resolve está configurado a la misma frecuencia de muestreo que tu material (<code>Archivo → Configuración del proyecto → Master Settings → Audio sample rate</code>).</p>
 
       <div class="warn-box">
-        <strong>Si el material era Variable Frame Rate:</strong> antes de importarlo en DaVinci Resolve, conviértelo a Constant Frame Rate con FFmpeg: <code>ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv</code>. Así eliminas la causa raíz de la desincronización.
+        <strong>Si el material era Variable Frame Rate:</strong> antes de importarlo en DaVinci Resolve, convíiertelo a Constant Frame Rate con FFmpeg: <code>ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv</code>. Así eliminas la causa raíz de la desincronización.
       </div>
 
       <h3>El vídeo exportado no tiene audio</h3>
       <p>Ocurre cuando la pista de audio del proyecto está en mute, cuando la pista de audio tiene el volumen a cero, o cuando DaVinci Resolve ha perdido el vínculo con el archivo de audio original (aparece en rojo en el Media Pool). Verifica que la pista de audio está activa en la línea de tiempo y que todos los clips tienen el icono de audio visible antes de exportar.</p>
 
       <h3>El archivo exportado es demasiado grande</h3>
-      <p>Si exportas en PCM, el audio sin comprimir ocupa mucho más que en AAC o FLAC. Para reducir el tamaño sin perder calidad, usa FLAC en vez de PCM: comprime el audio entre un 40 y un 60 % sin perder ningún dato. En un vídeo de 2 horas, la diferencia puede ser de varios gigabytes.</p>
+      <p>FLAC comprime el audio entre un 40 y un 60 % respecto a PCM sin perder ningún dato. En un vídeo de 2 horas la diferencia puede ser de varios gigabytes — usa siempre FLAC en lugar de PCM para el máster.</p>
 
       <!-- Ad: before last section -->
       <div class="ad-slot">
@@ -514,7 +514,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>En la página Deliver, sección Audio, elige el códec <strong>PCM</strong> (WAV sin comprimir) o <strong>FLAC</strong> (sin pérdida comprimido). Ambos preservan el 100 % de la calidad del audio original. Configura la frecuencia de muestreo a 48.000 Hz y la profundidad de bits a 24 bits para máxima calidad.</p>
+            <p>En la página Deliver, sección Audio, elige el códec <strong>FLAC</strong> (sin pérdida comprimido): misma calidad que PCM pero ocupa entre un 40 y un 60 % menos. Configura la frecuencia de muestreo a 48.000 Hz y la profundidad de bits a 24 bits para máxima calidad.</p>
           </div>
         </details>
 
@@ -524,7 +524,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Porque DaVinci Resolve recomprime el audio al exportar. Si el audio original ya era AAC y exportas en AAC, aplicas dos ciclos de compresión con pérdida (recompresión generacional). La solución es exportar siempre a <strong>FLAC o PCM</strong> para el archivo máster.</p>
+            <p>Porque DaVinci Resolve recomprime el audio al exportar. Si el audio original ya era AAC y exportas en AAC, aplicas dos ciclos de compresión con pérdida (recompresión generacional). La solución es exportar siempre a <strong>FLAC</strong> para el archivo máster.</p>
           </div>
         </details>
 
