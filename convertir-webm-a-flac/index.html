@@ -7,7 +7,7 @@
   <meta name="description" content="Convierte el audio de tus archivos WebM (YouTube, navegador) a FLAC sin pérdida, 100% en tu navegador con FFmpeg. Soluciona el error de audio de DaVinci Resolve con archivos WebM." />
   <meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux, cómo arreglar audio en DaVinci Resolve, DaVinci Resolve no reproduce audio MP4, convertir MOV a MKV con audio FLAC, códec de audio no compatible con Premiere, Avid Media Composer sin sonido al importar vídeo, convertidor de vídeo a FLAC online gratis, transcodificar audio AAC a FLAC sin perder calidad, solución error audio AC3 DaVinci Resolve, convertir audio de vídeo sin subir archivos, herramienta privada de conversión de audio en el navegador, remuxar MP4 a MKV sin recodificar vídeo, arreglar audio E-AC3 en edición de vídeo, convertir pista de audio a FLAC manteniendo el vídeo, DaVinci Resolve Linux problema de audio, herramienta online sin subir vídeos a servidores, convertir audio Opus a FLAC para edición, solucionar audio Dolby Digital en DaVinci Resolve, convertir vídeo MKV MP4 a formato compatible con edición, FFmpeg WebAssembly procesamiento local de vídeo, extraer y convertir audio de vídeo a FLAC sin pérdida" />
   <meta name="author" content="VidToFLAC" />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="robots" content="noindex, follow" />
   <meta name="theme-color" content="#0a0a0b" />
   <meta name="application-name" content="VidToFLAC" />
   <meta name="apple-mobile-web-app-title" content="VidToFLAC" />
@@ -1968,7 +1968,6 @@
     }
     .nav-lang:hover { color: var(--ink); border-color: var(--amber); background: rgba(25,195,125,.08); }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -2028,14 +2027,6 @@
     <div class="ad-modal-header">
       <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
       <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>todos los archivos que tengas en cola se convertirán sin límite</strong>.</span>
-    </div>
-    <div class="ad-slot-wrap">
-      <ins class="adsbygoogle"
-           style="display:block; text-align:center;"
-           data-ad-layout="in-article"
-           data-ad-format="fluid"
-           data-ad-client="ca-pub-1123812992313934"
-           data-ad-slot="9253210070"></ins>
     </div>
     <div class="ad-modal-footer">
       <button class="ad-continue-btn" id="adContinueBtn">Continuar conversión</button>
@@ -2230,7 +2221,7 @@
     <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
       ⚙️ Convertir a vídeo + FLAC
     </button>
-    <div class="quota-countdown" id="quotaCountdown" aria-live="polite">
+    <div class="quota-countdown" id="quotaCountdown" aria-live="polite" style="display:none">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
@@ -2333,17 +2324,6 @@
     </div>
   </div>
 
-  <!-- Ad: between tool and SEO content (visible to all users) -->
-  <div style="text-align:center;overflow:hidden;">
-    <ins class="adsbygoogle"
-         style="display:block;"
-         data-ad-client="ca-pub-1123812992313934"
-         data-ad-slot="9253210070"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
-
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">
     <div class="card-title">El problema que solucionamos</div>
@@ -2387,15 +2367,6 @@
           <p>Sí. Muchos grabadores de pantalla web exportan WebM con audio Opus; VidToFLAC los reempaqueta a MKV con audio FLAC listo para editar.</p>
         </div>
       </details>
-      <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">
-        <ins class="adsbygoogle"
-             style="display:block;"
-             data-ad-client="ca-pub-1123812992313934"
-             data-ad-slot="2037769304"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
       <details class="faq-item">
         <summary>¿Puedo extraer solo el audio del WebM?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
@@ -2919,7 +2890,7 @@ function renderPreviewList() {
   }
 
   // Mostrar 1 anuncio por cada 5 archivos convertidos (5→1, 10→2, …)
-  const adsNeeded = Math.floor(done.length / 5);
+  const adsNeeded = 0; // anuncios desactivados en esta landing
   while (adUnitsCreated < adsNeeded) {
     adUnitsCreated++;
     const adDiv = document.createElement('div');
@@ -3360,7 +3331,7 @@ function getQuota() {
     return q;
   } catch { return { count: 0, resetAt: 0 }; }
 }
-function freeLeft() { return Math.max(0, FREE_LIMIT - getQuota().count); }
+function freeLeft() { return Infinity; } // sin anuncios: conversion libre, sin gate
 function quotaResetAt() { return getQuota().resetAt || 0; }
 function incQuota(n = 1) {
   const q = getQuota();
