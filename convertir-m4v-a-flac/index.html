@@ -3156,7 +3156,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     ];
 
     const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
-    const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd)/.test(probeVideoCodec);
+    const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
     if (!isAudioOnlyOutput && browserIncompatibleVideo) {
       log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
     }
