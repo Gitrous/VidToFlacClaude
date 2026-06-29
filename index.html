@@ -1248,9 +1248,27 @@
       text-align: center;
       font-family: var(--font-mono);
       font-size: 0.72rem;
+      line-height: 1.6;
       color: var(--ink-mute);
       background: var(--panel-2);
     }
+    .preview-no-support strong { color: var(--ink-dim); font-weight: 600; }
+    .btn-reconvert {
+      display: inline-block;
+      margin-top: .65rem;
+      padding: .5rem .9rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #06160c;
+      background: var(--green);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background .18s;
+    }
+    .btn-reconvert:hover { background: var(--green-soft); background: #6ee79b; }
+    .preview-contact-link { color: var(--green); font-weight: 600; text-decoration: underline; }
 
     .btn-preview-download {
       display: block;
@@ -2869,11 +2887,36 @@ function updateConvertBtn() {
   updateCountdownDisplay();
 }
 
-function noPreviewMsg() {
+// Cuando un medio no se puede previsualizar: oculta el reproductor y muestra un aviso.
+// 1.ª vez → invitar a "volver a convertir todo"; si tras reconvertir vuelve a fallar
+// (previewFails ≥ 2) → derivar a la página de contacto.
+function showPreviewError(item, entry) {
+  entry.previewFails = (entry.previewFails || 0) + 1;
+  const media = item.querySelector('.preview-media');
+  if (media) media.style.display = 'none';
+  item.querySelector('.preview-no-support')?.remove();
   const div = document.createElement('div');
   div.className = 'preview-no-support';
-  div.textContent = 'Preview no disponible en este navegador — descarga el archivo para reproducirlo.';
-  return div;
+  if (entry.previewFails >= 2) {
+    div.innerHTML =
+      `No hemos podido previsualizar <strong>${entry.outBaseName}</strong> ni siquiera tras volver a convertir. ` +
+      `El archivo descargado suele funcionar igualmente en tu editor; si no es así, ` +
+      `<a class="preview-contact-link" href="/contacto/">cuéntanoslo en Contáctanos</a> y te ayudamos.`;
+  } else {
+    div.innerHTML =
+      `No se ha podido previsualizar <strong>${entry.outBaseName}</strong> en este navegador.<br>` +
+      `<button type="button" class="btn-reconvert" data-action="reconvert-all">🔄 Volver a convertir todo</button>`;
+  }
+  const dl = item.querySelector('.btn-preview-download');
+  item.insertBefore(div, dl);
+}
+
+// El medio cargó correctamente: quita cualquier aviso de error y vuelve a mostrar el reproductor.
+function clearPreviewError(item, entry) {
+  entry.previewFails = 0;
+  item.querySelector('.preview-no-support')?.remove();
+  const media = item.querySelector('.preview-media');
+  if (media) media.style.display = '';
 }
 
 // ─── Preview list render ──────────────────────────────────────────────────────
@@ -2916,9 +2959,8 @@ function renderPreviewList() {
       if (!isAudio) media.preload = 'metadata';
       media.src = entry.outputURL;
       item.dataset.url = entry.outputURL;
-      if (!isAudio) {
-        media.addEventListener('error', () => { media.replaceWith(noPreviewMsg()); });
-      }
+      media.addEventListener('error', () => showPreviewError(item, entry));
+      media.addEventListener('loadeddata', () => clearPreviewError(item, entry));
       item.appendChild(media);
 
       const dl = document.createElement('a');
@@ -3174,7 +3216,7 @@ document.addEventListener('drop', e => {
 });
 
 // ─── Per-file processor ───────────────────────────────────────────────────────
-async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat) {
+async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat, isReconvert = false) {
   const file = entry.file;
   entry.status = 'converting';
   currentId = id;
@@ -3296,14 +3338,16 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outputURL   = URL.createObjectURL(blob);
     entry.outBaseName = baseName + outExt;
     entry.status      = 'done';
-    incConvCount(entry.outBaseName);
-    saveConversionToDB(entry.outBaseName, blob, mimeType);
+    if (!isReconvert) {
+      incConvCount(entry.outBaseName);
+      saveConversionToDB(entry.outBaseName, blob, mimeType);
+    }
 
     log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
     setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
     renderPreviewList();
 
-    if (autoDlCheck.checked) {
+    if (autoDlCheck.checked && !isReconvert) {
       const a = document.createElement('a');
       a.href = entry.outputURL;
       a.download = entry.outBaseName;
@@ -3370,6 +3414,40 @@ convertBtn.addEventListener('click', async () => {
 
   setEngine('Motor listo', 'ready');
   updateConvertBtn();
+});
+
+// ─── Re-convertir todo (reintento de previsualización) ─────────────────────────
+// Se dispara desde el aviso "no se pudo previsualizar". Reprocesa los archivos ya
+// convertidos manteniendo su formato de salida, sin consumir cuota ni duplicar el
+// historial. Si tras esto la previsualización vuelve a fallar, showPreviewError
+// deriva a la página de contacto.
+let reconverting = false;
+async function reconvertAll() {
+  if (!ffmpeg || reconverting) return;
+  const done = [...files.entries()].filter(([, e]) => e.status === 'done');
+  if (!done.length) return;
+
+  reconverting = true;
+  convertBtn.disabled = true;
+  setEngine('Re-convirtiendo…', 'busy');
+  log('↻ Volviendo a convertir todo para reintentar la previsualización…', 'sys');
+
+  for (let i = 0; i < done.length; i++) {
+    const [, e] = done[i];
+    const fmtSel = e.outBaseName.endsWith('.flac') ? 'flac-only'
+                 : e.outBaseName.endsWith('.mp4')  ? 'mp4'
+                 :                                    'mkv';
+    await processOneFile(done[i], i, done.length, fmtSel, true);
+  }
+
+  setEngine('Motor listo', 'ready');
+  reconverting = false;
+  updateConvertBtn();
+}
+
+previewList.addEventListener('click', (ev) => {
+  const btn = ev.target.closest('[data-action="reconvert-all"]');
+  if (btn) { ev.preventDefault(); reconvertAll(); }
 });
 
 // ─── Large file warning modal ─────────────────────────────────────────────────

@@ -1248,9 +1248,27 @@
       text-align: center;
       font-family: var(--font-mono);
       font-size: 0.72rem;
+      line-height: 1.6;
       color: var(--ink-mute);
       background: var(--panel-2);
     }
+    .preview-no-support strong { color: var(--ink-dim); font-weight: 600; }
+    .btn-reconvert {
+      display: inline-block;
+      margin-top: .65rem;
+      padding: .5rem .9rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #06160c;
+      background: var(--green);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background .18s;
+    }
+    .btn-reconvert:hover { background: var(--green-soft); background: #6ee79b; }
+    .preview-contact-link { color: var(--green); font-weight: 600; text-decoration: underline; }
 
     .btn-preview-download {
       display: block;
@@ -2866,11 +2884,36 @@ function updateConvertBtn() {
   updateCountdownDisplay();
 }
 
-function noPreviewMsg() {
+// When a file can't be previewed: hide the player and show a notice.
+// 1st time → invite to "convert everything again"; if it still fails after a
+// reconvert (previewFails ≥ 2) → point the user to the contact page.
+function showPreviewError(item, entry) {
+  entry.previewFails = (entry.previewFails || 0) + 1;
+  const media = item.querySelector('.preview-media');
+  if (media) media.style.display = 'none';
+  item.querySelector('.preview-no-support')?.remove();
   const div = document.createElement('div');
   div.className = 'preview-no-support';
-  div.textContent = 'Preview not available in this browser — download the file to play it.';
-  return div;
+  if (entry.previewFails >= 2) {
+    div.innerHTML =
+      `We couldn't preview <strong>${entry.outBaseName}</strong> even after converting again. ` +
+      `The downloaded file usually still works in your editor; if it doesn't, ` +
+      `<a class="preview-contact-link" href="/en/contact/">let us know on Contact</a> and we'll help.`;
+  } else {
+    div.innerHTML =
+      `Couldn't preview <strong>${entry.outBaseName}</strong> in this browser.<br>` +
+      `<button type="button" class="btn-reconvert" data-action="reconvert-all">🔄 Convert everything again</button>`;
+  }
+  const dl = item.querySelector('.btn-preview-download');
+  item.insertBefore(div, dl);
+}
+
+// The media loaded fine: remove any error notice and show the player again.
+function clearPreviewError(item, entry) {
+  entry.previewFails = 0;
+  item.querySelector('.preview-no-support')?.remove();
+  const media = item.querySelector('.preview-media');
+  if (media) media.style.display = '';
 }
 
 // ─── Preview list render ──────────────────────────────────────────────────────
@@ -2913,9 +2956,8 @@ function renderPreviewList() {
       if (!isAudio) media.preload = 'metadata';
       media.src = entry.outputURL;
       item.dataset.url = entry.outputURL;
-      if (!isAudio) {
-        media.addEventListener('error', () => { media.replaceWith(noPreviewMsg()); });
-      }
+      media.addEventListener('error', () => showPreviewError(item, entry));
+      media.addEventListener('loadeddata', () => clearPreviewError(item, entry));
       item.appendChild(media);
 
       const dl = document.createElement('a');
@@ -3171,7 +3213,7 @@ document.addEventListener('drop', e => {
 });
 
 // ─── Per-file processor ───────────────────────────────────────────────────────
-async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat) {
+async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat, isReconvert = false) {
   const file = entry.file;
   entry.status = 'converting';
   currentId = id;
@@ -3293,14 +3335,16 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outputURL   = URL.createObjectURL(blob);
     entry.outBaseName = baseName + outExt;
     entry.status      = 'done';
-    incConvCount(entry.outBaseName);
-    saveConversionToDB(entry.outBaseName, blob, mimeType);
+    if (!isReconvert) {
+      incConvCount(entry.outBaseName);
+      saveConversionToDB(entry.outBaseName, blob, mimeType);
+    }
 
     log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
     setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
     renderPreviewList();
 
-    if (autoDlCheck.checked) {
+    if (autoDlCheck.checked && !isReconvert) {
       const a = document.createElement('a');
       a.href = entry.outputURL;
       a.download = entry.outBaseName;
@@ -3367,6 +3411,39 @@ convertBtn.addEventListener('click', async () => {
 
   setEngine('Motor listo', 'ready');
   updateConvertBtn();
+});
+
+// ─── Convert everything again (preview retry) ──────────────────────────────────
+// Triggered from the "couldn't preview" notice. Re-processes the already-converted
+// files keeping their output format, without spending quota or duplicating history.
+// If the preview still fails afterwards, showPreviewError points to the contact page.
+let reconverting = false;
+async function reconvertAll() {
+  if (!ffmpeg || reconverting) return;
+  const done = [...files.entries()].filter(([, e]) => e.status === 'done');
+  if (!done.length) return;
+
+  reconverting = true;
+  convertBtn.disabled = true;
+  setEngine('Re-converting…', 'busy');
+  log('↻ Converting everything again to retry the preview…', 'sys');
+
+  for (let i = 0; i < done.length; i++) {
+    const [, e] = done[i];
+    const fmtSel = e.outBaseName.endsWith('.flac') ? 'flac-only'
+                 : e.outBaseName.endsWith('.mp4')  ? 'mp4'
+                 :                                    'mkv';
+    await processOneFile(done[i], i, done.length, fmtSel, true);
+  }
+
+  setEngine('Motor listo', 'ready');
+  reconverting = false;
+  updateConvertBtn();
+}
+
+previewList.addEventListener('click', (ev) => {
+  const btn = ev.target.closest('[data-action="reconvert-all"]');
+  if (btn) { ev.preventDefault(); reconvertAll(); }
 });
 
 // ─── Large file warning modal ─────────────────────────────────────────────────
