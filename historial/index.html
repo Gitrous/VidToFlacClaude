@@ -85,7 +85,6 @@
       z-index: 1;
     }
 
-    /* ── Navbar ─────────────────────────────────────────────────────── */
     #site-nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -176,7 +175,6 @@
     }
     .nav-lang:hover { color: var(--ink); border-color: var(--amber); background: rgba(25,195,125,.08); }
 
-    /* ── Page layout ────────────────────────────────────────────────── */
     .page-wrap {
       max-width: 860px;
       margin: 0 auto;
@@ -184,10 +182,7 @@
       position: relative;
       z-index: 2;
     }
-
-    .page-header {
-      margin-bottom: 1.75rem;
-    }
+    .page-header { margin-bottom: 1.75rem; }
     .page-title {
       font-family: var(--font-display);
       font-size: 1.85rem;
@@ -196,13 +191,8 @@
       color: var(--ink);
       line-height: 1.15;
     }
-    .page-sub {
-      color: var(--ink-dim);
-      font-size: 0.9rem;
-      margin-top: 0.4rem;
-    }
+    .page-sub { color: var(--ink-dim); font-size: 0.9rem; margin-top: 0.4rem; }
 
-    /* ── Card ───────────────────────────────────────────────────────── */
     .card {
       background: var(--panel);
       border: 1px solid var(--line-strong);
@@ -210,10 +200,7 @@
       overflow: hidden;
     }
 
-    /* ── Table ──────────────────────────────────────────────────────── */
-    .hist-table-wrap {
-      overflow-x: auto;
-    }
+    .hist-table-wrap { overflow-x: auto; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -232,23 +219,12 @@
     tbody tr { transition: background .1s; }
     tbody tr:hover { background: rgba(255,255,255,.025); }
     tbody tr + tr td { border-top: 1px solid var(--line); }
-    td {
-      padding: 0.7rem 1rem;
-      color: var(--ink);
-      vertical-align: middle;
-    }
-    .td-name {
-      max-width: 280px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-weight: 500;
-    }
+    td { padding: 0.7rem 1rem; color: var(--ink); vertical-align: middle; }
+    .td-name { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
     .td-date { color: var(--ink-dim); white-space: nowrap; }
     .td-size { color: var(--ink-dim); white-space: nowrap; }
     .td-action { text-align: right; white-space: nowrap; }
 
-    /* ── Download button ────────────────────────────────────────────── */
     .dl-btn {
       display: inline-flex;
       align-items: center;
@@ -268,7 +244,6 @@
     .dl-btn:hover { background: rgba(25,195,125,.24); }
     .dl-btn svg { flex-shrink: 0; }
 
-    /* ── Empty state ────────────────────────────────────────────────── */
     .empty-state {
       display: flex;
       flex-direction: column;
@@ -278,180 +253,88 @@
       text-align: center;
     }
     .empty-icon {
-      width: 48px;
-      height: 48px;
+      width: 48px; height: 48px;
       border-radius: 14px;
       background: var(--elev);
       border: 1px solid var(--line-strong);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-    .empty-title {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .empty-sub {
-      font-size: 0.875rem;
-      color: var(--ink-dim);
-      max-width: 34ch;
-    }
+    .empty-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+    .empty-sub { font-size: 0.875rem; color: var(--ink-dim); max-width: 34ch; }
     .go-home {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: var(--font-body);
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--amber);
-      background: var(--amber-soft);
-      border: 1px solid var(--amber-line);
-      border-radius: 9px;
-      padding: 0.5rem 1.1rem;
-      text-decoration: none;
-      margin-top: 0.25rem;
-      transition: background .15s;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-body); font-size: 0.875rem; font-weight: 600;
+      color: var(--amber); background: var(--amber-soft); border: 1px solid var(--amber-line);
+      border-radius: 9px; padding: 0.5rem 1.1rem; text-decoration: none;
+      margin-top: 0.25rem; transition: background .15s;
     }
     .go-home:hover { background: rgba(25,195,125,.24); }
 
-    /* ── Toolbar ────────────────────────────────────────────────────── */
     .hist-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid var(--line-strong);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 0.9rem 1rem; border-bottom: 1px solid var(--line-strong);
     }
-    .hist-count {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--ink-dim);
-    }
+    .hist-count { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-dim); }
     .hist-count strong { color: var(--ink); }
     .clear-btn {
-      font-family: var(--font-body);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--ink-dim);
-      background: none;
-      border: 1px solid var(--line-strong);
-      border-radius: 7px;
-      padding: 0.28rem 0.7rem;
-      cursor: pointer;
+      font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+      color: var(--ink-dim); background: none; border: 1px solid var(--line-strong);
+      border-radius: 7px; padding: 0.28rem 0.7rem; cursor: pointer;
       transition: color .15s, border-color .15s, background .15s;
     }
     .clear-btn:hover { color: var(--red); border-color: rgba(255,96,88,.4); background: rgba(255,96,88,.07); }
 
-    /* ── Privacy note ───────────────────────────────────────────────── */
     .privacy-note {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--ink-mute);
-      text-align: center;
-      padding: 0.85rem 1rem;
-      border-top: 1px solid var(--line);
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-mute);
+      text-align: center; padding: 0.85rem 1rem; border-top: 1px solid var(--line);
     }
 
-    /* ── Clickable rows ─────────────────────────────────────────────── */
     tbody tr.has-blob { cursor: pointer; }
     tbody tr.has-blob:hover { background: rgba(25,195,125,.05); }
     tbody tr.has-blob.active { background: rgba(25,195,125,.08); outline: none; }
     tbody tr.has-blob td.td-name { color: var(--amber); }
 
-    /* ── Preview card ───────────────────────────────────────────────── */
     .preview-card {
-      background: var(--panel);
-      border: 1px solid var(--amber-line);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-top: 1rem;
+      background: var(--panel); border: 1px solid var(--amber-line);
+      border-radius: var(--radius); overflow: hidden; margin-top: 1rem;
       animation: rise .2s ease both;
     }
     .preview-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.8rem 1rem;
-      border-bottom: 1px solid var(--line-strong);
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.8rem 1rem; border-bottom: 1px solid var(--line-strong);
     }
     .preview-filename {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--ink);
-      font-weight: 500;
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink);
+      font-weight: 500; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .preview-close {
-      flex-shrink: 0;
-      background: none;
-      border: none;
-      color: var(--ink-dim);
-      cursor: pointer;
-      font-size: 1rem;
-      line-height: 1;
-      padding: 0.3rem 0.4rem;
-      border-radius: 6px;
-      transition: color .15s, background .15s;
+      flex-shrink: 0; background: none; border: none; color: var(--ink-dim);
+      cursor: pointer; font-size: 1rem; line-height: 1; padding: 0.3rem 0.4rem;
+      border-radius: 6px; transition: color .15s, background .15s;
     }
     .preview-close:hover { color: var(--ink); background: rgba(255,255,255,.06); }
     .preview-media {
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 80px;
+      background: #000; display: flex; align-items: center; justify-content: center; min-height: 80px;
     }
-    .preview-media video {
-      width: 100%;
-      max-height: 420px;
-      display: block;
-    }
+    .preview-media video { width: 100%; max-height: 420px; display: block; }
     .preview-media audio {
-      width: 100%;
-      display: block;
-      padding: 1rem;
-      box-sizing: border-box;
+      width: 100%; display: block; padding: 1rem; box-sizing: border-box;
       background: var(--panel-2, #151518);
     }
     .preview-footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0.75rem 1rem;
-      border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: flex-end;
+      padding: 0.75rem 1rem; border-top: 1px solid var(--line);
     }
 
-    /* ── Footer ─────────────────────────────────────────────────────── */
     footer {
-      text-align: center;
-      color: var(--ink-dim);
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.02em;
-      line-height: 1.7;
-      padding: 2.5rem 2.75rem 2.25rem;
-      background: #1a1a20;
-      border-top: 1px solid var(--line-strong);
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      margin-top: 2.5rem;
-      position: relative;
-      z-index: 2;
+      text-align: center; color: var(--ink-dim); font-family: var(--font-mono);
+      font-size: 0.68rem; letter-spacing: 0.02em; line-height: 1.7;
+      padding: 2.5rem 2.75rem 2.25rem; background: #1a1a20;
+      border-top: 1px solid var(--line-strong); display: flex; flex-direction: column;
+      gap: 0.65rem; margin-top: 2.5rem; position: relative; z-index: 2;
     }
     footer strong { color: var(--amber-2); font-weight: 600; }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.25rem 1.5rem;
-    }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
     .footer-links a { color: var(--ink-dim); text-decoration: none; transition: color .15s; }
     .footer-links a:hover { color: var(--amber); }
     .footer-copy { margin: 0; opacity: 0.7; }
@@ -477,6 +360,7 @@
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/" class="nav-link">Inicio</a></li>
+    <li><a href="/articulos/" class="nav-link">Artículos</a></li>
     <li><a href="/historial/" class="nav-link nav-link-active" aria-current="page">Historial</a></li>
     <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
   </ul>
@@ -502,7 +386,6 @@
     </div>
   </div>
 
-  <!-- Preview panel (shown when a row is clicked) -->
   <div class="preview-card" id="previewCard" hidden>
     <div class="preview-header">
       <span class="preview-filename" id="previewFilename"></span>
@@ -543,9 +426,7 @@
   const previewDl      = document.getElementById('previewDl');
   const previewClose   = document.getElementById('previewClose');
 
-  // entries[i] corresponds to row data-idx="i" (newest-first order)
   let entries = [];
-  // Track active blob URLs created for preview so we can revoke them
   let activeBlobUrl = null;
 
   function fmt(bytes) {
@@ -601,28 +482,18 @@
   function openPreview(idx) {
     const entry = entries[idx];
     if (!entry || !entry.blob) return;
-
-    // Revoke previous blob URL
     if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
     activeBlobUrl = URL.createObjectURL(entry.blob);
-
-    // Mark active row, clear others
     document.querySelectorAll('tbody tr.active').forEach(tr => tr.classList.remove('active'));
     const activeRow = document.querySelector(`tbody tr[data-idx="${idx}"]`);
     if (activeRow) activeRow.classList.add('active');
-
-    // Set filename and download link
     previewFilename.textContent = entry.name;
     previewDl.href = activeBlobUrl;
     previewDl.download = entry.name;
-
-    // Build media element
     const useAudio = isAudio(entry.mimeType, entry.name);
     previewMedia.innerHTML = useAudio
       ? `<audio controls autoplay src="${activeBlobUrl}"></audio>`
       : `<video controls autoplay playsinline src="${activeBlobUrl}"></video>`;
-
-    // Show panel and scroll to it
     previewCard.hidden = false;
     previewCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -667,14 +538,10 @@
   function renderList(rows, db) {
     const total = rows.length;
     entries = [...rows].reverse();
-
     const tableRows = entries.map((r, i) => {
       const hasBlob = !!r.blob;
       const dlCell = hasBlob
-        ? (() => {
-            const u = URL.createObjectURL(r.blob);
-            return `<a class="dl-btn" href="${u}" download="${r.name}">${dlIcon()} Descargar</a>`;
-          })()
+        ? (() => { const u = URL.createObjectURL(r.blob); return `<a class="dl-btn" href="${u}" download="${r.name}">${dlIcon()} Descargar</a>`; })()
         : `<span style="color:var(--ink-mute);font-size:.75rem">expirado</span>`;
       return `<tr${hasBlob ? ` class="has-blob" data-idx="${i}" tabindex="0" title="Haz clic para previsualizar"` : ''}>
         <td class="td-name" title="${r.name}">${r.name}</td>
@@ -691,14 +558,7 @@
       </div>
       <div class="hist-table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Archivo</th>
-              <th>Fecha</th>
-              <th>Tamaño</th>
-              <th></th>
-            </tr>
-          </thead>
+          <thead><tr><th>Archivo</th><th>Fecha</th><th>Tamaño</th><th></th></tr></thead>
           <tbody id="histTbody">${tableRows}</tbody>
         </table>
       </div>
@@ -710,16 +570,11 @@
       closePreview();
       renderEmpty();
     });
-
-    // Click delegation on tbody
     document.getElementById('histTbody').addEventListener('click', e => {
       const tr = e.target.closest('tr[data-idx]');
-      // Don't intercept clicks on the download link itself
       if (!tr || e.target.closest('a.dl-btn')) return;
       openPreview(+tr.dataset.idx);
     });
-
-    // Keyboard support
     document.getElementById('histTbody').addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       const tr = e.target.closest('tr[data-idx]');
@@ -733,16 +588,9 @@
     try {
       const db   = await openDB();
       const rows = await getAll(db);
-      if (rows.length === 0) {
-        renderEmpty();
-      } else {
-        renderList(rows, db);
-      }
+      if (rows.length === 0) { renderEmpty(); } else { renderList(rows, db); }
     } catch {
-      card.innerHTML = `
-        <div class="empty-state">
-          <p class="empty-sub">No se pudo acceder al historial. Asegúrate de que el navegador permite IndexedDB.</p>
-        </div>`;
+      card.innerHTML = `<div class="empty-state"><p class="empty-sub">No se pudo acceder al historial. Asegúrate de que el navegador permite IndexedDB.</p></div>`;
     }
   }
 
