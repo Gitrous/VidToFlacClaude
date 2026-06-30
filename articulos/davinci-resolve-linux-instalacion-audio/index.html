@@ -312,6 +312,26 @@
       DaVinci Resolve es posiblemente el mejor editor de vídeo profesional que existe en Linux — y es completamente gratuito. Pero hay una trampa que nadie avisa: <strong>la mayoría de tus archivos de vídeo no tendrán audio</strong> cuando los importes. No es un bug. Es un problema de licencias que tiene solución sencilla y gratuita. Esta guía cubre los dos pasos que todo usuario nuevo necesita: instalar DaVinci Resolve y arreglar el audio.
     </p>
 
+    <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
+      <svg viewBox="0 0 780 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="780" height="180" fill="#0f0f11"/>
+        <rect x="60" y="30" width="660" height="120" rx="13" fill="#0a0a0b" stroke="rgba(255,255,255,.13)" stroke-width="1.5"/>
+        <rect x="60" y="30" width="660" height="28" rx="13" fill="#151518"/>
+        <rect x="60" y="44" width="660" height="14" fill="#151518"/>
+        <circle cx="90" cy="44" r="5" fill="#ff6058" opacity=".7"/>
+        <circle cx="108" cy="44" r="5" fill="#fbbf24" opacity=".7"/>
+        <circle cx="126" cy="44" r="5" fill="#19c37d" opacity=".7"/>
+        <text x="390" y="49" text-anchor="middle" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="9">Terminal</text>
+        <text x="100" y="84" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="10">$</text>
+        <text x="118" y="84" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="600">ffmpeg</text>
+        <text x="174" y="84" fill="#a7a7ad" font-family="'JetBrains Mono',monospace" font-size="10">-i video.mp4</text>
+        <text x="290" y="84" fill="#f3f3ef" font-family="'JetBrains Mono',monospace" font-size="10">-c:v copy -c:a flac</text>
+        <text x="470" y="84" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="600">salida.mkv</text>
+        <text x="100" y="110" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="10">Output #0, matroska</text>
+        <text x="100" y="128" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9">  Stream #0:1: Audio: flac, 48000 Hz, stereo</text>
+      </svg>
+    </div>
+
     <nav class="toc" aria-label="Tabla de contenidos">
       <p class="toc-title">En este artículo</p>
       <ol>
