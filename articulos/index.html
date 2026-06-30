@@ -432,6 +432,99 @@
     @media (prefers-reduced-motion: reduce) {
       *, .page-wrap { animation: none !important; transition: none !important; }
     }
+
+    /* ── Search ── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px; height: 17px;
+      color: var(--ink-mute);
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 0.75rem 2.75rem 0.75rem 2.85rem;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .search-input::placeholder { color: var(--ink-mute); }
+    .search-input:focus { border-color: var(--amber-line); box-shadow: 0 0 0 3px var(--amber-soft); }
+    .search-input::-webkit-search-cancel-button { display: none; }
+    .search-clear {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--ink-mute);
+      cursor: pointer;
+      padding: 0.3rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      transition: color .15s;
+      line-height: 1;
+    }
+    .search-clear:hover { color: var(--ink); }
+    .search-clear[hidden] { display: none; }
+    .search-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: 1.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .search-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-mute);
+    }
+    .search-count b { color: var(--amber); font-weight: 600; }
+    .search-match-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      border-radius: 4px;
+      padding: 0.1rem 0.45rem;
+    }
+    .search-no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--ink-mute);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .search-no-results strong { color: var(--ink-dim); font-weight: 600; }
+    .article-card[data-hidden] { display: none; }
+    mark.search-hl {
+      background: var(--amber-soft);
+      color: var(--amber-2);
+      border-radius: 2px;
+      padding: 0 1px;
+      font: inherit;
+    }
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -472,6 +565,21 @@
     <h1 class="page-title">Guías sobre edición de vídeo y audio</h1>
     <p class="page-subtitle">Explicaciones técnicas, soluciones a errores habituales y guías de conversión de formatos para editores de vídeo.</p>
   </header>
+
+  <div role="search" aria-label="Buscar en artículos">
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="article-search" class="search-input"
+             placeholder="Buscar en todos los artículos…"
+             aria-label="Buscar en artículos" autocomplete="off" spellcheck="false" />
+      <button class="search-clear" id="search-clear-btn" aria-label="Limpiar búsqueda" hidden>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="search-meta">
+      <p class="search-count" id="search-count" aria-live="polite" aria-atomic="true"></p>
+    </div>
+  </div>
 
   <main>
     <div class="articles-grid" role="list">
@@ -576,15 +684,191 @@
         </span>
       </a>
 
+      <a href="/articulos/davinci-resolve-gratuito-vs-studio/" class="article-card" role="listitem">
+        <div class="card-meta">
+          <span class="card-badge">Comparativa</span>
+          <time class="card-date" datetime="2026-06-30">30 jun 2026</time>
+          <span class="card-read-time">· 9 min</span>
+        </div>
+        <p class="card-title">DaVinci Resolve gratuito vs Studio: diferencias reales en 2026</p>
+        <p class="card-excerpt">¿Merece la pena pagar 295 € por Studio? Comparativa completa de funciones, límites de la versión gratuita y cuándo el problema de audio se resuelve gratis con FLAC.</p>
+        <div class="card-tags">
+          <span class="card-tag">DaVinci Resolve</span>
+          <span class="card-tag">Studio</span>
+          <span class="card-tag">Comparativa</span>
+          <span class="card-tag">Audio</span>
+        </div>
+        <span class="card-arrow">
+          Leer comparativa
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+      </a>
+
       <div class="coming-soon" aria-hidden="true">
         <span class="coming-soon-label">Próximamente</span>
         <p class="coming-soon-title">Formatos de audio recomendados para Premiere Pro y Avid</p>
+      </div>
+
+      <div class="search-no-results" id="search-no-results" hidden>
+        <p>No se encontraron artículos para <strong id="search-no-results-query"></strong>.</p>
+        <p style="margin-top:.5rem;font-size:.8rem;">Prueba con otros términos: códec, AAC, FLAC, Linux, MKV, OBS…</p>
       </div>
 
     </div>
   </main>
 
 </div>
+
+<script>
+(function () {
+  const CORPUS = [
+    {
+      url: '/articulos/errores-audio-davinci-resolve/',
+      text: 'Por qué DaVinci Resolve no reproduce el audio Códecs compatibles e incompatibles Los errores de audio más comunes en DaVinci Resolve y lo que significan 1. Audio silencioso sin mensaje de error 2. Unsupported audio codec o Error de códec de audio 3. Media offline en el clip de audio 4. Audio desincronizado 5. Forma de onda plana o ausente DaVinci Resolve en Linux: por qué no reproduce el audio AAC Cómo solucionar el error de audio en DaVinci Resolve: paso a paso Solución 1: Convertir el audio a FLAC con VidToFLAC (recomendada) Solución 2: Convertir con FFmpeg en la terminal Solución 3: Instalar DaVinci Resolve Studio Solución 4: Extraer el audio y reconvertirlo manualmente Formatos de vídeo con problemas de audio en DaVinci Resolve MP4 de iPhone o Android MOV de cámaras Sony, Canon y Fuji WebM de YouTube o grabaciones de pantalla MKV con audio AAC o AC-3 Vídeos con audio E-AC-3 (Dolby Digital Plus) Preguntas frecuentes sobre el audio en DaVinci Resolve DaVinci Resolve es un editor de vídeo profesional, pero no incluye de serie todos los decodificadores de audio que existen. muchos códecs de audio populares (como AAC, MP3 o AC-3 Dolby Digital) están protegidos por patentes y requieren el pago de licencias. Blackmagic Design no incluye esas licencias en la versión gratuita para Linux. FLAC es el único códec de audio sin pérdida universalmente compatible con DaVinci Resolve en todas las plataformas, incluido Linux. PCM/WAV también funciona. El clip se importa correctamente y la forma de onda del audio aparece en la línea de tiempo, pero al reproducir no se escucha nada. Esto suele ocurrir con AAC en Linux o con Opus en archivos WebM. DaVinci Resolve muestra explícitamente que no puede decodificar el audio. El clip aparece con un fondo rojo y el mensaje Media offline. También puede ocurrir cuando DaVinci Resolve directamente rechaza el archivo por incompatibilidad de códec. El audio sí se reproduce, pero va por delante o por detrás del vídeo. Esto ocurre con frecuencia con archivos Variable Frame Rate (VFR), típicos de vídeos grabados con smartphones. La pista de audio existe en la línea de tiempo pero la forma de onda aparece completamente plana. Blackmagic Design no incluye las licencias de patentes de AAC, MP3 y otros códecs en la versión de Linux. Esto no es un bug, es una decisión de licenciamiento. ¿Por qué DaVinci Resolve no tiene sonido en Linux? ¿Cómo solucionar que DaVinci Resolve no reproduzca el audio de un MP4? ¿DaVinci Resolve soporta audio AAC? ¿Qué formatos de audio funcionan en DaVinci Resolve en Linux? ¿Qué es mejor FLAC o PCM para DaVinci Resolve?'
+    },
+    {
+      url: '/articulos/que-formato-video-usar-davinci-resolve/',
+      text: 'Contenedor vs. códec: la confusión más habitual en DaVinci Resolve Códecs de vídeo en DaVinci Resolve: comparativa completa H.264: el más común, no el más cómodo para editar H.265 (HEVC): mejor calidad, más carga de proceso ProRes: el estándar profesional en Mac DNxHD / DNxHR: el ProRes para Windows y Linux Códecs de audio en DaVinci Resolve: cuál usar y cuál evitar Qué formato usar en DaVinci Resolve según tu cámara o fuente Smartphone (iPhone, Android) Cámara mirrorless o réflex (Sony, Canon, Fuji, Nikon) Cámara de cine (Blackmagic, RED, ARRI) Grabación de pantalla (OBS, Bandicam, QuickTime) Vídeos descargados de internet (YouTube, etc.) El formato ideal para editar en DaVinci Resolve Qué formato elegir al exportar desde DaVinci Resolve Para YouTube o Vimeo Para archivo o entrega máster Para redes sociales (Instagram, TikTok) Para entrega a cliente o post-producción Preguntas frecuentes sobre formatos en DaVinci Resolve Un mismo contenedor puede llevar distintos códecs. Un .mp4 puede tener vídeo H.264 o H.265, y audio AAC o MP3. Un .mkv puede llevar exactamente los mismos códecs. Lo que determina la compatibilidad con DaVinci Resolve es el códec, no el contenedor. H.264 es el códec de vídeo más extendido: lo usan los smartphones, las cámaras de acción, las grabaciones de pantalla y la mayoría de vídeos de YouTube. H.265 ofrece la misma calidad visual que H.264 en la mitad del espacio. Apple ProRes (422, 422 HQ, 4444) es el códec de edición por excelencia en entornos Mac. DNxHR es la mejor opción para Linux. usa siempre FLAC como códec de audio. FLAC frente a WAV: ambos son sin pérdida y funcionan perfectamente en DaVinci Resolve. La ventaja de FLAC es que comprime el audio entre un 40 y un 60 sin perder ningún dato. ¿Puedo editar H.264 en DaVinci Resolve sin problema? ¿Qué formato de vídeo importa mejor DaVinci Resolve? ¿Cuál es el mejor formato de exportación para DaVinci Resolve? ¿DaVinci Resolve acepta archivos MKV? ¿DaVinci Resolve soporta H.265 en Linux? ¿Qué es mejor editar en ProRes o DNxHR?'
+    },
+    {
+      url: '/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/',
+      text: 'Por qué el audio pierde calidad al exportar desde DaVinci Resolve La página Deliver de DaVinci Resolve: ajustes de audio explicados Qué códec de audio elegir al exportar en DaVinci Resolve Configuración óptima de audio al exportar según el destino Exportar para YouTube Exportar para entrega a cliente o archivo máster Exportar para Instagram o TikTok Exportar para Premiere Pro, Avid u otro editor Errores comunes al exportar audio en DaVinci Resolve y cómo solucionarlos El audio exportado suena diferente al original El audio exportado va desincronizado El vídeo exportado no tiene audio El archivo exportado es demasiado grande Preguntas frecuentes sobre exportar audio en DaVinci Resolve Cuando exportas un vídeo desde DaVinci Resolve, el programa aplica por defecto una recompresión del audio. Si el audio de tu proyecto ya venía comprimido (AAC, MP3) y lo vuelves a exportar en AAC o MP3, cada ciclo de compresión introduce nuevos artefactos y degrada la calidad de forma acumulativa. Es lo que se conoce como recompresión generacional. La página Deliver es donde se configuran todos los ajustes de exportación. Los ajustes clave son: Códec de audio, Bitrate, Frecuencia de muestreo 48000 Hz estándar de cine y televisión, Profundidad de bits 24 bits o 16 bits, Canales de audio Stereo. Para máxima calidad, usa FLAC: misma calidad que PCM pero ocupa entre un 40 y un 60 menos. YouTube recodifica todo el vídeo que subes. La configuración óptima para audio es AAC 320 kbps. Para archivo máster exportar sin pérdida. Instagram y TikTok recomprimen agresivamente. Exporta en AAC 256 kbps y H.264. Si el archivo exportado va a ser importado en otro software exporta siempre en FLAC 24 bits a 48000 Hz. La causa más frecuente es la recompresión generacional. Si el audio sí se reproduce pero va desincronizado la causa más habitual es que el material de origen tiene una tasa de fotogramas variable (VFR). ¿Cómo exportar audio sin pérdida en DaVinci Resolve? ¿Qué bitrate de audio elegir al exportar en DaVinci Resolve? ¿Por qué el audio va desincronizado al exportar desde DaVinci Resolve? ¿Cuál es la mejor configuración de audio para exportar a YouTube? ¿DaVinci Resolve exporta en FLAC? deliver render exportación configuración ajustes audio calidad'
+    },
+    {
+      url: '/articulos/davinci-resolve-no-importa-audio-mp4-obs/',
+      text: 'Por qué DaVinci Resolve no importa el audio Las fuentes más habituales y su códec de audio El caso especial de OBS Studio Solución en 4 pasos: convertir el audio a FLAC Cómo configurar OBS para que no vuelva a pasar Opción A: grabar en FLAC directamente desde OBS Opción B: grabar en PCM sin comprimir Opción C: convertir después de grabar (sin tocar OBS) Alternativa: comando FFmpeg en la terminal Preguntas frecuentes Cuando grabas un vídeo con un móvil, una cámara de acción, una mirrorless o con OBS Studio, el archivo resultante lleva el audio comprimido con un códec: casi siempre AAC (el estándar en MP4 y MOV de cámara) o MP3 (habitual en grabaciones de pantalla y software antiguo). DaVinci Resolve gratuito no incluye decodificadores para AAC ni MP3 en Linux, porque Blackmagic Design no paga esas licencias de patente para la versión de Linux. OBS Studio es el software de grabación y streaming más usado por creadores de contenido y, por defecto, graba en MKV o MP4 con audio AAC a 160 kbps. Esto convierte a OBS en la fuente más frecuente de este problema entre editores que trabajan con DaVinci Resolve en Linux. VidToFLAC hace un remux sin pérdida: copia el vídeo bit a bit (sin recomprimir, sin perder ni un fotograma de calidad) y solo convierte el audio de AAC a FLAC. iPhone GoPro Android mirrorless Canon Sony Fuji Nikon grabación de pantalla Shadowplay NVIDIA ShadowPlay GeForce Experience captura de vídeo. ¿Por qué OBS graba sin audio en DaVinci Resolve? ¿Cómo solucionar el audio de OBS en DaVinci Resolve? ¿Cómo configurar OBS para grabar en FLAC? ¿Por qué DaVinci Resolve no importa el audio de MP4? ¿Por qué DaVinci Resolve no importa el audio de MOV? ¿DaVinci Resolve soporta MKV con audio AAC? ffmpeg -i input.mp4 -c:v copy -c:a flac output.mkv'
+    },
+    {
+      url: '/articulos/convertir-mkv-a-mp4-sin-perder-calidad/',
+      text: 'MKV y MP4: contenedores, no calidad Qué es un remux y por qué no pierde calidad Cuándo el remux MKV MP4 funciona directamente Cuándo no funciona y qué hacer Convertir con VidToFLAC: remux en el navegador Remux MKV a MP4 en segundos Convertir con FFmpeg en la terminal MKV vs MP4 para DaVinci Resolve MKV a MP4 sin perder calidad, gratis y en tu navegador Preguntas frecuentes MKV y MP4 son contenedores, no códecs. Un contenedor es como un sobre: puede llevar dentro distintos tipos de contenido (pistas de vídeo, audio, subtítulos), pero no define la calidad de ese contenido. La calidad depende del códec que hay dentro. El mismo vídeo H.264 a la misma calidad cabe dentro de un MKV o dentro de un MP4 en ambos casos la imagen es idéntica. Un remux es el proceso de cambiar el contenedor de un archivo de vídeo sin tocar los datos de las pistas. El vídeo H.264 que estaba dentro del MKV se copia tal cual al MP4, ni un byte de los datos de imagen cambia. Lo mismo con el audio. Si tu MKV viene de una grabación de OBS con H.264 y AAC, de una descarga de streaming, o de una cámara de acción, el remux a MP4 funcionará directamente. El remux directo falla cuando el MKV contiene códecs que el contenedor MP4 no admite: FLAC Opus VP9 AV1 subtítulos ASS SSA. VidToFLAC hace el remux directamente en tu navegador usando FFmpeg compilado a WebAssembly sin subir el archivo a ningún servidor. ffmpeg -i input.mkv -c copy output.mp4 remux sin tocar los códecs. ffmpeg -i input.mkv -c:v copy -c:a aac output.mp4 convertir audio a AAC. Para DaVinci Resolve en Linux es mejor exportar a MKV con FLAC que a MP4 con AAC. ¿Se pierde calidad al convertir MKV a MP4? No, si se hace con un remux. ¿Cuánto tarda la conversión de MKV a MP4? ¿Puedo convertir MKV a MP4 sin FFmpeg? ¿MKV o MP4 para DaVinci Resolve? ¿Qué pasa con los subtítulos al convertir MKV a MP4? ¿Puedo convertir varios MKV a la vez?'
+    },
+    {
+      url: '/articulos/davinci-resolve-gratuito-vs-studio/',
+      text: 'Comparativa completa: DaVinci Resolve gratuito vs Studio El problema de audio en la versión gratuita Cómo resolver el audio sin pagar Studio Cuándo sí merece la pena comprar Studio 1. Reducción de ruido con IA 2. Resoluciones superiores a 4K UHD 3. Exportación H.265 acelerada por GPU 4. Colaboración en equipo 5. Magic Mask y tracking con IA 6. ProRes RAW Precio y formas de obtener Studio Veredicto: ¿gratuito o Studio? Preguntas frecuentes Esta es la tabla real de diferencias. No la versión de marketing, sino lo que importa en la práctica. La conclusión rápida: para edición, corrección de color, mezcla de audio y exportación básica, la versión gratuita es completamente funcional. Las diferencias importantes están en las herramientas de IA (reducción de ruido, tracking), resoluciones superiores a 4K y la colaboración en equipo. La versión gratuita no incluye licencias para decodificar ciertos formatos de audio protegidos por patentes: AAC MP3 E-AC-3 (Dolby Digital Plus) DTS. DaVinci Resolve en Linux soporta FLAC de forma nativa en todas las versiones gratuita y Studio. El DaVinci Neural Engine de Studio incluye reducción de ruido temporal y espacial basada en IA. Si trabajas con material de cámara de cine (ARRI, RED, Blackmagic Cinema Camera 6K o superior), la versión gratuita no puede manejar esas resoluciones. Studio usa la aceleración por GPU (NVENC en NVIDIA, VCE en AMD, Media Engine en Apple Silicon). Si trabajas con otros editores, coloristas o técnicos de audio en el mismo proyecto simultáneamente, necesitas Studio con un servidor DaVinci. Las herramientas de seguimiento y máscara con IA de Studio (Magic Mask, object tracking). DaVinci Resolve Studio tiene un precio de 295 euros como pago único. No hay suscripción. También viene incluido con algunas cámaras y tarjetas de captura de Blackmagic Design. ¿Cuánto cuesta DaVinci Resolve Studio? ¿La versión gratuita de DaVinci Resolve tiene límite de resolución o duración? ¿DaVinci Resolve Studio soluciona el problema de audio AAC en Linux? ¿Puedo actualizar de gratuito a Studio más adelante? ¿La versión gratuita exporta en 4K sin problema? ¿Hay alguna diferencia de calidad de color entre gratuito y Studio? precio comprar licencia free vs paid diferencias limitaciones watermark marca de agua'
+    }
+  ];
+
+  function normalize(str) {
+    return str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  }
+
+  const input  = document.getElementById('article-search');
+  const clearBtn = document.getElementById('search-clear-btn');
+  const countEl = document.getElementById('search-count');
+  const noResults = document.getElementById('search-no-results');
+  const noResultsQuery = document.getElementById('search-no-results-query');
+  const grid   = document.querySelector('.articles-grid');
+  const cards  = Array.from(grid.querySelectorAll('a.article-card'));
+  const comingSoon = Array.from(grid.querySelectorAll('.coming-soon'));
+
+  // Build combined text per card from DOM + corpus
+  const cardData = cards.map(card => {
+    const url = card.getAttribute('href');
+    const titleEl  = card.querySelector('.card-title');
+    const excerptEl = card.querySelector('.card-excerpt');
+    const tagEls   = card.querySelectorAll('.card-tag');
+    const domText  = [
+      titleEl  ? titleEl.textContent  : '',
+      excerptEl ? excerptEl.textContent : '',
+      Array.from(tagEls).map(t => t.textContent).join(' ')
+    ].join(' ');
+    const corpus = CORPUS.find(c => c.url === url);
+    const fullText = domText + ' ' + (corpus ? corpus.text : '');
+    return {
+      card,
+      url,
+      titleEl,
+      excerptEl,
+      normalizedText: normalize(fullText),
+      originalTitle:  titleEl  ? titleEl.innerHTML  : '',
+      originalExcerpt: excerptEl ? excerptEl.innerHTML : ''
+    };
+  });
+
+  const totalCards = cards.length;
+
+  function highlightIn(el, terms, originalHTML) {
+    if (!el) return;
+    if (!terms.length) { el.innerHTML = originalHTML; return; }
+    // Work on text content to avoid breaking HTML tags
+    let text = el.textContent;
+    terms.forEach(term => {
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // Match accented variants by normalizing — simpler: just replace on normalized text positions
+      // We build a regex that matches the normalized version
+      const re = new RegExp(escaped, 'gi');
+      text = text.replace(re, m => `<mark class="search-hl">${m}</mark>`);
+    });
+    el.innerHTML = text;
+  }
+
+  function restoreHighlights() {
+    cardData.forEach(({ titleEl, excerptEl, originalTitle, originalExcerpt }) => {
+      if (titleEl)   titleEl.innerHTML   = originalTitle;
+      if (excerptEl) excerptEl.innerHTML = originalExcerpt;
+    });
+  }
+
+  function runSearch(raw) {
+    const query = raw.trim();
+
+    if (!query) {
+      // Reset everything
+      cardData.forEach(({ card }) => card.removeAttribute('data-hidden'));
+      comingSoon.forEach(el => el.removeAttribute('data-hidden'));
+      restoreHighlights();
+      noResults.hidden = true;
+      countEl.textContent = '';
+      clearBtn.hidden = true;
+      return;
+    }
+
+    clearBtn.hidden = false;
+    comingSoon.forEach(el => el.setAttribute('data-hidden', ''));
+
+    const normQuery = normalize(query);
+    const terms = normQuery.split(/\s+/).filter(Boolean);
+
+    let visible = 0;
+    cardData.forEach(({ card, normalizedText, titleEl, excerptEl, originalTitle, originalExcerpt }) => {
+      const matches = terms.every(t => normalizedText.includes(t));
+      if (matches) {
+        card.removeAttribute('data-hidden');
+        // Highlight in title and excerpt
+        highlightIn(titleEl,   terms, originalTitle);
+        highlightIn(excerptEl, terms, originalExcerpt);
+        visible++;
+      } else {
+        card.setAttribute('data-hidden', '');
+        if (titleEl)   titleEl.innerHTML   = originalTitle;
+        if (excerptEl) excerptEl.innerHTML = originalExcerpt;
+      }
+    });
+
+    if (visible === 0) {
+      noResults.hidden = false;
+      noResultsQuery.textContent = `«${query}»`;
+      countEl.innerHTML = '';
+    } else {
+      noResults.hidden = true;
+      countEl.innerHTML = `<b>${visible}</b> de ${totalCards} artículo${totalCards !== 1 ? 's' : ''}`;
+    }
+  }
+
+  input.addEventListener('input', () => runSearch(input.value));
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    runSearch('');
+    input.focus();
+  });
+  // Support URL hash pre-fill: ?q=term
+  const params = new URLSearchParams(location.search);
+  if (params.get('q')) {
+    input.value = params.get('q');
+    runSearch(input.value);
+  }
+})();
+</script>
 
 <footer>
   <p>Todo el procesamiento ocurre en tu dispositivo usando <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.</p>
