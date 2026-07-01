@@ -2568,6 +2568,18 @@
     <p>VidToFLAC automatically detects the input format — just drop your file. It handles MP4, MOV, MKV, AVI, WEBM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V video, plus MP3, AAC, M4A, WAV, AIFF, OGG, Opus and WMA audio. The video stream is copied bit-for-bit (a lossless remux) and only the audio is re-encoded to FLAC, so DaVinci Resolve, Premiere Pro and Avid import it with sound on every platform — no codec packs or plugins required.</p>
   </section>
 
+  <section class="card seo-card" aria-labelledby="guides-titulo">
+    <div class="card-title">Guides and articles</div>
+    <h2 id="guides-titulo" style="margin-bottom:0.7rem">Learn more about audio in DaVinci Resolve</h2>
+    <p>VidToFLAC automatically detects the input format — just drop your file. If you want to understand why audio fails in Resolve and how to avoid it, read our guides:</p>
+    <nav class="format-links" aria-label="Articles and guides">
+      <a href="/articulos/errores-audio-davinci-resolve/">Audio errors in Resolve</a>
+      <a href="/articulos/que-formato-video-usar-davinci-resolve/">Which video format to use</a>
+      <a href="/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/">Export without losing audio</a>
+      <a href="/en/articulos/">All articles →</a>
+    </nav>
+  </section>
+
   <footer>
     <p class="footer-tagline">
       All processing happens on your device using
@@ -3421,7 +3433,7 @@ convertBtn.addEventListener('click', async () => {
     await processOneFile(toProcesar[i], i, toProcesar.length, selectedFormat);
   }
 
-  setEngine('Motor listo', 'ready');
+  setEngine('Engine ready', 'ready');
   updateConvertBtn();
 });
 
@@ -3448,7 +3460,7 @@ async function reconvertAll() {
     await processOneFile(done[i], i, done.length, fmtSel, true);
   }
 
-  setEngine('Motor listo', 'ready');
+  setEngine('Engine ready', 'ready');
   reconverting = false;
   updateConvertBtn();
 }
