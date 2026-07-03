@@ -283,6 +283,23 @@
       transition: color .15s, border-color .15s, background .15s;
     }
     .clear-btn:hover { color: var(--red); border-color: rgba(255,96,88,.4); background: rgba(255,96,88,.07); }
+    .hist-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .export-btn {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      border-radius: 7px;
+      padding: 0.28rem 0.7rem;
+      cursor: pointer;
+      transition: background .15s, opacity .15s;
+    }
+    .export-btn:hover { background: rgba(25,195,125,.24); }
+    .export-btn:disabled { opacity: .55; cursor: progress; }
+    .td-conv { color: var(--ink-dim); white-space: nowrap; text-transform: uppercase; letter-spacing: .02em; }
+    .td-conv .arrow { color: var(--amber); padding: 0 .18rem; }
 
     .privacy-note {
       font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-mute);
@@ -313,6 +330,31 @@
       border-radius: 6px; transition: color .15s, background .15s;
     }
     .preview-close:hover { color: var(--ink); background: rgba(255,255,255,.06); }
+    .preview-icon-btn {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      color: var(--ink-dim);
+      cursor: pointer;
+      padding: 0.3rem 0.4rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      transition: color .15s, background .15s;
+    }
+    .preview-icon-btn:hover { color: var(--amber); background: rgba(255,255,255,.06); }
+    .preview-rename-input {
+      flex: 1;
+      min-width: 0;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--ink);
+      background: var(--panel-2);
+      border: 1px solid var(--amber-line);
+      border-radius: 6px;
+      padding: 0.32rem 0.5rem;
+      outline: none;
+    }
     .preview-media {
       background: #000; display: flex; align-items: center; justify-content: center; min-height: 80px;
     }
@@ -389,6 +431,13 @@
   <div class="preview-card" id="previewCard" hidden>
     <div class="preview-header">
       <span class="preview-filename" id="previewFilename"></span>
+      <input class="preview-rename-input" id="previewRenameInput" type="text" spellcheck="false" autocomplete="off" aria-label="Nuevo nombre de descarga" hidden />
+      <button class="preview-icon-btn" id="previewRename" aria-label="Cambiar nombre de descarga" title="Cambiar nombre de descarga">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+        </svg>
+      </button>
       <button class="preview-close" id="previewClose" aria-label="Cerrar previsualización">✕</button>
     </div>
     <div class="preview-media" id="previewMedia"></div>
@@ -425,9 +474,15 @@
   const previewFilename = document.getElementById('previewFilename');
   const previewDl      = document.getElementById('previewDl');
   const previewClose   = document.getElementById('previewClose');
+  const previewRename       = document.getElementById('previewRename');
+  const previewRenameInput  = document.getElementById('previewRenameInput');
 
   let entries = [];
   let activeBlobUrl = null;
+  // Index of the entry currently shown in the preview panel (-1 = none)
+  let currentPreviewIdx = -1;
+  // DB handle kept for in-place name edits
+  let histDB = null;
 
   function fmt(bytes) {
     if (bytes >= 1e9) return (bytes / 1e9).toFixed(2) + ' GB';
@@ -474,6 +529,20 @@
     });
   }
 
+  function updateName(db, id, newName) {
+    return new Promise((resolve, reject) => {
+      const tx    = db.transaction(HIST_STORE, 'readwrite');
+      const store = tx.objectStore(HIST_STORE);
+      const req   = store.get(id);
+      req.onsuccess = () => {
+        const rec = req.result;
+        if (rec) { rec.name = newName; store.put(rec); }
+      };
+      tx.oncomplete = resolve;
+      tx.onerror    = () => reject(tx.error);
+    });
+  }
+
   function isAudio(mimeType, name) {
     if (mimeType && mimeType.startsWith('audio/')) return true;
     return name.endsWith('.flac') || name.endsWith('.mp3') || name.endsWith('.wav') || name.endsWith('.ogg');
@@ -482,6 +551,8 @@
   function openPreview(idx) {
     const entry = entries[idx];
     if (!entry || !entry.blob) return;
+    currentPreviewIdx = idx;
+    cancelRename();
     if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
     activeBlobUrl = URL.createObjectURL(entry.blob);
     document.querySelectorAll('tbody tr.active').forEach(tr => tr.classList.remove('active'));
@@ -499,6 +570,8 @@
   }
 
   function closePreview() {
+    cancelRename();
+    currentPreviewIdx = -1;
     previewCard.hidden = true;
     previewMedia.innerHTML = '';
     if (activeBlobUrl) { URL.revokeObjectURL(activeBlobUrl); activeBlobUrl = null; }
@@ -506,6 +579,56 @@
   }
 
   previewClose.addEventListener('click', closePreview);
+
+  // ─── Renombrar la descarga desde la previsualización ──────────────────────────
+  // Cambia el nombre de descarga (conservando la extensión), actualiza la fila y
+  // lo guarda en IndexedDB para que persista.
+  function splitName(name) {
+    const m = /^(.*?)(\.[a-z0-9]+)$/i.exec(name || '');
+    return m ? { base: m[1], ext: m[2] } : { base: name || '', ext: '' };
+  }
+  function startRename() {
+    if (currentPreviewIdx < 0 || !entries[currentPreviewIdx]) return;
+    previewRenameInput.value = splitName(entries[currentPreviewIdx].name).base;
+    previewFilename.hidden   = true;
+    previewRename.hidden     = true;
+    previewRenameInput.hidden = false;
+    previewRenameInput.focus();
+    previewRenameInput.select();
+  }
+  function cancelRename() {
+    previewRenameInput.hidden = true;
+    previewFilename.hidden    = false;
+    previewRename.hidden      = false;
+  }
+  async function commitRename() {
+    if (previewRenameInput.hidden) return;            // no estaba editando
+    const entry = entries[currentPreviewIdx];
+    cancelRename();
+    if (!entry) return;
+    const ext  = splitName(entry.name).ext;
+    const base = previewRenameInput.value.trim().replace(/[\\/:*?"<>|]/g, '').replace(/\.+$/, '');
+    if (!base) return;                                // vacío → sin cambios
+    const newName = base + ext;
+    if (newName === entry.name) return;
+    entry.name = newName;
+    previewFilename.textContent = newName;
+    previewDl.download = newName;
+    const row = document.querySelector(`tbody tr[data-idx="${currentPreviewIdx}"]`);
+    if (row) {
+      const nameCell = row.querySelector('.td-name');
+      if (nameCell) { nameCell.textContent = newName; nameCell.title = newName; }
+      const dl = row.querySelector('a.dl-btn');
+      if (dl) dl.setAttribute('download', newName);
+    }
+    if (histDB && entry.id != null) { try { await updateName(histDB, entry.id, newName); } catch (_) {} }
+  }
+  previewRename.addEventListener('click', startRename);
+  previewRenameInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter')      { e.preventDefault(); commitRename(); }
+    else if (e.key === 'Escape') { e.preventDefault(); cancelRename(); }
+  });
+  previewRenameInput.addEventListener('blur', commitRename);
 
   function dlIcon() {
     return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -545,6 +668,7 @@
         : `<span style="color:var(--ink-mute);font-size:.75rem">expirado</span>`;
       return `<tr${hasBlob ? ` class="has-blob" data-idx="${i}" tabindex="0" title="Haz clic para previsualizar"` : ''}>
         <td class="td-name" title="${r.name}">${r.name}</td>
+        <td class="td-conv">${convText(r)}</td>
         <td class="td-date">${fmtDate(r.date)}</td>
         <td class="td-size">${r.size ? fmt(r.size) : '—'}</td>
         <td class="td-action">${dlCell}</td>
@@ -554,11 +678,14 @@
     card.innerHTML = `
       <div class="hist-toolbar">
         <span class="hist-count"><strong>${total}</strong> archivo${total !== 1 ? 's' : ''} convertido${total !== 1 ? 's' : ''}</span>
-        <button class="clear-btn" id="clearBtn">Limpiar historial</button>
+        <div class="hist-actions">
+          <button class="export-btn" id="exportBtn">Exportar todo</button>
+          <button class="clear-btn" id="clearBtn">Limpiar historial</button>
+        </div>
       </div>
       <div class="hist-table-wrap">
         <table>
-          <thead><tr><th>Archivo</th><th>Fecha</th><th>Tamaño</th><th></th></tr></thead>
+          <thead><tr><th>Archivo</th><th>Conversión</th><th>Fecha</th><th>Tamaño</th><th></th></tr></thead>
           <tbody id="histTbody">${tableRows}</tbody>
         </table>
       </div>
@@ -570,6 +697,9 @@
       closePreview();
       renderEmpty();
     });
+
+    document.getElementById('exportBtn').addEventListener('click', exportAll);
+
     document.getElementById('histTbody').addEventListener('click', e => {
       const tr = e.target.closest('tr[data-idx]');
       if (!tr || e.target.closest('a.dl-btn')) return;
@@ -584,9 +714,106 @@
     });
   }
 
+  // Etiqueta "origen → destino" de la conversión (p. ej. "wav → flac").
+  // Registros antiguos sin srcExt muestran solo el destino.
+  function convText(r) {
+    const out = (r.outExt || (r.name.split('.').pop() || '')).toLowerCase();
+    const src = (r.srcExt || '').toLowerCase();
+    if (src && out) return `${src}<span class="arrow">→</span>${out}`;
+    if (out) return `<span class="arrow">→</span>${out}`;
+    return '—';
+  }
+
+  // ─── Exportar todo a un ZIP (store, sin compresión — sin dependencias) ────────
+  function concatBytes(arr) {
+    let len = 0; for (const a of arr) len += a.length;
+    const out = new Uint8Array(len); let o = 0;
+    for (const a of arr) { out.set(a, o); o += a.length; }
+    return out;
+  }
+  function leBytes(spec) {
+    let len = 0; for (const [, sz] of spec) len += sz;
+    const out = new Uint8Array(len); let o = 0;
+    for (const [v, sz] of spec) for (let i = 0; i < sz; i++) out[o++] = (v >>> (8 * i)) & 0xFF;
+    return out;
+  }
+  const CRC_TABLE = (() => {
+    const t = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; }
+    return t;
+  })();
+  function crc32(u8) {
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < u8.length; i++) c = CRC_TABLE[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  async function buildZip(files) {
+    const enc = new TextEncoder();
+    const now = new Date();
+    const dosTime = ((now.getHours() << 11) | (now.getMinutes() << 5) | (now.getSeconds() >> 1)) & 0xFFFF;
+    const dosDate = (((now.getFullYear() - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate()) & 0xFFFF;
+    const parts = [], central = [];
+    let offset = 0;
+    for (const f of files) {
+      const nameBytes = enc.encode(f.name);
+      const u8  = new Uint8Array(await f.blob.arrayBuffer());
+      const crc = crc32(u8), size = u8.length;
+      const lfh = concatBytes([
+        leBytes([[0x04034b50,4],[20,2],[0,2],[0,2],[dosTime,2],[dosDate,2],[crc,4],[size,4],[size,4],[nameBytes.length,2],[0,2]]),
+        nameBytes
+      ]);
+      parts.push(lfh, f.blob);           // el Blob queda respaldado en disco, sin cargarlo entero en RAM
+      central.push({ crc, size, nameBytes, offset });
+      offset += lfh.length + size;
+    }
+    let cdSize = 0; const cd = [];
+    for (const c of central) {
+      const cdh = concatBytes([
+        leBytes([[0x02014b50,4],[20,2],[20,2],[0,2],[0,2],[dosTime,2],[dosDate,2],[c.crc,4],[c.size,4],[c.size,4],[c.nameBytes.length,2],[0,2],[0,2],[0,2],[0,2],[0,4],[c.offset,4]]),
+        c.nameBytes
+      ]);
+      cd.push(cdh); cdSize += cdh.length;
+    }
+    const eocd = leBytes([[0x06054b50,4],[0,2],[0,2],[central.length,2],[central.length,2],[cdSize,4],[offset,4],[0,2]]);
+    return new Blob([...parts, ...cd, eocd], { type: 'application/zip' });
+  }
+  async function exportAll() {
+    const btn = document.getElementById('exportBtn');
+    const items = entries.filter(r => r.blob);
+    if (!items.length) return;
+    const prev = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Preparando…';
+    try {
+      const seen = {};
+      const files = items.map(r => {
+        const orig = r.name || 'archivo';
+        let n = orig;
+        if (seen[orig] != null) {
+          seen[orig]++;
+          const dot = orig.lastIndexOf('.');
+          const base = dot > 0 ? orig.slice(0, dot) : orig;
+          const ext  = dot > 0 ? orig.slice(dot) : '';
+          n = `${base} (${seen[orig]})${ext}`;
+        } else { seen[orig] = 0; }
+        return { name: n, blob: r.blob };
+      });
+      const zip = await buildZip(files);
+      const url = URL.createObjectURL(zip);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'vidtoflac-historial.zip';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 15000);
+    } catch (e) {
+      alert('No se pudo exportar el historial.');
+    } finally {
+      btn.disabled = false; btn.textContent = prev;
+    }
+  }
+
   async function init() {
     try {
       const db   = await openDB();
+      histDB = db;
       const rows = await getAll(db);
       if (rows.length === 0) { renderEmpty(); } else { renderList(rows, db); }
     } catch {

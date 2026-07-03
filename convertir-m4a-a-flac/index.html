@@ -3225,7 +3225,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outBaseName = baseName + outExt;
     entry.status      = 'done';
     incConvCount(entry.outBaseName);
-    saveConversionToDB(entry.outBaseName, blob, mimeType);
+    saveConversionToDB(entry.outBaseName, blob, mimeType, file.name);
 
     log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
     setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
@@ -3448,13 +3448,13 @@ function openHistDB() {
   });
 }
 
-async function saveConversionToDB(name, blob, mimeType) {
+async function saveConversionToDB(name, blob, mimeType, srcName) {
   try {
     const db = await openHistDB();
     await new Promise((resolve, reject) => {
       const tx = db.transaction(HIST_STORE, 'readwrite');
       const store = tx.objectStore(HIST_STORE);
-      store.add({ name, date: new Date().toISOString(), blob, mimeType, size: blob.size });
+      store.add({ name, date: new Date().toISOString(), blob, mimeType, size: blob.size, srcExt: (/\.([a-z0-9]+)$/i.exec(srcName || '') || ['',''])[1].toLowerCase(), outExt: (/\.([a-z0-9]+)$/i.exec(name || '') || ['',''])[1].toLowerCase() });
       tx.oncomplete = resolve;
       tx.onerror = () => reject(tx.error);
     });
