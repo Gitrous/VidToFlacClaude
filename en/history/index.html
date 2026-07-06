@@ -690,8 +690,17 @@
 
   function fmtDate(iso) {
     const d = new Date(iso);
-    return d.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })
-      + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    const now = new Date();
+    const diffMin = Math.floor((now - d) / 60000);
+    if (d.toDateString() === now.toDateString()) {
+      if (diffMin < 1)  return 'Just now';
+      if (diffMin < 60) return `${diffMin} min ago`;
+      return `${Math.floor(diffMin / 60)}h ago`;
+    }
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (d.toDateString() === yesterday.toDateString()) return 'Yesterday';
+    return d.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 
   function openDB() {
