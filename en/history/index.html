@@ -233,12 +233,12 @@
       color: var(--ink);
       vertical-align: middle;
     }
-    .td-name { max-width: 360px; padding: 0; display: flex; align-items: stretch; overflow: hidden; white-space: nowrap; font-weight: 500; }
-    .td-name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; display: flex; align-items: center; padding: 0 0.85rem; }
-    .fmt-icon { flex-shrink: 0; width: 46px; display: flex; align-items: center; justify-content: center; }
-    .fmt-icon-audio { background: var(--amber-soft); border-right: 1px solid var(--amber-line); color: var(--amber); }
-    .fmt-icon-video { background: rgba(167,139,250,.13); border-right: 1px solid rgba(167,139,250,.35); color: #a78bfa; }
-    .fmt-icon-other { background: var(--elev); border-right: 1px solid var(--line-strong); color: var(--ink-dim); }
+    .td-name { max-width: 360px; display: flex; align-items: center; gap: 0.5rem; overflow: hidden; white-space: nowrap; font-weight: 500; }
+    .td-name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+    .fmt-icon { flex-shrink: 0; width: 28px; height: 28px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; }
+    .fmt-icon-audio { background: var(--amber-soft); border: 1px solid var(--amber-line); color: var(--amber); }
+    .fmt-icon-video { background: rgba(167,139,250,.13); border: 1px solid rgba(167,139,250,.35); color: #a78bfa; }
+    .fmt-icon-other { background: var(--elev); border: 1px solid var(--line-strong); color: var(--ink-dim); }
     .td-date { color: var(--ink-dim); white-space: nowrap; }
     .td-size { color: var(--ink-dim); white-space: nowrap; }
     .td-action { text-align: right; white-space: nowrap; }
@@ -936,9 +936,9 @@
     const ext = (name.split('.').pop() || '').toLowerCase();
     const audioExts = ['flac','mp3','wav','aac','ogg','opus','m4a','wma','aiff'];
     const videoExts = ['mkv','mp4','mov','avi','webm','wmv','m4v','ts','mts'];
-    if (audioExts.includes(ext)) return `<span class="fmt-icon fmt-icon-audio" aria-label="Audio"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>`;
-    if (videoExts.includes(ext)) return `<span class="fmt-icon fmt-icon-video" aria-label="Video"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>`;
-    return `<span class="fmt-icon fmt-icon-other" aria-label="File"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></span>`;
+    if (audioExts.includes(ext)) return `<span class="fmt-icon fmt-icon-audio" aria-label="Audio"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>`;
+    if (videoExts.includes(ext)) return `<span class="fmt-icon fmt-icon-video" aria-label="Video"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>`;
+    return `<span class="fmt-icon fmt-icon-other" aria-label="File"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></span>`;
   }
 
   // "source → target" label for the conversion (e.g. "wav → flac").
