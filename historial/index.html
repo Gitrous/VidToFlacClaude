@@ -328,7 +328,9 @@
     .preview-filename {
       font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink);
       font-weight: 500; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      cursor: text;
     }
+    .preview-filename:hover { color: var(--amber); }
     .preview-close {
       flex-shrink: 0; background: none; border: none; color: var(--ink-dim);
       cursor: pointer; font-size: 1rem; line-height: 1; padding: 0.3rem 0.4rem;
@@ -721,6 +723,7 @@
     if (histDB && entry.id != null) { try { await updateName(histDB, entry.id, newName); } catch (_) {} }
   }
   previewRename.addEventListener('click', startRename);
+  previewFilename.addEventListener('click', startRename);
   previewRenameInput.addEventListener('keydown', e => {
     if (e.key === 'Enter')      { e.preventDefault(); commitRename(); }
     else if (e.key === 'Escape') { e.preventDefault(); cancelRename(); }
