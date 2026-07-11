@@ -1890,6 +1890,101 @@
     .quota-countdown svg { width: 0.85rem; height: 0.85rem; flex-shrink: 0; opacity: .55; }
     #quotaTime { color: var(--warn); font-weight: 700; }
 
+    .bookmark-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0.55rem auto 0;
+      padding: 0.5rem 0.7rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      color: var(--ink-dim);
+    }
+    .bookmark-hint kbd {
+      display: inline-block;
+      min-width: 1.1rem;
+      padding: 0.15rem 0.4rem;
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      color: var(--ink);
+    }
+    .bookmark-hint kbd.key-accent {
+      background: var(--amber-soft);
+      border-color: var(--amber-line);
+      color: var(--amber-2);
+    }
+    .bookmark-hint .bh-plus { color: var(--ink-mute); }
+    .bookmark-hint .bh-sep {
+      width: 1px;
+      align-self: stretch;
+      margin: -0.1rem 0.15rem;
+      background: var(--line);
+    }
+    .bookmark-hint strong { color: var(--ink); font-weight: 700; }
+
+    .terms-agree {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 0.7rem;
+      padding: 0.7rem 0.8rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .terms-agree:hover { border-color: var(--line-strong); }
+    .terms-agree.checked { border-color: var(--amber-line); background: var(--amber-soft); }
+    .terms-agree input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .terms-agree .terms-box {
+      flex-shrink: 0;
+      width: 1.15rem;
+      height: 1.15rem;
+      margin-top: 0.05rem;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--panel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .terms-agree .terms-box svg {
+      width: 0.8rem; height: 0.8rem;
+      stroke: var(--bg);
+      stroke-width: 3.5;
+      opacity: 0;
+      transform: scale(.5);
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .terms-agree input:checked ~ .terms-box {
+      background: var(--amber);
+      border-color: var(--amber);
+    }
+    .terms-agree input:checked ~ .terms-box svg { opacity: 1; transform: scale(1); }
+    .terms-agree input:focus-visible ~ .terms-box { box-shadow: 0 0 0 3px var(--amber-soft); }
+    .terms-agree .terms-text {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--ink-dim);
+    }
+    .terms-agree .terms-text a { color: var(--amber); font-weight: 600; text-decoration: none; }
+    .terms-agree .terms-text a:hover { text-decoration: underline; }
+
     .large-file-icon {
       display: flex;
       align-items: center;
@@ -2299,9 +2394,24 @@
       <span class="toggle-label">Descargar automáticamente al convertir</span>
     </label>
 
+    <label class="terms-agree" id="termsAgree">
+      <input type="checkbox" id="termsCheck">
+      <span class="terms-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      </span>
+      <span class="terms-text">He leído y acepto los <a href="/terminos-de-servicio/" target="_blank" rel="noopener">Términos de servicio</a> y la <a href="/politica-de-privacidad/" target="_blank" rel="noopener">Política de privacidad</a>, y solo convertiré contenido para el que tengo autorización.</span>
+    </label>
+
     <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
       ⚙️ Convertir a vídeo + FLAC
     </button>
+    <div class="bookmark-hint" id="bookmarkHint">
+      <kbd id="bhMod">Ctrl</kbd>
+      <span class="bh-plus">+</span>
+      <kbd class="key-accent">D</kbd>
+      <span class="bh-sep"></span>
+      <span>Pulsa <strong id="bhShortcut">Ctrl+D</strong> para guardar esta web en favoritos</span>
+    </div>
     <div class="quota-countdown" id="quotaCountdown" aria-live="polite">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -2636,6 +2746,20 @@ const fileInput    = $('fileInput');
 const fileListEl   = $('fileList');
 const convertBtn   = $('convertBtn');
 const autoDlCheck  = $('autoDlCheck');
+const termsCheck   = $('termsCheck');
+const termsAgree   = $('termsAgree');
+
+termsCheck.addEventListener('change', () => {
+  termsAgree.classList.toggle('checked', termsCheck.checked);
+  updateConvertBtn();
+});
+
+// En macOS el atajo de favoritos es ⌘+D, no Ctrl+D
+if (/Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent)) {
+  const bhMod = $('bhMod'), bhShortcut = $('bhShortcut');
+  if (bhMod) bhMod.textContent = '⌘';
+  if (bhShortcut) bhShortcut.textContent = '⌘+D';
+}
 const progressCard = $('progressCard');
 const progressFill = $('progressFill');
 const progressLabel= $('progressLabel');
@@ -2885,7 +3009,7 @@ function renderFileList() {
 
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
-  convertBtn.disabled = !ffmpeg || pending === 0;
+  convertBtn.disabled = !ffmpeg || pending === 0 || !termsCheck.checked;
   const left = freeLeft();
   const needsAd = left <= 0 && !tandaUnlocked;
   const willConvert = (needsAd || tandaUnlocked) ? pending : Math.min(pending, left);
@@ -3394,6 +3518,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 // ─── Convert ──────────────────────────────────────────────────────────────────
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
+  if (!termsCheck.checked) return;
   const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!allPending.length) return;
 
