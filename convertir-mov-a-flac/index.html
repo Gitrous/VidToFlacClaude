@@ -7,7 +7,7 @@
   <meta name="description" content="Convierte el audio de tus archivos MOV de iPhone, GoPro o cámara a FLAC sin pérdida, en tu navegador. Soluciona el error de códec de audio de DaVinci Resolve en clips MOV." />
   <meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux, cómo arreglar audio en DaVinci Resolve, DaVinci Resolve no reproduce audio MP4, convertir MOV a MKV con audio FLAC, códec de audio no compatible con Premiere, Avid Media Composer sin sonido al importar vídeo, convertidor de vídeo a FLAC online gratis, transcodificar audio AAC a FLAC sin perder calidad, solución error audio AC3 DaVinci Resolve, convertir audio de vídeo sin subir archivos, herramienta privada de conversión de audio en el navegador, remuxar MP4 a MKV sin recodificar vídeo, arreglar audio E-AC3 en edición de vídeo, convertir pista de audio a FLAC manteniendo el vídeo, DaVinci Resolve Linux problema de audio, herramienta online sin subir vídeos a servidores, convertir audio Opus a FLAC para edición, solucionar audio Dolby Digital en DaVinci Resolve, convertir vídeo MKV MP4 a formato compatible con edición, FFmpeg WebAssembly procesamiento local de vídeo, extraer y convertir audio de vídeo a FLAC sin pérdida" />
   <meta name="author" content="VidToFLAC" />
-  <meta name="robots" content="noindex, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <meta name="application-name" content="VidToFLAC" />
   <meta name="apple-mobile-web-app-title" content="VidToFLAC" />
@@ -1994,6 +1994,7 @@
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
+    <li><a href="/convertir-formatos/" class="nav-link">Formatos</a></li>
     <li><a href="/historial/" class="nav-link">Historial</a></li>
     <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
   </ul>
@@ -2407,38 +2408,27 @@
   <section class="card seo-card" aria-labelledby="guia-titulo">
     <div class="card-title">Guía técnica</div>
     <article>
-      <h2 id="guia-titulo">Contenedores, códecs y DaVinci Resolve: todo lo que necesitas saber</h2>
+      <h2 id="guia-titulo">El MOV fuera de macOS: un contenedor de Apple en territorio ajeno</h2>
 
-      <h3>Contenedores vs. códecs: la diferencia que importa</h3>
-      <p>Cuando grabas un vídeo, el archivo resultante —un .mp4, un .mov o un .mkv— no <em>es</em> el vídeo en sí: es un <strong>contenedor</strong>, una especie de sobre que empaqueta varias pistas dentro: la imagen y el audio. Lo que realmente define la calidad y la compatibilidad es el <strong>códec</strong>, el algoritmo que comprime y descomprime cada una de esas pistas.</p>
-      <p>Un mismo contenedor admite múltiples códecs. Un archivo MP4, por ejemplo, puede contener vídeo H.264 o H.265 (HEVC), y audio en AAC, MP3, AC3 o incluso FLAC. Cuando DaVinci Resolve —u otro editor— no puede abrir el audio de un clip, el problema raramente es el contenedor (.mp4, .mov, .mkv): casi siempre es el <strong>códec de audio</strong> que hay dentro.</p>
+      <h3>QuickTime es más antiguo que el MP4 y más permisivo</h3>
+      <p>El formato .mov es el contenedor QuickTime que Apple creó en 1991, y de hecho el MP4 se derivó de él. Esa antigüedad tiene una consecuencia práctica: el MOV admite <strong>muchas más combinaciones</strong> de códecs que el MP4, incluidas varias que solo existen en el mundo Apple. Por eso dos archivos .mov pueden comportarse de forma radicalmente distinta en DaVinci Resolve aunque compartan extensión.</p>
 
-      <h3>Por qué DaVinci Resolve no decodifica ciertos audios</h3>
-      <p>DaVinci Resolve gratuito <strong>no incluye las licencias</strong> de ciertos decodificadores propietarios —en especial <strong>AAC</strong> (el formato estándar de cámaras iOS, GoPro y la mayoría de smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong> y <strong>DTS</strong>—. Esta restricción es especialmente pronunciada <strong>en Linux</strong>, donde Resolve depende enteramente de los decodificadores incluidos en el sistema operativo.</p>
-      <p>El síntoma más habitual es encontrar la pista de audio en gris en el inspector de medios, o ver el mensaje <em>"Audio codec not supported"</em> al intentar importar el clip. Hay otra causa frecuente: el audio codificado como <strong>PCM flotante</strong> (pcm_f32le), que algunos micrófonos y software de grabación usan, tampoco es compatible de forma directa con todos los flujos de trabajo en Resolve.</p>
-      <p>La solución no es reinstalar DaVinci Resolve ni buscar códecs de pago: es cambiar el códec de audio del archivo a uno que Resolve decodifica siempre de serie.</p>
-
-      <h3>FLAC: el estándar lossless para edición profesional</h3>
-      <p><strong>FLAC (Free Lossless Audio Codec)</strong> es un formato de audio sin pérdida de código abierto: comprime los datos sin descartar ninguna información, de modo que la señal reconstruida es <strong>bit a bit idéntica a la original</strong>. A diferencia de AAC o MP3, que eliminan frecuencias para reducir el tamaño, FLAC garantiza que ningún matiz del audio original se pierde. Frente a sus alternativas sin pérdida:</p>
+      <h3>Los tres tipos de MOV que te vas a encontrar</h3>
       <ul>
-        <li><strong>Frente a WAV / PCM sin comprimir:</strong> WAV y AIFF son también sin pérdida, pero no comprimen. Un audio de 10 minutos a 48 kHz / 24 bits puede pesar más de 170 MB en WAV; FLAC lo reduce entre un 40 y un 60 % sin perder ni un bit.</li>
-        <li><strong>Frente a PCM flotante (pcm_f32le):</strong> Algunos micrófonos USB exportan audio como PCM de 32 bits en coma flotante. FLAC requiere muestras enteras; VidToFLAC inserta automáticamente un paso de conversión de formato antes de codificar a FLAC para garantizar la compatibilidad.</li>
-        <li><strong>Compatibilidad universal:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en ninguna plataforma.</li>
+        <li><strong>MOV de iPhone o iPad:</strong> vídeo HEVC y audio <strong>AAC</strong>. El audio falla en Resolve gratuito por licencia; desde iOS 11 el vídeo HEVC puede fallar también.</li>
+        <li><strong>MOV con ProRes:</strong> el estándar de postproducción de Apple. El vídeo suele abrirse bien, pero el audio puede venir en <strong>PCM flotante de 32 bits</strong>, que no todos los flujos de Resolve digieren.</li>
+        <li><strong>MOV de GoPro y cámaras de acción:</strong> AAC más pistas de datos adicionales (telemetría GPMF, timecode). Resolve ignora esas pistas extra sin problema.</li>
       </ul>
 
-      <h3>El remux: por qué es más rápido que una conversión convencional</h3>
-      <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
-      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso tarda <strong>segundos en lugar de minutos</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
-      <p>Solo cuando el códec de vídeo no es compatible con el navegador (ProRes, DNxHD, MJPEG…), VidToFLAC recurre automáticamente a recodificar el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
+      <h3>El caso ProRes: cuidado con lo que conviertes</h3>
+      <p>Si tu MOV lleva vídeo <strong>ProRes</strong>, tienes un máster de edición y conviene tratarlo como tal. El navegador no puede decodificar ProRes, así que VidToFLAC recodifica la imagen a H.264 para poder previsualizarla en la página. Eso es perfectamente válido para revisar o compartir, pero <strong>no conserva la calidad de máster del ProRes original</strong>. Si tu MOV es el material de partida de un montaje serio, guarda siempre el archivo original y usa la copia convertida solo como referencia.</p>
+      <p>Para el resto de MOV —los de móvil, los de cámara de acción— no hay tal disyuntiva: el vídeo se copia bit a bit y solo se sustituye la pista de audio.</p>
 
-      <h3>Flujos de trabajo recomendados por editor</h3>
-      <p>El archivo MKV con audio FLAC que genera VidToFLAC es compatible directamente con los principales editores no lineales (NLE):</p>
-      <ul>
-        <li><strong>DaVinci Resolve (versión gratuita, Linux / Windows / macOS):</strong> Importa el .mkv directamente desde el Media Pool. Resolve detecta el audio FLAC de forma nativa y lo asigna a la pista de audio del timeline. Si antes la pista aparecía en gris, ahora debería verse en azul y reproducirse sin problemas.</li>
-        <li><strong>Adobe Premiere Pro:</strong> Premiere soporta MKV y FLAC de forma nativa en versiones recientes. Importa el archivo desde el Project Panel y arrastra el clip a la secuencia. Si usas una versión antigua que no soporta MKV, puedes cambiar el formato de salida a MP4 desde el selector de formato de VidToFLAC antes de convertir.</li>
-        <li><strong>Avid Media Composer:</strong> Avid admite FLAC en MKV para proyectos AMA (Avid Media Access). Para un flujo de trabajo más integrado en proyectos grandes, considera transcodificar después a DNxHD mediante el propio Avid.</li>
-        <li><strong>Final Cut Pro X:</strong> FCP X en macOS importa FLAC en MKV sin pasos adicionales en versiones recientes. En versiones antiguas puede ser necesario el complemento gratuito de soporte MKV para Final Cut.</li>
-      </ul>
+      <h3>El PCM flotante y por qué necesita un paso extra</h3>
+      <p>Algunos micrófonos USB y grabadoras de campo escriben el audio de sus MOV como <strong>PCM de 32 bits en coma flotante</strong> (<code>pcm_f32le</code>). Es un formato excelente para grabar, porque tolera picos sin distorsionar, pero el FLAC exige muestras <strong>enteras</strong>. VidToFLAC inserta automáticamente un paso de conversión a 32 bits enteros antes de codificar, de modo que no tienes que preparar nada por tu cuenta.</p>
+
+      <h3>Si el audio suena pero va desincronizado</h3>
+      <p>Los MOV grabados con <strong>frame rate variable</strong> —típico de capturas de pantalla de iPhone y de algunas apps de móvil— pueden importarse con el audio corriendo por delante o por detrás de la imagen. Ese es un problema distinto al del códec y no se arregla cambiando el audio a FLAC: lo explicamos en <a href="/articulos/davinci-resolve-video-desincronizado-audio/">vídeo desincronizado en DaVinci Resolve</a>.</p>
     </article>
   </section>
 

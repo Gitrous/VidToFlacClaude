@@ -141,4 +141,72 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://vidtoflac.tech/convertir-mp4-a-flac/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/convertir-mov-a-flac/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/convertir-mkv-a-flac/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/convertir-wav-a-flac/</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/articulos/convertir-avi-a-mp4-sin-perder-calidad/</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/articulos/convertir-mov-a-mp4-sin-perder-calidad/</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/articulos/davinci-resolve-linux-instalacion-audio/</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/articulos/</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/convertir-formatos/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://vidtoflac.tech/og-image.png</image:loc>
+      <image:title>VidToFLAC — Convertir vídeo y audio a cualquier formato</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://vidtoflac.tech/en/convert-formats/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://vidtoflac.tech/og-image.png</image:loc>
+      <image:title>VidToFLAC — Convert Video and Audio to Any Format</image:title>
+    </image:image>
+  </url>
 </urlset>

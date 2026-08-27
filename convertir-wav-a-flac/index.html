@@ -7,7 +7,7 @@
   <meta name="description" content="Convierte archivos WAV a FLAC sin pérdida, reduciendo el tamaño hasta un 60% sin perder calidad. 100% en tu navegador con FFmpeg. Sin subir archivos." />
   <meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux, cómo arreglar audio en DaVinci Resolve, DaVinci Resolve no reproduce audio MP4, convertir MOV a MKV con audio FLAC, códec de audio no compatible con Premiere, Avid Media Composer sin sonido al importar vídeo, convertidor de vídeo a FLAC online gratis, transcodificar audio AAC a FLAC sin perder calidad, solución error audio AC3 DaVinci Resolve, convertir audio de vídeo sin subir archivos, herramienta privada de conversión de audio en el navegador, remuxar MP4 a MKV sin recodificar vídeo, arreglar audio E-AC3 en edición de vídeo, convertir pista de audio a FLAC manteniendo el vídeo, DaVinci Resolve Linux problema de audio, herramienta online sin subir vídeos a servidores, convertir audio Opus a FLAC para edición, solucionar audio Dolby Digital en DaVinci Resolve, convertir vídeo MKV MP4 a formato compatible con edición, FFmpeg WebAssembly procesamiento local de vídeo, extraer y convertir audio de vídeo a FLAC sin pérdida" />
   <meta name="author" content="VidToFLAC" />
-  <meta name="robots" content="noindex, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <meta name="application-name" content="VidToFLAC" />
   <meta name="apple-mobile-web-app-title" content="VidToFLAC" />
@@ -1994,6 +1994,7 @@
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
+    <li><a href="/convertir-formatos/" class="nav-link">Formatos</a></li>
     <li><a href="/historial/" class="nav-link">Historial</a></li>
     <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
   </ul>
@@ -2405,38 +2406,27 @@
   <section class="card seo-card" aria-labelledby="guia-titulo">
     <div class="card-title">Guía técnica</div>
     <article>
-      <h2 id="guia-titulo">Contenedores, códecs y DaVinci Resolve: todo lo que necesitas saber</h2>
+      <h2 id="guia-titulo">WAV a FLAC no arregla nada: te ahorra la mitad del disco</h2>
 
-      <h3>Contenedores vs. códecs: la diferencia que importa</h3>
-      <p>Cuando grabas un vídeo, el archivo resultante —un .mp4, un .mov o un .mkv— no <em>es</em> el vídeo en sí: es un <strong>contenedor</strong>, una especie de sobre que empaqueta varias pistas dentro: la imagen y el audio. Lo que realmente define la calidad y la compatibilidad es el <strong>códec</strong>, el algoritmo que comprime y descomprime cada una de esas pistas.</p>
-      <p>Un mismo contenedor admite múltiples códecs. Un archivo MP4, por ejemplo, puede contener vídeo H.264 o H.265 (HEVC), y audio en AAC, MP3, AC3 o incluso FLAC. Cuando DaVinci Resolve —u otro editor— no puede abrir el audio de un clip, el problema raramente es el contenedor (.mp4, .mov, .mkv): casi siempre es el <strong>códec de audio</strong> que hay dentro.</p>
+      <h3>Aquí no hay ningún problema de compatibilidad que resolver</h3>
+      <p>Conviene decirlo de entrada, porque distingue este caso de todos los demás: el <strong>WAV se abre perfectamente en DaVinci Resolve</strong>, en Premiere, en Avid y en cualquier editor desde hace treinta años. Si has llegado buscando cómo arreglar un WAV que no suena, el códec no es tu problema; probablemente lo sea la configuración del proyecto, y lo cubrimos en <a href="/articulos/errores-audio-davinci-resolve/">errores de audio en DaVinci Resolve</a>.</p>
+      <p>La razón para pasar de WAV a FLAC es otra y es puramente práctica: <strong>el espacio</strong>.</p>
 
-      <h3>Por qué DaVinci Resolve no decodifica ciertos audios</h3>
-      <p>DaVinci Resolve gratuito <strong>no incluye las licencias</strong> de ciertos decodificadores propietarios —en especial <strong>AAC</strong> (el formato estándar de cámaras iOS, GoPro y la mayoría de smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong> y <strong>DTS</strong>—. Esta restricción es especialmente pronunciada <strong>en Linux</strong>, donde Resolve depende enteramente de los decodificadores incluidos en el sistema operativo.</p>
-      <p>El síntoma más habitual es encontrar la pista de audio en gris en el inspector de medios, o ver el mensaje <em>"Audio codec not supported"</em> al intentar importar el clip. Hay otra causa frecuente: el audio codificado como <strong>PCM flotante</strong> (pcm_f32le), que algunos micrófonos y software de grabación usan, tampoco es compatible de forma directa con todos los flujos de trabajo en Resolve.</p>
-      <p>La solución no es reinstalar DaVinci Resolve ni buscar códecs de pago: es cambiar el códec de audio del archivo a uno que Resolve decodifica siempre de serie.</p>
-
-      <h3>FLAC: el estándar lossless para edición profesional</h3>
-      <p><strong>FLAC (Free Lossless Audio Codec)</strong> es un formato de audio sin pérdida de código abierto: comprime los datos sin descartar ninguna información, de modo que la señal reconstruida es <strong>bit a bit idéntica a la original</strong>. A diferencia de AAC o MP3, que eliminan frecuencias para reducir el tamaño, FLAC garantiza que ningún matiz del audio original se pierde. Frente a sus alternativas sin pérdida:</p>
+      <h3>Cuánto ahorras exactamente</h3>
+      <p>El WAV es PCM sin comprimir: guarda cada muestra tal cual, sin ningún tipo de codificación. El FLAC aplica compresión <strong>sin pérdida</strong>, lo que significa que al descomprimirlo recuperas un archivo <strong>bit a bit idéntico</strong> al original. No es "casi igual" ni "indistinguible al oído": es matemáticamente el mismo dato.</p>
       <ul>
-        <li><strong>Frente a WAV / PCM sin comprimir:</strong> WAV y AIFF son también sin pérdida, pero no comprimen. Un audio de 10 minutos a 48 kHz / 24 bits puede pesar más de 170 MB en WAV; FLAC lo reduce entre un 40 y un 60 % sin perder ni un bit.</li>
-        <li><strong>Frente a PCM flotante (pcm_f32le):</strong> Algunos micrófonos USB exportan audio como PCM de 32 bits en coma flotante. FLAC requiere muestras enteras; VidToFLAC inserta automáticamente un paso de conversión de formato antes de codificar a FLAC para garantizar la compatibilidad.</li>
-        <li><strong>Compatibilidad universal:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en ninguna plataforma.</li>
+        <li><strong>Voz y diálogo limpio:</strong> reducción del 50 al 65 %. Es el material que más comprime, porque tiene mucho silencio y poco contenido espectral.</li>
+        <li><strong>Música con rango dinámico amplio:</strong> reducción del 40 al 55 %.</li>
+        <li><strong>Grabaciones de campo o ambientes ruidosos:</strong> reducción del 25 al 40 %. El ruido es incompresible por naturaleza.</li>
       </ul>
+      <p>En un proyecto con 50 tomas de diálogo de 10 minutos a 48 kHz / 24 bits, eso son unos 8,6 GB en WAV frente a poco más de 3,5 GB en FLAC. Sin tocar ni un bit de la señal.</p>
 
-      <h3>El remux: por qué es más rápido que una conversión convencional</h3>
-      <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
-      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso tarda <strong>segundos en lugar de minutos</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
-      <p>Solo cuando el códec de vídeo no es compatible con el navegador (ProRes, DNxHD, MJPEG…), VidToFLAC recurre automáticamente a recodificar el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
+      <h3>El límite de 4 GB del WAV</h3>
+      <p>El formato WAV clásico usa punteros de 32 bits, lo que le impone un techo duro de <strong>4 GB por archivo</strong> —unas 6 horas en estéreo a 48 kHz / 24 bits—. Las grabadoras que superan ese límite recurren a extensiones como RF64 o BW64, que no todos los programas leen. El <strong>FLAC no tiene esa limitación</strong>, así que para grabaciones muy largas resuelve además un problema real de formato.</p>
 
-      <h3>Flujos de trabajo recomendados por editor</h3>
-      <p>El archivo MKV con audio FLAC que genera VidToFLAC es compatible directamente con los principales editores no lineales (NLE):</p>
-      <ul>
-        <li><strong>DaVinci Resolve (versión gratuita, Linux / Windows / macOS):</strong> Importa el .mkv directamente desde el Media Pool. Resolve detecta el audio FLAC de forma nativa y lo asigna a la pista de audio del timeline. Si antes la pista aparecía en gris, ahora debería verse en azul y reproducirse sin problemas.</li>
-        <li><strong>Adobe Premiere Pro:</strong> Premiere soporta MKV y FLAC de forma nativa en versiones recientes. Importa el archivo desde el Project Panel y arrastra el clip a la secuencia. Si usas una versión antigua que no soporta MKV, puedes cambiar el formato de salida a MP4 desde el selector de formato de VidToFLAC antes de convertir.</li>
-        <li><strong>Avid Media Composer:</strong> Avid admite FLAC en MKV para proyectos AMA (Avid Media Access). Para un flujo de trabajo más integrado en proyectos grandes, considera transcodificar después a DNxHD mediante el propio Avid.</li>
-        <li><strong>Final Cut Pro X:</strong> FCP X en macOS importa FLAC en MKV sin pasos adicionales en versiones recientes. En versiones antiguas puede ser necesario el complemento gratuito de soporte MKV para Final Cut.</li>
-      </ul>
+      <h3>Qué se conserva y qué no</h3>
+      <p>VidToFLAC conserva la <strong>profundidad de bits y la tasa de muestreo</strong> originales: un WAV de 24 bits a 96 kHz sale como FLAC de 24 bits a 96 kHz. La única excepción es el <strong>PCM de 32 bits en coma flotante</strong> (<code>pcm_f32le</code>) que generan algunas grabadoras: el FLAC exige muestras enteras, así que se convierte automáticamente a 32 bits enteros antes de codificar.</p>
+      <p>Los metadatos <strong>BWF</strong> (Broadcast Wave) que llevan timecode y notas de grabación no sobreviven a la conversión. Si trabajas con sincronización por timecode en producción de campo, mantén los WAV originales como máster y usa el FLAC solo para archivar o distribuir.</p>
     </article>
   </section>
 
