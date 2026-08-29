@@ -3382,6 +3382,22 @@ document.addEventListener('drop', e => {
   if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
 
+
+// ─── Estimación del tiempo de recodificación ─────────────────────────────────
+// Rendimiento medido de libx264 dentro de ffmpeg.wasm sobre 1080p: unos 28
+// millones de píxeles por segundo. Se redondea a la baja para no quedarse corto
+// en el aviso; da un orden de magnitud, no una cifra exacta.
+const WASM_PIXELS_PER_SEC = 25e6;
+
+function reencodeEstimate(w, h, fps, seconds) {
+  if (!w || !h || !seconds) return '';
+  const secs = (w * h * (fps || 30) * seconds) / WASM_PIXELS_PER_SEC;
+  if (secs < 45)   return '';                    // tan corto que no merece aviso
+  if (secs < 90)   return '~1 min';
+  if (secs < 3600) return `~${Math.round(secs / 60)} min`;
+  return `~${(secs / 3600).toFixed(1)} h`;
+}
+
 // ─── Per-file processor ───────────────────────────────────────────────────────
 async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat, isReconvert = false) {
   const file = entry.file;
@@ -3411,11 +3427,18 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     setProgress(`[${globalIdx + 1}/${totalCount}] Analizando formato…`, null);
     let probeAudioCodec = '';
     let probeVideoCodec = '';
+    let probeSeconds = 0, probeW = 0, probeH = 0, probeFps = 0;
     const probeCapture = ({ message }) => {
       const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
       if (ma) probeAudioCodec = ma[1].toLowerCase();
       const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
       if (mv) probeVideoCodec = mv[1].toLowerCase();
+      const md = message.match(/Duration:\s*(\d+):(\d\d):(\d\d(?:\.\d+)?)/);
+      if (md) probeSeconds = (+md[1]) * 3600 + (+md[2]) * 60 + parseFloat(md[3]);
+      const mr = message.match(/Video:.*?[\s,](\d{2,5})x(\d{2,5})[\s,]/);
+      if (mr) { probeW = +mr[1]; probeH = +mr[2]; }
+      const mf = message.match(/([\d.]+)\s*fps/);
+      if (mf) probeFps = parseFloat(mf[1]);
     };
     ffmpeg.on('log', probeCapture);
     try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
@@ -3431,22 +3454,33 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     if (isFloatPCM) log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
 
     const audioAlreadyFlac = probeAudioCodec === 'flac';
-    const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy'] : [
+    // FLAC dentro de MP4 sigue marcado como experimental en FFmpeg, y también hace
+    // falta la bandera al copiar la pista tal cual: sin ella el muxer no escribe
+    // la cabecera y la salida queda vacía.
+    const mp4FlacFlag = outFormat === 'mp4' ? ['-strict', 'experimental'] : [];
+    const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy', ...mp4FlacFlag] : [
       ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
       '-c:a', 'flac',
-      ...(outFormat === 'mp4' ? ['-strict', 'experimental'] : []),
+      ...mp4FlacFlag,
     ];
 
     const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
+    // HEVC se recodifica a H.264 a propósito: DaVinci Resolve gratuito no puede
+    // importar H.265 (de ahí el artículo davinci-resolve-h265-hevc-no-importa).
+    // Quien solo quiera cambiar de contenedor sin esperar tiene /en/convert-formats/.
+    const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    if (!isAudioOnlyOutput && browserIncompatibleVideo) {
-      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
+    const reencoding = !isAudioOnlyOutput && browserIncompatibleVideo;
+    const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
+    if (reencoding) {
+      log(`⚠ Video codec this browser cannot play (${probeVideoCodec}) — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
+      if (hevcSource) log(`ℹ HEVC video is converted to H.264 so DaVinci Resolve can import it. If you only want to change container without the wait, use the Formats page.`, 'sys');
     }
-    const videoArgs = (!isAudioOnlyOutput && browserIncompatibleVideo)
+    const videoArgs = reencoding
       ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
       : ['-c:v', 'copy'];
 
-    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…`, null);
+    setProgress(`[${globalIdx + 1}/${totalCount}] Converting…${eta ? ` · re-encoding, ${eta}` : ''}`, null);
     const t0 = Date.now();
     const cmd = isAudioOnlyOutput
       ? ['-i', inputName, '-vn', ...audioEncArgs, outputName]
@@ -3494,6 +3528,10 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // 3 · Read output
     setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
     const data = await ffmpeg.readFile(outputName);
+
+    // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
+    // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
+    if (!data || data.length === 0) throw new Error('the output came out empty — FFmpeg could not write the file. Try a different output format.');
 
     // 4 · Create blob & object URL
     const mimeType = outFormat === 'flac' ? 'audio/flac'

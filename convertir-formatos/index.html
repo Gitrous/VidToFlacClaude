@@ -3303,9 +3303,9 @@ updateFormatNote();
 // kind: 'video' | 'audio' | 'gif'  ·  previewable: el navegador puede reproducirlo
 // copyOk: códecs de vídeo que el contenedor admite tal cual (remux sin recodificar)
 const OUT_FORMATS = {
-  mp4:  { ext: 'mp4',  kind: 'video', mime: 'video/mp4',        previewable: true,  vcodec: 'libx264', acodec: 'aac',        copyOk: ['h264'] },
-  mkv:  { ext: 'mkv',  kind: 'video', mime: 'video/x-matroska', previewable: true,  vcodec: 'libx264', acodec: 'flac',       copyOk: ['h264', 'vp8', 'vp9'] },
-  mov:  { ext: 'mov',  kind: 'video', mime: 'video/quicktime',  previewable: true,  vcodec: 'libx264', acodec: 'aac',        copyOk: ['h264'] },
+  mp4:  { ext: 'mp4',  kind: 'video', mime: 'video/mp4',        previewable: true,  vcodec: 'libx264', acodec: 'aac',        copyOk: ['h264', 'hevc'] },
+  mkv:  { ext: 'mkv',  kind: 'video', mime: 'video/x-matroska', previewable: true,  vcodec: 'libx264', acodec: 'flac',       copyOk: ['h264', 'hevc', 'vp8', 'vp9'] },
+  mov:  { ext: 'mov',  kind: 'video', mime: 'video/quicktime',  previewable: true,  vcodec: 'libx264', acodec: 'aac',        copyOk: ['h264', 'hevc'] },
   webm: { ext: 'webm', kind: 'video', mime: 'video/webm',       previewable: true,  vcodec: 'libvpx',  acodec: 'libopus',    copyOk: ['vp8', 'vp9'] },
   avi:  { ext: 'avi',  kind: 'video', mime: 'video/x-msvideo',  previewable: false, vcodec: 'mpeg4',   acodec: 'libmp3lame', copyOk: [] },
   gif:  { ext: 'gif',  kind: 'gif',   mime: 'image/gif',        previewable: true },
@@ -3346,7 +3346,12 @@ function audioArgs(f, q, probeAudioCodec, isFloatPCM) {
 
 // Argumentos de vídeo: copia bit a bit si el contenedor admite el códec de origen.
 function videoArgsFor(f, q, probeVideoCodec) {
-  if (f.copyOk.includes(probeVideoCodec)) return { args: ['-c:v', 'copy'], copied: true };
+  if (f.copyOk.includes(probeVideoCodec)) {
+    // QuickTime y el ecosistema Apple exigen la etiqueta hvc1 para HEVC en MP4/MOV.
+    const tag = (probeVideoCodec === 'hevc' && (f.ext === 'mp4' || f.ext === 'mov'))
+      ? ['-tag:v', 'hvc1'] : [];
+    return { args: ['-c:v', 'copy', ...tag], copied: true };
+  }
   if (f.vcodec === 'libvpx')  return { args: ['-c:v', 'libvpx', '-b:v', q.vpx, '-deadline', 'realtime', '-cpu-used', '8'], copied: false };
   if (f.vcodec === 'mpeg4')   return { args: ['-c:v', 'mpeg4', '-vtag', 'xvid', '-q:v', q.mpeg4q], copied: false };
   return { args: ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', q.crf, '-pix_fmt', 'yuv420p'], copied: false };
@@ -3375,6 +3380,37 @@ document.addEventListener('drop', e => {
   dropZone.classList.remove('drag-over');
   if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
+
+
+// ─── Vídeo HEVC y estimación de tiempo ────────────────────────────────────────
+// HEVC cabe tal cual dentro de MKV, MP4 y MOV, así que se copia en vez de
+// recodificarlo: en WebAssembly (monohilo y sin ensamblador) recodificar un
+// 1080p60 puede llevar minutos. Lo único que se pierde es la previsualización, y
+// solo si el navegador no decodifica HEVC — Safari sí; Chrome únicamente con
+// soporte por hardware en Windows y macOS.
+let _hevcSupport = null;
+function browserPlaysHEVC() {
+  if (_hevcSupport === null) {
+    const v = document.createElement('video');
+    _hevcSupport = !!(v.canPlayType('video/mp4; codecs="hvc1.1.6.L93.B0"') ||
+                      v.canPlayType('video/mp4; codecs="hev1.1.6.L93.B0"'));
+  }
+  return _hevcSupport;
+}
+
+// Rendimiento medido de libx264 dentro de ffmpeg.wasm sobre 1080p: unos 28
+// millones de píxeles por segundo. Se redondea a la baja para no quedarse corto
+// en el aviso; da un orden de magnitud, no una cifra exacta.
+const WASM_PIXELS_PER_SEC = 25e6;
+
+function reencodeEstimate(w, h, fps, seconds) {
+  if (!w || !h || !seconds) return '';
+  const secs = (w * h * (fps || 30) * seconds) / WASM_PIXELS_PER_SEC;
+  if (secs < 45)   return '';                    // tan corto que no merece aviso
+  if (secs < 90)   return '~1 min';
+  if (secs < 3600) return `~${Math.round(secs / 60)} min`;
+  return `~${(secs / 3600).toFixed(1)} h`;
+}
 
 // ─── Per-file processor ───────────────────────────────────────────────────────
 async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat, isReconvert = false) {
@@ -3406,12 +3442,19 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     setProgress(`[${globalIdx + 1}/${totalCount}] Analizando formato…`, null);
     let probeAudioCodec = '';
     let probeVideoCodec = '';
+    let probeSeconds = 0, probeW = 0, probeH = 0, probeFps = 0;
     const probeCapture = ({ message }) => {
       const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
       if (ma) probeAudioCodec = ma[1].toLowerCase();
       const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
       // Las carátulas incrustadas se listan como vídeo mjpeg/png: no cuentan.
       if (mv && !/attached pic/i.test(message)) probeVideoCodec = mv[1].toLowerCase();
+      const md = message.match(/Duration:\s*(\d+):(\d\d):(\d\d(?:\.\d+)?)/);
+      if (md) probeSeconds = (+md[1]) * 3600 + (+md[2]) * 60 + parseFloat(md[3]);
+      const mr = message.match(/Video:.*?[\s,](\d{2,5})x(\d{2,5})[\s,]/);
+      if (mr) { probeW = +mr[1]; probeH = +mr[2]; }
+      const mf = message.match(/([\d.]+)\s*fps/);
+      if (mf) probeFps = parseFloat(mf[1]);
     };
     ffmpeg.on('log', probeCapture);
     try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
@@ -3423,6 +3466,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
     let cmd;
     let copiedVideo = false;
+    let etaLabel = '';
 
     if (f.kind === 'gif') {
       if (!hasVideo) throw new Error('__NOVIDEO_GIF__');
@@ -3435,11 +3479,14 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     } else {
       const v = videoArgsFor(f, q, probeVideoCodec);
       copiedVideo = v.copied;
-      if (!copiedVideo) log(`⚠ El contenedor de destino no admite el vídeo de origen — recodificando (${probeVideoCodec} → ${f.vcodec})`, 'warn');
+      etaLabel = !copiedVideo ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
+      const eta = etaLabel;
+      if (!copiedVideo) log(`⚠ El contenedor de destino no admite el vídeo de origen — recodificando (${probeVideoCodec} → ${f.vcodec})` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
+      if (copiedVideo && probeVideoCodec === 'hevc' && !browserPlaysHEVC()) log(`⚠ Vídeo HEVC copiado sin recodificar (rápido). Este navegador no puede previsualizarlo, pero el archivo descargado es correcto.`, 'warn');
       cmd = ['-i', inputName, ...v.args, ...audioArgs(f, q, probeAudioCodec, isFloatPCM), outputName];
     }
 
-    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…`, null);
+    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…${etaLabel ? ` · recodificando, ${etaLabel}` : ''}`, null);
     const t0 = Date.now();
 
     const onProgress = ({ progress }) => {
@@ -3487,6 +3534,10 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
     const data = await ffmpeg.readFile(outputName);
 
+    // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
+    // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
+    if (!data || data.length === 0) throw new Error('la salida ha quedado vacía — FFmpeg no ha podido escribir el archivo. Prueba con otro formato de salida.');
+
     // 4 · Create blob & object URL
     const blob     = new Blob([data], { type: f.mime });
     const baseName = entry.customBaseName ?? defaultBaseName(file);
@@ -3494,7 +3545,9 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outBaseName = `${baseName}.${outFormat}`;
     entry.outFmtKey   = outFmtKey;
     entry.outKind     = (f.kind === 'video' && !hasVideo) ? 'audio' : f.kind;
-    entry.previewable = f.previewable;
+    // Un HEVC copiado solo se puede previsualizar si el navegador lo soporta.
+    entry.previewable = f.previewable &&
+      !(copiedVideo && probeVideoCodec === 'hevc' && !browserPlaysHEVC());
     entry.status      = 'done';
     if (!isReconvert) {
       incConvCount(entry.outBaseName);
