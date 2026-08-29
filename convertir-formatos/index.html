@@ -3723,6 +3723,20 @@ function showAdModal() {
     continueBtn.addEventListener('click', close);
     modal.addEventListener('click', onBackdrop);
     document.addEventListener('keydown', onKey);
+
+    // Un bloqueador de anuncios puede ocultar el modal por su clase (.ad-modal):
+    // entonces nadie puede cerrarlo y la conversión se quedaría esperando para
+    // siempre. Si tras abrirlo no es visible de verdad, se continúa sin él.
+    let checks = 0;
+    (function ensureVisible() {
+      if (!modal.classList.contains('open')) return;   // ya cerrado por el usuario
+      const visible = modal.getBoundingClientRect().height > 0 &&
+                      getComputedStyle(modal).display !== 'none' &&
+                      getComputedStyle(modal).visibility !== 'hidden';
+      if (visible) return;
+      if (++checks > 3) { log('⚠ No se ha podido mostrar el aviso (¿bloqueador de anuncios?) — continuando con la conversión.', 'warn'); close(); return; }
+      setTimeout(ensureVisible, 200);
+    })();
   });
 }
 
