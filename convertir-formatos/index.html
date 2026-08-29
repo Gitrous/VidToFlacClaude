@@ -2142,6 +2142,25 @@
       color: var(--amber);
       white-space: nowrap;
     }
+
+    /* ── Modal de anuncio: hueco vacío cuando el anuncio no llega a mostrarse ─ */
+    .ad-slot-empty {
+      display: none;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      line-height: 1.55;
+      text-align: center;
+      color: var(--ink-mute);
+      padding: 0 1rem;
+    }
+    .ad-slot-wrap.is-empty .ad-slot-empty { display: block; }
+    .ad-modal-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      line-height: 1.4;
+      color: var(--ink-mute);
+      letter-spacing: 0.02em;
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
@@ -2235,8 +2254,10 @@
            data-ad-format="fluid"
            data-ad-client="ca-pub-1123812992313934"
            data-ad-slot="9253210070"></ins>
+      <span class="ad-slot-empty">Este hueco es para un anuncio, pero no se ha podido cargar. Puedes continuar igualmente.</span>
     </div>
     <div class="ad-modal-footer">
+      <span class="ad-modal-hint">Pulsa Esc o haz clic fuera para cerrar</span>
       <button class="ad-continue-btn" id="adContinueBtn">Continuar conversión</button>
     </div>
   </div>
@@ -3675,8 +3696,21 @@ function showAdModal() {
     // Push AdSense ad
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
 
+    // El anuncio puede no llegar a mostrarse (cuenta aún sin aprobar, bloqueador,
+    // o simplemente sin relleno disponible). Si a los 2 s el hueco sigue vacío, se
+    // avisa dentro del propio recuadro para que quede claro que se puede seguir.
+    const slotWrap = modal.querySelector('.ad-slot-wrap');
+    const adIns    = slotWrap?.querySelector('ins.adsbygoogle');
+    slotWrap?.classList.remove('is-empty');
+    const emptyTimer = setTimeout(() => {
+      const filled = adIns && (adIns.dataset.adStatus === 'filled' ||
+                               adIns.getBoundingClientRect().height > 20);
+      if (!filled) slotWrap?.classList.add('is-empty');
+    }, 2000);
+
     // Cerrar con el botón, clic en el fondo o tecla Escape → continúa la conversión.
     function close() {
+      clearTimeout(emptyTimer);
       continueBtn.removeEventListener('click', close);
       modal.removeEventListener('click', onBackdrop);
       document.removeEventListener('keydown', onKey);
