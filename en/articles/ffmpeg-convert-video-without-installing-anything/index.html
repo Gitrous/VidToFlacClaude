@@ -463,9 +463,9 @@
 
       <h2 id="que-es-ffmpeg">What FFmpeg is and what it does</h2>
 
-      <p>FFmpeg is an open-source program for processing audio and video. What makes it remarkable is its reach: it can read and write practically every video and audio format in existence, and operate on them — converting between formats, changing resolution, extracting audio, trimming clips, adding subtitles, altering bitrate.</p>
+      <p>FFmpeg is an open-source program for processing audio and video. What makes it remarkable is its reach: it supports a very wide range of video and audio formats, including nearly all the ones in common use, and operate on them — converting between formats, changing resolution, extracting audio, trimming clips, adding subtitles, altering bitrate.</p>
 
-      <p>Professional video editors, streaming services and broadcast systems use it internally. VLC relies on it to play practically any format. YouTube, Twitch and most video platforms use it to process what users upload.</p>
+      <p>Professional video editors, streaming services and broadcast systems use it internally. VLC relies on it to play most of the formats it opens. YouTube, Twitch and most video platforms use it to process what users upload.</p>
 
       <p>In the terminal, a typical FFmpeg command looks like this:</p>
 
@@ -515,6 +515,27 @@
       <div class="warn-box">
         <strong>The main limitation:</strong> FFmpeg.wasm can only use the CPU, not the GPU, so conversions that re-encode video are slower than native FFmpeg with hardware acceleration. For a remux — only the container changes, nothing is re-encoded — the difference is negligible.
       </div>
+
+
+      <h3>How it differs from desktop FFmpeg</h3>
+
+      <p>FFmpeg.wasm is the same project compiled to WebAssembly, but the browser imposes limits the desktop build does not have:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th></th><th>Desktop FFmpeg</th><th>FFmpeg.wasm (browser)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Installation</strong></td><td>Must be installed, and on Windows added to the PATH</td><td>None: it downloads when you open the page</td></tr>
+          <tr><td><strong>Acceleration</strong></td><td>Can use the GPU (NVENC, QSV, VideoToolbox)</td><td>CPU only</td></tr>
+          <tr><td><strong>Memory</strong></td><td>Whatever the system has</td><td>Capped by the browser's WebAssembly environment</td></tr>
+          <tr><td><strong>Available codecs</strong></td><td>Everything in the installed build</td><td>A subset: the web build is smaller</td></tr>
+          <tr><td><strong>File access</strong></td><td>Direct disk access, scriptable for batches</td><td>Files are loaded one at a time into a virtual filesystem</td></tr>
+          <tr><td><strong>Privacy</strong></td><td>Local</td><td>Local: nothing leaves the browser</td></tr>
+        </tbody>
+      </table>
+
+      <p>For a remux or an audio conversion the practical difference is small. For re-encoding long 4K video, desktop FFmpeg with hardware acceleration is still considerably faster.</p>
 
       <h2 id="vidtoflac">Using VidToFLAC (FFmpeg with no install)</h2>
 

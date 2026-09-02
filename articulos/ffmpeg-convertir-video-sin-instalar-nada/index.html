@@ -463,9 +463,9 @@
 
       <h2 id="que-es-ffmpeg">Qué es FFmpeg y para qué sirve</h2>
 
-      <p>FFmpeg es un programa de código abierto para procesar audio y vídeo. Lo que lo hace especial es su alcance: puede leer y escribir prácticamente cualquier formato de vídeo o audio que exista, y hacer operaciones sobre ellos — convertir entre formatos, cambiar la resolución, extraer el audio, recortar fragmentos, añadir subtítulos, cambiar el bitrate…</p>
+      <p>FFmpeg es un programa de código abierto para procesar audio y vídeo. Lo que lo hace especial es su alcance: admite una gran variedad de formatos de vídeo y audio, incluidos casi todos los de uso habitual, y hacer operaciones sobre ellos — convertir entre formatos, cambiar la resolución, extraer el audio, recortar fragmentos, añadir subtítulos, cambiar el bitrate…</p>
 
-      <p>Los editores de vídeo profesionales, los servicios de streaming y los sistemas de radiodifusión lo usan internamente. VLC lo usa para reproducir prácticamente cualquier formato. YouTube, Twitch y la mayoría de plataformas de vídeo lo usan para procesar los archivos que suben los usuarios.</p>
+      <p>Los editores de vídeo profesionales, los servicios de streaming y los sistemas de radiodifusión lo usan internamente. VLC lo usa para reproducir la mayoría de los formatos que abre. YouTube, Twitch y la mayoría de plataformas de vídeo lo usan para procesar los archivos que suben los usuarios.</p>
 
       <p>En la terminal, un comando FFmpeg típico tiene este aspecto:</p>
 
@@ -515,6 +515,27 @@
       <div class="warn-box">
         <strong>Limitación principal:</strong> FFmpeg.wasm solo puede usar la CPU (no la GPU), así que las conversiones que implican recodificar vídeo son más lentas que con FFmpeg nativo con aceleración por hardware. Para remux (solo cambio de contenedor, sin recodificar) la diferencia es mínima.
       </div>
+
+
+      <h3>En qué se diferencia de FFmpeg de escritorio</h3>
+
+      <p>FFmpeg.wasm es el mismo proyecto compilado a WebAssembly, pero el navegador impone límites que la versión de escritorio no tiene:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th></th><th>FFmpeg de escritorio</th><th>FFmpeg.wasm (navegador)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Instalación</strong></td><td>Requiere instalarlo y, en Windows, configurar el PATH</td><td>Ninguna: se descarga al abrir la página</td></tr>
+          <tr><td><strong>Aceleración</strong></td><td>Puede usar la GPU (NVENC, QSV, VideoToolbox)</td><td>Solo CPU</td></tr>
+          <tr><td><strong>Memoria</strong></td><td>La del sistema</td><td>Limitada por el entorno WebAssembly del navegador</td></tr>
+          <tr><td><strong>Códecs disponibles</strong></td><td>Todos los de la compilación instalada</td><td>Un subconjunto: la compilación web es más reducida</td></tr>
+          <tr><td><strong>Acceso a archivos</strong></td><td>Directo al disco, permite procesar por lotes con scripts</td><td>Los archivos se cargan de uno en uno en un sistema virtual</td></tr>
+          <tr><td><strong>Privacidad</strong></td><td>Local</td><td>Local: nada sale del navegador</td></tr>
+        </tbody>
+      </table>
+
+      <p>Para un remux o para convertir audio, la diferencia práctica es pequeña. Para recodificar vídeo largo en 4K, FFmpeg de escritorio con aceleración por hardware sigue siendo bastante más rápido.</p>
 
       <h2 id="vidtoflac">Cómo usar VidToFLAC (FFmpeg sin instalación)</h2>
 

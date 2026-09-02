@@ -451,7 +451,20 @@
 
       <h2 id="diagnostico">Quick diagnosis: is it an import or an export problem?</h2>
 
-      <p>Before hunting for fixes, work out where the audio is being lost:</p>
+      <p>Before hunting for fixes, work out where the audio is being lost. This table summarises the most common symptoms and where each one leads:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>Symptom</th><th>Most likely cause</th><th>Where to look</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>No audio track on the timeline</td><td>Timeline or clip configuration</td><td><a href="#causa-2">Cause 2</a></td></tr>
+          <tr><td>Audible in Resolve but missing from the export</td><td>Deliver page settings</td><td><a href="#causa-1">Cause 1</a></td></tr>
+          <tr><td>Track shows greyed out, or the clip imports silent</td><td>Unsupported audio codec</td><td><a href="#causa-4">Cause 4</a></td></tr>
+          <tr><td>Audio drifts out of sync with the video</td><td>Variable frame rate (VFR) or mismatched sample rate</td><td><a href="/en/articles/davinci-resolve-audio-out-of-sync/">Out-of-sync guide</a></td></tr>
+          <tr><td>Flat or missing waveform</td><td>The source file carries no readable audio</td><td><a href="#causa-5">Cause 5</a></td></tr>
+        </tbody>
+      </table>
 
       <ul class="checklist">
         <li><strong>Can you see a waveform on the timeline and hear audio when you play back with the spacebar?</strong> Then it is an <em>export</em> problem — the audio reaches DaVinci Resolve fine but is not included in the render. Read on from Cause 1.</li>

@@ -4,7 +4,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DaVinci Resolve no importa H.265 / HEVC: solución completa 2026</title>
+  <title>DaVinci Resolve no importa H.265 / HEVC: causas y soluciones</title>
   <meta name="description" content="DaVinci Resolve gratuito no puede abrir tu archivo H.265 o HEVC? Guía completa para solucionar el problema de importación de vídeo H.265 en DaVinci Resolve sin perder calidad." />
   <meta name="keywords" content="DaVinci Resolve H.265 no importa, DaVinci Resolve HEVC no funciona, DaVinci Resolve no abre H265, DaVinci Resolve HEVC error, convertir H.265 para DaVinci Resolve, DaVinci Resolve codec H265, H.265 DaVinci Resolve Linux, DaVinci Resolve no reproduce video HEVC, solucionar H.265 DaVinci Resolve, DaVinci Resolve free HEVC limitación" />
   <meta name="author" content="VidToFLAC" />
@@ -26,7 +26,7 @@
   <meta property="og:site_name" content="VidToFLAC" />
   <meta property="og:locale" content="es_ES" />
   <meta property="og:url" content="https://vidtoflac.tech/articulos/davinci-resolve-h265-hevc-no-importa/" />
-  <meta property="og:title" content="DaVinci Resolve no importa H.265 / HEVC: solución completa 2026" />
+  <meta property="og:title" content="DaVinci Resolve no importa H.265 / HEVC: causas y soluciones" />
   <meta property="og:description" content="DaVinci Resolve gratuito no puede abrir tu archivo H.265 o HEVC? Guía completa para solucionar el problema de importación de vídeo H.265 en DaVinci Resolve sin perder calidad." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -34,7 +34,7 @@
 
   <!-- Twitter/X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DaVinci Resolve no importa H.265 / HEVC: solución completa 2026" />
+  <meta name="twitter:title" content="DaVinci Resolve no importa H.265 / HEVC: causas y soluciones" />
   <meta name="twitter:description" content="DaVinci Resolve gratuito no puede abrir tu archivo H.265 o HEVC? Guía completa para solucionar el problema de importación de vídeo H.265 en DaVinci Resolve sin perder calidad." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
 
@@ -43,7 +43,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "DaVinci Resolve no importa H.265 / HEVC: solución completa 2026",
+    "headline": "DaVinci Resolve no importa H.265 / HEVC: causas y soluciones",
     "description": "DaVinci Resolve gratuito no puede abrir tu archivo H.265 o HEVC? Guía completa para solucionar el problema de importación de vídeo H.265 en DaVinci Resolve sin perder calidad.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-h265-hevc-no-importa/",
     "datePublished": "2026-06-30",
@@ -377,7 +377,7 @@
     </nav>
     <span class="article-badge">Guía</span>
     <h1 class="article-title" itemprop="headline">
-      DaVinci Resolve no importa H.265 / HEVC: solución completa 2026
+      DaVinci Resolve no importa H.265 / HEVC: causas y soluciones
     </h1>
     <div class="hero-meta">
       <time datetime="2026-06-30" itemprop="datePublished">30 de junio de 2026</time>
@@ -396,7 +396,7 @@
     <nav aria-label="Tabla de contenidos">
       <p class="sidebar-toc-heading">Contenidos</p>
       <ul class="sidebar-toc-list">
-        <li><a href="#por-que" class="sidebar-toc-link">Por qué DaVinci Resolve Free no abre H.265</a></li>
+        <li><a href="#por-que" class="sidebar-toc-link">Por qué DaVinci Resolve Free suele fallar con H.265</a></li>
         <li><a href="#camaras" class="sidebar-toc-link">Qué cámaras y dispositivos graban en H.265</a></li>
         <li><a href="#solucion" class="sidebar-toc-link">Solución: convertir H.265 a H.264 con VidToFLAC</a></li>
         <li><a href="#pasos" class="sidebar-toc-link">Pasos para convertir el archivo</a></li>
@@ -455,11 +455,13 @@
     <div class="article-body" itemprop="articleBody">
 
 
-      <h2 id="por-que">Por qué DaVinci Resolve Free no abre H.265</h2>
+      <h2 id="por-que">Por qué DaVinci Resolve Free suele fallar con H.265</h2>
 
       <p>H.265 (también llamado HEVC, <em>High Efficiency Video Coding</em>) es el estándar de compresión de vídeo que sucede a H.264. Ofrece la misma calidad visual con aproximadamente la mitad del tamaño de archivo, lo que lo convierte en el preferido por móviles y cámaras modernas para grabar en 4K.</p>
 
-      <p>El problema es que <strong>decodificar H.265 requiere una licencia de patente</strong>, y Blackmagic Design aplica restricciones distintas según la versión de DaVinci Resolve:</p>
+      <p>La compatibilidad con HEVC no es una cuestión de sí o no: depende de la versión de DaVinci Resolve, del sistema operativo y de las capacidades de decodificación del hardware. Un mismo archivo puede abrirse sin problemas en un equipo y fallar en otro.</p>
+
+      <p>El origen es que <strong>decodificar H.265 requiere una licencia de patente</strong>, y Blackmagic Design aplica restricciones distintas según la versión de DaVinci Resolve:</p>
 
       <div class="error-box">
         <strong>DaVinci Resolve gratuito:</strong> La decodificación de H.265 depende <strong>exclusivamente de la GPU</strong>. Si tu tarjeta gráfica no tiene un decodificador HEVC por hardware (muchas GPU antiguas o integradas no lo tienen), DaVinci Resolve Free no puede abrir el archivo. En <strong>Linux</strong>, el soporte de H.265 en la versión gratuita es prácticamente inexistente.<br><br>

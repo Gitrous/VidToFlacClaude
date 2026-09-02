@@ -451,7 +451,20 @@
 
       <h2 id="diagnostico">Diagnóstico rápido: ¿el problema es de importación o exportación?</h2>
 
-      <p>Antes de buscar soluciones, es clave identificar en qué punto se pierde el audio:</p>
+      <p>Antes de buscar soluciones, es clave identificar en qué punto se pierde el audio. Esta tabla resume los síntomas más habituales y a dónde llevan:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>Síntoma</th><th>Causa más probable</th><th>Dónde mirar</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>No hay pista de audio en la línea de tiempo</td><td>Configuración de la línea de tiempo o del clip</td><td><a href="#causa-2">Causa 2</a></td></tr>
+          <tr><td>Se escucha en Resolve pero no en el archivo exportado</td><td>Ajustes de la página Deliver</td><td><a href="#causa-1">Causa 1</a></td></tr>
+          <tr><td>La pista aparece en gris o el clip entra mudo</td><td>Códec de audio no soportado</td><td><a href="#causa-4">Causa 4</a></td></tr>
+          <tr><td>El audio se desincroniza respecto al vídeo</td><td>Frame rate variable (VFR) o sample rate distinto</td><td><a href="/articulos/davinci-resolve-video-desincronizado-audio/">Guía de desincronización</a></td></tr>
+          <tr><td>Forma de onda plana o ausente</td><td>El archivo de origen no trae audio legible</td><td><a href="#causa-5">Causa 5</a></td></tr>
+        </tbody>
+      </table>
 
       <ul class="checklist">
         <li><strong>¿Ves forma de onda en la línea de tiempo y escuchas audio al reproducir con la barra espaciadora?</strong> El problema es de <em>exportación</em> — el audio llega bien a DaVinci Resolve pero no se incluye en el render. Sigue leyendo desde la Causa 1.</li>

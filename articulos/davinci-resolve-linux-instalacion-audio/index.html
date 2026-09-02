@@ -396,6 +396,7 @@
         <li><a href="#solucion" class="sidebar-toc-link">Solución: convertir el audio a FLAC</a></li>
         <li><a href="#prevencion" class="sidebar-toc-link">Cómo evitar el problema desde el origen</a></li>
         <li><a href="#rendimiento" class="sidebar-toc-link">Consejos de rendimiento en Linux</a></li>
+        <li><a href="#fuente-oficial" class="sidebar-toc-link">Fuente oficial</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
       </ul>
     </nav>
@@ -417,7 +418,7 @@
   <article class="article-content" itemscope itemtype="https://schema.org/Article">
 
     <p class="article-lead" itemprop="description">
-      DaVinci Resolve es posiblemente el mejor editor de vídeo profesional que existe en Linux — y es completamente gratuito. Pero hay una trampa que nadie avisa: <strong>la mayoría de tus archivos de vídeo no tendrán audio</strong> cuando los importes. No es un bug. Es un problema de licencias que tiene solución sencilla y gratuita. Esta guía cubre los dos pasos que todo usuario nuevo necesita: instalar DaVinci Resolve y arreglar el audio.
+      DaVinci Resolve es posiblemente el mejor editor de vídeo profesional que existe en Linux — y es completamente gratuito. Pero hay una trampa que nadie avisa: <strong>es muy habitual que tus archivos de vídeo entren sin audio</strong> al importarlos. No es un bug. Es un problema de licencias que tiene solución sencilla y gratuita. Esta guía cubre los dos pasos que todo usuario nuevo necesita: instalar DaVinci Resolve y arreglar el audio.
     </p>
 
     <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
@@ -464,7 +465,7 @@
 
       <h2 id="requisitos">Requisitos del sistema</h2>
 
-      <p>Antes de instalar, verifica que tu sistema cumple los requisitos mínimos. DaVinci Resolve exige una GPU con aceleración OpenCL o CUDA — no funciona solo con CPU:</p>
+      <p>DaVinci Resolve exige una GPU con aceleración OpenCL o CUDA: no funciona solo con CPU. La tabla siguiente es una <strong>referencia orientativa</strong> basada en configuraciones que se usan habitualmente para editar en Linux, no una lista oficial. Los requisitos reales cambian con cada versión, así que consulta siempre los de la versión que vayas a instalar en la <a href="https://www.blackmagicdesign.com/support/family/davinci-resolve-and-fusion" rel="nofollow noopener" target="_blank">página de soporte oficial de Blackmagic Design</a>.</p>
 
       <table class="compare-table">
         <thead>
@@ -481,7 +482,7 @@
       </table>
 
       <div class="warn-box">
-        <strong>GPUs integradas:</strong> Intel Iris, AMD Radeon integrada o NVIDIA MX series no tienen suficiente VRAM para DaVinci Resolve. La aplicación abrirá pero irá a tirones o directamente no renderizará correctamente. Necesitas una GPU discreta.
+        <strong>GPUs integradas:</strong> las gráficas integradas (Intel Iris, Radeon integrada, NVIDIA MX) suelen quedarse cortas de VRAM para DaVinci Resolve. Lo normal es que la aplicación abra pero vaya a tirones o falle al renderizar. En la práctica conviene una GPU discreta.
       </div>
 
       <h2 id="distribuciones">Compatibilidad con distribuciones Linux</h2>
@@ -614,13 +615,13 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
       <p>Haz clic en «Nuevo proyecto», dale un nombre y selecciona la resolución de tu material (1080p, 4K…). Puedes cambiarlo después desde <strong>Archivo → Configuración del proyecto</strong>.</p>
 
       <div class="warn-box">
-        <strong>Antes de importar cualquier archivo:</strong> lee la sección siguiente sobre el problema de audio. El 90 % de los archivos que tengas en el ordenador — grabaciones de iPhone, OBS, GoPro, cámaras mirrorless — aparecerán sin sonido al importarlos. Es el problema más frecuente de DaVinci Resolve en Linux y tiene solución en 2 minutos.
+        <strong>Antes de importar cualquier archivo:</strong> lee la sección siguiente sobre el problema de audio. Buena parte de los archivos que sueles tener en el ordenador — grabaciones de iPhone, OBS, GoPro, cámaras mirrorless — usan códecs de audio que Resolve no decodifica en Linux, y entran sin sonido. Es el problema más frecuente de DaVinci Resolve en Linux y tiene solución en 2 minutos.
       </div>
 
-      <h2 id="problema-audio">El problema del audio: por qué todos los usuarios Linux lo sufren</h2>
+      <h2 id="problema-audio">El problema del audio: por qué es tan frecuente en Linux</h2>
 
       <div class="audio-problem">
-        <p class="audio-problem-label">Problema crítico · afecta a todos los usuarios Linux</p>
+        <p class="audio-problem-label">Problema crítico · muy frecuente en Linux</p>
         <h3>DaVinci Resolve importa el vídeo, pero el audio está en silencio</h3>
         <p>Importas tu grabación de OBS, el vídeo de tu iPhone o el clip de tu mirrorless. El clip aparece en la línea de tiempo, se ve perfectamente… pero el audio no existe. La forma de onda está plana. O directamente no hay pista de audio.</p>
         <p>Esto ocurre con prácticamente cualquier archivo grabado con hardware de consumo:</p>
@@ -766,6 +767,14 @@ done</code></pre>
       <div class="info-box">
         <strong>Probado en:</strong> el problema de audio de DaVinci Resolve en Linux se ha observado en todas las versiones del programa. La solución que describe esta guía —convertir el audio a FLAC antes de importar— está verificada con <strong>DaVinci Resolve 21 y posteriores</strong> en Linux. En versiones anteriores el planteamiento es el mismo, pero no lo hemos comprobado de primera mano. Última verificación: septiembre de 2026.
       </div>
+
+      <h2 id="fuente-oficial">Fuente oficial</h2>
+      <p>Los requisitos del sistema, las distribuciones admitidas y los instaladores de DaVinci Resolve los publica y actualiza Blackmagic Design. Esta guía recoge lo que funciona en la práctica, pero la referencia válida es siempre la oficial:</p>
+      <ul>
+        <li><a href="https://www.blackmagicdesign.com/support/family/davinci-resolve-and-fusion" rel="nofollow noopener" target="_blank">Soporte y descargas de DaVinci Resolve</a> — instaladores para Linux, notas de versión y requisitos de cada compilación.</li>
+        <li><a href="https://www.blackmagicdesign.com/products/davinciresolve" rel="nofollow noopener" target="_blank">Página del producto</a> — diferencias entre la versión gratuita y Studio.</li>
+      </ul>
+      <p>Información comprobada en septiembre de 2026.</p>
 
       <section class="faq-section" aria-labelledby="faq">
         <h2 id="faq">Preguntas frecuentes</h2>

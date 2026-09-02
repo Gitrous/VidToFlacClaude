@@ -396,6 +396,7 @@
         <li><a href="#solucion" class="sidebar-toc-link">The fix: convert the audio to FLAC</a></li>
         <li><a href="#prevencion" class="sidebar-toc-link">How to avoid the problem at source</a></li>
         <li><a href="#rendimiento" class="sidebar-toc-link">Performance tips on Linux</a></li>
+        <li><a href="#fuente-oficial" class="sidebar-toc-link">Official sources</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
     </nav>
@@ -417,7 +418,7 @@
   <article class="article-content" itemscope itemtype="https://schema.org/Article">
 
     <p class="article-lead" itemprop="description">
-      DaVinci Resolve is arguably the best professional video editor available on Linux — and it is completely free. But there is a catch nobody warns you about: <strong>most of your video files will have no audio</strong> when you import them. It is not a bug. It is a licensing problem with a simple, free solution. This guide covers the two steps every new user needs: installing DaVinci Resolve, and fixing the audio.
+      DaVinci Resolve is arguably the best professional video editor available on Linux — and it is completely free. But there is a catch nobody warns you about: <strong>it is very common for video files to import with no audio</strong>. It is not a bug. It is a licensing problem with a simple, free solution. This guide covers the two steps every new user needs: installing DaVinci Resolve, and fixing the audio.
     </p>
 
     <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
@@ -464,7 +465,7 @@
 
       <h2 id="requisitos">System requirements</h2>
 
-      <p>Before installing, check that your system meets the minimum requirements. DaVinci Resolve demands a GPU with OpenCL or CUDA acceleration — it will not run on CPU alone:</p>
+      <p>DaVinci Resolve demands a GPU with OpenCL or CUDA acceleration: it will not run on CPU alone. The table below is an <strong>indicative reference</strong> based on setups commonly used for editing on Linux, not an official list. Real requirements change with each release, so always check the ones for the version you are installing on the <a href="https://www.blackmagicdesign.com/support/family/davinci-resolve-and-fusion" rel="nofollow noopener" target="_blank">official Blackmagic Design support page</a>.</p>
 
       <table class="compare-table">
         <thead>
@@ -481,7 +482,7 @@
       </table>
 
       <div class="warn-box">
-        <strong>Integrated GPUs:</strong> Intel Iris, integrated AMD Radeon or NVIDIA MX-series chips do not have enough VRAM for DaVinci Resolve. The application will open, but it will stutter or simply fail to render properly. You need a discrete GPU.
+        <strong>Integrated GPUs:</strong> integrated graphics (Intel Iris, integrated Radeon, NVIDIA MX) tend to be short on VRAM for DaVinci Resolve. Typically the application opens but stutters or fails to render properly. In practice a discrete GPU is the way to go.
       </div>
 
       <h2 id="distribuciones">Linux distribution compatibility</h2>
@@ -614,13 +615,13 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
       <p>Click "New Project", give it a name and pick the resolution of your footage (1080p, 4K and so on). You can change it later under <strong>File → Project Settings</strong>.</p>
 
       <div class="warn-box">
-        <strong>Before you import anything:</strong> read the next section on the audio problem. Around 90% of the files on your machine — iPhone recordings, OBS captures, GoPro and mirrorless footage — will come in silent. It is the most common DaVinci Resolve problem on Linux, and it takes two minutes to fix.
+        <strong>Before you import anything:</strong> read the next section on the audio problem. A good share of the files you are likely to have — iPhone recordings, OBS captures, GoPro and mirrorless footage — use audio codecs Resolve cannot decode on Linux, and import silent. It is the most common DaVinci Resolve problem on Linux, and it takes two minutes to fix.
       </div>
 
-      <h2 id="problema-audio">The audio problem: why every Linux user runs into it</h2>
+      <h2 id="problema-audio">The audio problem: why it is so common on Linux</h2>
 
       <div class="audio-problem">
-        <p class="audio-problem-label">Critical problem · affects every Linux user</p>
+        <p class="audio-problem-label">Critical problem · very common on Linux</p>
         <h3>DaVinci Resolve imports the video, but the audio is silent</h3>
         <p>You import your OBS capture, your iPhone video or your mirrorless clip. It lands on the timeline and looks perfect… but there is no audio. The waveform is flat. Or there is no audio track at all.</p>
         <p>This happens with practically any file recorded on consumer hardware:</p>
@@ -766,6 +767,14 @@ done</code></pre>
       <div class="info-box">
         <strong>Tested on:</strong> the DaVinci Resolve audio problem on Linux has been present in every release of the program. The fix described in this guide — converting the audio to FLAC before importing — is verified against <strong>DaVinci Resolve 21 and later</strong> on Linux. On earlier releases the approach is the same, but we have not checked it first-hand. Last verified: September 2026.
       </div>
+
+      <h2 id="fuente-oficial">Official sources</h2>
+      <p>System requirements, supported distributions and DaVinci Resolve installers are published and updated by Blackmagic Design. This guide records what works in practice, but the authoritative reference is always the official one:</p>
+      <ul>
+        <li><a href="https://www.blackmagicdesign.com/support/family/davinci-resolve-and-fusion" rel="nofollow noopener" target="_blank">DaVinci Resolve support and downloads</a> — Linux installers, release notes and per-build requirements.</li>
+        <li><a href="https://www.blackmagicdesign.com/products/davinciresolve" rel="nofollow noopener" target="_blank">Product page</a> — differences between the free version and Studio.</li>
+      </ul>
+      <p>Checked in September 2026.</p>
 
       <section class="faq-section" aria-labelledby="faq">
         <h2 id="faq">Frequently asked questions</h2>
