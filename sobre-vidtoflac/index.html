@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre VidToFLAC: qué es, cómo funciona y quién lo mantiene</title>
+  <meta name="description" content="Qué es VidToFLAC, qué problema resuelve, cómo funciona la conversión local con ffmpeg.wasm, qué tecnologías usa y quién mantiene el proyecto." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vidtoflac.tech/sobre-vidtoflac/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/sobre-vidtoflac/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/about/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/sobre-vidtoflac/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a0a0b; --panel:#0f0f11; --elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);
+      --ink:#f3f3ef; --ink-dim:#a7a7ad; --ink-mute:#66666e;
+      --amber:#19c37d; --amber-2:#4ee6a8;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+    html { -webkit-text-size-adjust:100% }
+    body {
+      background:var(--bg); color:var(--ink);
+      font-family:var(--font-body); font-size:1rem; line-height:1.75;
+      padding:2.5rem 1.25rem 5rem; max-width:780px; margin:0 auto;
+    }
+    a { color:var(--amber); text-decoration:none }
+    a:hover { text-decoration:underline }
+    .brand-header { margin-bottom:2.5rem }
+    .brand-link {
+      display:inline-flex; align-items:center; gap:0.55rem;
+      text-decoration:none; color:inherit;
+    }
+    .brand-name {
+      font-family:var(--font-display); font-size:1.5rem;
+      font-weight:800; letter-spacing:-0.02em; color:var(--ink);
+    }
+    .brand-accent { color:var(--amber) }
+    .legal-title {
+      font-family:var(--font-display); font-size:2rem; font-weight:800;
+      line-height:1.15; letter-spacing:-0.02em; margin-bottom:0.4rem;
+    }
+    .legal-date {
+      font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-mute);
+      letter-spacing:0.03em; margin-bottom:2.5rem; display:block;
+    }
+    h2 {
+      font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+      color:var(--ink); margin:2rem 0 0.5rem;
+    }
+    p { color:var(--ink-dim); font-size:0.97rem; margin-bottom:0.75rem }
+    strong { color:var(--ink); font-weight:600 }
+    footer {
+      text-align:center; color:var(--ink-mute);
+      font-family:var(--font-mono); font-size:0.68rem;
+      letter-spacing:0.02em; line-height:1.7;
+      padding-top:1.25rem; border-top:1px solid var(--line);
+      margin-top:3rem; display:flex; flex-direction:column; gap:0.6rem;
+    }
+    footer strong { color:var(--amber-2); font-weight:600 }
+    .footer-tagline { margin:0 }
+    .footer-links { display:flex; justify-content:center; flex-wrap:wrap; gap:0.25rem 1.5rem }
+    .footer-links a { color:var(--ink-dim); text-decoration:none; transition:color .15s }
+    .footer-links a:hover { color:var(--amber) }
+    .footer-copy { margin:0; opacity:.7 }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation:none !important; transition:none !important }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="brand-header">
+    <a href="/" class="brand-link" aria-label="VidToFLAC – inicio">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+        <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+        <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+        <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+      </svg>
+      <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
+    </a>
+  </header>
+
+  <main>
+    <h1 class="legal-title">Sobre VidToFLAC</h1>
+    <span class="legal-date">Última actualización: septiembre de 2026</span>
+
+    <p>VidToFLAC nació de un problema concreto y muy repetido: importas un vídeo en DaVinci Resolve y el audio no suena. La pista aparece en gris, o el clip entra mudo, y no hay ningún mensaje que explique por qué. La causa casi siempre es la misma —el códec de audio no está licenciado en esa versión del programa— y la solución también: convertir el audio a un formato que el editor sí sepa leer.</p>
+
+    <p>Existían conversores online para eso, pero todos pedían lo mismo: subir el archivo a un servidor ajeno, esperar en una cola y confiar en que alguien lo borre después. Para un vídeo de 4 GB eso es lento, y para material que no es tuyo es sencillamente inviable. VidToFLAC hace la conversión sin que el archivo salga del ordenador.</p>
+
+    <h2>Qué es</h2>
+    <p>Una herramienta web gratuita que reempaqueta vídeo y convierte audio <strong>dentro de tu propio navegador</strong>. No hay cuentas, ni registro, ni instalación, ni subida de archivos. Abres la página, sueltas el archivo y descargas el resultado.</p>
+
+    <h2>Qué problema resuelve</h2>
+    <p>El caso principal es el <strong>error de códec de audio en programas de edición</strong>: DaVinci Resolve, Adobe Premiere Pro y Avid Media Composer no siempre pueden decodificar AAC, MP3 o AC-3, y el problema es especialmente marcado en la versión gratuita de Resolve sobre Linux, donde Blackmagic Design no incluye esas licencias.</p>
+    <p>La herramienta copia el vídeo sin recodificarlo y convierte únicamente el audio a <strong>FLAC</strong>, que es sin pérdida y sí está soportado de forma nativa. La imagen no se toca, así que no se degrada.</p>
+    <p>Además, la <a href="/convertir-formatos/">página de formatos</a> permite convertir entre contenedores y códecs de uso habitual —MP4, MKV, MOV, WebM, AVI, GIF, MP3, WAV, FLAC, M4A, OGG y Opus— para cuando el objetivo no es editar sino publicar o archivar.</p>
+
+    <h2>Cómo funciona</h2>
+    <p>El motor es <strong>FFmpeg compilado a WebAssembly</strong> (ffmpeg.wasm). Al abrir la página, el navegador descarga ese motor desde un CDN público y lo ejecuta localmente. A partir de ahí, todo el trabajo ocurre en tu equipo:</p>
+    <ul>
+      <li>El archivo se carga en un sistema de ficheros virtual dentro de la pestaña del navegador.</li>
+      <li>Se analizan los códecs del original para decidir qué se puede copiar y qué hay que recodificar.</li>
+      <li>Siempre que es posible, el vídeo se copia tal cual (<em>remux</em>) y solo se recodifica el audio.</li>
+      <li>El resultado se te devuelve como descarga, y los archivos temporales se borran al cerrar la pestaña.</li>
+    </ul>
+    <p>Si te interesa el detalle técnico, está explicado en la guía sobre <a href="/articulos/ffmpeg-convertir-video-sin-instalar-nada/">FFmpeg sin instalar nada</a>.</p>
+
+    <h2>Privacidad</h2>
+    <p>Ningún archivo que conviertas se sube a ningún servidor. No es una promesa de política de uso: es una consecuencia de cómo está construida la herramienta, porque no existe ningún servidor de conversión al que enviarlos. Puedes comprobarlo abriendo la pestaña Red de las herramientas de desarrollo de tu navegador mientras conviertes, o desconectando internet una vez cargada la página: la conversión sigue funcionando.</p>
+    <p>Lo que sí implica tratamiento de datos —el formulario de contacto y, en su caso, la publicidad— está detallado en la <a href="/politica-de-privacidad/">política de privacidad</a>.</p>
+
+    <h2>Tecnología y licencias</h2>
+    <ul>
+      <li><strong>FFmpeg</strong> — el motor de conversión, publicado bajo licencias LGPL y GPL. <a href="https://ffmpeg.org/" rel="nofollow noopener" target="_blank">ffmpeg.org</a></li>
+      <li><strong>ffmpeg.wasm</strong> — la compilación a WebAssembly que permite ejecutarlo en el navegador (paquetes <code>@ffmpeg/ffmpeg</code> 0.12.6, <code>@ffmpeg/core</code> 0.12.6 y <code>@ffmpeg/util</code> 0.12.1).</li>
+      <li><strong>WebAssembly</strong> — el estándar del navegador que hace posible ejecutar código compilado a velocidad razonable.</li>
+      <li><strong>GitHub Pages</strong> — alojamiento del sitio, servido por HTTPS sobre el dominio propio vidtoflac.tech.</li>
+      <li><strong>Bricolage Grotesque, Hanken Grotesk y JetBrains Mono</strong> — tipografías con licencia libre servidas desde Google Fonts.</li>
+      <li><strong>FormSubmit</strong> — procesa los envíos del formulario de contacto.</li>
+    </ul>
+    <p>VidToFLAC no está afiliado a Blackmagic Design, Adobe, Avid, Apple ni Microsoft. Los nombres de sus productos se citan únicamente para describir problemas de compatibilidad reales.</p>
+
+    <h2>Limitaciones que conviene conocer</h2>
+    <p>Que todo ocurra en el navegador tiene ventajas, pero también techo:</p>
+    <ul>
+      <li>El procesamiento usa solo la CPU, sin aceleración por GPU, así que recodificar vídeo largo es más lento que con FFmpeg de escritorio.</li>
+      <li>La memoria disponible la limita el entorno WebAssembly del navegador, no tu equipo.</li>
+      <li>La compilación web no incluye la totalidad de códecs de FFmpeg.</li>
+      <li>Determinadas combinaciones de códec y contenedor obligan a recodificar en lugar de copiar.</li>
+    </ul>
+    <p>Están descritas en detalle en los <a href="/terminos-de-servicio/">términos de servicio</a>.</p>
+
+    <h2>Mantenimiento</h2>
+    <p>VidToFLAC es un proyecto independiente, desarrollado y mantenido de forma particular por Guillem Sánchez desde Esporles, Mallorca. Se ofrece gratis y sin registro.</p>
+    <p>Los artículos se revisan periódicamente para corregir datos que envejecen —versiones, precios, requisitos— y las guías que describen una solución concreta indican con qué versión se ha comprobado. Última revisión editorial del sitio: <strong>septiembre de 2026</strong>.</p>
+
+    <h2>Contacto</h2>
+    <p>Si encuentras un error, un archivo que no convierte bien o un dato desactualizado en algún artículo, avisa: es la forma más rápida de que mejore. Puedes escribir a <a href="mailto:gsguille992@gmail.com">gsguille992@gmail.com</a> o usar el <a href="/contacto/">formulario de contacto</a>.</p>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">
+      Todo el procesamiento ocurre en tu dispositivo usando
+      <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+    </p>
+    <nav class="footer-links" aria-label="Páginas legales">
+      <a href="/politica-de-privacidad/">Política de privacidad</a>
+      <a href="/terminos-de-servicio/">Términos de servicio</a>
+      <a href="/aviso-legal/">Aviso legal</a>
+      <a href="/contacto/">Contacto</a>
+    </nav>
+    <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>

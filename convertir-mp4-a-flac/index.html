@@ -2390,13 +2390,13 @@
       <h3>El formato MP4 y sus códecs de audio</h3>
       <p>MP4 (MPEG-4 Part 14) es el contenedor de vídeo más extendido: lo usan cámaras DSLR, smartphones (iPhone, Android), OBS Studio y prácticamente cualquier plataforma de vídeo. Su popularidad se debe a que combina vídeo H.264 o H.265 con audio en un archivo compacto. El problema está en el códec de audio: el 95 % de los archivos MP4 llevan <strong>AAC-LC</strong> (Low Complexity), el perfil estándar para dispositivos de consumo. Los MP4 de OBS pueden usar también <strong>MP3</strong> dependiendo de la configuración. En casos menos frecuentes, grabadoras de campo producen MP4 con audio <strong>PCM linear</strong>, que sí es compatible con Resolve sin conversión.</p>
       <h3>Por qué DaVinci Resolve muestra la pista de audio en gris</h3>
-      <p>DaVinci Resolve gratuito —especialmente en Linux— no incluye el decodificador de AAC porque su licencia es propietaria y tiene coste por distribución. Al abrir un MP4 con AAC, el inspector de medios puede mostrar la pista de audio en gris, el clip sin forma de onda, o el mensaje <em>"Audio codec not supported (AAC)"</em>. Esta restricción afecta solo al audio: el vídeo H.264 o H.265 se abre correctamente porque sus decodificadores sí están incluidos. La solución es reemplazar el AAC por <strong>FLAC</strong>, que Resolve decodifica de forma nativa en todas las plataformas.</p>
+      <p>DaVinci Resolve gratuito —especialmente en Linux— no incluye el decodificador de AAC porque su licencia es propietaria y tiene coste por distribución. Al abrir un MP4 con AAC, el inspector de medios puede mostrar la pista de audio en gris, el clip sin forma de onda, o el mensaje <em>"Audio codec not supported (AAC)"</em>. Esta restricción afecta solo al audio: el vídeo H.264 o H.265 se abre correctamente porque sus decodificadores sí están incluidos. La solución es reemplazar el AAC por <strong>FLAC</strong>, que Resolve decodifica de forma nativa en Windows, macOS y Linux.</p>
       <h3>Paso a paso: convertir tu MP4 a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .mp4 al área de carga o pulsa <strong>Seleccionar archivos</strong>.</li>
         <li>Elige <strong>MKV</strong> como formato de salida (recomendado por su compatibilidad con Resolve) o MP4 si prefieres mantener la extensión.</li>
         <li>Pulsa <strong>Convertir</strong>. VidToFLAC detecta el códec de audio, recodifica únicamente esa pista a FLAC y copia el vídeo bit a bit sin tocarlo.</li>
-        <li>Descarga el resultado e impórtalo al Media Pool de DaVinci Resolve. La pista de audio aparecerá en azul y se reproducirá sin errores.</li>
+        <li>Descarga el resultado e impórtalo al Media Pool de DaVinci Resolve. La pista de audio aparecerá en azul y se reproducirá con normalidad.</li>
       </ol>
       <h3>Errores frecuentes y qué hacer</h3>
       <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el archivo MP4 proviene de una cámara con múltiples pistas de audio (stereo + surround), VidToFLAC convierte todas las pistas al FLAC del contenedor de salida.</p>
@@ -2467,6 +2467,7 @@
       <a href="/politica-de-privacidad/">Política de privacidad</a>
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
+      <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

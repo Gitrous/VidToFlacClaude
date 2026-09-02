@@ -529,7 +529,7 @@
       </ul>
 
       <div class="solution-box">
-        <strong>Configuración más segura para MP4:</strong> En la página Deliver, selecciona <em>H.264 Master</em> como preset base. En la sección Audio, elige <strong>AAC</strong> como códec y <strong>320 kbps</strong> como bitrate. Esta combinación funciona en todas las plataformas.
+        <strong>Configuración más segura para MP4:</strong> En la página Deliver, selecciona <em>H.264 Master</em> como preset base. En la sección Audio, elige <strong>AAC</strong> como códec y <strong>320 kbps</strong> como bitrate. Esta combinación funciona en Windows, macOS y Linux.
       </div>
 
       <h2 id="causa-4">Causa 4: problema de AAC en Linux</h2>
@@ -538,7 +538,7 @@
 
       <p>La solución para usuarios de Linux:</p>
       <ul>
-        <li>Exporta con audio <strong>FLAC</strong> (está disponible en todas las plataformas incluyendo Linux)</li>
+        <li>Exporta con audio <strong>FLAC</strong> (está disponible en Windows, macOS y Linux incluyendo Linux)</li>
         <li>Exporta con audio <strong>PCM / Linear PCM</strong> (WAV, sin compresión, también disponible)</li>
         <li>Usa <strong>MKV</strong> como contenedor en lugar de MP4 — MKV acepta FLAC y PCM sin problemas</li>
         <li>Si necesitas MP4 con AAC para publicar, exporta primero a MKV con FLAC desde DaVinci Resolve y luego convierte a MP4+AAC con FFmpeg: <code>ffmpeg -i salida.mkv -c:v copy -c:a aac salida_final.mp4</code></li>
@@ -556,7 +556,7 @@
 
       <h2 id="solucion-audio-origen">Solucionar el audio del archivo de origen</h2>
 
-      <p>Si el problema está en el archivo fuente (forma de onda plana, audio no reproducible en la timeline), la solución es convertir el audio a FLAC antes de importar en DaVinci Resolve. VidToFLAC hace exactamente esto: copia el vídeo sin pérdida y convierte el audio a FLAC, que DaVinci Resolve puede leer en todas las plataformas.</p>
+      <p>Si el problema está en el archivo fuente (forma de onda plana, audio no reproducible en la timeline), la solución es convertir el audio a FLAC antes de importar en DaVinci Resolve. VidToFLAC hace exactamente esto: copia el vídeo sin pérdida y convierte el audio a FLAC, que DaVinci Resolve puede leer en Windows, macOS y Linux.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Herramienta gratuita · sin subir archivos</span>
@@ -684,6 +684,7 @@
     <a href="/politica-de-privacidad/">Política de privacidad</a>
     <a href="/terminos-de-servicio/">Términos de servicio</a>
     <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
     <a href="/contacto/">Contacto</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

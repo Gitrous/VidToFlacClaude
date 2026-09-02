@@ -89,7 +89,7 @@
         "name": "Can I edit MP4 files directly in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. H.264 video inside an MP4 is supported on every platform. AAC audio may not play on Linux. For comfortable editing on long projects, consider generating proxies or remuxing to MKV with FLAC audio to sidestep codec problems."
+          "text": "Yes. H.264 video inside an MP4 is supported on Windows, macOS and Linux. AAC audio may not play on Linux. For comfortable editing on long projects, consider generating proxies or remuxing to MKV with FLAC audio to sidestep codec problems."
         }
       },
       {
@@ -97,7 +97,7 @@
         "name": "Which audio codec should I use in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FLAC. It is the lossless audio codec DaVinci Resolve supports on every platform, Linux included, and it takes far less space than PCM/WAV without discarding any data. AAC works on Windows and macOS but not on Linux. E-AC-3 works on no platform at all."
+          "text": "FLAC. It is the lossless audio codec DaVinci Resolve supports on Windows, macOS and Linux, Linux included, and it takes far less space than PCM/WAV without discarding any data. AAC works on Windows and macOS but not on Linux. E-AC-3 works on no platform at all."
         }
       },
       {
@@ -548,7 +548,7 @@
       </p>
 
       <h3>H.264: the most common, not the easiest to edit</h3>
-      <p>H.264 is the most widespread video codec in the world: smartphones, action cameras, screen recorders and most YouTube video all use it. DaVinci Resolve supports it on every platform, but with one drawback: it is an <strong>inter-frame</strong> codec, meaning each frame depends on the frames before and after it to decode. That makes scrubbing the timeline slow and editing CPU-hungry.</p>
+      <p>H.264 is the most widespread video codec in the world: smartphones, action cameras, screen recorders and most YouTube video all use it. DaVinci Resolve supports it on Windows, macOS and Linux, but with one drawback: it is an <strong>inter-frame</strong> codec, meaning each frame depends on the frames before and after it to decode. That makes scrubbing the timeline slow and editing CPU-hungry.</p>
 
       <p>For short projects, or on a powerful machine, H.264 is perfectly usable. For long projects or modest hardware, consider generating <strong>proxies</strong> — low-resolution copies — from the DaVinci Resolve menu.</p>
 
@@ -640,7 +640,7 @@
       <h2 id="por-camara">Which format to use in DaVinci Resolve for your camera or source</h2>
 
       <h3>Smartphone (iPhone, Android)</h3>
-      <p>Smartphones record <code>.mp4</code> with H.264 or H.265 video and AAC audio. The video is perfectly usable in DaVinci Resolve; the AAC audio can cause trouble on Linux. The most practical fix: <a href="/convertir-mp4-a-flac/">convert the MP4 to MKV with FLAC audio</a> before importing. The video stays untouched and the audio works everywhere.</p>
+      <p>Smartphones record <code>.mp4</code> with H.264 or H.265 video and AAC audio. The video is perfectly usable in DaVinci Resolve; the AAC audio can cause trouble on Linux. The most practical fix: <a href="/convertir-mp4-a-flac/">convert the MP4 to MKV with FLAC audio</a> before importing. The video stays untouched and the audio works on Windows, macOS and Linux.</p>
 
       <h3>Mirrorless or DSLR camera (Sony, Canon, Fuji, Nikon)</h3>
       <p>These record <code>.mp4</code> or <code>.mov</code> with H.264 or H.265 and AAC or PCM audio. PCM works fine; AAC can fail on Linux. If the camera offers <strong>ALL-I</strong> recording, where every frame is independent, use it: editing will be far smoother than with standard IPB recording. For the audio, <a href="/convertir-mov-a-flac/">convert the MOV to FLAC</a> if you are on Linux.</p>
@@ -735,7 +735,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Yes. H.264 video inside an MP4 is supported on every platform. AAC audio may not play on Linux. For comfortable editing on long projects, consider generating proxies or remuxing to MKV with FLAC audio to sidestep codec problems.</p>
+            <p>Yes. H.264 video inside an MP4 is supported on Windows, macOS and Linux. AAC audio may not play on Linux. For comfortable editing on long projects, consider generating proxies or remuxing to MKV with FLAC audio to sidestep codec problems.</p>
           </div>
         </details>
 
@@ -745,7 +745,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p><strong>FLAC.</strong> It is the lossless audio codec DaVinci Resolve supports on every platform, Linux included, and it takes far less space than PCM/WAV without discarding any data. AAC works on Windows and macOS but not on Linux. E-AC-3 works on no platform at all.</p>
+            <p><strong>FLAC.</strong> It is the lossless audio codec DaVinci Resolve supports on Windows, macOS and Linux, Linux included, and it takes far less space than PCM/WAV without discarding any data. AAC works on Windows and macOS but not on Linux. E-AC-3 works on no platform at all.</p>
           </div>
         </details>
 
@@ -816,6 +816,7 @@
     <a href="/en/privacy-policy/">Privacy policy</a>
     <a href="/en/terms-of-service/">Terms of service</a>
     <a href="/en/legal-notice/">Legal notice</a>
+    <a href="/en/about/">About</a>
     <a href="/en/contact/">Contact</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>

@@ -102,7 +102,7 @@
         "name": "¿Puedo importar WMV directamente en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Solo en Windows y con restricciones. En Linux y macOS, DaVinci Resolve no puede abrir WMV. Incluso en Windows, algunos perfiles de WMV pueden dar problemas. Para un flujo de trabajo sin sorpresas, convierte el WMV a MKV con H.264 y audio FLAC con VidToFLAC — esa combinación funciona en DaVinci Resolve en todas las plataformas."
+          "text": "Solo en Windows y con restricciones. En Linux y macOS, DaVinci Resolve no puede abrir WMV. Incluso en Windows, algunos perfiles de WMV pueden dar problemas. Para un flujo de trabajo sin sorpresas, convierte el WMV a MKV con H.264 y audio FLAC con VidToFLAC — esa combinación funciona en DaVinci Resolve en Windows, macOS y Linux."
         }
       }
     ]
@@ -516,7 +516,7 @@
       <p>Para WMV, la conversión implica recodificar el vídeo (de VC-1 a H.264) y el audio (de WMA a FLAC), porque el remux directo no es posible — los códecs de WMV no son compatibles con el contenedor MP4. VidToFLAC usa <code>libx264 -crf 18 -preset ultrafast</code>, que ofrece una calidad visualmente muy alta con buena velocidad de proceso.</p>
 
       <div class="solution-box">
-        <strong>¿Por qué FLAC en lugar de AAC?</strong> VidToFLAC convierte el audio a FLAC (sin pérdida) en lugar de AAC porque es el formato más compatible con DaVinci Resolve en todas las plataformas, incluido Linux. Si necesitas el archivo para reproducción o publicación en lugar de edición, FLAC también funciona perfectamente en reproductores modernos.
+        <strong>¿Por qué FLAC en lugar de AAC?</strong> VidToFLAC convierte el audio a FLAC (sin pérdida) en lugar de AAC porque es el formato más compatible con DaVinci Resolve en Windows, macOS y Linux, incluido Linux. Si necesitas el archivo para reproducción o publicación en lugar de edición, FLAC también funciona perfectamente en reproductores modernos.
       </div>
 
       <div class="tool-cta">
@@ -660,7 +660,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Solo en Windows y con restricciones. En Linux y macOS, DaVinci Resolve no puede abrir WMV. Incluso en Windows, algunos perfiles de WMV pueden dar problemas. Para un flujo de trabajo sin sorpresas, convierte el WMV a MKV con H.264 y audio FLAC con VidToFLAC — esa combinación funciona en DaVinci Resolve en todas las plataformas.</p>
+            <p>Solo en Windows y con restricciones. En Linux y macOS, DaVinci Resolve no puede abrir WMV. Incluso en Windows, algunos perfiles de WMV pueden dar problemas. Para un flujo de trabajo sin sorpresas, convierte el WMV a MKV con H.264 y audio FLAC con VidToFLAC — esa combinación funciona en DaVinci Resolve en Windows, macOS y Linux.</p>
           </div>
         </details>
       </section>
@@ -712,6 +712,7 @@
     <a href="/politica-de-privacidad/">Política de privacidad</a>
     <a href="/terminos-de-servicio/">Términos de servicio</a>
     <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
     <a href="/contacto/">Contacto</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

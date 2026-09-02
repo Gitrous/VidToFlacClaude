@@ -89,7 +89,7 @@
         "name": "¿Puedo editar archivos MP4 directamente en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. El vídeo H.264 dentro de un MP4 es compatible en todas las plataformas. El audio AAC puede no reproducirse en Linux. Para edición cómoda con proyectos largos, considera generar proxies o hacer un remux a MKV con audio FLAC para evitar problemas de códec."
+          "text": "Sí. El vídeo H.264 dentro de un MP4 es compatible en Windows, macOS y Linux. El audio AAC puede no reproducirse en Linux. Para edición cómoda con proyectos largos, considera generar proxies o hacer un remux a MKV con audio FLAC para evitar problemas de códec."
         }
       },
       {
@@ -97,7 +97,7 @@
         "name": "¿Qué códec de audio debo usar en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FLAC. Es el códec de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux, y ocupa mucho menos que PCM/WAV sin perder ningún dato. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma."
+          "text": "FLAC. Es el códec de audio sin pérdida que DaVinci Resolve soporta en Windows, macOS y Linux, incluido Linux, y ocupa mucho menos que PCM/WAV sin perder ningún dato. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma."
         }
       },
       {
@@ -548,7 +548,7 @@
       </p>
 
       <h3>H.264: el más común, no el más cómodo para editar</h3>
-      <p>H.264 es el códec de vídeo más extendido del mundo: lo usan los smartphones, las cámaras de acción, las grabaciones de pantalla y la mayoría de vídeos de YouTube. DaVinci Resolve lo soporta en todas las plataformas, pero tiene un inconveniente: es un códec <strong>inter-frame</strong>, lo que significa que cada fotograma depende de los fotogramas anteriores y posteriores para decodificarse. Esto hace que buscar en la línea de tiempo sea lento y que la edición consuma mucha CPU.</p>
+      <p>H.264 es el códec de vídeo más extendido del mundo: lo usan los smartphones, las cámaras de acción, las grabaciones de pantalla y la mayoría de vídeos de YouTube. DaVinci Resolve lo soporta en Windows, macOS y Linux, pero tiene un inconveniente: es un códec <strong>inter-frame</strong>, lo que significa que cada fotograma depende de los fotogramas anteriores y posteriores para decodificarse. Esto hace que buscar en la línea de tiempo sea lento y que la edición consuma mucha CPU.</p>
 
       <p>Para proyectos cortos o si tu equipo es potente, H.264 es perfectamente usable. Para proyectos largos o equipos con pocos recursos, considera generar <strong>proxies</strong> (copias en baja resolución) desde el menú de DaVinci Resolve.</p>
 
@@ -640,7 +640,7 @@
       <h2 id="por-camara">Qué formato usar en DaVinci Resolve según tu cámara o fuente</h2>
 
       <h3>Smartphone (iPhone, Android)</h3>
-      <p>Los smartphones graban en <code>.mp4</code> con vídeo H.264 o H.265 y audio AAC. El vídeo es perfectamente usable en DaVinci Resolve; el audio AAC puede dar problemas en Linux. La solución más práctica: <a href="/convertir-mp4-a-flac/">convierte el MP4 a MKV con audio FLAC</a> antes de importar. El vídeo queda intacto y el audio funciona en todas las plataformas.</p>
+      <p>Los smartphones graban en <code>.mp4</code> con vídeo H.264 o H.265 y audio AAC. El vídeo es perfectamente usable en DaVinci Resolve; el audio AAC puede dar problemas en Linux. La solución más práctica: <a href="/convertir-mp4-a-flac/">convierte el MP4 a MKV con audio FLAC</a> antes de importar. El vídeo queda intacto y el audio funciona en Windows, macOS y Linux.</p>
 
       <h3>Cámara mirrorless o réflex (Sony, Canon, Fuji, Nikon)</h3>
       <p>Graban en <code>.mp4</code> o <code>.mov</code> con H.264 o H.265 y audio AAC o PCM. El PCM funciona bien; el AAC puede fallar en Linux. Si la cámara ofrece grabación en <strong>ALL-I</strong> (todos los fotogramas son independientes), úsala: la edición será mucho más fluida que con la grabación estándar IPB. Para el audio, <a href="/convertir-mov-a-flac/">convierte el MOV a FLAC</a> si tienes Linux.</p>
@@ -684,13 +684,13 @@
       <p>H.264 en MP4 con audio AAC es el estándar universal. En DaVinci Resolve, usa el preset "YouTube" o "Vimeo" de la página de entrega — están optimizados para estas plataformas. Bitrate recomendado: 16–25 Mbps para 1080p, 35–45 Mbps para 4K.</p>
 
       <h3>Para archivo o entrega máster</h3>
-      <p>ProRes 4444 (Mac) o DNxHR 444 (todas las plataformas) con audio FLAC. Son archivos grandes pero preservan toda la información del color y el audio para futuras reediciones.</p>
+      <p>ProRes 4444 (Mac) o DNxHR 444 (Windows, macOS y Linux) con audio FLAC. Son archivos grandes pero preservan toda la información del color y el audio para futuras reediciones.</p>
 
       <h3>Para redes sociales (Instagram, TikTok)</h3>
       <p>H.264 en MP4, resolución máxima 1080p (Instagram viene limitando a 1080p aunque subas 4K; comprobado en septiembre de 2026), audio AAC a 320 kbps. Muchas plataformas recomprimen el vídeo al subir, así que no tiene sentido exportar en calidad exageradamente alta.</p>
 
       <h3>Para entrega a cliente o post-producción</h3>
-      <p>Usa el formato que especifique el cliente o el siguiente eslabón de la cadena de producción. Si no hay especificaciones, ProRes 422 HQ o DNxHR HQ son los formatos de entrega profesional más aceptados universalmente.</p>
+      <p>Usa el formato que especifique el cliente o el siguiente eslabón de la cadena de producción. Si no hay especificaciones, ProRes 422 HQ o DNxHR HQ son los formatos de entrega profesional más aceptados.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">¿Tienes problemas de audio al importar?</span>
@@ -735,7 +735,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Sí. El vídeo H.264 dentro de un MP4 es compatible en todas las plataformas. El audio AAC puede no reproducirse en Linux. Para edición cómoda con proyectos largos, considera generar proxies o hacer un remux a MKV con audio FLAC para evitar problemas de códec.</p>
+            <p>Sí. El vídeo H.264 dentro de un MP4 es compatible en Windows, macOS y Linux. El audio AAC puede no reproducirse en Linux. Para edición cómoda con proyectos largos, considera generar proxies o hacer un remux a MKV con audio FLAC para evitar problemas de códec.</p>
           </div>
         </details>
 
@@ -745,7 +745,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p><strong>FLAC</strong>. Es el códec de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux, y ocupa mucho menos que PCM/WAV sin perder ningún dato. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma.</p>
+            <p><strong>FLAC</strong>. Es el códec de audio sin pérdida que DaVinci Resolve soporta en Windows, macOS y Linux, incluido Linux, y ocupa mucho menos que PCM/WAV sin perder ningún dato. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma.</p>
           </div>
         </details>
 
@@ -816,6 +816,7 @@
     <a href="/politica-de-privacidad/">Política de privacidad</a>
     <a href="/terminos-de-servicio/">Términos de servicio</a>
     <a href="/aviso-legal/">Aviso legal</a>
+    <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
     <a href="/contacto/">Contacto</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

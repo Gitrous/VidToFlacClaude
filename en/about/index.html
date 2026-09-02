@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About VidToFLAC: what it is, how it works and who maintains it</title>
+  <meta name="description" content="What VidToFLAC is, the problem it solves, how local conversion with ffmpeg.wasm works, the technologies behind it and who maintains the project." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/about/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/sobre-vidtoflac/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/about/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/sobre-vidtoflac/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a0a0b; --panel:#0f0f11; --elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);
+      --ink:#f3f3ef; --ink-dim:#a7a7ad; --ink-mute:#66666e;
+      --amber:#19c37d; --amber-2:#4ee6a8;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+    html { -webkit-text-size-adjust:100% }
+    body {
+      background:var(--bg); color:var(--ink);
+      font-family:var(--font-body); font-size:1rem; line-height:1.75;
+      padding:2.5rem 1.25rem 5rem; max-width:780px; margin:0 auto;
+    }
+    a { color:var(--amber); text-decoration:none }
+    a:hover { text-decoration:underline }
+    .brand-header { margin-bottom:2.5rem }
+    .brand-link {
+      display:inline-flex; align-items:center; gap:0.55rem;
+      text-decoration:none; color:inherit;
+    }
+    .brand-name {
+      font-family:var(--font-display); font-size:1.5rem;
+      font-weight:800; letter-spacing:-0.02em; color:var(--ink);
+    }
+    .brand-accent { color:var(--amber) }
+    .legal-title {
+      font-family:var(--font-display); font-size:2rem; font-weight:800;
+      line-height:1.15; letter-spacing:-0.02em; margin-bottom:0.4rem;
+    }
+    .legal-date {
+      font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-mute);
+      letter-spacing:0.03em; margin-bottom:2.5rem; display:block;
+    }
+    h2 {
+      font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+      color:var(--ink); margin:2rem 0 0.5rem;
+    }
+    p { color:var(--ink-dim); font-size:0.97rem; margin-bottom:0.75rem }
+    strong { color:var(--ink); font-weight:600 }
+    footer {
+      text-align:center; color:var(--ink-mute);
+      font-family:var(--font-mono); font-size:0.68rem;
+      letter-spacing:0.02em; line-height:1.7;
+      padding-top:1.25rem; border-top:1px solid var(--line);
+      margin-top:3rem; display:flex; flex-direction:column; gap:0.6rem;
+    }
+    footer strong { color:var(--amber-2); font-weight:600 }
+    .footer-tagline { margin:0 }
+    .footer-links { display:flex; justify-content:center; flex-wrap:wrap; gap:0.25rem 1.5rem }
+    .footer-links a { color:var(--ink-dim); text-decoration:none; transition:color .15s }
+    .footer-links a:hover { color:var(--amber) }
+    .footer-copy { margin:0; opacity:.7 }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation:none !important; transition:none !important }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="brand-header">
+    <a href="/en/" class="brand-link" aria-label="VidToFLAC – home">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+        <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+        <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+        <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+      </svg>
+      <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
+    </a>
+  </header>
+
+  <main>
+    <h1 class="legal-title">About VidToFLAC</h1>
+    <span class="legal-date">Last updated: September 2026</span>
+
+    <p>VidToFLAC started from one specific, very repetitive problem: you import a video into DaVinci Resolve and there is no sound. The track shows up greyed out, or the clip lands silent, and nothing explains why. The cause is almost always the same — the audio codec is not licensed in that build of the program — and so is the fix: convert the audio to something the editor can actually read.</p>
+
+    <p>Online converters existed for that, but they all asked the same thing: upload your file to someone else's server, wait in a queue and trust that it gets deleted afterwards. For a 4 GB video that is slow, and for footage that is not yours it is simply not an option. VidToFLAC does the conversion without the file ever leaving your computer.</p>
+
+    <h2>What it is</h2>
+    <p>A free web tool that repackages video and converts audio <strong>inside your own browser</strong>. No accounts, no sign-up, no installation, no uploads. You open the page, drop the file in and download the result.</p>
+
+    <h2>What it solves</h2>
+    <p>The main case is the <strong>audio codec error in editing software</strong>: DaVinci Resolve, Adobe Premiere Pro and Avid Media Composer cannot always decode AAC, MP3 or AC-3, and the problem is especially pronounced in the free version of Resolve on Linux, where Blackmagic Design does not include those licences.</p>
+    <p>The tool copies the video without re-encoding it and converts only the audio to <strong>FLAC</strong>, which is lossless and natively supported. The picture is never touched, so it cannot degrade.</p>
+    <p>Beyond that, the <a href="/en/convert-formats/">formats page</a> converts between commonly used containers and codecs — MP4, MKV, MOV, WebM, AVI, GIF, MP3, WAV, FLAC, M4A, OGG and Opus — for when the goal is publishing or archiving rather than editing.</p>
+
+    <h2>How it works</h2>
+    <p>The engine is <strong>FFmpeg compiled to WebAssembly</strong> (ffmpeg.wasm). When you open the page, the browser downloads that engine from a public CDN and runs it locally. From there, all the work happens on your machine:</p>
+    <ul>
+      <li>The file is loaded into a virtual filesystem inside the browser tab.</li>
+      <li>The source codecs are probed to decide what can be copied and what must be re-encoded.</li>
+      <li>Whenever possible the video is copied as is (a <em>remux</em>) and only the audio is re-encoded.</li>
+      <li>The result comes back as a download, and the temporary files are cleared when you close the tab.</li>
+    </ul>
+    <p>If the technical detail interests you, it is spelled out in the guide on <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/">using FFmpeg without installing anything</a>.</p>
+
+    <h2>Privacy</h2>
+    <p>No file you convert is uploaded anywhere. That is not a policy promise: it follows from how the tool is built, because there is no conversion server to send them to. You can verify it by opening your browser's Network tab while converting, or by disconnecting from the internet once the page has loaded — the conversion still works.</p>
+    <p>What does involve processing personal data — the contact form and, where enabled, advertising — is set out in the <a href="/en/privacy-policy/">privacy policy</a>.</p>
+
+    <h2>Technology and licences</h2>
+    <ul>
+      <li><strong>FFmpeg</strong> — the conversion engine, released under the LGPL and GPL licences. <a href="https://ffmpeg.org/" rel="nofollow noopener" target="_blank">ffmpeg.org</a></li>
+      <li><strong>ffmpeg.wasm</strong> — the WebAssembly build that makes it run in the browser (packages <code>@ffmpeg/ffmpeg</code> 0.12.6, <code>@ffmpeg/core</code> 0.12.6 and <code>@ffmpeg/util</code> 0.12.1).</li>
+      <li><strong>WebAssembly</strong> — the browser standard that lets compiled code run at reasonable speed.</li>
+      <li><strong>GitHub Pages</strong> — hosting, served over HTTPS on the site's own domain, vidtoflac.tech.</li>
+      <li><strong>Bricolage Grotesque, Hanken Grotesk and JetBrains Mono</strong> — freely licensed typefaces served from Google Fonts.</li>
+      <li><strong>FormSubmit</strong> — processes contact form submissions.</li>
+    </ul>
+    <p>VidToFLAC is not affiliated with Blackmagic Design, Adobe, Avid, Apple or Microsoft. Their product names appear only to describe real compatibility problems.</p>
+
+    <h2>Limitations worth knowing</h2>
+    <p>Running everything in the browser has advantages, but it also has a ceiling:</p>
+    <ul>
+      <li>Processing uses the CPU only, with no GPU acceleration, so re-encoding long video is slower than desktop FFmpeg.</li>
+      <li>Available memory is capped by the browser's WebAssembly environment, not by your machine.</li>
+      <li>The web build does not include the full set of FFmpeg codecs.</li>
+      <li>Certain codec and container combinations force a re-encode rather than a copy.</li>
+    </ul>
+    <p>They are described in full in the <a href="/en/terms-of-service/">terms of service</a>.</p>
+
+    <h2>Maintenance</h2>
+    <p>VidToFLAC is an independent project, developed and maintained privately by Guillem Sánchez from Esporles, Mallorca. It is offered free of charge and without registration.</p>
+    <p>Articles are reviewed periodically to correct details that age — versions, prices, requirements — and guides describing a specific fix state which version it was checked against. Last editorial review of the site: <strong>September 2026</strong>.</p>
+
+    <h2>Contact</h2>
+    <p>If you hit a bug, a file that does not convert properly, or an out-of-date detail in an article, do say so: it is the fastest way for the site to improve. Write to <a href="mailto:gsguille992@gmail.com">gsguille992@gmail.com</a> or use the <a href="/en/contact/">contact form</a>.</p>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">
+      All processing happens on your device using
+      <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.
+    </p>
+    <nav class="footer-links" aria-label="Legal pages">
+      <a href="/en/privacy-policy/">Privacy policy</a>
+      <a href="/en/terms-of-service/">Terms of service</a>
+      <a href="/en/legal-notice/">Legal notice</a>
+      <a href="/en/contact/">Contact</a>
+    </nav>
+    <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
