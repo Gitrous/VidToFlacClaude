@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio errors in DaVinci Resolve: causes and complete fixes</title>
+  <meta name="description" content="A complete guide to fixing audio errors in DaVinci Resolve: no sound, unsupported codecs, AAC on Linux, silent MOV files and more. Nothing uploaded." />
+  <meta name="keywords" content="DaVinci Resolve audio error, DaVinci Resolve no sound, DaVinci Resolve unsupported audio codec, DaVinci Resolve Linux no audio, DaVinci Resolve AAC error, DaVinci Resolve MOV no audio, fix DaVinci Resolve audio, DaVinci Resolve won't play audio, DaVinci Resolve audio codec unsupported" />
+  <meta name="author" content="VidToFLAC" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/" />
+
+  <!-- Icons & PWA -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VidToFLAC" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/" />
+  <meta property="og:title" content="Audio errors in DaVinci Resolve: causes and complete fixes" />
+  <meta property="og:description" content="A complete guide to fixing audio errors in DaVinci Resolve: no sound, unsupported codecs, AAC on Linux, silent MOV files and more. Nothing uploaded." />
+  <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter/X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Audio errors in DaVinci Resolve: causes and complete fixes" />
+  <meta name="twitter:description" content="A complete guide to fixing audio errors in DaVinci Resolve: no sound, unsupported codecs, AAC on Linux, silent MOV files and more. Nothing uploaded." />
+  <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
+
+  <!-- Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Audio errors in DaVinci Resolve: causes and complete fixes",
+    "description": "A complete guide to fixing audio errors in DaVinci Resolve: no sound, unsupported codecs, AAC on Linux, silent MOV files and more. Nothing uploaded.",
+    "url": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/",
+    "datePublished": "2026-06-28",
+    "dateModified": "2026-06-28",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/",
+      "logo": "https://vidtoflac.tech/icon-512.png"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/"
+    }
+  }
+  </script>
+
+  <!-- FAQ schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why won't DaVinci Resolve play my videos' audio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DaVinci Resolve does not ship decoders for every audio codec. AAC, MP3, AC-3, E-AC-3 and Opus cause the most trouble, especially on Linux where the free version's codec support is more limited still. The fix is to convert the audio to FLAC, which DaVinci Resolve does support natively."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I fix the 'Media offline' audio error in DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "'Media offline' on an audio clip usually means the file carries an unsupported audio codec. Convert the audio to FLAC inside an MKV container using VidToFLAC — free, with nothing uploaded — and import it again in DaVinci Resolve."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does DaVinci Resolve on Linux have limited audio support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The free DaVinci Resolve on Linux cannot play AAC, MP3 or most licensed codecs, because Blackmagic Design does not include those licences in the Linux build. The universal fix is to convert the audio to FLAC, which — being open source — works on every platform."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use MOV files in DaVinci Resolve without audio problems?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MOV files from an iPhone or a Sony camera usually carry AAC, which DaVinci Resolve on Linux will not play. The fix is to remux to MKV with FLAC audio using VidToFLAC: the video is copied losslessly and the audio becomes FLAC, which removes the problem."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vidtoflac.tech/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://vidtoflac.tech/en/articles/" },
+      { "@type": "ListItem", "position": 3, "name": "Audio errors in DaVinci Resolve", "item": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    :root {
+      --bg:#0a0a0b;--panel:#0f0f11;--panel-2:#151518;--elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);--line-strong:rgba(255,255,255,.13);
+      --ink:#f3f3ef;--ink-dim:#a7a7ad;--ink-mute:#66666e;
+      --amber:#19c37d;--amber-2:#4ee6a8;
+      --amber-soft:rgba(25,195,125,.14);--amber-line:rgba(25,195,125,.42);
+      --green:#4ade80;--green-soft:rgba(74,222,128,.13);
+      --red:#ff6058;--red-soft:rgba(255,96,88,.13);
+      --warn:#fbbf24;
+      --radius:16px;--radius-sm:10px;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;padding-top:56px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.03;mix-blend-mode:screen;pointer-events:none;z-index:1}
+    #site-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;gap:1rem;padding:0 1.25rem;background:rgba(9,9,11,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-sizing:border-box}
+    .nav-brand{display:flex;align-items:center;gap:0.55rem;text-decoration:none;flex-shrink:0}
+    .nav-brand-name{font-family:var(--font-display);font-weight:800;font-size:1.05rem;letter-spacing:-0.03em;color:var(--ink)}
+    .nav-brand-accent{color:var(--amber)}
+    @keyframes eq{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.45)}}
+    .nav-brand .bar{transform-origin:center bottom;animation:eq 1.1s ease-in-out infinite}
+    .nav-brand .bar:nth-child(1){animation-delay:0s}.nav-brand .bar:nth-child(2){animation-delay:.18s}.nav-brand .bar:nth-child(3){animation-delay:.36s}.nav-brand .bar:nth-child(4){animation-delay:.54s}
+    .nav-links{display:flex;align-items:center;gap:0.1rem;list-style:none;flex:1;justify-content:center}
+    .nav-link{font-family:var(--font-body);font-size:0.875rem;font-weight:500;color:var(--ink-dim);text-decoration:none;padding:0.35rem 0.8rem;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;position:relative}
+    .nav-link:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+    .nav-link-active{color:var(--amber);font-weight:600}
+    .nav-link-active::after{content:'';position:absolute;bottom:-3px;left:0.8rem;right:0.8rem;height:2px;background:var(--amber);border-radius:1px}
+    .nav-end{margin-left:auto;flex-shrink:0}
+    .nav-lang{font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:var(--ink-mute);text-decoration:none;border:1px solid var(--line-strong);border-radius:6px;padding:0.25rem 0.6rem;transition:color .15s,border-color .15s,background .15s;letter-spacing:0.04em}
+    .nav-lang:hover{color:var(--ink);border-color:var(--amber);background:rgba(25,195,125,.08)}
+    @media(max-width:560px){.nav-links{display:none}}
+    .article-hero{position:relative;overflow:hidden;background:#070709;border-bottom:1px solid var(--line-strong)}
+    .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at center,rgba(25,195,125,.22) 0%,transparent 65%);pointer-events:none;z-index:1}
+    .hero-waveform-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+    .hero-waveform-fade{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,#070709 100%);z-index:1;pointer-events:none}
+    .hero-inner{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:3.5rem 1.25rem 3rem}
+    .breadcrumb{display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.72rem;color:rgba(255,255,255,.38);margin-bottom:1.75rem;flex-wrap:wrap}
+    .breadcrumb a{color:rgba(255,255,255,.38);text-decoration:none;transition:color .15s}
+    .breadcrumb a:hover{color:var(--amber)}
+    .breadcrumb-sep{opacity:.4}
+    .article-badge{font-family:var(--font-mono);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border:1px solid var(--amber-line);border-radius:6px;padding:0.2rem 0.55rem;display:inline-block;margin-bottom:1.25rem}
+    h1.article-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.25rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.25rem}
+    .hero-meta{display:flex;align-items:center;gap:0.75rem;font-family:var(--font-mono);font-size:0.72rem;color:rgba(255,255,255,.38);margin-bottom:2.25rem;flex-wrap:wrap}
+    .hero-meta time{color:rgba(255,255,255,.5)}
+    .hero-tagline{font-family:var(--font-mono);font-size:0.7rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,.11);line-height:1.3}
+    .article-outer{max-width:1100px;margin:0 auto;padding:3.5rem 1.25rem 5rem;display:grid;grid-template-columns:230px 1fr;gap:4rem;align-items:start;position:relative;z-index:2}
+    .article-sidebar{position:sticky;top:76px;display:flex;flex-direction:column;gap:2rem}
+    .sidebar-toc-heading{font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:0.85rem;padding-bottom:0.6rem;border-bottom:1px solid var(--line-strong)}
+    .sidebar-toc-list{list-style:none;display:flex;flex-direction:column}
+    .sidebar-toc-link{display:block;font-family:var(--font-body);font-size:0.8rem;color:var(--ink-mute);text-decoration:none;padding:0.38rem 0 0.38rem 0.75rem;border-left:2px solid transparent;transition:color .15s,border-color .15s;line-height:1.45}
+    .sidebar-toc-link:hover{color:var(--ink-dim);border-left-color:var(--line-strong)}
+    .sidebar-toc-link.is-active{color:var(--amber);border-left-color:var(--amber);font-weight:600}
+    .sidebar-cta-label{font-family:var(--font-mono);font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:0.65rem}
+    .sidebar-cta-card{background:var(--panel);border:1px solid var(--amber-line);border-radius:var(--radius-sm);padding:1.1rem;display:flex;flex-direction:column;gap:0.6rem}
+    .sidebar-cta-name{font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em}
+    .sidebar-cta-name span{color:var(--amber)}
+    .sidebar-cta-desc{font-family:var(--font-body);font-size:0.78rem;color:var(--ink-dim);line-height:1.55;margin:0}
+    .sidebar-cta-btn{display:flex;align-items:center;justify-content:center;gap:0.4rem;background:var(--amber);color:#051e12;font-family:var(--font-body);font-size:0.78rem;font-weight:700;padding:0.55rem 1rem;border-radius:7px;text-decoration:none;transition:opacity .15s;width:100%;text-align:center}
+    .sidebar-cta-btn:hover{opacity:0.88}
+    .article-content{min-width:0}
+    .article-lead{font-size:1.05rem;color:var(--ink-dim);line-height:1.78;margin-bottom:2.25rem}
+    .article-lead::first-letter{font-family:var(--font-display);font-size:4.5rem;font-weight:800;float:left;line-height:0.82;margin:0.08em 0.14em 0 0;color:var(--amber)}
+    .article-body h2{font-family:var(--font-display);font-size:1.45rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin-top:2.75rem;margin-bottom:1rem;scroll-margin-top:76px}
+    .article-body h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--ink);margin-top:1.75rem;margin-bottom:0.65rem;scroll-margin-top:76px}
+    .article-body p{color:var(--ink-dim);line-height:1.8;margin-bottom:1rem}
+    .article-body p strong{color:var(--ink);font-weight:600}
+    .article-body ul,.article-body ol{padding-left:1.5rem;color:var(--ink-dim);line-height:1.8;margin-bottom:1rem;display:flex;flex-direction:column;gap:0.35rem}
+    .article-body li strong{color:var(--ink)}
+    .article-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px;transition:opacity .15s}
+    .article-body a:hover{opacity:0.8}
+    .article-body code{font-family:var(--font-mono);font-size:0.82em;background:var(--elev);border:1px solid var(--line-strong);border-radius:4px;padding:0.1em 0.4em;color:var(--amber-2)}
+    pre{background:var(--panel-2);border:1px solid var(--line-strong);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1.1rem 1.25rem;overflow-x:auto;margin:1.1rem 0}
+    pre code{font-family:var(--font-mono);font-size:0.8rem;color:var(--amber-2);background:none;border:none;padding:0;white-space:pre}
+    .info-box{background:var(--panel);border:1px solid var(--line-strong);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .info-box strong{color:var(--ink)}
+    .warn-box{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-left:3px solid var(--warn);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .warn-box strong{color:var(--ink)}
+    .solution-box{background:var(--amber-soft);border:1px solid var(--amber-line);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .solution-box strong{color:var(--ink)}
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.25rem 0}
+    .compare-table{width:100%;border-collapse:collapse;font-size:0.875rem;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line-strong)}
+    .compare-table th{background:var(--panel-2);color:var(--ink-dim);font-family:var(--font-mono);font-size:0.7rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+    .compare-table td{padding:0.6rem 1rem;color:var(--ink-dim);border-bottom:1px solid var(--line);vertical-align:middle}
+    .compare-table tr:last-child td{border-bottom:none}
+    .compare-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+    .codec-legend{font-size:0.78rem;color:var(--ink-mute);margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.5rem 1rem;align-items:center}
+    .badge-ok{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:4px;background:var(--green-soft);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+    .badge-fail{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:4px;background:var(--red-soft);color:var(--red);border:1px solid rgba(255,96,88,.25)}
+    .badge-partial{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:4px;background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.3)}
+    .steps{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+    .step{display:grid;grid-template-columns:2.5rem 1fr;gap:0 1rem;position:relative;padding-bottom:1.5rem}
+    .step:last-child{padding-bottom:0}
+    .step-line{position:absolute;left:1.2rem;top:2.5rem;bottom:0;width:1px;background:var(--line-strong)}
+    .step:last-child .step-line{display:none}
+    .step-num{width:2.4rem;height:2.4rem;border-radius:50%;background:var(--panel-2);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;color:var(--amber);flex-shrink:0;position:relative;z-index:1}
+    .step-content{padding-top:0.3rem}
+    .step-content strong{color:var(--ink);font-size:0.95rem;display:block;margin-bottom:0.4rem}
+    .step-content p{margin:0 0 0.5rem;color:var(--ink-dim);font-size:0.875rem;line-height:1.7}
+    .tool-cta{background:var(--panel);border:1px solid var(--amber-line);border-radius:var(--radius);padding:1.75rem 2rem;margin:2.5rem 0;display:flex;flex-direction:column;align-items:flex-start;gap:0.75rem}
+    .tool-cta-label{font-family:var(--font-mono);font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber)}
+    .tool-cta h3{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--ink);margin:0}
+    .tool-cta p{color:var(--ink-dim);font-size:0.9rem;margin:0;line-height:1.65}
+    .tool-cta-btn, a.tool-cta-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--amber);color:#051e12;font-family:var(--font-body);font-size:0.9rem;font-weight:700;padding:0.7rem 1.4rem;border-radius:var(--radius-sm);text-decoration:none;transition:opacity .15s,transform .15s;margin-top:0.25rem}
+    a.tool-cta-btn:hover{opacity:0.88;transform:translateY(-1px)}
+    .ad-slot{margin:2rem 0;text-align:center;min-height:90px}
+    .ad-label{font-family:var(--font-mono);font-size:0.62rem;color:var(--ink-mute);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem}
+    .faq-section{margin-top:2.5rem}
+    .faq-item{border:none;border-bottom:1px solid var(--line);padding:0}
+    .faq-item summary{font-family:var(--font-body);font-size:0.95rem;font-weight:600;color:var(--ink);padding:1rem 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-chevron{flex-shrink:0;width:18px;height:18px;color:var(--ink-mute);transition:transform .2s}
+    .faq-item[open] .faq-chevron{transform:rotate(180deg)}
+    .faq-answer{padding:0 0 1rem;color:var(--ink-dim);font-size:0.9rem;line-height:1.75}
+    .faq-answer p{margin:0 0 .5rem}
+    .faq-answer p:last-child{margin:0}
+    .faq-answer strong{color:var(--ink)}
+    .faq-answer a{color:var(--amber)}
+    .prev-next-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--line-strong)}
+    .prev-next-item{display:flex;flex-direction:column;gap:0.35rem;padding:1rem 1.1rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm);text-decoration:none;transition:border-color .15s,background .15s}
+    .prev-next-item:hover{border-color:var(--amber-line);background:rgba(25,195,125,.04)}
+    .prev-next-item.is-next{text-align:right}
+    .prev-next-label{font-family:var(--font-mono);font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-mute)}
+    .prev-next-title{font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--ink);line-height:1.35}
+    .related-articles{margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--line)}
+    .related-heading{font-family:var(--font-display);font-size:1.35rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;letter-spacing:-0.02em}
+    .related-sub{font-size:0.85rem;color:var(--ink-mute);margin-bottom:1.35rem;font-family:var(--font-body)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem}
+    .related-card{background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:1.1rem;text-decoration:none;display:flex;flex-direction:column;gap:0.5rem;transition:border-color .15s,background .15s}
+    .related-card:hover{border-color:var(--amber-line);background:rgba(25,195,125,.04)}
+    .related-card-badge{font-family:var(--font-mono);font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber)}
+    .related-card-title{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--ink);line-height:1.35;flex:1}
+    .related-card-arrow{font-family:var(--font-mono);font-size:0.7rem;color:var(--amber);display:flex;align-items:center;gap:0.3rem;margin-top:0.25rem}
+    footer{text-align:center;color:var(--ink-dim);font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.02em;line-height:1.7;padding:2.5rem 2.75rem 2.25rem;background:#1a1a20;border-top:1px solid var(--line-strong);display:flex;flex-direction:column;gap:0.65rem;position:relative;z-index:2}
+    footer strong{color:var(--amber-2);font-weight:600}
+    .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:0.25rem 1.5rem}
+    .footer-links a{color:var(--ink-dim);text-decoration:none;transition:color 0.15s}
+    .footer-links a:hover{color:var(--amber)}
+    @media(max-width:900px){
+      .article-outer{grid-template-columns:1fr;gap:2.5rem;padding:2.5rem 1.25rem 4rem}
+      .article-sidebar{position:static;order:-1}
+      .related-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:580px){
+      .related-grid{grid-template-columns:1fr}
+      .prev-next-nav{grid-template-columns:1fr}
+      .prev-next-item.is-next{text-align:left}
+      .hero-inner{padding:2.5rem 1.25rem 2rem}
+      h1.article-title{font-size:1.9rem}
+    }
+    @media(max-width:480px){
+      .tool-cta{padding:1.25rem}
+      .compare-table{font-size:0.8rem}
+      .compare-table th,.compare-table td{padding:0.5rem 0.65rem}
+    }
+    :focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .article-outer{animation:fadeUp .4s ease both}
+    @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+  </style>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav id="site-nav" aria-label="Main navigation">
+  <a class="nav-brand" href="/en/" aria-label="VidToFLAC — home">
+    <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+      <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+      <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+    </svg>
+    <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/en/" class="nav-link">Home</a></li>
+    <li><a href="/en/convert-formats/" class="nav-link">Formats</a></li>
+    <li><a href="/en/articles/" class="nav-link nav-link-active" aria-current="page">Articles</a></li>
+    <li><a href="/en/history/" class="nav-link">History</a></li>
+    <li><a href="/en/contact/" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/en/" class="nav-lang" aria-label="Cambiar a español" hreflang="es">Español</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="article-hero" aria-label="Article header">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <svg class="hero-waveform-bg" viewBox="0 0 1200 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g fill="rgba(25,195,125,.22)">
+      <rect x="13"   y="126" width="8" height="29"  rx="4"/>
+      <rect x="46"   y="119" width="8" height="43"  rx="4"/>
+      <rect x="79"   y="110" width="8" height="60"  rx="4"/>
+      <rect x="113"  y="98"  width="8" height="84"  rx="4"/>
+      <rect x="146"  y="83"  width="8" height="115" rx="4"/>
+      <rect x="179"  y="66"  width="8" height="149" rx="4"/>
+      <rect x="212"  y="49"  width="8" height="182" rx="4"/>
+      <rect x="246"  y="38"  width="8" height="204" rx="4"/>
+      <rect x="279"  y="32"  width="8" height="216" rx="4"/>
+      <rect x="312"  y="30"  width="8" height="221" rx="4"/>
+      <rect x="345"  y="35"  width="8" height="211" rx="4"/>
+      <rect x="379"  y="44"  width="8" height="192" rx="4"/>
+      <rect x="412"  y="59"  width="8" height="163" rx="4"/>
+      <rect x="445"  y="75"  width="8" height="130" rx="4"/>
+      <rect x="478"  y="92"  width="8" height="96"  rx="4"/>
+      <rect x="512"  y="107" width="8" height="67"  rx="4"/>
+      <rect x="545"  y="119" width="8" height="43"  rx="4"/>
+      <rect x="578"  y="126" width="8" height="29"  rx="4"/>
+      <rect x="611"  y="131" width="8" height="19"  rx="4"/>
+      <rect x="645"  y="126" width="8" height="29"  rx="4"/>
+      <rect x="678"  y="116" width="8" height="48"  rx="4"/>
+      <rect x="711"  y="102" width="8" height="77"  rx="4"/>
+      <rect x="744"  y="85"  width="8" height="110" rx="4"/>
+      <rect x="778"  y="66"  width="8" height="149" rx="4"/>
+      <rect x="811"  y="49"  width="8" height="182" rx="4"/>
+      <rect x="844"  y="35"  width="8" height="211" rx="4"/>
+      <rect x="877"  y="27"  width="8" height="226" rx="4"/>
+      <rect x="911"  y="30"  width="8" height="221" rx="4"/>
+      <rect x="944"  y="39"  width="8" height="202" rx="4"/>
+      <rect x="977"  y="54"  width="8" height="173" rx="4"/>
+      <rect x="1010" y="71"  width="8" height="139" rx="4"/>
+      <rect x="1044" y="90"  width="8" height="101" rx="4"/>
+      <rect x="1077" y="107" width="8" height="67"  rx="4"/>
+      <rect x="1110" y="119" width="8" height="43"  rx="4"/>
+      <rect x="1143" y="128" width="8" height="24"  rx="4"/>
+      <rect x="1176" y="133" width="8" height="14"  rx="4"/>
+    </g>
+  </svg>
+  <div class="hero-waveform-fade" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/en/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <a href="/en/articles/">Articles</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span aria-current="page">Audio errors</span>
+    </nav>
+    <span class="article-badge">Guide</span>
+    <h1 class="article-title" itemprop="headline">
+      Audio errors in DaVinci Resolve: causes and complete fixes
+    </h1>
+    <div class="hero-meta">
+      <time datetime="2026-06-28" itemprop="datePublished">28 June 2026</time>
+      <span aria-hidden="true">·</span>
+      <span>8 min read</span>
+    </div>
+    <p class="hero-tagline">Audio diagnosis · DaVinci Resolve · FLAC fixes</p>
+  </div>
+</section>
+
+<!-- ─── DOS COLUMNAS ─── -->
+<div class="article-outer">
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar" aria-label="Article navigation">
+    <nav aria-label="Table of contents">
+      <p class="sidebar-toc-heading">Contents</p>
+      <ul class="sidebar-toc-list">
+        <li><a href="#por-que-ocurre" class="sidebar-toc-link">Why DaVinci Resolve will not play the audio</a></li>
+        <li><a href="#codecs-compatibles" class="sidebar-toc-link">Supported and unsupported codecs</a></li>
+        <li><a href="#errores-comunes" class="sidebar-toc-link">The most common audio errors in DaVinci Resolve</a></li>
+        <li><a href="#linux" class="sidebar-toc-link">DaVinci Resolve on Linux: why AAC audio will not play</a></li>
+        <li><a href="#soluciones" class="sidebar-toc-link">How to fix the audio error in DaVinci Resolve</a></li>
+        <li><a href="#formatos-problematicos" class="sidebar-toc-link">Video formats with audio problems in DaVinci Resolve</a></li>
+        <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <p class="sidebar-cta-label">Recommended tool</p>
+      <div class="sidebar-cta-card">
+        <div class="sidebar-cta-name">VidTo<span>FLAC</span></div>
+        <p class="sidebar-cta-desc">Convert video to MKV or MP4 with FLAC audio right in your browser. Nothing to install, nothing uploaded.</p>
+        <a href="/en/" class="sidebar-cta-btn" aria-label="Open VidToFLAC">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convert now
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <article class="article-content" itemscope itemtype="https://schema.org/Article">
+
+    <p class="article-lead" itemprop="description">
+      You import a video into DaVinci Resolve and the picture looks perfect, but there is no sound. Or you get an "unsupported codec" message. It is one of the most common problems video editors hit, and it has one very specific cause: audio codec incompatibility. This guide explains why it happens, what the errors mean, and how to fix DaVinci Resolve's audio for good.
+    </p>
+
+    <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
+      <svg viewBox="0 0 780 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="780" height="180" fill="#0f0f11"/>
+        <rect x="60" y="40" width="240" height="100" rx="13" fill="#1a0f0f" stroke="rgba(255,96,88,.25)" stroke-width="1.5"/>
+        <text x="180" y="64" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">INCOMPATIBLE</text>
+        <rect x="80" y="72" width="30" height="45" rx="3" fill="rgba(255,96,88,.4)"/>
+        <rect x="118" y="72" width="30" height="45" rx="3" fill="rgba(255,96,88,.4)"/>
+        <rect x="156" y="72" width="30" height="45" rx="3" fill="rgba(255,96,88,.4)"/>
+        <rect x="194" y="72" width="30" height="45" rx="3" fill="rgba(255,96,88,.4)"/>
+        <rect x="232" y="72" width="30" height="45" rx="3" fill="rgba(255,96,88,.4)"/>
+        <path d="M318 90 L418 90" stroke="#19c37d" stroke-width="1.5" stroke-linecap="round"/>
+        <polyline points="410,82 418,90 410,98" stroke="#19c37d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="368" y="76" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="8" font-weight="600" letter-spacing="1">SOLUCIÓN</text>
+        <rect x="428" y="40" width="240" height="100" rx="13" fill="rgba(25,195,125,.07)" stroke="rgba(25,195,125,.3)" stroke-width="1.5"/>
+        <text x="548" y="64" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">COMPATIBLE</text>
+        <rect x="448" y="100" width="30" height="17" rx="3" fill="rgba(25,195,125,.4)"/>
+        <rect x="486" y="85" width="30" height="32" rx="3" fill="rgba(25,195,125,.4)"/>
+        <rect x="524" y="72" width="30" height="45" rx="3" fill="rgba(25,195,125,.5)"/>
+        <rect x="562" y="80" width="30" height="37" rx="3" fill="rgba(25,195,125,.4)"/>
+        <rect x="600" y="90" width="30" height="27" rx="3" fill="rgba(25,195,125,.4)"/>
+      </svg>
+    </div>
+
+    <div class="ad-slot">
+      <p class="ad-label">Advertisement</p>
+      <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="article-body" itemprop="articleBody">
+
+
+      <h2 id="por-que-ocurre">Why DaVinci Resolve will not play the audio</h2>
+
+      <p>DaVinci Resolve is a professional video editor, but it does not ship every audio decoder in existence. The reason is straightforward: many popular audio codecs — AAC, MP3, AC-3 Dolby Digital — are <strong>patent-protected</strong> and require licence payments. Blackmagic Design, the company behind DaVinci Resolve, includes those licences in the Windows and macOS builds, but <strong>not in the free Linux build</strong>.</p>
+
+      <p>On top of that, even on Windows and macOS there are container formats and particular codec combinations DaVinci Resolve handles poorly, especially in files from stills cameras, drones and smartphones.</p>
+
+      <p>The outcome is always the same: the clip appears on the timeline, the video plays, but there is no sound. Or the clip simply shows as "Media offline".</p>
+
+      <h2 id="codecs-compatibles">Supported and unsupported codecs</h2>
+
+      <p>Here is the reality of DaVinci Resolve's audio support, platform by platform:</p>
+
+      <div class="table-scroll">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Audio codec</th>
+              <th>Windows</th>
+              <th>macOS</th>
+              <th>Linux (free)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>FLAC</strong></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+            </tr>
+            <tr>
+              <td><strong>PCM / WAV</strong></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+            </tr>
+            <tr>
+              <td><strong>AIFF</strong></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+            </tr>
+            <tr>
+              <td><strong>AAC</strong></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>MP3</strong></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>ALAC (Apple Lossless)</strong></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>AC-3 (Dolby Digital)</strong></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+              <td><span class="badge-ok">✓ Supported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>E-AC-3 (Dolby Digital Plus)</strong></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>DTS</strong></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>Opus</strong></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>Vorbis (OGG)</strong></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+            <tr>
+              <td><strong>WMA</strong></td>
+              <td><span class="badge-partial">~ Partial</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+              <td><span class="badge-fail">✗ Unsupported</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="codec-legend">
+        <span class="badge-ok">✓ Supported</span> Works without trouble &nbsp;·&nbsp;
+        <span class="badge-partial">~ Partial</span> Depends on the version or container &nbsp;·&nbsp;
+        <span class="badge-fail">✗ Unsupported</span> No audio playback
+      </p>
+
+      <p>As you can see, <strong>FLAC is the one lossless audio codec that works across the board</strong> in DaVinci Resolve on every platform, Linux included. PCM/WAV works too, but takes far more space since it is uncompressed. FLAC gives the same quality as PCM while compressing by 40 to 60% — it is the better choice in every scenario.</p>
+
+      <h2 id="errores-comunes">The most common audio errors in DaVinci Resolve, and what they mean</h2>
+
+      <h3>1. Silent audio with no error message</h3>
+      <p>The clip imports fine and the waveform appears on the timeline, but nothing is audible on playback. This usually happens with <strong>AAC on Linux</strong> or <strong>Opus inside WebM files</strong>. DaVinci Resolve can see the audio track but cannot decode it.</p>
+
+      <div class="error-box">
+        <strong>The diagnostic sign:</strong> in the media inspector (Media Pool → right-click → Clip Attributes), the audio track is listed but shows <code>0 active channels</code>, or the codec is flagged in red.
+      </div>
+
+      <h3>2. "Unsupported audio codec"</h3>
+      <p>DaVinci Resolve states outright that it cannot decode the audio. The message appears during import in the Media Pool, or when you try to add the clip to the timeline. It is the most direct form of the problem.</p>
+
+      <div class="error-box">
+        <strong>The usual messages:</strong> <code>Unsupported audio codec</code> · <code>Audio codec not supported</code> · <code>Cannot decode audio stream</code>
+      </div>
+
+      <h3>3. "Media offline" on the audio clip</h3>
+      <p>The clip appears on a red background with the "Media offline" message on the timeline. It is usually associated with files that have been moved or renamed, but it also happens when DaVinci Resolve rejects the file outright over a codec incompatibility.</p>
+
+      <h3>4. Audio out of sync</h3>
+      <p>The audio does play, but runs ahead of or behind the picture. This happens frequently with <strong>Variable Frame Rate (VFR)</strong> files, typical of smartphone video. The camera varies the frame rate scene by scene, which confuses DaVinci Resolve's sync engine.</p>
+
+      <h3>5. A flat or missing waveform</h3>
+      <p>The audio track exists on the timeline but the waveform is completely flat, with no peaks or troughs. It means DaVinci Resolve imported the track but could not read the audio data.</p>
+
+      <!-- Ad slot: mid-article -->
+      <div class="ad-slot">
+        <p class="ad-label">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-1123812992313934"
+             data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <h2 id="linux">DaVinci Resolve on Linux: why AAC audio will not play</h2>
+
+      <p>DaVinci Resolve on Linux deserves its own section, because it is where most people hit audio problems, and the reason is structural: <strong>Blackmagic Design does not include the AAC, MP3 and other codec patent licences in the Linux build</strong>. This is not a bug; it is a licensing decision.</p>
+
+      <p>What that means in practice:</p>
+
+      <ul>
+        <li>An MP4 shot on an iPhone (AAC) will play the video but not the audio.</li>
+        <li>A MOV from a Sony or Canon camera — also AAC — has the same problem.</li>
+        <li>Videos downloaded from YouTube (Opus inside WebM) will have no audio either.</li>
+        <li>Screen recordings with MP3 audio will not work either.</li>
+      </ul>
+
+      <div class="solution-box">
+        <strong>The definitive Linux fix:</strong> convert your videos' audio to FLAC before importing them into DaVinci Resolve. FLAC is open source, carries no patent licences, and DaVinci Resolve supports it natively on every platform, Linux included.
+      </div>
+
+      <p>Some people try to solve this by installing extra codec packages system-wide — <code>ffmpeg</code>, <code>gstreamer</code>, the <code>davinci-resolve-studio</code> package — but those workarounds are partial, distribution-specific and liable to break on update. <strong>The robust answer is to convert the file before importing it.</strong></p>
+
+      <h2 id="soluciones">How to fix the audio error in DaVinci Resolve, step by step</h2>
+
+      <h3>Fix 1: convert the audio to FLAC with VidToFLAC (recommended)</h3>
+
+      <p>The quickest and most private option, with nothing to install. VidToFLAC uses FFmpeg compiled to WebAssembly to perform a <strong>lossless remux</strong>: the video stream is copied bit for bit — no recompression, no quality lost — and only the audio is converted to FLAC.</p>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">Free tool</span>
+        <h3>Convert your videos' audio to FLAC</h3>
+        <p>100% private and local — your files never leave your browser. Nothing to install, no server-imposed size limit, no sign-up.</p>
+        <a href="/en/" class="tool-cta-btn" aria-label="Use VidToFLAC for free">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Use VidToFLAC free
+        </a>
+      </div>
+
+      <p>The process:</p>
+      <ol>
+        <li>Drop your video (MP4, MOV, MKV, WebM, AVI…) onto the tool.</li>
+        <li>Click <strong>Convert</strong>. The processing happens on your device.</li>
+        <li>Download the resulting <code>.mkv</code> file.</li>
+        <li>Import that MKV into DaVinci Resolve. The FLAC audio will work.</li>
+      </ol>
+
+      <h3>Fix 2: convert with FFmpeg in the terminal</h3>
+
+      <p>If you prefer the terminal, this command does exactly what VidToFLAC does: copy the video without recompressing and convert the audio to FLAC.</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i your_video.mp4 -c:v copy -c:a flac output.mkv</code>
+      </div>
+
+      <p>If the video uses an unsupported video codec (ProRes, DNxHD and so on), replace <code>-c:v copy</code> with <code>-c:v libx264 -preset ultrafast -crf 18</code>.</p>
+
+      <h3>Fix 3: buy DaVinci Resolve Studio</h3>
+
+      <p>The paid edition, Studio, includes more codec licences, AAC on Linux among them. It costs <strong>around 295 EUR</strong>, though, and does not cover every case — E-AC-3 still will not work, for instance. For most people, converting the file is a better answer, and free.</p>
+
+      <h3>Fix 4: extract the audio and re-sync it by hand</h3>
+
+      <p>Some tutorials suggest extracting the audio to a separate WAV or MP3 and re-syncing it in DaVinci Resolve. <strong>We do not recommend this</strong>, because:</p>
+      <ul>
+        <li>You have to sync the audio by hand, which takes time.</li>
+        <li>On a long video, the sync can drift.</li>
+        <li>You end up with two files instead of one.</li>
+      </ul>
+      <p>Remuxing to MKV with FLAC audio keeps everything in a single file, and the sync is exact.</p>
+
+      <h2 id="formatos-problematicos">Video formats with audio problems in DaVinci Resolve</h2>
+
+      <h3>MP4 from an iPhone or Android phone</h3>
+      <p>Smartphone video almost always uses AAC for audio and H.264 or H.265 for video. On Linux, AAC does not work in DaVinci Resolve. The fix is an <a href="/convertir-mp4-a-flac/">MP4-to-MKV remux with FLAC audio</a>, leaving the video untouched.</p>
+
+      <h3>MOV from Sony, Canon and Fuji cameras</h3>
+      <p>Mirrorless and DSLR cameras usually record MOV with AAC or 24-bit PCM audio. AAC causes trouble on Linux; 24-bit PCM can cause trouble in particular DaVinci Resolve combinations. <a href="/convertir-mov-a-flac/">Converting MOV to FLAC</a> resolves both.</p>
+
+      <h3>WebM from YouTube or screen recorders</h3>
+      <p>WebM uses Opus or Vorbis for audio. Neither has reliable support in DaVinci Resolve. If you download YouTube videos or record your screen to WebM, you will need to <a href="/convertir-webm-a-flac/">convert the WebM to FLAC</a>.</p>
+
+      <h3>MKV with AAC or AC-3 audio</h3>
+      <p>MKV is only a container: it can hold any audio codec. An MKV with AAC audio has exactly the same problem as an MP4 with AAC. You can fix it with an <a href="/convertir-mkv-a-flac/">MKV-to-FLAC remux</a>: the container stays MKV, but the audio becomes FLAC.</p>
+
+      <h3>Video with E-AC-3 (Dolby Digital Plus) audio</h3>
+      <p>E-AC-3 is the audio format behind a lot of streaming content (Amazon Prime, Netflix). If you edit that kind of material, note that E-AC-3 works in DaVinci Resolve on no platform at all. Converting to FLAC is the only way.</p>
+
+      <!-- Ad slot: before FAQ -->
+      <div class="ad-slot">
+        <p class="ad-label">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-1123812992313934"
+             data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">Ready to fix it?</span>
+        <h3>Fix your videos' audio now</h3>
+        <p>Drop in your file, press Convert and download the MKV with FLAC audio. Nothing uploaded anywhere. Works with MP4, MOV, WebM, MKV, AVI and more.</p>
+        <a href="/en/" class="tool-cta-btn" aria-label="Convert audio to FLAC free">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convert to FLAC free
+        </a>
+      </div>
+
+      <section class="faq-section" aria-labelledby="faq">
+        <h2 id="faq">Frequently asked questions about audio in DaVinci Resolve</h2>
+
+        <details class="faq-item">
+          <summary>
+            Why won't DaVinci Resolve play my videos' audio?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>DaVinci Resolve does not ship decoders for every audio codec. The most troublesome are <strong>AAC, MP3, AC-3, E-AC-3 and Opus</strong>, especially on Linux where the free version's codec support is very limited. The fix is to convert the audio to FLAC before importing.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Does converting the audio to FLAC cost me picture quality?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p><strong>No.</strong> A remux copies the video stream bit for bit, without recompressing. The frames are identical to the original. Only the audio is re-encoded, to FLAC, which is lossless — so the audio quality is identical too.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Can I convert a camera MOV to MKV with FLAC without trouble?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Yes. The container changes from MOV to MKV, but the contents are the same. DaVinci Resolve works perfectly well with MKV. The only noticeable difference is that the resulting file may be slightly larger, since FLAC compresses losslessly and therefore less than lossy AAC.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Why doesn't my iPhone video audio work in DaVinci Resolve on Linux?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>iPhone video uses AAC for audio. DaVinci Resolve on Linux cannot decode AAC, because Blackmagic Design does not include that patent licence in the Linux build. <strong>The fix</strong> is to convert the audio to FLAC with VidToFLAC before importing the clip.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Is there any way to fix the audio without converting the file?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>On Linux, not reliably. Some distributions let you install extra decoder packages, but those workarounds are fragile and tied to particular OS versions. Converting to FLAC is the only robust approach that works on every system.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            What is the difference between FLAC and WAV for DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Both are lossless and both work well in DaVinci Resolve. The difference is size: FLAC compresses the audio — typically 40–60% smaller than WAV — without discarding any data. On long videos that difference is significant, which is why we recommend FLAC over WAV.</p>
+          </div>
+        </details>
+      </section>
+
+    
+    </div><!-- /.article-body -->
+
+    <nav class="prev-next-nav" aria-label="Previous and next articles">
+      <div></div>
+      <a href="/en/articles/best-video-format-for-davinci-resolve/" class="prev-next-item is-next">
+        <span class="prev-next-label">Next →</span>
+        <span class="prev-next-title">Which video format to use in DaVinci Resolve: a codec guide</span>
+      </a>
+    </nav>
+
+    <section class="related-articles" aria-labelledby="related-heading">
+      <h2 class="related-heading" id="related-heading">Related articles</h2>
+      <p class="related-sub">More conversion and DaVinci Resolve compatibility guides.</p>
+      <div class="related-grid">
+        <a href="/en/articles/export-video-davinci-resolve-without-losing-audio-quality/" class="related-card">
+          <span class="related-card-badge">Guide</span>
+          <span class="related-card-title">Export video from DaVinci Resolve without losing audio quality</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+        <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/" class="related-card">
+          <span class="related-card-badge">Fix</span>
+          <span class="related-card-title">DaVinci Resolve won't import MP4 / OBS audio</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+        <a href="/en/articles/davinci-resolve-render-no-audio/" class="related-card">
+          <span class="related-card-badge">Fix</span>
+          <span class="related-card-title">DaVinci Resolve exports video with no audio</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+      </div>
+    </section>
+
+  </article>
+</div><!-- /.article-outer -->
+
+<footer>
+  <p>All processing happens on your device using <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.</p>
+  <nav class="footer-links" aria-label="Legal pages">
+    <a href="/en/privacy-policy/">Privacy policy</a>
+    <a href="/en/terms-of-service/">Terms of service</a>
+    <a href="/en/legal-notice/">Legal notice</a>
+    <a href="/en/contact/">Contact</a>
+  </nav>
+  <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>
+</footer>
+
+<script>
+  const headings = document.querySelectorAll('.article-body h2[id], .faq-section h2[id]');
+  const tocLinks = document.querySelectorAll('.sidebar-toc-link');
+  if (headings.length && tocLinks.length) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + entry.target.id));
+        }
+      });
+    }, { rootMargin: '-70px 0px -60% 0px', threshold: 0 });
+    headings.forEach(h => observer.observe(h));
+  }
+</script>
+
+</body>
+</html>

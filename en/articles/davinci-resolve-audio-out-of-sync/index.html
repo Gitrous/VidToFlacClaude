@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DaVinci Resolve audio out of sync: causes and the definitive fix</title>
+  <meta name="description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta name="keywords" content="DaVinci Resolve audio out of sync, DaVinci Resolve audio not synced, DaVinci Resolve audio offset, DaVinci Resolve audio drifts, DaVinci Resolve video audio out of sync, DaVinci Resolve audio delay, audio video sync DaVinci Resolve, DaVinci Resolve audio desync, DaVinci Resolve VFR sync" />
+  <meta name="author" content="VidToFLAC" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
+
+  <!-- Icons & PWA -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VidToFLAC" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
+  <meta property="og:title" content="DaVinci Resolve audio out of sync: causes and the definitive fix" />
+  <meta property="og:description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter/X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DaVinci Resolve audio out of sync: causes and the definitive fix" />
+  <meta name="twitter:description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
+
+  <!-- Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "DaVinci Resolve audio out of sync: causes and the definitive fix",
+    "description": "Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step.",
+    "url": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/",
+    "datePublished": "2026-07-01",
+    "dateModified": "2026-07-01",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/",
+      "logo": "https://vidtoflac.tech/icon-512.png"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/"
+    }
+  }
+  </script>
+
+  <!-- FAQ schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Why does audio drift out of sync in DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most common causes are: (1) an incompatible audio codec that DaVinci Resolve decodes with a delay, especially AAC on Linux; (2) video shot at a variable frame rate (VFR), as phones and OBS screen captures produce; (3) mistakes in the export settings. For the first case, the most effective fix is to convert the audio to FLAC with VidToFLAC before importing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get the audio back in sync in DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on the cause. If the drift comes from the codec, convert the file to MKV with FLAC audio using VidToFLAC. If it comes from a variable frame rate, set the clip speed to a constant frame rate or use FFmpeg to convert to CFR. If it is a fixed offset on the timeline, select the audio track and use Ctrl+Alt+arrow to nudge it frame by frame."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does DaVinci Resolve's audio drift affect the exported file too?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends where it starts. If the drift is present on import, from the codec or from VFR, the exported file will carry it too. If you nudge the audio by hand on the timeline but the source file is VFR, the problem can come back on the next render. The right fix is to repair the source file before importing, not to patch it on the timeline."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the free DaVinci Resolve have more sync problems than Studio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "VFR-related sync problems affect both editions equally. Audio codec problems with AAC and MP3 are more common in the free version on Linux, because DaVinci Resolve Free ships no proprietary decoders. Converting to FLAC before importing solves that case in both editions."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vidtoflac.tech/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://vidtoflac.tech/en/articles/" },
+      { "@type": "ListItem", "position": 3, "name": "DaVinci Resolve audio out of sync", "item": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    :root {
+      --bg:#0a0a0b;--panel:#0f0f11;--panel-2:#151518;--elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);--line-strong:rgba(255,255,255,.13);
+      --ink:#f3f3ef;--ink-dim:#a7a7ad;--ink-mute:#66666e;
+      --amber:#19c37d;--amber-2:#4ee6a8;
+      --amber-soft:rgba(25,195,125,.14);--amber-line:rgba(25,195,125,.42);
+      --green:#4ade80;--green-soft:rgba(74,222,128,.13);
+      --red:#ff6058;--red-soft:rgba(255,96,88,.13);
+      --warn:#fbbf24;
+      --radius:16px;--radius-sm:10px;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;padding-top:56px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.03;mix-blend-mode:screen;pointer-events:none;z-index:1}
+    #site-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;gap:1rem;padding:0 1.25rem;background:rgba(9,9,11,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-sizing:border-box}
+    .nav-brand{display:flex;align-items:center;gap:0.55rem;text-decoration:none;flex-shrink:0}
+    .nav-brand-name{font-family:var(--font-display);font-weight:800;font-size:1.05rem;letter-spacing:-0.03em;color:var(--ink)}
+    .nav-brand-accent{color:var(--amber)}
+    @keyframes eq{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.45)}}
+    .nav-brand .bar{transform-origin:center bottom;animation:eq 1.1s ease-in-out infinite}
+    .nav-brand .bar:nth-child(1){animation-delay:0s}.nav-brand .bar:nth-child(2){animation-delay:.18s}.nav-brand .bar:nth-child(3){animation-delay:.36s}.nav-brand .bar:nth-child(4){animation-delay:.54s}
+    .nav-links{display:flex;align-items:center;gap:0.1rem;list-style:none;flex:1;justify-content:center}
+    .nav-link{font-family:var(--font-body);font-size:0.875rem;font-weight:500;color:var(--ink-dim);text-decoration:none;padding:0.35rem 0.8rem;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;position:relative}
+    .nav-link:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+    .nav-link-active{color:var(--amber);font-weight:600}
+    .nav-link-active::after{content:'';position:absolute;bottom:-3px;left:0.8rem;right:0.8rem;height:2px;background:var(--amber);border-radius:1px}
+    .nav-end{margin-left:auto;flex-shrink:0}
+    .nav-lang{font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:var(--ink-mute);text-decoration:none;border:1px solid var(--line-strong);border-radius:6px;padding:0.25rem 0.6rem;transition:color .15s,border-color .15s,background .15s;letter-spacing:0.04em}
+    .nav-lang:hover{color:var(--ink);border-color:var(--amber);background:rgba(25,195,125,.08)}
+    @media(max-width:560px){.nav-links{display:none}}
+    .article-hero{position:relative;overflow:hidden;background:#070709;border-bottom:1px solid var(--line-strong)}
+    .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at center,rgba(25,195,125,.22) 0%,transparent 65%);pointer-events:none;z-index:1}
+    .hero-waveform-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+    .hero-waveform-fade{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,#070709 100%);z-index:1;pointer-events:none}
+    .hero-inner{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:3.5rem 1.25rem 3rem}
+    .breadcrumb{display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.72rem;color:rgba(255,255,255,.38);margin-bottom:1.75rem;flex-wrap:wrap}
+    .breadcrumb a{color:rgba(255,255,255,.38);text-decoration:none;transition:color .15s}
+    .breadcrumb a:hover{color:var(--amber)}
+    .breadcrumb-sep{opacity:.4}
+    .article-badge{font-family:var(--font-mono);font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border:1px solid var(--amber-line);border-radius:6px;padding:0.2rem 0.55rem;display:inline-block;margin-bottom:1.25rem}
+    h1.article-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.25rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.25rem}
+    .hero-meta{display:flex;align-items:center;gap:0.75rem;font-family:var(--font-mono);font-size:0.72rem;color:rgba(255,255,255,.38);margin-bottom:2.25rem;flex-wrap:wrap}
+    .hero-meta time{color:rgba(255,255,255,.5)}
+    .hero-tagline{font-family:var(--font-mono);font-size:0.7rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,.11);line-height:1.3}
+    .article-outer{max-width:1100px;margin:0 auto;padding:3.5rem 1.25rem 5rem;display:grid;grid-template-columns:230px 1fr;gap:4rem;align-items:start;position:relative;z-index:2}
+    .article-sidebar{position:sticky;top:76px;display:flex;flex-direction:column;gap:2rem}
+    .sidebar-toc-heading{font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:0.85rem;padding-bottom:0.6rem;border-bottom:1px solid var(--line-strong)}
+    .sidebar-toc-list{list-style:none;display:flex;flex-direction:column}
+    .sidebar-toc-link{display:block;font-family:var(--font-body);font-size:0.8rem;color:var(--ink-mute);text-decoration:none;padding:0.38rem 0 0.38rem 0.75rem;border-left:2px solid transparent;transition:color .15s,border-color .15s;line-height:1.45}
+    .sidebar-toc-link:hover{color:var(--ink-dim);border-left-color:var(--line-strong)}
+    .sidebar-toc-link.is-active{color:var(--amber);border-left-color:var(--amber);font-weight:600}
+    .sidebar-cta-label{font-family:var(--font-mono);font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:0.65rem}
+    .sidebar-cta-card{background:var(--panel);border:1px solid var(--amber-line);border-radius:var(--radius-sm);padding:1.1rem;display:flex;flex-direction:column;gap:0.6rem}
+    .sidebar-cta-name{font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em}
+    .sidebar-cta-name span{color:var(--amber)}
+    .sidebar-cta-desc{font-family:var(--font-body);font-size:0.78rem;color:var(--ink-dim);line-height:1.55;margin:0}
+    .sidebar-cta-btn{display:flex;align-items:center;justify-content:center;gap:0.4rem;background:var(--amber);color:#051e12;font-family:var(--font-body);font-size:0.78rem;font-weight:700;padding:0.55rem 1rem;border-radius:7px;text-decoration:none;transition:opacity .15s;width:100%;text-align:center}
+    .sidebar-cta-btn:hover{opacity:0.88}
+    .article-content{min-width:0}
+    .article-lead{font-size:1.05rem;color:var(--ink-dim);line-height:1.78;margin-bottom:2.25rem}
+    .article-lead::first-letter{font-family:var(--font-display);font-size:4.5rem;font-weight:800;float:left;line-height:0.82;margin:0.08em 0.14em 0 0;color:var(--amber)}
+    .article-body h2{font-family:var(--font-display);font-size:1.45rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin-top:2.75rem;margin-bottom:1rem;scroll-margin-top:76px}
+    .article-body h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--ink);margin-top:1.75rem;margin-bottom:0.65rem;scroll-margin-top:76px}
+    .article-body p{color:var(--ink-dim);line-height:1.8;margin-bottom:1rem}
+    .article-body p strong{color:var(--ink);font-weight:600}
+    .article-body ul,.article-body ol{padding-left:1.5rem;color:var(--ink-dim);line-height:1.8;margin-bottom:1rem;display:flex;flex-direction:column;gap:0.35rem}
+    .article-body li strong{color:var(--ink)}
+    .article-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px;transition:opacity .15s}
+    .article-body a:hover{opacity:0.8}
+    .article-body code{font-family:var(--font-mono);font-size:0.82em;background:var(--elev);border:1px solid var(--line-strong);border-radius:4px;padding:0.1em 0.4em;color:var(--amber-2)}
+    pre{background:var(--panel-2);border:1px solid var(--line-strong);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1.1rem 1.25rem;overflow-x:auto;margin:1.1rem 0}
+    pre code{font-family:var(--font-mono);font-size:0.8rem;color:var(--amber-2);background:none;border:none;padding:0;white-space:pre}
+    .info-box{background:var(--panel);border:1px solid var(--line-strong);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .info-box strong{color:var(--ink)}
+    .warn-box{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-left:3px solid var(--warn);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .warn-box strong{color:var(--ink)}
+    .solution-box{background:var(--amber-soft);border:1px solid var(--amber-line);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
+    .solution-box strong{color:var(--ink)}
+    .compare-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.875rem;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line-strong)}
+    .compare-table th{background:var(--panel-2);color:var(--ink-dim);font-family:var(--font-mono);font-size:0.7rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left;border-bottom:1px solid var(--line-strong)}
+    .compare-table td{padding:0.6rem 1rem;color:var(--ink-dim);border-bottom:1px solid var(--line);vertical-align:middle}
+    .compare-table tr:last-child td{border-bottom:none}
+    .compare-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+    .badge-ok{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:4px;background:var(--green-soft);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+    .badge-fail{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:4px;background:var(--red-soft);color:var(--red);border:1px solid rgba(255,96,88,.25)}
+    .badge-partial{display:inline-block;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:4px;background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.3)}
+    .steps{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+    .step{display:grid;grid-template-columns:2.5rem 1fr;gap:0 1rem;position:relative;padding-bottom:1.5rem}
+    .step:last-child{padding-bottom:0}
+    .step-line{position:absolute;left:1.2rem;top:2.5rem;bottom:0;width:1px;background:var(--line-strong)}
+    .step:last-child .step-line{display:none}
+    .step-num{width:2.4rem;height:2.4rem;border-radius:50%;background:var(--panel-2);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;color:var(--amber);flex-shrink:0;position:relative;z-index:1}
+    .step-content{padding-top:0.3rem}
+    .step-content strong{color:var(--ink);font-size:0.95rem;display:block;margin-bottom:0.4rem}
+    .step-content p{margin:0 0 0.5rem;color:var(--ink-dim);font-size:0.875rem;line-height:1.7}
+    .tool-cta{background:var(--panel);border:1px solid var(--amber-line);border-radius:var(--radius);padding:1.75rem 2rem;margin:2.5rem 0;display:flex;flex-direction:column;align-items:flex-start;gap:0.75rem}
+    .tool-cta-label{font-family:var(--font-mono);font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber)}
+    .tool-cta h3{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--ink);margin:0}
+    .tool-cta p{color:var(--ink-dim);font-size:0.9rem;margin:0;line-height:1.65}
+    .tool-cta-btn, a.tool-cta-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--amber);color:#051e12;font-family:var(--font-body);font-size:0.9rem;font-weight:700;padding:0.7rem 1.4rem;border-radius:var(--radius-sm);text-decoration:none;transition:opacity .15s,transform .15s;margin-top:0.25rem}
+    a.tool-cta-btn:hover{opacity:0.88;transform:translateY(-1px)}
+    .ad-slot{margin:2rem 0;text-align:center;min-height:90px}
+    .ad-label{font-family:var(--font-mono);font-size:0.62rem;color:var(--ink-mute);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem}
+    .faq-section{margin-top:2.5rem}
+    .faq-item{border:none;border-bottom:1px solid var(--line);padding:0}
+    .faq-item summary{font-family:var(--font-body);font-size:0.95rem;font-weight:600;color:var(--ink);padding:1rem 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-chevron{flex-shrink:0;width:18px;height:18px;color:var(--ink-mute);transition:transform .2s}
+    .faq-item[open] .faq-chevron{transform:rotate(180deg)}
+    .faq-answer{padding:0 0 1rem;color:var(--ink-dim);font-size:0.9rem;line-height:1.75}
+    .faq-answer p{margin:0 0 .5rem}
+    .faq-answer p:last-child{margin:0}
+    .faq-answer strong{color:var(--ink)}
+    .faq-answer a{color:var(--amber)}
+    .prev-next-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--line-strong)}
+    .prev-next-item{display:flex;flex-direction:column;gap:0.35rem;padding:1rem 1.1rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm);text-decoration:none;transition:border-color .15s,background .15s}
+    .prev-next-item:hover{border-color:var(--amber-line);background:rgba(25,195,125,.04)}
+    .prev-next-item.is-next{text-align:right}
+    .prev-next-label{font-family:var(--font-mono);font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-mute)}
+    .prev-next-title{font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--ink);line-height:1.35}
+    .related-articles{margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--line)}
+    .related-heading{font-family:var(--font-display);font-size:1.35rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;letter-spacing:-0.02em}
+    .related-sub{font-size:0.85rem;color:var(--ink-mute);margin-bottom:1.35rem;font-family:var(--font-body)}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem}
+    .related-card{background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:1.1rem;text-decoration:none;display:flex;flex-direction:column;gap:0.5rem;transition:border-color .15s,background .15s}
+    .related-card:hover{border-color:var(--amber-line);background:rgba(25,195,125,.04)}
+    .related-card-badge{font-family:var(--font-mono);font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber)}
+    .related-card-title{font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--ink);line-height:1.35;flex:1}
+    .related-card-arrow{font-family:var(--font-mono);font-size:0.7rem;color:var(--amber);display:flex;align-items:center;gap:0.3rem;margin-top:0.25rem}
+    footer{text-align:center;color:var(--ink-dim);font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.02em;line-height:1.7;padding:2.5rem 2.75rem 2.25rem;background:#1a1a20;border-top:1px solid var(--line-strong);display:flex;flex-direction:column;gap:0.65rem;position:relative;z-index:2}
+    footer strong{color:var(--amber-2);font-weight:600}
+    .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:0.25rem 1.5rem}
+    .footer-links a{color:var(--ink-dim);text-decoration:none;transition:color 0.15s}
+    .footer-links a:hover{color:var(--amber)}
+    @media(max-width:900px){
+      .article-outer{grid-template-columns:1fr;gap:2.5rem;padding:2.5rem 1.25rem 4rem}
+      .article-sidebar{position:static;order:-1}
+      .related-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:580px){
+      .related-grid{grid-template-columns:1fr}
+      .prev-next-nav{grid-template-columns:1fr}
+      .prev-next-item.is-next{text-align:left}
+      .hero-inner{padding:2.5rem 1.25rem 2rem}
+      h1.article-title{font-size:1.9rem}
+    }
+    @media(max-width:480px){
+      .tool-cta{padding:1.25rem}
+      .compare-table{font-size:0.8rem}
+      .compare-table th,.compare-table td{padding:0.5rem 0.65rem}
+    }
+    :focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .article-outer{animation:fadeUp .4s ease both}
+    @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+  </style>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav id="site-nav" aria-label="Main navigation">
+  <a class="nav-brand" href="/en/" aria-label="VidToFLAC — home">
+    <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+      <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+      <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+      <rect class="bar" x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+    </svg>
+    <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/en/" class="nav-link">Home</a></li>
+    <li><a href="/en/convert-formats/" class="nav-link">Formats</a></li>
+    <li><a href="/en/articles/" class="nav-link nav-link-active" aria-current="page">Articles</a></li>
+    <li><a href="/en/history/" class="nav-link">History</a></li>
+    <li><a href="/en/contact/" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/en/" class="nav-lang" aria-label="Cambiar a español" hreflang="es">Español</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="article-hero" aria-label="Article header">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <svg class="hero-waveform-bg" viewBox="0 0 1200 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <g fill="rgba(25,195,125,.22)">
+      <rect x="13"   y="126" width="8" height="29"  rx="4"/>
+      <rect x="46"   y="119" width="8" height="43"  rx="4"/>
+      <rect x="79"   y="110" width="8" height="60"  rx="4"/>
+      <rect x="113"  y="98"  width="8" height="84"  rx="4"/>
+      <rect x="146"  y="83"  width="8" height="115" rx="4"/>
+      <rect x="179"  y="66"  width="8" height="149" rx="4"/>
+      <rect x="212"  y="49"  width="8" height="182" rx="4"/>
+      <rect x="246"  y="38"  width="8" height="204" rx="4"/>
+      <rect x="279"  y="32"  width="8" height="216" rx="4"/>
+      <rect x="312"  y="30"  width="8" height="221" rx="4"/>
+      <rect x="345"  y="35"  width="8" height="211" rx="4"/>
+      <rect x="379"  y="44"  width="8" height="192" rx="4"/>
+      <rect x="412"  y="59"  width="8" height="163" rx="4"/>
+      <rect x="445"  y="75"  width="8" height="130" rx="4"/>
+      <rect x="478"  y="92"  width="8" height="96"  rx="4"/>
+      <rect x="512"  y="107" width="8" height="67"  rx="4"/>
+      <rect x="545"  y="119" width="8" height="43"  rx="4"/>
+      <rect x="578"  y="126" width="8" height="29"  rx="4"/>
+      <rect x="611"  y="131" width="8" height="19"  rx="4"/>
+      <rect x="645"  y="126" width="8" height="29"  rx="4"/>
+      <rect x="678"  y="116" width="8" height="48"  rx="4"/>
+      <rect x="711"  y="102" width="8" height="77"  rx="4"/>
+      <rect x="744"  y="85"  width="8" height="110" rx="4"/>
+      <rect x="778"  y="66"  width="8" height="149" rx="4"/>
+      <rect x="811"  y="49"  width="8" height="182" rx="4"/>
+      <rect x="844"  y="35"  width="8" height="211" rx="4"/>
+      <rect x="877"  y="27"  width="8" height="226" rx="4"/>
+      <rect x="911"  y="30"  width="8" height="221" rx="4"/>
+      <rect x="944"  y="39"  width="8" height="202" rx="4"/>
+      <rect x="977"  y="54"  width="8" height="173" rx="4"/>
+      <rect x="1010" y="71"  width="8" height="139" rx="4"/>
+      <rect x="1044" y="90"  width="8" height="101" rx="4"/>
+      <rect x="1077" y="107" width="8" height="67"  rx="4"/>
+      <rect x="1110" y="119" width="8" height="43"  rx="4"/>
+      <rect x="1143" y="128" width="8" height="24"  rx="4"/>
+      <rect x="1176" y="133" width="8" height="14"  rx="4"/>
+    </g>
+  </svg>
+  <div class="hero-waveform-fade" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/en/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <a href="/en/articles/">Articles</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span aria-current="page">Out of sync</span>
+    </nav>
+    <span class="article-badge">Fix</span>
+    <h1 class="article-title" itemprop="headline">
+      DaVinci Resolve: audio desincronizado — causas y solución definitiva
+    </h1>
+    <div class="hero-meta">
+      <time datetime="2026-07-01" itemprop="datePublished">1 July 2026</time>
+      <span aria-hidden="true">·</span>
+      <span>8 min read</span>
+    </div>
+    <p class="hero-tagline">Sync drift · VFR to CFR · Audio · DaVinci Resolve</p>
+  </div>
+</section>
+
+<!-- ─── DOS COLUMNAS ─── -->
+<div class="article-outer">
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar" aria-label="Article navigation">
+    <nav aria-label="Table of contents">
+      <p class="sidebar-toc-heading">Contents</p>
+      <ul class="sidebar-toc-list">
+        <li><a href="#causas" class="sidebar-toc-link">The three causes of audio drift</a></li>
+        <li><a href="#causa-codec" class="sidebar-toc-link">Cause 1: an incompatible audio codec</a></li>
+        <li><a href="#causa-vfr" class="sidebar-toc-link">Cause 2: variable frame rate (VFR)</a></li>
+        <li><a href="#causa-exportacion" class="sidebar-toc-link">Cause 3: an export mistake</a></li>
+        <li><a href="#solucion-codec" class="sidebar-toc-link">Fixing codec-related drift</a></li>
+        <li><a href="#solucion-vfr" class="sidebar-toc-link">Fixing VFR-related drift</a></li>
+        <li><a href="#diagnostico" class="sidebar-toc-link">Working out which cause is yours</a></li>
+        <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <p class="sidebar-cta-label">Recommended tool</p>
+      <div class="sidebar-cta-card">
+        <div class="sidebar-cta-name">VidTo<span>FLAC</span></div>
+        <p class="sidebar-cta-desc">Convert video to MKV or MP4 with FLAC audio right in your browser. Nothing to install, nothing uploaded.</p>
+        <a href="/en/" class="sidebar-cta-btn" aria-label="Open VidToFLAC">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convert now
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <article class="article-content" itemscope itemtype="https://schema.org/Article">
+
+    <p class="article-lead" itemprop="description">
+      You import a video into DaVinci Resolve and the audio runs ahead of or behind the picture, or drifts further out as the clip goes on. It is one of the most frustrating problems because it looks random: it happens with some files and not others, and nudging it by hand on the timeline is no guarantee the exported file will come out right. This guide explains the three main causes, how to tell which one is yours, and how to fix it at the root.
+    </p>
+
+    <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
+      <svg viewBox="0 0 780 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="780" height="180" fill="#0f0f11"/>
+        <rect x="60" y="35" width="270" height="110" rx="13" fill="#1a0f0f" stroke="rgba(255,96,88,.25)" stroke-width="1.5"/>
+        <text x="195" y="58" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">DESINCRONIZADO</text>
+        <rect x="80" y="68" width="110" height="10" rx="3" fill="rgba(255,255,255,.2)"/>
+        <text x="80" y="65" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="7">VÍDEO</text>
+        <rect x="120" y="90" width="110" height="10" rx="3" fill="rgba(255,96,88,.5)"/>
+        <text x="120" y="87" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="7">AUDIO</text>
+        <line x1="80" y1="73" x2="300" y2="73" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <line x1="120" y1="95" x2="300" y2="95" stroke="rgba(255,96,88,.15)" stroke-width="1"/>
+        <text x="190" y="128" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9">+0.4 s de retraso</text>
+        <path d="M348 90 L394 90" stroke="#19c37d" stroke-width="1.5" stroke-linecap="round"/>
+        <polyline points="386,82 394,90 386,98" stroke="#19c37d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="371" y="76" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="8" font-weight="600" letter-spacing="1">FLAC</text>
+        <rect x="408" y="35" width="270" height="110" rx="13" fill="rgba(25,195,125,.07)" stroke="rgba(25,195,125,.3)" stroke-width="1.5"/>
+        <text x="543" y="58" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">SINCRONIZADO</text>
+        <rect x="428" y="68" width="110" height="10" rx="3" fill="rgba(255,255,255,.2)"/>
+        <text x="428" y="65" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="7">VÍDEO</text>
+        <rect x="428" y="90" width="110" height="10" rx="3" fill="rgba(25,195,125,.45)"/>
+        <text x="428" y="87" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="7">AUDIO</text>
+        <line x1="428" y1="73" x2="650" y2="73" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <line x1="428" y1="95" x2="650" y2="95" stroke="rgba(25,195,125,.15)" stroke-width="1"/>
+        <text x="543" y="128" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9">alineado ✓</text>
+      </svg>
+    </div>
+
+    <div class="ad-slot">
+      <p class="ad-label">Advertisement</p>
+      <ins class="adsbygoogle" style="display:block;text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-1123812992313934" data-ad-slot="9253210070"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="article-body" itemprop="articleBody">
+
+
+      <h2 id="causas">The three causes of audio drift</h2>
+
+      <p>Audio/video drift in DaVinci Resolve is never random: there is always a specific cause. The trouble is that the symptoms look alike even when the causes differ, so people often reach for the wrong fix — nudging the offset by hand on the timeline — without addressing the root.</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Cause</th>
+            <th>Main symptom</th>
+            <th>Does it accumulate?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Incompatible audio codec</strong></td>
+            <td>Constant offset from the start of the clip</td>
+            <td><span class="badge-partial">Sometimes</span></td>
+          </tr>
+          <tr>
+            <td><strong>Variable frame rate (VFR)</strong></td>
+            <td>Drift that grows through the clip</td>
+            <td><span class="badge-fail">Yes, always</span></td>
+          </tr>
+          <tr>
+            <td><strong>Export mistake</strong></td>
+            <td>Fine in preview, wrong in the export</td>
+            <td><span class="badge-partial">Varies</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="causa-codec">Cause 1: an incompatible audio codec</h2>
+
+      <div class="cause-card">
+        <h3><span class="cause-label cause-label-codec">Most common</span> An audio codec with no native support</h3>
+        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">DaVinci Resolve, particularly on Linux, cannot natively decode codecs such as AAC, MP3, AC-3 or E-AC-3. When it forces the decode anyway, it introduces an audio delay that shows up as drift.</p>
+      </div>
+
+      <p>This is especially common with:</p>
+
+      <ul>
+        <li><strong>MP4 files shot on phones (iPhone, Android):</strong> they carry AAC audio, which DaVinci Resolve on Linux does not decode cleanly.</li>
+        <li><strong>Camera MOV files:</strong> AAC or PCM audio at certain sample rates.</li>
+        <li><strong>OBS Studio recordings:</strong> by default OBS records MP4 with AAC audio.</li>
+        <li><strong>GoPro and drone MP4s:</strong> H.264/H.265 paired with AAC.</li>
+      </ul>
+
+      <p>The classic symptom is that the offset stays constant through the clip rather than growing. On Linux it is more pronounced, because DaVinci Resolve Free ships no licensed AAC or MP3 decoders.</p>
+
+      <h2 id="causa-vfr">Cause 2: variable frame rate (VFR)</h2>
+
+      <div class="cause-card">
+        <h3><span class="cause-label cause-label-vfr">Very common</span> Video with a variable frame rate</h3>
+        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">Phones, screen recorders and action cameras record at a frame rate that varies from frame to frame (VFR). DaVinci Resolve assumes a constant frame rate (CFR), so the video timestamps stop lining up with the audio and the drift grows as the clip runs on.</p>
+      </div>
+
+      <p>VFR (<em>Variable Frame Rate</em>) turns up very often in:</p>
+
+      <ul>
+        <li><strong>OBS screen captures:</strong> screen capture mode produces VFR by default when the content has no stable frame rate.</li>
+        <li><strong>Phone video in efficiency modes:</strong> some Android phones and iPhones record VFR to save battery.</li>
+        <li><strong>NVIDIA ShadowPlay / GeForce Experience captures:</strong> these frequently record VFR.</li>
+        <li><strong>Meeting recordings (Zoom, Teams, Meet):</strong> the frame rate varies with available bandwidth.</li>
+      </ul>
+
+      <p>The tell-tale sign of VFR is that the drift <strong>starts small and grows</strong> as the clip progresses. At 30 seconds the audio might be 0.2 s behind; at five minutes it can be 2–3 seconds behind.</p>
+
+      <div class="warn-box">
+        <strong>Nudging the offset by hand does not work with VFR.</strong> Shift the audio track by a fixed number of frames and sync improves at one point in the clip while staying wrong everywhere else. The only real fix is to convert the video to CFR before importing.
+      </div>
+
+      <h2 id="causa-exportacion">Cause 3: an export mistake</h2>
+
+      <div class="cause-card">
+        <h3><span class="cause-label cause-label-export">Less common</span> Drift only in the exported file</h3>
+        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">Everything sounds right in the DaVinci Resolve preview, but the exported MP4 or MOV has the audio out of sync. This usually comes down to an incompatible audio codec plus export setting combination, or to using hardware acceleration during the render.</p>
+      </div>
+
+      <p>This particular case is usually resolved with these settings on the Deliver page:</p>
+
+      <ul>
+        <li>Change the <strong>Audio Codec</strong> from AAC to Linear PCM or FLAC.</li>
+        <li>Turn off video <em>Hardware acceleration</em> for the render.</li>
+        <li>Lower the video <em>Data Rate</em> if you are pushing your GPU to its limit.</li>
+      </ul>
+
+      <!-- Ad slot: mid-article -->
+      <div class="ad-slot">
+        <p class="ad-label">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-1123812992313934"
+             data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <h2 id="solucion-codec">Fixing codec-related drift: convert to FLAC</h2>
+
+      <p>If the problem is the audio codec — AAC, MP3, AC-3 — the fix is to convert the file into an MKV container with <strong>FLAC audio</strong> before importing it into DaVinci Resolve. FLAC is the lossless audio format DaVinci Resolve supports natively on every platform, Linux included.</p>
+
+      <p>VidToFLAC does precisely that: it takes your MP4, MOV or whatever else, copies the video without re-encoding, and converts only the audio to FLAC. It all happens in your browser, with nothing uploaded to any server.</p>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">Free tool · nothing uploaded</span>
+        <h3>Convert the audio to FLAC and clear the drift</h3>
+        <p>Drop in your video (MP4, MOV, MKV, AVI…), VidToFLAC converts the audio to FLAC, and you download the resulting MKV. The video is copied losslessly. Works with DaVinci Resolve on every platform.</p>
+        <a href="/en/" class="tool-cta-btn" aria-label="Convert audio to FLAC with VidToFLAC">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convert to MKV + FLAC free
+        </a>
+      </div>
+
+      <h2 id="solucion-vfr">Fixing VFR-related drift: convert to CFR</h2>
+
+      <p>If the problem is a variable frame rate, you need to convert the video to a <strong>constant frame rate (CFR)</strong>. That does mean re-encoding the video rather than remuxing, so there is some quality loss with a lossy codec. At <code>-crf 18</code> that loss is visually imperceptible.</p>
+
+      <p>With FFmpeg, the command to convert VFR to CFR is:</p>
+
+      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i video_vfr.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac video_cfr.mkv</code>
+      </div>
+
+      <p>Change <code>fps=30</code> to your video's original frame rate — 25 for European PAL, 24 for cinema, 60 for gaming. If you do not know it, check with:</p>
+
+      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v quiet -show_streams -select_streams v:0 video.mp4 | grep r_frame_rate</code>
+      </div>
+
+      <div class="info-box">
+        <strong>VidToFLAC and VFR:</strong> VidToFLAC converts the audio to FLAC but copies the video without re-encoding (<code>-c:v copy</code>), which preserves the original VFR. If VFR is specifically your problem, you need FFmpeg in the terminal with the <code>fps</code> filter to force CFR. VidToFLAC resolves codec-related drift, but not VFR-related drift.
+      </div>
+
+      <h2 id="diagnostico">Working out which cause is yours</h2>
+
+      <p>Before applying any fix, identify the cause with these three questions:</p>
+
+      <ol class="steps-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <span class="step-text"><strong>Does the drift grow through the clip?</strong> If the audio is 0.1 s behind at the start and 2 s behind at the end, it is VFR. Convert to CFR with FFmpeg.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <span class="step-text"><strong>Is the offset constant from the start?</strong> If the audio is always exactly the same amount ahead or behind, it is most likely a codec problem. Convert the audio to FLAC with VidToFLAC.</span>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <span class="step-text"><strong>Fine in preview but wrong in the export?</strong> That is an export settings problem. Change the audio codec to Linear PCM or FLAC on the Deliver page, and turn off hardware acceleration.</span>
+        </li>
+      </ol>
+
+      <p>If you cannot tell VFR from a codec problem, check the file with <code>ffprobe</code>:</p>
+
+      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v quiet -show_streams -select_streams a:0 video.mp4 | grep codec_name</code>
+      </div>
+
+      <p>If the result is <code>aac</code>, <code>mp3</code> or <code>ac3</code>, the codec is the problem and VidToFLAC resolves it. If it comes back <code>pcm_s16le</code> or similar and the drift still grows, the problem is VFR.</p>
+
+      <!-- Ad slot: before FAQ -->
+      <div class="ad-slot">
+        <p class="ad-label">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-1123812992313934"
+             data-ad-slot="9253210070"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="tool-cta">
+        <span class="tool-cta-label">Codec-related drift?</span>
+        <h3>Convert to FLAC and fix it at the root</h3>
+        <p>Nothing to install. The audio is converted to FLAC, losslessly; the video is copied untouched. DaVinci Resolve imports the result with no sync problems.</p>
+        <a href="/en/" class="tool-cta-btn" aria-label="Fix audio drift with VidToFLAC">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Convert to MKV + FLAC free
+        </a>
+      </div>
+
+      <section class="faq-section" aria-labelledby="faq">
+        <h2 id="faq">Frequently asked questions</h2>
+
+        <details class="faq-item">
+          <summary>
+            Why does audio drift out of sync in DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>The most common causes are: (1) an audio codec DaVinci Resolve does not decode cleanly (AAC, MP3, AC-3), especially on Linux; (2) video shot at a variable frame rate, typical of phones, OBS and screen recorders; (3) incorrect export settings. A constant offset points to the codec; drift that grows points to VFR.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            How do I re-sync the audio by hand in DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Select the audio track on the timeline and use <strong>Ctrl+Alt+left/right arrow</strong> to nudge it frame by frame. That only works if the offset is constant across the whole clip, though. If the drift grows over time (VFR), manual adjustment will not do: sync will be right at one point and wrong everywhere else. In that case, convert the file to CFR before importing.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Does the drift show up in the exported file too?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>It depends where it starts. If the drift comes from the source file — codec or VFR — the export will carry it too, even where the preview looks fine. If you nudge the offset on the timeline without addressing the VFR, the exported file can come out wrong again. The right fix is to repair the source file before importing, not to patch it by hand.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Does VidToFLAC fix VFR-related audio drift?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>VidToFLAC resolves drift caused by an <strong>incompatible audio codec</strong> (AAC, MP3, AC-3), which is the most common cause. For VFR-related drift you need to convert the video to a constant frame rate with FFmpeg using the <code>fps</code> filter. If your drift grows over time, VFR is the problem and that extra step is required.</p>
+          </div>
+        </details>
+      </section>
+
+      <p style="margin-top:2.5rem;">If the audio is not just drifting but silent altogether, see the guide to <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/">why DaVinci Resolve will not import MP4 and OBS audio</a>. For audio problems on export, see <a href="/en/articles/davinci-resolve-render-no-audio/">DaVinci Resolve rendering with no audio</a>.</p>
+
+    
+    </div><!-- /.article-body -->
+
+    <nav class="prev-next-nav" aria-label="Previous and next articles">
+      <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/" class="prev-next-item">
+        <span class="prev-next-label">← Previous</span>
+        <span class="prev-next-title">Convert video with FFmpeg without installing it: online alternatives</span>
+      </a>
+      <div></div>
+    </nav>
+
+    <section class="related-articles" aria-labelledby="related-heading">
+      <h2 class="related-heading" id="related-heading">Related articles</h2>
+      <p class="related-sub">More conversion and DaVinci Resolve compatibility guides.</p>
+      <div class="related-grid">
+        <a href="/en/articles/davinci-resolve-audio-errors/" class="related-card">
+          <span class="related-card-badge">Fix</span>
+          <span class="related-card-title">Audio errors in DaVinci Resolve</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+        <a href="/en/articles/davinci-resolve-render-no-audio/" class="related-card">
+          <span class="related-card-badge">Fix</span>
+          <span class="related-card-title">DaVinci Resolve exports video with no audio</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+        <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/" class="related-card">
+          <span class="related-card-badge">Fix</span>
+          <span class="related-card-title">DaVinci Resolve won't import MP4 audio</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+      </div>
+    </section>
+
+  </article>
+</div><!-- /.article-outer -->
+
+<footer>
+  <p>All processing happens on your device using <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.</p>
+  <nav class="footer-links" aria-label="Legal pages">
+    <a href="/en/privacy-policy/">Privacy policy</a>
+    <a href="/en/terms-of-service/">Terms of service</a>
+    <a href="/en/legal-notice/">Legal notice</a>
+    <a href="/en/contact/">Contact</a>
+  </nav>
+  <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>
+</footer>
+
+<script>
+  const headings = document.querySelectorAll('.article-body h2[id], .faq-section h2[id]');
+  const tocLinks = document.querySelectorAll('.sidebar-toc-link');
+  if (headings.length && tocLinks.length) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + entry.target.id));
+        }
+      });
+    }, { rootMargin: '-70px 0px -60% 0px', threshold: 0 });
+    headings.forEach(h => observer.observe(h));
+  }
+</script>
+
+</body>
+</html>
