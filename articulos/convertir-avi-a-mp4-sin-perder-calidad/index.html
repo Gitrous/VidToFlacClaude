@@ -58,27 +58,42 @@
       {
         "@type": "Question",
         "name": "¿Se pierde calidad al convertir AVI a MP4?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Depende del método. Con un remux (solo cambiar el contenedor sin tocar los datos) no se pierde calidad. Con un re-encode (recomprimir el vídeo) sí hay pérdida. Para la mayoría de AVI con vídeo H.264 o DivX/Xvid moderno, el remux es posible. Para AVI con códecs muy antiguos (DivX 3, Indeo), puede ser necesario un re-encode." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Depende del método. Con un remux (solo cambiar el contenedor) no se pierde calidad. Con un re-encode (recomprimir el vídeo) sí hay pérdida. Para AVI con vídeo H.264, el remux es posible y sin pérdida. Para AVI con DivX o Xvid, puede ser necesario re-encode para compatibilidad con reproductores modernos."
+        }
       },
       {
         "@type": "Question",
-        "name": "¿Por qué mis archivos AVI no abren en reproductores modernos o en DaVinci Resolve?",
-        "acceptedAnswer": { "@type": "Answer", "text": "AVI es un formato muy antiguo (de 1992) y muchos reproductores y editores modernos no incluyen soporte para sus códecs más obsoletos. Además, en DaVinci Resolve en Linux, el audio MP3 que llevan muchos AVI no se reproduce por falta de licencias de decodificación. Convertir el AVI a MKV con audio FLAC soluciona ambos problemas." }
+        "name": "¿Por qué mis AVI no abren en reproductores o en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AVI es un formato antiguo y muchos reproductores modernos no incluyen soporte para sus códecs más obsoletos (DivX, Xvid, Indeo). En DaVinci Resolve en Linux, el audio MP3 o AC-3 de los AVI no se reproduce por falta de licencias de decodificación. Convertir el AVI a MKV o MP4 con audio FLAC soluciona ambos problemas."
+        }
       },
       {
         "@type": "Question",
         "name": "¿VidToFLAC convierte AVI a MP4?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Sí. VidToFLAC acepta AVI como entrada y puede exportar en MP4 o MKV. El vídeo se copia sin recomprimir (cuando el códec es compatible) y el audio se convierte a FLAC. Si el AVI tiene códec de vídeo incompatible con MP4, VidToFLAC lo recodifica automáticamente a H.264." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. VidToFLAC acepta AVI como entrada y exporta en MP4 o MKV. El vídeo se copia sin recomprimir cuando el códec es compatible, y el audio se convierte a FLAC. Si el AVI tiene un códec de vídeo incompatible con MP4, VidToFLAC lo recodifica automáticamente a H.264."
+        }
       },
       {
         "@type": "Question",
-        "name": "¿Cuáles son los códecs más comunes en archivos AVI?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Los AVI más antiguos (años 90-2000) suelen llevar vídeo DivX, Xvid o MPEG-4 ASP, con audio MP3 o AC-3. Los AVI más modernos pueden llevar H.264 con audio AAC o MP3. Los AVI de cámaras antiguas pueden llevar MJPEG o DV con audio PCM." }
+        "name": "¿Cuánto tarda convertir un AVI a MP4?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Si el AVI tiene H.264 y se puede hacer remux, la conversión es casi instantánea (segundos para archivos de varios GB). Si necesita re-encode, el tiempo depende de la resolución, duración y potencia del equipo — puede ir de minutos a horas para material muy largo en alta resolución."
+        }
       },
       {
         "@type": "Question",
         "name": "¿Puedo editar AVI directamente en DaVinci Resolve?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A veces, pero con limitaciones. DaVinci Resolve puede importar algunos AVI pero no todos los códecs están soportados. El audio MP3 de la mayoría de AVI no funciona en Linux. La práctica recomendada es convertir el AVI a MKV con audio FLAC usando VidToFLAC antes de importar en DaVinci Resolve." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A veces, pero con limitaciones. DaVinci Resolve puede importar algunos AVI pero no todos los códecs están soportados, y el audio MP3 o AC-3 no funciona en Linux. La práctica recomendada es convertir primero el AVI a MKV con audio FLAC usando VidToFLAC — la edición posterior en DaVinci Resolve es más fluida y sin sorpresas."
+        }
       }
     ]
   }

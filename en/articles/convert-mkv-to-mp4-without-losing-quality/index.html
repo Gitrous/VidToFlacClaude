@@ -78,39 +78,47 @@
         "name": "Do you lose quality converting MKV to MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No, not if the conversion is done as a remux. A remux changes the file container from MKV to MP4 by copying the video bit for bit, without recompressing a single frame. Picture and audio quality are identical to the original. Quality is only lost if the conversion involves re-encoding the video, which happens when the MKV's codecs are not compatible with the MP4 container."
+          "text": "No, not if you do it as a remux. A remux copies the video bit for bit without recompressing. Quality is only lost in a re-encode, which is only necessary when the MKV's codecs are not MP4-compatible — VP9 or AV1 for video, FLAC or Opus for audio."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the difference between MKV and MP4?",
+        "name": "Why can't my MKV be converted straight to MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MKV and MP4 are containers: envelopes that wrap up the video and audio tracks. The difference is not quality but compatibility. MP4 works more widely on mobile devices, smart TVs and social networks. MKV supports more tracks, subtitles and audio codecs. Quality depends on the codecs inside the container, not on the container itself."
+          "text": "The usual reason is that the MKV carries audio in a codec MP4 does not accept: FLAC, Opus or Vorbis. The fix is to convert the audio to AAC at the same time as you change the container. With FFmpeg: ffmpeg -i file.mkv -c:v copy -c:a aac output.mp4. VidToFLAC handles this case automatically."
         }
       },
       {
         "@type": "Question",
-        "name": "Why can't my MKV be moved straight into MP4 without recompressing?",
+        "name": "How long does converting MKV to MP4 take?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "An MKV to MP4 remux fails when the MKV contains codecs MP4 does not support. The usual culprits are Opus, Vorbis or FLAC audio, which MP4 does not accept natively, or video in codecs such as VP8/VP9. The fix is to convert the audio to AAC or FLAC before the remux, or to use MKV as the output container, since it accepts all of those codecs."
+          "text": "With a remux it depends on your disk's read and write speed, not on the CPU. A 10 GB MKV usually takes between 20 and 60 seconds. If the video has to be re-encoded, it can take 10–100× longer depending on resolution and length."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I convert MKV to MP4 in the browser without installing anything?",
+        "name": "What is the quality difference between MKV and MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. VidToFLAC uses FFmpeg compiled to WebAssembly to remux directly in your browser, without uploading the file anywhere. The whole process runs on your device and works with files several gigabytes in size."
+          "text": "None at all. MKV and MP4 are containers, not codecs. Quality depends on the video codec (H.264, H.265 and so on) and its compression settings (bitrate, CRF). The same H.264 video inside an MKV or inside an MP4 is identical in quality — only compatibility with players and platforms changes."
         }
       },
       {
         "@type": "Question",
-        "name": "Is MKV or MP4 better for DaVinci Resolve?",
+        "name": "Is MKV or MP4 better for editing in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "For DaVinci Resolve, especially on Linux, MKV with FLAC audio is the better choice. DaVinci Resolve reads FLAC natively on every platform, whereas AAC — the standard audio in MP4 — does not work on Linux. If you need an MP4 for other purposes you can keep both: the MKV with FLAC for editing and the MP4 for sharing."
+          "text": "For editing in DaVinci Resolve, especially on Linux, MKV with FLAC audio is the better choice. The free DaVinci Resolve on Linux cannot decode the AAC audio that most MP4 files carry. FLAC is open source and DaVinci Resolve supports it on every platform. If you need an MP4 to share, keep the MKV for editing and export to MP4 from DaVinci Resolve when you are done."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert MKV to MP4 without installing any software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. VidToFLAC remuxes directly in the browser using FFmpeg WebAssembly. There is nothing to install, the file is not uploaded anywhere, and it works with files several gigabytes in size. Just open the tool, drop in the MKV and choose MP4 as the output format."
         }
       }
     ]

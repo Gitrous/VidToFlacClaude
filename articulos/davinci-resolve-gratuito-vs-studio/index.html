@@ -78,15 +78,15 @@
         "name": "¿Cuánto cuesta DaVinci Resolve Studio?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "DaVinci Resolve Studio cuesta aproximadamente 295 € (pago único, sin suscripción). Incluye actualizaciones de por vida dentro de la misma versión mayor. También viene incluido con algunas tarjetas de captura y cámaras de Blackmagic Design."
+          "text": "DaVinci Resolve Studio cuesta aproximadamente 295 € / 295 USD como pago único, sin suscripción. Las actualizaciones dentro de la misma versión mayor son gratuitas. También viene incluido con algunas cámaras y tarjetas de captura de Blackmagic Design."
         }
       },
       {
         "@type": "Question",
-        "name": "¿La versión gratuita de DaVinci Resolve tiene límite de resolución o duración?",
+        "name": "¿La versión gratuita tiene marca de agua o límite de tiempo?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No hay límite de duración del proyecto. En resolución, la versión gratuita soporta hasta 4K UHD (3840×2160) completo. Las resoluciones superiores a 4K (como 8K o formatos de cine como 4.6K BRAW) requieren Studio."
+          "text": "No tiene marca de agua ni límite de tiempo. Puedes usar DaVinci Resolve gratuito de forma indefinida y exportar vídeos sin ningún logo añadido. Las restricciones son funcionales (sin reducción de ruido IA, sin resoluciones superiores a 4K UHD, sin colaboración multiusuario), no de uso o tiempo."
         }
       },
       {
@@ -94,23 +94,31 @@
         "name": "¿DaVinci Resolve Studio soluciona el problema de audio AAC en Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Parcialmente. Studio incluye más decodificadores de audio que la versión gratuita en Linux, pero no todos. E-AC-3 y algunos perfiles de AAC siguen sin funcionar. La solución más fiable —y gratuita— es convertir el audio del archivo a FLAC antes de importarlo, usando VidToFLAC."
+          "text": "Parcialmente. Studio incluye más decodificadores de audio en Linux que la versión gratuita, pero no resuelve todos los casos. E-AC-3 (Dolby Digital Plus) no funciona en ninguna versión, y algunos perfiles de AAC tampoco. La solución más fiable, y gratuita, es convertir el audio a FLAC con VidToFLAC antes de importar."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Puedo solucionar los problemas de audio de DaVinci Resolve sin comprar Studio?",
+        "name": "¿Puedo actualizar de gratuito a Studio más adelante?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. Los problemas de audio en DaVinci Resolve gratuito se deben a códecs no soportados (AAC, MP3, E-AC-3…). Convertir el audio de tus vídeos a FLAC con VidToFLAC resuelve el problema en todas las plataformas, incluyendo Linux, sin necesidad de pagar Studio."
+          "text": "Sí. Puedes empezar con la versión gratuita y comprar Studio en cualquier momento. Los proyectos creados en la versión gratuita son totalmente compatibles con Studio — simplemente se abren y continúas trabajando con todas las funciones desbloqueadas."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Merece la pena pagar DaVinci Resolve Studio?",
+        "name": "¿La versión gratuita exporta en 4K sin problema?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende de tu flujo de trabajo. Si necesitas reducción de ruido con IA (DaVinci Neural Engine), colaboración multiusuario, resoluciones superiores a 4K UHD, o exportación H.265 acelerada por GPU, Studio se amortiza. Si tu principal problema es el audio, la solución gratuita con FLAC es suficiente."
+          "text": "Sí. DaVinci Resolve gratuito exporta en 4K UHD (3840×2160) completo sin límites. Lo que no soporta es la exportación H.265 acelerada por GPU (solo por CPU, más lenta), ni las resoluciones superiores a 4K como 5.7K, 6K o 8K."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Hay alguna diferencia de calidad de color entre gratuito y Studio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No en cuanto al motor de color en sí. Ambas versiones usan el mismo procesamiento de color de 32 bits de punto flotante. Studio añade herramientas adicionales como la reducción de ruido con IA, el tracking de objetos con IA y algunos efectos de Resolve FX basados en Neural Engine, pero la calidad de color base es idéntica."
         }
       }
     ]

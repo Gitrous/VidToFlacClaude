@@ -64,7 +64,7 @@
         "name": "How do I export from DaVinci Resolve without losing audio quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "On DaVinci Resolve's Deliver page, in the Audio section, choose the FLAC codec — lossless but compressed. It preserves 100% of the original audio quality while taking far less space than PCM. Avoid AAC or MP3 if you want lossless quality."
+          "text": "On the Deliver page, in the Audio section, choose the FLAC codec — lossless but compressed: the same quality as PCM in 40 to 60% less space. Set the sample rate to 48,000 Hz and the bit depth to 24-bit for maximum quality."
         }
       },
       {
@@ -72,15 +72,15 @@
         "name": "Why does audio lose quality when exporting from DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Because DaVinci Resolve recompresses the audio to AAC or MP3 by default on export, which introduces loss. On top of that, if the audio was already compressed as AAC and is compressed to AAC again, the quality degrades cumulatively. The fix is to export your master as FLAC, or another lossless format."
+          "text": "Because DaVinci Resolve recompresses the audio on export. If the original audio was already AAC and you export to AAC, you apply two lossy compression cycles — generational recompression. That is why the master is best exported as FLAC, or another lossless format, leaving compression for the distribution copy."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the best audio codec for exporting from DaVinci Resolve to YouTube?",
+        "name": "What is the best audio codec for exporting to YouTube from DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "For YouTube, AAC at 320 kbps is plenty and is the standard the platform accepts. YouTube recompresses everything you upload anyway, so exporting high-quality AAC is the practical choice. If you want a lossless master, export FLAC and keep that copy separately."
+          "text": "AAC at 320 kbps is plenty, and it is the standard YouTube accepts. The platform recompresses everything on upload anyway, so exporting FLAC does not improve the result on YouTube. Keep the FLAC as your master copy."
         }
       },
       {
@@ -88,7 +88,7 @@
         "name": "Can DaVinci Resolve export FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. On the Deliver page, select the MKV container and choose FLAC as the codec in the Audio section. DaVinci Resolve will export lossless FLAC audio inside the MKV file."
+          "text": "Yes. On the Deliver page, select the MKV container and choose the FLAC codec in the Audio section. DaVinci Resolve will export lossless FLAC audio inside the MKV file."
         }
       },
       {
@@ -96,7 +96,15 @@
         "name": "Why is the audio out of sync in my DaVinci Resolve export?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sync drift on export usually has two causes: the source material was Variable Frame Rate (VFR) and DaVinci Resolve did not handle it correctly, or there is a mismatch between the project timeline's sample rate and the source material's. Check that the project is set to 48,000 Hz if you are working with camera or external microphone audio."
+          "text": "The usual causes are that the source material was Variable Frame Rate, typical of smartphone video, or a sample rate mismatch between the project and the material. For VFR, convert the file to CFR before importing: ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which sample rate should I use when exporting from DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "48,000 Hz is the standard for all video content — film, television and streaming platforms. Only use 44,100 Hz if the destination is audio-only (CD, music platforms). The wrong rate can cause small shifts in the audio's pitch."
         }
       }
     ]

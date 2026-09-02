@@ -78,31 +78,47 @@
         "name": "¿Por qué DaVinci Resolve no reproduce el audio de mis vídeos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "DaVinci Resolve no incluye decodificadores para todos los códecs de audio. Los formatos AAC, MP3, AC-3, E-AC-3 y Opus son los que más problemas dan, especialmente en Linux donde la versión gratuita tiene soporte de códecs aún más limitado. La solución es convertir el audio a FLAC, que DaVinci Resolve sí soporta de forma nativa."
+          "text": "DaVinci Resolve no incluye decodificadores para todos los códecs de audio. Los más problemáticos son AAC, MP3, AC-3, E-AC-3 y Opus, especialmente en Linux donde la versión gratuita tiene soporte de códecs muy limitado. La solución es convertir el audio a FLAC antes de importar."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Cómo solucionar el error 'Media offline' de audio en DaVinci Resolve?",
+        "name": "¿Al convertir el audio a FLAC pierdo calidad de imagen?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "'Media offline' en audio suele significar que el archivo tiene un códec de audio no soportado. Convierte el audio a FLAC dentro de un contenedor MKV usando VidToFLAC (gratis, sin subir el archivo) y vuelve a importarlo en DaVinci Resolve."
+          "text": "No. Un remux copia el flujo de vídeo bit a bit sin recomprimir. Los fotogramas son idénticos al original. Solo el audio se recodifica a FLAC, que es un formato sin pérdida: la calidad de audio también es idéntica al original."
         }
       },
       {
         "@type": "Question",
-        "name": "¿DaVinci Resolve en Linux tiene soporte limitado de audio?",
+        "name": "¿Puedo convertir un MOV de cámara a MKV con FLAC sin problemas?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. DaVinci Resolve en Linux no puede reproducir AAC, MP3 ni la mayoría de códecs con licencia en su versión gratuita, porque Blackmagic Design no incluye esas licencias en la versión de Linux. La solución universal es convertir el audio a FLAC, que al ser de código abierto funciona en todas las plataformas."
+          "text": "Sí. El contenedor cambia de MOV a MKV pero el contenido es el mismo. DaVinci Resolve trabaja perfectamente con MKV. La única diferencia notable es que el archivo resultante puede ser ligeramente mayor (FLAC comprime sin pérdida pero algo menos que AAC con pérdida)."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Puedo usar archivos MOV con DaVinci Resolve sin problemas de audio?",
+        "name": "¿Por qué el audio de mis vídeos de iPhone no funciona en DaVinci Resolve Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Los MOV grabados con iPhone o cámaras Sony suelen llevar AAC, que DaVinci Resolve en Linux no reproduce. La solución es hacer un remux a MKV con audio FLAC usando VidToFLAC: el vídeo se copia sin pérdida y el audio se convierte a FLAC, eliminando el problema."
+          "text": "Los vídeos de iPhone usan el códec AAC para el audio. DaVinci Resolve en Linux no puede decodificar AAC porque Blackmagic Design no incluye esa licencia de patente en la versión de Linux. La solución es convertir el audio a FLAC con VidToFLAC antes de importar el clip."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Hay alguna forma de solucionar el audio sin convertir el archivo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En Linux, no de forma fiable. Algunas distribuciones permiten instalar paquetes de decodificadores adicionales, pero estas soluciones son frágiles y específicas de cada versión del sistema operativo. La conversión a FLAC es la única solución robusta que funciona en todos los sistemas."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué diferencia hay entre FLAC y WAV para DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ambos son sin pérdida y funcionan bien en DaVinci Resolve. La diferencia es el tamaño: FLAC comprime el audio (típicamente entre un 40–60% menos que WAV) sin perder ningún dato. Para vídeos largos, la diferencia de tamaño es significativa. Por eso recomendamos FLAC sobre WAV."
         }
       }
     ]

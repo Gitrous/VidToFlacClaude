@@ -78,31 +78,39 @@
         "name": "¿Es posible usar FFmpeg sin instalarlo?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. FFmpeg puede compilarse a WebAssembly (Wasm), lo que permite que se ejecute directamente en el navegador sin necesidad de instalación. VidToFLAC usa FFmpeg.wasm para procesar vídeos completamente en local, en tu propio dispositivo, sin subir el archivo a ningún servidor."
+          "text": "Sí. FFmpeg compilado a WebAssembly (FFmpeg.wasm) puede ejecutarse directamente en el navegador sin ninguna instalación. VidToFLAC usa FFmpeg.wasm para procesar vídeos completamente en local — el archivo no sale de tu dispositivo, no hay servidor de por medio."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Qué es FFmpeg.wasm?",
+        "name": "¿Los conversores \"online de FFmpeg\" suben mis archivos a un servidor?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FFmpeg.wasm es una versión de FFmpeg compilada a WebAssembly, el formato binario que los navegadores modernos pueden ejecutar de forma nativa. Permite hacer exactamente las mismas operaciones que FFmpeg en la terminal (convertir formatos, cambiar códecs, remuxear, extraer audio) pero directamente en el navegador, sin instalación."
+          "text": "La mayoría sí. Los servicios que dicen \"conversor online de FFmpeg\" generalmente ejecutan FFmpeg en sus propios servidores: tú subes el archivo, ellos lo procesan y te devuelven el resultado. VidToFLAC es diferente: usa FFmpeg.wasm, que se ejecuta en tu navegador. El archivo nunca sale de tu dispositivo."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Por qué los conversores online de FFmpeg suben mis archivos a un servidor?",
+        "name": "¿FFmpeg.wasm es tan potente como FFmpeg normal?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "La mayoría de 'conversores online de FFmpeg' en realidad ejecutan FFmpeg en sus propios servidores — tú subes el archivo, ellos lo procesan y te devuelven el resultado. Esto tiene implicaciones de privacidad y seguridad para archivos sensibles. VidToFLAC es diferente: ejecuta FFmpeg.wasm localmente en tu navegador. El archivo nunca sale de tu dispositivo."
+          "text": "Para la mayoría de usos cotidianos (convertir formatos, cambiar el códec de audio, remuxear contenedores), sí. La diferencia es la velocidad: FFmpeg.wasm solo usa CPU, mientras que FFmpeg nativo puede usar la GPU para acelerar la codificación H.264/H.265. Para conversiones simples (remux, cambio de audio) la diferencia de velocidad es pequeña; para recodificar vídeo 4K, FFmpeg nativo con GPU puede ser 10-20 veces más rápido."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Tiene limitaciones FFmpeg.wasm comparado con FFmpeg normal?",
+        "name": "¿Puedo convertir vídeo sin conexión a internet con VidToFLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí, algunas. FFmpeg.wasm no puede usar aceleración por GPU (solo CPU), así que las conversiones son más lentas que con FFmpeg nativo con hwaccel. Tampoco soporta todos los codecs que FFmpeg nativo puede incluir. Para conversiones de uso habitual (H.264, H.265, FLAC, AAC, remux de contenedores), funciona correctamente."
+          "text": "Sí, una vez que la página ha cargado. En el primer uso, el navegador descarga FFmpeg.wasm del CDN y lo guarda en caché. A partir de ahí, puedes desconectarte de internet y las conversiones seguirán funcionando. La caché del navegador puede limpiarse, en cuyo caso necesitarás conexión para la primera carga."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué formatos de vídeo soporta VidToFLAC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "VidToFLAC acepta los formatos más habituales: MP4, MKV, MOV, AVI, WMV, WebM, FLV, M4V y más. El vídeo puede estar en H.264, H.265, VP9, AV1, MPEG-4, WMV, ProRes, DNxHD, MJPEG y otros. Si el formato es exótico o muy antiguo, puede que FFmpeg.wasm no lo soporte — en ese caso, FFmpeg nativo instalado es la alternativa."
         }
       }
     ]

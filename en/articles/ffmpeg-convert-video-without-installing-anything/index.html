@@ -78,31 +78,39 @@
         "name": "Is it possible to use FFmpeg without installing it?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. FFmpeg can be compiled to WebAssembly (Wasm), which lets it run directly in the browser with no installation. VidToFLAC uses FFmpeg.wasm to process video entirely locally, on your own device, with nothing uploaded to any server."
+          "text": "Yes. FFmpeg compiled to WebAssembly (FFmpeg.wasm) runs directly in the browser with no installation at all. VidToFLAC uses FFmpeg.wasm to process video entirely locally — the file never leaves your device, and no server is involved."
         }
       },
       {
         "@type": "Question",
-        "name": "What is FFmpeg.wasm?",
+        "name": "Do \"online FFmpeg\" converters upload my files to a server?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FFmpeg.wasm is a build of FFmpeg compiled to WebAssembly, the binary format modern browsers can run natively. It performs exactly the same operations as FFmpeg in the terminal — converting formats, changing codecs, remuxing, extracting audio — but directly in the browser, with no installation."
+          "text": "Most do. Services advertising themselves as an \"online FFmpeg converter\" generally run FFmpeg on their own servers: you upload the file, they process it and return the result. VidToFLAC is different: it uses FFmpeg.wasm, which runs in your browser. The file never leaves your device."
         }
       },
       {
         "@type": "Question",
-        "name": "Why do online FFmpeg converters upload my files to a server?",
+        "name": "Is FFmpeg.wasm as capable as regular FFmpeg?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Most 'online FFmpeg converters' actually run FFmpeg on their own servers — you upload the file, they process it and hand back the result. That has privacy and security implications for sensitive material. VidToFLAC is different: it runs FFmpeg.wasm locally in your browser. The file never leaves your device."
+          "text": "For most everyday uses — converting formats, changing the audio codec, remuxing containers — yes. The difference is speed: FFmpeg.wasm uses the CPU only, whereas native FFmpeg can use the GPU to accelerate H.264/H.265 encoding. For simple operations like a remux or an audio swap the speed difference is small; for re-encoding 4K video, native FFmpeg with a GPU can be 10 to 20 times faster."
         }
       },
       {
         "@type": "Question",
-        "name": "Does FFmpeg.wasm have limitations compared with normal FFmpeg?",
+        "name": "Can I convert video offline with VidToFLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Some, yes. FFmpeg.wasm cannot use GPU acceleration — CPU only — so conversions are slower than native FFmpeg with hwaccel. It also does not support every codec a native FFmpeg build can include. For everyday conversions (H.264, H.265, FLAC, AAC, container remuxes) it works properly."
+          "text": "Yes, once the page has loaded. On first use the browser downloads FFmpeg.wasm from the CDN and caches it. After that you can disconnect from the internet and conversions keep working. The browser cache can be cleared, in which case you will need a connection for that first load again."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which video formats does VidToFLAC support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "VidToFLAC accepts the common formats: MP4, MKV, MOV, AVI, WMV, WebM, FLV, M4V and more. The video can be H.264, H.265, VP9, AV1, MPEG-4, WMV, ProRes, DNxHD, MJPEG and others. If the format is exotic or very old, FFmpeg.wasm may not support it — in which case a native FFmpeg install is the alternative."
         }
       }
     ]

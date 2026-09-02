@@ -78,15 +78,23 @@
         "name": "¿Se pierde calidad al convertir WMV a MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "La conversión de WMV a MP4 siempre implica recodificar el vídeo (no es posible un remux directo porque los códecs no son compatibles), lo que genera algo de pérdida. Con un CRF de 18 en H.264, la pérdida es visualmente imperceptible. El archivo MP4 resultante puede ser ligeramente más grande o más pequeño que el WMV original dependiendo de la eficiencia de compresión."
+          "text": "Algo sí, porque WMV a MP4 requiere recodificar el vídeo (no es posible un remux directo). Con CRF 18 en H.264, la pérdida es visualmente imperceptible — es la configuración estándar para material de alta calidad. El audio en FLAC es sin pérdida. La diferencia con el WMV original no la verás en pantallas normales."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Por qué no puedo reproducir WMV en Mac o Linux?",
+        "name": "¿Por qué no puedo reproducir mi WMV en Mac o iPhone?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "WMV usa el códec VC-1 de Microsoft, que no está incluido de forma nativa en macOS ni en la mayoría de distribuciones Linux. Necesitas instalar codecs adicionales (como VLC, que los incluye) o convertir el WMV a un formato estándar como MP4 con H.264."
+          "text": "WMV usa los códecs VC-1 y WMA de Microsoft, que no están incluidos de forma nativa en macOS ni en iOS. QuickTime y el reproductor de vídeo del iPhone no los soportan. Convierte el WMV a MP4 con H.264 y tendrás un archivo que funciona nativamente en cualquier Mac o iPhone sin necesidad de instalar nada."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Puedo convertir WMV a MP4 sin instalar ningún programa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. VidToFLAC convierte WMV directamente en el navegador usando FFmpeg WebAssembly. No necesitas instalar nada: ni FFmpeg, ni HandBrake, ni ningún conversor externo. Abre la herramienta, arrastra el WMV y descarga el resultado. El archivo nunca sale de tu ordenador."
         }
       },
       {
@@ -94,15 +102,7 @@
         "name": "¿Puedo importar WMV directamente en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "En Windows, DaVinci Resolve puede abrir WMV si los codecs de Windows Media están instalados. En Linux y macOS, DaVinci Resolve no puede abrir WMV. La solución más fiable en todos los sistemas es convertir el WMV a MP4 con H.264 y audio FLAC con VidToFLAC."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Cuánto tiempo tarda convertir un WMV a MP4?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Depende de la resolución, duración y potencia de tu ordenador. Con VidToFLAC y el preset ultrafast, un vídeo de 5 minutos en 1080p tarda aproximadamente 1-3 minutos. Para vídeos largos (grabaciones de reuniones de 1-2 horas), puede tardar 15-30 minutos en un ordenador moderno."
+          "text": "Solo en Windows y con restricciones. En Linux y macOS, DaVinci Resolve no puede abrir WMV. Incluso en Windows, algunos perfiles de WMV pueden dar problemas. Para un flujo de trabajo sin sorpresas, convierte el WMV a MKV con H.264 y audio FLAC con VidToFLAC — esa combinación funciona en DaVinci Resolve en todas las plataformas."
         }
       }
     ]

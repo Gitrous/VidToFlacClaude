@@ -78,31 +78,31 @@
         "name": "¿Por qué el audio se desincroniza en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Las causas más comunes son: (1) códec de audio incompatible que DaVinci Resolve decodifica con retraso, especialmente AAC en Linux; (2) vídeo grabado con framerate variable (VFR), como el de móviles o grabaciones de pantalla con OBS; (3) errores en la configuración de exportación. La solución más efectiva para el primer caso es convertir el audio a FLAC con VidToFLAC antes de importar."
+          "text": "Las causas más comunes son: (1) un códec de audio que DaVinci Resolve no decodifica limpiamente (AAC, MP3, AC-3), especialmente en Linux; (2) vídeo grabado con framerate variable (VFR), típico de móviles, OBS y grabaciones de pantalla; (3) configuración incorrecta de exportación. El desync constante apunta a códec; el desync que crece apunta a VFR."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Cómo sincronizar el audio en DaVinci Resolve?",
+        "name": "¿Cómo sincronizar el audio manualmente en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende de la causa. Si el desync viene del códec, convierte el archivo a MKV con audio FLAC usando VidToFLAC. Si viene del framerate variable, activa 'Set Clip Speed' a framerate constante o usa FFmpeg para convertir a CFR. Si es un desfase fijo en la línea de tiempo, selecciona la pista de audio y usa Ctrl+Alt+flecha para desplazarla fotograma a fotograma."
+          "text": "Puedes seleccionar la pista de audio en el timeline y usar Ctrl+Alt+flecha izquierda/derecha para desplazarla fotograma a fotograma. Sin embargo, esto solo funciona si el desync es constante (mismo desfase en todo el clip). Si el desync crece con el tiempo (VFR), el ajuste manual no funciona: la sincronización será correcta en un punto pero incorrecta en el resto. En ese caso, convierte el archivo a CFR antes de importar."
         }
       },
       {
         "@type": "Question",
-        "name": "¿El audio desincronizado de DaVinci Resolve afecta también al archivo exportado?",
+        "name": "¿El audio desincronizado en DaVinci Resolve también aparece en el archivo exportado?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende del origen. Si el desync está en la importación (códec o VFR), el archivo exportado también llevará el desync. Si ajustas el audio manualmente en la línea de tiempo pero el archivo fuente tiene VFR, el problema puede reaparecer al volver a renderizar. La solución correcta es arreglar el archivo fuente antes de importar, no ajustar manualmente en el timeline."
+          "text": "Depende del origen. Si el desync viene del archivo fuente (códec o VFR), el export también llevará el desync aunque en la preview parezca bien en algunos casos. Si ajustas el desfase manualmente en el timeline pero sin solucionar el VFR, el archivo exportado puede volver a estar mal. La solución correcta es arreglar el archivo fuente antes de importar, no parchear manualmente."
         }
       },
       {
         "@type": "Question",
-        "name": "¿La versión gratuita de DaVinci Resolve tiene más problemas de sincronización que Studio?",
+        "name": "¿VidToFLAC soluciona el audio desincronizado por VFR?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "El problema de sincronización por VFR afecta igual a ambas versiones. El problema por códec de audio (AAC, MP3) es más frecuente en la versión gratuita en Linux, porque DaVinci Resolve Free no incluye los decodificadores propietarios. Convertir a FLAC antes de importar resuelve este caso en ambas versiones."
+          "text": "VidToFLAC resuelve el desync causado por códec de audio incompatible (AAC, MP3, AC-3), que es la causa más común. Para el desync por VFR necesitas convertir el vídeo a framerate constante con FFmpeg usando el filtro fps. Si tu desync crece con el tiempo, el problema es VFR y necesitas ese paso adicional."
         }
       }
     ]

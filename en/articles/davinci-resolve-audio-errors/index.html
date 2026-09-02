@@ -78,31 +78,47 @@
         "name": "Why won't DaVinci Resolve play my videos' audio?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "DaVinci Resolve does not ship decoders for every audio codec. AAC, MP3, AC-3, E-AC-3 and Opus cause the most trouble, especially on Linux where the free version's codec support is more limited still. The fix is to convert the audio to FLAC, which DaVinci Resolve does support natively."
+          "text": "DaVinci Resolve does not ship decoders for every audio codec. The most troublesome are AAC, MP3, AC-3, E-AC-3 and Opus, especially on Linux where the free version's codec support is very limited. The fix is to convert the audio to FLAC before importing."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I fix the 'Media offline' audio error in DaVinci Resolve?",
+        "name": "Does converting the audio to FLAC cost me picture quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "'Media offline' on an audio clip usually means the file carries an unsupported audio codec. Convert the audio to FLAC inside an MKV container using VidToFLAC — free, with nothing uploaded — and import it again in DaVinci Resolve."
+          "text": "No. A remux copies the video stream bit for bit, without recompressing. The frames are identical to the original. Only the audio is re-encoded, to FLAC, which is lossless — so the audio quality is identical too."
         }
       },
       {
         "@type": "Question",
-        "name": "Does DaVinci Resolve on Linux have limited audio support?",
+        "name": "Can I convert a camera MOV to MKV with FLAC without trouble?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The free DaVinci Resolve on Linux cannot play AAC, MP3 or most licensed codecs, because Blackmagic Design does not include those licences in the Linux build. The universal fix is to convert the audio to FLAC, which — being open source — works on every platform."
+          "text": "Yes. The container changes from MOV to MKV, but the contents are the same. DaVinci Resolve works perfectly well with MKV. The only noticeable difference is that the resulting file may be slightly larger, since FLAC compresses losslessly and therefore less than lossy AAC."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I use MOV files in DaVinci Resolve without audio problems?",
+        "name": "Why doesn't my iPhone video audio work in DaVinci Resolve on Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MOV files from an iPhone or a Sony camera usually carry AAC, which DaVinci Resolve on Linux will not play. The fix is to remux to MKV with FLAC audio using VidToFLAC: the video is copied losslessly and the audio becomes FLAC, which removes the problem."
+          "text": "iPhone video uses AAC for audio. DaVinci Resolve on Linux cannot decode AAC, because Blackmagic Design does not include that patent licence in the Linux build. The fix is to convert the audio to FLAC with VidToFLAC before importing the clip."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there any way to fix the audio without converting the file?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On Linux, not reliably. Some distributions let you install extra decoder packages, but those workarounds are fragile and tied to particular OS versions. Converting to FLAC is the only robust approach that works on every system."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between FLAC and WAV for DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both are lossless and both work well in DaVinci Resolve. The difference is size: FLAC compresses the audio — typically 40–60% smaller than WAV — without discarding any data. On long videos that difference is significant, which is why we recommend FLAC over WAV."
         }
       }
     ]

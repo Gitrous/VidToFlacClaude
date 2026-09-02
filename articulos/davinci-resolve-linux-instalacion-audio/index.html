@@ -59,32 +59,50 @@
       {
         "@type": "Question",
         "name": "¿DaVinci Resolve funciona bien en Linux?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Sí, DaVinci Resolve funciona muy bien en Linux para edición de vídeo, corrección de color y mezcla de audio. El principal problema es que la versión gratuita no incluye decodificadores de audio con licencias de patente (AAC, MP3), por lo que los archivos grabados con smartphones, cámaras o OBS no reproducen audio al importarlos. La solución es convertir el audio a FLAC antes de importar, usando VidToFLAC." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, muy bien. DaVinci Resolve en Linux ofrece toda la funcionalidad de edición, color, audio y VFX que la versión de Windows o macOS. El único problema significativo es el soporte de códecs de audio: la versión gratuita no decodifica AAC ni MP3. VidToFLAC resuelve esto convirtiendo el audio a FLAC antes de importar."
+        }
       },
       {
         "@type": "Question",
         "name": "¿Por qué DaVinci Resolve no reproduce audio en Linux?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Blackmagic Design no incluye las licencias de patentes de AAC, MP3 y otros códecs de audio en la versión de Linux de DaVinci Resolve. Estos códecs están protegidos por patentes y requieren pago de royalties. En Windows y macOS el sistema operativo ya incluye esas licencias; en Linux no. El resultado es que cualquier archivo con audio AAC o MP3 aparece sin sonido al importarlo en DaVinci Resolve." }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Cómo instalar DaVinci Resolve en Ubuntu?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Descarga el instalador desde la página oficial de Blackmagic Design (blackmagicdesign.com), extrae el ZIP, dale permisos de ejecución al archivo .run y ejecútalo con sudo: sudo sh ./DaVinci_Resolve_XX_Linux.run. El instalador copia los archivos y crea el acceso directo. Necesitas drivers de GPU actualizados (NVIDIA o AMD) para la aceleración por hardware." }
-      },
-      {
-        "@type": "Question",
-        "name": "¿DaVinci Resolve está disponible para todas las distribuciones Linux?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Blackmagic Design solo prueba y soporta oficialmente Ubuntu LTS. Sin embargo, funciona bien en Pop!_OS, Linux Mint, Debian y Fedora con algunos ajustes. En distribuciones basadas en Arch (Manjaro, EndeavourOS) hay paquetes en AUR que facilitan la instalación. No hay soporte oficial para distribuciones inmutables como Fedora Silverblue o SteamOS." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Blackmagic Design no incluye las licencias de patentes de AAC, MP3 y otros códecs en la versión de Linux. En Windows y macOS, el sistema operativo ya incluye esas licencias. En Linux no. La solución es convertir el audio a FLAC (que sí está soportado) antes de importar los clips."
+        }
       },
       {
         "@type": "Question",
         "name": "¿DaVinci Resolve Studio soluciona el problema de audio en Linux?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Parcialmente. Studio incluye más decodificadores de audio en Linux, pero no todos. E-AC-3 y algunos perfiles de AAC siguen sin funcionar. La solución más fiable y gratuita es convertir el audio de los archivos a FLAC antes de importarlos en DaVinci Resolve, usando VidToFLAC. Esto funciona con la versión gratuita en Linux sin pagar Studio." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Parcialmente. Studio incluye más decodificadores en Linux, pero E-AC-3 y algunos perfiles de AAC siguen sin funcionar. La solución más fiable, y gratuita, es convertir el audio a FLAC con VidToFLAC — funciona con la versión gratuita sin pagar Studio. Lee más en DaVinci Resolve gratuito vs Studio."
+        }
       },
       {
         "@type": "Question",
-        "name": "¿Cómo solucionar el problema de audio de DaVinci Resolve en Linux sin pagar Studio?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Convierte el audio de tus archivos de vídeo a FLAC antes de importarlos en DaVinci Resolve. VidToFLAC es una herramienta gratuita que lo hace directamente en el navegador: copia el vídeo bit a bit (sin pérdida de calidad) y convierte solo el audio a FLAC. El resultado es un MKV que DaVinci Resolve importa perfectamente en Linux." }
+        "name": "¿Necesito compilar FFmpeg o instalar codecs aparte?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No para editar en DaVinci Resolve — no sirve de nada instalar FFmpeg con soporte AAC en el sistema; DaVinci Resolve usa sus propios decodificadores internos. La única solución que funciona es convertir los archivos antes de importarlos, ya sea con VidToFLAC o con FFmpeg desde la terminal usando -c:a flac."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿DaVinci Resolve funciona en Arch Linux o Manjaro?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, hay un paquete en AUR (davinci-resolve ) mantenido por la comunidad que facilita la instalación en Arch, Manjaro y EndeavourOS. No es oficial, pero funciona bien. El problema de audio AAC se aplica igual que en Ubuntu."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿El audio de mis clips de OBS no funciona en DaVinci Resolve Linux?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Correcto — OBS graba en AAC por defecto, y DaVinci Resolve en Linux no puede leer AAC. Tienes dos opciones: (1) convertir los clips con VidToFLAC antes de importarlos, o (2) configurar OBS para grabar en FLAC directamente: Configuración → Salida → Grabación → Formato: MKV, Encoder de audio: FLAC. Lee la guía completa en DaVinci Resolve no importa audio de OBS."
+        }
       }
     ]
   }

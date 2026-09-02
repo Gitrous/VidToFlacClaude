@@ -78,15 +78,15 @@
         "name": "Why does DaVinci Resolve play no audio from an MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MP4 files recorded on smartphones and cameras, or captured with OBS Studio, use AAC or MP3 for the audio. The free DaVinci Resolve, especially on Linux, ships no decoders for those codecs. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes something DaVinci Resolve can read."
+          "text": "MP4 files from smartphones, cameras and OBS use AAC or MP3 for audio. The free DaVinci Resolve on Linux ships no decoders for those codecs. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on Windows, macOS and Linux."
         }
       },
       {
         "@type": "Question",
-        "name": "Why does OBS Studio record audio DaVinci Resolve cannot read?",
+        "name": "Why does OBS record audio DaVinci Resolve cannot read?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "OBS Studio records to MKV or MP4 with AAC or MP3 audio by default. DaVinci Resolve on Linux can decode neither. Convert your OBS recording's audio to FLAC with VidToFLAC before importing it into DaVinci Resolve."
+          "text": "OBS uses AAC as its default audio codec, because it is compact and widely compatible with players and streaming platforms. The problem is that DaVinci Resolve on Linux cannot decode it. You can set OBS to record FLAC (Settings → Output → Audio encoder → FLAC), or simply convert the recordings you have with VidToFLAC."
         }
       },
       {
@@ -94,23 +94,31 @@
         "name": "Do I lose video quality by converting the audio to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. VidToFLAC performs a remux: the video stream is copied bit for bit, without a single frame being recompressed. Only the audio changes codec, to FLAC, which is lossless. The picture is identical to the original."
+          "text": "No. VidToFLAC does a remux: the video stream is copied bit for bit, never decoded or recompressed. Every frame of the resulting file is identical to the original. Only the audio changes from AAC to FLAC — and FLAC is lossless, so the audio quality is identical too."
         }
       },
       {
         "@type": "Question",
-        "name": "Does this fix work in DaVinci Resolve on Linux?",
+        "name": "Does this fix work in DaVinci Resolve on Windows and macOS too?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — and that is where it makes the biggest difference. DaVinci Resolve on Linux can decode neither AAC nor MP3, because Blackmagic Design does not include those licences in the Linux build. FLAC is open source and works on every platform, Linux included."
+          "text": "Yes. On Windows and macOS DaVinci Resolve does support AAC, but there are cases where it fails: files with non-standard AAC profiles, unusual container combinations, E-AC-3 and so on. Converting to FLAC works on every operating system and rules out any audio codec incompatibility."
         }
       },
       {
         "@type": "Question",
-        "name": "Do I have to change my OBS settings to make this work with DaVinci Resolve?",
+        "name": "How long does the conversion take with VidToFLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can set OBS to record MKV with FLAC or PCM audio, under Settings → Output → Recording → Audio track → Codec: FLAC. If you would rather not touch OBS, just convert the recordings with VidToFLAC afterwards."
+          "text": "Very little. Since the video is copied without recompression and the audio is usually under 5% of the file size, converting a two-hour recording typically takes 10 to 30 seconds. The only limiting factor is your disk's write speed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are my files uploaded to any server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Never. VidToFLAC uses FFmpeg compiled to WebAssembly, which runs inside your own browser. The file never leaves your device: no upload, no intermediate server, no sign-up. You can even disconnect from the internet once the page has loaded and the conversion will still work."
         }
       }
     ]
@@ -470,7 +478,7 @@
         <strong>The usual symptoms:</strong> a greyed-out audio track in the Media Pool · <code>Unsupported audio codec</code> on import · a flat waveform · the clip imports but plays silently
       </div>
 
-      <p>The answer is not to reinstall DaVinci Resolve or go hunting for paid plugins. It is to <strong>change the file's audio codec to FLAC</strong>, which DaVinci Resolve supports natively on every platform, Linux included.</p>
+      <p>The answer is not to reinstall DaVinci Resolve or go hunting for paid plugins. It is to <strong>change the file's audio codec to FLAC</strong>, which DaVinci Resolve supports natively on Windows, macOS and Linux.</p>
 
       <h2 id="fuentes-problematicas">The usual sources and their audio codecs</h2>
 
@@ -568,7 +576,7 @@
 
       <h2 id="solucion">The fix in 4 steps: convert the audio to FLAC</h2>
 
-      <p>VidToFLAC performs a <strong>lossless remux</strong>: it copies the video bit for bit — no recompression, not a frame of quality lost — and converts only the audio from AAC to FLAC. The result is an MKV that DaVinci Resolve opens correctly on every platform.</p>
+      <p>VidToFLAC performs a <strong>lossless remux</strong>: it copies the video bit for bit — no recompression, not a frame of quality lost — and converts only the audio from AAC to FLAC. The result is an MKV that DaVinci Resolve opens correctly on Windows, macOS and Linux.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Free tool · nothing uploaded</span>
@@ -612,7 +620,7 @@
       <p>With that set, your recordings will work in DaVinci Resolve from the outset.</p>
 
       <h3>Option B: record uncompressed PCM</h3>
-      <p>PCM (WAV) is another lossless format DaVinci Resolve supports everywhere. The drawback is size: a two-hour recording can produce several gigabytes of audio alone. FLAC gives the same quality in 40–60% less space.</p>
+      <p>PCM (WAV) is another lossless format DaVinci Resolve supports on Windows, macOS and Linux. The drawback is size: a two-hour recording can produce several gigabytes of audio alone. FLAC gives the same quality in 40–60% less space.</p>
 
       <h3>Option C: convert after recording, leaving OBS alone</h3>
       <p>If you would rather not change your OBS settings, or you already have a pile of older AAC recordings, use VidToFLAC to convert them. It is the most practical option when dozens of files have built up.</p>
@@ -668,7 +676,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>MP4 files from smartphones, cameras and OBS use <strong>AAC or MP3</strong> for audio. The free DaVinci Resolve on Linux ships no decoders for those codecs. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on every platform.</p>
+            <p>MP4 files from smartphones, cameras and OBS use <strong>AAC or MP3</strong> for audio. The free DaVinci Resolve on Linux ships no decoders for those codecs. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on Windows, macOS and Linux.</p>
           </div>
         </details>
 

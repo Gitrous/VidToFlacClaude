@@ -59,32 +59,50 @@
       {
         "@type": "Question",
         "name": "Do you lose quality converting MOV to MP4?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No, not if it is done as a remux. A remux copies the video and audio bit for bit without recompressing. Quality is only lost in a re-encode, which is only necessary when the MOV contains codecs that MP4 cannot hold, such as ProRes or FLAC." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, not if it is done as a remux. A remux copies the video and audio bit for bit without recompressing. Quality is only lost in a re-encode, which is only necessary when the MOV contains codecs MP4 cannot hold, such as ProRes or FLAC."
+        }
       },
       {
         "@type": "Question",
         "name": "How long does converting a MOV to MP4 take?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A remux is nearly instant: a 4 GB MOV takes between 10 and 30 seconds with VidToFLAC or FFmpeg, because the video is never decoded or re-encoded. Only the container changes." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A remux is nearly instant: a 4 GB MOV takes between 10 and 30 seconds with VidToFLAC or FFmpeg, because the video is never decoded or re-encoded. Only the container changes."
+        }
       },
       {
         "@type": "Question",
         "name": "Can I convert an iPhone MOV to MP4 without installing anything?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. VidToFLAC runs directly in the browser (Chrome, Firefox, Edge, Safari) with nothing to install. Drop in the iPhone MOV, press Convert and download the MP4. Everything happens on your device; nothing is uploaded." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. VidToFLAC runs directly in the browser (Chrome, Firefox, Edge, Safari) with nothing to install. Drop in the iPhone MOV, press Convert and download the MP4. Everything happens on your device; nothing is uploaded."
+        }
       },
       {
         "@type": "Question",
         "name": "What is the difference between MOV and MP4?",
-        "acceptedAnswer": { "@type": "Answer", "text": "MOV is Apple's container format; MP4 is the international standard (MPEG-4). Both can hold the same codecs — H.264, H.265, AAC. The difference is compatibility: MP4 works on practically any device and platform, whereas MOV is more tied to the Apple ecosystem." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MOV is Apple's container format; MP4 is the international standard. Both can hold the same codecs — H.264, H.265, AAC. The difference is compatibility: MP4 works on practically any device and platform, whereas MOV is more tied to the Apple ecosystem."
+        }
       },
       {
         "@type": "Question",
         "name": "Does VidToFLAC convert MOV to MP4?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. VidToFLAC accepts MOV as input and can export to MP4. The video is copied without recompression and the audio is converted to FLAC, losslessly. The result is an MP4 with FLAC audio, ideal for editing in DaVinci Resolve, Premiere Pro and other editors." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. VidToFLAC accepts MOV as input and can export to MP4. The video is copied without recompression and the audio is converted to FLAC, losslessly. The result is ideal for editing in DaVinci Resolve, Premiere Pro and other editors."
+        }
       },
       {
         "@type": "Question",
-        "name": "Does an iPhone MOV have AAC or FLAC audio?",
-        "acceptedAnswer": { "@type": "Answer", "text": "MOV files recorded on an iPhone carry AAC audio; that is Apple's standard codec. When imported into DaVinci Resolve on Linux the AAC audio will not play, because the free DaVinci Resolve on Linux ships no AAC decoder. Converting the MOV with VidToFLAC, so the audio becomes FLAC, solves the problem." }
+        "name": "Does an iPhone MOV have AAC audio? Does it work in DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "iPhone MOV files carry AAC audio. When imported into DaVinci Resolve on Linux, that AAC audio will not play, because the free build ships no AAC decoder on Linux. Converting the MOV with VidToFLAC, so the audio becomes FLAC, solves the problem at no cost. See the full guide to audio errors in DaVinci Resolve."
+        }
       }
     ]
   }

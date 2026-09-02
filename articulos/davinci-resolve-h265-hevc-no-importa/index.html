@@ -78,39 +78,39 @@
         "name": "¿Por qué DaVinci Resolve gratuito no puede importar H.265?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "DaVinci Resolve gratuito no incluye decodificación por hardware de H.265 en Linux, y en Windows/macOS requiere una GPU compatible con decodificación HEVC. Si tu GPU no lo soporta o usas Linux, DaVinci Resolve Free no puede abrir archivos H.265. La solución es convertir el vídeo H.265 a H.264 con VidToFLAC, que recodifica usando libx264 directamente en el navegador."
+          "text": "DaVinci Resolve Free depende de la GPU para decodificar H.265. Si tu GPU no tiene un decodificador HEVC por hardware, o si usas Linux, la decodificación falla. DaVinci Resolve Studio incluye un decodificador por software que funciona en cualquier sistema. La solución más rápida es convertir el H.265 a H.264 con VidToFLAC antes de importar."
         }
       },
       {
         "@type": "Question",
-        "name": "¿H.265 funciona en DaVinci Resolve Studio pero no en la versión gratuita?",
+        "name": "¿H.265 funciona en DaVinci Resolve Studio pero no en Free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Exacto. DaVinci Resolve Studio incluye soporte completo de H.265 mediante decodificación por software y hardware. La versión gratuita depende de la decodificación por GPU y no incluye el decodificador por software de H.265. Por eso el mismo archivo H.265 puede funcionar en Studio pero no en Free."
+          "text": "Sí. DaVinci Resolve Studio incluye decodificación H.265 por software, que funciona independientemente de la GPU. La versión gratuita solo puede usar decodificación por GPU hardware, que no está disponible en todas las configuraciones. Por eso el mismo archivo puede funcionar en Studio y no en Free."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Se pierde mucha calidad al convertir H.265 a H.264 para DaVinci Resolve?",
+        "name": "¿Se pierde mucha calidad al convertir H.265 a H.264?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Con un CRF de 18 (el que usa VidToFLAC por defecto), la pérdida es visualmente imperceptible. H.264 con CRF 18 produce una calidad muy alta — la diferencia con H.265 es principalmente de eficiencia de compresión (el archivo H.264 será más grande), no de calidad visible."
+          "text": "Con CRF 18 (el que usa VidToFLAC), la pérdida es visualmente imperceptible. El archivo resultante será algo más grande que el H.265 original porque H.264 es menos eficiente en compresión, pero la calidad visual es prácticamente idéntica. Para material de trabajo en edición, la diferencia no existe en la práctica."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Qué cámaras graban en H.265 / HEVC?",
+        "name": "Mi iPhone graba en H.265, ¿cómo lo hago compatible con DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "La mayoría de smartphones modernos (iPhone desde el XR, Samsung Galaxy S desde 2018, Google Pixel desde 2019) graban en H.265 por defecto. También cámaras mirrorless como Sony Alpha 7 IV, Canon EOS R5/R6, Fujifilm X-T5, y drones como DJI Mini 3/4. En grabaciones de 4K y 8K, H.265 es el estándar habitual."
+          "text": "Tienes dos opciones: (1) cambiar el iPhone para que grabe en H.264 yendo a Ajustes → Cámara → Formatos → Más compatible; (2) convertir los vídeos ya grabados con VidToFLAC antes de importarlos en DaVinci Resolve. La primera opción afecta a grabaciones futuras; la segunda soluciona el material ya grabado."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Puedo cambiar mi cámara para grabar en H.264 en lugar de H.265?",
+        "name": "¿Cuánto tiempo tarda la conversión de H.265 a H.264?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "En la mayoría de cámaras y smartphones sí. En iPhone: Ajustes → Cámara → Formatos → Más compatible (graba en H.264). En Android: la opción varía según el modelo, busca 'Calidad de vídeo' o 'Formato de vídeo' en los ajustes de la cámara. Si no encuentras la opción, convierte los archivos después de grabar con VidToFLAC."
+          "text": "Depende de la resolución y la duración del clip, y de la potencia de tu ordenador. Aproximadamente, un clip de 1 minuto en 4K H.265 tarda entre 1 y 3 minutos con VidToFLAC usando el preset ultrafast. Para conversiones de material largo, considera usar FFmpeg en la terminal con aceleración por GPU (-hwaccel cuda para NVIDIA o -hwaccel vaapi para Linux)."
         }
       }
     ]

@@ -64,7 +64,7 @@
         "name": "¿Cómo exportar desde DaVinci Resolve sin perder calidad de audio?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "En la página Deliver de DaVinci Resolve, en la sección Audio, elige el códec FLAC (sin pérdida comprimido). Preserva el 100% de la calidad de audio original ocupando mucho menos que PCM. Evita AAC o MP3 si quieres calidad sin pérdida."
+          "text": "En la página Deliver, sección Audio, elige el códec FLAC (sin pérdida comprimido): misma calidad que PCM pero ocupa entre un 40 y un 60 % menos. Configura la frecuencia de muestreo a 48.000 Hz y la profundidad de bits a 24 bits para máxima calidad."
         }
       },
       {
@@ -72,15 +72,15 @@
         "name": "¿Por qué el audio pierde calidad al exportar en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Porque DaVinci Resolve aplica por defecto una recompresión en AAC o MP3 al exportar, lo que introduce pérdida de calidad. Además, si el audio ya venía comprimido (AAC) y se vuelve a comprimir (AAC), la calidad se degrada acumulativamente. Por eso conviene exportar el máster en FLAC u otro formato sin pérdida, y dejar la compresión para la copia de distribución."
+          "text": "Porque DaVinci Resolve recomprime el audio al exportar. Si el audio original ya era AAC y exportas en AAC, aplicas dos ciclos de compresión con pérdida (recompresión generacional). Por eso conviene exportar el máster en FLAC u otro formato sin pérdida, y dejar la compresión para la copia de distribución."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Cuál es el mejor códec de audio para exportar desde DaVinci Resolve a YouTube?",
+        "name": "¿Cuál es el mejor códec de audio para exportar a YouTube desde DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Para YouTube, AAC a 320 kbps es suficiente y es el estándar que acepta la plataforma. YouTube recomprime el vídeo al subir de todas formas, así que exportar en AAC de alta calidad es la opción más práctica. Si quieres conservar el máster sin pérdida, exporta a FLAC y guarda una copia aparte."
+          "text": "AAC a 320 kbps es suficiente y es el estándar que acepta YouTube. La plataforma recomprime el vídeo al subir de todas formas, así que exportar en FLAC no mejora el resultado en YouTube. Guarda el FLAC para tu copia de archivo máster."
         }
       },
       {
@@ -96,7 +96,15 @@
         "name": "¿Por qué el audio exportado de DaVinci Resolve va desincronizado?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "La desincronización al exportar suele tener dos causas: el material de entrada era Variable Frame Rate (VFR) y DaVinci Resolve no lo gestionó correctamente, o hay un conflicto entre la frecuencia de muestreo del proyecto (timeline) y la del material fuente. Comprueba que el proyecto está configurado a 48.000 Hz si trabajas con audio de cámara o micrófono externo."
+          "text": "Las causas más habituales son: el material fuente era Variable Frame Rate (VFR) — típico de vídeos de smartphone —, o hay una incompatibilidad de frecuencia de muestreo entre el proyecto y el material. Para VFR, convierte el archivo a CFR antes de importar: ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué frecuencia de muestreo debo usar al exportar desde DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "48.000 Hz es el estándar para todo el contenido de vídeo (cine, televisión, plataformas de streaming). Solo usa 44.100 Hz si el destino es exclusivamente audio (CD, plataformas de música). Usar la frecuencia equivocada puede causar pequeñas variaciones en el pitch del audio."
         }
       }
     ]

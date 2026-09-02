@@ -73,7 +73,7 @@
         "name": "Which video format is best for editing in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "For professional editing, ProRes (Mac) or DNxHD/DNxHR (Windows/Linux) are the best choices: high quality, light on the CPU and free of compression artefacts. For projects without a professional camera, MKV with H.264 video and FLAC audio is the most practical option: compatible on every platform and free of codec trouble."
+          "text": "For professional editing, ProRes 422 (Mac) or DNxHR (Windows/Linux) are best: intra-frame, free of compression artefacts and excellent in real time. For home or YouTube projects, MKV with H.264 and FLAC audio is the most practical and compatible option."
         }
       },
       {
@@ -81,7 +81,7 @@
         "name": "Does DaVinci Resolve support H.265 (HEVC)?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, DaVinci Resolve supports H.265 on Windows and macOS, though it demands more CPU/GPU power to decode in real time. On Linux, support is limited in the free version. If H.265 is causing performance problems, converting to H.264 or to an editing codec such as ProRes noticeably improves smoothness."
+          "text": "Yes, on Windows and macOS. On Linux, support is limited in the free version. H.265 also needs considerably more CPU/GPU power than H.264 to decode in real time. If the edit stutters, generate proxies from Clip → Generate Optimized Media."
         }
       },
       {
@@ -89,7 +89,7 @@
         "name": "Can I edit MP4 files directly in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, with caveats. H.264 video inside an MP4 works fine, but AAC audio may not play on Linux. On top of that, H.264 is a distribution codec — heavily compressed — which makes editing more demanding than with ProRes or DNxHD. For comfortable editing, a remux to MKV with FLAC audio is enough for most projects."
+          "text": "Yes. H.264 video inside an MP4 is supported on every platform. AAC audio may not play on Linux. For comfortable editing on long projects, consider generating proxies or remuxing to MKV with FLAC audio to sidestep codec problems."
         }
       },
       {
@@ -97,7 +97,7 @@
         "name": "Which audio codec should I use in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FLAC. It is the most compact lossless audio codec DaVinci Resolve supports on every platform, Linux included. It takes 40 to 60% less space than PCM/WAV without discarding any data. AAC and MP3 work on Windows and macOS but not on Linux. E-AC-3 (Dolby Digital Plus) works on no platform at all."
+          "text": "FLAC. It is the lossless audio codec DaVinci Resolve supports on every platform, Linux included, and it takes far less space than PCM/WAV without discarding any data. AAC works on Windows and macOS but not on Linux. E-AC-3 works on no platform at all."
         }
       },
       {
@@ -105,7 +105,15 @@
         "name": "MKV or MOV for DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Both work well as containers. MOV is Apple's native format and the better choice if you work on a Mac with ProRes. MKV is more open, works everywhere, and is the better option if the audio is FLAC or you work on Linux. The container matters less than the codec inside it."
+          "text": "Both work well. MOV is preferable on Mac with ProRes; MKV is more open and the better choice on Linux or with FLAC audio. What actually matters is the codec inside, not the container."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Variable Frame Rate, and why does it cause problems in DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Variable Frame Rate means the frame rate changes during recording — common in smartphone video shot in automatic mode. DaVinci Resolve can drift the audio out of sync with such files. The fix is to convert to Constant Frame Rate with FFmpeg before importing: ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv"
         }
       }
     ]

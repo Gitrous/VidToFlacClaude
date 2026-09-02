@@ -73,7 +73,7 @@
         "name": "¿Qué formato de vídeo es mejor para editar en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Para edición profesional, ProRes (Mac) o DNxHD/DNxHR (Windows/Linux) son los formatos óptimos: alta calidad, poca carga en la CPU y sin artefactos de compresión. Para proyectos sin cámara profesional, MKV con vídeo H.264 y audio FLAC es la mejor opción práctica: compatible en todas las plataformas y sin problemas de códec."
+          "text": "Para edición profesional, ProRes 422 (Mac) o DNxHR (Windows/Linux) son los óptimos: intra-frame, sin artefactos de compresión y con rendimiento excelente en tiempo real. Para proyectos domésticos o de YouTube, MKV con H.264 y audio FLAC es la opción más práctica y compatible."
         }
       },
       {
@@ -81,7 +81,7 @@
         "name": "¿DaVinci Resolve soporta H.265 (HEVC)?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí, DaVinci Resolve soporta H.265 en Windows y macOS, pero requiere más potencia de CPU/GPU para decodificar en tiempo real. En Linux el soporte es limitado en la versión gratuita. Si tienes problemas de rendimiento con H.265, convertir a H.264 o a un códec de edición como ProRes mejora notablemente la fluidez."
+          "text": "Sí en Windows y macOS. En Linux el soporte es limitado en la versión gratuita. Además, H.265 requiere mucha más potencia de CPU/GPU que H.264 para decodificar en tiempo real. Si la edición va a tirones, genera proxies desde el menú Clip → Generate Optimized Media."
         }
       },
       {
@@ -89,7 +89,7 @@
         "name": "¿Puedo editar archivos MP4 directamente en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí, pero con matices. El vídeo H.264 dentro de un MP4 funciona bien, pero el audio AAC puede no reproducirse en Linux. Además, H.264 es un códec de distribución (muy comprimido), lo que hace que la edición sea más pesada que con ProRes o DNxHD. Para edición cómoda, un remux a MKV con audio FLAC es suficiente para la mayoría de proyectos."
+          "text": "Sí. El vídeo H.264 dentro de un MP4 es compatible en todas las plataformas. El audio AAC puede no reproducirse en Linux. Para edición cómoda con proyectos largos, considera generar proxies o hacer un remux a MKV con audio FLAC para evitar problemas de códec."
         }
       },
       {
@@ -97,7 +97,7 @@
         "name": "¿Qué códec de audio debo usar en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FLAC. Es el códec de audio sin pérdida más compacto y compatible con DaVinci Resolve en todas las plataformas, incluido Linux. Ocupa entre un 40 y un 60 % menos que PCM/WAV sin perder ningún dato. AAC y MP3 funcionan en Windows y macOS pero no en Linux. E-AC-3 (Dolby Digital Plus) no funciona en ninguna plataforma."
+          "text": "FLAC. Es el códec de audio sin pérdida que DaVinci Resolve soporta en todas las plataformas, incluido Linux, y ocupa mucho menos que PCM/WAV sin perder ningún dato. AAC funciona en Windows y macOS pero no en Linux. E-AC-3 no funciona en ninguna plataforma."
         }
       },
       {
@@ -105,7 +105,15 @@
         "name": "¿MKV o MOV para DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Ambos funcionan bien como contenedor. MOV es el formato nativo de Apple y es preferible si trabajas en Mac con ProRes. MKV es más abierto, funciona en todas las plataformas y es la mejor opción si el audio va en FLAC o si trabajas en Linux. El contenedor importa menos que el códec que lleva dentro."
+          "text": "Ambos funcionan bien. MOV es preferible en Mac con ProRes; MKV es más abierto y es la mejor opción en Linux o con audio FLAC. Lo que realmente importa es el códec que lleva dentro, no el contenedor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué es Variable Frame Rate y por qué da problemas en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Variable Frame Rate (VFR) significa que la tasa de fotogramas varía durante la grabación — algo habitual en vídeos de smartphone en modo automático. DaVinci Resolve puede desincronizar el audio con estos archivos. La solución es convertir a Constant Frame Rate (CFR) con FFmpeg antes de importar: ffmpeg -i entrada.mp4 -vsync cfr -c:v copy -c:a flac salida.mkv"
         }
       }
     ]

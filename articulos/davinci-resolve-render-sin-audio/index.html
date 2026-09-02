@@ -78,31 +78,31 @@
         "name": "¿Por qué DaVinci Resolve exporta sin audio aunque en la línea de tiempo hay sonido?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Las causas más habituales son: (1) la opción 'Export Audio' no está marcada en la página Deliver; (2) las pistas de audio están silenciadas (botón M activo) en la página Edit o Fairlight; (3) el códec de audio seleccionado no es compatible con el contenedor de salida; (4) la pista de audio está deshabilitada en Fairlight. Revisa estas cuatro cosas en orden antes de buscar soluciones más complejas."
+          "text": "Las causas más habituales, de más a menos frecuente: (1) la opción \"Export Audio\" no está marcada en la página Deliver; (2) alguna pista de audio está silenciada (botón M activo) en la página Edit o Fairlight; (3) el códec de audio seleccionado no es compatible con el contenedor de salida; (4) estás en Linux y estás intentando exportar AAC, que DaVinci Resolve no puede codificar sin licencia."
         }
       },
       {
         "@type": "Question",
-        "name": "Tengo audio en la línea de tiempo pero el MP4 exportado no tiene sonido. ¿Qué hago?",
+        "name": "DaVinci Resolve en Linux exporta MP4 sin audio. ¿Qué hago?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Primero comprueba en la página Deliver que 'Export Audio' esté marcado en la sección Audio del panel de ajustes. Si ya está marcado, verifica que ninguna pista esté silenciada (icono M en rojo en la página Edit). Si el problema persiste, intenta cambiar el códec de audio de AAC a PCM (WAV) en los ajustes de exportación — si el MP4 resultante tiene sonido, el problema era el códec AAC."
+          "text": "DaVinci Resolve en Linux no puede codificar audio AAC, el más habitual en MP4. Las opciones son: (1) exportar a MKV con audio FLAC desde DaVinci Resolve; (2) si necesitas MP4, exportar a MKV primero y convertir después con ffmpeg -i salida.mkv -c:v copy -c:a aac salida.mp4."
         }
       },
       {
         "@type": "Question",
-        "name": "DaVinci Resolve exporta el vídeo sin audio en Linux. ¿Es un problema específico de Linux?",
+        "name": "La forma de onda de audio en DaVinci Resolve es plana. ¿Qué significa?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "En parte sí. DaVinci Resolve en Linux no puede codificar audio AAC (el más habitual en MP4) porque no incluye las licencias necesarias. Si exportas un MP4 con audio AAC en Linux, el resultado puede ser un archivo sin audio. La solución es exportar con audio FLAC o PCM, o usar MKV como contenedor de salida, que admite FLAC de forma nativa."
+          "text": "Una forma de onda completamente plana (línea recta sin variación) significa que DaVinci Resolve no puede decodificar el audio del archivo fuente. El clip está en la timeline, pero el audio es silencio. Esto ocurre cuando el archivo tiene un códec de audio incompatible, como AAC en Linux. Solución: convierte el audio a FLAC con VidToFLAC antes de importar."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Cómo sé si el problema es de importación o de exportación?",
+        "name": "¿Cuál es la configuración de exportación de audio más segura en DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Si en la línea de tiempo de DaVinci Resolve ves la forma de onda del audio y escuchas sonido al reproducir con la barra espaciadora, el problema es de exportación (Deliver). Si no hay forma de onda o no suena al reproducir, el problema es de importación del archivo fuente — en ese caso, convierte el audio a FLAC con VidToFLAC antes de importar."
+          "text": "Para máxima compatibilidad: MP4 con AAC 320 kbps (no funciona en Linux). Para Linux o para preservar máxima calidad: MKV con FLAC. Para compartir con alguien que no tiene un editor de vídeo: MP4 con AAC. Para entrega profesional o intercambio entre programas: MKV con FLAC o PCM."
         }
       }
     ]

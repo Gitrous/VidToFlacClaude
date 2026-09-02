@@ -151,10 +151,10 @@
       },
       {
         "@type": "Question",
-        "name": "Why is FLAC better than extracting audio to a separate WAV file?",
+        "name": "Why is FLAC better than extracting audio to a separate WAV?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "By keeping audio and video synchronized inside the same MKV file, you avoid having to manually align them in your editor's timeline. If you extract audio to a separate WAV you have to re-sync it by hand; with FLAC inside the container you drag a single file and everything lines up, while also taking up less space than WAV at the same lossless quality."
+          "text": "Because keeping audio and video synchronized inside the same MKV file means you never have to manually align them in your editor's timeline. If you extract audio to a separate WAV you have to re-sync it clip by clip by hand; with FLAC inside the container you drag one file and everything lines up. FLAC also takes up less space than WAV at the same lossless quality."
         }
       },
       {
@@ -162,7 +162,7 @@
         "name": "Are my video files uploaded to any server?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Never. The entire conversion runs on your own device thanks to FFmpeg compiled to WebAssembly, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere: it's 100% private and local."
+          "text": "Never. The entire conversion runs on your own device thanks to FFmpeg compiled to WebAssembly, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's 100% private and local: that's also why you can process multi-gigabyte files without any upload wait."
         }
       },
       {
@@ -170,7 +170,7 @@
         "name": "What input formats are supported?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Video: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB and more. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF and FLAC. If the clip uses a video codec the browser cannot play (DNxHD, ProRes, MJPEG…), VidToFLAC automatically re-encodes it to H.264."
+          "text": "Video: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB and more. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF and FLAC. If your clip uses a video codec the browser cannot play (DNxHD, ProRes, MJPEG…), VidToFLAC automatically re-encodes it to H.264 to ensure correct playback."
         }
       },
       {
@@ -178,12 +178,12 @@
         "name": "Does it work for DaVinci Resolve on Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. DaVinci Resolve on Linux is exactly where the audio codec error appears most often, because it does not include AAC or MP3 decoders. By converting the audio to FLAC inside an MKV you get a file that DaVinci Resolve on Linux plays natively, restoring sound without installing paid codecs."
+          "text": "Yes. DaVinci Resolve on Linux is exactly where the audio codec error appears most, because it does not include AAC or MP3 decoders. By converting the audio to FLAC inside an MKV you get a file that DaVinci Resolve plays natively, restoring sound without installing paid codecs."
         }
       },
       {
         "@type": "Question",
-        "name": "Is VidToFLAC free and is there a file size limit?",
+        "name": "Is it free and is there a file size limit?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "It's completely free and no sign-up required. Since processing happens on your own computer with FFmpeg (WebAssembly) and there are no file uploads, there is no server-imposed size limit: you can convert videos of several gigabytes; the only practical limit is your device's memory."
@@ -191,18 +191,18 @@
       },
       {
         "@type": "Question",
-        "name": "How to extract audio from a video in FLAC format without losing quality?",
+        "name": "How to extract audio from a video to FLAC without losing quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC uses FFmpeg to perform a remux: it copies the video stream bit by bit without recompressing it, and re-encodes only the audio track to the official FLAC codec, which is lossless. The result is an MKV file with FLAC audio identical in quality to the original. All processing happens inside your browser via WebAssembly, without uploading the file to any server."
+          "text": "VidToFLAC uses FFmpeg to perform a remux: it copies the video stream bit by bit without recompressing it, and re-encodes only the audio track to the official FLAC codec, which is lossless. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly — without uploading the file to any server."
         }
       },
       {
         "@type": "Question",
-        "name": "Is it safe to use vidtoflac.tech?",
+        "name": "Is vidtoflac.tech safe to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. VidToFLAC processes your files 100% locally thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it is not uploaded to any server, and no third party has access to your files. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site may display third-party advertising, including Google advertising services, which may use cookies; this is detailed in our privacy policy."
+          "text": "Yes. VidToFLAC processes your files 100% locally thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and no third party has access to your files. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site may display third-party advertising, including Google advertising services, which may use cookies; this is detailed in our privacy policy."
         }
       },
       {
@@ -210,7 +210,7 @@
         "name": "What is the difference between MP3 and FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MP3 is a lossy format: it compresses audio by discarding frequencies the human ear perceives least, which reduces file size but irreversibly degrades quality. FLAC (Free Lossless Audio Codec) is a lossless format: it compresses audio data without discarding any information, so quality is identical to the original. For professional video editing and high-fidelity archiving, FLAC is the recommended choice — and editors like DaVinci Resolve support it natively."
+          "text": "MP3 is a lossy format: it compresses audio by discarding frequencies the ear perceives least, reducing size but irreversibly degrading quality. FLAC is a lossless format: it compresses data without discarding any information, so quality is identical to the original. For professional video editing and high-fidelity archiving, FLAC is the recommended choice — and DaVinci Resolve supports it natively."
         }
       }
     ]
@@ -2675,7 +2675,7 @@
       <ul>
         <li><strong>Compared to WAV / uncompressed PCM:</strong> WAV and AIFF are also lossless, but they do not compress. A 10-minute audio at 48 kHz / 24 bits can weigh more than 170 MB in WAV; FLAC reduces this by 40 to 60 % without losing a single bit.</li>
         <li><strong>Compared to floating-point PCM (pcm_f32le):</strong> Some USB microphones export audio as 32-bit floating-point PCM. FLAC requires integer samples; VidToFLAC automatically inserts a format conversion step before encoding to FLAC to guarantee compatibility.</li>
-        <li><strong>Universal compatibility:</strong> FLAC is natively supported in DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X, and virtually all modern editors. No plugins or additional licenses required on any platform.</li>
+        <li><strong>Broad compatibility:</strong> FLAC is natively supported in DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X, and virtually all modern editors. No plugins or additional licences required on Windows, macOS or Linux.</li>
       </ul>
 
       <h3>Remux: why it is faster than a conventional conversion</h3>

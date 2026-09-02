@@ -78,31 +78,31 @@
         "name": "Why does audio drift out of sync in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The most common causes are: (1) an incompatible audio codec that DaVinci Resolve decodes with a delay, especially AAC on Linux; (2) video shot at a variable frame rate (VFR), as phones and OBS screen captures produce; (3) mistakes in the export settings. For the first case, the most effective fix is to convert the audio to FLAC with VidToFLAC before importing."
+          "text": "The most common causes are: (1) an audio codec DaVinci Resolve does not decode cleanly (AAC, MP3, AC-3), especially on Linux; (2) video shot at a variable frame rate, typical of phones, OBS and screen recorders; (3) incorrect export settings. A constant offset points to the codec; drift that grows points to VFR."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I get the audio back in sync in DaVinci Resolve?",
+        "name": "How do I re-sync the audio by hand in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends on the cause. If the drift comes from the codec, convert the file to MKV with FLAC audio using VidToFLAC. If it comes from a variable frame rate, set the clip speed to a constant frame rate or use FFmpeg to convert to CFR. If it is a fixed offset on the timeline, select the audio track and use Ctrl+Alt+arrow to nudge it frame by frame."
+          "text": "Select the audio track on the timeline and use Ctrl+Alt+left/right arrow to nudge it frame by frame. That only works if the offset is constant across the whole clip, though. If the drift grows over time (VFR), manual adjustment will not do: sync will be right at one point and wrong everywhere else. In that case, convert the file to CFR before importing."
         }
       },
       {
         "@type": "Question",
-        "name": "Does DaVinci Resolve's audio drift affect the exported file too?",
+        "name": "Does the drift show up in the exported file too?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends where it starts. If the drift is present on import, from the codec or from VFR, the exported file will carry it too. If you nudge the audio by hand on the timeline but the source file is VFR, the problem can come back on the next render. The right fix is to repair the source file before importing, not to patch it on the timeline."
+          "text": "It depends where it starts. If the drift comes from the source file — codec or VFR — the export will carry it too, even where the preview looks fine. If you nudge the offset on the timeline without addressing the VFR, the exported file can come out wrong again. The right fix is to repair the source file before importing, not to patch it by hand."
         }
       },
       {
         "@type": "Question",
-        "name": "Does the free DaVinci Resolve have more sync problems than Studio?",
+        "name": "Does VidToFLAC fix VFR-related audio drift?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VFR-related sync problems affect both editions equally. Audio codec problems with AAC and MP3 are more common in the free version on Linux, because DaVinci Resolve Free ships no proprietary decoders. Converting to FLAC before importing solves that case in both editions."
+          "text": "VidToFLAC resolves drift caused by an incompatible audio codec (AAC, MP3, AC-3), which is the most common cause. For VFR-related drift you need to convert the video to a constant frame rate with FFmpeg using the fps filter. If your drift grows over time, VFR is the problem and that extra step is required."
         }
       }
     ]

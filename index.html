@@ -151,10 +151,10 @@
       },
       {
         "@type": "Question",
-        "name": "¿Por qué es mejor usar FLAC que extraer el audio a un archivo WAV aparte?",
+        "name": "¿Por qué es mejor usar FLAC que extraer el audio a un WAV aparte?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Al mantener el audio y el vídeo sincronizados dentro del mismo archivo MKV, evitas tener que alinearlos manualmente en la línea de tiempo de tu editor. Si extraes el audio a un WAV separado tienes que volver a sincronizarlo a mano; con FLAC dentro del contenedor arrastras un único archivo y todo encaja, ocupando además menos que WAV con la misma calidad sin pérdida."
+          "text": "Porque al mantener el audio y el vídeo sincronizados dentro del mismo archivo MKV, evitas tener que alinearlos manualmente en la línea de tiempo de tu editor. Si extraes el audio a un WAV separado, tienes que volver a sincronizarlo a mano clip por clip; con FLAC dentro del contenedor, arrastras un único archivo y todo encaja. FLAC además ocupa menos que WAV manteniendo la misma calidad sin pérdida."
         }
       },
       {
@@ -162,7 +162,7 @@
         "name": "¿Mis archivos de vídeo se suben a algún servidor?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Nunca. Toda la conversión se ejecuta en tu propio dispositivo gracias a FFmpeg compilado a WebAssembly, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio: es 100% privado y local."
+          "text": "Nunca. Toda la conversión se ejecuta en tu propio dispositivo gracias a FFmpeg compilado a WebAssembly, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es 100% privado y local: por eso también puedes procesar archivos de varios gigabytes sin esperas de subida."
         }
       },
       {
@@ -170,7 +170,7 @@
         "name": "¿Qué formatos de entrada son compatibles?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Vídeo: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB y más. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF y FLAC. Si el clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264."
+          "text": "Vídeo: MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V, TS, M2TS, MPEG, 3GP, VOB y más. Audio: WAV, MP3, AAC, OGG, M4A, OPUS, WMA, AIFF y FLAC. Si tu clip usa un códec de vídeo que el navegador no puede reproducir (DNxHD, ProRes, MJPEG…), VidToFLAC lo recodifica automáticamente a H.264 para garantizar que se vea correctamente."
         }
       },
       {
@@ -178,15 +178,15 @@
         "name": "¿Funciona para DaVinci Resolve en Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. DaVinci Resolve en Linux es donde más aparece el error de códec de audio, porque no incluye los decodificadores de AAC o MP3. Al convertir el audio a FLAC dentro de un MKV obtienes un archivo que DaVinci Resolve en Linux reproduce de forma nativa, recuperando el sonido sin instalar códecs de pago."
+          "text": "Sí. DaVinci Resolve en Linux es justo donde más aparece el error de códec de audio, porque no incluye los decodificadores de AAC o MP3. Al convertir el audio a FLAC dentro de un MKV obtienes un archivo que DaVinci Resolve reproduce de forma nativa, recuperando el sonido sin instalar códecs de pago."
         }
       },
       {
         "@type": "Question",
-        "name": "¿VidToFLAC es gratis y tiene límite de tamaño?",
+        "name": "¿Es gratis y tiene límite de tamaño?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño por servidor: puedes convertir vídeos de varios gigabytes; el único límite práctico es la memoria de tu equipo."
+          "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor: puedes convertir vídeos de varios gigabytes; el único límite práctico es la memoria de tu equipo."
         }
       },
       {
@@ -194,7 +194,7 @@
         "name": "¿Cómo extraer el audio de un vídeo en formato FLAC sin perder calidad?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC utiliza FFmpeg para hacer un remux: copia el flujo de vídeo bit a bit sin volver a comprimirlo y recodifica únicamente la pista de audio al códec FLAC oficial, que es sin pérdida. El resultado es un archivo MKV con audio FLAC idéntico en calidad al original. Todo el procesamiento ocurre dentro de tu navegador mediante WebAssembly, sin subir el archivo a ningún servidor."
+          "text": "VidToFLAC usa FFmpeg para hacer un remux: copia el flujo de vídeo bit a bit sin volver a comprimirlo y recodifica únicamente la pista de audio al códec FLAC oficial, que es sin pérdida. El resultado es un archivo MKV con audio FLAC de calidad idéntica al original. Todo ocurre dentro de tu navegador mediante WebAssembly — sin subir el archivo a ningún servidor."
         }
       },
       {
@@ -210,7 +210,7 @@
         "name": "¿Qué diferencia hay entre MP3 y FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MP3 es un formato con pérdida: comprime el audio eliminando frecuencias que el oído humano percibe con menos intensidad, lo que reduce el tamaño pero degrada la calidad de forma irreversible. FLAC (Free Lossless Audio Codec) es un formato sin pérdida: comprime los datos de audio sin descartar ninguna información, por lo que la calidad es idéntica al original. Para edición de vídeo profesional y archivado de alta calidad, FLAC es la opción recomendada; además, editores como DaVinci Resolve lo soportan de forma nativa."
+          "text": "MP3 es un formato con pérdida: comprime el audio eliminando frecuencias que el oído percibe con menos intensidad, reduciendo el tamaño pero degradando la calidad de forma irreversible. FLAC es un formato sin pérdida: comprime los datos sin descartar ninguna información, por lo que la calidad es idéntica al original. Para edición de vídeo profesional y archivado de alta fidelidad, FLAC es la opción recomendada — y DaVinci Resolve lo soporta de forma nativa."
         }
       }
     ]
@@ -2675,7 +2675,7 @@
       <ul>
         <li><strong>Frente a WAV / PCM sin comprimir:</strong> WAV y AIFF son también sin pérdida, pero no comprimen. Un audio de 10 minutos a 48 kHz / 24 bits puede pesar más de 170 MB en WAV; FLAC lo reduce entre un 40 y un 60 % sin perder ni un bit.</li>
         <li><strong>Frente a PCM flotante (pcm_f32le):</strong> Algunos micrófonos USB exportan audio como PCM de 32 bits en coma flotante. FLAC requiere muestras enteras; VidToFLAC inserta automáticamente un paso de conversión de formato antes de codificar a FLAC para garantizar la compatibilidad.</li>
-        <li><strong>Compatibilidad universal:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en ninguna plataforma.</li>
+        <li><strong>Compatibilidad amplia:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en Windows, macOS ni Linux.</li>
       </ul>
 
       <h3>El remux: por qué es más rápido que una conversión convencional</h3>
