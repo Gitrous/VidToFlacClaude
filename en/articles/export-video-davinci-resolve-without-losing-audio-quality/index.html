@@ -72,7 +72,7 @@
         "name": "Why does audio lose quality when exporting from DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Because DaVinci Resolve recompresses the audio to AAC or MP3 by default on export, which introduces loss. On top of that, if the audio was already compressed as AAC and is compressed to AAC again, the quality degrades cumulatively. The fix is to always export FLAC for your master file."
+          "text": "Because DaVinci Resolve recompresses the audio to AAC or MP3 by default on export, which introduces loss. On top of that, if the audio was already compressed as AAC and is compressed to AAC again, the quality degrades cumulatively. The fix is to export your master as FLAC, or another lossless format."
         }
       },
       {
@@ -588,10 +588,10 @@
       </ul>
 
       <h3>Exporting for Instagram or TikTok</h3>
-      <p>These platforms recompress aggressively. Instagram caps resolution at 1080p and re-encodes to H.264 with AAC audio. There is no point exporting at maximum quality — export AAC at 256 kbps with H.264, which is what the platform will produce anyway. You save render time and disk space with no effect on the published quality.</p>
+      <p>These platforms recompress aggressively. Instagram has been capping resolution at 1080p and re-encoding to H.264 with AAC audio (checked September 2026; platforms change these limits without notice). There is no point exporting at maximum quality — export AAC at 256 kbps with H.264, which is what the platform will produce anyway. You save render time and disk space with no effect on the published quality.</p>
 
       <h3>Exporting for Premiere Pro, Avid or another editor</h3>
-      <p>If the exported file is going into other editing software — a multi-tool workflow — always export <strong>24-bit FLAC at 48,000 Hz</strong>. It is the most compact lossless format and works with every modern professional editor.</p>
+      <p>If the exported file is going into other editing software — a multi-tool workflow — the safest choice is <strong>24-bit FLAC at 48,000 Hz</strong>. It is the most compact lossless format, and the professional editors in common use today accept it — worth confirming with the specific destination software.</p>
 
       <h2 id="errores-comunes">Common audio export mistakes in DaVinci Resolve, and how to fix them</h2>
 
@@ -609,7 +609,7 @@
       <p>This happens when the project's audio track is muted, when its volume is at zero, or when DaVinci Resolve has lost the link to the original audio file — it shows red in the Media Pool. Check that the audio track is active on the timeline and that every clip shows its audio icon before exporting.</p>
 
       <h3>The exported file is too large</h3>
-      <p>FLAC compresses audio by 40 to 60% compared with PCM, without discarding any data. On a two-hour video that difference can run to several gigabytes — always use FLAC rather than PCM for the master.</p>
+      <p>FLAC compresses audio by 40 to 60% compared with PCM, without discarding any data. On a two-hour video that difference can run to several gigabytes, so FLAC usually pays off over PCM for the master, unless the destination explicitly requires PCM.</p>
 
       <!-- Ad: before last section -->
       <div class="ad-slot">
@@ -655,7 +655,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Because DaVinci Resolve recompresses the audio on export. If the original audio was already AAC and you export to AAC, you apply two lossy compression cycles — generational recompression. The fix is to always export <strong>FLAC</strong> for the master file.</p>
+            <p>Because DaVinci Resolve recompresses the audio on export. If the original audio was already AAC and you export to AAC, you apply two lossy compression cycles — generational recompression. That is why the master is best exported as <strong>FLAC</strong>, or another lossless format, leaving compression for the distribution copy.</p>
           </div>
         </details>
 

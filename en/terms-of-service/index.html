@@ -106,7 +106,19 @@
     <p>VidToFLAC is a <strong>free</strong> web tool that converts the audio of video and audio files to the lossless FLAC format. All processing is performed locally in the user's browser using <strong>FFmpeg compiled to WebAssembly</strong>; no file is transmitted to any external server.</p>
     <p>The service is provided <em>as-is</em>, with no guarantee of continuous availability, updates or technical support.</p>
 
-    <h2>3. Acceptable use</h2>
+    <h2>3. Technical limitations of the service</h2>
+    <p>Because conversion runs entirely on the user's device, the result depends on the browser, the memory available and the capability of the machine. Users should be aware of the following limitations before using the service:</p>
+    <ul>
+      <li><strong>Memory limit:</strong> the WebAssembly environment imposes a practical memory ceiling. Large files may exhaust the browser's available memory and interrupt the conversion.</li>
+      <li><strong>Re-encoding:</strong> certain codec combinations do not allow a direct copy of the video stream and require re-encoding, which entails some quality loss relative to the original.</li>
+      <li><strong>Performance:</strong> processing uses the CPU only, with no hardware acceleration, so conversions that require re-encoding can be considerably slower than with locally installed software.</li>
+      <li><strong>Format support:</strong> the engine does not support every codec and container in existence. Unusual, proprietary or very old formats may not be processable.</li>
+      <li><strong>Compatibility of the output:</strong> there is no guarantee that the files produced will be compatible with every program, device or software version.</li>
+      <li><strong>Third-party dependency:</strong> the conversion engine is downloaded from an external provider (CDN). If that provider is unavailable, the service may not be usable.</li>
+    </ul>
+    <p>Users are advised to <strong>always keep a copy of their original files</strong> before using the service.</p>
+
+    <h2>4. Acceptable use</h2>
     <p>You may use VidToFLAC for personal and commercial use. By using the service, you represent and warrant that:</p>
     <ul>
       <li>You own the files you convert, or you have the necessary rights or permissions to process them.</li>
@@ -114,11 +126,11 @@
       <li>You will not attempt to interfere with the technical operation of the site or exploit it abusively.</li>
     </ul>
 
-    <h2>4. Intellectual property</h2>
+    <h2>5. Intellectual property</h2>
     <p>The design, text and source code specific to VidToFLAC are the property of their authors. The conversion tool uses <strong>FFmpeg</strong>, distributed under the <a href="https://www.gnu.org/licenses/lgpl-2.1.html" target="_blank" rel="noopener">LGPL v2.1</a> license, through the <strong>ffmpeg.wasm</strong> project.</p>
     <p>VidToFLAC claims no ownership rights over the files you process with the tool.</p>
 
-    <h2>5. Disclaimer of warranty</h2>
+    <h2>6. Disclaimer of warranty</h2>
     <p>VidToFLAC is provided <strong>without warranties of any kind</strong>, express or implied. To the maximum extent permitted by applicable law, we are not liable for:</p>
     <ul>
       <li>Damage to or loss of files arising from use of the tool.</li>
@@ -128,16 +140,16 @@
     </ul>
     <p>We always recommend keeping a copy of the original files before any conversion.</p>
 
-    <h2>6. Service availability</h2>
+    <h2>7. Service availability</h2>
     <p>We reserve the right to modify, suspend or discontinue the service —in whole or in part— at any time and without prior notice. We will not be liable to the user or to any third party for any suspension or discontinuation of the service.</p>
 
-    <h2>7. Changes to the terms</h2>
+    <h2>8. Changes to the terms</h2>
     <p>We may update these Terms of Service at any time. The date of the last revision will always be shown at the top of this page. Continued use of the service after changes are published constitutes acceptance of the new terms.</p>
 
-    <h2>8. Governing law</h2>
+    <h2>9. Governing law</h2>
     <p>These terms are governed by Spanish law. For any dispute, the parties submit to the jurisdiction of the competent courts of Spain, unless the applicable consumer protection rules establish another venue.</p>
 
-    <h2>9. Contact</h2>
+    <h2>10. Contact</h2>
     <p>For any questions regarding these terms, you can write to us at <a href="mailto:hola@vidtoflac.tech">hola@vidtoflac.tech</a>.</p>
   </main>
 

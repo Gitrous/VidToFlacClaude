@@ -557,7 +557,7 @@
         <span class="badge-fail">✗ No compatible</span> No reproduce el audio
       </p>
 
-      <p>Como ves, <strong>FLAC es el único códec de audio sin pérdida universalmente compatible</strong> con DaVinci Resolve en todas las plataformas, incluido Linux. PCM/WAV también funciona, pero ocupa mucho más espacio por ser audio sin comprimir. FLAC ofrece la misma calidad que PCM comprimiendo entre un 40 y un 60 % — es la mejor opción en todos los escenarios.</p>
+      <p>Como ves, <strong>FLAC y PCM/WAV son los dos códecs sin pérdida que DaVinci Resolve lee en Windows, macOS y Linux</strong>. Entre los dos, FLAC ofrece la misma calidad que PCM ocupando entre un 40 y un 60 % menos, así que para la mayoría de flujos de trabajo es la opción más práctica; si tu cadena de producción exige PCM, también funciona.</p>
 
       <h2 id="errores-comunes">Los errores de audio más comunes en DaVinci Resolve y lo que significan</h2>
 
@@ -610,7 +610,7 @@
       </ul>
 
       <div class="solution-box">
-        <strong>Solución definitiva para Linux:</strong> Convierte el audio de todos tus vídeos a FLAC antes de importarlos en DaVinci Resolve. FLAC es de código abierto, sin licencias de patentes, y DaVinci Resolve lo soporta nativamente en todas las plataformas incluyendo Linux.
+        <strong>La opción más fiable en Linux:</strong> Convierte el audio de todos tus vídeos a FLAC antes de importarlos en DaVinci Resolve. FLAC es de código abierto, sin licencias de patentes, y DaVinci Resolve lo soporta nativamente en todas las plataformas incluyendo Linux.
       </div>
 
       <p>Algunos usuarios intentan solucionar esto instalando paquetes adicionales de códecs en el sistema (como <code>ffmpeg</code>, <code>gstreamer</code> o el paquete <code>davinci-resolve-studio</code>), pero estas soluciones son parciales, específicas de cada distribución y pueden romperse con actualizaciones. <strong>La solución robusta es convertir el archivo antes de importarlo.</strong></p>
@@ -700,6 +700,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Convertir a FLAC gratis
         </a>
+      </div>
+
+      <div class="info-box">
+        <strong>Probado en:</strong> el problema de audio de DaVinci Resolve en Linux se ha observado en todas las versiones del programa. La solución que describe esta guía —convertir el audio a FLAC antes de importar— está verificada con <strong>DaVinci Resolve 21 y posteriores</strong> en Linux. En versiones anteriores el planteamiento es el mismo, pero no lo hemos comprobado de primera mano. Última verificación: septiembre de 2026.
       </div>
 
       <section class="faq-section" aria-labelledby="faq">

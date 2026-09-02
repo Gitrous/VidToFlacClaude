@@ -94,7 +94,7 @@
         "name": "Does DaVinci Resolve Studio fix the AAC audio problem on Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Partly. Studio ships more audio decoders on Linux than the free version, but not all of them. E-AC-3 and some AAC profiles still will not work. The definitive fix — and a free one — is to convert the file's audio to FLAC before importing, using VidToFLAC."
+          "text": "Partly. Studio ships more audio decoders on Linux than the free version, but not all of them. E-AC-3 and some AAC profiles still will not work. The most reliable fix — and a free one — is to convert the file's audio to FLAC before importing, using VidToFLAC."
         }
       },
       {
@@ -688,6 +688,10 @@
         </a>
       </div>
 
+      <div class="info-box">
+        <strong>Tested on:</strong> the DaVinci Resolve audio problem on Linux has been present in every release of the program. The fix described in this guide — converting the audio to FLAC before importing — is verified against <strong>DaVinci Resolve 21 and later</strong> on Linux. On earlier releases the approach is the same, but we have not checked it first-hand. Last verified: September 2026.
+      </div>
+
       <section class="faq-section" aria-labelledby="faq">
         <h2 id="faq">Frequently asked questions</h2>
 
@@ -717,7 +721,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Partly. Studio ships more audio decoders on Linux than the free version, but it <strong>does not cover every case</strong>. E-AC-3 (Dolby Digital Plus) works in no edition, and neither do some AAC profiles. The definitive, free fix is to convert the audio to FLAC with VidToFLAC before importing.</p>
+            <p>Partly. Studio ships more audio decoders on Linux than the free version, but it <strong>does not cover every case</strong>. E-AC-3 (Dolby Digital Plus) works in no edition, and neither do some AAC profiles. The most reliable fix, and a free one, is to convert the audio to FLAC with VidToFLAC before importing.</p>
           </div>
         </details>
 

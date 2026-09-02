@@ -557,7 +557,7 @@
         <span class="badge-fail">✗ Unsupported</span> No audio playback
       </p>
 
-      <p>As you can see, <strong>FLAC is the one lossless audio codec that works across the board</strong> in DaVinci Resolve on every platform, Linux included. PCM/WAV works too, but takes far more space since it is uncompressed. FLAC gives the same quality as PCM while compressing by 40 to 60% — it is the better choice in every scenario.</p>
+      <p>As you can see, <strong>FLAC and PCM/WAV are the two lossless codecs DaVinci Resolve reads on Windows, macOS and Linux alike.</strong> Of the two, FLAC gives the same quality as PCM in 40 to 60% less space, which makes it the more practical choice for most workflows; if your production chain requires PCM, that works too.</p>
 
       <h2 id="errores-comunes">The most common audio errors in DaVinci Resolve, and what they mean</h2>
 
@@ -610,7 +610,7 @@
       </ul>
 
       <div class="solution-box">
-        <strong>The definitive Linux fix:</strong> convert your videos' audio to FLAC before importing them into DaVinci Resolve. FLAC is open source, carries no patent licences, and DaVinci Resolve supports it natively on every platform, Linux included.
+        <strong>The most reliable option on Linux:</strong> convert your videos' audio to FLAC before importing them into DaVinci Resolve. FLAC is open source, carries no patent licences, and DaVinci Resolve supports it natively on every platform, Linux included.
       </div>
 
       <p>Some people try to solve this by installing extra codec packages system-wide — <code>ffmpeg</code>, <code>gstreamer</code>, the <code>davinci-resolve-studio</code> package — but those workarounds are partial, distribution-specific and liable to break on update. <strong>The robust answer is to convert the file before importing it.</strong></p>
@@ -700,6 +700,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Convert to FLAC free
         </a>
+      </div>
+
+      <div class="info-box">
+        <strong>Tested on:</strong> the DaVinci Resolve audio problem on Linux has been present in every release of the program. The fix described in this guide — converting the audio to FLAC before importing — is verified against <strong>DaVinci Resolve 21 and later</strong> on Linux. On earlier releases the approach is the same, but we have not checked it first-hand. Last verified: September 2026.
       </div>
 
       <section class="faq-section" aria-labelledby="faq">

@@ -562,7 +562,7 @@
 
       <h2 id="codecs-audio">Códecs de audio en DaVinci Resolve: cuál usar y cuál evitar</h2>
 
-      <p>El audio es donde más errores se producen al importar material en DaVinci Resolve, especialmente en Linux. La regla es sencilla: <strong>usa siempre FLAC</strong>. Cualquier otro códec puede darte problemas.</p>
+      <p>El audio es donde más errores se producen al importar material en DaVinci Resolve, especialmente en Linux. La recomendación práctica: <strong>si necesitas audio sin pérdida y quieres evitar sorpresas de compatibilidad, FLAC es la opción más segura</strong>. AAC y MP3 funcionan en Windows y macOS, pero no en Linux.</p>
 
       <table class="codec-table">
         <thead>
@@ -679,7 +679,7 @@
       <p>ProRes 4444 (Mac) o DNxHR 444 (todas las plataformas) con audio FLAC. Son archivos grandes pero preservan toda la información del color y el audio para futuras reediciones.</p>
 
       <h3>Para redes sociales (Instagram, TikTok)</h3>
-      <p>H.264 en MP4, resolución máxima 1080p (Instagram limita a 1080p aunque subas 4K), audio AAC a 320 kbps. Muchas plataformas recomprimen el vídeo al subir, así que no tiene sentido exportar en calidad exageradamente alta.</p>
+      <p>H.264 en MP4, resolución máxima 1080p (Instagram viene limitando a 1080p aunque subas 4K; comprobado en septiembre de 2026), audio AAC a 320 kbps. Muchas plataformas recomprimen el vídeo al subir, así que no tiene sentido exportar en calidad exageradamente alta.</p>
 
       <h3>Para entrega a cliente o post-producción</h3>
       <p>Usa el formato que especifique el cliente o el siguiente eslabón de la cadena de producción. Si no hay especificaciones, ProRes 422 HQ o DNxHR HQ son los formatos de entrega profesional más aceptados universalmente.</p>
@@ -692,6 +692,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Ir a VidToFLAC
         </a>
+      </div>
+
+      <div class="info-box">
+        <strong>Probado en:</strong> el problema de audio de DaVinci Resolve en Linux se ha observado en todas las versiones del programa. La solución que describe esta guía —convertir el audio a FLAC antes de importar— está verificada con <strong>DaVinci Resolve 21 y posteriores</strong> en Linux. En versiones anteriores el planteamiento es el mismo, pero no lo hemos comprobado de primera mano. Última verificación: septiembre de 2026.
       </div>
 
       <section class="faq-section" aria-labelledby="faq-formatos">

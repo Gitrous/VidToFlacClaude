@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DaVinci Resolve on Linux: installation and the audio fix</title>
-  <meta name="description" content="A complete guide to installing DaVinci Resolve on Ubuntu, Pop!_OS and Fedora. Includes the definitive fix for the AAC audio problem on Linux: why it happens and how to solve it for free." />
+  <meta name="description" content="A complete guide to installing DaVinci Resolve on Ubuntu, Pop!_OS and Fedora. Includes the fix for the AAC audio problem on Linux: why it happens and how to solve it for free." />
   <meta name="keywords" content="DaVinci Resolve Linux, install DaVinci Resolve Ubuntu, DaVinci Resolve Linux no audio, DaVinci Resolve Ubuntu installation, DaVinci Resolve Linux AAC, DaVinci Resolve Linux audio not working, DaVinci Resolve Linux guide, install DaVinci Resolve Pop OS, DaVinci Resolve Linux audio codec, DaVinci Resolve Ubuntu 22.04, DaVinci Resolve Ubuntu 24.04" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -25,14 +25,14 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://vidtoflac.tech/en/articles/davinci-resolve-linux-install-audio/" />
   <meta property="og:title" content="DaVinci Resolve on Linux: installation and the audio fix" />
-  <meta property="og:description" content="A complete guide to installing DaVinci Resolve on Ubuntu and Fedora, with the definitive fix for the AAC audio problem that affects every Linux user." />
+  <meta property="og:description" content="A complete guide to installing DaVinci Resolve on Ubuntu and Fedora, with the fix for the AAC audio problem that affects Linux users." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="DaVinci Resolve on Linux: installation and the audio fix" />
-  <meta name="twitter:description" content="Install DaVinci Resolve on Ubuntu or Fedora step by step, and fix the AAC audio problem that affects every Linux user." />
+  <meta name="twitter:description" content="Install DaVinci Resolve on Ubuntu or Fedora step by step, and fix the AAC audio problem that affects Linux users." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
 
   <script type="application/ld+json">
@@ -40,7 +40,7 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "DaVinci Resolve on Linux: installation and the audio fix",
-    "description": "A complete guide to installing DaVinci Resolve on Ubuntu, Pop!_OS and Fedora. Includes the definitive fix for the AAC audio problem on Linux.",
+    "description": "A complete guide to installing DaVinci Resolve on Ubuntu, Pop!_OS and Fedora. Includes the fix for the AAC audio problem on Linux.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-linux-install-audio/",
     "datePublished": "2026-06-30",
     "dateModified": "2026-06-30",
@@ -79,7 +79,7 @@
       {
         "@type": "Question",
         "name": "Does DaVinci Resolve Studio fix the audio problem on Linux?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Partly. Studio ships more audio decoders on Linux, but not all of them. E-AC-3 and some AAC profiles still will not work. The definitive, free fix is to convert your files' audio to FLAC before importing into DaVinci Resolve, using VidToFLAC. That works with the free Linux version without paying for Studio." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Partly. Studio ships more audio decoders on Linux, but not all of them. E-AC-3 and some AAC profiles still will not work. The most reliable fix, and a free one, is to convert your files' audio to FLAC before importing into DaVinci Resolve, using VidToFLAC. That works with the free Linux version without paying for Studio." }
       },
       {
         "@type": "Question",
@@ -745,6 +745,10 @@ done</code></pre>
 
       <p style="margin-top:2rem;">For more on compatible video and audio formats, see the guide on <a href="/en/articles/best-video-format-for-davinci-resolve/">which video format to use in DaVinci Resolve</a> and the guide to <a href="/en/articles/davinci-resolve-audio-errors/">audio errors in DaVinci Resolve</a>.</p>
 
+      <div class="info-box">
+        <strong>Tested on:</strong> the DaVinci Resolve audio problem on Linux has been present in every release of the program. The fix described in this guide — converting the audio to FLAC before importing — is verified against <strong>DaVinci Resolve 21 and later</strong> on Linux. On earlier releases the approach is the same, but we have not checked it first-hand. Last verified: September 2026.
+      </div>
+
       <section class="faq-section" aria-labelledby="faq">
         <h2 id="faq">Frequently asked questions</h2>
 
@@ -771,7 +775,7 @@ done</code></pre>
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles still will not work. <strong>The definitive, free fix</strong> is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in <a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio</a>.</p>
+            <p>Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles still will not work. <strong>The most reliable fix, and a free one,</strong> is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in <a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio</a>.</p>
           </div>
         </details>
 

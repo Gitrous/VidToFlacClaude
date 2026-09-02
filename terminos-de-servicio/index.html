@@ -106,7 +106,19 @@
     <p>VidToFLAC es una herramienta web <strong>gratuita</strong> que convierte el audio de archivos de vídeo y audio al formato FLAC sin pérdida. Todo el procesamiento se realiza localmente en el navegador del usuario mediante <strong>FFmpeg compilado a WebAssembly</strong>; ningún archivo se transmite a ningún servidor externo.</p>
     <p>El servicio se ofrece tal cual (<em>as-is</em>), sin garantía de disponibilidad continua, actualizaciones o soporte técnico.</p>
 
-    <h2>3. Uso aceptable</h2>
+    <h2>3. Limitaciones técnicas del servicio</h2>
+    <p>Dado que la conversión se ejecuta íntegramente en el dispositivo del usuario, el resultado depende del navegador, de la memoria disponible y de la capacidad del equipo. El usuario debe tener en cuenta las siguientes limitaciones antes de utilizar el servicio:</p>
+    <ul>
+      <li><strong>Límite de memoria:</strong> el entorno WebAssembly impone un límite práctico de memoria. Los archivos de gran tamaño pueden agotar la memoria disponible del navegador e interrumpir la conversión.</li>
+      <li><strong>Recodificación:</strong> determinadas combinaciones de códecs no permiten una copia directa del flujo de vídeo y requieren recodificarlo, lo que implica una pérdida de calidad respecto al original.</li>
+      <li><strong>Rendimiento:</strong> el procesamiento se realiza únicamente con la CPU, sin aceleración por hardware, por lo que las conversiones que requieren recodificación pueden ser considerablemente más lentas que con software instalado localmente.</li>
+      <li><strong>Compatibilidad de formatos:</strong> el motor no admite la totalidad de códecs y contenedores existentes. Los formatos poco habituales, propietarios o muy antiguos pueden no ser procesables.</li>
+      <li><strong>Compatibilidad del resultado:</strong> no se garantiza que los archivos generados sean compatibles con todo programa, dispositivo o versión de software.</li>
+      <li><strong>Dependencia de terceros:</strong> el motor de conversión se descarga desde un proveedor externo (CDN). Una indisponibilidad de dicho proveedor puede impedir el uso del servicio.</li>
+    </ul>
+    <p>Se recomienda al usuario <strong>conservar siempre una copia de sus archivos originales</strong> antes de utilizar el servicio.</p>
+
+    <h2>4. Uso aceptable</h2>
     <p>Puedes utilizar VidToFLAC para uso personal y comercial. Al usar el servicio, declaras y garantizas que:</p>
     <ul>
       <li>Eres el propietario de los archivos que conviertes, o tienes los derechos o permisos necesarios para procesarlos.</li>
@@ -114,11 +126,11 @@
       <li>No intentarás interferir con el funcionamiento técnico del sitio ni explotarlo de forma abusiva.</li>
     </ul>
 
-    <h2>4. Propiedad intelectual</h2>
+    <h2>5. Propiedad intelectual</h2>
     <p>El diseño, los textos y el código fuente específicos de VidToFLAC son propiedad de sus autores. La herramienta de conversión utiliza <strong>FFmpeg</strong>, distribuido bajo licencia <a href="https://www.gnu.org/licenses/lgpl-2.1.html" target="_blank" rel="noopener">LGPL v2.1</a>, a través del proyecto <strong>ffmpeg.wasm</strong>.</p>
     <p>VidToFLAC no reclama ningún derecho de propiedad sobre los archivos que procesas con la herramienta.</p>
 
-    <h2>5. Exención de responsabilidad</h2>
+    <h2>6. Exención de responsabilidad</h2>
     <p>VidToFLAC se proporciona <strong>sin garantías de ningún tipo</strong>, expresas o implícitas. En la medida máxima permitida por la ley aplicable, no nos hacemos responsables de:</p>
     <ul>
       <li>Daños o pérdida de archivos derivados del uso de la herramienta.</li>
@@ -128,16 +140,16 @@
     </ul>
     <p>Se recomienda siempre conservar una copia de los archivos originales antes de cualquier conversión.</p>
 
-    <h2>6. Disponibilidad del servicio</h2>
+    <h2>7. Disponibilidad del servicio</h2>
     <p>Nos reservamos el derecho de modificar, suspender o interrumpir el servicio —total o parcialmente— en cualquier momento y sin previo aviso. No seremos responsables ante el usuario ni ante terceros por ninguna suspensión o discontinuación del servicio.</p>
 
-    <h2>7. Cambios en los términos</h2>
+    <h2>8. Cambios en los términos</h2>
     <p>Podemos actualizar estos Términos de Servicio en cualquier momento. La fecha de la última revisión siempre estará indicada al inicio de esta página. El uso continuado del servicio tras la publicación de cambios constituye la aceptación de los nuevos términos.</p>
 
-    <h2>8. Ley aplicable</h2>
+    <h2>9. Ley aplicable</h2>
     <p>Estos términos se rigen por la legislación española. Para cualquier disputa, las partes se someten a la jurisdicción de los tribunales competentes de España, salvo que la normativa de protección del consumidor aplicable establezca otro fuero.</p>
 
-    <h2>9. Contacto</h2>
+    <h2>10. Contacto</h2>
     <p>Para cualquier consulta relacionada con estos términos, puedes escribirnos a <a href="mailto:hola@vidtoflac.tech">hola@vidtoflac.tech</a>.</p>
   </main>
 
