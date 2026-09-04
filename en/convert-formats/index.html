@@ -2501,7 +2501,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Technical details · FFmpeg</span>
-        <span class="log-badge" id="logCount" aria-label="Number of log lines">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Number of log lines">0</span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copy technical log to clipboard">Copy</button>
@@ -2545,13 +2545,13 @@
       <table class="fmt-table">
         <thead><tr><th scope="col">Format</th><th scope="col">Output codecs</th><th scope="col">When to use it</th></tr></thead>
         <tbody>
-          <tr><td>MP4</td><td>H.264 + AAC</td><td>The safe pick: plays on any phone, browser or TV.</td></tr>
+          <tr><td>MP4</td><td>H.264 + AAC</td><td>The safe pick: plays on most phones, browsers and TVs.</td></tr>
           <tr><td>MKV</td><td>H.264 + FLAC</td><td>Lossless audio for editing: DaVinci Resolve, Premiere and Avid read it with no extra codecs.</td></tr>
           <tr><td>MOV</td><td>H.264 + AAC</td><td>Apple workflows: Final Cut Pro and QuickTime.</td></tr>
           <tr><td>WebM</td><td>VP8 + Opus</td><td>Web publishing with royalty-free codecs. Slower to produce.</td></tr>
           <tr><td>AVI</td><td>MPEG-4 + MP3</td><td>Compatibility with older software and hardware.</td></tr>
           <tr><td>GIF</td><td>Animated GIF</td><td>Short soundless clips for chats, forums or documentation.</td></tr>
-          <tr><td>MP3</td><td>MP3 (LAME)</td><td>Lossy audio that literally everything can play.</td></tr>
+          <tr><td>MP3</td><td>MP3 (LAME)</td><td>Lossy audio with the widest compatibility.</td></tr>
           <tr><td>WAV</td><td>16-bit PCM</td><td>Uncompressed lossless audio, ready for any DAW.</td></tr>
           <tr><td>FLAC</td><td>FLAC</td><td>Lossless and compressed: half the size of a WAV, same quality.</td></tr>
           <tr><td>M4A</td><td>AAC</td><td>Audio for the Apple and iOS ecosystem.</td></tr>
@@ -2800,6 +2800,7 @@ copyLogsBtn.addEventListener('click', async () => {
 clearLogsBtn.addEventListener('click', () => {
   logOutput.innerHTML = '';
   logCount.textContent = '0';
+  logCount.hidden = true;
 });
 const previewCard    = $('previewCard');
 const previewList    = $('previewList');
@@ -2845,6 +2846,7 @@ function log(msg, type = 'info') {
   span.textContent = msg + '\n';
   logOutput.appendChild(span);
   logCount.textContent = logOutput.childElementCount;
+  logCount.hidden = logOutput.childElementCount === 0;
   if (logCard.classList.contains('open')) {
     logOutput.scrollTop = logOutput.scrollHeight;
   }
@@ -3274,7 +3276,7 @@ const FORMAT_NOTES = {
   webm: 'WebM · VP8 + Opus — royalty-free web codecs; always re-encodes, the slowest option',
   avi:  'AVI · MPEG-4 + MP3 — for older gear; cannot be previewed inside the browser',
   gif:  'Animated GIF, no audio — optimised palette; keep it to clips of a few seconds',
-  mp3:  'MP3 — audio only, lossy, plays literally everywhere',
+  mp3:  'MP3 — audio only, lossy, the widest compatibility',
   wav:  'WAV · 16-bit PCM — audio only, lossless and uncompressed',
   flac: 'FLAC — audio only, lossless and compressed: same quality, half the size of a WAV',
   m4a:  'M4A · AAC — audio only, better quality than MP3 at the same bitrate',

@@ -162,7 +162,7 @@
         "name": "¿Mis archivos de vídeo se suben a algún servidor?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Nunca. Toda la conversión se ejecuta en tu propio dispositivo gracias a FFmpeg compilado a WebAssembly, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es 100% privado y local: por eso también puedes procesar archivos de varios gigabytes sin esperas de subida."
+          "text": "Nunca. Toda la conversión se ejecuta en tu propio dispositivo gracias a FFmpeg compilado a WebAssembly, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es 100% privado y local: por eso tampoco hay esperas de subida ni de descarga."
         }
       },
       {
@@ -186,7 +186,7 @@
         "name": "¿Es gratis y tiene límite de tamaño?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor: puedes convertir vídeos de varios gigabytes; el único límite práctico es la memoria de tu equipo."
+          "text": "Es totalmente gratis y sin registro. Como el procesamiento ocurre en tu propio ordenador con FFmpeg (WebAssembly) y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor. El límite real lo pone la memoria del motor WebAssembly: unos 2 GB para la entrada y la salida juntas, lo que en la práctica funciona bien con archivos de hasta 1 GB aproximadamente."
         }
       },
       {
@@ -2282,7 +2282,7 @@
         </svg>
       </span>
       <span class="trust-title">Velocidad</span>
-      <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos, incluso con archivos de varios gigabytes.</span>
+      <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos.</span>
     </div>
   </div>
 
@@ -2473,7 +2473,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount" aria-label="Número de líneas de registro">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro">0</span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
@@ -2595,7 +2595,7 @@
       <details class="faq-item">
         <summary>¿Mis archivos de vídeo se suben a algún servidor?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Nunca.</strong> Toda la conversión se ejecuta en tu propio dispositivo gracias a <strong>FFmpeg compilado a WebAssembly</strong>, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es <strong>100% privado y local</strong>: por eso también puedes procesar archivos de varios gigabytes sin esperas de subida.</p>
+          <p><strong>Nunca.</strong> Toda la conversión se ejecuta en tu propio dispositivo gracias a <strong>FFmpeg compilado a WebAssembly</strong>, que corre dentro de tu navegador. Tus vídeos no se suben, no pasan por ningún servidor y no se almacenan en ningún sitio. Es <strong>100% privado y local</strong>: por eso tampoco hay esperas de subida ni de descarga.</p>
         </div>
       </details>
 
@@ -2616,7 +2616,7 @@
       <details class="faq-item">
         <summary>¿Es gratis y tiene límite de tamaño?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Es <strong>totalmente gratis</strong> y sin registro. Como el procesamiento ocurre en tu propio ordenador con <strong>FFmpeg (WebAssembly)</strong> y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor: puedes convertir vídeos de <strong>varios gigabytes</strong>; el único límite práctico es la memoria de tu equipo.</p>
+          <p>Es <strong>totalmente gratis</strong> y sin registro. Como el procesamiento ocurre en tu propio ordenador con <strong>FFmpeg (WebAssembly)</strong> y no hay subida de archivos, no hay límite de tamaño impuesto por ningún servidor. El límite real lo pone la memoria del motor WebAssembly: unos <strong>2 GB</strong> para la entrada y la salida juntas, lo que en la práctica funciona bien con archivos de hasta 1 GB aproximadamente.</p>
         </div>
       </details>
 
@@ -2810,6 +2810,7 @@ copyLogsBtn.addEventListener('click', async () => {
 clearLogsBtn.addEventListener('click', () => {
   logOutput.innerHTML = '';
   logCount.textContent = '0';
+  logCount.hidden = true;
 });
 const previewCard    = $('previewCard');
 const previewList    = $('previewList');
@@ -2855,6 +2856,7 @@ function log(msg, type = 'info') {
   span.textContent = msg + '\n';
   logOutput.appendChild(span);
   logCount.textContent = logOutput.childElementCount;
+  logCount.hidden = logOutput.childElementCount === 0;
   if (logCard.classList.contains('open')) {
     logOutput.scrollTop = logOutput.scrollHeight;
   }

@@ -2501,7 +2501,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount" aria-label="Número de líneas de registro">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro">0</span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
@@ -2545,13 +2545,13 @@
       <table class="fmt-table">
         <thead><tr><th scope="col">Formato</th><th scope="col">Códecs de salida</th><th scope="col">Cuándo usarlo</th></tr></thead>
         <tbody>
-          <tr><td>MP4</td><td>H.264 + AAC</td><td>La opción segura: se reproduce en cualquier móvil, web o televisor.</td></tr>
+          <tr><td>MP4</td><td>H.264 + AAC</td><td>La opción segura: la reproducen la mayoría de móviles, navegadores y televisores.</td></tr>
           <tr><td>MKV</td><td>H.264 + FLAC</td><td>Audio sin pérdida para edición: DaVinci Resolve, Premiere y Avid lo leen sin códecs extra.</td></tr>
           <tr><td>MOV</td><td>H.264 + AAC</td><td>Flujos de trabajo de Apple: Final Cut Pro y QuickTime.</td></tr>
           <tr><td>WebM</td><td>VP8 + Opus</td><td>Publicación web con códecs libres, sin regalías. Más lento de generar.</td></tr>
           <tr><td>AVI</td><td>MPEG-4 + MP3</td><td>Compatibilidad con software y hardware antiguos.</td></tr>
           <tr><td>GIF</td><td>GIF animado</td><td>Clips cortos sin audio para chats, foros o documentación.</td></tr>
-          <tr><td>MP3</td><td>MP3 (LAME)</td><td>Audio con pérdida que reproduce absolutamente todo.</td></tr>
+          <tr><td>MP3</td><td>MP3 (LAME)</td><td>Audio con pérdida, el de compatibilidad más amplia.</td></tr>
           <tr><td>WAV</td><td>PCM 16 bits</td><td>Audio sin pérdida ni comprimir, listo para cualquier DAW.</td></tr>
           <tr><td>FLAC</td><td>FLAC</td><td>Sin pérdida y comprimido: la mitad de tamaño que un WAV, misma calidad.</td></tr>
           <tr><td>M4A</td><td>AAC</td><td>Audio para el ecosistema Apple e iOS.</td></tr>
@@ -2802,6 +2802,7 @@ copyLogsBtn.addEventListener('click', async () => {
 clearLogsBtn.addEventListener('click', () => {
   logOutput.innerHTML = '';
   logCount.textContent = '0';
+  logCount.hidden = true;
 });
 const previewCard    = $('previewCard');
 const previewList    = $('previewList');
@@ -2847,6 +2848,7 @@ function log(msg, type = 'info') {
   span.textContent = msg + '\n';
   logOutput.appendChild(span);
   logCount.textContent = logOutput.childElementCount;
+  logCount.hidden = logOutput.childElementCount === 0;
   if (logCard.classList.contains('open')) {
     logOutput.scrollTop = logOutput.scrollHeight;
   }
@@ -3276,7 +3278,7 @@ const FORMAT_NOTES = {
   webm: 'WebM · VP8 + Opus — códecs libres para web; siempre recodifica, es la opción más lenta',
   avi:  'AVI · MPEG-4 + MP3 — para equipos antiguos; no se puede previsualizar dentro del navegador',
   gif:  'GIF animado, sin audio — con paleta optimizada; limítalo a clips de pocos segundos',
-  mp3:  'MP3 — solo audio, con pérdida, lo reproduce absolutamente todo',
+  mp3:  'MP3 — solo audio, con pérdida, el de compatibilidad más amplia',
   wav:  'WAV · PCM de 16 bits — solo audio, sin pérdida y sin comprimir',
   flac: 'FLAC — solo audio, sin pérdida y comprimido: misma calidad, la mitad de tamaño que un WAV',
   m4a:  'M4A · AAC — solo audio, mejor calidad que MP3 al mismo bitrate',

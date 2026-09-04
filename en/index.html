@@ -162,7 +162,7 @@
         "name": "Are my video files uploaded to any server?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Never. The entire conversion runs on your own device thanks to FFmpeg compiled to WebAssembly, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's 100% private and local: that's also why you can process multi-gigabyte files without any upload wait."
+          "text": "Never. The entire conversion runs on your own device thanks to FFmpeg compiled to WebAssembly, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's 100% private and local: that's also why there are no upload or download waits."
         }
       },
       {
@@ -186,7 +186,7 @@
         "name": "Is it free and is there a file size limit?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It's completely free and no sign-up required. Since processing happens on your own computer with FFmpeg (WebAssembly) and there are no file uploads, there is no server-imposed size limit: you can convert videos of several gigabytes; the only practical limit is your device's memory."
+          "text": "It's completely free and no sign-up required. Since processing happens on your own computer with FFmpeg (WebAssembly) and there are no file uploads, there is no server-imposed size limit. The real ceiling is the WebAssembly engine's memory: about 2 GB for input and output combined, which in practice works well with files up to roughly 1 GB."
         }
       },
       {
@@ -2282,7 +2282,7 @@
         </svg>
       </span>
       <span class="trust-title">Speed</span>
-      <span class="trust-desc">No upload or download waits. Since it's a <strong>remux</strong> (no video re-encoding), conversion finishes in seconds, even with multi-gigabyte files.</span>
+      <span class="trust-desc">No upload or download waits. Since it's a <strong>remux</strong> (no video re-encoding), conversion finishes in seconds.</span>
     </div>
   </div>
 
@@ -2473,7 +2473,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Technical details · FFmpeg</span>
-        <span class="log-badge" id="logCount" aria-label="Number of log lines">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Number of log lines">0</span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copy technical log to clipboard">Copy</button>
@@ -2595,7 +2595,7 @@
       <details class="faq-item">
         <summary>Are my video files uploaded to any server?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Never.</strong> The entire conversion runs on your own device thanks to <strong>FFmpeg compiled to WebAssembly</strong>, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's <strong>100% private and local</strong>: that's also why you can process multi-gigabyte files without any upload wait.</p>
+          <p><strong>Never.</strong> The entire conversion runs on your own device thanks to <strong>FFmpeg compiled to WebAssembly</strong>, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's <strong>100% private and local</strong>: that's also why there are no upload or download waits.</p>
         </div>
       </details>
 
@@ -2616,7 +2616,7 @@
       <details class="faq-item">
         <summary>Is it free and is there a file size limit?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>It's <strong>completely free</strong> and no sign-up required. Since processing happens on your own computer with <strong>FFmpeg (WebAssembly)</strong> and there are no file uploads, there is no server-imposed size limit: you can convert videos of <strong>several gigabytes</strong>; the only practical limit is your device's memory.</p>
+          <p>It's <strong>completely free</strong> and no sign-up required. Since processing happens on your own computer with <strong>FFmpeg (WebAssembly)</strong> and there are no file uploads, there is no server-imposed size limit. The real ceiling is the WebAssembly engine's memory: about <strong>2 GB</strong> for input and output combined, which in practice works well with files up to roughly 1 GB.</p>
         </div>
       </details>
 
@@ -2816,6 +2816,7 @@ copyLogsBtn.addEventListener('click', async () => {
 clearLogsBtn.addEventListener('click', () => {
   logOutput.innerHTML = '';
   logCount.textContent = '0';
+  logCount.hidden = true;
 });
 const previewCard    = $('previewCard');
 const previewList    = $('previewList');
@@ -2861,6 +2862,7 @@ function log(msg, type = 'info') {
   span.textContent = msg + '\n';
   logOutput.appendChild(span);
   logCount.textContent = logOutput.childElementCount;
+  logCount.hidden = logOutput.childElementCount === 0;
   if (logCard.classList.contains('open')) {
     logOutput.scrollTop = logOutput.scrollHeight;
   }
