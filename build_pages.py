@@ -8,6 +8,7 @@ Añadir una página nueva = agregar una entrada a PAGES y volver a ejecutar.
 import os
 import re
 import json
+from datetime import date
 
 from landing_content import CONTENT
 
@@ -16,6 +17,27 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 # ─────────────────────────────────────────────────────────────────────────────
 # Datos de cada página
 # ─────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# Indexación
+# ─────────────────────────────────────────────────────────────────────────────
+# Solo cuatro landings se ofrecen a Google; el resto son variantes de formato
+# demasiado parecidas entre sí y van en noindex para no competir consigo mismas
+# ni con la home. update_sitemap() se apoya en esto: una página noindex NUNCA
+# debe aparecer en el sitemap (Search Console lo marca como error).
+DEFAULT_ROBOTS = 'noindex, follow'
+INDEXABLE_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1'
+INDEXABLE = {
+    'convertir-mp4-a-flac',
+    'convertir-mkv-a-flac',
+    'convertir-mov-a-flac',
+    'convertir-wav-a-flac',
+}
+
+
+def robots_for(slug: str) -> str:
+    return INDEXABLE_ROBOTS if slug in INDEXABLE else DEFAULT_ROBOTS
+
+
 PAGES = [
     {
         "slug":             "convertir-mp4-a-flac",
@@ -856,7 +878,15 @@ PAGES = [
 O_TITLE      = '<title>VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve</title>'
 O_META_DESC  = '<meta name="description" content="¿DaVinci Resolve sin sonido? Convierte el audio de tus vídeos a FLAC sin pérdida, gratis y 100% en tu navegador. Sin subir archivos." />'
 O_META_KW    = '<meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux" />'
+O_ROBOTS     = ('<meta name="robots" content="index, follow, max-image-preview:large,'
+                ' max-snippet:-1, max-video-preview:-1" />')
 O_CANONICAL  = '<link rel="canonical" href="https://vidtoflac.tech/" />'
+# Bloque de idiomas de la home. Las landings no tienen versión inglesa, así que
+# se elimina en lugar de heredarlo: si se copia tal cual, cada landing declara
+# que su versión española es la portada y contradice a su propio canonical.
+O_HREFLANG   = ('  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/" />\n'
+                '  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/" />\n'
+                '  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/" />\n')
 O_OG_URL     = '<meta property="og:url" content="https://vidtoflac.tech/" />'
 O_OG_TITLE   = '<meta property="og:title" content="VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve" />'
 O_OG_DESC    = '<meta property="og:description" content="Soluciona el audio que DaVinci Resolve no reproduce. Remux a MKV con audio FLAC sin pérdida, 100% en tu navegador y privado. Sin subir archivos." />'
@@ -946,6 +976,9 @@ def build_page(page: dict, template: str) -> str:
     h = h.replace(O_META_DESC, f'<meta name="description" content="{page["description"]}" />')
     h = h.replace(O_META_KW,   f'<meta name="keywords" content="{page["keywords"]}" />')
     h = h.replace(O_CANONICAL, f'<link rel="canonical" href="{page["canonical"]}" />')
+    h = h.replace(O_ROBOTS,
+        f'<meta name="robots" content="{page.get("robots") or robots_for(page["slug"])}" />')
+    h = h.replace(O_HREFLANG, '')
     h = h.replace(O_OG_URL,    f'<meta property="og:url" content="{page["og_url"]}" />')
     h = h.replace(O_OG_TITLE,  f'<meta property="og:title" content="{page["og_title"]}" />')
     h = h.replace(O_OG_DESC,   f'<meta property="og:description" content="{page["og_desc"]}" />')
@@ -1004,27 +1037,44 @@ def build_page(page: dict, template: str) -> str:
 
 
 def update_sitemap(pages: list) -> None:
+    """Añade al sitemap las landings indexables que falten.
+
+    Dos reglas que no se pueden romper: nunca se añade una página noindex, y
+    nunca se duplica una <loc> que ya esté presente.
+    """
     path = os.path.join(BASE, 'sitemap.xml')
     with open(path, 'r', encoding='utf-8') as f:
         sitemap = f.read()
 
+    existing = set(re.findall(r'<loc>(.*?)</loc>', sitemap))
+
     new_entries = ''
+    skipped_noindex = 0
     for page in pages:
-        if page['canonical'] not in sitemap:
-            new_entries += (
-                f'  <url>\n'
-                f'    <loc>{page["canonical"]}</loc>\n'
-                f'    <lastmod>2026-06-05</lastmod>\n'
-                f'    <changefreq>monthly</changefreq>\n'
-                f'    <priority>0.8</priority>\n'
-                f'  </url>\n'
-            )
+        if 'noindex' in (page.get('robots') or robots_for(page['slug'])):
+            skipped_noindex += 1
+            continue
+        if page['canonical'] in existing:
+            continue
+        existing.add(page['canonical'])
+        new_entries += (
+            f'  <url>\n'
+            f'    <loc>{page["canonical"]}</loc>\n'
+            f'    <lastmod>{date.today().isoformat()}</lastmod>\n'
+            f'    <changefreq>monthly</changefreq>\n'
+            f'    <priority>0.8</priority>\n'
+            f'  </url>\n'
+        )
 
     if new_entries:
         sitemap = sitemap.replace('</urlset>', new_entries + '</urlset>')
         with open(path, 'w', encoding='utf-8') as f:
             f.write(sitemap)
-        print('  sitemap.xml actualizado')
+        print(f'  sitemap.xml: {new_entries.count("<loc>")} URLs añadidas')
+    else:
+        print('  sitemap.xml: sin cambios')
+    if skipped_noindex:
+        print(f'  sitemap.xml: {skipped_noindex} páginas noindex omitidas (correcto)')
 
 
 def main() -> None:

@@ -69,7 +69,7 @@
       "priceCurrency": "EUR"
     },
     "featureList": [
-      "Lossless remux: copies video bit by bit",
+      "Lossless remux: copies video bit by bit where the codec allows",
       "Lossless FLAC audio conversion",
       "100% local processing in the browser",
       "Supports MP4, MOV, MKV, AVI, WebM and more"
@@ -146,7 +146,7 @@
         "name": "Does VidToFLAC reduce my video quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. The video stream is copied directly bit by bit, without reopening or recompressing frames: it's a remux, not a re-encode. Only the audio is converted to FLAC, a lossless format. The image you get is identical to the original file."
+          "text": "No. If the video codec can be copied into the output container, the video stream is copied bit by bit, without reopening or recompressing frames: it is a remux, not a re-encode, and the image is identical to the original. With codecs the browser cannot decode (H.265/HEVC, ProRes, DNxHD, MJPEG…) the video is re-encoded to H.264 at -crf 18 — high quality, but not bit-for-bit identical. Either way the audio becomes FLAC, which is lossless."
         }
       },
       {
@@ -2272,7 +2272,7 @@
         </svg>
       </span>
       <span class="trust-title">Lossless quality</span>
-      <span class="trust-desc">Audio converted to <strong>lossless FLAC</strong>: fidelity identical to the original. Video is copied bit by bit, without re-rendering a single frame.</span>
+      <span class="trust-desc">Audio converted to <strong>lossless FLAC</strong>: fidelity identical to the original. Where the codec allows, video is copied bit by bit, without re-rendering a single frame.</span>
     </div>
     <div class="trust-card">
       <span class="trust-icon" aria-hidden="true">
@@ -2282,7 +2282,7 @@
         </svg>
       </span>
       <span class="trust-title">Speed</span>
-      <span class="trust-desc">No upload or download waits. Since it's a <strong>remux</strong> (no video re-encoding), conversion finishes in seconds.</span>
+      <span class="trust-desc">No upload or download waits. When the video codec can be copied as-is, the conversion is a <strong>remux</strong> — the video is not re-encoded — which is far quicker than a full conversion.</span>
     </div>
   </div>
 
@@ -2406,7 +2406,7 @@
         </label>
       </div>
     </div>
-    <p class="format-note" id="formatNote">Only the audio changes → <strong>FLAC</strong> · video is copied intact, never re-rendered</p>
+    <p class="format-note" id="formatNote">Audio becomes <strong>FLAC</strong> · video is copied without re-encoding when the codec allows it</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -2438,7 +2438,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
-      <span>3 free conversions in <strong id="quotaTime">--:--</strong></span>
+      <span id="quotaMsg"></span>
     </div>
   </div>
 
@@ -2473,7 +2473,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Technical details · FFmpeg</span>
-        <span class="log-badge" id="logCount" hidden aria-label="Number of log lines">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Number of log lines"></span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copy technical log to clipboard">Copy</button>
@@ -2559,12 +2559,12 @@
       <p>Many cameras, recorders, and capture apps like <strong>OBS Studio</strong>, <strong>smartphones</strong>, or action cameras save audio with compressed codecs like <strong>AAC</strong> or <strong>MP3</strong> inside MP4 or MOV containers. The free version of DaVinci Resolve — and especially <strong>DaVinci Resolve on Linux</strong> and in professional environments — does not include the licenses to decode all those audio formats. The result is the classic <span class="hl">DaVinci Resolve no sound</span> issue, desynced audio, or clips that won't even import.</p>
 
       <h3>The fix: change the container, not re-encode the video</h3>
-      <p>VidToFLAC performs a <strong>remux</strong>: it repackages your file into an <strong>MKV</strong> container and converts only the audio track to <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer and Final Cut Pro decode natively. When you <span class="hl">convert video audio to FLAC</span> this way, the video stream is copied <strong>bit by bit</strong>, without re-rendering a single frame.</p>
+      <p>VidToFLAC performs a <strong>remux</strong>: it repackages your file into an <strong>MKV</strong> container and converts only the audio track to <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer and Final Cut Pro decode natively. When you <span class="hl">convert video audio to FLAC</span> this way, the video stream is copied <strong>bit by bit</strong>, without re-rendering a single frame — provided the source codec can be copied into the output container. When it cannot (H.265/HEVC, ProRes, DNxHD, MJPEG and the like), the video is re-encoded to H.264 at high quality; there is a full explanation further down.
 
       <p>This means three things for your workflow:</p>
       <ul>
-        <li><strong>Zero quality loss:</strong> it's a <span class="hl">lossless video remux</span>, the original frames remain intact.</li>
-        <li><strong>Speed:</strong> no video re-encoding, so the process takes seconds instead of minutes.</li>
+        <li><strong>No quality loss in the usual case:</strong> when the video can be copied, it is a <span class="hl">lossless video remux</span> and the original frames remain intact.</li>
+        <li><strong>Speed:</strong> when the video does not need re-encoding, the process is far quicker than a full conversion.</li>
         <li><strong>Immediate compatibility:</strong> the resulting MKV imports with audio in DaVinci Resolve, Premiere Pro and Avid without extra plugins or licenses.</li>
       </ul>
 
@@ -2581,7 +2581,7 @@
       <details class="faq-item">
         <summary>Does VidToFLAC reduce my video quality?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>No.</strong> The video stream is copied directly <strong>bit by bit</strong>, without reopening or recompressing frames: it's a remux, not a re-encode. Only the audio is converted to <strong>FLAC</strong>, a lossless format. The image you get is identical to the original file.</p>
+          <p><strong>No.</strong> If the video codec can be copied into the output container, the video stream is copied <strong>bit by bit</strong>, without reopening or recompressing frames: it is a remux, not a re-encode, and the image is identical to the original. With codecs the browser cannot decode (H.265/HEVC, ProRes, DNxHD, MJPEG…) the video is re-encoded to H.264 at <code>-crf 18</code> — high quality, but not bit-for-bit identical. Either way the audio becomes <strong>FLAC</strong>, which is lossless.</p>
         </div>
       </details>
 
@@ -2680,8 +2680,8 @@
 
       <h3>Remux: why it is faster than a conventional conversion</h3>
       <p>A traditional video conversion involves decoding each frame (a costly CPU or GPU operation) and then re-encoding it. For a 30-minute 4K video, this process can take hours even on powerful hardware.</p>
-      <p>VidToFLAC performs a <strong>remux</strong> instead: it copies the video stream <strong>bit by bit</strong>, without decoding or re-encoding it, and only transcodes the audio track. Since audio typically represents less than 5 % of the total file size, the process takes <strong>seconds instead of minutes</strong>. The resulting image is identical to the original: no additional artifacts, no degradation, not a single frame lost.</p>
-      <p>Only when the video codec is not compatible with the browser (ProRes, DNxHD, MJPEG…) does VidToFLAC automatically fall back to re-encoding the video to H.264 at high quality (<code>libx264 -crf 18</code>) to enable preview in the page itself.</p>
+      <p>VidToFLAC performs a <strong>remux</strong> instead: it copies the video stream <strong>bit by bit</strong>, without decoding or re-encoding it, and only transcodes the audio track. Since audio typically represents less than 5 % of the total file size, the process is <strong>far quicker than a full conversion</strong>. The resulting image is identical to the original: no additional artifacts, no degradation, not a single frame lost.</p>
+      <p>When the video codec is not compatible with the browser (<strong>H.265/HEVC</strong>, ProRes, DNxHD, MJPEG, MPEG-2, VC-1, WMV…), VidToFLAC automatically re-encodes the video to H.264 at high quality (<code>libx264 -crf 18</code>) to enable preview in the page itself.</p>
 
       <h3>Recommended workflows by editor</h3>
       <p>The MKV file with FLAC audio that VidToFLAC generates is directly compatible with the major non-linear editors (NLE):</p>
@@ -3270,7 +3270,7 @@ document.querySelectorAll('input[name="outFormat"]').forEach(radio => {
     if (radio.value === 'flac-only') {
       note.innerHTML = 'Extracts audio only → <strong>FLAC</strong> · video <strong>not</strong> included in the result';
     } else {
-      note.innerHTML = 'Only the audio changes → <strong>FLAC</strong> · video is copied intact, never re-rendered';
+      note.innerHTML = 'Audio becomes <strong>FLAC</strong> · video is copied without re-encoding when the codec allows it';
     }
   });
 });
@@ -3712,7 +3712,7 @@ function formatCountdown(ms) {
 
 function updateCountdownDisplay() {
   const el     = $('quotaCountdown');
-  const timeEl = $('quotaTime');
+  const msgEl  = $('quotaMsg');
   if (freeLeft() > 0 || tandaUnlocked) {
     el.classList.remove('visible');
     if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
@@ -3725,7 +3725,7 @@ function updateCountdownDisplay() {
     updateConvertBtn();   // cuota reiniciada: actualizar el botón
     return;
   }
-  timeEl.textContent = formatCountdown(remaining);
+  msgEl.innerHTML = '3 free conversions in <strong id="quotaTime">' + formatCountdown(remaining) + '</strong>';
   el.classList.add('visible');
   if (!countdownInterval) {
     countdownInterval = setInterval(updateCountdownDisplay, 1000);

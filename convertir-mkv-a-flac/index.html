@@ -14,9 +14,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="canonical" href="https://vidtoflac.tech/convertir-mkv-a-flac/" />
-  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/" />
-  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/" />
-  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/" />
 
   <!-- Icons & PWA manifest -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -69,7 +66,7 @@
       "priceCurrency": "EUR"
     },
     "featureList": [
-      "Remux sin pérdida: copia el vídeo bit a bit",
+      "Remux sin pérdida: copia el vídeo bit a bit cuando el códec lo permite",
       "Conversión de audio a FLAC sin pérdida",
       "Procesamiento 100% local en el navegador",
       "Soporta MP4, MOV, MKV, AVI, WebM y más"
@@ -2075,7 +2072,7 @@
         </svg>
       </span>
       <span class="trust-title">Calidad lossless</span>
-      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. El vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
+      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. Si el códec lo permite, el vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
     </div>
     <div class="trust-card">
       <span class="trust-icon" aria-hidden="true">
@@ -2085,7 +2082,7 @@
         </svg>
       </span>
       <span class="trust-title">Velocidad</span>
-      <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos.</span>
+      <span class="trust-desc">Sin esperas de subida ni de descarga. Cuando el códec de vídeo se puede copiar tal cual, la conversión es un <strong>remux</strong> —el vídeo no se recodifica— y resulta mucho más rápida que una conversión completa.</span>
     </div>
   </div>
 
@@ -2209,7 +2206,7 @@
         </label>
       </div>
     </div>
-    <p class="format-note" id="formatNote">Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar</p>
+    <p class="format-note" id="formatNote">El audio pasa a <strong>FLAC</strong> · el vídeo se copia sin recodificar cuando el códec es compatible</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -2226,7 +2223,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
-      <span>3 conversiones gratis en <strong id="quotaTime">--:--</strong></span>
+      <span id="quotaMsg"></span>
     </div>
   </div>
 
@@ -2261,7 +2258,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount" aria-label="Número de líneas de registro">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro"></span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
@@ -2545,6 +2542,7 @@ copyLogsBtn.addEventListener('click', async () => {
 clearLogsBtn.addEventListener('click', () => {
   logOutput.innerHTML = '';
   logCount.textContent = '0';
+  logCount.hidden = true;
 });
 const previewCard    = $('previewCard');
 const previewList    = $('previewList');
@@ -2590,6 +2588,7 @@ function log(msg, type = 'info') {
   span.textContent = msg + '\n';
   logOutput.appendChild(span);
   logCount.textContent = logOutput.childElementCount;
+  logCount.hidden = logOutput.childElementCount === 0;
   if (logCard.classList.contains('open')) {
     logOutput.scrollTop = logOutput.scrollHeight;
   }
@@ -2973,7 +2972,7 @@ document.querySelectorAll('input[name="outFormat"]').forEach(radio => {
     if (radio.value === 'flac-only') {
       note.innerHTML = 'Extrae solo el audio → <strong>FLAC</strong> · el vídeo <strong>no</strong> se incluye en el resultado';
     } else {
-      note.innerHTML = 'Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar';
+      note.innerHTML = 'El audio pasa a <strong>FLAC</strong> · el vídeo se copia sin recodificar cuando el códec es compatible';
     }
   });
 });
@@ -3341,7 +3340,7 @@ function formatCountdown(ms) {
 
 function updateCountdownDisplay() {
   const el     = $('quotaCountdown');
-  const timeEl = $('quotaTime');
+  const msgEl  = $('quotaMsg');
   if (freeLeft() > 0 || tandaUnlocked) {
     el.classList.remove('visible');
     if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
@@ -3354,7 +3353,7 @@ function updateCountdownDisplay() {
     updateConvertBtn();   // cuota reiniciada: actualizar el botón
     return;
   }
-  timeEl.textContent = formatCountdown(remaining);
+  msgEl.innerHTML = '3 conversiones gratis en <strong id="quotaTime">' + formatCountdown(remaining) + '</strong>';
   el.classList.add('visible');
   if (!countdownInterval) {
     countdownInterval = setInterval(updateCountdownDisplay, 1000);

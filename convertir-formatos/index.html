@@ -2466,7 +2466,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
-      <span>3 conversiones gratis en <strong id="quotaTime">--:--</strong></span>
+      <span id="quotaMsg"></span>
     </div>
   </div>
 
@@ -2501,7 +2501,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro"></span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
@@ -3719,7 +3719,7 @@ function formatCountdown(ms) {
 
 function updateCountdownDisplay() {
   const el     = $('quotaCountdown');
-  const timeEl = $('quotaTime');
+  const msgEl  = $('quotaMsg');
   if (freeLeft() > 0 || tandaUnlocked) {
     el.classList.remove('visible');
     if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
@@ -3732,7 +3732,7 @@ function updateCountdownDisplay() {
     updateConvertBtn();   // cuota reiniciada: actualizar el botón
     return;
   }
-  timeEl.textContent = formatCountdown(remaining);
+  msgEl.innerHTML = '3 conversiones gratis en <strong id="quotaTime">' + formatCountdown(remaining) + '</strong>';
   el.classList.add('visible');
   if (!countdownInterval) {
     countdownInterval = setInterval(updateCountdownDisplay, 1000);

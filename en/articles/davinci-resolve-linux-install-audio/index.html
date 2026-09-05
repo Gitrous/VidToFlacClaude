@@ -77,7 +77,7 @@
         "name": "Does DaVinci Resolve Studio fix the audio problem on Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles still will not work. The most reliable fix, and a free one, is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in DaVinci Resolve free vs Studio."
+          "text": "Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles commonly still fail. The most reliable fix, and a free one, is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in DaVinci Resolve free vs Studio."
         }
       },
       {
@@ -657,7 +657,7 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
         </tbody>
       </table>
 
-      <p>FLAC is the only lossless audio codec DaVinci Resolve supports natively on Linux in every edition — free and Studio alike. The fix, then, is to convert your files' audio to FLAC <em>before</em> importing them.</p>
+      <p>FLAC is one of the most practical lossless options here: DaVinci Resolve supports it natively on Linux in both the free edition and Studio. So a common fix is to convert your files' audio to FLAC <em>before</em> importing them.</p>
 
       <h2 id="solucion">The fix: convert the audio to FLAC with VidToFLAC</h2>
 
@@ -695,7 +695,7 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
           <div class="step-num">3</div>
           <div class="step-content">
             <strong>Press Convert</strong>
-            <p>The engine copies the video bit for bit and converts the audio to FLAC. For a 2 GB OBS recording it usually takes under 30 seconds, because the video is never re-encoded.</p>
+            <p>The engine copies the video bit for bit and converts the audio to FLAC. Because the video is never re-encoded, it is far quicker than a full conversion; the exact time depends on the file and your machine.</p>
           </div>
         </div>
         <div class="step">
@@ -802,7 +802,7 @@ done</code></pre>
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles still will not work. <strong>The most reliable fix, and a free one,</strong> is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in <a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio</a>.</p>
+            <p>Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles commonly still fail. <strong>The most reliable fix, and a free one,</strong> is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in <a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio</a>.</p>
           </div>
         </details>
 
@@ -845,7 +845,7 @@ done</code></pre>
       </a>
       <a href="/en/articles/davinci-resolve-h265-hevc-not-importing/" class="prev-next-item is-next">
         <span class="prev-next-label">Next →</span>
-        <span class="prev-next-title">DaVinci Resolve won't import H.265 / HEVC: the complete fix</span>
+        <span class="prev-next-title">DaVinci Resolve won't import H.265 / HEVC: causes and fixes</span>
       </a>
     </nav>
 

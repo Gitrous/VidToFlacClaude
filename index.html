@@ -69,7 +69,7 @@
       "priceCurrency": "EUR"
     },
     "featureList": [
-      "Remux sin pérdida: copia el vídeo bit a bit",
+      "Remux sin pérdida: copia el vídeo bit a bit cuando el códec lo permite",
       "Conversión de audio a FLAC sin pérdida",
       "Procesamiento 100% local en el navegador",
       "Soporta MP4, MOV, MKV, AVI, WebM y más"
@@ -146,7 +146,7 @@
         "name": "¿VidToFLAC reduce la calidad de mi vídeo?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. El flujo de vídeo se copia directamente bit a bit, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode. Solo el audio se transforma a FLAC, un formato sin pérdida. La imagen que obtienes es idéntica a la del archivo original."
+          "text": "No. Si el códec de vídeo se puede copiar al contenedor de salida, el flujo de vídeo se copia bit a bit, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode, y la imagen es idéntica a la del original. Con códecs que el navegador no puede decodificar (H.265/HEVC, ProRes, DNxHD, MJPEG…) sí se recodifica el vídeo a H.264 con -crf 18, una calidad alta pero no idéntica bit a bit. En ambos casos el audio pasa a FLAC, que sí es sin pérdida."
         }
       },
       {
@@ -2272,7 +2272,7 @@
         </svg>
       </span>
       <span class="trust-title">Calidad lossless</span>
-      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. El vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
+      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. Si el códec lo permite, el vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
     </div>
     <div class="trust-card">
       <span class="trust-icon" aria-hidden="true">
@@ -2282,7 +2282,7 @@
         </svg>
       </span>
       <span class="trust-title">Velocidad</span>
-      <span class="trust-desc">Sin esperas de subida ni de descarga. Al ser un <strong>remux</strong> (no se re-codifica el vídeo), la conversión termina en segundos.</span>
+      <span class="trust-desc">Sin esperas de subida ni de descarga. Cuando el códec de vídeo se puede copiar tal cual, la conversión es un <strong>remux</strong> —el vídeo no se recodifica— y resulta mucho más rápida que una conversión completa.</span>
     </div>
   </div>
 
@@ -2406,7 +2406,7 @@
         </label>
       </div>
     </div>
-    <p class="format-note" id="formatNote">Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar</p>
+    <p class="format-note" id="formatNote">El audio pasa a <strong>FLAC</strong> · el vídeo se copia sin recodificar cuando el códec es compatible</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
@@ -2438,7 +2438,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
-      <span>3 conversiones gratis en <strong id="quotaTime">--:--</strong></span>
+      <span id="quotaMsg"></span>
     </div>
   </div>
 
@@ -2473,7 +2473,7 @@
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
         <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro">0</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro"></span>
       </div>
       <div style="display:flex;gap:0.4rem">
         <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
@@ -2559,12 +2559,12 @@
       <p>Muchas cámaras, grabadores y aplicaciones de captura como <strong>OBS Studio</strong>, los <strong>smartphones</strong> o las cámaras de acción guardan el audio con códecs comprimidos como <strong>AAC</strong> o <strong>MP3</strong> dentro de contenedores MP4 o MOV. La versión gratuita de DaVinci Resolve —y de forma muy marcada <strong>DaVinci Resolve en Linux</strong> y en entornos profesionales— no incluye las licencias para decodificar todos esos formatos de audio. El resultado es el clásico <span class="hl">DaVinci Resolve sin sonido</span>, audio desincronizado o clips que ni siquiera importan.</p>
 
       <h3>La solución: cambiar el contenedor, no recodificar el vídeo</h3>
-      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV o MP4</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer y Final Cut Pro decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma.</p>
+      <p>VidToFLAC realiza un <strong>remux</strong>: reempaqueta tu archivo en un contenedor <strong>MKV o MP4</strong> y transforma únicamente la pista de audio a <strong>FLAC</strong>, un formato sin pérdida que DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer y Final Cut Pro decodifican de forma nativa. Al <span class="hl">convertir el vídeo a FLAC</span> de esta manera, el flujo de vídeo se copia <strong>bit a bit</strong>, sin volver a renderizar ni un solo fotograma, siempre que el códec de origen se pueda copiar al contenedor de salida. Cuando no es así —H.265/HEVC, ProRes, DNxHD, MJPEG y similares— el vídeo se recodifica a H.264 con calidad alta; lo explicamos en detalle más abajo.</p>
 
       <p>Esto significa tres cosas para tu flujo de trabajo:</p>
       <ul>
-        <li><strong>Cero pérdida de calidad:</strong> es un <span class="hl">remux de vídeo sin pérdida de calidad</span>, los frames originales quedan intactos.</li>
-        <li><strong>Velocidad:</strong> no hay re-encoding del vídeo, así que el proceso tarda segundos en lugar de minutos.</li>
+        <li><strong>Sin pérdida de calidad en el caso habitual:</strong> cuando el vídeo se puede copiar, es un <span class="hl">remux de vídeo sin pérdida de calidad</span> y los frames originales quedan intactos.</li>
+        <li><strong>Velocidad:</strong> si no hay que recodificar el vídeo, el proceso es mucho más rápido que una conversión completa.</li>
         <li><strong>Compatibilidad inmediata:</strong> el MKV/MP4 resultante se importa con audio en DaVinci Resolve, Premiere Pro y Avid sin plugins ni licencias adicionales.</li>
       </ul>
 
@@ -2581,7 +2581,7 @@
       <details class="faq-item">
         <summary>¿VidToFLAC reduce la calidad de mi vídeo?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>No.</strong> El flujo de vídeo se copia directamente <strong>bit a bit</strong>, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode. Solo el audio se transforma a <strong>FLAC</strong>, un formato sin pérdida. La imagen que obtienes es idéntica a la del archivo original.</p>
+          <p><strong>No.</strong> Si el códec de vídeo se puede copiar al contenedor de salida, el flujo de vídeo se copia <strong>bit a bit</strong>, sin reabrir ni recomprimir los fotogramas: es un remux, no un re-encode, y la imagen es idéntica a la del original. Con códecs que el navegador no puede decodificar (H.265/HEVC, ProRes, DNxHD, MJPEG…) sí se recodifica el vídeo a H.264 con <code>-crf 18</code>, una calidad alta pero no idéntica bit a bit. En ambos casos el audio pasa a <strong>FLAC</strong>, que sí es sin pérdida.</p>
         </div>
       </details>
 
@@ -2680,8 +2680,8 @@
 
       <h3>El remux: por qué es más rápido que una conversión convencional</h3>
       <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
-      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso tarda <strong>segundos en lugar de minutos</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
-      <p>Solo cuando el códec de vídeo no es compatible con el navegador (ProRes, DNxHD, MJPEG…), VidToFLAC recurre automáticamente a recodificar el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
+      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso es <strong>mucho más rápido que una conversión completa</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
+      <p>Cuando el códec de vídeo no es compatible con el navegador (<strong>H.265/HEVC</strong>, ProRes, DNxHD, MJPEG, MPEG-2, VC-1, WMV…), VidToFLAC recodifica automáticamente el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
 
       <h3>Flujos de trabajo recomendados por editor</h3>
       <p>El archivo MKV con audio FLAC que genera VidToFLAC es compatible directamente con los principales editores no lineales (NLE):</p>
@@ -3264,7 +3264,7 @@ document.querySelectorAll('input[name="outFormat"]').forEach(radio => {
     if (radio.value === 'flac-only') {
       note.innerHTML = 'Extrae solo el audio → <strong>FLAC</strong> · el vídeo <strong>no</strong> se incluye en el resultado';
     } else {
-      note.innerHTML = 'Solo cambia el audio → <strong>FLAC</strong> · el vídeo se copia intacto, sin volver a renderizar';
+      note.innerHTML = 'El audio pasa a <strong>FLAC</strong> · el vídeo se copia sin recodificar cuando el códec es compatible';
     }
   });
 });
@@ -3707,7 +3707,7 @@ function formatCountdown(ms) {
 
 function updateCountdownDisplay() {
   const el     = $('quotaCountdown');
-  const timeEl = $('quotaTime');
+  const msgEl  = $('quotaMsg');
   if (freeLeft() > 0 || tandaUnlocked) {
     el.classList.remove('visible');
     if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
@@ -3720,7 +3720,7 @@ function updateCountdownDisplay() {
     updateConvertBtn();   // cuota reiniciada: actualizar el botón
     return;
   }
-  timeEl.textContent = formatCountdown(remaining);
+  msgEl.innerHTML = '3 conversiones gratis en <strong id="quotaTime">' + formatCountdown(remaining) + '</strong>';
   el.classList.add('visible');
   if (!countdownInterval) {
     countdownInterval = setInterval(updateCountdownDisplay, 1000);
