@@ -2311,7 +2311,7 @@
         </svg>
       </span>
       <span class="trust-title">No needless re-encoding</span>
-      <span class="trust-desc">When the source codec fits the target container, the video is copied <strong>bit for bit</strong>: the format change finishes in seconds and the picture stays untouched.</span>
+      <span class="trust-desc">When the source codec fits the target container, the video is copied <strong>bit for bit</strong>: the format change is far quicker than a full conversion and the picture stays untouched.</span>
     </div>
   </div>
 
@@ -2594,8 +2594,8 @@
       <p>An <code>.mp4</code> file is not <em>the video</em>: it is a <strong>container</strong>, an envelope holding one picture track and one or more audio tracks. What actually determines compatibility is the <strong>codec</strong> in each track. That is why two MP4 files can behave completely differently: one with H.264 and AAC opens anywhere, while another with H.265 and Dolby Digital may fail in the very same player.</p>
       <p>When you pick an output format here you are picking both at once: the container and the codecs that will fill it. The table above spells out exactly which combination each option produces.</p>
 
-      <h3>When conversion is instant and when it takes time</h3>
-      <p>If the source video codec fits the target container as-is — H.264 going from MOV to MP4 or MKV, say — the tool performs a <strong>remux</strong>: it copies the video stream <strong>bit for bit</strong>, without decoding a single frame. That takes seconds and the resulting picture is identical to the original.</p>
+      <h3>When conversion is quick and when it takes time</h3>
+      <p>If the source video codec fits the target container as-is — H.264 going from MOV to MP4 or MKV, say — the tool performs a <strong>remux</strong>: it copies the video stream <strong>bit for bit</strong>, without decoding a single frame. That is far quicker than a full conversion and the resulting picture is identical to the original.</p>
       <p>When that is not possible — converting to WebM, AVI or GIF, or when the source video uses a codec the target container cannot hold — the file must be <strong>re-encoded</strong>: every frame is decoded and compressed again. That does cost CPU time, and here it runs single-threaded inside the browser. For long files, pick the <em>Light</em> quality level or stay on MP4 or MKV.</p>
     </article>
   </section>

@@ -143,7 +143,7 @@
         "name": "¿Tengo que recodificar el vídeo de mi MKV?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. El vídeo se copia bit a bit dentro del mismo contenedor MKV; solo se transforma la pista de audio a FLAC. La calidad de imagen es exactamente la del archivo original."
+          "text": "Si el códec de vídeo se puede copiar —H.264, VP9 y similares—, se copia bit a bit y la imagen queda exactamente igual que en el original. Si el MKV lleva H.265/HEVC, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."
         }
       },
       {
@@ -151,7 +151,7 @@
         "name": "Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "OBS suele grabar el audio en AAC (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema al instante."
+          "text": "OBS suele grabar el audio en AAC (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema."
         }
       },
       {
@@ -240,16 +240,15 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Warm overhead glow */
+    /* Warm overhead glow – sits on top of the wave SVG */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(900px 520px at 50% -8%, rgba(25,195,125,.12), transparent 60%),
-        radial-gradient(700px 700px at 50% 120%, rgba(25,195,125,.05), transparent 60%);
+        radial-gradient(900px 400px at 50% -5%, rgba(25,195,125,.09), transparent 55%);
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
 
     /* Fine film grain */
@@ -1213,9 +1212,27 @@
       text-align: center;
       font-family: var(--font-mono);
       font-size: 0.72rem;
+      line-height: 1.6;
       color: var(--ink-mute);
       background: var(--panel-2);
     }
+    .preview-no-support strong { color: var(--ink-dim); font-weight: 600; }
+    .btn-reconvert {
+      display: inline-block;
+      margin-top: .65rem;
+      padding: .5rem .9rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #06160c;
+      background: var(--green);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background .18s;
+    }
+    .btn-reconvert:hover { background: var(--green-soft); background: #6ee79b; }
+    .preview-contact-link { color: var(--green); font-weight: 600; text-decoration: underline; }
 
     .btn-preview-download {
       display: block;
@@ -1838,6 +1855,101 @@
     .quota-countdown svg { width: 0.85rem; height: 0.85rem; flex-shrink: 0; opacity: .55; }
     #quotaTime { color: var(--warn); font-weight: 700; }
 
+    .bookmark-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0.55rem auto 0;
+      padding: 0.5rem 0.7rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      color: var(--ink-dim);
+    }
+    .bookmark-hint kbd {
+      display: inline-block;
+      min-width: 1.1rem;
+      padding: 0.15rem 0.4rem;
+      background: var(--panel);
+      border: 1px solid var(--line-strong);
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      color: var(--ink);
+    }
+    .bookmark-hint kbd.key-accent {
+      background: var(--amber-soft);
+      border-color: var(--amber-line);
+      color: var(--amber-2);
+    }
+    .bookmark-hint .bh-plus { color: var(--ink-mute); }
+    .bookmark-hint .bh-sep {
+      width: 1px;
+      align-self: stretch;
+      margin: -0.1rem 0.15rem;
+      background: var(--line);
+    }
+    .bookmark-hint strong { color: var(--ink); font-weight: 700; }
+
+    .terms-agree {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 0.7rem;
+      padding: 0.7rem 0.8rem;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .terms-agree:hover { border-color: var(--line-strong); }
+    .terms-agree.checked { border-color: var(--amber-line); background: var(--amber-soft); }
+    .terms-agree input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .terms-agree .terms-box {
+      flex-shrink: 0;
+      width: 1.15rem;
+      height: 1.15rem;
+      margin-top: 0.05rem;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--panel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .terms-agree .terms-box svg {
+      width: 0.8rem; height: 0.8rem;
+      stroke: var(--bg);
+      stroke-width: 3.5;
+      opacity: 0;
+      transform: scale(.5);
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .terms-agree input:checked ~ .terms-box {
+      background: var(--amber);
+      border-color: var(--amber);
+    }
+    .terms-agree input:checked ~ .terms-box svg { opacity: 1; transform: scale(1); }
+    .terms-agree input:focus-visible ~ .terms-box { box-shadow: 0 0 0 3px var(--amber-soft); }
+    .terms-agree .terms-text {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--ink-dim);
+    }
+    .terms-agree .terms-text a { color: var(--amber); font-weight: 600; text-decoration: none; }
+    .terms-agree .terms-text a:hover { text-decoration: underline; }
+
     .large-file-icon {
       display: flex;
       align-items: center;
@@ -1964,7 +2076,27 @@
       white-space: nowrap;
     }
     .nav-lang:hover { color: var(--ink); border-color: var(--amber); background: rgba(25,195,125,.08); }
+
+    /* ── Modal de anuncio: hueco vacío cuando el anuncio no llega a mostrarse ─ */
+    .ad-slot-empty {
+      display: none;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      line-height: 1.55;
+      text-align: center;
+      color: var(--ink-mute);
+      padding: 0 1rem;
+    }
+    .ad-slot-wrap.is-empty .ad-slot-empty { display: block; }
+    .ad-modal-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      line-height: 1.4;
+      color: var(--ink-mute);
+      letter-spacing: 0.02em;
+    }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -1977,6 +2109,38 @@
   </script>
 </head>
 <body>
+
+<!-- Fluid wave background -->
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <filter id="wf-blur" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="28"/>
+      </filter>
+      <filter id="wf-blur-sm" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="14"/>
+      </filter>
+    </defs>
+    <!-- deep ribbon 1 – wide S-curve across center -->
+    <path filter="url(#wf-blur)"
+      d="M-80 380 C200 200, 500 600, 780 340 S1200 100, 1520 320 L1520 500 C1200 280, 900 580, 620 420 S200 380, -80 560Z"
+      fill="rgba(8,52,28,.72)"/>
+    <!-- ribbon 2 – upper flow -->
+    <path filter="url(#wf-blur)"
+      d="M-80 180 C160 80, 420 380, 700 200 S1100 0, 1520 140 L1520 260 C1100 120, 800 320, 540 300 S160 200, -80 300Z"
+      fill="rgba(6,42,22,.65)"/>
+    <!-- ribbon 3 – lower curl -->
+    <path filter="url(#wf-blur)"
+      d="M-80 600 C240 460, 540 780, 860 560 S1260 380, 1520 580 L1520 720 C1240 500, 900 740, 600 680 S200 620, -80 750Z"
+      fill="rgba(5,38,20,.60)"/>
+    <!-- bright highlight ridge – thin edge glow on ribbon 1 -->
+    <path filter="url(#wf-blur-sm)"
+      d="M-80 380 C200 200, 500 600, 780 340 S1200 100, 1520 320 L1520 330 C1200 110, 900 550, 640 360 S200 210, -80 392Z"
+      fill="rgba(25,195,125,.10)"/>
+    <!-- ambient glow blob top-center -->
+    <ellipse filter="url(#wf-blur)" cx="720" cy="100" rx="500" ry="220" fill="rgba(18,140,80,.13)"/>
+  </svg>
+</div>
 
 <!-- Navbar -->
 <nav id="site-nav" aria-label="Navegación principal">
@@ -1992,6 +2156,7 @@
   <ul class="nav-links" role="list">
     <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
     <li><a href="/convertir-formatos/" class="nav-link">Formatos</a></li>
+    <li><a href="/articulos/" class="nav-link">Artículos</a></li>
     <li><a href="/historial/" class="nav-link">Historial</a></li>
     <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
   </ul>
@@ -2026,7 +2191,17 @@
       <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
       <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>todos los archivos que tengas en cola se convertirán sin límite</strong>.</span>
     </div>
+    <div class="ad-slot-wrap">
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-layout="in-article"
+           data-ad-format="fluid"
+           data-ad-client="ca-pub-1123812992313934"
+           data-ad-slot="9253210070"></ins>
+      <span class="ad-slot-empty">Este hueco es para un anuncio, pero no se ha podido cargar. Puedes continuar igualmente.</span>
+    </div>
     <div class="ad-modal-footer">
+      <span class="ad-modal-hint">Pulsa Esc o haz clic fuera para cerrar</span>
       <button class="ad-continue-btn" id="adContinueBtn">Continuar conversión</button>
     </div>
   </div>
@@ -2216,10 +2391,25 @@
       <span class="toggle-label">Descargar automáticamente al convertir</span>
     </label>
 
+    <label class="terms-agree" id="termsAgree">
+      <input type="checkbox" id="termsCheck">
+      <span class="terms-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      </span>
+      <span class="terms-text">He leído y acepto los <a href="/terminos-de-servicio/" target="_blank" rel="noopener">Términos de servicio</a> y la <a href="/politica-de-privacidad/" target="_blank" rel="noopener">Política de privacidad</a>, y solo convertiré contenido para el que tengo autorización.</span>
+    </label>
+
     <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
       ⚙️ Convertir a vídeo + FLAC
     </button>
-    <div class="quota-countdown" id="quotaCountdown" aria-live="polite" style="display:none">
+    <div class="bookmark-hint" id="bookmarkHint">
+      <kbd id="bhMod">Ctrl</kbd>
+      <span class="bh-plus">+</span>
+      <kbd class="key-accent">D</kbd>
+      <span class="bh-sep"></span>
+      <span>Pulsa <strong id="bhShortcut">Ctrl+D</strong> para guardar esta web en favoritos</span>
+    </div>
+    <div class="quota-countdown" id="quotaCountdown" aria-live="polite">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
@@ -2322,6 +2512,17 @@
     </div>
   </div>
 
+  <!-- Ad: between tool and SEO content (visible to all users) -->
+  <div style="text-align:center;overflow:hidden;">
+    <ins class="adsbygoogle"
+         style="display:block;"
+         data-ad-client="ca-pub-1123812992313934"
+         data-ad-slot="9253210070"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">
     <div class="card-title">El problema que solucionamos</div>
@@ -2335,7 +2536,7 @@
       <h3>La solución para tus MKV: cambiar solo el audio a FLAC</h3>
       <p>El contenedor <strong>MKV</strong> (Matroska) acepta casi cualquier códec, y ahí está la trampa: muchos MKV de <strong>OBS Studio</strong>, grabaciones de pantalla o cámaras guardan el audio en <strong>Opus, AAC, MP3 o Vorbis</strong>, formatos que DaVinci Resolve no decodifica de serie. VidToFLAC mantiene el MKV, copia el vídeo <strong>bit a bit</strong> y recodifica únicamente el audio a <strong>FLAC</strong>.</p>
 
-      <p>Como el MKV ya es el contenedor de salida, no hay cambio de formato del vídeo ni recompresión: el proceso es prácticamente instantáneo y la calidad de imagen permanece intacta. El resultado se importa con sonido en la mayoría de editores profesionales.</p>
+      <p>Como el MKV ya es el contenedor de salida, no hay cambio de formato del vídeo ni recompresión cuando el códec se puede copiar: el proceso es mucho más rápido que una conversión completa y la calidad de imagen permanece intacta. El resultado se importa con sonido en cualquier editor profesional.</p>
 
       <p>FLAC es la opción ideal aquí porque MKV lo admite de forma estándar y DaVinci Resolve lo reproduce de forma nativa, sin licencias de pago ni decodificadores externos.</p>
     </article>
@@ -2350,13 +2551,13 @@
       <details class="faq-item">
         <summary>¿Tengo que recodificar el vídeo de mi MKV?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>No. El vídeo se copia <strong>bit a bit</strong> dentro del mismo contenedor MKV; solo se transforma la pista de audio a FLAC. La calidad de imagen es exactamente la del archivo original.</p>
+          <p>Si el códec de vídeo se puede copiar —H.264, VP9 y similares—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary>Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema al instante.</p>
+          <p>OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2365,6 +2566,15 @@
           <p>Porque el contenedor MKV admite audio <strong>FLAC</strong> de forma estándar, mientras que MP4 no lo hace de manera fiable. MKV es además el formato que mejor manejan DaVinci Resolve, Premiere y Avid para este flujo de trabajo.</p>
         </div>
       </details>
+      <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">
+        <ins class="adsbygoogle"
+             style="display:block;"
+             data-ad-client="ca-pub-1123812992313934"
+             data-ad-slot="2037769304"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
       <details class="faq-item">
         <summary>¿Funciona con MKV de grabaciones de pantalla o gameplay?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
@@ -2387,7 +2597,7 @@
       <h3>El contenedor MKV: flexible pero heterogéneo</h3>
       <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante —y también la más problemática— es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
       <h3>Qué códec de audio lleva tu MKV</h3>
-      <p>El origen del archivo determina el códec: los MKV de <strong>OBS Studio</strong> suelen tener <strong>AAC o Opus</strong> (según la versión y la configuración). Los descargados con yt-dlp o similar desde YouTube pueden traer <strong>Vorbis u Opus</strong>. Los generados por HandBrake con la configuración por defecto suelen tener <strong>AAC</strong>. Los producidos por conversores online pueden traer <strong>MP3</strong>. Solo los MKV con audio FLAC o PCM linear son directamente compatibles con DaVinci Resolve en Windows, macOS y Linux.</p>
+      <p>El origen del archivo determina el códec: los MKV de <strong>OBS Studio</strong> suelen tener <strong>AAC o Opus</strong> (según la versión y la configuración). Los descargados con yt-dlp o similar desde YouTube pueden traer <strong>Vorbis u Opus</strong>. Los generados por HandBrake con la configuración por defecto suelen tener <strong>AAC</strong>. Los producidos por conversores online pueden traer <strong>MP3</strong>. Solo los MKV con audio FLAC o PCM linear son directamente compatibles con DaVinci Resolve en todas las plataformas.</p>
       <h3>Por qué la pista de audio de tu MKV aparece en gris en DaVinci Resolve</h3>
       <p>DaVinci Resolve gratuito no incluye decodificadores para AAC, MP3, Vorbis, Opus, DTS ni AC3. En Linux, Resolve depende del sistema operativo para estos códecs y muchas distribuciones no los incluyen por razones de licencia. El resultado es la pista de audio en gris y sin forma de onda. Cambiar el códec a FLAC soluciona el problema porque FLAC es un estándar abierto que Resolve incluye de serie en todas sus versiones.</p>
       <h3>Paso a paso: cambiar el audio de tu MKV a FLAC</h3>
@@ -2398,57 +2608,57 @@
         <li>Importa el nuevo MKV en DaVinci Resolve. La pista de audio aparecerá en azul y podrás editarla sin ningún problema.</li>
       </ol>
       <h3>Caso especial: MKV con audio Opus de OBS</h3>
-      <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en Windows, macOS ni Linux, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
+      <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en ninguna plataforma, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
     </article>
   </section>
 
   <section class="card seo-card" aria-labelledby="guia-titulo">
     <div class="card-title">Guía técnica</div>
     <article>
-      <h2 id="guia-titulo">El MKV es el contenedor más flexible, y por eso el más impredecible</h2>
+      <h2 id="guia-titulo">Contenedores, códecs y DaVinci Resolve: todo lo que necesitas saber</h2>
 
-      <h3>Matroska no impone ningún códec</h3>
-      <p>A diferencia del MP4, que gravita hacia H.264 y AAC, el <strong>Matroska</strong> se diseñó como un contenedor deliberadamente agnóstico: acepta prácticamente cualquier combinación de vídeo, audio, subtítulos y capítulos. Es una virtud técnica y un incordio práctico, porque saber que un archivo es .mkv <strong>no te dice nada</strong> sobre si DaVinci Resolve podrá abrirlo.</p>
-      <p>Dos MKV descargados el mismo día pueden llevar uno vídeo H.264 con audio AAC y el otro AV1 con audio Opus. El primero te dará solo problemas de audio; el segundo puede no abrirse en absoluto.</p>
+      <h3>Contenedores vs. códecs: la diferencia que importa</h3>
+      <p>Cuando grabas un vídeo, el archivo resultante —un .mp4, un .mov o un .mkv— no <em>es</em> el vídeo en sí: es un <strong>contenedor</strong>, una especie de sobre que empaqueta varias pistas dentro: la imagen y el audio. Lo que realmente define la calidad y la compatibilidad es el <strong>códec</strong>, el algoritmo que comprime y descomprime cada una de esas pistas.</p>
+      <p>Un mismo contenedor admite múltiples códecs. Un archivo MP4, por ejemplo, puede contener vídeo H.264 o H.265 (HEVC), y audio en AAC, MP3, AC3 o incluso FLAC. Cuando DaVinci Resolve —u otro editor— no puede abrir el audio de un clip, el problema raramente es el contenedor (.mp4, .mov, .mkv): casi siempre es el <strong>códec de audio</strong> que hay dentro.</p>
 
-      <h3>El caso más frecuente: MKV de OBS con audio Opus</h3>
-      <p>Si grabas con <strong>OBS Studio</strong> y eliges MKV como contenedor —lo recomendable, porque el MKV sobrevive a un cierre inesperado sin corromperse— es muy probable que el audio salga en <strong>Opus</strong>. Opus es un códec libre y excelente, pero DaVinci Resolve no lo decodifica, así que la pista aparece en gris pese a no haber ninguna restricción de licencia de por medio: sencillamente no está implementado.</p>
-      <p>Cambiar solo el audio a FLAC resuelve el caso por completo y en segundos, porque el vídeo se copia sin tocarlo. Si trabajas habitualmente con OBS, la <a href="/articulos/davinci-resolve-no-importa-audio-mp4-obs/">guía de OBS y DaVinci Resolve</a> cubre también cómo dejar OBS configurado para que no vuelva a pasar.</p>
+      <h3>Por qué DaVinci Resolve no decodifica ciertos audios</h3>
+      <p>DaVinci Resolve gratuito <strong>no incluye las licencias</strong> de ciertos decodificadores propietarios —en especial <strong>AAC</strong> (el formato estándar de cámaras iOS, GoPro y la mayoría de smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong> y <strong>DTS</strong>—. Esta restricción es especialmente pronunciada <strong>en Linux</strong>, donde Resolve depende enteramente de los decodificadores incluidos en el sistema operativo.</p>
+      <p>El síntoma más habitual es encontrar la pista de audio en gris en el inspector de medios, o ver el mensaje <em>"Audio codec not supported"</em> al intentar importar el clip. Hay otra causa frecuente: el audio codificado como <strong>PCM flotante</strong> (pcm_f32le), que algunos micrófonos y software de grabación usan, tampoco es compatible de forma directa con todos los flujos de trabajo en Resolve.</p>
+      <p>La solución no es reinstalar DaVinci Resolve ni buscar códecs de pago: es cambiar el códec de audio del archivo a uno que Resolve decodifica siempre de serie.</p>
 
-      <h3>MKV con varias pistas de audio</h3>
-      <p>Es habitual que un MKV lleve <strong>más de una pista de audio</strong>: micrófono y audio de escritorio separados en las grabaciones de OBS, o varios idiomas en material descargado. VidToFLAC convierte <strong>todas</strong> las pistas a FLAC y las mantiene como pistas independientes en el archivo de salida, de modo que en el timeline de Resolve puedes seguir mezclándolas por separado. No se fusiona nada ni se descarta ninguna.</p>
-      <p>Los subtítulos y los capítulos, en cambio, no se conservan en la conversión. Si los necesitas, extráelos antes con una herramienta como MKVToolNix.</p>
+      <h3>FLAC: el estándar lossless para edición profesional</h3>
+      <p><strong>FLAC (Free Lossless Audio Codec)</strong> es un formato de audio sin pérdida de código abierto: comprime los datos sin descartar ninguna información, de modo que la señal reconstruida es <strong>bit a bit idéntica a la original</strong>. A diferencia de AAC o MP3, que eliminan frecuencias para reducir el tamaño, FLAC garantiza que ningún matiz del audio original se pierde. Frente a sus alternativas sin pérdida:</p>
+      <ul>
+        <li><strong>Frente a WAV / PCM sin comprimir:</strong> WAV y AIFF son también sin pérdida, pero no comprimen. Un audio de 10 minutos a 48 kHz / 24 bits puede pesar más de 170 MB en WAV; FLAC lo reduce entre un 40 y un 60 % sin perder ni un bit.</li>
+        <li><strong>Frente a PCM flotante (pcm_f32le):</strong> Algunos micrófonos USB exportan audio como PCM de 32 bits en coma flotante. FLAC requiere muestras enteras; VidToFLAC inserta automáticamente un paso de conversión de formato antes de codificar a FLAC para garantizar la compatibilidad.</li>
+        <li><strong>Compatibilidad amplia:</strong> FLAC está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X y prácticamente todos los editores modernos. No requiere plugins ni licencias adicionales en Windows, macOS ni Linux.</li>
+      </ul>
 
-      <h3>¿Y si el problema es el propio MKV, no el audio?</h3>
-      <p>Algunas versiones antiguas de Resolve —y ciertos flujos de trabajo en Windows— tienen problemas con el contenedor MKV en sí, no con lo que hay dentro. Si tras convertir el audio a FLAC el archivo sigue sin importarse, prueba a cambiar el formato de salida a <strong>MP4</strong> en el selector de VidToFLAC: obtendrás el mismo audio FLAC en un contenedor que Resolve acepta sin discusión. También puedes seguir <a href="/articulos/convertir-mkv-a-mp4-sin-perder-calidad/">nuestra guía para pasar de MKV a MP4 sin perder calidad</a>.</p>
+      <h3>El remux: por qué es más rápido que una conversión convencional</h3>
+      <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
+      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso es <strong>mucho más rápido que una conversión completa</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
+      <p>Cuando el códec de vídeo no es compatible con el navegador (<strong>H.265/HEVC</strong>, ProRes, DNxHD, MJPEG, MPEG-2, VC-1, WMV…), VidToFLAC recodifica automáticamente el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
+
+      <h3>Flujos de trabajo recomendados por editor</h3>
+      <p>El archivo MKV con audio FLAC que genera VidToFLAC es compatible directamente con los principales editores no lineales (NLE):</p>
+      <ul>
+        <li><strong>DaVinci Resolve (versión gratuita, Linux / Windows / macOS):</strong> Importa el .mkv directamente desde el Media Pool. Resolve detecta el audio FLAC de forma nativa y lo asigna a la pista de audio del timeline. Si antes la pista aparecía en gris, ahora debería verse en azul y reproducirse sin problemas.</li>
+        <li><strong>Adobe Premiere Pro:</strong> Premiere soporta MKV y FLAC de forma nativa en versiones recientes. Importa el archivo desde el Project Panel y arrastra el clip a la secuencia. Si usas una versión antigua que no soporta MKV, puedes cambiar el formato de salida a MP4 desde el selector de formato de VidToFLAC antes de convertir.</li>
+        <li><strong>Avid Media Composer:</strong> Avid admite FLAC en MKV para proyectos AMA (Avid Media Access). Para un flujo de trabajo más integrado en proyectos grandes, considera transcodificar después a DNxHD mediante el propio Avid.</li>
+        <li><strong>Final Cut Pro X:</strong> FCP X en macOS importa FLAC en MKV sin pasos adicionales en versiones recientes. En versiones antiguas puede ser necesario el complemento gratuito de soporte MKV para Final Cut.</li>
+      </ul>
     </article>
   </section>
 
   <section class="card seo-card" aria-labelledby="formatos-titulo">
-    <div class="card-title">Convierte desde otros formatos</div>
-    <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Guías para convertir cada formato a FLAC</h2>
-    <p>VidToFLAC acepta cualquiera de estos formatos de entrada. Si quieres ver el proceso paso a paso para el tuyo, consulta su guía específica:</p>
-    <nav class="format-links" aria-label="Guías de conversión por formato">
-      <a href="/convertir-mp4-a-flac/">MP4 → FLAC</a>
-      <a href="/convertir-mov-a-flac/">MOV → FLAC</a>
-      <a href="/convertir-mkv-a-flac/">MKV → FLAC</a>
-      <a href="/convertir-avi-a-flac/">AVI → FLAC</a>
-      <a href="/convertir-webm-a-flac/">WEBM → FLAC</a>
-      <a href="/convertir-wmv-a-flac/">WMV → FLAC</a>
-      <a href="/convertir-flv-a-flac/">FLV → FLAC</a>
-      <a href="/convertir-mpeg-a-flac/">MPEG → FLAC</a>
-      <a href="/convertir-ts-a-flac/">TS → FLAC</a>
-      <a href="/convertir-vob-a-flac/">VOB → FLAC</a>
-      <a href="/convertir-3gp-a-flac/">3GP → FLAC</a>
-      <a href="/convertir-m4v-a-flac/">M4V → FLAC</a>
-      <a href="/convertir-mp3-a-flac/">MP3 → FLAC</a>
-      <a href="/convertir-aac-a-flac/">AAC → FLAC</a>
-      <a href="/convertir-m4a-a-flac/">M4A → FLAC</a>
-      <a href="/convertir-wav-a-flac/">WAV → FLAC</a>
-      <a href="/convertir-aiff-a-flac/">AIFF → FLAC</a>
-      <a href="/convertir-ogg-a-flac/">OGG → FLAC</a>
-      <a href="/convertir-opus-a-flac/">Opus → FLAC</a>
-      <a href="/convertir-wma-a-flac/">WMA → FLAC</a>
+    <div class="card-title">Guías y artículos</div>
+    <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Aprende más sobre el audio en DaVinci Resolve</h2>
+    <p>VidToFLAC detecta automáticamente el formato de entrada —MP4, MOV, MKV, AVI, WEBM, WMV, FLV, MPEG, TS, VOB, 3GP y M4V de vídeo, además de MP3, AAC, M4A, WAV, AIFF, OGG, Opus y WMA de audio—: solo arrastra tu archivo. Si quieres entender a fondo por qué falla el audio en Resolve y cómo evitarlo, lee nuestras guías:</p>
+    <nav class="format-links" aria-label="Artículos y guías">
+      <a href="/articulos/errores-audio-davinci-resolve/">Errores de audio en Resolve</a>
+      <a href="/articulos/que-formato-video-usar-davinci-resolve/">Qué formato de vídeo usar</a>
+      <a href="/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/">Exportar sin perder audio</a>
+      <a href="/articulos/">Todos los artículos →</a>
     </nav>
   </section>
 
@@ -2515,6 +2725,20 @@ const fileInput    = $('fileInput');
 const fileListEl   = $('fileList');
 const convertBtn   = $('convertBtn');
 const autoDlCheck  = $('autoDlCheck');
+const termsCheck   = $('termsCheck');
+const termsAgree   = $('termsAgree');
+
+termsCheck.addEventListener('change', () => {
+  termsAgree.classList.toggle('checked', termsCheck.checked);
+  updateConvertBtn();
+});
+
+// En macOS el atajo de favoritos es ⌘+D, no Ctrl+D
+if (/Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent)) {
+  const bhMod = $('bhMod'), bhShortcut = $('bhShortcut');
+  if (bhMod) bhMod.textContent = '⌘';
+  if (bhShortcut) bhShortcut.textContent = '⌘+D';
+}
 const progressCard = $('progressCard');
 const progressFill = $('progressFill');
 const progressLabel= $('progressLabel');
@@ -2766,7 +2990,7 @@ function renderFileList() {
 
 function updateConvertBtn() {
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
-  convertBtn.disabled = !ffmpeg || pending === 0;
+  convertBtn.disabled = !ffmpeg || pending === 0 || !termsCheck.checked;
   const left = freeLeft();
   const needsAd = left <= 0 && !tandaUnlocked;
   const willConvert = (needsAd || tandaUnlocked) ? pending : Math.min(pending, left);
@@ -2783,11 +3007,36 @@ function updateConvertBtn() {
   updateCountdownDisplay();
 }
 
-function noPreviewMsg() {
+// Cuando un medio no se puede previsualizar: oculta el reproductor y muestra un aviso.
+// 1.ª vez → invitar a "volver a convertir todo"; si tras reconvertir vuelve a fallar
+// (previewFails ≥ 2) → derivar a la página de contacto.
+function showPreviewError(item, entry) {
+  entry.previewFails = (entry.previewFails || 0) + 1;
+  const media = item.querySelector('.preview-media');
+  if (media) media.style.display = 'none';
+  item.querySelector('.preview-no-support')?.remove();
   const div = document.createElement('div');
   div.className = 'preview-no-support';
-  div.textContent = 'Preview no disponible en este navegador — descarga el archivo para reproducirlo.';
-  return div;
+  if (entry.previewFails >= 2) {
+    div.innerHTML =
+      `No hemos podido previsualizar <strong>${entry.outBaseName}</strong> ni siquiera tras volver a convertir. ` +
+      `El archivo descargado suele funcionar igualmente en tu editor; si no es así, ` +
+      `<a class="preview-contact-link" href="/contacto/">cuéntanoslo en Contáctanos</a> y te ayudamos.`;
+  } else {
+    div.innerHTML =
+      `No se ha podido previsualizar <strong>${entry.outBaseName}</strong> en este navegador.<br>` +
+      `<button type="button" class="btn-reconvert" data-action="reconvert-all">🔄 Volver a convertir todo</button>`;
+  }
+  const dl = item.querySelector('.btn-preview-download');
+  item.insertBefore(div, dl);
+}
+
+// El medio cargó correctamente: quita cualquier aviso de error y vuelve a mostrar el reproductor.
+function clearPreviewError(item, entry) {
+  entry.previewFails = 0;
+  item.querySelector('.preview-no-support')?.remove();
+  const media = item.querySelector('.preview-media');
+  if (media) media.style.display = '';
 }
 
 // ─── Preview list render ──────────────────────────────────────────────────────
@@ -2830,9 +3079,8 @@ function renderPreviewList() {
       if (!isAudio) media.preload = 'metadata';
       media.src = entry.outputURL;
       item.dataset.url = entry.outputURL;
-      if (!isAudio) {
-        media.addEventListener('error', () => { media.replaceWith(noPreviewMsg()); });
-      }
+      media.addEventListener('error', () => showPreviewError(item, entry));
+      media.addEventListener('loadeddata', () => clearPreviewError(item, entry));
       item.appendChild(media);
 
       const dl = document.createElement('a');
@@ -2875,7 +3123,7 @@ function renderPreviewList() {
   }
 
   // Mostrar 1 anuncio por cada 5 archivos convertidos (5→1, 10→2, …)
-  const adsNeeded = 0; // anuncios desactivados en esta landing
+  const adsNeeded = Math.floor(done.length / 5);
   while (adUnitsCreated < adsNeeded) {
     adUnitsCreated++;
     const adDiv = document.createElement('div');
@@ -3087,8 +3335,24 @@ document.addEventListener('drop', e => {
   if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
 });
 
+
+// ─── Estimación del tiempo de recodificación ─────────────────────────────────
+// Rendimiento medido de libx264 dentro de ffmpeg.wasm sobre 1080p: unos 28
+// millones de píxeles por segundo. Se redondea a la baja para no quedarse corto
+// en el aviso; da un orden de magnitud, no una cifra exacta.
+const WASM_PIXELS_PER_SEC = 25e6;
+
+function reencodeEstimate(w, h, fps, seconds) {
+  if (!w || !h || !seconds) return '';
+  const secs = (w * h * (fps || 30) * seconds) / WASM_PIXELS_PER_SEC;
+  if (secs < 45)   return '';                    // tan corto que no merece aviso
+  if (secs < 90)   return '~1 min';
+  if (secs < 3600) return `~${Math.round(secs / 60)} min`;
+  return `~${(secs / 3600).toFixed(1)} h`;
+}
+
 // ─── Per-file processor ───────────────────────────────────────────────────────
-async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat) {
+async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat, isReconvert = false) {
   const file = entry.file;
   entry.status = 'converting';
   currentId = id;
@@ -3116,11 +3380,18 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     setProgress(`[${globalIdx + 1}/${totalCount}] Analizando formato…`, null);
     let probeAudioCodec = '';
     let probeVideoCodec = '';
+    let probeSeconds = 0, probeW = 0, probeH = 0, probeFps = 0;
     const probeCapture = ({ message }) => {
       const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
       if (ma) probeAudioCodec = ma[1].toLowerCase();
       const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
       if (mv) probeVideoCodec = mv[1].toLowerCase();
+      const md = message.match(/Duration:\s*(\d+):(\d\d):(\d\d(?:\.\d+)?)/);
+      if (md) probeSeconds = (+md[1]) * 3600 + (+md[2]) * 60 + parseFloat(md[3]);
+      const mr = message.match(/Video:.*?[\s,](\d{2,5})x(\d{2,5})[\s,]/);
+      if (mr) { probeW = +mr[1]; probeH = +mr[2]; }
+      const mf = message.match(/([\d.]+)\s*fps/);
+      if (mf) probeFps = parseFloat(mf[1]);
     };
     ffmpeg.on('log', probeCapture);
     try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
@@ -3136,22 +3407,33 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     if (isFloatPCM) log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
 
     const audioAlreadyFlac = probeAudioCodec === 'flac';
-    const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy'] : [
+    // FLAC dentro de MP4 sigue marcado como experimental en FFmpeg, y también hace
+    // falta la bandera al copiar la pista tal cual: sin ella el muxer no escribe
+    // la cabecera y la salida queda vacía.
+    const mp4FlacFlag = outFormat === 'mp4' ? ['-strict', 'experimental'] : [];
+    const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy', ...mp4FlacFlag] : [
       ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
       '-c:a', 'flac',
-      ...(outFormat === 'mp4' ? ['-strict', 'experimental'] : []),
+      ...mp4FlacFlag,
     ];
 
     const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
+    // HEVC se recodifica a H.264 a propósito: DaVinci Resolve gratuito no puede
+    // importar H.265 (de ahí el artículo davinci-resolve-h265-hevc-no-importa).
+    // Quien solo quiera cambiar de contenedor sin esperar tiene /convertir-formatos/.
+    const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    if (!isAudioOnlyOutput && browserIncompatibleVideo) {
-      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…`, 'warn');
+    const reencoding = !isAudioOnlyOutput && browserIncompatibleVideo;
+    const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
+    if (reencoding) {
+      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
+      if (hevcSource) log(`ℹ El vídeo HEVC se convierte a H.264 para que DaVinci Resolve pueda importarlo. Si solo quieres cambiar de contenedor sin esperar, usa la página Formatos.`, 'sys');
     }
-    const videoArgs = (!isAudioOnlyOutput && browserIncompatibleVideo)
+    const videoArgs = reencoding
       ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
       : ['-c:v', 'copy'];
 
-    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…`, null);
+    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…${eta ? ` · recodificando, ${eta}` : ''}`, null);
     const t0 = Date.now();
     const cmd = isAudioOnlyOutput
       ? ['-i', inputName, '-vn', ...audioEncArgs, outputName]
@@ -3200,6 +3482,10 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
     const data = await ffmpeg.readFile(outputName);
 
+    // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
+    // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
+    if (!data || data.length === 0) throw new Error('la salida ha quedado vacía — FFmpeg no ha podido escribir el archivo. Prueba con otro formato de salida.');
+
     // 4 · Create blob & object URL
     const mimeType = outFormat === 'flac' ? 'audio/flac'
                    : outFormat === 'mp4'  ? 'video/mp4'
@@ -3210,14 +3496,16 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.outputURL   = URL.createObjectURL(blob);
     entry.outBaseName = baseName + outExt;
     entry.status      = 'done';
-    incConvCount(entry.outBaseName);
-    saveConversionToDB(entry.outBaseName, blob, mimeType, file.name);
+    if (!isReconvert) {
+      incConvCount(entry.outBaseName);
+      saveConversionToDB(entry.outBaseName, blob, mimeType, file.name);
+    }
 
     log(`✓ ${file.name} → ${entry.outBaseName} (${fmt(blob.size)}) en ${elapsed}s`, 'success');
     setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name} ✓`, ((globalIdx + 1) / totalCount) * 100);
     renderPreviewList();
 
-    if (autoDlCheck.checked) {
+    if (autoDlCheck.checked && !isReconvert) {
       const a = document.createElement('a');
       a.href = entry.outputURL;
       a.download = entry.outBaseName;
@@ -3249,6 +3537,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 // ─── Convert ──────────────────────────────────────────────────────────────────
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
+  if (!termsCheck.checked) return;
   const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!allPending.length) return;
 
@@ -3286,6 +3575,40 @@ convertBtn.addEventListener('click', async () => {
   updateConvertBtn();
 });
 
+// ─── Re-convertir todo (reintento de previsualización) ─────────────────────────
+// Se dispara desde el aviso "no se pudo previsualizar". Reprocesa los archivos ya
+// convertidos manteniendo su formato de salida, sin consumir cuota ni duplicar el
+// historial. Si tras esto la previsualización vuelve a fallar, showPreviewError
+// deriva a la página de contacto.
+let reconverting = false;
+async function reconvertAll() {
+  if (!ffmpeg || reconverting) return;
+  const done = [...files.entries()].filter(([, e]) => e.status === 'done');
+  if (!done.length) return;
+
+  reconverting = true;
+  convertBtn.disabled = true;
+  setEngine('Re-convirtiendo…', 'busy');
+  log('↻ Volviendo a convertir todo para reintentar la previsualización…', 'sys');
+
+  for (let i = 0; i < done.length; i++) {
+    const [, e] = done[i];
+    const fmtSel = e.outBaseName.endsWith('.flac') ? 'flac-only'
+                 : e.outBaseName.endsWith('.mp4')  ? 'mp4'
+                 :                                    'mkv';
+    await processOneFile(done[i], i, done.length, fmtSel, true);
+  }
+
+  setEngine('Motor listo', 'ready');
+  reconverting = false;
+  updateConvertBtn();
+}
+
+previewList.addEventListener('click', (ev) => {
+  const btn = ev.target.closest('[data-action="reconvert-all"]');
+  if (btn) { ev.preventDefault(); reconvertAll(); }
+});
+
 // ─── Large file warning modal ─────────────────────────────────────────────────
 function showLargeFileModal(name, size) {
   const modal  = $('largeFileModal');
@@ -3316,7 +3639,7 @@ function getQuota() {
     return q;
   } catch { return { count: 0, resetAt: 0 }; }
 }
-function freeLeft() { return Infinity; } // sin anuncios: conversion libre, sin gate
+function freeLeft() { return Math.max(0, FREE_LIMIT - getQuota().count); }
 function quotaResetAt() { return getQuota().resetAt || 0; }
 function incQuota(n = 1) {
   const q = getQuota();
@@ -3373,8 +3696,21 @@ function showAdModal() {
     // Push AdSense ad
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
 
+    // El anuncio puede no llegar a mostrarse (cuenta aún sin aprobar, bloqueador,
+    // o simplemente sin relleno disponible). Si a los 2 s el hueco sigue vacío, se
+    // avisa dentro del propio recuadro para que quede claro que se puede seguir.
+    const slotWrap = modal.querySelector('.ad-slot-wrap');
+    const adIns    = slotWrap?.querySelector('ins.adsbygoogle');
+    slotWrap?.classList.remove('is-empty');
+    const emptyTimer = setTimeout(() => {
+      const filled = adIns && (adIns.dataset.adStatus === 'filled' ||
+                               adIns.getBoundingClientRect().height > 20);
+      if (!filled) slotWrap?.classList.add('is-empty');
+    }, 2000);
+
     // Cerrar con el botón, clic en el fondo o tecla Escape → continúa la conversión.
     function close() {
+      clearTimeout(emptyTimer);
       continueBtn.removeEventListener('click', close);
       modal.removeEventListener('click', onBackdrop);
       document.removeEventListener('keydown', onKey);
@@ -3387,6 +3723,20 @@ function showAdModal() {
     continueBtn.addEventListener('click', close);
     modal.addEventListener('click', onBackdrop);
     document.addEventListener('keydown', onKey);
+
+    // Un bloqueador de anuncios puede ocultar el modal por su clase (.ad-modal):
+    // entonces nadie puede cerrarlo y la conversión se quedaría esperando para
+    // siempre. Si tras abrirlo no es visible de verdad, se continúa sin él.
+    let checks = 0;
+    (function ensureVisible() {
+      if (!modal.classList.contains('open')) return;   // ya cerrado por el usuario
+      const visible = modal.getBoundingClientRect().height > 0 &&
+                      getComputedStyle(modal).display !== 'none' &&
+                      getComputedStyle(modal).visibility !== 'hidden';
+      if (visible) return;
+      if (++checks > 3) { log('⚠ No se ha podido mostrar el aviso (¿bloqueador de anuncios?) — continuando con la conversión.', 'warn'); close(); return; }
+      setTimeout(ensureVisible, 200);
+    })();
   });
 }
 

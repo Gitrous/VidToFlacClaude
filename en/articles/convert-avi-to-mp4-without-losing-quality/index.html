@@ -511,7 +511,7 @@
       <p>There are two ways to convert an AVI to MP4, and picking the right one is the difference between zero quality loss and visible degradation:</p>
 
       <ul>
-        <li><strong>Remux:</strong> only the container changes. Video and audio are copied bit for bit, without being decoded or recompressed. It is instant and lossless. It only works if the AVI's codecs are compatible with MP4.</li>
+        <li><strong>Remux:</strong> only the container changes. Video and audio are copied bit for bit, without being decoded or recompressed. It is far quicker than a re-encode and lossless. It only works if the AVI's codecs are compatible with MP4.</li>
         <li><strong>Re-encode:</strong> the video is decoded frame by frame and recompressed with a new codec, usually H.264 or H.265. Each generation adds further quality loss. Use it only when a remux is not possible.</li>
       </ul>
 
@@ -630,7 +630,7 @@
       <pre><code>ffprobe -v quiet -show_streams -select_streams v:0 input.avi | grep codec_name
 ffprobe -v quiet -show_streams -select_streams a:0 input.avi | grep codec_name</code></pre>
 
-      <p><strong>If the video is H.264</strong> — a direct remux: lossless and instant:</p>
+      <p><strong>If the video is H.264</strong> — a direct remux: lossless, with no re-encoding:</p>
 
       <pre><code>ffmpeg -i input.avi -c:v copy -c:a flac output.mp4</code></pre>
 

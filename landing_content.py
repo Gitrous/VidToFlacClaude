@@ -20,12 +20,12 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus MP4: remux a MKV con audio FLAC</h3>\n'
             '      <p>El truco está en separar el problema: el <strong>vídeo</strong> de tu MP4 (normalmente H.264 o H.265) casi siempre es perfectamente compatible; lo que DaVinci Resolve no digiere es el <strong>audio AAC o MP3</strong>. VidToFLAC reempaqueta el MP4 en un contenedor <strong>MKV</strong> copiando el vídeo <strong>bit a bit</strong> y recodificando únicamente la pista de audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
-            '      <p>Como el vídeo no se vuelve a comprimir, no hay pérdida de calidad ni esperas largas: un MP4 de varios gigabytes se procesa en segundos. El MKV resultante se importa con sonido en DaVinci Resolve, Premiere Pro y Avid, sin instalar códecs ni plugins.</p>\n\n'
+            '      <p>Como el vídeo no se vuelve a comprimir, no hay pérdida de calidad ni esperas largas: el proceso es mucho más rápido que una conversión completa. El MKV resultante se importa con sonido en DaVinci Resolve, Premiere Pro y Avid, sin instalar códecs ni plugins.</p>\n\n'
             '      <p>Si tu MP4 incluye un vídeo que el navegador no puede decodificar (por ejemplo HEVC/H.265 en algunos equipos), VidToFLAC lo recodifica a H.264 para que la previsualización funcione; en cualquier otro caso, el vídeo se conserva intacto.</p>'
         ),
         "faqs": [
             ("¿Pierdo calidad de vídeo al convertir un MP4 a FLAC?",
-             "No. El flujo de vídeo del MP4 se copia <strong>bit a bit</strong> sin recomprimirlo: es un remux, no un re-encode. Solo la pista de audio pasa a FLAC, que es un formato sin pérdida, así que la imagen final es idéntica al original."),
+             "Si el vídeo es H.264, se copia <strong>bit a bit</strong> sin recomprimirlo: es un remux, no un re-encode. Si es <strong>H.265/HEVC</strong>, el navegador no puede decodificarlo y se recodifica a H.264 con calidad alta (<code>-crf 18</code>). En ambos casos la pista de audio pasa a FLAC, que es un formato sin pérdida, así que la imagen final es idéntica al original."),
             ("¿Por qué DaVinci Resolve abre mi MP4 pero sin sonido?",
              "Porque el MP4 lleva el audio en <strong>AAC o MP3</strong>, y la versión gratuita de DaVinci Resolve —sobre todo en Linux— no incluye las licencias para decodificar esos códecs. Al pasar el audio a FLAC dentro de un MKV, Resolve lo reproduce de forma nativa."),
             ("¿Sirve para los MP4 grabados con OBS Studio o con el móvil?",
@@ -33,7 +33,7 @@ CONTENT = {
             ("¿Funciona con MP4 en H.265 (HEVC)?",
              "Sí. El audio se convierte a FLAC igualmente. Si tu navegador no puede decodificar el vídeo HEVC para la previsualización en la página, VidToFLAC lo recodifica a H.264; el archivo descargado sigue siendo válido para editar."),
             ("¿Cuánto tarda en convertirse un MP4 grande?",
-             "Muy poco. Al ser un remux (no se re-renderiza el vídeo) el tiempo depende sobre todo de leer y escribir el archivo, no de su duración. Un MP4 de varios GB suele estar listo en segundos, y todo ocurre en tu equipo sin subidas."),
+             "Muy poco. Al ser un remux (no se re-renderiza el vídeo) el tiempo depende sobre todo de leer y escribir el archivo, no de su duración. El tiempo depende del tamaño del archivo y de tu equipo, y todo ocurre en tu ordenador sin subidas."),
         ],
     },
 
@@ -43,14 +43,14 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus MKV: cambiar solo el audio a FLAC</h3>\n'
             '      <p>El contenedor <strong>MKV</strong> (Matroska) acepta casi cualquier códec, y ahí está la trampa: muchos MKV de <strong>OBS Studio</strong>, grabaciones de pantalla o cámaras guardan el audio en <strong>Opus, AAC, MP3 o Vorbis</strong>, formatos que DaVinci Resolve no decodifica de serie. VidToFLAC mantiene el MKV, copia el vídeo <strong>bit a bit</strong> y recodifica únicamente el audio a <strong>FLAC</strong>.</p>\n\n'
-            '      <p>Como el MKV ya es el contenedor de salida, no hay cambio de formato del vídeo ni recompresión: el proceso es prácticamente instantáneo y la calidad de imagen permanece intacta. El resultado se importa con sonido en cualquier editor profesional.</p>\n\n'
+            '      <p>Como el MKV ya es el contenedor de salida, no hay cambio de formato del vídeo ni recompresión cuando el códec se puede copiar: el proceso es mucho más rápido que una conversión completa y la calidad de imagen permanece intacta. El resultado se importa con sonido en cualquier editor profesional.</p>\n\n'
             '      <p>FLAC es la opción ideal aquí porque MKV lo admite de forma estándar y DaVinci Resolve lo reproduce de forma nativa, sin licencias de pago ni decodificadores externos.</p>'
         ),
         "faqs": [
             ("¿Tengo que recodificar el vídeo de mi MKV?",
-             "No. El vídeo se copia <strong>bit a bit</strong> dentro del mismo contenedor MKV; solo se transforma la pista de audio a FLAC. La calidad de imagen es exactamente la del archivo original."),
+             "Si el códec de vídeo se puede copiar —H.264, VP9 y similares—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."),
             ("Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?",
-             "OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema al instante."),
+             "OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema."),
             ("¿Por qué la salida sigue siendo MKV y no MP4?",
              "Porque el contenedor MKV admite audio <strong>FLAC</strong> de forma estándar, mientras que MP4 no lo hace de manera fiable. MKV es además el formato que mejor manejan DaVinci Resolve, Premiere y Avid para este flujo de trabajo."),
             ("¿Funciona con MKV de grabaciones de pantalla o gameplay?",
@@ -66,12 +66,12 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus MOV de iPhone, GoPro o cámara</h3>\n'
             '      <p>Los <strong>MOV</strong> de iPhone, GoPro y la mayoría de cámaras guardan el audio en <strong>AAC</strong>, el códec que DaVinci Resolve no decodifica sin licencia. VidToFLAC reempaqueta el MOV en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
-            '      <p>Para grabaciones normales de iPhone o GoPro (vídeo H.264/HEVC) el proceso es un remux instantáneo. La calidad de imagen no se toca y el sonido vuelve a estar disponible en tu editor.</p>\n\n'
+            '      <p>Si el vídeo es H.264, el proceso es un remux y la calidad de imagen no se toca. Los iPhone graban en HEVC desde iOS 11, y ese códec se recodifica a H.264 con calidad alta porque el navegador no puede decodificarlo. En ambos casos el sonido vuelve a estar disponible en tu editor.</p>\n\n'
             '      <p>Caso especial: si el MOV contiene <strong>ProRes</strong> —habitual en flujos profesionales—, el navegador no puede decodificarlo para previsualizar, así que VidToFLAC recodifica el vídeo a H.264 manteniendo el audio en FLAC.</p>'
         ),
         "faqs": [
             ("¿Perderé calidad al convertir un MOV de iPhone?",
-             "No, si el vídeo es H.264 o HEVC: se copia <strong>bit a bit</strong> y solo el audio pasa a FLAC sin pérdida. La grabación de tu iPhone queda idéntica."),
+             "Si el vídeo es H.264, se copia <strong>bit a bit</strong> y la grabación queda idéntica. Los iPhone graban en <strong>HEVC</strong> desde iOS 11, y ese códec no se puede decodificar en el navegador: se recodifica a H.264 con calidad alta (<code>-crf 18</code>), muy próxima al original pero no idéntica bit a bit. El audio pasa a FLAC sin pérdida en los dos casos."),
             ("Mi MOV de GoPro entra en Resolve sin audio, ¿por qué?",
              "Las GoPro graban el audio en <strong>AAC</strong>, que DaVinci Resolve no decodifica de serie —sobre todo en Linux—. Pasar ese audio a FLAC dentro de un MKV restaura el sonido."),
             ("¿Qué pasa si mi MOV es ProRes?",
@@ -117,7 +117,7 @@ CONTENT = {
         ),
         "faqs": [
             ("¿Por qué mi WebM de YouTube no tiene audio en el editor?",
-             "Los WebM usan audio <strong>Opus o Vorbis</strong>, que DaVinci Resolve no decodifica sin más. Pasar ese audio a FLAC dentro de un MKV lo hace compatible al instante."),
+             "Los WebM usan audio <strong>Opus o Vorbis</strong>, que DaVinci Resolve no decodifica sin más. Pasar ese audio a FLAC dentro de un MKV lo hace compatible."),
             ("¿Pierdo calidad al convertir WebM a FLAC?",
              "No en el audio: FLAC es sin pérdida. El vídeo VP8/VP9 se copia <strong>bit a bit</strong> cuando el navegador puede decodificarlo, conservando la calidad original."),
             ("¿Sirve para grabaciones hechas con extensiones del navegador?",
@@ -142,7 +142,7 @@ CONTENT = {
             ("¿Por qué DaVinci Resolve no abre el audio de mi WMV?",
              "Porque el WMV lleva audio <strong>WMA</strong>, un códec propietario de Microsoft que Resolve no incluye en Linux ni macOS. Convertirlo a FLAC elimina esa dependencia."),
             ("¿El vídeo del WMV se recodifica?",
-             "Sí. El vídeo VC-1/WMV3 no se puede decodificar en el navegador, así que se recodifica a <strong>H.264</strong>. Es la única forma de que el clip sea editable fuera del ecosistema Windows Media."),
+             "Sí. El vídeo VC-1/WMV3 no se puede decodificar en el navegador, así que se recodifica a <strong>H.264</strong>. Es la forma más práctica de que el clip sea editable fuera del ecosistema Windows Media."),
             ("¿Sirve para vídeos antiguos grabados en Windows?",
              "Sí. Los WMV de grabadoras o software antiguo de Windows son justo el caso que VidToFLAC resuelve, dejando un MKV con vídeo H.264 y audio FLAC."),
             ("¿Funciona en Mac y Linux?",
@@ -227,7 +227,7 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus M4V de iTunes y Apple TV</h3>\n'
             '      <p>Los <strong>M4V</strong> son contenedores MPEG-4 de Apple con audio <strong>AAC</strong>. DaVinci Resolve no decodifica AAC de serie —sobre todo en Linux—, así que el clip entra sin sonido. VidToFLAC reempaqueta el M4V en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte el audio a <strong>FLAC</strong>.</p>\n\n'
-            '      <p>Para grabaciones propias (vídeo H.264/HEVC) es un remux instantáneo sin pérdida de calidad. El sonido vuelve a estar disponible en cualquier editor profesional.</p>\n\n'
+            '      <p>Si el vídeo es H.264, es un remux sin pérdida de calidad; si es HEVC, se recodifica a H.264 con calidad alta porque el navegador no lo decodifica. El sonido vuelve a estar disponible en cualquier editor profesional.</p>\n\n'
             '      <p>Importante: los M4V comprados en la iTunes Store suelen tener <strong>protección DRM (FairPlay)</strong> y no pueden convertirse; VidToFLAC solo procesa archivos sin protección de los que tengas los derechos.</p>'
         ),
         "faqs": [
@@ -236,7 +236,7 @@ CONTENT = {
             ("¿Puedo convertir películas compradas en iTunes?",
              "No, si tienen <strong>DRM FairPlay</strong>. Los M4V comprados en la tienda están protegidos y no pueden procesarse. Solo funcionan los M4V sin protección, como tus propias exportaciones."),
             ("¿Pierdo calidad de imagen al convertir un M4V?",
-             "No, si el vídeo es H.264 o HEVC: se copia <strong>bit a bit</strong>. Solo el audio cambia a FLAC, que es sin pérdida."),
+             "Si el vídeo es H.264, se copia <strong>bit a bit</strong>. Si es <strong>HEVC</strong>, el navegador no puede decodificarlo y se recodifica a H.264 con calidad alta. El audio cambia a FLAC, que es sin pérdida, en ambos casos."),
             ("¿Sirve para vídeos exportados desde la app Apple TV o iMovie?",
              "Sí, siempre que no tengan DRM. Esos M4V usan audio AAC y se reempaquetan sin problema a MKV con audio FLAC."),
             ("¿Se sube mi M4V a algún servidor?",
@@ -410,7 +410,7 @@ CONTENT = {
         "faq_h2": "Preguntas frecuentes sobre convertir WMA a FLAC",
         "seo_body": (
             '      <h3>La solución: salir del WMA propietario hacia FLAC abierto</h3>\n'
-            '      <p><strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte de los códecs incluidos en DaVinci Resolve —especialmente en <strong>Linux y macOS</strong>—, donde las pistas aparecen en gris o no se importan. Convertir a <strong>FLAC</strong>, abierto y sin pérdida, resuelve la compatibilidad al instante.</p>\n\n'
+            '      <p><strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte de los códecs incluidos en DaVinci Resolve —especialmente en <strong>Linux y macOS</strong>—, donde las pistas aparecen en gris o no se importan. Convertir a <strong>FLAC</strong>, abierto y sin pérdida, resuelve la compatibilidad sin cambiar nada más.</p>\n\n'
             '      <p>La conversión decodifica el WMA y vuelve a codificar el audio a FLAC. Si el WMA era con pérdida, FLAC no recupera lo descartado, pero asegura que no haya más degradación y que el audio sea editable en cualquier plataforma.</p>\n\n'
             '      <p>La salida es un <strong>.flac</strong> creado en tu navegador, sin subir nada a ningún servidor.</p>'
         ),
@@ -462,7 +462,7 @@ CONTENT = {
         ),
         "faqs": [
             ("¿Por qué mi grabación Opus de Discord no se importa?",
-             "Porque Opus no está entre los códecs que los editores de vídeo decodifican de serie. Convertirlo a FLAC lo hace compatible al instante."),
+             "Porque Opus no está entre los códecs que los editores de vídeo decodifican de serie. Convertirlo a FLAC lo hace compatible."),
             ("¿Convertir Opus a FLAC mejora la calidad?",
              "No. Opus es con pérdida y FLAC no recupera lo descartado; el beneficio es la <strong>compatibilidad</strong> y no degradar más el audio al editarlo."),
             ("¿Sirve para audio de videollamadas o streams?",

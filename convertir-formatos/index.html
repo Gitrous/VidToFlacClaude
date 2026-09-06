@@ -2311,7 +2311,7 @@
         </svg>
       </span>
       <span class="trust-title">Sin recodificar de más</span>
-      <span class="trust-desc">Cuando el códec de origen cabe en el contenedor de destino, el vídeo se copia <strong>bit a bit</strong>: el cambio de formato termina en segundos y la imagen queda intacta.</span>
+      <span class="trust-desc">Cuando el códec de origen cabe en el contenedor de destino, el vídeo se copia <strong>bit a bit</strong>: el cambio de formato es mucho más rápido que una conversión completa y la imagen queda intacta.</span>
     </div>
   </div>
 
@@ -2594,8 +2594,8 @@
       <p>Un archivo <code>.mp4</code> no <em>es</em> el vídeo: es un <strong>contenedor</strong>, un sobre que empaqueta una pista de imagen y una o varias de audio. Lo que determina la compatibilidad real es el <strong>códec</strong> de cada pista. Por eso dos archivos MP4 pueden comportarse de forma muy distinta: uno con H.264 y AAC se abre en cualquier sitio, mientras que otro con H.265 y Dolby Digital puede fallar en el mismo reproductor.</p>
       <p>Al elegir aquí un formato de salida estás eligiendo las dos cosas a la vez: el contenedor y los códecs con los que se rellenará. La tabla de arriba indica exactamente qué combinación produce cada opción.</p>
 
-      <h3>Cuándo la conversión es instantánea y cuándo tarda</h3>
-      <p>Si el códec de vídeo del archivo original cabe tal cual en el contenedor de destino —por ejemplo, H.264 pasando de MOV a MP4 o a MKV— la herramienta hace un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificar ni un fotograma. El proceso dura segundos y la imagen resultante es idéntica al original.</p>
+      <h3>Cuándo la conversión es rápida y cuándo tarda</h3>
+      <p>Si el códec de vídeo del archivo original cabe tal cual en el contenedor de destino —por ejemplo, H.264 pasando de MOV a MP4 o a MKV— la herramienta hace un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificar ni un fotograma. El proceso es mucho más rápido que una conversión completa y la imagen resultante es idéntica al original.</p>
       <p>Cuando eso no es posible —al convertir a WebM, a AVI, a GIF, o cuando el vídeo de origen usa un códec que el contenedor de destino no admite— hay que <strong>recodificar</strong>: decodificar cada fotograma y volver a comprimirlo. Eso sí consume tiempo de CPU, y aquí se ejecuta en un solo hilo dentro del navegador. Para archivos largos, elige la calidad <em>Ligera</em> o quédate en MP4 o MKV.</p>
     </article>
   </section>

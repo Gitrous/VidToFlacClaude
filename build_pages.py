@@ -388,7 +388,7 @@ PAGES = [
         "hero_h1":          'Convierte tu <span class="accent">WMA a FLAC</span> sin pérdida de calidad',
         "hero_sub":         "Transcodifica archivos WMA de Windows a FLAC lossless en tu navegador. Compatibilidad total con DaVinci Resolve, Premiere y Avid — 100% privado, sin subir nada.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no abre</span> tus archivos WMA?',
-        "seo_lede":         '<strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte del estándar de codecs incluidos en DaVinci Resolve —especialmente <strong>en Linux y macOS</strong>—, lo que provoca que las pistas de audio aparezcan en gris o directamente no se importen. Convertir a <strong>FLAC</strong> resuelve el problema de compatibilidad al instante.',
+        "seo_lede":         '<strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte del estándar de codecs incluidos en DaVinci Resolve —especialmente <strong>en Linux y macOS</strong>—, lo que provoca que las pistas de audio aparezcan en gris o directamente no se importen. Convertir a <strong>FLAC</strong> resuelve el problema de compatibilidad.',
         "breadcrumb_label": "Convertir WMA a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
