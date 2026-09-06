@@ -64,7 +64,7 @@
         "name": "How do I export from DaVinci Resolve without losing audio quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "On the Deliver page, in the Audio section, choose the FLAC codec — lossless but compressed: the same quality as PCM in 40 to 60% less space. Set the sample rate to 48,000 Hz and the bit depth to 24-bit for maximum quality."
+          "text": "On the Deliver page, in the Audio section, choose the FLAC codec — lossless but compressed: the same quality as PCM in 40 to 60% less space. Set the sample rate to 48,000 Hz and the bit depth to 24-bit for maximum quality. If the file you are re-importing is an MKV, a MKV to FLAC remux does the same without opening Resolve."
         }
       },
       {
@@ -96,7 +96,7 @@
         "name": "Why is the audio out of sync in my DaVinci Resolve export?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The usual causes are that the source material was Variable Frame Rate, typical of smartphone video, or a sample rate mismatch between the project and the material. For VFR, convert the file to CFR before importing: ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv"
+          "text": "The usual causes are that the source material was Variable Frame Rate, typical of smartphone video, or a sample rate mismatch between the project and the material. For VFR, convert the file to CFR before importing (this re-encodes the video; copying it cannot re-time frames): ffmpeg -i input.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac output.mkv"
         }
       },
       {
@@ -610,14 +610,14 @@
       <p>Two main causes. First, the source material was Variable Frame Rate — smartphone video in automatic mode varies its frame rate, which throws off audio sync on export. Second, a sample rate mismatch between the project and the material. <strong>Check</strong> that your DaVinci Resolve project is set to the same sample rate as your material (<code>File → Project Settings → Master Settings → Audio sample rate</code>).</p>
 
       <div class="warn-box">
-        <strong>If the material was Variable Frame Rate:</strong> convert it to Constant Frame Rate with FFmpeg before importing into DaVinci Resolve: <code>ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv</code>. That removes the root cause of the drift.
+        <strong>If the material was Variable Frame Rate:</strong> convert it to Constant Frame Rate with FFmpeg before importing into DaVinci Resolve (this re-encodes the video; copying it cannot re-time frames): <code>ffmpeg -i input.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac output.mkv</code>. That removes the root cause of the drift.
       </div>
 
       <h3>The exported video has no audio</h3>
       <p>This happens when the project's audio track is muted, when its volume is at zero, or when DaVinci Resolve has lost the link to the original audio file — it shows red in the Media Pool. Check that the audio track is active on the timeline and that every clip shows its audio icon before exporting.</p>
 
       <h3>The exported file is too large</h3>
-      <p>FLAC compresses audio by 40 to 60% compared with PCM, without discarding any data. On a two-hour video that difference can run to several gigabytes, so FLAC usually pays off over PCM for the master, unless the destination explicitly requires PCM.</p>
+      <p>FLAC compresses audio by 40 to 60% compared with PCM, without discarding any data. On a two-hour video that difference can run to several gigabytes, so FLAC usually pays off over PCM for the master, unless the destination explicitly requires PCM. If you have already exported to PCM/WAV, you can <a href="/convertir-wav-a-flac/">turn that WAV into FLAC</a> afterwards, losslessly.</p>
 
       <!-- Ad: before last section -->
       <div class="ad-slot">
@@ -653,7 +653,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>On the Deliver page, in the Audio section, choose the <strong>FLAC</strong> codec — lossless but compressed: the same quality as PCM in 40 to 60% less space. Set the sample rate to 48,000 Hz and the bit depth to 24-bit for maximum quality.</p>
+            <p>On the Deliver page, in the Audio section, choose the <strong>FLAC</strong> codec — lossless but compressed: the same quality as PCM in 40 to 60% less space. Set the sample rate to 48,000 Hz and the bit depth to 24-bit for maximum quality. If the file you are re-importing is an MKV, a <a href="/convertir-mkv-a-flac/">MKV to FLAC remux</a> does the same without opening Resolve.</p>
           </div>
         </details>
 
@@ -693,7 +693,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>The usual causes are that the source material was <strong>Variable Frame Rate</strong>, typical of smartphone video, or a sample rate mismatch between the project and the material. For VFR, convert the file to CFR before importing: <code>ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv</code></p>
+            <p>The usual causes are that the source material was <strong>Variable Frame Rate</strong>, typical of smartphone video, or a sample rate mismatch between the project and the material. For VFR, convert the file to CFR before importing (this re-encodes the video; copying it cannot re-time frames): <code>ffmpeg -i input.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac output.mkv</code></p>
           </div>
         </details>
 

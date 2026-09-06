@@ -113,7 +113,7 @@
         "name": "What is Variable Frame Rate, and why does it cause problems in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Variable Frame Rate means the frame rate changes during recording — common in smartphone video shot in automatic mode. DaVinci Resolve can drift the audio out of sync with such files. The fix is to convert to Constant Frame Rate with FFmpeg before importing: ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv"
+          "text": "Variable Frame Rate means the frame rate changes during recording — common in smartphone video shot in automatic mode. DaVinci Resolve can drift the audio out of sync with such files. The fix is to convert to Constant Frame Rate with FFmpeg before importing. This does re-encode the video — copying the stream cannot re-time frames — so set <code>fps</code> to your clip's original rate: ffmpeg -i input.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac output.mkv"
         }
       }
     ]
@@ -666,7 +666,7 @@
       </ul>
 
       <div class="warn-box">
-        <strong>Avoid editing Variable Frame Rate (VFR) files directly.</strong> Smartphone video shot in automatic mode is usually VFR: the frame rate varies with the scene. DaVinci Resolve can drift the audio out of sync with such files. Convert to Constant Frame Rate with FFmpeg before editing: <code>ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv</code>
+        <strong>Avoid editing Variable Frame Rate (VFR) files directly.</strong> Smartphone video shot in automatic mode is usually VFR: the frame rate varies with the scene. DaVinci Resolve can drift the audio out of sync with such files. Convert to Constant Frame Rate with FFmpeg before editing. It requires re-encoding the video, since copying the stream cannot re-time frames: <code>ffmpeg -i input.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac output.mkv</code>
       </div>
 
       <!-- Ad: before export section -->
@@ -695,7 +695,7 @@
       <div class="tool-cta">
         <span class="tool-cta-label">Audio problems on import?</span>
         <h3>Fix the audio before you edit</h3>
-        <p>If your footage has AAC, Opus or E-AC-3 audio, convert it to FLAC in seconds. Nothing to install, nothing uploaded, no video quality lost.</p>
+        <p>If your footage has AAC, Opus or E-AC-3 audio, convert it to FLAC with nothing to install, nothing uploaded and no video quality lost.</p>
         <a href="/en/" class="tool-cta-btn" aria-label="Go to VidToFLAC">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Go to VidToFLAC
@@ -765,7 +765,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Variable Frame Rate means the frame rate changes during recording — common in smartphone video shot in automatic mode. DaVinci Resolve can drift the audio out of sync with such files. The fix is to convert to Constant Frame Rate with FFmpeg before importing: <code>ffmpeg -i input.mp4 -vsync cfr -c:v copy -c:a flac output.mkv</code></p>
+            <p>Variable Frame Rate means the frame rate changes during recording — common in smartphone video shot in automatic mode. DaVinci Resolve can drift the audio out of sync with such files. The fix is to convert to Constant Frame Rate with FFmpeg before importing. This does re-encode the video — copying the stream cannot re-time frames — so set <code>fps</code> to your clip's original rate: <code>ffmpeg -i input.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac output.mkv</code></p>
           </div>
         </details>
 
