@@ -12,7 +12,7 @@ VidToFLAC es una aplicación web de **una sola página y 100% del lado del clien
 
 ## Toda la app es `index.html`
 
-**No hay sistema de build, dependencias, tests ni package.json.** `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
+**No hay dependencias, tests ni package.json.** Sí hay un generador, `build_pages.py`, pero solo para las 20 landings de formato (ver más abajo); la app en sí no se compila. `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
 
 Al editar, conserva la estructura de archivo único — no separes en archivos JS/CSS aparte.
 
@@ -98,6 +98,116 @@ Los archivos se añaden a un `Map<id, entry>` y quedan `pending` — **nada se p
 - El estado vive en el `Map` `files`; `renderFileList()` y `renderPreviewList()` re-renderizan a partir de él. Los botones usan delegación de eventos mediante `data-action` / `data-id`.
 - `renderPreviewList()` es intencionadamente **idempotente** — reutiliza los elementos `<video>`/`<audio>` existentes y solo actualiza etiquetas/enlaces, de modo que re-renderizar (p. ej. tras un renombrado en línea) **no** reinicia la reproducción del medio. Conserva esto al modificarla.
 - Los archivos de salida se pueden **renombrar en línea tras la conversión sin reconvertir** — solo cambian `outBaseName` y el enlace de descarga; se mantiene el mismo Blob/object URL.
+
+## Las 20 landings se generan — no las edites a mano
+
+`build_pages.py` genera las páginas `/convertir-*-a-flac/` usando `index.html`
+como plantilla más el contenido único de cada formato, que vive en el array
+`PAGES` (dentro del propio `build_pages.py`) y en el diccionario `CONTENT` de
+`landing_content.py`.
+
+**Consecuencia que cuesta cara: cualquier corrección de texto aplicada
+directamente al HTML de una landing se pierde en la siguiente regeneración.**
+Ha pasado de verdad — un barrido de estilo se revirtió entero al ejecutar el
+generador, porque el texto original seguía en `landing_content.py`. Si un
+`grep` encuentra algo que arreglar en `convertir-*/index.html`, busca ese mismo
+texto en `landing_content.py` y en `build_pages.py`, arréglalo **ahí**, y
+regenera.
+
+Invariantes que el generador ya respeta y que no hay que romper:
+
+- **hreflang:** las 20 landings salen **sin** bloque hreflang. No tienen versión
+  inglesa, así que heredar el de la home hacía que declarasen la portada como su
+  versión española, contradiciendo su propio canonical. `convertir-formatos/`
+  es la excepción: sí tiene contraparte (`/en/convert-formats/`) y sí lo lleva.
+- **robots:** solo cuatro landings se ofrecen a Google (conjunto `INDEXABLE`:
+  mp4, mkv, mov, wav). El resto va `noindex, follow`.
+- **sitemap:** `update_sitemap()` nunca añade una página `noindex` ni duplica
+  una `<loc>`. Una `noindex` dentro del sitemap es un error en Search Console.
+
+Antes de regenerar, haz siempre una pasada en seco comparando la salida del
+generador con el disco. Después de regenerar, **debe dar 0 líneas de
+diferencia**: si no, disco y generador han divergido.
+
+## Un mismo texto vive en muchos sitios a la vez
+
+Nunca cambies una cadena en un solo lugar. Un titular de artículo aparece en
+6-8 sitios: `<title>`, `og:title`, `twitter:title`, el `"headline"` del JSON-LD,
+el `<h1>`, la `card-title` del índice, los enlaces anterior/siguiente de **otros**
+artículos, y el índice de búsqueda JS. Haz la sustitución sobre todo el repo y
+**cuenta las ocurrencias**: si el español da 7 y el inglés 2, falta algo.
+
+Dos trampas concretas, ambas sufridas:
+
+- **Los índices de búsqueda** (`articulos/index.html` y `en/articles/index.html`)
+  guardan el texto de cada artículo en campos `text:` que son cadenas JS entre
+  **comillas simples**. Meter un apóstrofo ahí (`browser's`) rompe el buscador de
+  esa página sin ningún aviso. Evita apóstrofos o escápalos, y pasa `node --check`.
+- **Los bloques JSON-LD de FAQ** duplican el texto visible. Insertar
+  `<a href="...">` en una frase que también está en el JSON-LD invalida el JSON
+  por las comillas. En JSON-LD va texto plano, sin marcado.
+
+## Comprobaciones antes de dar algo por terminado
+
+```bash
+# JS de las 67 páginas (los índices de búsqueda se rompen en silencio)
+for f in $(find . -name '*.html' -not -path './.git/*'); do
+  python3 -c "
+import re,sys
+s=open('$f',encoding='utf-8').read()
+b=re.findall(r'<script(?![^>]*\bsrc=)(?![^>]*application/ld)[^>]*>(.*?)</script>',s,re.S)
+open('/tmp/_c.mjs','w').write('\n;\n'.join(b))"
+  node --check /tmp/_c.mjs || echo "ROTO: $f"
+done
+
+# JSON-LD (204 bloques), enlaces internos, sitemap
+python3 -c "
+import re,json,glob
+n=b=0
+for f in glob.glob('**/*.html',recursive=True):
+    if f.startswith('.git'): continue
+    for m in re.findall(r'<script type=\"application/ld\+json\">(.*?)</script>',open(f,encoding='utf-8').read(),re.S):
+        n+=1
+        try: json.loads(m)
+        except Exception as e: b+=1; print('ROTO',f,e)
+print(n,'bloques,',b,'rotos')"
+```
+
+Valores de referencia: **67** páginas HTML, **48** indexables y **19** `noindex`,
+**44** con hreflang, **204** bloques JSON-LD, **48** URLs en el sitemap, **0**
+enlaces internos rotos, y el generador en **0** líneas de diferencia.
+
+## Promesas que el producto no puede sostener
+
+El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
+
+- **Nada de cronómetros.** Ni "menos de 30 segundos", ni "en segundos", ni
+  "instantáneo". Se dice la relación ("mucho más rápido que una conversión
+  completa, porque el vídeo no se recodifica") y de qué depende: tamaño, equipo,
+  y si hay que recodificar. Las estimaciones con su condición explícita
+  ("depende de tu ordenador") sí valen.
+- **El vídeo no siempre se copia.** `browserIncompatibleVideo` en `index.html`
+  recodifica a H.264 cuando el navegador no puede decodificar el códec, y esa
+  lista **incluye H.265/HEVC** — el caso más frecuente hoy, porque los iPhone
+  graban en HEVC desde iOS 11. Toda afirmación de "se copia bit a bit / la
+  imagen es idéntica" necesita su condición al lado. Contrasta siempre el texto
+  contra esa constante del código, no contra lo que diga otro artículo.
+- **Nada de absolutos.** Ni "la única solución", ni "no funciona en ningún
+  sistema", ni "todos los errores". El soporte de códecs depende de versión,
+  plataforma y configuración.
+- **El límite de tamaño.** "Sin límite impuesto por un servidor" siempre con la
+  matización de que el techo práctico es la memoria de WebAssembly (~2 GB de
+  heap de 32 bits, single-thread).
+
+## Verificar los comandos FFmpeg, no razonarlos
+
+Hay `ffmpeg` en el sistema: los comandos que aparecen en los artículos se
+ejecutan contra archivos de prueba en vez de darlos por buenos. Así apareció el
+fallo más grave del contenido: tres guías recomendaban
+`-vsync cfr -c:v copy` para convertir VFR a CFR, y **no hace nada** — copiar el
+flujo no permite reescalar los tiempos de los fotogramas, así que la salida
+conserva el frame rate variable del origen. Lo correcto es `-vf fps=N` con
+recodificación. Se comprueba con `ffprobe -show_entries stream=avg_frame_rate`.
 
 ## Sistema de diseño
 
