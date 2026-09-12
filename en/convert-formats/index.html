@@ -3244,19 +3244,19 @@ function addFiles(fileList) {
   for (const file of fileList) {
     const valid = file.type.startsWith('video/') || file.type.startsWith('audio/') || isVideo(file.name) || isAudioOnly(file);
     if (!valid) {
-      log(`⚠ "${file.name}" no es un formato reconocido. Se intentará de todos modos.`, 'warn');
+      log(`⚠ "${file.name}" is not a recognised format. Trying anyway.`, 'warn');
     }
     // skip duplicates (same name + size)
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
-    if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
+    if (dup) { log(`⚠ "${file.name}" is already in the list — ignored.`, 'warn'); continue; }
 
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
-    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    log(`File added: ${file.name} (${fmt(file.size)})`, 'sys');
     // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
     // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
     if (file.size > 800 * 1024 * 1024) {
-      log(`⚠ "${file.name}" supera 800 MB — puede fallar por límite de memoria WebAssembly.`, 'warn');
+      log(`⚠ "${file.name}" is over 800 MB — it may fail on the WebAssembly memory limit.`, 'warn');
       showLargeFileModal(file.name, file.size);
     }
     added++;
@@ -3669,7 +3669,7 @@ function showLargeFileModal(name, size) {
   const btn    = $('largeFileModalBtn');
   subEl.innerHTML =
     `<strong>${name}</strong> pesa <strong>${fmt(size)}</strong>. ` +
-    `El motor WebAssembly dispone de unos 2 GB de memoria: con la entrada y la salida juntas es posible que se quede sin espacio y la conversión falle a mitad.<br><br>` +
+    `The WebAssembly engine has about 2 GB of memory: with input and output together it may run out of space and the conversion can fail part-way.<br><br>` +
     `If it happens, split the video into shorter parts first (e.g. with HandBrake or <code>ffmpeg -t 3600 -c copy part1.mp4</code> in your terminal).`;
   modal.classList.add('open');
   btn.addEventListener('click', () => modal.classList.remove('open'), { once: true });

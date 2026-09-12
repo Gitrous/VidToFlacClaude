@@ -99,12 +99,20 @@ Los archivos se añaden a un `Map<id, entry>` y quedan `pending` — **nada se p
 - `renderPreviewList()` es intencionadamente **idempotente** — reutiliza los elementos `<video>`/`<audio>` existentes y solo actualiza etiquetas/enlaces, de modo que re-renderizar (p. ej. tras un renombrado en línea) **no** reinicia la reproducción del medio. Conserva esto al modificarla.
 - Los archivos de salida se pueden **renombrar en línea tras la conversión sin reconvertir** — solo cambian `outBaseName` y el enlace de descarga; se mantiene el mismo Blob/object URL.
 
-## Las 20 landings se generan — no las edites a mano
+## Las 40 landings se generan — no las edites a mano
 
-`build_pages.py` genera las páginas `/convertir-*-a-flac/` usando `index.html`
-como plantilla más el contenido único de cada formato, que vive en el array
-`PAGES` (dentro del propio `build_pages.py`) y en el diccionario `CONTENT` de
-`landing_content.py`.
+`build_pages.py` genera 40 landings: las 20 españolas `/convertir-*-a-flac/` a
+partir de `index.html`, y las 20 inglesas `/en/convert-*-to-flac/` a partir de
+`en/index.html`. El contenido español vive en `PAGES` (dentro del propio
+`build_pages.py`) y en `CONTENT` de `landing_content.py`; el inglés, en
+`PAGES_EN` y `CONTENT_EN` de `landing_content_en.py`.
+
+Los textos de la plantilla que hay que sustituir están en `A_ES` y `A_EN`, un
+diccionario de anclajes por idioma. Los largos no se copian a mano: se extraen
+de la propia plantilla en `_fill_anchors()`, porque cuando estaban escritos
+literalmente se desincronizaron sin avisar y el `replace` pasó a ser un no-op
+silencioso — así fue como las landings acabaron heredando las keywords de la
+home durante meses.
 
 **Consecuencia que cuesta cara: cualquier corrección de texto aplicada
 directamente al HTML de una landing se pierde en la siguiente regeneración.**
@@ -116,18 +124,55 @@ regenera.
 
 Invariantes que el generador ya respeta y que no hay que romper:
 
-- **hreflang:** las 20 landings salen **sin** bloque hreflang. No tienen versión
-  inglesa, así que heredar el de la home hacía que declarasen la portada como su
-  versión española, contradiciendo su propio canonical. `convertir-formatos/`
-  es la excepción: sí tiene contraparte (`/en/convert-formats/`) y sí lo lleva.
-- **robots:** solo cuatro landings se ofrecen a Google (conjunto `INDEXABLE`:
-  mp4, mkv, mov, wav). El resto va `noindex, follow`.
+- **hreflang:** cada landing declara su par ES/EN autorreferenciado, que se
+  calcula en `hreflang_for()` a partir del diccionario `PAIRS`. Mientras no
+  existió la versión inglesa el bloque se eliminaba, porque heredar el de la
+  home hacía que cada landing declarase la portada como su versión española,
+  contradiciendo su canonical. Si añades un formato sin su par, no lo metas en
+  `PAIRS`: sin par, sin hreflang.
+- **selector de idioma:** `build_page()` reescribe el enlace `.nav-lang` para
+  que apunte a la página equivalente y no a la portada del otro idioma.
+- **robots:** solo ocho landings se ofrecen a Google (conjunto `INDEXABLE`:
+  mp4, mkv, mov y wav, en ambos idiomas). El resto va `noindex, follow`.
+- **la guía técnica compartida se elimina** (`RE_SHARED_GUIDE`). Copiada tal
+  cual, esas ~916 palabras hacían que cada landing fuese un 64 % idéntica a la
+  portada y a sus hermanas, y Google rechazó AdSense por "contenido de poco
+  valor". Cada landing ya trae su propia guía en `unique_guide`. Al añadir
+  contenido a la home, comprueba que no se replica a las 40.
 - **sitemap:** `update_sitemap()` nunca añade una página `noindex` ni duplica
   una `<loc>`. Una `noindex` dentro del sitemap es un error en Search Console.
 
 Antes de regenerar, haz siempre una pasada en seco comparando la salida del
 generador con el disco. Después de regenerar, **debe dar 0 líneas de
 diferencia**: si no, disco y generador han divergido.
+
+## Medir duplicación: n-gramas, nunca vocabulario
+
+Para saber si dos páginas son duplicados, compara **conjuntos de n-gramas de 8
+palabras**, no vocabulario compartido. La diferencia no es académica: sobre las
+mismas landings, el solapamiento de vocabulario daba 36-45 % (tranquilizador) y
+el de n-gramas 64-67 % (motivo real del rechazo de AdSense). El vocabulario
+coincide por fuerza entre páginas del mismo tema; lo que delata el copiado son
+las secuencias literales.
+
+Referencia actual tras el recorte: **45-53 %** entre landings y su portada, y
+ese resto es la interfaz de la herramienta —botones, pasos, pie—, que es
+*boilerplate* legítimo y Google descuenta. Por bloques con encabezado, cada
+landing tiene ~1.440 palabras propias frente a ~200 compartidas.
+
+## La versión inglesa se escribe, no se traduce a medias
+
+Al generar las landings inglesas aparecieron 14 cadenas en español dentro del
+`<script type="module">` de `en/index.html` —las etiquetas del motor ("En
+espera", "Cargando"), los avisos de tamaño, los mensajes del registro— visibles
+para cualquier usuario anglófono y heredadas por las 20 páginas nuevas.
+`en/convert-formats/index.html` tenía otras 5, y como no lo genera el script
+hubo que traducirlo aparte.
+
+Al tocar textos de la interfaz, barre el JS de `/en/` buscando `[ñáéíóú]` en
+literales de cadena. Es una comprobación de dos líneas que detecta justo lo que
+la revisión visual pasa por alto, porque son mensajes que solo aparecen durante
+una conversión.
 
 ## Un mismo texto vive en muchos sitios a la vez
 
@@ -173,8 +218,8 @@ for f in glob.glob('**/*.html',recursive=True):
 print(n,'bloques,',b,'rotos')"
 ```
 
-Valores de referencia: **67** páginas HTML, **48** indexables y **19** `noindex`,
-**44** con hreflang, **204** bloques JSON-LD, **48** URLs en el sitemap, **0**
+Valores de referencia: **87** páginas HTML, **52** indexables y **35** `noindex`,
+**84** con hreflang, **304** bloques JSON-LD, **52** URLs en el sitemap, **0**
 enlaces internos rotos, y el generador en **0** líneas de diferencia.
 
 ## Promesas que el producto no puede sostener

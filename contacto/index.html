@@ -353,7 +353,46 @@
         </div>
       </div>
     </aside>
+
   </div>
+  <section class="form-card" style="margin-top:1.15rem" aria-labelledby="autoayuda-titulo">
+    <h2 id="autoayuda-titulo" style="margin-top:0">Antes de escribir: los problemas más frecuentes</h2>
+    <p>La mayoría de los mensajes que recibimos son de estos cuatro casos, y los cuatro tienen solución inmediata sin esperar respuesta.</p>
+
+    <h3>La conversión falla o se detiene con archivos grandes</h3>
+    <p>El motor es FFmpeg compilado a WebAssembly y funciona con un heap de 32 bits: dispone de unos <strong>2 GB de memoria para la entrada y la salida juntas</strong>. En la práctica funciona con holgura hasta cerca de 1 GB de archivo original. Si tu vídeo supera ese tamaño, la pestaña puede quedarse sin memoria y abortar. La solución es partir el vídeo en tramos más cortos antes de convertirlo, o usar FFmpeg de escritorio, que no tiene ese techo. No es un fallo del sitio: es el límite del navegador.</p>
+
+    <h3>El archivo se convierte pero la previsualización no se reproduce</h3>
+    <p>La previsualización usa el reproductor del navegador, que no entiende todos los códecs. Si tu vídeo venía en H.265/HEVC, ProRes, DNxHD o MPEG-2, la herramienta lo recodifica a H.264 precisamente para que puedas verlo. Si aun así el reproductor no lo muestra, el archivo descargado suele estar perfectamente bien: pruébalo en VLC o impórtalo directamente en tu editor antes de darlo por fallido.</p>
+
+    <h3>El proceso se queda parado y no avanza</h3>
+    <p>ffmpeg.wasm puede abortar en seco ante determinados archivos. La herramienta lo detecta y recarga el motor entero para que los archivos siguientes sigan convirtiéndose, pero si ves que el progreso no se mueve durante varios minutos, recarga la página y prueba con un archivo cada vez. Antes de escribirnos, abre <strong>Detalles técnicos · FFmpeg</strong> y copia el registro: sin esas líneas es muy difícil reproducir el problema.</p>
+
+    <h3>DaVinci Resolve sigue sin oír el audio después de convertir</h3>
+    <p>Comprueba que estás importando el archivo <strong>descargado</strong> y no el original: es un fallo más común de lo que parece, porque ambos tienen nombres parecidos. Verifica también que la pista de audio del resultado es FLAC, abriéndolo en VLC (Herramientas → Información del códec). Si el audio es FLAC y Resolve sigue sin reproducirlo, el problema no está en el archivo, y ahí sí queremos que nos escribas.</p>
+
+    <h2>Cómo reportar un error para que podamos reproducirlo</h2>
+    <p>Un mensaje que dice «no me funciona» no se puede investigar. Con estos cinco datos casi siempre podemos reproducir el fallo a la primera:</p>
+    <ol>
+      <li><strong>El registro técnico.</strong> Despliega <em>Detalles técnicos · FFmpeg</em>, pulsa <em>Copiar</em> y pega el contenido. Es lo que más ayuda, con diferencia.</li>
+      <li><strong>Formato y tamaño</strong> del archivo original, y con qué lo grabaste (móvil, OBS, cámara…).</li>
+      <li><strong>Navegador y sistema operativo</strong>, con sus versiones.</li>
+      <li><strong>El formato de salida</strong> que habías elegido y el nivel de calidad.</li>
+      <li><strong>Qué esperabas</strong> y qué ocurrió en su lugar.</li>
+    </ol>
+    <p><strong>No nos envíes tu vídeo.</strong> No podemos recibir archivos y tampoco queremos: la herramienta existe precisamente para que tu material no salga de tu equipo. Con el registro técnico nos basta.</p>
+
+    <h2>En qué no podemos ayudarte</h2>
+    <ul>
+      <li><strong>No somos soporte de DaVinci Resolve.</strong> Para fallos del propio programa, el <a href="https://forum.blackmagicdesign.com/" target="_blank" rel="noopener noreferrer">foro de Blackmagic Design</a> es el sitio adecuado.</li>
+      <li><strong>No convertimos archivos por ti.</strong> No hay servidor que los reciba; todo ocurre en tu navegador.</li>
+      <li><strong>No podemos procesar archivos con DRM</strong>, como las películas compradas en iTunes. Están cifrados y ninguna herramienta los abre legalmente.</li>
+      <li><strong>No recuperamos conversiones anteriores.</strong> Los resultados viven solo en la memoria de tu pestaña y desaparecen al cerrarla.</li>
+    </ul>
+
+    <h2>Qué pasa con lo que nos escribes</h2>
+    <p>El formulario lo tramita <strong>FormSubmit</strong>, un servicio externo que reenvía el mensaje a nuestro correo. Los datos que nos facilitas —nombre, dirección de correo, asunto y mensaje— se usan únicamente para responderte, no se añaden a ninguna lista y no se ceden a terceros. Está detallado en la <a href="/politica-de-privacidad/">política de privacidad</a>. Si prefieres no usar un formulario de terceros, en el <a href="/aviso-legal/">aviso legal</a> tienes la dirección de correo directa.</p>
+  </section>
 </main>
 
 <footer>

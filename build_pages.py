@@ -27,11 +27,55 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_ROBOTS = 'noindex, follow'
 INDEXABLE_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1'
 INDEXABLE = {
-    'convertir-mp4-a-flac',
-    'convertir-mkv-a-flac',
-    'convertir-mov-a-flac',
-    'convertir-wav-a-flac',
+    'convertir-mp4-a-flac', 'convert-mp4-to-flac',
+    'convertir-mkv-a-flac', 'convert-mkv-to-flac',
+    'convertir-mov-a-flac', 'convert-mov-to-flac',
+    'convertir-wav-a-flac', 'convert-wav-to-flac',
 }
+
+# Pares ES <-> EN. Mientras no existió la landing inglesa, heredar el hreflang de
+# la home hacía que cada landing declarase la portada como su versión española,
+# contradiciendo su canonical; por eso se eliminaba. Ahora que el par existe, sí
+# procede declararlo, y cada lado apunta al otro.
+PAIRS = {
+    'convertir-mp4-a-flac':  'convert-mp4-to-flac',
+    'convertir-mkv-a-flac':  'convert-mkv-to-flac',
+    'convertir-mov-a-flac':  'convert-mov-to-flac',
+    'convertir-wav-a-flac':  'convert-wav-to-flac',
+    'convertir-avi-a-flac':  'convert-avi-to-flac',
+    'convertir-webm-a-flac': 'convert-webm-to-flac',
+    'convertir-wmv-a-flac':  'convert-wmv-to-flac',
+    'convertir-flv-a-flac':  'convert-flv-to-flac',
+    'convertir-vob-a-flac':  'convert-vob-to-flac',
+    'convertir-ts-a-flac':   'convert-ts-to-flac',
+    'convertir-m4v-a-flac':  'convert-m4v-to-flac',
+    'convertir-mpeg-a-flac': 'convert-mpeg-to-flac',
+    'convertir-3gp-a-flac':  'convert-3gp-to-flac',
+    'convertir-aac-a-flac':  'convert-aac-to-flac',
+    'convertir-mp3-a-flac':  'convert-mp3-to-flac',
+    'convertir-m4a-a-flac':  'convert-m4a-to-flac',
+    'convertir-ogg-a-flac':  'convert-ogg-to-flac',
+    'convertir-wma-a-flac':  'convert-wma-to-flac',
+    'convertir-aiff-a-flac': 'convert-aiff-to-flac',
+    'convertir-opus-a-flac': 'convert-opus-to-flac',
+}
+_EN_OF = PAIRS
+_ES_OF = {v: k for k, v in PAIRS.items()}
+
+
+def hreflang_for(slug: str) -> str:
+    """Bloque hreflang autorreferenciado para una landing con par ES/EN."""
+    if slug in _EN_OF:
+        es, en = slug, _EN_OF[slug]
+    elif slug in _ES_OF:
+        es, en = _ES_OF[slug], slug
+    else:
+        return ''
+    es_url = f'https://vidtoflac.tech/{es}/'
+    en_url = f'https://vidtoflac.tech/en/{en}/'
+    return (f'  <link rel="alternate" hreflang="es" href="{es_url}" />\n'
+            f'  <link rel="alternate" hreflang="en" href="{en_url}" />\n'
+            f'  <link rel="alternate" hreflang="x-default" href="{es_url}" />\n')
 
 
 def robots_for(slug: str) -> str:
@@ -877,7 +921,10 @@ PAGES = [
 # ─────────────────────────────────────────────────────────────────────────────
 O_TITLE      = '<title>VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve</title>'
 O_META_DESC  = '<meta name="description" content="¿DaVinci Resolve sin sonido? Convierte el audio de tus vídeos a FLAC sin pérdida, gratis y 100% en tu navegador. Sin subir archivos." />'
-O_META_KW    = '<meta name="keywords" content="convertir vídeo a FLAC, error de códec de audio, DaVinci Resolve sin sonido, remux de vídeo sin pérdida de calidad, FFmpeg en navegador, MKV audio FLAC, audio AAC DaVinci Resolve Linux" />'
+# Se extrae de la plantilla en _fill_anchors(): la cadena literal que había aquí
+# estaba recortada y el replace nunca casaba, así que las landings heredaban las
+# keywords de la home en lugar de las suyas.
+O_META_KW    = None
 O_ROBOTS     = ('<meta name="robots" content="index, follow, max-image-preview:large,'
                 ' max-snippet:-1, max-video-preview:-1" />')
 O_CANONICAL  = '<link rel="canonical" href="https://vidtoflac.tech/" />'
@@ -904,8 +951,19 @@ O_SEO_LEDE   = ('      <p class="lede">Si has abierto un clip en DaVinci Resolve
                 ' —o directamente con la pista de audio en gris— casi siempre es un <strong>error de códec de audio</strong>,'
                 ' no un problema de tu micrófono ni de tu proyecto.</p>')
 O_BRAND        = '<span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>'
-O_STYLE_END    = '  </style>\n</head>'
+# Cierre del <style>. Antes era '  </style>\n</head>', que no existe en la
+# plantilla: el replace era un no-op y las landings se quedaban sin el CSS
+# de .brand-home-link.
+O_STYLE_END    = '  </style>'
 O_UNIQUE_GUIDE = '<!--{{UNIQUE_GUIDE}}-->'
+# Guía técnica de la home. Son ~916 palabras en cinco secciones que, copiadas
+# tal cual a las 20 landings, hacían que cada una fuese un 64 % idéntica a la
+# portada y a sus hermanas. Google lo marcó como "contenido de poco valor" y
+# rechazó la solicitud de AdSense. Cada landing ya trae su propia guía por
+# `unique_guide`, así que esta se elimina en lugar de heredarse.
+RE_SHARED_GUIDE = re.compile(
+    r'\n  <section class="card seo-card" aria-labelledby="guia-titulo">.*?\n  </section>\n',
+    re.S)
 
 # Bloques que se sustituyen por contenido único de cada formato (anti-duplicado).
 O_FAQ_H2     = '<h2 id="faq-titulo" style="margin-bottom:1.1rem">Dudas habituales sobre la conversión a FLAC</h2>'
@@ -926,6 +984,84 @@ FAQ_AD = (
     '        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>\n'
     '      </div>'
 )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Anclajes por idioma
+# ─────────────────────────────────────────────────────────────────────────────
+# build_page() sustituye estas cadenas de la plantilla por el contenido de cada
+# landing. Hay un juego por idioma porque la plantilla española es index.html y
+# la inglesa en/index.html, con los mismos ids pero distinto texto.
+
+A_ES = {
+    'TITLE': O_TITLE, 'META_DESC': O_META_DESC, 'META_KW': O_META_KW,
+    'ROBOTS': O_ROBOTS, 'CANONICAL': O_CANONICAL, 'HREFLANG': O_HREFLANG,
+    'OG_URL': O_OG_URL, 'OG_TITLE': O_OG_TITLE, 'OG_DESC': O_OG_DESC,
+    'TW_TITLE': O_TW_TITLE, 'TW_DESC': O_TW_DESC, 'WEBAPP': O_WEBAPP,
+    'HOWTO_NAME': O_HOWTO_NAME, 'HOWTO_URL': O_HOWTO_URL,
+    'HERO_H1': O_HERO_H1, 'HERO_SUB': O_HERO_SUB,
+    'SEO_H2': O_SEO_H2, 'SEO_LEDE': O_SEO_LEDE,
+    'UNIQUE_GUIDE': O_UNIQUE_GUIDE, 'BRAND': O_BRAND, 'STYLE_END': O_STYLE_END,
+    'FAQ_H2': O_FAQ_H2,
+    'SOLUTION_RE': RE_SOLUTION, 'FAQ_LIST_RE': RE_FAQ_LIST,
+    'FAQ_JSON_RE': RE_FAQ_JSON, 'SHARED_GUIDE_RE': RE_SHARED_GUIDE,
+    'template': 'index.html', 'out': '{slug}',
+}
+
+A_EN = {
+    'TITLE':      '<title>VidToFLAC – Convert Video Audio to FLAC for DaVinci Resolve</title>',
+    'META_DESC':  '<meta name="description" content="DaVinci Resolve no audio? Convert your video audio to lossless FLAC, free and 100% in your browser. No file uploads." />',
+    'META_KW':    None,
+    'ROBOTS':     ('<meta name="robots" content="index, follow, max-image-preview:large,'
+                   ' max-snippet:-1, max-video-preview:-1" />'),
+    'CANONICAL':  '<link rel="canonical" href="https://vidtoflac.tech/en/" />',
+    'HREFLANG':   ('  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/" />\n'
+                   '  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/" />\n'
+                   '  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/" />\n'),
+    'OG_URL':     '<meta property="og:url" content="https://vidtoflac.tech/en/" />',
+    'OG_TITLE':   '<meta property="og:title" content="VidToFLAC – Convert Video Audio to FLAC for DaVinci Resolve" />',
+    'OG_DESC':    None,   # se rellena abajo leyendo la plantilla
+    'TW_TITLE':   '<meta name="twitter:title" content="VidToFLAC – Convert Video Audio to FLAC for DaVinci Resolve" />',
+    'TW_DESC':    None,
+    'WEBAPP':     None,
+    'HOWTO_NAME': '"name": "How to convert video audio to FLAC for DaVinci Resolve",',
+    'HOWTO_URL':  '"url": "https://vidtoflac.tech/#problema-titulo"',
+    'HERO_H1':    '    <h1 class="hero-title">Convert your video audio to <span class="accent">FLAC for DaVinci Resolve</span></h1>',
+    'HERO_SUB':   '    <p class="hero-sub">Instantly and 100% privately. All processing happens inside your browser — not a single byte is uploaded to any server.</p>',
+    'SEO_H2':     '      <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your videos?</h2>',
+    'SEO_LEDE':   None,
+    'UNIQUE_GUIDE': O_UNIQUE_GUIDE,
+    'BRAND':      O_BRAND,
+    'STYLE_END':  O_STYLE_END,
+    'FAQ_H2':     '<h2 id="faq-titulo" style="margin-bottom:1.1rem">Common questions about FLAC conversion</h2>',
+    'SOLUTION_RE': re.compile(r'      <h3>The fix: change the container.*?\n    </article>', re.S),
+    'FAQ_LIST_RE': RE_FAQ_LIST, 'FAQ_JSON_RE': RE_FAQ_JSON,
+    'SHARED_GUIDE_RE': RE_SHARED_GUIDE,
+    'template': 'en/index.html', 'out': 'en/{slug}',
+}
+
+
+def _fill_anchors():
+    """Extrae de cada plantilla los anclajes largos, para no repetirlos aquí."""
+    es = open(os.path.join(BASE, 'index.html'), encoding='utf-8').read()
+    m = re.search(r'<meta name="keywords" content="[^"]*" />', es)
+    if not m:
+        raise SystemExit('anclaje ES no encontrado: META_KW')
+    A_ES['META_KW'] = m.group(0)
+    s = open(os.path.join(BASE, 'en/index.html'), encoding='utf-8').read()
+    def grab(pat, flags=0):
+        m = re.search(pat, s, flags)
+        if not m:
+            raise SystemExit(f'anclaje EN no encontrado: {pat[:60]}')
+        return m.group(0)
+    A_EN['META_KW'] = grab(r'<meta name="keywords" content="[^"]*" />')
+    A_EN['OG_DESC']  = grab(r'<meta property="og:description" content="[^"]*" />')
+    A_EN['TW_DESC']  = grab(r'<meta name="twitter:description" content="[^"]*" />')
+    A_EN['SEO_LEDE'] = grab(r'      <p class="lede">.*?</p>', re.S)
+    m = re.search(r'    "url": "https://vidtoflac\.tech/",\n    "description": "[^"]*",', s)
+    if not m:
+        raise SystemExit('anclaje EN no encontrado: WEBAPP')
+    A_EN['WEBAPP'] = m.group(0)
 
 
 def _strip_tags(s: str) -> str:
@@ -969,54 +1105,70 @@ def render_faq_jsonld(faqs: list) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-def build_page(page: dict, template: str) -> str:
+def build_page(page: dict, template: str, A: dict = None) -> str:
+    """Construye una landing. `A` son los anclajes del idioma (A_ES / A_EN)."""
+    if A is None: A = A_ES
     h = template
 
-    h = h.replace(O_TITLE,     f'<title>{page["title"]}</title>')
-    h = h.replace(O_META_DESC, f'<meta name="description" content="{page["description"]}" />')
-    h = h.replace(O_META_KW,   f'<meta name="keywords" content="{page["keywords"]}" />')
-    h = h.replace(O_CANONICAL, f'<link rel="canonical" href="{page["canonical"]}" />')
-    h = h.replace(O_ROBOTS,
+    h = h.replace(A['TITLE'],     f'<title>{page["title"]}</title>')
+    h = h.replace(A['META_DESC'], f'<meta name="description" content="{page["description"]}" />')
+    h = h.replace(A['META_KW'],   f'<meta name="keywords" content="{page["keywords"]}" />')
+    h = h.replace(A['CANONICAL'], f'<link rel="canonical" href="{page["canonical"]}" />')
+    h = h.replace(A['ROBOTS'],
         f'<meta name="robots" content="{page.get("robots") or robots_for(page["slug"])}" />')
-    h = h.replace(O_HREFLANG, '')
-    h = h.replace(O_OG_URL,    f'<meta property="og:url" content="{page["og_url"]}" />')
-    h = h.replace(O_OG_TITLE,  f'<meta property="og:title" content="{page["og_title"]}" />')
-    h = h.replace(O_OG_DESC,   f'<meta property="og:description" content="{page["og_desc"]}" />')
-    h = h.replace(O_TW_TITLE,  f'<meta name="twitter:title" content="{page["tw_title"]}" />')
-    h = h.replace(O_TW_DESC,   f'<meta name="twitter:description" content="{page["tw_desc"]}" />')
+    h = h.replace(A['HREFLANG'], hreflang_for(page['slug']))
 
-    h = h.replace(O_WEBAPP,
+    # El selector de idioma de la plantilla apunta a la home del otro idioma.
+    # Existiendo el par, debe llevar a la página equivalente y no a la portada.
+    slug = page['slug']
+    if slug in _EN_OF:
+        h = h.replace('<a href="/en/" class="nav-lang"',
+                      f'<a href="/en/{_EN_OF[slug]}/" class="nav-lang"')
+    elif slug in _ES_OF:
+        h = h.replace('<a href="/" class="nav-lang"',
+                      f'<a href="/{_ES_OF[slug]}/" class="nav-lang"')
+    h = h.replace(A['OG_URL'],    f'<meta property="og:url" content="{page["og_url"]}" />')
+    h = h.replace(A['OG_TITLE'],  f'<meta property="og:title" content="{page["og_title"]}" />')
+    h = h.replace(A['OG_DESC'],   f'<meta property="og:description" content="{page["og_desc"]}" />')
+    h = h.replace(A['TW_TITLE'],  f'<meta name="twitter:title" content="{page["tw_title"]}" />')
+    h = h.replace(A['TW_DESC'],   f'<meta name="twitter:description" content="{page["tw_desc"]}" />')
+
+    h = h.replace(A['WEBAPP'],
         f'    "url": "{page["webapp_url"]}",\n'
         f'    "description": "{page["webapp_desc"]}",')
 
-    h = h.replace(O_HOWTO_NAME, f'"name": "{page["howto_name"]}",')
-    h = h.replace(O_HOWTO_URL,  f'"url": "{page["canonical"]}"')
+    h = h.replace(A['HOWTO_NAME'], f'"name": "{page["howto_name"]}",')
+    h = h.replace(A['HOWTO_URL'],  f'"url": "{page["canonical"]}"')
 
-    h = h.replace(O_HERO_H1,  f'    <h1 class="hero-title">{page["hero_h1"]}</h1>')
-    h = h.replace(O_HERO_SUB, f'    <p class="hero-sub">{page["hero_sub"]}</p>')
-    h = h.replace(O_SEO_H2,   f'      <h2 id="problema-titulo">{page["seo_h2"]}</h2>')
-    h = h.replace(O_SEO_LEDE, f'      <p class="lede">{page["seo_lede"]}</p>')
-    h = h.replace(O_UNIQUE_GUIDE, page.get("unique_guide", ""))
+    h = h.replace(A['HERO_H1'],  f'    <h1 class="hero-title">{page["hero_h1"]}</h1>')
+    h = h.replace(A['HERO_SUB'], f'    <p class="hero-sub">{page["hero_sub"]}</p>')
+    h = h.replace(A['SEO_H2'],   f'      <h2 id="problema-titulo">{page["seo_h2"]}</h2>')
+    h = h.replace(A['SEO_LEDE'], f'      <p class="lede">{page["seo_lede"]}</p>')
+    h = h.replace(A['UNIQUE_GUIDE'], page.get("unique_guide", ""))
+
+    # Fuera la guía compartida: es la principal fuente de duplicado entre
+    # landings. Su equivalente propio ya se ha insertado justo arriba.
+    h = A['SHARED_GUIDE_RE'].sub('\n', h, count=1)
 
     # Contenido único por formato: sección "La solución", FAQ visible y JSON-LD.
     if page.get("seo_body"):
-        h = RE_SOLUTION.sub(lambda _: page["seo_body"] + '\n    </article>', h, count=1)
+        h = A['SOLUTION_RE'].sub(lambda _: page["seo_body"] + '\n    </article>', h, count=1)
     if page.get("faq_h2"):
-        h = h.replace(O_FAQ_H2,
+        h = h.replace(A['FAQ_H2'],
             f'<h2 id="faq-titulo" style="margin-bottom:1.1rem">{page["faq_h2"]}</h2>')
     if page.get("faqs"):
-        h = RE_FAQ_LIST.sub(lambda _: render_faq_html(page["faqs"]), h, count=1)
-        h = RE_FAQ_JSON.sub(lambda _: render_faq_jsonld(page["faqs"]), h, count=1)
+        h = A['FAQ_LIST_RE'].sub(lambda _: render_faq_html(page["faqs"]), h, count=1)
+        h = A['FAQ_JSON_RE'].sub(lambda _: render_faq_jsonld(page["faqs"]), h, count=1)
 
     # Brand name → enlace de vuelta al inicio
-    h = h.replace(O_BRAND,
+    h = h.replace(A['BRAND'],
         f'<a href="/" class="brand-home-link">'
         f'<span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span></a>')
 
     # CSS para el enlace de marca + cierre de </style>
-    h = h.replace(O_STYLE_END,
+    h = h.replace(A['STYLE_END'],
         '  .brand-home-link { text-decoration: none; color: inherit; }\n'
-        + O_STYLE_END)
+        + A['STYLE_END'])
 
     # Breadcrumb JSON-LD justo antes de </head>
     breadcrumb = (
@@ -1077,21 +1229,35 @@ def update_sitemap(pages: list) -> None:
         print(f'  sitemap.xml: {skipped_noindex} páginas noindex omitidas (correcto)')
 
 
-def main() -> None:
-    with open(os.path.join(BASE, 'index.html'), 'r', encoding='utf-8') as f:
-        template = f.read()
-
-    for page in PAGES:
-        page = {**page, **CONTENT.get(page['slug'], {})}
-        out_dir  = os.path.join(BASE, page['slug'])
-        out_path = os.path.join(out_dir, 'index.html')
+def generate(pages, content, A) -> list:
+    """Genera las landings de un idioma. Devuelve las rutas escritas."""
+    template = open(os.path.join(BASE, A['template']), encoding='utf-8').read()
+    written = []
+    for page in pages:
+        page = {**page, **content.get(page['slug'], {})}
+        out_dir = os.path.join(BASE, A['out'].format(slug=page['slug']))
         os.makedirs(out_dir, exist_ok=True)
-        result = build_page(page, template)
+        out_path = os.path.join(out_dir, 'index.html')
         with open(out_path, 'w', encoding='utf-8') as f:
-            f.write(result)
-        print(f'  {page["slug"]}/index.html')
+            f.write(build_page(page, template, A))
+        written.append(os.path.relpath(out_path, BASE))
+    return written
 
-    update_sitemap(PAGES)
+
+def main() -> None:
+    _fill_anchors()
+
+    for path in generate(PAGES, CONTENT, A_ES):
+        print(f'  {path}')
+    try:
+        from landing_content_en import PAGES_EN, CONTENT_EN
+    except ImportError:
+        PAGES_EN, CONTENT_EN = [], {}
+    if PAGES_EN:
+        for path in generate(PAGES_EN, CONTENT_EN, A_EN):
+            print(f'  {path}')
+
+    update_sitemap(PAGES + list(PAGES_EN))
     print('Listo.')
 
 

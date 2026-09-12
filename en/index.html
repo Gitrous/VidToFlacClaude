@@ -2877,7 +2877,7 @@ function setEngine(text, state) {
 
   engineText.textContent  = text;
   engineDot.className     = `engine-dot ${state}`;
-  engineBadge.textContent = { idle: 'En espera', loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
+  engineBadge.textContent = { idle: 'Waiting', loading: 'Loading', ready: 'Ready', busy: 'Working', error: 'Error' }[state] ?? state;
   engineBadge.className   = `badge badge-${state}`;
   engineCard.classList.toggle('is-loading', state === 'loading');
 
@@ -2926,7 +2926,7 @@ function renderFileList() {
     const badgeMap = {
       pending:    '<span class="badge badge-loading" style="font-size:.7rem;flex-shrink:0">Pendiente</span>',
       converting: '<span class="badge badge-busy"    style="font-size:.7rem;flex-shrink:0">Convirtiendo</span>',
-      done:       '<span class="badge badge-done"    style="font-size:.7rem;flex-shrink:0">Listo ✓</span>',
+      done:       '<span class="badge badge-done"    style="font-size:.7rem;flex-shrink:0">Done ✓</span>',
       error:      '<span class="badge badge-error"   style="font-size:.7rem;flex-shrink:0">Error</span>',
     };
 
@@ -3221,13 +3221,13 @@ async function loadFFmpeg() {
     await ffmpeg.load({ coreURL, wasmURL });
 
     setEngine('Engine ready', 'ready');
-    log('✓ FFmpeg WASM cargado y listo', 'success');
+    log('✓ FFmpeg WASM loaded and ready', 'success');
     updateConvertBtn();
 
   } catch (err) {
     ffmpegLoading = false;
     setEngine('Error loading engine', 'error');
-    log('✗ Error cargando FFmpeg: ' + err.message, 'error');
+    log('✗ Error loading FFmpeg: ' + err.message, 'error');
     console.error(err);
   }
 }
@@ -3238,19 +3238,19 @@ function addFiles(fileList) {
   for (const file of fileList) {
     const valid = file.type.startsWith('video/') || file.type.startsWith('audio/') || isVideo(file.name) || isAudioOnly(file);
     if (!valid) {
-      log(`⚠ "${file.name}" no es un formato reconocido. Se intentará de todos modos.`, 'warn');
+      log(`⚠ "${file.name}" is not a recognised format. Trying anyway.`, 'warn');
     }
     // skip duplicates (same name + size)
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
-    if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
+    if (dup) { log(`⚠ "${file.name}" is already in the list — ignored.`, 'warn'); continue; }
 
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
-    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    log(`File added: ${file.name} (${fmt(file.size)})`, 'sys');
     // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
     // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
     if (file.size > 800 * 1024 * 1024) {
-      log(`⚠ "${file.name}" supera 800 MB — puede fallar por límite de memoria WebAssembly.`, 'warn');
+      log(`⚠ "${file.name}" is over 800 MB — it may fail on the WebAssembly memory limit.`, 'warn');
       showLargeFileModal(file.name, file.size);
     }
     added++;
@@ -3415,11 +3415,11 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
   let outputName  = `output_${id}.${outFormat}`;
 
   setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name}`, null);
-  log(`[${globalIdx + 1}/${totalCount}] Procesando: ${file.name}`, 'sys');
+  log(`[${globalIdx + 1}/${totalCount}] Processing: ${file.name}`, 'sys');
 
   try {
     // 1 · Write input to WASM virtual FS
-    log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+    log(`Writing "${inputName}" to the virtual file system…`, 'sys');
     const buffer   = await file.arrayBuffer();
     const fileData = new Uint8Array(buffer);
     const fileSize = file.size;
@@ -3448,7 +3448,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     ffmpeg.off('log', probeCapture);
 
     if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
-      log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
+      log(`⚠ No video stream detected — converting to audio-only FLAC…`, 'warn');
       outFormat  = 'flac';
       outputName = `output_${id}.flac`;
     }
@@ -3507,7 +3507,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       await ffmpeg.exec(cmd);
     } catch (execErr) {
       if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
-        log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+        log('⚠ Stream copy failed — retrying with video re-encoding…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}
         await loadFFmpeg();
@@ -3526,10 +3526,10 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     }
 
     const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-    log(`✓ Conversión completada en ${elapsed}s`, 'success');
+    log(`✓ Conversion finished in ${elapsed}s`, 'success');
 
     // 3 · Read output
-    setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
+    setProgress(`[${globalIdx + 1}/${totalCount}] Reading the resulting file…`, null);
     const data = await ffmpeg.readFile(outputName);
 
     // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
@@ -3571,7 +3571,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.status = 'error';
     const msg = err.message ?? 'error desconocido';
     if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
-      log(`✗ Error de memoria en "${file.name}": el archivo es demasiado grande para la memoria WebAssembly (~2 GB). Divide el vídeo en partes más cortas e intenta de nuevo.`, 'error');
+      log(`✗ Out of memory on "${file.name}": the file is too large for WebAssembly memory (~2 GB). Split the video into shorter sections and try again.`, 'error');
     } else {
       log(`✗ Error en "${file.name}": ${msg}`, 'error');
     }
@@ -3665,7 +3665,7 @@ function showLargeFileModal(name, size) {
   const btn    = $('largeFileModalBtn');
   subEl.innerHTML =
     `<strong>${name}</strong> pesa <strong>${fmt(size)}</strong>. ` +
-    `El motor WebAssembly dispone de unos 2 GB de memoria: con la entrada y la salida juntas es posible que se quede sin espacio y la conversión falle a mitad.<br><br>` +
+    `The WebAssembly engine has about 2 GB of memory: with input and output together it may run out of space and the conversion can fail part-way.<br><br>` +
     `If it happens, split the video into shorter parts first (e.g. with HandBrake or <code>ffmpeg -t 3600 -c copy part1.mp4</code> in your terminal).`;
   modal.classList.add('open');
   btn.addEventListener('click', () => modal.classList.remove('open'), { once: true });

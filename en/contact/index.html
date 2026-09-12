@@ -521,7 +521,46 @@
         </div>
       </div>
     </aside>
+
   </div>
+  <section class="form-card" style="margin-top:1.15rem" aria-labelledby="selfhelp-title">
+    <h2 id="selfhelp-title" style="margin-top:0">Before you write: the most common problems</h2>
+    <p>Most of the messages we get come down to these four cases, and all four can be solved right away without waiting for a reply.</p>
+
+    <h3>The conversion fails or stops on large files</h3>
+    <p>The engine is FFmpeg compiled to WebAssembly and runs on a 32-bit heap: it has roughly <strong>2 GB of memory for input and output combined</strong>. In practice it works comfortably up to around 1 GB of source file. Above that, the tab can run out of memory and abort. The fix is to split the video into shorter sections before converting, or use desktop FFmpeg, which has no such ceiling. This is not a bug in the site: it is the browser's limit.</p>
+
+    <h3>The file converts but the preview will not play</h3>
+    <p>The preview uses the browser's own player, which does not understand every codec. If your video came in H.265/HEVC, ProRes, DNxHD or MPEG-2, the tool re-encodes it to H.264 precisely so you can watch it. If the player still shows nothing, the downloaded file is usually perfectly fine: try it in VLC or import it straight into your editor before writing it off.</p>
+
+    <h3>The process hangs and never advances</h3>
+    <p>ffmpeg.wasm can abort outright on certain files. The tool detects this and reloads the whole engine so the remaining files still convert, but if the progress bar has not moved for several minutes, reload the page and try one file at a time. Before writing to us, open <strong>Technical details · FFmpeg</strong> and copy the log: without those lines the problem is very hard to reproduce.</p>
+
+    <h3>DaVinci Resolve still has no audio after converting</h3>
+    <p>Check that you are importing the <strong>downloaded</strong> file and not the original — a more common slip than it sounds, because the names look alike. Confirm too that the result's audio track really is FLAC by opening it in VLC (Tools → Codec information). If the audio is FLAC and Resolve still will not play it, the problem is not the file, and that is exactly when we want to hear from you.</p>
+
+    <h2>How to report a bug we can reproduce</h2>
+    <p>A message saying "it does not work" cannot be investigated. With these five things we can usually reproduce the fault first time:</p>
+    <ol>
+      <li><strong>The technical log.</strong> Open <em>Technical details · FFmpeg</em>, press <em>Copy</em> and paste the contents. This helps more than anything else.</li>
+      <li><strong>Format and size</strong> of the source file, and what recorded it (phone, OBS, camera…).</li>
+      <li><strong>Browser and operating system</strong>, with versions.</li>
+      <li><strong>The output format</strong> you picked and the quality level.</li>
+      <li><strong>What you expected</strong> and what happened instead.</li>
+    </ol>
+    <p><strong>Please do not send us your video.</strong> We cannot receive files and would rather not: the tool exists precisely so your material never leaves your machine. The technical log is enough.</p>
+
+    <h2>What we cannot help with</h2>
+    <ul>
+      <li><strong>We are not DaVinci Resolve support.</strong> For faults in the application itself, the <a href="https://forum.blackmagicdesign.com/" target="_blank" rel="noopener noreferrer">Blackmagic Design forum</a> is the right place.</li>
+      <li><strong>We do not convert files for you.</strong> There is no server to receive them; everything happens in your browser.</li>
+      <li><strong>We cannot process DRM-protected files</strong>, such as films bought on iTunes. They are encrypted and no tool opens them legally.</li>
+      <li><strong>We cannot recover earlier conversions.</strong> Results live only in your tab's memory and vanish when you close it.</li>
+    </ul>
+
+    <h2>What happens to what you send us</h2>
+    <p>The form is handled by <strong>FormSubmit</strong>, an external service that forwards the message to our inbox. What you provide — name, email address, subject and message — is used only to reply to you, is not added to any list and is not passed to third parties. It is set out in the <a href="/en/privacy-policy/">privacy policy</a>. If you would rather not use a third-party form, the <a href="/en/legal-notice/">legal notice</a> has a direct email address.</p>
+  </section>
 </main>
 
 <footer>

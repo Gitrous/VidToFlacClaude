@@ -682,16 +682,16 @@
       <h2 id="formatos-problematicos">Video formats with audio problems in DaVinci Resolve</h2>
 
       <h3>MP4 from an iPhone or Android phone</h3>
-      <p>Smartphone video almost always uses AAC for audio and H.264 or H.265 for video. On Linux, AAC does not work in DaVinci Resolve. The fix is an <a href="/convertir-mp4-a-flac/">MP4-to-MKV remux with FLAC audio</a>, leaving the video untouched.</p>
+      <p>Smartphone video almost always uses AAC for audio and H.264 or H.265 for video. On Linux, AAC does not work in DaVinci Resolve. The fix is an <a href="/en/convert-mp4-to-flac/">MP4-to-MKV remux with FLAC audio</a>, leaving the video untouched.</p>
 
       <h3>MOV from Sony, Canon and Fuji cameras</h3>
-      <p>Mirrorless and DSLR cameras usually record MOV with AAC or 24-bit PCM audio. AAC causes trouble on Linux; 24-bit PCM can cause trouble in particular DaVinci Resolve combinations. <a href="/convertir-mov-a-flac/">Converting MOV to FLAC</a> resolves both.</p>
+      <p>Mirrorless and DSLR cameras usually record MOV with AAC or 24-bit PCM audio. AAC causes trouble on Linux; 24-bit PCM can cause trouble in particular DaVinci Resolve combinations. <a href="/en/convert-mov-to-flac/">Converting MOV to FLAC</a> resolves both.</p>
 
       <h3>WebM from YouTube or screen recorders</h3>
-      <p>WebM uses Opus or Vorbis for audio. Neither has reliable support in DaVinci Resolve. If you download YouTube videos or record your screen to WebM, you will need to <a href="/convertir-webm-a-flac/">convert the WebM to FLAC</a>.</p>
+      <p>WebM uses Opus or Vorbis for audio. Neither has reliable support in DaVinci Resolve. If you download YouTube videos or record your screen to WebM, you will need to <a href="/en/convert-webm-to-flac/">convert the WebM to FLAC</a>.</p>
 
       <h3>MKV with AAC or AC-3 audio</h3>
-      <p>MKV is only a container: it can hold any audio codec. An MKV with AAC audio has exactly the same problem as an MP4 with AAC. You can fix it with an <a href="/convertir-mkv-a-flac/">MKV-to-FLAC remux</a>: the container stays MKV, but the audio becomes FLAC.</p>
+      <p>MKV is only a container: it can hold any audio codec. An MKV with AAC audio has exactly the same problem as an MP4 with AAC. You can fix it with an <a href="/en/convert-mkv-to-flac/">MKV-to-FLAC remux</a>: the container stays MKV, but the audio becomes FLAC.</p>
 
       <h3>Video with E-AC-3 (Dolby Digital Plus) audio</h3>
       <p>E-AC-3 is the audio format behind a lot of streaming content (Amazon Prime, Netflix). If you edit that kind of material, note that E-AC-3 can run into compatibility problems in DaVinci Resolve on Windows, macOS and Linux, depending on version and setup. A common fix is converting the audio to FLAC.</p>
@@ -781,7 +781,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Both are lossless and both work well in DaVinci Resolve. The difference is size: FLAC compresses the audio — typically 40–60% smaller than WAV — without discarding any data. On long videos that difference is significant, which is why we recommend FLAC over WAV; if your files are already WAV, you can <a href="/convertir-wav-a-flac/">convert WAV to FLAC</a> without losing a single sample.</p>
+            <p>Both are lossless and both work well in DaVinci Resolve. The difference is size: FLAC compresses the audio — typically 40–60% smaller than WAV — without discarding any data. On long videos that difference is significant, which is why we recommend FLAC over WAV; if your files are already WAV, you can <a href="/en/convert-wav-to-flac/">convert WAV to FLAC</a> without losing a single sample.</p>
           </div>
         </details>
       </section>
