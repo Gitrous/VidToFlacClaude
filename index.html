@@ -2130,6 +2130,26 @@
       color: var(--ink-mute);
       letter-spacing: 0.02em;
     }
+
+    /* Demostración en vídeo (solo en las portadas; build_pages.py la retira de las landings) */
+    .demo-figure { margin: 1.1rem 0 0; }
+    .demo-figure video {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1280 / 800;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .demo-figure figcaption {
+      margin-top: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+      color: var(--ink-mute);
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
@@ -2520,18 +2540,18 @@
           <li>Pista de audio en gris en DaVinci Resolve</li>
           <li>"Audio codec not supported (AAC)"</li>
           <li>Códec AAC o MP3 no compatible en Linux</li>
-          <li>Buscar codecs de pago o Resolve Studio</li>
+          <li>Buscar códecs de pago o pasar a Resolve Studio, que no siempre lo resuelve</li>
           <li>Recodificar el vídeo completo (lento)</li>
         </ul>
       </div>
       <div class="compare-col compare-after">
         <div class="compare-header">Con VidToFLAC</div>
         <ul class="compare-list">
-          <li>Audio FLAC lossless importado correctamente</li>
-          <li>Sin errores de códec de audio en Windows, macOS y Linux</li>
+          <li>Audio FLAC sin pérdida, que Resolve decodifica de forma nativa</li>
+          <li>El error de códec de audio desaparece, también en Linux</li>
           <li>Funciona con DaVinci Resolve gratuito</li>
           <li>Sin instalaciones ni licencias adicionales</li>
-          <li>Proceso en segundos, solo se toca el audio</li>
+          <li>El vídeo se copia sin recodificar cuando el códec lo permite</li>
         </ul>
       </div>
     </div>
@@ -2547,6 +2567,34 @@
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <!-- Demo: el problema y la solución en vídeo. Va DESPUÉS del hueco de anuncio,
+       con título y entradilla de por medio, para que los controles del
+       reproductor no queden pegados al anuncio (clics accidentales). -->
+  <section class="card seo-card" aria-labelledby="demo-titulo">
+    <div class="card-title">Demostración</div>
+    <h2 id="demo-titulo">Así se ve el problema, <span class="accent">y así se soluciona</span></h2>
+    <p>Un MP4 con audio AAC entra en DaVinci Resolve: el vídeo se ve, pero la pista de audio aparece vacía y no suena. Después pasa por VidToFLAC y se vuelve a importar. <strong>Activa el sonido</strong> para oír la diferencia.</p>
+    <figure class="demo-figure">
+      <video controls preload="none" playsinline poster="/media/demo-es.jpg" width="1280" height="800" aria-describedby="demo-pie">
+        <source src="/media/demo-es.mp4" type="video/mp4" />
+      </video>
+      <figcaption id="demo-pie">Grabación real en DaVinci Resolve Studio 21 sobre Linux, con un MP4 H.264 y audio AAC-LC. El montaje recorta la selección de archivos y los tiempos muertos; el resultado es el mismo archivo con el audio en FLAC.</figcaption>
+    </figure>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "DaVinci Resolve sin sonido: el problema y la solución con VidToFLAC",
+      "description": "Grabación real: un MP4 con audio AAC se reproduce sin sonido en DaVinci Resolve Studio 21 sobre Linux. Tras convertir el audio a FLAC con VidToFLAC, la pista muestra la forma de onda y suena.",
+      "thumbnailUrl": "https://vidtoflac.tech/media/demo-es.jpg",
+      "contentUrl": "https://vidtoflac.tech/media/demo-es.mp4",
+      "uploadDate": "2026-09-13",
+      "duration": "PT29S",
+      "inLanguage": "es"
+    }
+    </script>
+  </section>
 
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">

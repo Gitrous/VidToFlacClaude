@@ -12,7 +12,7 @@ VidToFLAC es una aplicación web de **una sola página y 100% del lado del clien
 
 ## Toda la app es `index.html`
 
-**No hay dependencias, tests ni package.json.** Sí hay un generador, `build_pages.py`, pero solo para las 20 landings de formato (ver más abajo); la app en sí no se compila. `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
+**No hay dependencias, tests ni package.json.** Sí hay un generador, `build_pages.py`, pero solo para las 40 landings de formato, 20 por idioma (ver más abajo); la app en sí no se compila. `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
 
 Al editar, conserva la estructura de archivo único — no separes en archivos JS/CSS aparte.
 
@@ -174,6 +174,38 @@ literales de cadena. Es una comprobación de dos líneas que detecta justo lo qu
 la revisión visual pasa por alto, porque son mensajes que solo aparecen durante
 una conversión.
 
+## La demo en vídeo de la portada
+
+`media/demo-es.mp4` y `media/demo-en.mp4` (~950 KB, 29 s, 1280×800, H.264 +
+AAC con `faststart`) muestran el problema y la solución con una grabación real.
+Viven solo en `index.html` y `en/index.html`; `build_pages.py` los retira de
+las 40 landings con `RE_DEMO`, porque repetir el bloque y su `VideoObject` en
+cada una sería otra fuente de duplicado.
+
+Tres decisiones que no son obvias y que no conviene deshacer:
+
+- **Los rótulos van en una franja superior, no inferior.** La barra de
+  controles del reproductor ocupa la parte baja del vídeo y, en pausa o al
+  pasar el ratón, tapaba exactamente el mensaje. Solo se ve en el navegador,
+  no en los fotogramas extraídos con ffmpeg: compruébalo con una captura.
+- **La sección va después del hueco de anuncio**, con título y entradilla de por
+  medio. Colocada antes, los controles del reproductor quedaban pegados al
+  anuncio: riesgo de clic accidental, que AdSense trata como infracción.
+- **`preload="none"` con póster**: la página solo descarga la imagen (~85 KB)
+  hasta que alguien pulsa reproducir. Sin autoplay, así que el audio suena al
+  pulsar, que es lo que la demo necesita: el contraste silencio → sonido.
+
+**Lo que demuestra la grabación contradice parte del sitio.** El archivo
+original era H.264 + **AAC-LC**, y **DaVinci Resolve Studio 21 sobre Linux no
+lo reprodujo**. `errores-audio-davinci-resolve` afirma que Studio "incluye… AAC
+en Linux", y las tablas marcan AAC en Studio/Linux como "Parcial". La evidencia
+de primera mano gana a lo que diga cualquier artículo: revisar esas afirmaciones.
+
+Un barrido por frases largas no detecta promesas escritas como viñetas cortas:
+la tarjeta "Antes y después" de la portada conservaba "Proceso en segundos,
+solo se toca el audio" y "Sin errores de códec… en Windows, macOS y Linux"
+después de varios barridos. Revisa también los `<li>` de las tarjetas.
+
 ## Un mismo texto vive en muchos sitios a la vez
 
 Nunca cambies una cadena en un solo lugar. Un titular de artículo aparece en
@@ -195,7 +227,7 @@ Dos trampas concretas, ambas sufridas:
 ## Comprobaciones antes de dar algo por terminado
 
 ```bash
-# JS de las 67 páginas (los índices de búsqueda se rompen en silencio)
+# JS de las 87 páginas (los índices de búsqueda se rompen en silencio)
 for f in $(find . -name '*.html' -not -path './.git/*'); do
   python3 -c "
 import re,sys
@@ -205,7 +237,7 @@ open('/tmp/_c.mjs','w').write('\n;\n'.join(b))"
   node --check /tmp/_c.mjs || echo "ROTO: $f"
 done
 
-# JSON-LD (204 bloques), enlaces internos, sitemap
+# JSON-LD (306 bloques), enlaces internos, sitemap
 python3 -c "
 import re,json,glob
 n=b=0
@@ -219,7 +251,7 @@ print(n,'bloques,',b,'rotos')"
 ```
 
 Valores de referencia: **87** páginas HTML, **52** indexables y **35** `noindex`,
-**84** con hreflang, **304** bloques JSON-LD, **52** URLs en el sitemap, **0**
+**84** con hreflang, **306** bloques JSON-LD, **52** URLs en el sitemap, **0**
 enlaces internos rotos, y el generador en **0** líneas de diferencia.
 
 ## Promesas que el producto no puede sostener

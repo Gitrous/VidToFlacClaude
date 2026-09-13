@@ -961,6 +961,10 @@ O_UNIQUE_GUIDE = '<!--{{UNIQUE_GUIDE}}-->'
 # portada y a sus hermanas. Google lo marcó como "contenido de poco valor" y
 # rechazó la solicitud de AdSense. Cada landing ya trae su propia guía por
 # `unique_guide`, así que esta se elimina en lugar de heredarse.
+# Demostración en vídeo de la portada. Se queda solo en las dos homes: copiada a
+# las 40 landings sería otro bloque idéntico en cada una, y además repetiría el
+# mismo VideoObject en 40 URLs distintas.
+RE_DEMO = re.compile(r'  <!-- Demo:.*?\n  </section>\n\n', re.S)
 RE_SHARED_GUIDE = re.compile(
     r'\n  <section class="card seo-card" aria-labelledby="guia-titulo">.*?\n  </section>\n',
     re.S)
@@ -1005,6 +1009,7 @@ A_ES = {
     'FAQ_H2': O_FAQ_H2,
     'SOLUTION_RE': RE_SOLUTION, 'FAQ_LIST_RE': RE_FAQ_LIST,
     'FAQ_JSON_RE': RE_FAQ_JSON, 'SHARED_GUIDE_RE': RE_SHARED_GUIDE,
+    'DEMO_RE': RE_DEMO,
     'template': 'index.html', 'out': '{slug}',
 }
 
@@ -1037,6 +1042,7 @@ A_EN = {
     'SOLUTION_RE': re.compile(r'      <h3>The fix: change the container.*?\n    </article>', re.S),
     'FAQ_LIST_RE': RE_FAQ_LIST, 'FAQ_JSON_RE': RE_FAQ_JSON,
     'SHARED_GUIDE_RE': RE_SHARED_GUIDE,
+    'DEMO_RE': RE_DEMO,
     'template': 'en/index.html', 'out': 'en/{slug}',
 }
 
@@ -1149,6 +1155,9 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
     # Fuera la guía compartida: es la principal fuente de duplicado entre
     # landings. Su equivalente propio ya se ha insertado justo arriba.
     h = A['SHARED_GUIDE_RE'].sub('\n', h, count=1)
+
+    # Fuera la demostración en vídeo: es exclusiva de la portada.
+    h = A['DEMO_RE'].sub('', h, count=1)
 
     # Contenido único por formato: sección "La solución", FAQ visible y JSON-LD.
     if page.get("seo_body"):

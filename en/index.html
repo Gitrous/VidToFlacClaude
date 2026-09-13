@@ -2130,6 +2130,26 @@
       color: var(--ink-mute);
       letter-spacing: 0.02em;
     }
+
+    /* Demostración en vídeo (solo en las portadas; build_pages.py la retira de las landings) */
+    .demo-figure { margin: 1.1rem 0 0; }
+    .demo-figure video {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1280 / 800;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .demo-figure figcaption {
+      margin-top: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+      color: var(--ink-mute);
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
@@ -2520,18 +2540,18 @@
           <li>Audio track grayed out in DaVinci Resolve</li>
           <li>"Audio codec not supported (AAC)"</li>
           <li>AAC or MP3 codec not supported on Linux</li>
-          <li>Looking for paid codecs or Resolve Studio</li>
+          <li>Hunting for paid codecs or moving to Resolve Studio, which does not always fix it</li>
           <li>Re-encoding the entire video (slow)</li>
         </ul>
       </div>
       <div class="compare-col compare-after">
         <div class="compare-header">With VidToFLAC</div>
         <ul class="compare-list">
-          <li>FLAC lossless audio imported correctly</li>
-          <li>No audio codec errors on Windows, macOS or Linux</li>
+          <li>Lossless FLAC audio that Resolve decodes natively</li>
+          <li>The audio codec error goes away, Linux included</li>
           <li>Works with free DaVinci Resolve</li>
           <li>No additional installs or licenses needed</li>
-          <li>Done in seconds — only the audio is touched</li>
+          <li>Video is copied without re-encoding when the codec allows it</li>
         </ul>
       </div>
     </div>
@@ -2547,6 +2567,34 @@
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <!-- Demo: the problem and the fix on video. It sits AFTER the ad slot, with
+       a heading and intro in between, so the player controls are never right
+       against the ad (accidental clicks). -->
+  <section class="card seo-card" aria-labelledby="demo-titulo">
+    <div class="card-title">Demo</div>
+    <h2 id="demo-titulo">What the problem looks like, <span class="accent">and how it gets fixed</span></h2>
+    <p>An MP4 with AAC audio goes into DaVinci Resolve: the picture shows, but the audio track sits empty and silent. Then it goes through VidToFLAC and back into Resolve. <strong>Turn the sound on</strong> to hear the difference.</p>
+    <figure class="demo-figure">
+      <video controls preload="none" playsinline poster="/media/demo-en.jpg" width="1280" height="800" aria-describedby="demo-pie">
+        <source src="/media/demo-en.mp4" type="video/mp4" />
+      </video>
+      <figcaption id="demo-pie">Real recording in DaVinci Resolve Studio 21 on Linux, using an H.264 MP4 with AAC-LC audio. The edit cuts file selection and waiting time; the result is the same file with its audio converted to FLAC.</figcaption>
+    </figure>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "DaVinci Resolve no audio: the problem and the fix with VidToFLAC",
+      "description": "Real recording: an MP4 with AAC audio plays silently in DaVinci Resolve Studio 21 on Linux. After converting the audio to FLAC with VidToFLAC, the track shows its waveform and plays.",
+      "thumbnailUrl": "https://vidtoflac.tech/media/demo-en.jpg",
+      "contentUrl": "https://vidtoflac.tech/media/demo-en.mp4",
+      "uploadDate": "2026-09-13",
+      "duration": "PT29S",
+      "inLanguage": "en"
+    }
+    </script>
+  </section>
 
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">
