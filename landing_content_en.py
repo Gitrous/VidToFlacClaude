@@ -47,7 +47,7 @@ PAGES_EN = [
         <li>Download the result and import it into Resolve's Media Pool. The audio track will appear in blue and play without errors.</li>
       </ol>
       <h3>Common problems and what to do</h3>
-      <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 came from a camera with several audio tracks (stereo plus surround), every track is converted into the output container.</p>
+      <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 has several audio tracks (stereo plus surround, say), VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. To keep them all, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
     </article>
   </section>""",
     },
@@ -87,7 +87,7 @@ PAGES_EN = [
         <li>Import the result into DaVinci Resolve. The waveform appears and the sound plays.</li>
       </ol>
       <h3>Common problems and what to do</h3>
-      <p>If your MKV carries <strong>H.265 / HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. If the file holds several audio tracks — a game feed plus a microphone, say — all of them are converted. And if the MKV came from a download rather than a recording, check first whether the audio is <strong>Opus</strong>: Resolve struggles with that one even on Windows, and the same conversion fixes it.</p>
+      <p>If your MKV carries <strong>H.265 / HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. If the file holds several audio tracks, such as a game feed plus a microphone, only one of them is converted; the FAQ below explains how to keep them all. And if the MKV came from a download rather than a recording, check first whether the audio is <strong>Opus</strong>: Resolve struggles with that one even on Windows, and the same conversion fixes it.</p>
     </article>
   </section>""",
     },
@@ -158,7 +158,7 @@ PAGES_EN = [
       <h3>Why AVI causes more trouble than newer containers</h3>
       <p>AVI dates from 1992 and was never designed for what people ask of it today. It has no standard way to signal variable frame rate, its timestamps are rudimentary, and it accepts codecs that modern software has long stopped shipping decoders for. An AVI from a 2005 camcorder might hold DivX or Xvid video with MP3 audio; one from a capture card might hold uncompressed video with PCM. The container name tells you very little.</p>
       <h3>What VidToFLAC does with an AVI</h3>
-      <p>The audio always becomes FLAC. The video depends on the codec: if the browser can decode it, it is copied across bit for bit with no loss. If it is a legacy codec the browser has never supported — DivX, Xvid, Cinepak, Indeo — it is re-encoded to H.264, which also makes the result far easier to edit than the original.</p>
+      <p>The audio always becomes FLAC. The video depends on the codec. H.264, DivX and Xvid are copied across without re-encoding, so the picture loses nothing, although the page preview may not show DivX or Xvid. Codecs on the re-encode list, such as Cinepak or MJPEG, are converted to H.264.</p>
       <h3>Step by step: converting your AVI to FLAC</h3>
       <ol>
         <li>Drop the .avi onto the upload area.</li>
@@ -597,7 +597,7 @@ PAGES_EN = [
       <h3>What FLV actually is</h3>
       <p>FLV was the format of web video for over a decade, until Flash was retired in 2020. What survives is archives: old screencasts, downloaded lectures, recordings from long-dead platforms. Inside you might find H.264 with AAC, which modern software reads, or legacy Sorenson and VP6 video with MP3 or Nellymoser audio, which it does not.</p>
       <h3>What VidToFLAC does with it</h3>
-      <p>If the video is H.264 it is copied across untouched. If it is a legacy Flash codec the browser cannot decode, it is re-encoded to H.264 — which is what you want anyway, since nothing modern edits VP6 comfortably. The audio always becomes FLAC.</p>
+      <p>H.264 and Sorenson Spark video are copied across untouched, although the page preview may not show Sorenson. VP6 is re-encoded to H.264 — which is what you want anyway, since nothing modern edits VP6 comfortably. The audio always becomes FLAC.</p>
       <h3>Step by step</h3>
       <ol>
         <li>Drop your .flv file onto the upload area, or click <strong>Select files</strong>.</li>
@@ -627,7 +627,7 @@ PAGES_EN = [
         "hero_h1":          'Convert your <span class="accent">VOB to FLAC</span> and get the sound back',
         "hero_sub":         'VOB is the DVD video format, with MPEG-2 video and AC3 audio that editors rarely decode. Everything runs inside your browser — not a single byte is uploaded to any server.',
         "seo_h2":           'Why does <span class="accent">your VOB import without sound</span>?',
-        "seo_lede":         'A VOB is what sits inside the VIDEO_TS folder of a DVD: MPEG-2 video paired with AC3 (Dolby Digital) or PCM audio. Both are licensed codecs, and AC3 in particular is one DaVinci Resolve does not decode on Linux and handles unevenly elsewhere.',
+        "seo_lede":         'A VOB is what sits inside the VIDEO_TS folder of a DVD: MPEG-2 video paired with AC3 (Dolby Digital) or PCM audio. AC3 is a licensed codec that DaVinci Resolve does not decode on Linux and handles unevenly elsewhere; PCM, when a disc uses it, imports without trouble.',
         "breadcrumb_label": "Convert VOB to FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -635,7 +635,7 @@ PAGES_EN = [
     <article>
       <h2 id="guia-formato-titulo">Everything about converting VOB to FLAC</h2>
       <h3>What VOB actually is</h3>
-      <p>A VOB is what sits inside the VIDEO_TS folder of a DVD: MPEG-2 video paired with AC3 (Dolby Digital) or PCM audio. Both are licensed codecs, and AC3 in particular is one DaVinci Resolve does not decode on Linux and handles unevenly elsewhere.</p>
+      <p>A VOB is what sits inside the VIDEO_TS folder of a DVD: MPEG-2 video paired with AC3 (Dolby Digital) or PCM audio. AC3 is a licensed codec that DaVinci Resolve does not decode on Linux and handles unevenly elsewhere; PCM, when a disc uses it, imports without trouble.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>MPEG-2 cannot be decoded in the browser, so the video is re-encoded to H.264 and the AC3 becomes FLAC. Note that VOB files from commercial DVDs are usually encrypted with CSS; those cannot be processed by any tool without circumventing the protection, and this one will not open them.</p>
       <h3>Step by step</h3>
@@ -797,7 +797,7 @@ PAGES_EN = [
       <h3>What 3GP actually is</h3>
       <p>3GP was designed for early mobile networks, when bandwidth was measured in kilobits. It pairs H.263 or MPEG-4 video with AMR audio, a codec built for speech at very low bitrates. Files in this format are usually old phone recordings or voice notes, and their audio is rarely readable by editing software.</p>
       <h3>What VidToFLAC does with it</h3>
-      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is re-encoded to H.264 because the browser cannot decode it.</p>
+      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is copied without re-encoding; the page preview may not show it, but the downloaded file is complete.</p>
       <h3>Step by step</h3>
       <ol>
         <li>Drop your .3gp file onto the upload area, or click <strong>Select files</strong>.</li>
@@ -853,7 +853,7 @@ CONTENT_EN = {
             ("Is there a size limit for an MKV?",
              "We impose none: processing happens on your own computer with FFmpeg (WebAssembly) and nothing is uploaded. The practical ceiling is the WebAssembly engine's memory — roughly 2 GB for input and output combined, which works comfortably up to around 1 GB of source file."),
             ("What if my MKV has several audio tracks?",
-             "All of them are converted to FLAC and kept in the output. That matters for OBS recordings that capture game audio and a microphone on separate tracks — you keep the ability to mix them in your editor."),
+             "VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. That matters for OBS recordings with game audio and a microphone on separate tracks, because the rest are left out. To keep every track as FLAC, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>."),
             ("Can I keep MKV instead of converting to MP4?",
              "Yes, and you should. DaVinci Resolve handles MKV without trouble, and MP4 does not officially support FLAC audio. Staying with MKV is the path of least resistance."),
         ],
@@ -1067,7 +1067,7 @@ CONTENT_EN = {
       <p>Old AVIs are frequently interlaced. Converting the audio does not deinterlace the picture — set that in your editor's clip attributes.</p>""",
         "faqs": [
             ("Do I lose video quality converting an AVI?",
-             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When it cannot be decoded in the browser it is re-encoded to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
+             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When its codec is one VidToFLAC re-encodes, such as MPEG-2, WMV or HEVC, it is converted to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
             ("Why does my AVI import without sound?",
              'Because the audio is <strong>MP3 or AC3</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",
@@ -1088,7 +1088,7 @@ CONTENT_EN = {
 
       <p>Browser-made screen recordings are often variable frame rate, which makes audio drift as the clip runs. That needs a constant frame rate, not an audio conversion.</p>""",
         "faqs": [
-            ("Do I lose video quality converting an WebM?",
+            ("Do I lose video quality converting a WebM?",
              'No, provided the video codec can be copied into the output container: it is copied <strong>bit for bit</strong>, with no decoding and no recompression, so the picture is exactly the original. Only the audio track changes, and FLAC is lossless.'),
             ("Why does my WebM import without sound?",
              'Because the audio is <strong>Opus or Vorbis</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
@@ -1110,7 +1110,7 @@ CONTENT_EN = {
 
       <p>This is a full conversion rather than a remux, so it takes noticeably longer than other formats and the video is not bit-for-bit identical. At -crf 18 the difference is not visible in practice.</p>""",
         "faqs": [
-            ("Do I lose video quality converting an WMV?",
+            ("Do I lose video quality converting a WMV?",
              'The video is re-encoded to H.264, because its original codec cannot be decoded in the browser. That means it is not bit-for-bit identical to the source, though at <code>-crf 18</code> the difference is not visible in practice. The audio becomes FLAC, which is lossless.'),
             ("Why does my WMV import without sound?",
              'Because the audio is <strong>WMA</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
@@ -1128,12 +1128,12 @@ CONTENT_EN = {
       <h3>The fix for your FLV files: FLAC audio in an MKV</h3>
       <p>FLV files from archived screencasts, old lectures and downloads from retired platforms carry their audio as <strong>MP3 or Nellymoser</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
-      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied when it is H.264, or re-encoded to H.264 when it is a legacy Flash codec such as Sorenson or VP6.</p>
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied when it is H.264 or Sorenson Spark, and re-encoded to H.264 when it is VP6, which the browser cannot decode.</p>
 
       <p>Flash video was retired in 2020, so anything you still have is an archive. Converting it now is also the simplest way to make sure it stays playable.</p>""",
         "faqs": [
             ("Do I lose video quality converting an FLV?",
-             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When it cannot be decoded in the browser it is re-encoded to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
+             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When its codec is one VidToFLAC re-encodes, such as MPEG-2, WMV or HEVC, it is converted to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
             ("Why does my FLV import without sound?",
              'Because the audio is <strong>MP3 or Nellymoser</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",
@@ -1154,10 +1154,10 @@ CONTENT_EN = {
 
       <p>VOB files from commercial DVDs are usually encrypted with CSS. Those cannot be processed by any tool without circumventing the protection, and this one will not open them.</p>""",
         "faqs": [
-            ("Do I lose video quality converting an VOB?",
+            ("Do I lose video quality converting a VOB?",
              'The video is re-encoded to H.264, because its original codec cannot be decoded in the browser. That means it is not bit-for-bit identical to the source, though at <code>-crf 18</code> the difference is not visible in practice. The audio becomes FLAC, which is lossless.'),
             ("Why does my VOB import without sound?",
-             'Because the audio is <strong>AC3 or PCM</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
+             'Because the audio is usually <strong>AC3</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",
              "<strong>MKV</strong>. It accepts FLAC audio without complaint and DaVinci Resolve handles it without trouble, whereas MP4 does not officially support FLAC. If you need MP4 specifically, convert the audio to AAC afterwards with desktop FFmpeg."),
             ("Is there a size limit?",
@@ -1176,8 +1176,8 @@ CONTENT_EN = {
 
       <p>Transport streams often carry several programmes and have no clean index, so some players show odd durations. Converting to MKV gives you a properly indexed file.</p>""",
         "faqs": [
-            ("Do I lose video quality converting an TS?",
-             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When it cannot be decoded in the browser it is re-encoded to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
+            ("Do I lose video quality converting a TS?",
+             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When its codec is one VidToFLAC re-encodes, such as MPEG-2, WMV or HEVC, it is converted to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
             ("Why does my TS import without sound?",
              'Because the audio is <strong>AC3 or AAC</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",
@@ -1199,7 +1199,7 @@ CONTENT_EN = {
       <p>M4V files bought from iTunes carry FairPlay DRM. Those are encrypted and no tool opens them legally, this one included. Your own exports convert normally.</p>""",
         "faqs": [
             ("Do I lose video quality converting an M4V?",
-             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When it cannot be decoded in the browser it is re-encoded to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
+             'It depends on the codec. When the video can be copied it is copied <strong>bit for bit</strong> and the picture is exactly the original. When its codec is one VidToFLAC re-encodes, such as MPEG-2, WMV or HEVC, it is converted to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes FLAC, which is lossless, either way.'),
             ("Why does my M4V import without sound?",
              'Because the audio is <strong>AAC</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",
@@ -1238,12 +1238,12 @@ CONTENT_EN = {
       <h3>The fix for your 3GP files: FLAC audio in an MKV</h3>
       <p>3GP files from early mobile phone recordings and voice notes carry their audio as <strong>AMR</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
-      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is re-encoded to H.264, because H.263 cannot be decoded in the browser.</p>
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The H.263 video is copied without re-encoding, so the picture is untouched, although the page preview may not be able to show it.</p>
 
       <p>Be realistic about AMR: it discards a great deal to reach very low bitrates, and FLAC preserves exactly what remains. It cannot restore what was never stored.</p>""",
         "faqs": [
-            ("Do I lose video quality converting an 3GP?",
-             'The video is re-encoded to H.264, because its original codec cannot be decoded in the browser. That means it is not bit-for-bit identical to the source, though at <code>-crf 18</code> the difference is not visible in practice. The audio becomes FLAC, which is lossless.'),
+            ("Do I lose video quality converting a 3GP?",
+             'No, when the video is H.263, H.264 or MPEG-4, which is almost always the case: it is copied without re-encoding, so the picture stays exactly as it was. The audio becomes FLAC, which is lossless, although it cannot restore what AMR discarded.'),
             ("Why does my 3GP import without sound?",
              'Because the audio is <strong>AMR</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",

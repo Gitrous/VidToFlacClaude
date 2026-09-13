@@ -47,7 +47,7 @@
     "description": "Guía completa para solucionar los errores de audio en DaVinci Resolve: sin sonido, códec no compatible, AAC en Linux, MOV sin audio y más. Sin subir archivos.",
     "url": "https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/",
     "datePublished": "2026-06-28",
-    "dateModified": "2026-06-28",
+    "dateModified": "2026-09-13",
     "inLanguage": "es",
     "author": {
       "@type": "Organization",
@@ -667,7 +667,7 @@
 
       <h3>Solución 3: Instalar DaVinci Resolve Studio</h3>
 
-      <p>La versión de pago de DaVinci Resolve (Studio) incluye más licencias de códecs, incluyendo AAC en Linux. Sin embargo, es de pago y no resuelve todos los casos (E-AC-3 sigue dando problemas habitualmente, por ejemplo). Para la mayoría de usuarios, convertir el archivo es una solución mejor y gratuita.</p>
+      <p>La versión de pago de DaVinci Resolve (Studio) añade funciones y códecs, pero no cuentes con ella para el audio en Linux: en nuestra prueba, Studio 21 sobre Linux importó un MP4 con audio AAC-LC y la pista quedó en silencio (<a href="/#demo-titulo">puedes ver la grabación</a>). E-AC-3 también sigue dando problemas. Para la mayoría de usuarios, convertir el archivo es una solución mejor y gratuita.</p>
 
       <h3>Solución 4: Extraer el audio y reconvertirlo manualmente</h3>
 
@@ -688,7 +688,7 @@
       <p>Las cámaras mirrorless y réflex suelen grabar en MOV con audio AAC o PCM de 24 bits. El AAC da problemas en Linux; el PCM de 24 bits puede dar problemas en combinaciones específicas de DaVinci Resolve. <a href="/convertir-mov-a-flac/">Convertir MOV a FLAC</a> resuelve ambos casos.</p>
 
       <h3>WebM de YouTube o grabaciones de pantalla</h3>
-      <p>El formato WebM usa Opus o Vorbis para el audio. Ninguno de los dos tiene soporte fiable en DaVinci Resolve. Si descargas vídeos de YouTube o grabas tu pantalla en WebM, necesitarás <a href="/convertir-webm-a-flac/">convertir el WebM a FLAC</a>.</p>
+      <p>El formato WebM usa Opus o Vorbis para el audio. Ninguno de los dos tiene soporte fiable en DaVinci Resolve. Si descargas vídeos de YouTube o grabas tu pantalla en WebM, necesitarás <a href="/convertir-video-a-flac/#webm">convertir el WebM a FLAC</a>.</p>
 
       <h3>MKV con audio AAC o AC-3</h3>
       <p>MKV es solo un contenedor: puede llevar cualquier códec de audio dentro. Un MKV con audio AAC tendrá exactamente el mismo problema que un MP4 con AAC. Puedes solucionarlo con un <a href="/convertir-mkv-a-flac/">remux de MKV a FLAC</a>: el contenedor sigue siendo MKV pero el audio cambia a FLAC.</p>

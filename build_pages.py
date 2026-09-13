@@ -11,6 +11,7 @@ import json
 from datetime import date
 
 from landing_content import CONTENT
+from merged_content import MERGED_ES, MERGED_EN, LABEL
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,9 +21,9 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 # ─────────────────────────────────────────────────────────────────────────────
 # Indexación
 # ─────────────────────────────────────────────────────────────────────────────
-# Solo cuatro landings se ofrecen a Google; el resto son variantes de formato
-# demasiado parecidas entre sí y van en noindex para no competir consigo mismas
-# ni con la home. update_sitemap() se apoya en esto: una página noindex NUNCA
+# Se ofrecen a Google las landings de MP4, MKV, MOV y WAV y las dos agrupadas
+# (vídeo y audio) de cada idioma. Los demás formatos ya no tienen página propia:
+# viven como secciones de las agrupadas y su URL antigua redirige ahí. update_sitemap() se apoya en esto: una página noindex NUNCA
 # debe aparecer en el sitemap (Search Console lo marca como error).
 DEFAULT_ROBOTS = 'noindex, follow'
 INDEXABLE_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1'
@@ -31,6 +32,8 @@ INDEXABLE = {
     'convertir-mkv-a-flac', 'convert-mkv-to-flac',
     'convertir-mov-a-flac', 'convert-mov-to-flac',
     'convertir-wav-a-flac', 'convert-wav-to-flac',
+    'convertir-video-a-flac', 'convert-video-to-flac',
+    'convertir-audio-a-flac', 'convert-audio-to-flac',
 }
 
 # Pares ES <-> EN. Mientras no existió la landing inglesa, heredar el hreflang de
@@ -38,26 +41,12 @@ INDEXABLE = {
 # contradiciendo su canonical; por eso se eliminaba. Ahora que el par existe, sí
 # procede declararlo, y cada lado apunta al otro.
 PAIRS = {
-    'convertir-mp4-a-flac':  'convert-mp4-to-flac',
-    'convertir-mkv-a-flac':  'convert-mkv-to-flac',
-    'convertir-mov-a-flac':  'convert-mov-to-flac',
-    'convertir-wav-a-flac':  'convert-wav-to-flac',
-    'convertir-avi-a-flac':  'convert-avi-to-flac',
-    'convertir-webm-a-flac': 'convert-webm-to-flac',
-    'convertir-wmv-a-flac':  'convert-wmv-to-flac',
-    'convertir-flv-a-flac':  'convert-flv-to-flac',
-    'convertir-vob-a-flac':  'convert-vob-to-flac',
-    'convertir-ts-a-flac':   'convert-ts-to-flac',
-    'convertir-m4v-a-flac':  'convert-m4v-to-flac',
-    'convertir-mpeg-a-flac': 'convert-mpeg-to-flac',
-    'convertir-3gp-a-flac':  'convert-3gp-to-flac',
-    'convertir-aac-a-flac':  'convert-aac-to-flac',
-    'convertir-mp3-a-flac':  'convert-mp3-to-flac',
-    'convertir-m4a-a-flac':  'convert-m4a-to-flac',
-    'convertir-ogg-a-flac':  'convert-ogg-to-flac',
-    'convertir-wma-a-flac':  'convert-wma-to-flac',
-    'convertir-aiff-a-flac': 'convert-aiff-to-flac',
-    'convertir-opus-a-flac': 'convert-opus-to-flac',
+    'convertir-mp4-a-flac':   'convert-mp4-to-flac',
+    'convertir-mkv-a-flac':   'convert-mkv-to-flac',
+    'convertir-mov-a-flac':   'convert-mov-to-flac',
+    'convertir-wav-a-flac':   'convert-wav-to-flac',
+    'convertir-video-a-flac': 'convert-video-to-flac',
+    'convertir-audio-a-flac': 'convert-audio-to-flac',
 }
 _EN_OF = PAIRS
 _ES_OF = {v: k for k, v in PAIRS.items()}
@@ -119,7 +108,7 @@ PAGES = [
         <li>Descarga el resultado e impórtalo al Media Pool de DaVinci Resolve. La pista de audio aparecerá en azul y se reproducirá sin errores.</li>
       </ol>
       <h3>Errores frecuentes y qué hacer</h3>
-      <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el archivo MP4 proviene de una cámara con múltiples pistas de audio (stereo + surround), VidToFLAC convierte todas las pistas al FLAC del contenedor de salida.</p>
+      <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el MP4 trae varias pistas de audio (estéreo y surround, por ejemplo), VidToFLAC convierte solo una: la que FFmpeg elige por defecto, normalmente la de más canales. Para conservarlas todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
     </article>
   </section>""",
     },
@@ -569,11 +558,11 @@ PAGES = [
       <h3>Qué códecs de audio lleva un AVI y por qué fallan</h3>
       <p>Los AVI de cámaras de consumo de los años 2000-2010 suelen llevar audio <strong>MP3</strong>. Los AVI procedentes de DVD ripeados o material de broadcast suelen llevar <strong>AC3 (Dolby Digital)</strong>. Los AVI grabados con software como VirtualDub o Avisynth pueden llevar <strong>PCM linear</strong>, que sí es compatible. DaVinci Resolve en Linux no incluye decodificadores para MP3 ni AC3, lo que provoca que la pista de audio aparezca vacía o en gris al importar. Si el AVI tiene PCM linear, el audio sí se importa correctamente.</p>
       <h3>El problema del vídeo en AVI: DivX y Xvid</h3>
-      <p>Muchos AVI de los años 2000 usan vídeo <strong>DivX o Xvid</strong> (variantes de MPEG-4 Part 2), que el navegador moderno no puede decodificar. En ese caso, VidToFLAC detecta el códec de vídeo incompatible y recodifica el vídeo a <strong>H.264</strong> automáticamente, usando calidad alta (CRF 18) para minimizar la degradación. El audio sigue pasando a FLAC. El archivo resultante es un MKV con H.264 + FLAC, totalmente compatible con DaVinci Resolve.</p>
+      <p>Muchos AVI de los años 2000 usan vídeo <strong>DivX o Xvid</strong> (variantes de MPEG-4 Part 2), que los navegadores no decodifican. VidToFLAC los copia tal cual dentro del MKV, sin recodificar, así que la imagen no pierde calidad; lo que puede pasar es que la vista previa de la página no muestre el vídeo. El audio pasa a FLAC igualmente. Si tu editor tampoco lee DivX o Xvid, recodifica el vídeo a H.264 con FFmpeg de escritorio (<code>-c:v libx264 -crf 18</code>).</p>
       <h3>Paso a paso: convertir tu AVI a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .avi a VidToFLAC.</li>
-        <li>La herramienta analiza el vídeo y el audio. Si el vídeo es DivX/Xvid, lo recodifica a H.264; si es H.264, lo copia bit a bit.</li>
+        <li>La herramienta analiza el vídeo y el audio. El vídeo H.264, DivX o Xvid se copia sin recodificar; solo los códecs de la lista de recodificación, como MJPEG o Cinepak, pasan a H.264.</li>
         <li>Pulsa <strong>Convertir</strong>. El audio pasa siempre a FLAC, independientemente del códec original.</li>
         <li>Descarga el MKV resultante e impórtalo en DaVinci Resolve.</li>
       </ol>
@@ -691,14 +680,14 @@ PAGES = [
       <h3>FLV: el formato Flash que dominó la web</h3>
       <p>FLV (Flash Video) fue el formato de vídeo de Adobe Flash Player y dominó el vídeo web entre 2005 y 2015. YouTube, Dailymotion, Metacafe y prácticamente todas las plataformas de vídeo de esa época servían sus contenidos en FLV. También lo usaban muchos videojuegos Flash y aplicaciones interactivas. Desde que los navegadores abandonaron Flash en 2020, los archivos FLV se han convertido en material de archivo: hay millones de vídeos en este formato que los usuarios quieren editar o conservar en formatos modernos.</p>
       <h3>Códecs en FLV: H.263, H.264, MP3 y AAC</h3>
-      <p>Los FLV antiguos (anteriores a 2008) usan vídeo <strong>H.263 (Sorenson Spark o VP6)</strong> y audio <strong>MP3</strong>. Los FLV más modernos de YouTube (2008-2015) usan vídeo <strong>H.264</strong> y audio <strong>AAC</strong>. Los navegadores actuales no pueden reproducir H.263 ni VP6, pero sí H.264. VidToFLAC detecta el códec de vídeo: si es H.264, lo copia bit a bit; si es H.263 o VP6, lo recodifica a H.264. En todos los casos, el audio pasa a FLAC.</p>
+      <p>Los FLV antiguos (anteriores a 2008) usan vídeo <strong>Sorenson Spark (una variante de H.263) o VP6</strong> y audio <strong>MP3</strong>. Los FLV más modernos de YouTube (2008-2015) usan vídeo <strong>H.264</strong> y audio <strong>AAC</strong>. VidToFLAC detecta el códec de vídeo: H.264 y Sorenson Spark se copian sin recodificar, y VP6, que el navegador no decodifica, se recodifica a H.264. Con Sorenson Spark la vista previa de la página puede no mostrar la imagen, aunque el archivo se genera igual. En todos los casos, el audio pasa a FLAC.</p>
       <h3>Por qué DaVinci Resolve no abre el audio de los FLV</h3>
       <p>DaVinci Resolve en Linux no incluye los decodificadores para MP3 ni para AAC. Si intentas importar un FLV en Resolve (suponiendo que el propio contenedor FLV sea reconocido, lo cual no está garantizado), la pista de audio aparecerá vacía. Además, el contenedor FLV en sí tiene soporte limitado en editores modernos. La solución es convertir el FLV a MKV con audio FLAC, que es un formato universalmente compatible.</p>
       <h3>Paso a paso: convertir tu FLV a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .flv a VidToFLAC.</li>
-        <li>La herramienta detecta el códec de vídeo (H.263/VP6 o H.264) y el de audio (MP3 o AAC).</li>
-        <li>Pulsa <strong>Convertir</strong>. Si el vídeo es H.264, se copia bit a bit; si es H.263/VP6, se recodifica a H.264. El audio siempre pasa a FLAC.</li>
+        <li>La herramienta detecta el códec de vídeo (Sorenson Spark, VP6 o H.264) y el de audio (MP3 o AAC).</li>
+        <li>Pulsa <strong>Convertir</strong>. H.264 y Sorenson Spark se copian sin recodificar; VP6 se recodifica a H.264. El audio siempre pasa a FLAC.</li>
         <li>Importa el MKV resultante en DaVinci Resolve. Tendrás vídeo y audio correctamente sincronizados.</li>
       </ol>
       <h3>Recuperación de vídeos de YouTube descargados en FLV</h3>
@@ -783,10 +772,10 @@ PAGES = [
         <li>Arrastra tu archivo .ts o .m2ts a VidToFLAC.</li>
         <li>Selecciona <strong>MKV</strong> como formato de salida.</li>
         <li>Pulsa <strong>Convertir</strong>. El vídeo H.264 se copia bit a bit; el MPEG-2 se recodifica a H.264. El audio AC3, AAC, MP2 o DTS pasa a FLAC.</li>
-        <li>Descarga el MKV e impórtalo en DaVinci Resolve. Todas las pistas de audio estarán disponibles como FLAC.</li>
+        <li>Descarga el MKV e impórtalo en DaVinci Resolve. La pista de audio convertida estará disponible como FLAC.</li>
       </ol>
       <h3>Pistas múltiples de audio en TS</h3>
-      <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescrípción para personas con discapacidad visual. VidToFLAC convierte todas las pistas de audio del TS a FLAC en el MKV de salida, permitiéndote elegir cuál usar al importar en Resolve.</p>
+      <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC convierte solo una de ellas, la que FFmpeg elige por defecto, que no siempre es el idioma que buscas. Si necesitas una pista concreta o todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
     </article>
   </section>""",
     },
@@ -901,12 +890,12 @@ PAGES = [
       <h3>Códecs en 3GP y sus limitaciones</h3>
       <p>El vídeo en 3GP puede ser <strong>H.263</strong> (el estándar de los primeros teléfonos), <strong>H.264</strong> (en smartphones más recientes de 2008-2010), o <strong>MPEG-4 Part 2</strong>. El audio puede ser <strong>AMR-NB o AMR-WB</strong> (Adaptive Multi-Rate, el códec de voz de la telefonía móvil, muy común en Nokia) o <strong>AAC</strong> (en smartphones más avanzados). AMR es un códec optimizado para voz humana que suena bien en llamadas pero tiene baja calidad para música o audio en general. DaVinci Resolve no incluye decodificadores para AMR ni para AAC en Linux.</p>
       <h3>Calidad de vídeo en 3GP: qué esperar</h3>
-      <p>Los archivos 3GP de móviles antiguos tienen resoluciones muy bajas: típicamente <strong>176×144 píxeles (QCIF)</strong> o <strong>320×240 (QVGA)</strong>. La calidad de vídeo es limitada incluso después de la conversión: VidToFLAC recodifica el vídeo a H.264, pero la resolución y la calidad visual original se mantienen tal como estaban. La conversión no mejora la calidad del vídeo; solo mejora la compatibilidad del códec de audio.</p>
+      <p>Los archivos 3GP de móviles antiguos tienen resoluciones muy bajas: típicamente <strong>176×144 píxeles (QCIF)</strong> o <strong>320×240 (QVGA)</strong>. La calidad de vídeo es limitada incluso después de la conversión: VidToFLAC copia el vídeo H.263, H.264 o MPEG-4 sin recodificarlo, así que la resolución y la calidad visual se mantienen tal como estaban. La conversión no mejora la calidad del vídeo; solo mejora la compatibilidad del códec de audio.</p>
       <h3>Paso a paso: convertir tu 3GP a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .3gp a VidToFLAC.</li>
         <li>La herramienta detecta el códec de vídeo (H.263 o H.264) y el de audio (AMR o AAC).</li>
-        <li>Pulsa <strong>Convertir</strong>. El H.263 se recodifica a H.264; el audio AMR o AAC pasa a FLAC.</li>
+        <li>Pulsa <strong>Convertir</strong>. El vídeo se copia sin recodificar y el audio AMR o AAC pasa a FLAC. Si la vista previa no muestra la imagen es porque el navegador no decodifica H.263; el archivo descargado está completo.</li>
         <li>Importa el MKV resultante en DaVinci Resolve. El audio ya no aparecerá en gris.</li>
       </ol>
       <h3>Consejo: recuperación de vídeos de Nokia y Samsung antiguos</h3>
@@ -1011,6 +1000,10 @@ A_ES = {
     'FAQ_JSON_RE': RE_FAQ_JSON, 'SHARED_GUIDE_RE': RE_SHARED_GUIDE,
     'DEMO_RE': RE_DEMO,
     'template': 'index.html', 'out': '{slug}',
+    'lang': 'es', 'prefix': '/', 'old': 'convertir-{f}-a-flac',
+    'guide_card': '<div class="card-title">Guía de conversión</div>',
+    'index_card': 'Guías por formato', 'index_nav': 'Formatos de esta guía',
+    'moved': 'Esta guía ahora forma parte de',
 }
 
 A_EN = {
@@ -1044,6 +1037,10 @@ A_EN = {
     'SHARED_GUIDE_RE': RE_SHARED_GUIDE,
     'DEMO_RE': RE_DEMO,
     'template': 'en/index.html', 'out': 'en/{slug}',
+    'lang': 'en', 'prefix': '/en/', 'old': 'convert-{f}-to-flac',
+    'guide_card': '<div class="card-title">Conversion guide</div>',
+    'index_card': 'Guides by format', 'index_nav': 'Formats in this guide',
+    'moved': 'This guide is now part of',
 }
 
 
@@ -1196,6 +1193,155 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
 
     return h
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Landings agrupadas
+# ─────────────────────────────────────────────────────────────────────────────
+# Las landings de formatos minoritarios no se generan por separado: se juntan en
+# una página de vídeo y otra de audio por idioma (merged_content.py). Su texto
+# sigue en PAGES / CONTENT, que es de donde se leen las secciones, y su URL
+# antigua pasa a ser una redirección a la sección correspondiente.
+
+def merged_map(merged: list, A: dict) -> dict:
+    """slug antiguo -> (slug de la página agrupada, formato)."""
+    return {A['old'].format(f=f): (m['slug'], f) for m in merged for f in m['formats']}
+
+
+def rewrite_old_links(h: str, merged: list, A: dict) -> str:
+    """Los enlaces a una landing absorbida apuntan a su sección nueva."""
+    for old, (slug, f) in merged_map(merged, A).items():
+        h = h.replace(f'href="{A["prefix"]}{old}/"', f'href="{A["prefix"]}{slug}/#{f}"')
+        h = h.replace(f'data-url="{A["prefix"]}{old}/"', f'data-url="{A["prefix"]}{slug}/#{f}"')
+    return h
+
+
+def _shingles(text: str, n: int = 8) -> set:
+    w = _strip_tags(text).lower().split()
+    return {' '.join(w[i:i + n]) for i in range(max(1, len(w) - n + 1))}
+
+
+def pick_faqs(sources: list, per_format: int = 2, max_overlap: float = 0.5) -> list:
+    """Preguntas propias de cada formato, sin las que se repiten entre formatos.
+
+    Muchas FAQ son la misma pregunta con el nombre del formato cambiado. Se
+    normaliza ese nombre y se descarta la que comparta más de la mitad de sus
+    n-gramas con una ya elegida.
+    """
+    chosen, seen = [], []
+    for label, faqs in sources:
+        taken = 0
+        for q, a in faqs:
+            if taken == per_format:
+                break
+            if label.lower() not in q.lower():
+                continue
+            norm = re.sub(re.escape(label), 'FMT', q + ' ' + a, flags=re.I)
+            sh = _shingles(norm)
+            if any(len(sh & o) / max(1, min(len(sh), len(o))) > max_overlap for o in seen):
+                continue
+            seen.append(sh)
+            chosen.append((q, a))
+            taken += 1
+    return chosen
+
+
+def dedupe_sections(sections: list, labels: list, max_overlap: float = 0.5) -> list:
+    """Quita de cada sección los bloques que ya han salido en una anterior.
+
+    Las guías inglesas se escribieron sobre una plantilla: pasos, cierre y parte
+    de la explicación son iguales en cada formato con el nombre cambiado. Juntas
+    en una sola página, eso era un 40 % de texto repetido. Se conserva la primera
+    aparición y, si un <h3> se queda sin contenido detrás, se quita también.
+    """
+    block_re = re.compile(r'      <(p|ol|ul)>.*?</\1>\n?', re.S)
+    seen, out = [], []
+    for sec, label in zip(sections, labels):
+        def keep(m):
+            norm = re.sub(re.escape(label), 'FMT', m.group(0), flags=re.I)
+            sh = _shingles(norm)
+            if len(sh) > 3 and any(len(sh & o) / len(sh) > max_overlap for o in seen):
+                return ''
+            seen.append(sh)
+            return m.group(0)
+        sec = block_re.sub(keep, sec)
+        sec = re.sub(r'      <h3>[^\n]*</h3>\n(?=\s*(?:<h3>|</article>))', '', sec)
+        sec = re.sub(r'\n{3,}', '\n\n', sec)
+        out.append(sec)
+    return out
+
+
+def build_merged_page(meta: dict, pages: list, content: dict, A: dict) -> dict:
+    """Arma el diccionario de página de una landing agrupada."""
+    by_slug = {p['slug']: {**p, **content.get(p['slug'], {})} for p in pages}
+    L = A['lang']
+    chips = '\n'.join(f'      <a href="#{f}">{LABEL[f]}</a>' for f in meta['formats'])
+    parts = [
+        '  <section class="card seo-card" aria-labelledby="indice-formatos">\n'
+        f'    <div class="card-title">{A["index_card"]}</div>\n'
+        f'    <h2 id="indice-formatos" style="margin-bottom:0.7rem">{meta["index_title"]}</h2>\n'
+        f'    <p>{meta["index_intro"]}</p>\n'
+        f'    <nav class="format-links" aria-label="{A["index_nav"]}">\n{chips}\n    </nav>\n'
+        '  </section>'
+    ]
+    sources = []
+    for f in meta['formats']:
+        p = by_slug[A['old'].format(f=f)]
+        g = p['unique_guide']
+        for old, new in (
+            ('<section class="card seo-card" aria-labelledby="guia-formato-titulo">',
+             f'<section class="card seo-card" id="{f}" aria-labelledby="guia-{f}">'),
+            ('id="guia-formato-titulo"', f'id="guia-{f}"'),
+            (A['guide_card'], f'<div class="card-title">{LABEL[f]} → FLAC</div>'),
+        ):
+            if g.count(old) != 1:
+                raise SystemExit(f'{p["slug"]}: anclaje de guía no encontrado: {old[:50]}')
+            g = g.replace(old, new)
+        cut = g.rindex('    </article>')
+        g = g[:cut] + p.get('seo_body', '') + '\n' + g[cut:]
+        parts.append(g)
+        sources.append((LABEL[f], p.get('faqs', [])))
+    parts[1:] = dedupe_sections(parts[1:], [LABEL[f] for f in meta['formats']])
+    return {
+        **meta,
+        'unique_guide': '\n\n'.join(parts),
+        # Las FAQ de las landings antiguas repiten la misma pregunta por formato;
+        # si la página agrupada trae las suyas, mandan esas.
+        'faqs': meta.get('faqs') or pick_faqs(sources),
+    }
+
+
+def build_redirect(old_page: dict, target_slug: str, fmt: str, title: str, A: dict) -> str:
+    """Página mínima en la URL antigua que lleva a la sección nueva.
+
+    Mismo patrón que en/articulos/: noindex, canonical a la página de destino y
+    redirección inmediata, que Google trata como permanente.
+    """
+    url = f'{A["prefix"]}{target_slug}/#{fmt}'
+    canonical = f'https://vidtoflac.tech{A["prefix"]}{target_slug}/'
+    return (
+        f'<!DOCTYPE html>\n<html lang="{A["lang"]}">\n<head>\n'
+        '  <meta charset="UTF-8" />\n'
+        '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n'
+        f'  <title>{old_page["title"]}</title>\n'
+        '  <meta name="robots" content="noindex, follow" />\n'
+        f'  <link rel="canonical" href="{canonical}" />\n'
+        f'  <meta http-equiv="refresh" content="0; url={url}" />\n'
+        '  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n'
+        '  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />\n'
+        '  <style>\n'
+        '    body {\n'
+        '      background: #0a0a0b; color: #a7a7ad;\n'
+        '      font-family: system-ui, -apple-system, sans-serif;\n'
+        '      display: flex; align-items: center; justify-content: center;\n'
+        '      min-height: 100vh; margin: 0; padding: 2rem; text-align: center;\n'
+        '    }\n'
+        '    a { color: #19c37d }\n'
+        '  </style>\n'
+        '</head>\n<body>\n'
+        f'  <p>{A["moved"]} <a href="{url}">{title}</a>.</p>\n'
+        f'  <script>location.replace({json.dumps(url)});</script>\n'
+        '</body>\n</html>\n'
+    )
+
 
 def update_sitemap(pages: list) -> None:
     """Añade al sitemap las landings indexables que falten.
@@ -1238,35 +1384,41 @@ def update_sitemap(pages: list) -> None:
         print(f'  sitemap.xml: {skipped_noindex} páginas noindex omitidas (correcto)')
 
 
-def generate(pages, content, A) -> list:
-    """Genera las landings de un idioma. Devuelve las rutas escritas."""
+def generate(pages, content, merged, A) -> list:
+    """Genera las landings de un idioma. Devuelve las páginas completas escritas."""
     template = open(os.path.join(BASE, A['template']), encoding='utf-8').read()
-    written = []
-    for page in pages:
-        page = {**page, **content.get(page['slug'], {})}
-        out_dir = os.path.join(BASE, A['out'].format(slug=page['slug']))
+    absorbed = merged_map(merged, A)
+    full = [{**p, **content.get(p['slug'], {})} for p in pages if p['slug'] not in absorbed]
+    full += [build_merged_page(m, pages, content, A) for m in merged]
+
+    def write(slug, html):
+        out_dir = os.path.join(BASE, A['out'].format(slug=slug))
         os.makedirs(out_dir, exist_ok=True)
-        out_path = os.path.join(out_dir, 'index.html')
-        with open(out_path, 'w', encoding='utf-8') as f:
-            f.write(build_page(page, template, A))
-        written.append(os.path.relpath(out_path, BASE))
-    return written
+        path = os.path.join(out_dir, 'index.html')
+        with open(path, 'w', encoding='utf-8') as fh:
+            fh.write(html)
+        print(f'  {os.path.relpath(path, BASE)}')
+
+    for page in full:
+        write(page['slug'], rewrite_old_links(build_page(page, template, A), merged, A))
+    titles = {m['slug']: re.sub(r'<[^>]+>', '', m['hero_h1']) for m in merged}
+    for p in pages:
+        if p['slug'] in absorbed:
+            target, f = absorbed[p['slug']]
+            write(p['slug'], build_redirect(p, target, f, titles[target], A))
+    return full
 
 
 def main() -> None:
     _fill_anchors()
-
-    for path in generate(PAGES, CONTENT, A_ES):
-        print(f'  {path}')
+    full = generate(PAGES, CONTENT, MERGED_ES, A_ES)
     try:
         from landing_content_en import PAGES_EN, CONTENT_EN
     except ImportError:
         PAGES_EN, CONTENT_EN = [], {}
     if PAGES_EN:
-        for path in generate(PAGES_EN, CONTENT_EN, A_EN):
-            print(f'  {path}')
-
-    update_sitemap(PAGES + list(PAGES_EN))
+        full += generate(PAGES_EN, CONTENT_EN, MERGED_EN, A_EN)
+    update_sitemap(full)
     print('Listo.')
 
 

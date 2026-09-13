@@ -43,7 +43,7 @@
     "description": "A complete guide to installing DaVinci Resolve on Ubuntu, Pop!_OS and Fedora. Includes the fix for the AAC audio problem on Linux.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-linux-install-audio/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-09-13",
     "inLanguage": "en",
     "author": { "@type": "Organization", "name": "VidToFLAC", "url": "https://vidtoflac.tech/" },
     "publisher": { "@type": "Organization", "name": "VidToFLAC", "url": "https://vidtoflac.tech/", "logo": "https://vidtoflac.tech/icon-512.png" },
@@ -77,7 +77,7 @@
         "name": "Does DaVinci Resolve Studio fix the audio problem on Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles commonly still fail. The most reliable fix, and a free one, is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in DaVinci Resolve free vs Studio."
+          "text": "Do not count on it. In our own test, DaVinci Resolve Studio 21 on Linux imported an H.264 MP4 with AAC-LC audio, the most common profile, and the track stayed silent. E-AC-3 does not work either. What did fix it was converting the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in DaVinci Resolve free vs Studio."
         }
       },
       {
@@ -641,7 +641,7 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
 
       <p>On Windows and macOS the operating system already carries those licences transparently, so any application can decode AAC without paying anything extra. Linux has no centralised licensing arrangement: each company has to pay for and ship the decoders itself.</p>
 
-      <p><strong>Blackmagic Design chose not to include those decoders in the free Linux build of DaVinci Resolve.</strong> It is neither a bug nor an oversight: it is a business decision. The practical result is that DaVinci Resolve on Linux cannot read AAC, MP3 or E-AC-3 audio.</p>
+      <p><strong>Blackmagic Design does not include those decoders in DaVinci Resolve for Linux.</strong> It is neither a bug nor an oversight: it is a business decision. The practical result is that DaVinci Resolve on Linux does not read AAC or E-AC-3 audio, and paying for Studio is no guarantee: in our test with Studio 21, an MP4 with AAC-LC audio imported with no sound (you can watch <a href="/en/#demo-titulo">the recording on the home page</a>).</p>
 
       <table class="compare-table">
         <thead>
@@ -650,7 +650,7 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
         <tbody>
           <tr><td><strong>FLAC</strong></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td></tr>
           <tr><td><strong>PCM / WAV</strong></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td></tr>
-          <tr><td><strong>AAC</strong></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-fail">No</span></td><td><span class="badge-partial">Partial</span></td></tr>
+          <tr><td><strong>AAC</strong></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-fail">No</span></td><td><span class="badge-fail">No (tested in Studio 21)</span></td></tr>
           <tr><td><strong>MP3</strong></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-fail">No</span></td><td><span class="badge-partial">Partial</span></td></tr>
           <tr><td><strong>AC-3 (Dolby)</strong></td><td><span class="badge-partial">Partial</span></td><td><span class="badge-ok">Yes</span></td><td><span class="badge-fail">No</span></td><td><span class="badge-fail">No</span></td></tr>
           <tr><td><strong>Opus</strong></td><td><span class="badge-partial">Partial</span></td><td><span class="badge-partial">Partial</span></td><td><span class="badge-fail">No</span></td><td><span class="badge-fail">No</span></td></tr>
@@ -661,7 +661,7 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
 
       <h2 id="solucion">The fix: convert the audio to FLAC with VidToFLAC</h2>
 
-      <p>The fix does not involve reinstalling DaVinci Resolve, hunting for plugins, or paying for Studio. All you need is to <strong>change the file's audio codec</strong> from AAC or MP3 to FLAC. The video is untouched — copied bit for bit, with no quality loss.</p>
+      <p>The fix does not involve reinstalling DaVinci Resolve, hunting for plugins, or paying for Studio. All you need is to <strong>change the file's audio codec</strong> from AAC or MP3 to FLAC. The video is copied without re-encoding when the browser can play its codec; when it cannot, as happens with HEVC/H.265, it is re-encoded to high-quality H.264.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">A free fix · nothing to install</span>
@@ -802,7 +802,7 @@ done</code></pre>
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Partly. Studio ships more decoders on Linux, but E-AC-3 and some AAC profiles commonly still fail. <strong>The most reliable fix, and a free one,</strong> is to convert the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in <a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio</a>.</p>
+            <p>Do not count on it. In our own test, DaVinci Resolve Studio 21 on Linux imported an H.264 MP4 with AAC-LC audio, the most common profile, and the track stayed silent. E-AC-3 does not work either. <strong>What did fix it, for free,</strong> was converting the audio to FLAC with VidToFLAC — it works with the free version, no Studio purchase needed. Read more in <a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio</a>.</p>
           </div>
         </details>
 

@@ -47,7 +47,7 @@
     "description": "¿Merece la pena pagar DaVinci Resolve Studio? Comparativa completa de funciones, límites de la versión gratuita y cuándo el problema de audio se resuelve sin pagar nada.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-gratuito-vs-studio/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-09-13",
     "inLanguage": "es",
     "author": {
       "@type": "Organization",
@@ -94,7 +94,7 @@
         "name": "¿DaVinci Resolve Studio soluciona el problema de audio AAC en Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Parcialmente. Studio incluye más decodificadores de audio en Linux que la versión gratuita, pero no resuelve todos los casos. E-AC-3 (Dolby Digital Plus) no funciona en ninguna versión, y algunos perfiles de AAC tampoco. La solución más fiable, y gratuita, es convertir el audio a FLAC con VidToFLAC antes de importar."
+          "text": "No cuentes con ello. En nuestra prueba, DaVinci Resolve Studio 21 sobre Linux importó un MP4 H.264 con audio AAC-LC, el perfil más habitual en cámaras, móviles y OBS, y la pista quedó en silencio. E-AC-3 (Dolby Digital Plus) tampoco funciona. Lo que sí lo resolvió, y es gratis, fue convertir el audio a FLAC con VidToFLAC antes de importar."
         }
       },
       {
@@ -528,7 +528,7 @@
           <tr>
             <td><strong>Audio AAC en Linux</strong></td>
             <td><span class="badge-fail">No</span></td>
-            <td><span class="badge-partial">Parcial</span></td>
+            <td><span class="badge-fail">No (probado en Studio 21)</span></td>
           </tr>
           <tr>
             <td><strong>Audio FLAC en Windows, macOS y Linux</strong></td>
@@ -576,17 +576,17 @@
       <p>El resultado es el conocido problema: importas un clip, el vídeo se ve perfectamente, pero el audio aparece en gris o directamente no existe en la línea de tiempo.</p>
 
       <div class="warn-box">
-        <strong>Importante sobre Studio y Linux:</strong> DaVinci Resolve Studio mejora el soporte de audio en Linux respecto a la versión gratuita, pero <strong>no lo resuelve completamente</strong>. E-AC-3 sigue sin funcionar, y algunos perfiles de AAC tampoco. Pagar Studio no garantiza que todos tus archivos vayan a tener audio.
+        <strong>Importante sobre Studio y Linux:</strong> pagar Studio <strong>no garantiza que el audio funcione</strong>. En nuestra prueba, DaVinci Resolve Studio 21 sobre Linux importó un MP4 H.264 con audio AAC-LC, el perfil más habitual, y la pista quedó vacía y en silencio (<a href="/#demo-titulo">aquí está la grabación</a>). E-AC-3 tampoco funciona. Antes de comprar Studio por el audio, prueba a convertir el archivo.
       </div>
 
       <h2 id="solucion-audio">Cómo resolver el audio sin pagar Studio</h2>
 
-      <p>La clave es entender que el problema no está en DaVinci Resolve sino en el <strong>códec del archivo</strong>. DaVinci Resolve en Linux soporta FLAC de forma nativa en todas las versiones — gratuita y Studio. Si conviertes el audio de tus archivos a FLAC antes de importarlos, el problema desaparece completamente, sin pagar nada.</p>
+      <p>La clave es entender que el problema no está en DaVinci Resolve sino en el <strong>códec del archivo</strong>. DaVinci Resolve en Linux soporta FLAC de forma nativa en todas las versiones — gratuita y Studio. Si conviertes el audio de tus archivos a FLAC antes de importarlos, el error de códec de audio desaparece, sin pagar nada.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Solución gratuita para el audio</span>
         <h3>Convierte el audio a FLAC y olvídate del problema</h3>
-        <p>VidToFLAC hace un remux: copia el vídeo bit a bit (cero pérdida de calidad) y convierte solo el audio a FLAC. Todo en tu navegador, sin subir archivos, sin instalar nada.</p>
+        <p>VidToFLAC convierte el audio a FLAC y copia el vídeo sin recodificar siempre que el navegador pueda reproducir su códec; con HEVC/H.265 y otros que no, lo recodifica a H.264 de alta calidad. Todo en tu navegador, sin subir archivos, sin instalar nada.</p>
         <a href="/" class="tool-cta-btn" aria-label="Usar VidToFLAC gratis">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Convertir a FLAC gratis
@@ -734,7 +734,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Parcialmente. Studio incluye más decodificadores de audio en Linux que la versión gratuita, pero <strong>no resuelve todos los casos</strong>. E-AC-3 (Dolby Digital Plus) no funciona en ninguna versión, y algunos perfiles de AAC tampoco. La solución más fiable, y gratuita, es convertir el audio a FLAC con VidToFLAC antes de importar.</p>
+            <p>No cuentes con ello. En nuestra prueba, DaVinci Resolve Studio 21 sobre Linux importó un MP4 H.264 con audio AAC-LC, el perfil más habitual en cámaras, móviles y OBS, y <strong>la pista quedó en silencio</strong>. E-AC-3 (Dolby Digital Plus) tampoco funciona. Lo que sí lo resolvió, y es gratis, fue convertir el audio a FLAC con VidToFLAC antes de importar.</p>
           </div>
         </details>
 

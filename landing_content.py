@@ -90,7 +90,7 @@ CONTENT = {
             '      <h3>La solución para tus AVI: audio compatible sin tocar el vídeo</h3>\n'
             '      <p>Los <strong>AVI</strong> de cámaras antiguas, grabadoras y software de captura suelen llevar el audio en <strong>MP3 o AC3</strong>, formatos que DaVinci Resolve no decodifica sin licencias adicionales. VidToFLAC reempaqueta el AVI en un <strong>MKV</strong> y convierte únicamente esa pista de audio a <strong>FLAC</strong>.</p>\n\n'
             '      <p>Siempre que el navegador pueda decodificar el vídeo, este se copia <strong>bit a bit</strong> sin pérdida. El resultado es un MKV que se importa con sonido en cualquier editor profesional moderno.</p>\n\n'
-            '      <p>Si el AVI usa un códec de vídeo antiguo que el navegador no soporta, VidToFLAC lo recodifica automáticamente a H.264 para garantizar que el clip se vea correctamente.</p>'
+            '      <p>Si el AVI usa un códec de la lista de recodificación, como MJPEG o Cinepak, VidToFLAC lo pasa a H.264; DivX y Xvid se copian tal cual, aunque la vista previa de la página puede no mostrarlos.</p>'
         ),
         "faqs": [
             ("¿Por qué mi AVI no tiene audio en DaVinci Resolve?",
@@ -98,7 +98,7 @@ CONTENT = {
             ("¿Se conserva la calidad del vídeo del AVI?",
              "Si el navegador puede decodificar el vídeo, se copia <strong>bit a bit</strong> sin recomprimir. Solo el audio cambia a FLAC, que es sin pérdida."),
             ("Tengo AVI muy antiguos de una cámara, ¿funcionarán?",
-             "Sí. Si el códec de vídeo es demasiado antiguo para el navegador, VidToFLAC lo recodifica a H.264 automáticamente y deja el audio en FLAC, de modo que el clip se importe con imagen y sonido."),
+             "Sí. Si el vídeo es MJPEG, Cinepak u otro códec que VidToFLAC recodifica, pasa a H.264; si es DivX o Xvid, se copia tal cual. En ambos casos el audio queda en FLAC."),
             ("¿Puedo convertir varios AVI a la vez?",
              "Sí. Puedes añadir varios archivos y se procesan de uno en uno dentro de tu navegador, sin subir nada a ningún servidor."),
             ("¿Es gratis convertir AVI a FLAC?",
@@ -158,14 +158,14 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus FLV: rescatar audio y vídeo del formato Flash</h3>\n'
             '      <p>Los <strong>FLV (Flash Video)</strong> —el formato de YouTube hasta 2015 y de muchas webs antiguas— llevan audio en <strong>MP3 o AAC</strong> y vídeo en códecs como H.263 o VP6. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>\n\n'
-            '      <p>Si el vídeo está en un códec moderno que el navegador entiende, se copia <strong>bit a bit</strong>; si es un códec Flash heredado (VP6, H.263) que no se puede decodificar, VidToFLAC lo recodifica a <strong>H.264</strong>.</p>\n\n'
+            '      <p>Si el vídeo está en un códec moderno que el navegador entiende, se copia <strong>bit a bit</strong>; si es <strong>VP6</strong>, que el navegador no decodifica, VidToFLAC lo recodifica a <strong>H.264</strong>. El Sorenson Spark de los FLV más antiguos se copia tal cual.</p>\n\n'
             '      <p>Así, un archivo Flash obsoleto se transforma en un MKV moderno que cualquier editor importa con imagen y sonido.</p>'
         ),
         "faqs": [
             ("¿Por qué mi FLV no se importa bien en el editor?",
              "Los FLV usan códecs Flash heredados (H.263, VP6) y audio MP3/AAC que los editores modernos no manejan bien. VidToFLAC los convierte a un MKV con vídeo H.264 (si hace falta) y audio FLAC."),
             ("¿Se recodifica siempre el vídeo de un FLV?",
-             "Solo si su códec no se puede decodificar en el navegador. Cuando es posible, el vídeo se copia <strong>bit a bit</strong>; si no, se recodifica a H.264 para garantizar compatibilidad."),
+             "No. H.264 y Sorenson Spark se copian sin recodificar; solo el VP6 se recodifica a H.264, porque el navegador no puede decodificarlo."),
             ("Tengo FLV descargados de webs antiguas, ¿servirán?",
              "Sí. Es justo el escenario para el que es útil: VidToFLAC los moderniza a MKV con audio FLAC listo para editar o archivar."),
             ("¿Puedo quedarme solo con el audio del FLV?",
@@ -273,7 +273,7 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus 3GP de móviles antiguos</h3>\n'
             '      <p>Los <strong>3GP</strong> de teléfonos antiguos (Nokia, Samsung, Motorola) y cámaras compactas usan audio en <strong>AAC o AMR</strong> y vídeo H.263/MPEG-4. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>\n\n'
-            '      <p>El audio AMR (típico de grabaciones de voz móviles) se decodifica y se vuelve a codificar a FLAC sin pérdida. Si el vídeo no se puede decodificar en el navegador, se recodifica a <strong>H.264</strong> para garantizar la previsualización.</p>\n\n'
+            '      <p>El audio AMR (típico de grabaciones de voz móviles) se decodifica y se vuelve a codificar a FLAC sin pérdida. El vídeo H.263, H.264 o MPEG-4 se copia sin recodificar, aunque la vista previa de la página no siempre pueda mostrar H.263.</p>\n\n'
             '      <p>Así recuperas grabaciones antiguas de móvil en un formato moderno y editable.</p>'
         ),
         "faqs": [
@@ -282,7 +282,7 @@ CONTENT = {
             ("¿Qué es el audio AMR y se puede convertir?",
              "AMR es un códec de voz de baja tasa usado en móviles antiguos. VidToFLAC lo decodifica y lo pasa a FLAC; la calidad no mejora respecto al original, pero gana compatibilidad."),
             ("¿Se recodifica el vídeo del 3GP?",
-             "Solo si su códec no es decodificable en el navegador, en cuyo caso se recodifica a H.264. Si es compatible, se copia <strong>bit a bit</strong>."),
+             "No en el caso habitual: el vídeo H.263, H.264 o MPEG-4 de un 3GP se copia sin recodificar. Solo pasaría a H.264 si llevase un códec de la lista de recodificación, algo raro en este formato."),
             ("¿Sirve para grabaciones de teléfonos viejos?",
              "Sí. Es justo para ese metraje heredado: lo moderniza a MKV con audio FLAC para que puedas editarlo o archivarlo."),
             ("¿Tengo que instalar algo?",

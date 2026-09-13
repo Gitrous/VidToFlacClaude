@@ -47,7 +47,7 @@
     "description": "A complete guide to fixing audio errors in DaVinci Resolve: no sound, unsupported codecs, AAC on Linux, silent MOV files and more. Nothing uploaded.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/",
     "datePublished": "2026-06-28",
-    "dateModified": "2026-06-28",
+    "dateModified": "2026-09-13",
     "inLanguage": "en",
     "author": {
       "@type": "Organization",
@@ -667,7 +667,7 @@
 
       <h3>Fix 3: buy DaVinci Resolve Studio</h3>
 
-      <p>The paid edition, Studio, includes more codec licences, AAC on Linux among them. It is paid software, though, and does not cover every case — E-AC-3 commonly still fails, for instance. For most people, converting the file is a better answer, and free.</p>
+      <p>The paid edition, Studio, adds features and codecs, but do not count on it for audio on Linux: in our own test, Studio 21 on Linux imported an MP4 with AAC-LC audio and the track stayed silent (<a href="/en/#demo-titulo">you can watch the recording</a>). E-AC-3 commonly fails too. For most people, converting the file is a better answer, and free.</p>
 
       <h3>Fix 4: extract the audio and re-sync it by hand</h3>
 
@@ -688,7 +688,7 @@
       <p>Mirrorless and DSLR cameras usually record MOV with AAC or 24-bit PCM audio. AAC causes trouble on Linux; 24-bit PCM can cause trouble in particular DaVinci Resolve combinations. <a href="/en/convert-mov-to-flac/">Converting MOV to FLAC</a> resolves both.</p>
 
       <h3>WebM from YouTube or screen recorders</h3>
-      <p>WebM uses Opus or Vorbis for audio. Neither has reliable support in DaVinci Resolve. If you download YouTube videos or record your screen to WebM, you will need to <a href="/en/convert-webm-to-flac/">convert the WebM to FLAC</a>.</p>
+      <p>WebM uses Opus or Vorbis for audio. Neither has reliable support in DaVinci Resolve. If you download YouTube videos or record your screen to WebM, you will need to <a href="/en/convert-video-to-flac/#webm">convert the WebM to FLAC</a>.</p>
 
       <h3>MKV with AAC or AC-3 audio</h3>
       <p>MKV is only a container: it can hold any audio codec. An MKV with AAC audio has exactly the same problem as an MP4 with AAC. You can fix it with an <a href="/en/convert-mkv-to-flac/">MKV-to-FLAC remux</a>: the container stays MKV, but the audio becomes FLAC.</p>

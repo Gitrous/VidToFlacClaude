@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Convertir MOV a FLAC – Audio de iPhone y GoPro para DaVinci Resolve | VidToFLAC</title>
-  <meta name="description" content="Convierte el audio de tus archivos MOV de iPhone, GoPro o cámara a FLAC sin pérdida, en tu navegador. Soluciona el error de códec de audio de DaVinci Resolve en clips MOV." />
-  <meta name="keywords" content="convertir MOV a FLAC, MOV FLAC DaVinci Resolve, MOV iPhone DaVinci Resolve sin sonido, convertir vídeo iPhone a FLAC, GoPro MOV audio FLAC, remux MOV MKV FLAC" />
+  <title>Convert AVI, WebM, WMV, FLV and Other Video to FLAC | VidToFLAC</title>
+  <meta name="description" content="A guide to nine video formats (AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V): which audio codec each one carries, why DaVinci Resolve will not read it, and how to turn it into FLAC in your browser." />
+  <meta name="keywords" content="convert AVI to FLAC, convert WebM to FLAC, WMV to FLAC, FLV to FLAC, VOB to FLAC, TS to FLAC, 3GP to FLAC, M4V to FLAC, MPEG to FLAC, DaVinci Resolve no audio" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
   <meta name="theme-color" content="#0a0a0b" />
@@ -13,10 +13,10 @@
   <meta name="apple-mobile-web-app-title" content="VidToFLAC" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="canonical" href="https://vidtoflac.tech/convertir-mov-a-flac/" />
-  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/convertir-mov-a-flac/" />
-  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/convert-mov-to-flac/" />
-  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/convertir-mov-a-flac/" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/convert-video-to-flac/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/convertir-video-a-flac/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/convert-video-to-flac/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/convertir-video-a-flac/" />
 
   <!-- Icons & PWA manifest -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -31,23 +31,23 @@
   <!-- Open Graph (Facebook, Reddit, Discord, LinkedIn…) -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="VidToFLAC" />
-  <meta property="og:locale" content="es_ES" />
-  <meta property="og:url" content="https://vidtoflac.tech/convertir-mov-a-flac/" />
-  <meta property="og:title" content="Convertir MOV a FLAC – Audio iPhone y GoPro | VidToFLAC" />
-  <meta property="og:description" content="Convierte el audio de tus clips MOV (iPhone, GoPro, cámara) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada." />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://vidtoflac.tech/en/convert-video-to-flac/" />
+  <meta property="og:title" content="Convert AVI, WebM, WMV and Other Video to FLAC | VidToFLAC" />
+  <meta property="og:description" content="Nine video formats and the audio codec that makes each one fail in DaVinci Resolve. Turn it into FLAC in your browser, nothing uploaded." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+  <meta property="og:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, 100% private and local." />
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Convertir MOV a FLAC – Audio iPhone y GoPro | VidToFLAC" />
-  <meta name="twitter:description" content="Convierte el audio de tus clips MOV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada." />
+  <meta name="twitter:title" content="Convert AVI, WebM, WMV and Other Video to FLAC | VidToFLAC" />
+  <meta name="twitter:description" content="Nine video formats and the audio codec that makes each one fail in DaVinci Resolve. Turn it into FLAC in your browser." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
-  <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+  <meta name="twitter:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, 100% private and local." />
 
   <!-- Structured data: the tool itself -->
   <script type="application/ld+json">
@@ -55,13 +55,13 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "VidToFLAC",
-    "url": "https://vidtoflac.tech/convertir-mov-a-flac/",
-    "description": "Convierte el audio de archivos MOV (iPhone, GoPro, cámara) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
+    "url": "https://vidtoflac.tech/en/convert-video-to-flac/",
+    "description": "Converts the audio of AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V videos to FLAC inside an MKV, so DaVinci Resolve, Premiere and Avid can play it. Runs in the browser with FFmpeg (WebAssembly), with no uploads.",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "All",
-    "browserRequirements": "Requires JavaScript and WebAssembly. Compatible con Chrome, Firefox, Edge y Safari modernos.",
+    "browserRequirements": "Requires JavaScript and WebAssembly. Compatible with modern Chrome, Firefox, Edge and Safari.",
     "softwareVersion": "1.0",
-    "inLanguage": "es",
+    "inLanguage": "en",
     "isAccessibleForFree": true,
     "offers": {
       "@type": "Offer",
@@ -69,10 +69,10 @@
       "priceCurrency": "EUR"
     },
     "featureList": [
-      "Remux sin pérdida: copia el vídeo bit a bit cuando el códec lo permite",
-      "Conversión de audio a FLAC sin pérdida",
-      "Procesamiento 100% local en el navegador",
-      "Soporta MP4, MOV, MKV, AVI, WebM y más"
+      "Lossless remux: copies video bit by bit where the codec allows",
+      "Lossless FLAC audio conversion",
+      "100% local processing in the browser",
+      "Supports MP4, MOV, MKV, AVI, WebM and more"
     ]
   }
   </script>
@@ -88,7 +88,7 @@
         "name": "VidToFLAC",
         "url": "https://vidtoflac.tech/",
         "logo": "https://vidtoflac.tech/icon-512.png",
-        "description": "Herramienta gratuita para convertir el audio de vídeos a FLAC (remux a MKV) y solucionar problemas de códec de audio en editores como DaVinci Resolve."
+        "description": "Free tool to convert video audio to FLAC (remux to MKV) and fix audio codec issues in editors like DaVinci Resolve."
       },
       {
         "@type": "WebSite",
@@ -107,29 +107,29 @@
   {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": "Cómo convertir el audio de un MOV a FLAC para DaVinci Resolve",
-    "description": "Convierte el audio de tus vídeos a FLAC dentro de un MKV (remux sin pérdida) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid, sin subir archivos.",
+    "name": "How to convert the audio of an AVI, WebM or other video to FLAC for DaVinci Resolve",
+    "description": "Convert your video audio to FLAC inside an MKV (lossless remux) to fix the audio codec error in DaVinci Resolve, Premiere and Avid, without uploading files.",
     "totalTime": "PT1M",
-    "tool": [{ "@type": "HowToTool", "name": "VidToFLAC (FFmpeg en el navegador)" }],
+    "tool": [{ "@type": "HowToTool", "name": "VidToFLAC (FFmpeg in the browser)" }],
     "step": [
       {
         "@type": "HowToStep",
         "position": 1,
-        "name": "Selecciona",
-        "text": "Arrastra tu vídeo o haz clic para elegirlo. El archivo se queda en tu equipo, no se sube a ningún servidor.",
-        "url": "https://vidtoflac.tech/convertir-mov-a-flac/"
+        "name": "Select",
+        "text": "Drag your video or click to choose it. The file stays on your device, it is not uploaded to any server.",
+        "url": "https://vidtoflac.tech/en/convert-video-to-flac/"
       },
       {
         "@type": "HowToStep",
         "position": 2,
-        "name": "Transcodifica solo el audio",
-        "text": "El vídeo conserva el 100% de su calidad original: no se vuelve a renderizar, solo se reempaqueta el audio a FLAC sin pérdida."
+        "name": "Transcode only the audio",
+        "text": "The video retains 100% of its original quality: it is never re-rendered, only the audio is repackaged to lossless FLAC."
       },
       {
         "@type": "HowToStep",
         "position": 3,
-        "name": "Descarga al instante",
-        "text": "Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida."
+        "name": "Download instantly",
+        "text": "You get an MKV with FLAC audio ready for your timeline, with no upload wait."
       }
     ]
   }
@@ -143,42 +143,58 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "¿Perderé calidad al convertir un MOV de iPhone?",
+        "name": "Why does an AVI, WebM or VOB import into DaVinci Resolve with no sound?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Si el vídeo es H.264, se copia bit a bit y la grabación queda idéntica. Los iPhone graban en HEVC desde iOS 11, y ese códec no se puede decodificar en el navegador: se recodifica a H.264 con calidad alta (-crf 18), muy próxima al original pero no idéntica bit a bit. El audio pasa a FLAC sin pérdida en los dos casos."
+          "text": "Because of the audio codec, which differs from format to format: old AVI files usually carry MP3 or AC-3; WebM, Opus or Vorbis; VOB and MPEG, AC-3 or MPEG Audio; WMV, WMA; broadcast TS, AC-3 or AAC; and old phone 3GP files, AMR. DaVinci Resolve decodes none of them reliably, least of all on Linux, so you see the picture while the audio track stays empty."
         }
       },
       {
         "@type": "Question",
-        "name": "Mi MOV de GoPro entra en Resolve sin audio, ¿por qué?",
+        "name": "Is the video re-encoded during conversion?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Las GoPro graban el audio en AAC, que DaVinci Resolve no decodifica de serie —sobre todo en Linux—. Pasar ese audio a FLAC dentro de un MKV restaura el sonido."
+          "text": "It depends on the codec, not the file extension. H.264, VP8, VP9, MPEG-4 (DivX, Xvid) and H.263 are copied without re-encoding. MPEG-2, WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (-crf 18), which takes longer and does not leave the video bit-for-bit identical, although the difference is not visible to the eye."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Qué pasa si mi MOV es ProRes?",
+        "name": "The page preview shows no picture for my AVI or 3GP. Did it fail?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ProRes no se puede decodificar en el navegador, así que VidToFLAC recodifica el vídeo a H.264 para que la previsualización funcione y deja el audio en FLAC. Para masters ProRes intactos conviene usar FFmpeg de escritorio."
+          "text": "Not necessarily. If the video is DivX, Xvid or H.263, VidToFLAC copies it into the MKV as it is, but the browser cannot decode those codecs to display them. The downloaded file is complete; check it by opening it in your editor or in a player such as VLC."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Vale para vídeos grabados con cámaras Canon, Sony o Nikon en MOV?",
+        "name": "Why is the output an MKV rather than the original format?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. La mayoría usan audio AAC dentro del MOV, exactamente el caso que VidToFLAC resuelve reempaquetando a MKV con audio FLAC."
+          "text": "Because hardly any of these containers accept FLAC audio. AVI, WMV, FLV, VOB and 3GP do not allow for it, and in MP4 support is unreliable. MKV supports it as standard, takes almost any video codec, and DaVinci Resolve imports it without trouble."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Se sube mi MOV a algún servidor?",
+        "name": "Can I convert the DTS audio in a TS or M2TS file?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Nunca. Todo se procesa localmente en tu navegador con FFmpeg compilado a WebAssembly; el archivo no sale de tu dispositivo en ningún momento."
+          "text": "Yes. The DTS track is decoded and encoded as FLAC, which is lossless, so the editor receives exactly the sound that was decoded. If the file has several audio tracks, VidToFLAC converts only one, the track FFmpeg picks by default; to keep them all, use desktop FFmpeg: ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it work with VOB files from a copy-protected DVD?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. A VOB encrypted with CSS cannot be processed. It works with unencrypted VOB files, such as home-recorded DVDs or files you have already copied from discs you hold the rights to."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a size limit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We impose none, because the file never leaves your computer. The practical limit is the browser WebAssembly memory, about 2 GB in total: videos several hours long or files over 1 to 2 GB may not fit."
         }
       }
     ]
@@ -2127,7 +2143,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       {"@type": "ListItem", "position": 1, "name": "VidToFLAC", "item": "https://vidtoflac.tech/"},
-      {"@type": "ListItem", "position": 2, "name": "Convertir MOV a FLAC", "item": "https://vidtoflac.tech/convertir-mov-a-flac/"}
+      {"@type": "ListItem", "position": 2, "name": "Convert video to FLAC", "item": "https://vidtoflac.tech/en/convert-video-to-flac/"}
     ]
   }
   </script>
@@ -2167,8 +2183,8 @@
 </div>
 
 <!-- Navbar -->
-<nav id="site-nav" aria-label="Navegación principal">
-  <a class="nav-brand" href="/" aria-label="VidToFLAC — inicio">
+<nav id="site-nav" aria-label="Main navigation">
+  <a class="nav-brand" href="/en/" aria-label="VidToFLAC — home">
     <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
       <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
       <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
@@ -2178,14 +2194,14 @@
     <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
   </a>
   <ul class="nav-links" role="list">
-    <li><a href="/" class="nav-link nav-link-active" aria-current="page">Inicio</a></li>
-    <li><a href="/convertir-formatos/" class="nav-link">Formatos</a></li>
-    <li><a href="/articulos/" class="nav-link">Artículos</a></li>
-    <li><a href="/historial/" class="nav-link">Historial</a></li>
-    <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
+    <li><a href="/en/" class="nav-link nav-link-active" aria-current="page">Home</a></li>
+    <li><a href="/en/convert-formats/" class="nav-link">Formats</a></li>
+    <li><a href="/en/articles/" class="nav-link">Articles</a></li>
+    <li><a href="/en/history/" class="nav-link">History</a></li>
+    <li><a href="/en/contact/" class="nav-link">Contact</a></li>
   </ul>
   <div class="nav-end">
-    <a href="/en/convert-mov-to-flac/" class="nav-lang" aria-label="Switch to English" hreflang="en">English</a>
+    <a href="/convertir-video-a-flac/" class="nav-lang" aria-label="Cambiar a español" hreflang="es">Español</a>
   </div>
 </nav>
 
@@ -2199,11 +2215,11 @@
           <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
         </svg>
       </span>
-      <span class="ad-modal-title" id="largeFileModalTitle">Archivo demasiado grande</span>
+      <span class="ad-modal-title" id="largeFileModalTitle">File too large</span>
       <span class="ad-modal-sub" id="largeFileModalSub"></span>
     </div>
     <div class="ad-modal-footer" style="justify-content:flex-end">
-      <button class="large-file-dismiss-btn" id="largeFileModalBtn">Entendido, intentar de todos modos</button>
+      <button class="large-file-dismiss-btn" id="largeFileModalBtn">Got it, try anyway</button>
     </div>
   </div>
 </div>
@@ -2212,8 +2228,8 @@
 <div class="ad-modal" id="adModal" role="dialog" aria-modal="true" aria-labelledby="adModalTitle">
   <div class="ad-modal-box">
     <div class="ad-modal-header">
-      <span class="ad-modal-title" id="adModalTitle">Has usado tus 3 conversiones gratuitas</span>
-      <span class="ad-modal-sub">Esta herramienta es <strong>gratis y privada</strong>: tus archivos nunca salen de tu navegador. Lo que sí cuesta es mantenerla — un anuncio nos ayuda a seguir ofreciéndola. A cambio, <strong>todos los archivos que tengas en cola se convertirán sin límite</strong>.</span>
+      <span class="ad-modal-title" id="adModalTitle">You've used your 3 free conversions</span>
+      <span class="ad-modal-sub">This tool is <strong>free and private</strong>: your files never leave your browser. Keeping it running has a cost — one ad helps us continue offering it. In return, <strong>all files in your queue will convert without limit</strong>.</span>
     </div>
     <div class="ad-slot-wrap">
       <ins class="adsbygoogle"
@@ -2222,11 +2238,11 @@
            data-ad-format="fluid"
            data-ad-client="ca-pub-1123812992313934"
            data-ad-slot="9253210070"></ins>
-      <span class="ad-slot-empty">Este hueco es para un anuncio, pero no se ha podido cargar. Puedes continuar igualmente.</span>
+      <span class="ad-slot-empty">This space is for an ad, but it couldn't load. You can carry on anyway.</span>
     </div>
     <div class="ad-modal-footer">
-      <span class="ad-modal-hint">Pulsa Esc o haz clic fuera para cerrar</span>
-      <button class="ad-continue-btn" id="adContinueBtn">Continuar conversión</button>
+      <span class="ad-modal-hint">Press Esc or click outside to close</span>
+      <button class="ad-continue-btn" id="adContinueBtn">Continue conversion</button>
     </div>
   </div>
 </div>
@@ -2246,8 +2262,8 @@
       </span>
       <a href="/" class="brand-home-link"><span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span></a>
     </div>
-    <h1 class="hero-title">Convierte tu <span class="accent">MOV a FLAC</span> sin pérdida de calidad</h1>
-    <p class="hero-sub">Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado bit a bit — 100% privado, en tu navegador.</p>
+    <h1 class="hero-title">Convert the audio of <span class="accent">AVI, WebM, WMV and other video</span> to FLAC</h1>
+    <p class="hero-sub">Nine video formats with the same symptom: the picture makes it into DaVinci Resolve and the sound does not. Drop the file in and VidToFLAC turns its audio into FLAC in your browser, nothing uploaded.</p>
   </header>
 
   <!-- Trust pillars: seguridad · calidad lossless · velocidad -->
@@ -2260,8 +2276,8 @@
           <path d="M9.3 12.2 11 14l3.7-3.8"/>
         </svg>
       </span>
-      <span class="trust-title">Seguridad y privacidad</span>
-      <span class="trust-desc">Todo se procesa <strong>en local</strong> con <code>FFmpeg.wasm</code> dentro de tu navegador. Tus vídeos no se suben ni se almacenan en ningún servidor: cero bytes salen de tu equipo.</span>
+      <span class="trust-title">Security &amp; privacy</span>
+      <span class="trust-desc">Everything is processed <strong>locally</strong> with <code>FFmpeg.wasm</code> inside your browser. Your videos are not uploaded or stored on any server: zero bytes leave your device.</span>
     </div>
     <div class="trust-card">
       <span class="trust-icon" aria-hidden="true">
@@ -2270,8 +2286,8 @@
           <path d="M3 12h2.2L7.4 5l3 14 2.6-9 1.8 5 1.4-3H21"/>
         </svg>
       </span>
-      <span class="trust-title">Calidad lossless</span>
-      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. Si el códec lo permite, el vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
+      <span class="trust-title">Lossless quality</span>
+      <span class="trust-desc">Audio converted to <strong>lossless FLAC</strong>: fidelity identical to the original. Where the codec allows, video is copied bit by bit, without re-rendering a single frame.</span>
     </div>
     <div class="trust-card">
       <span class="trust-icon" aria-hidden="true">
@@ -2280,15 +2296,15 @@
           <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
         </svg>
       </span>
-      <span class="trust-title">Velocidad</span>
-      <span class="trust-desc">Sin esperas de subida ni de descarga. Cuando el códec de vídeo se puede copiar tal cual, la conversión es un <strong>remux</strong> —el vídeo no se recodifica— y resulta mucho más rápida que una conversión completa.</span>
+      <span class="trust-title">Speed</span>
+      <span class="trust-desc">No upload or download waits. When the video codec can be copied as-is, the conversion is a <strong>remux</strong> — the video is not re-encoded — which is far quicker than a full conversion.</span>
     </div>
   </div>
 
   <!-- Conversion counter -->
   <div class="conv-counter" id="convCounter">
     <span class="conv-counter-dot"></span>
-    <span><strong id="convCount">0</strong> archivos convertidos en este navegador · ninguno ha salido de tu equipo</span>
+    <span><strong id="convCount">0</strong> files converted in this browser · none has left your device</span>
   </div>
 
   <div class="tool-grid">
@@ -2299,52 +2315,52 @@
     <div class="engine-row">
       <div class="engine-label">
         <span class="engine-dot idle" id="engineDot"></span>
-        <span id="engineText">Selecciona un archivo para iniciar el motor</span>
+        <span id="engineText">Select a file to start the engine</span>
       </div>
-      <span class="badge badge-idle" id="engineBadge">En espera</span>
+      <span class="badge badge-idle" id="engineBadge">Idle</span>
     </div>
   </div>
 
   <!-- File selector -->
   <div class="card">
-    <div class="card-title"><span class="step">01</span> Selecciona los vídeos de entrada</div>
+    <div class="card-title"><span class="step">01</span> Select input videos</div>
 
-    <span class="format-picker-label">¿Sabes qué formato vas a convertir? <span class="ink-mute">(opcional)</span></span>
+    <span class="format-picker-label">Do you know which format you're converting? <span class="ink-mute">(optional)</span></span>
     <details class="format-dropdown" id="formatDropdown">
-      <summary class="format-dropdown-summary" aria-label="Elegir formato de entrada para ir a su guía específica">
+      <summary class="format-dropdown-summary" aria-label="Choose input format to go to its specific guide">
         <span class="format-dropdown-current">
           <span class="format-dropdown-dot" aria-hidden="true"></span>
-          <span id="formatDropdownLabel">Detectar automáticamente</span>
+          <span id="formatDropdownLabel">Auto-detect</span>
         </span>
         <span class="format-dropdown-chevron" aria-hidden="true"></span>
       </summary>
       <div class="format-dropdown-panel">
         <button type="button" class="format-dropdown-auto is-active" data-url="" data-label="Detectar automáticamente">
-          <span>Detectar automáticamente</span>
-          <span class="format-dropdown-tag">Recomendado</span>
+          <span>Auto-detect</span>
+          <span class="format-dropdown-tag">Recommended</span>
         </button>
-        <span class="format-dropdown-hint">— o ve directo a la guía de tu formato —</span>
+        <span class="format-dropdown-hint">— or go straight to your format guide —</span>
         <div class="format-dropdown-grid">
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-mp4-a-flac/"  data-label="MP4 → FLAC">MP4 → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-mov-a-flac/"  data-label="MOV → FLAC">MOV → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-mkv-a-flac/"  data-label="MKV → FLAC">MKV → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#avi"  data-label="AVI → FLAC">AVI → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#webm" data-label="WEBM → FLAC">WEBM → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#wmv"  data-label="WMV → FLAC">WMV → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#flv"  data-label="FLV → FLAC">FLV → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#mpeg" data-label="MPEG → FLAC">MPEG → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#ts"   data-label="TS → FLAC">TS → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#vob"  data-label="VOB → FLAC">VOB → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#3gp"  data-label="3GP → FLAC">3GP → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-video-a-flac/#m4v"  data-label="M4V → FLAC">M4V → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#mp3"  data-label="MP3 → FLAC">MP3 → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#aac"  data-label="AAC → FLAC">AAC → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#m4a"  data-label="M4A → FLAC">M4A → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-wav-a-flac/"  data-label="WAV → FLAC">WAV → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#aiff" data-label="AIFF → FLAC">AIFF → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#ogg"  data-label="OGG → FLAC">OGG → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#opus" data-label="Opus → FLAC">Opus → FLAC</button>
-          <button type="button" class="format-dropdown-chip" data-url="/convertir-audio-a-flac/#wma"  data-label="WMA → FLAC">WMA → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-mp4-to-flac/"  data-label="MP4 → FLAC">MP4 → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-mov-to-flac/"  data-label="MOV → FLAC">MOV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-mkv-to-flac/"  data-label="MKV → FLAC">MKV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#avi"  data-label="AVI → FLAC">AVI → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#webm" data-label="WEBM → FLAC">WEBM → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#wmv"  data-label="WMV → FLAC">WMV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#flv"  data-label="FLV → FLAC">FLV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#mpeg" data-label="MPEG → FLAC">MPEG → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#ts"   data-label="TS → FLAC">TS → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#vob"  data-label="VOB → FLAC">VOB → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#3gp"  data-label="3GP → FLAC">3GP → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-video-to-flac/#m4v"  data-label="M4V → FLAC">M4V → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#mp3"  data-label="MP3 → FLAC">MP3 → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#aac"  data-label="AAC → FLAC">AAC → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#m4a"  data-label="M4A → FLAC">M4A → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-wav-to-flac/"  data-label="WAV → FLAC">WAV → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#aiff" data-label="AIFF → FLAC">AIFF → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#ogg"  data-label="OGG → FLAC">OGG → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#opus" data-label="Opus → FLAC">Opus → FLAC</button>
+          <button type="button" class="format-dropdown-chip" data-url="/en/convert-audio-to-flac/#wma"  data-label="WMA → FLAC">WMA → FLAC</button>
         </div>
       </div>
     </details>
@@ -2354,7 +2370,7 @@
         type="file"
         id="fileInput"
         multiple
-        aria-label="Seleccionar vídeos o audios para convertir a FLAC"
+        aria-label="Select videos or audio files to convert to FLAC"
         accept="video/*,audio/*,.mkv,.avi,.mov,.mp4,.webm,.flv,.wmv,.m4v,.ts,.m2ts,.mpg,.mpeg,.3gp,.rm,.vob,.wav,.mp3,.flac,.aac,.ogg,.m4a,.opus,.wma,.aiff"
       />
       <div class="dz-icon">
@@ -2364,8 +2380,8 @@
           <path d="M15 19l9-9 9 9"/>
         </svg>
       </div>
-      <div class="dz-title">Arrastra tus vídeos aquí o haz clic</div>
-      <div class="dz-sub">MP4 · MOV · MKV · AVI · WAV · MP3 · AAC · varios a la vez</div>
+      <div class="dz-title">Drag your videos here or click</div>
+      <div class="dz-sub">MP4 · MOV · MKV · AVI · WAV · MP3 · AAC · multiple at once</div>
     </div>
 
     <div class="file-list" id="fileList"></div>
@@ -2373,7 +2389,7 @@
 
   <!-- Convert -->
   <div class="card">
-    <div class="card-title"><span class="step">02</span> Convertir</div>
+    <div class="card-title"><span class="step">02</span> Convert</div>
 
     <div class="format-options">
       <div class="format-option">
@@ -2381,8 +2397,8 @@
         <label for="fmtMkv">
           <span class="format-badge">MKV</span>
           <span class="format-meta">
-            <span class="format-rec">✓ RECOMENDADO</span>
-            <span class="format-desc">Audio → FLAC · vídeo sin tocar · máxima compatibilidad</span>
+            <span class="format-rec">✓ RECOMMENDED</span>
+            <span class="format-desc">Audio → FLAC · video untouched · maximum compatibility</span>
           </span>
         </label>
       </div>
@@ -2391,7 +2407,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · video copied bit-for-bit unchanged</span>
           </span>
         </label>
       </div>
@@ -2400,19 +2416,19 @@
         <label for="fmtMp3">
           <span class="format-badge">MP3</span>
           <span class="format-meta">
-            <span class="format-desc">Solo audio FLAC · extrae la pista de audio sin el vídeo</span>
+            <span class="format-desc">FLAC audio only · extracts the audio track without video</span>
           </span>
         </label>
       </div>
     </div>
-    <p class="format-note" id="formatNote">El audio pasa a <strong>FLAC</strong> · el vídeo se copia sin recodificar cuando el códec es compatible</p>
+    <p class="format-note" id="formatNote">Audio becomes <strong>FLAC</strong> · video is copied without re-encoding when the codec allows it</p>
 
     <label class="auto-dl-toggle">
       <span class="toggle-track">
         <input type="checkbox" id="autoDlCheck">
         <span class="toggle-thumb"></span>
       </span>
-      <span class="toggle-label">Descargar automáticamente al convertir</span>
+      <span class="toggle-label">Auto-download when converted</span>
     </label>
 
     <label class="terms-agree" id="termsAgree">
@@ -2420,18 +2436,18 @@
       <span class="terms-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
       </span>
-      <span class="terms-text">He leído y acepto los <a href="/terminos-de-servicio/" target="_blank" rel="noopener">Términos de servicio</a> y la <a href="/politica-de-privacidad/" target="_blank" rel="noopener">Política de privacidad</a>, y solo convertiré contenido para el que tengo autorización.</span>
+      <span class="terms-text">I have read and agree to the <a href="/en/terms-of-service/" target="_blank" rel="noopener">Terms of Use</a> and <a href="/en/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a>, and will only convert content I'm authorized to.</span>
     </label>
 
-    <button class="btn btn-primary" id="convertBtn" aria-label="Convertir los archivos seleccionados a vídeo con audio FLAC" disabled>
-      ⚙️ Convertir a vídeo + FLAC
+    <button class="btn btn-primary" id="convertBtn" aria-label="Convert the selected files to video with FLAC audio" disabled>
+      ⚙️ Convert to video + FLAC
     </button>
     <div class="bookmark-hint" id="bookmarkHint">
       <kbd id="bhMod">Ctrl</kbd>
       <span class="bh-plus">+</span>
       <kbd class="key-accent">D</kbd>
       <span class="bh-sep"></span>
-      <span>Pulsa <strong id="bhShortcut">Ctrl+D</strong> para guardar esta web en favoritos</span>
+      <span>Press <strong id="bhShortcut">Ctrl+D</strong> to bookmark this site</span>
     </div>
     <div class="quota-countdown" id="quotaCountdown" aria-live="polite">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2447,7 +2463,7 @@
   <!-- Progress -->
   <div class="card progress-card" id="progressCard">
     <div class="progress-meta">
-      <span class="progress-meta-label" id="progressLabel">Procesando…</span>
+      <span class="progress-meta-label" id="progressLabel">Processing…</span>
       <span class="progress-meta-pct" id="progressPct">—</span>
     </div>
     <div class="progress-track">
@@ -2458,10 +2474,10 @@
   <!-- Preview list -->
   <div class="card preview-card" id="previewCard">
     <div class="preview-header">
-      <span class="card-title" style="margin-bottom:0"><span class="step">03</span> Resultados</span>
+      <span class="card-title" style="margin-bottom:0"><span class="step">03</span> Results</span>
     </div>
     <div class="download-all-row">
-      <a id="downloadAllBtn" class="btn-download-all" role="button" aria-label="Descargar todos los archivos convertidos" style="display:none">⬇ Descargar todo</a>
+      <a id="downloadAllBtn" class="btn-download-all" role="button" aria-label="Download all converted files" style="display:none">⬇ Download all</a>
     </div>
     <div id="previewList"></div>
   </div>
@@ -2471,12 +2487,12 @@
     <div class="log-toggle" id="logToggle" role="button" tabindex="0" aria-label="Mostrar u ocultar los detalles técnicos de FFmpeg">
       <div class="log-toggle-left">
         <span class="log-chevron" aria-hidden="true">▼</span>
-        <span class="card-title" style="margin-bottom:0">Detalles técnicos · FFmpeg</span>
-        <span class="log-badge" id="logCount" hidden aria-label="Número de líneas de registro"></span>
+        <span class="card-title" style="margin-bottom:0">Technical details · FFmpeg</span>
+        <span class="log-badge" id="logCount" hidden aria-label="Number of log lines"></span>
       </div>
       <div style="display:flex;gap:0.4rem">
-        <button class="btn-clear" id="copyLogsBtn" aria-label="Copiar el registro técnico al portapapeles">Copiar</button>
-        <button class="btn-clear" id="clearLogsBtn" aria-label="Limpiar el registro técnico">Limpiar</button>
+        <button class="btn-clear" id="copyLogsBtn" aria-label="Copy technical log to clipboard">Copy</button>
+        <button class="btn-clear" id="clearLogsBtn" aria-label="Clear technical log">Clear</button>
       </div>
     </div>
     <div class="log-body">
@@ -2489,48 +2505,48 @@
 
   <!-- How it works -->
   <div class="card steps-card">
-    <div class="card-title">Cómo funciona</div>
+    <div class="card-title">How it works</div>
     <div class="steps">
       <div class="step-item">
-        <span class="step-num">PASO 01</span>
-        <span class="step-item-title">Selecciona</span>
-        <span class="step-desc">Arrastra tu vídeo o haz clic para elegirlo. El archivo se queda en tu equipo.</span>
+        <span class="step-num">STEP 01</span>
+        <span class="step-item-title">Select</span>
+        <span class="step-desc">Drag your video or click to choose it. The file stays on your device.</span>
       </div>
       <div class="step-item">
-        <span class="step-num">PASO 02</span>
-        <span class="step-item-title">Transcodifica solo el audio</span>
-        <span class="step-desc">El vídeo conserva el 100% de su calidad original: no se vuelve a renderizar, solo se reempaqueta el audio a FLAC.</span>
+        <span class="step-num">STEP 02</span>
+        <span class="step-item-title">Transcode only the audio</span>
+        <span class="step-desc">The video retains 100% of its original quality: it's never re-rendered, only the audio is repackaged to FLAC.</span>
       </div>
       <div class="step-item">
-        <span class="step-num">PASO 03</span>
-        <span class="step-item-title">Descarga al instante</span>
-        <span class="step-desc">Obtienes un MKV con audio FLAC listo para tu línea de tiempo, sin esperas de subida.</span>
+        <span class="step-num">STEP 03</span>
+        <span class="step-item-title">Download instantly</span>
+        <span class="step-desc">You get an MKV with FLAC audio ready for your timeline, with no upload wait.</span>
       </div>
     </div>
   </div>
 
   <!-- Before / after comparison -->
   <div class="card compare-card">
-    <div class="card-title">Antes y después</div>
+    <div class="card-title">Before and after</div>
     <div class="compare-grid">
       <div class="compare-col compare-before">
-        <div class="compare-header">Sin VidToFLAC</div>
+        <div class="compare-header">Without VidToFLAC</div>
         <ul class="compare-list">
-          <li>Pista de audio en gris en DaVinci Resolve</li>
+          <li>Audio track grayed out in DaVinci Resolve</li>
           <li>"Audio codec not supported (AAC)"</li>
-          <li>Códec AAC o MP3 no compatible en Linux</li>
-          <li>Buscar códecs de pago o pasar a Resolve Studio, que no siempre lo resuelve</li>
-          <li>Recodificar el vídeo completo (lento)</li>
+          <li>AAC or MP3 codec not supported on Linux</li>
+          <li>Hunting for paid codecs or moving to Resolve Studio, which does not always fix it</li>
+          <li>Re-encoding the entire video (slow)</li>
         </ul>
       </div>
       <div class="compare-col compare-after">
-        <div class="compare-header">Con VidToFLAC</div>
+        <div class="compare-header">With VidToFLAC</div>
         <ul class="compare-list">
-          <li>Audio FLAC sin pérdida, que Resolve decodifica de forma nativa</li>
-          <li>El error de códec de audio desaparece, también en Linux</li>
-          <li>Funciona con DaVinci Resolve gratuito</li>
-          <li>Sin instalaciones ni licencias adicionales</li>
-          <li>El vídeo se copia sin recodificar cuando el códec lo permite</li>
+          <li>Lossless FLAC audio that Resolve decodes natively</li>
+          <li>The audio codec error goes away, Linux included</li>
+          <li>Works with free DaVinci Resolve</li>
+          <li>No additional installs or licenses needed</li>
+          <li>Video is copied without re-encoding when the codec allows it</li>
         </ul>
       </div>
     </div>
@@ -2549,45 +2565,45 @@
 
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">
-    <div class="card-title">El problema que solucionamos</div>
+    <div class="card-title">The problem we solve</div>
     <article>
-      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MOV?</h2>
+      <h2 id="problema-titulo">Nine formats, <span class="accent">nine ways</span> to end up with no audio</h2>
 
-      <p class="lede">Si has abierto un <strong>archivo MOV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> —o con la pista de audio en gris— el problema suele ser el códec de audio. Los MOV grabados con <strong>iPhone, GoPro</strong> o la mayoría de cámaras digitales usan <strong>AAC</strong>, y DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye de serie las licencias para decodificarlo.</p>
+      <p class="lede">An old camcorder <strong>AVI</strong> usually carries MP3 or AC-3; a downloaded <strong>WebM</strong>, Opus or Vorbis; a DVD <strong>VOB</strong>, AC-3 or MPEG audio; a <strong>WMV</strong>, WMA. None of those codecs is dependable in DaVinci Resolve, and on Linux they nearly always fail. Below is a guide to each format: what is inside, why it fails and what the tool does with it.</p>
 
-      <p>Muchas cámaras, grabadores y aplicaciones de captura como <strong>OBS Studio</strong>, los <strong>smartphones</strong> o las cámaras de acción guardan el audio con códecs comprimidos como <strong>AAC</strong> o <strong>MP3</strong> dentro de contenedores MP4 o MOV. La versión gratuita de DaVinci Resolve —y de forma muy marcada <strong>DaVinci Resolve en Linux</strong> y en entornos profesionales— no incluye las licencias para decodificar todos esos formatos de audio. El resultado es el clásico <span class="hl">DaVinci Resolve sin sonido</span>, audio desincronizado o clips que ni siquiera importan.</p>
+      <p>Many cameras, recorders, and capture apps like <strong>OBS Studio</strong>, <strong>smartphones</strong>, or action cameras save audio with compressed codecs like <strong>AAC</strong> or <strong>MP3</strong> inside MP4 or MOV containers. The free version of DaVinci Resolve — and especially <strong>DaVinci Resolve on Linux</strong> and in professional environments — does not include the licenses to decode all those audio formats. The result is the classic <span class="hl">DaVinci Resolve no sound</span> issue, desynced audio, or clips that won't even import.</p>
 
-      <h3>La solución para tus MOV de iPhone, GoPro o cámara</h3>
-      <p>Los <strong>MOV</strong> de iPhone, GoPro y la mayoría de cámaras guardan el audio en <strong>AAC</strong>, el códec que DaVinci Resolve no decodifica sin licencia. VidToFLAC reempaqueta el MOV en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>
+      <h3>What VidToFLAC does with any of these videos</h3>
+      <p>The process is the same for all nine: the tool reads the file, identifies its codecs and writes an <strong>MKV</strong> with the audio track in <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Premiere Pro and Avid decode natively.</p>
 
-      <p>Si el vídeo es H.264, el proceso es un remux y la calidad de imagen no se toca. Los iPhone graban en HEVC desde iOS 11, y ese códec se recodifica a H.264 con calidad alta porque el navegador no puede decodificarlo. En ambos casos el sonido vuelve a estar disponible en tu editor.</p>
+      <p>What changes from one format to the next is the video. H.264, VP8, VP9, MPEG-4 (DivX, Xvid) and H.263 are copied without re-encoding, so the picture loses nothing. MPEG-2 (found in VOB files, many MPEG files and some TS files), WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (<code>-crf 18</code>): it takes longer, and the result is very close to the original but not bit-for-bit identical.</p>
 
-      <p>Caso especial: si el MOV contiene <strong>ProRes</strong> —habitual en flujos profesionales—, el navegador no puede decodificarlo para previsualizar, así que VidToFLAC recodifica el vídeo a H.264 manteniendo el audio en FLAC.</p>
+      <p>When the video is copied but the browser cannot decode it, as with DivX or H.263, the page preview may show no picture. The downloaded file is complete all the same.</p>
     </article>
   </section>
 
   <!-- SEO: FAQ accordion -->
   <section class="card seo-card" aria-labelledby="faq-titulo">
-    <div class="card-title">Preguntas frecuentes</div>
-    <h2 id="faq-titulo" style="margin-bottom:1.1rem">Preguntas frecuentes sobre convertir MOV a FLAC</h2>
+    <div class="card-title">Frequently asked questions</div>
+    <h2 id="faq-titulo" style="margin-bottom:1.1rem">Common questions about converting video to FLAC</h2>
 
     <div class="faq-list">
       <details class="faq-item">
-        <summary>¿Perderé calidad al convertir un MOV de iPhone?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <summary>Why does an AVI, WebM or VOB import into DaVinci Resolve with no sound?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Si el vídeo es H.264, se copia <strong>bit a bit</strong> y la grabación queda idéntica. Los iPhone graban en <strong>HEVC</strong> desde iOS 11, y ese códec no se puede decodificar en el navegador: se recodifica a H.264 con calidad alta (<code>-crf 18</code>), muy próxima al original pero no idéntica bit a bit. El audio pasa a FLAC sin pérdida en los dos casos.</p>
+          <p>Because of the audio codec, which differs from format to format: old AVI files usually carry <strong>MP3 or AC-3</strong>; WebM, <strong>Opus or Vorbis</strong>; VOB and MPEG, <strong>AC-3 or MPEG Audio</strong>; WMV, <strong>WMA</strong>; broadcast TS, <strong>AC-3 or AAC</strong>; and old phone 3GP files, <strong>AMR</strong>. DaVinci Resolve decodes none of them reliably, least of all on Linux, so you see the picture while the audio track stays empty.</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary>Mi MOV de GoPro entra en Resolve sin audio, ¿por qué?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <summary>Is the video re-encoded during conversion?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Las GoPro graban el audio en <strong>AAC</strong>, que DaVinci Resolve no decodifica de serie —sobre todo en Linux—. Pasar ese audio a FLAC dentro de un MKV restaura el sonido.</p>
+          <p>It depends on the codec, not the file extension. H.264, VP8, VP9, MPEG-4 (DivX, Xvid) and H.263 are copied without re-encoding. MPEG-2, WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (<code>-crf 18</code>), which takes longer and does not leave the video bit-for-bit identical, although the difference is not visible to the eye.</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary>¿Qué pasa si mi MOV es ProRes?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <summary>The page preview shows no picture for my AVI or 3GP. Did it fail?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>ProRes no se puede decodificar en el navegador, así que VidToFLAC recodifica el vídeo a H.264 para que la previsualización funcione y deja el audio en FLAC. Para masters ProRes intactos conviene usar FFmpeg de escritorio.</p>
+          <p>Not necessarily. If the video is DivX, Xvid or H.263, VidToFLAC copies it into the MKV as it is, but the browser cannot decode those codecs to display them. The downloaded file is complete; check it by opening it in your editor or in a player such as VLC.</p>
         </div>
       </details>
       <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">
@@ -2600,70 +2616,241 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
       <details class="faq-item">
-        <summary>¿Vale para vídeos grabados con cámaras Canon, Sony o Nikon en MOV?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <summary>Why is the output an MKV rather than the original format?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Sí. La mayoría usan audio AAC dentro del MOV, exactamente el caso que VidToFLAC resuelve reempaquetando a MKV con audio FLAC.</p>
+          <p>Because hardly any of these containers accept FLAC audio. AVI, WMV, FLV, VOB and 3GP do not allow for it, and in MP4 support is unreliable. <strong>MKV</strong> supports it as standard, takes almost any video codec, and DaVinci Resolve imports it without trouble.</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary>¿Se sube mi MOV a algún servidor?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <summary>Can I convert the DTS audio in a TS or M2TS file?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Nunca. Todo se procesa localmente en tu navegador con FFmpeg compilado a WebAssembly; el archivo no sale de tu dispositivo en ningún momento.</p>
+          <p>Yes. The DTS track is decoded and encoded as FLAC, which is lossless, so the editor receives exactly the sound that was decoded. If the file has several audio tracks, VidToFLAC converts only one, the track FFmpeg picks by default; to keep them all, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work with VOB files from a copy-protected DVD?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>No. A VOB encrypted with CSS cannot be processed. It works with unencrypted VOB files, such as home-recorded DVDs or files you have already copied from discs you hold the rights to.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Is there a size limit?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>We impose none, because the file never leaves your computer. The practical limit is the browser WebAssembly memory, about 2 GB in total: videos several hours long or files over 1 to 2 GB may not fit.</p>
         </div>
       </details>
     </div>
   </section>
 
-    <section class="card seo-card" aria-labelledby="guia-formato-titulo">
-    <div class="card-title">Guía de conversión</div>
+    <section class="card seo-card" aria-labelledby="indice-formatos">
+    <div class="card-title">Guides by format</div>
+    <h2 id="indice-formatos" style="margin-bottom:0.7rem">Pick your video format</h2>
+    <p>Each format has its own guide below. MP4, MKV and MOV, the most common ones, have pages of their own: <a href="/en/convert-mp4-to-flac/">MP4</a>, <a href="/en/convert-mkv-to-flac/">MKV</a> and <a href="/en/convert-mov-to-flac/">MOV</a>. If your file is audio only, go to <a href="/en/convert-audio-to-flac/">convert MP3, AAC, Opus and other audio to FLAC</a>.</p>
+    <nav class="format-links" aria-label="Formats in this guide">
+      <a href="#avi">AVI</a>
+      <a href="#webm">WebM</a>
+      <a href="#wmv">WMV</a>
+      <a href="#flv">FLV</a>
+      <a href="#mpeg">MPEG</a>
+      <a href="#ts">TS</a>
+      <a href="#vob">VOB</a>
+      <a href="#3gp">3GP</a>
+      <a href="#m4v">M4V</a>
+    </nav>
+  </section>
+
+  <section class="card seo-card" id="avi" aria-labelledby="guia-avi">
+    <div class="card-title">AVI → FLAC</div>
     <article>
-      <h2 id="guia-formato-titulo">Todo sobre la conversión de MOV a FLAC</h2>
-      <h3>El formato MOV: nativo de Apple, problemático fuera de macOS</h3>
-      <p>MOV es el formato de contenedor de QuickTime, desarrollado por Apple. Es el formato nativo de grabación del <strong>iPhone</strong> (todos los modelos), <strong>GoPro</strong> (antes de cambiar a MP4), cámaras Sony Alpha en modo XAVC S, Canon EOS en algunos modos y muchas otras cámaras digitales orientadas a la producción. En macOS, los archivos MOV se abren sin problemas en casi cualquier aplicación porque el sistema incluye los decodificadores necesarios. En <strong>Linux</strong> —donde reside la mayor parte de los usuarios afectados por el problema de audio en DaVinci Resolve— la historia es diferente.</p>
-      <h3>Códecs de audio en archivos MOV</h3>
-      <p>Los MOV de iPhone y GoPro usan casi siempre <strong>AAC estéreo</strong> a 44.1 kHz o 48 kHz. Los MOV de cámaras Sony Alpha con grabación de alta calidad pueden usar <strong>PCM linear de 4 canales</strong>. Las cámaras Canon con modo Cinema RAW Light generan MOV con <strong>PCM linear</strong>. Los MOV de grabación en pantalla de macOS (QuickTime Player) suelen tener <strong>AAC</strong>. El denominador común de los problemas en Resolve es el AAC: solo el PCM linear es directamente compatible.</p>
-      <h3>El caso especial de los MOV con ProRes</h3>
-      <p>Las cámaras de cine como la BlackMagic Pocket Cinema Camera, la Apple ProRes RAW y los flujos de trabajo de postproducción en macOS generan MOV con vídeo <strong>ProRes</strong>. DaVinci Resolve sí decodifica ProRes en macOS y Windows Studio, pero en Linux y en la versión gratuita para Windows el soporte es limitado. Si tu MOV tiene ProRes, VidToFLAC detecta automáticamente el códec y recodifica el vídeo a H.264 para garantizar la previsualización en el navegador y la compatibilidad básica con Resolve.</p>
-      <h3>Paso a paso: convertir tu MOV a FLAC</h3>
+      <h2 id="guia-avi">Everything about converting AVI to FLAC</h2>
+      <h3>Why AVI causes more trouble than newer containers</h3>
+      <p>AVI dates from 1992 and was never designed for what people ask of it today. It has no standard way to signal variable frame rate, its timestamps are rudimentary, and it accepts codecs that modern software has long stopped shipping decoders for. An AVI from a 2005 camcorder might hold DivX or Xvid video with MP3 audio; one from a capture card might hold uncompressed video with PCM. The container name tells you very little.</p>
+      <h3>What VidToFLAC does with an AVI</h3>
+      <p>The audio always becomes FLAC. The video depends on the codec. H.264, DivX and Xvid are copied across without re-encoding, so the picture loses nothing, although the page preview may not show DivX or Xvid. Codecs on the re-encode list, such as Cinepak or MJPEG, are converted to H.264.</p>
+      <h3>Step by step: converting your AVI to FLAC</h3>
       <ol>
-        <li>Arrastra tu archivo .mov a VidToFLAC. La herramienta analiza los códecs de audio y vídeo.</li>
-        <li>Selecciona <strong>MKV</strong> como formato de salida. Los MOV de iPhone y GoPro se procesan en segundos.</li>
-        <li>Pulsa <strong>Convertir</strong>. Si el vídeo es H.264 o H.265, se copia bit a bit. Si es ProRes, se recodifica a H.264 automáticamente. El audio pasa siempre a FLAC.</li>
-        <li>Importa el MKV resultante en DaVinci Resolve y asígnalo a tu timeline.</li>
+        <li>Drop the .avi onto the upload area.</li>
+        <li>Choose <strong>MKV</strong> as the output — modern editors handle it far better than AVI.</li>
+        <li>Press <strong>Convert</strong> and wait. Legacy codecs need re-encoding, so this takes longer than a plain remux.</li>
+        <li>Import the result and check the audio now plays.</li>
       </ol>
-      <h3>Tip: iPhone graba en HEVC por defecto desde iOS 11</h3>
-      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. Resolve en Linux no siempre decodifica HEVC de forma nativa. VidToFLAC gestiona ambos casos automáticamente: si el navegador puede decodificar el HEVC, copia el vídeo bit a bit; si no, lo recodifica a H.264 con calidad alta. En ambos casos el audio FLAC del resultado es compatible con Resolve.</p>
+      <h3>Common problems and what to do</h3>
+      <p>Old AVIs are frequently <strong>interlaced</strong>. Converting the audio does not deinterlace the picture — you will want to handle that in your editor's clip attributes. If the AVI is very large and uncompressed, remember the browser's practical ceiling is around 1 GB; split long captures before converting.</p>
+      <h3>The fix for your AVI files: FLAC audio in an MKV</h3>
+      <p>AVI files from old camcorders, capture cards and legacy recording software carry their audio as <strong>MP3 or AC3</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
+
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied bit for bit when the browser can decode it, or re-encoded to H.264 when it is a legacy codec such as DivX, Xvid or Cinepak.</p>
+
+      <p>Old AVIs are frequently interlaced. Converting the audio does not deinterlace the picture — set that in your editor's clip attributes.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" id="webm" aria-labelledby="guia-webm">
+    <div class="card-title">WebM → FLAC</div>
+    <article>
+      <h2 id="guia-webm">Everything about converting WebM to FLAC</h2>
+      <h3>Why WebM and video editors do not get along</h3>
+      <p>WebM was designed by Google for the web, not for editing: royalty-free codecs, small files, fast streaming. Those goals are the opposite of what an NLE optimises for. Editors are built around codecs the broadcast industry standardised on decades ago — H.264, ProRes, DNxHD, PCM, AAC — and Opus and Vorbis never entered that world. The format is not broken; it is simply aimed elsewhere.</p>
+      <h3>Opus is better than what replaces it, and that is fine</h3>
+      <p>Worth being clear about this: Opus is a superb codec, better than AAC at the same bitrate. Converting it to FLAC does not improve the audio — nothing can recover what lossy compression already discarded. What FLAC buys you is that everything downstream can read it, and that no further quality is lost from this point on. It is a compatibility move, not a quality one.</p>
+      <h3>Step by step: converting your WebM to FLAC</h3>
+      <ol>
+        <li>Drop the .webm onto the upload area.</li>
+        <li>Choose <strong>MKV</strong> as the output.</li>
+        <li>Press <strong>Convert</strong>. VP8 and VP9 video is copied across when the browser can decode it.</li>
+        <li>Import the MKV into your editor, where the audio now plays.</li>
+      </ol>
+      <h3>Common problems and what to do</h3>
+      <p>Screen recordings made in a browser are very often <strong>variable frame rate</strong>, which makes audio drift as the clip progresses. Converting the audio does not fix that — you need a constant frame rate, which means re-encoding the video with <code>-vf fps=N</code>. If the drift grows over time rather than staying constant, VFR is your problem, not the codec.</p>
+      <h3>The fix for your WebM files: FLAC audio in an MKV</h3>
+      <p>WebM files from downloaded video, browser captures and screen recordings carry their audio as <strong>Opus or Vorbis</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
+
+      <p>Browser-made screen recordings are often variable frame rate, which makes audio drift as the clip runs. That needs a constant frame rate, not an audio conversion.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" id="wmv" aria-labelledby="guia-wmv">
+    <div class="card-title">WMV → FLAC</div>
+    <article>
+      <h2 id="guia-wmv">Everything about converting WMV to FLAC</h2>
+      <h3>What WMV actually is</h3>
+      <p>WMV wraps VC-1 or WMV3 video with WMA audio, and both are proprietary Microsoft codecs. On Windows with the right components installed it plays; on macOS and Linux it usually does not, and DaVinci Resolve rejects it on every platform more often than not.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>Neither the video nor the audio can be decoded in the browser, so both are re-encoded: video to H.264, audio to FLAC. That means this is a full conversion rather than a remux, so it takes longer and the video is not bit-for-bit identical. At <code>-crf 18</code> the difference is not visible in practice, and it is the most practical way to make the clip editable outside the Windows Media ecosystem.</p>
+      <h3>Step by step</h3>
+      <ol>
+        <li>Drop your .wmv file onto the upload area, or click <strong>Select files</strong>.</li>
+        <li>Choose <strong>MKV</strong> as the output — modern editors handle it best.</li>
+        <li>Press <strong>Convert</strong>. Everything is processed on your own machine, with no uploads.</li>
+        <li>Download the result and import it into your editor.</li>
+      </ol>
+      <h3>Common problems and what to do</h3>
+      <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+
+    </article>
+  </section>
+
+  <section class="card seo-card" id="flv" aria-labelledby="guia-flv">
+    <div class="card-title">FLV → FLAC</div>
+    <article>
+      <h2 id="guia-flv">Everything about converting FLV to FLAC</h2>
+      <h3>What FLV actually is</h3>
+      <p>FLV was the format of web video for over a decade, until Flash was retired in 2020. What survives is archives: old screencasts, downloaded lectures, recordings from long-dead platforms. Inside you might find H.264 with AAC, which modern software reads, or legacy Sorenson and VP6 video with MP3 or Nellymoser audio, which it does not.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>H.264 and Sorenson Spark video are copied across untouched, although the page preview may not show Sorenson. VP6 is re-encoded to H.264 — which is what you want anyway, since nothing modern edits VP6 comfortably. The audio always becomes FLAC.</p>
+      <h3>The fix for your FLV files: FLAC audio in an MKV</h3>
+
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied when it is H.264 or Sorenson Spark, and re-encoded to H.264 when it is VP6, which the browser cannot decode.</p>
+
+      <p>Flash video was retired in 2020, so anything you still have is an archive. Converting it now is also the simplest way to make sure it stays playable.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" id="mpeg" aria-labelledby="guia-mpeg">
+    <div class="card-title">MPEG → FLAC</div>
+    <article>
+      <h2 id="guia-mpeg">Everything about converting MPEG to FLAC</h2>
+      <h3>What MPEG actually is</h3>
+      <p>MPEG is the family of standards that digital video began with. MPEG-1 gave us the Video CD and the MP3; MPEG-2 gave us the DVD and digital television. Files in these formats are usually old, often interlaced, and carry MP2 or AC3 audio that modern editors decode poorly if at all.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>Neither MPEG-1 nor MPEG-2 video can be decoded in the browser, so the picture is re-encoded to H.264 and the audio becomes FLAC. The result is far easier to edit than the original, though it is a full conversion rather than a remux.</p>
+      <h3>The fix for your MPEG files: FLAC audio in an MKV</h3>
+
+      <p>MPEG files are usually old and often interlaced. The conversion makes them far easier to edit, but it is a full re-encode rather than a remux.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" id="ts" aria-labelledby="guia-ts">
+    <div class="card-title">TS → FLAC</div>
+    <article>
+      <h2 id="guia-ts">Everything about converting TS to FLAC</h2>
+      <h3>What TS actually is</h3>
+      <p>MPEG-TS was designed for broadcast: a stream of small packets that survives transmission errors and can be tuned into halfway through. That makes it ideal for digital television and capture hardware, and awkward for editing, because it has no clean index and often carries several programmes at once.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>TS files usually hold H.264 or MPEG-2 video. If it is H.264 the video is copied across untouched; MPEG-2 is re-encoded to H.264 because the browser cannot decode it. Either way the audio, typically AC3 or AAC, becomes FLAC and the result imports cleanly.</p>
+      <h3>The fix for your TS files: FLAC audio in an MKV</h3>
+      <p>TS files from digital television, capture cards and stream recorders carry their audio as <strong>AC3 or AAC</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
+
+      <p>Transport streams often carry several programmes and have no clean index, so some players show odd durations. Converting to MKV gives you a properly indexed file.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" id="vob" aria-labelledby="guia-vob">
+    <div class="card-title">VOB → FLAC</div>
+    <article>
+      <h2 id="guia-vob">Everything about converting VOB to FLAC</h2>
+      <h3>What VOB actually is</h3>
+      <p>A VOB is what sits inside the VIDEO_TS folder of a DVD: MPEG-2 video paired with AC3 (Dolby Digital) or PCM audio. AC3 is a licensed codec that DaVinci Resolve does not decode on Linux and handles unevenly elsewhere; PCM, when a disc uses it, imports without trouble.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>MPEG-2 cannot be decoded in the browser, so the video is re-encoded to H.264 and the AC3 becomes FLAC. Note that VOB files from commercial DVDs are usually encrypted with CSS; those cannot be processed by any tool without circumventing the protection, and this one will not open them.</p>
+
+    </article>
+  </section>
+
+  <section class="card seo-card" id="3gp" aria-labelledby="guia-3gp">
+    <div class="card-title">3GP → FLAC</div>
+    <article>
+      <h2 id="guia-3gp">Everything about converting 3GP to FLAC</h2>
+      <h3>What 3GP actually is</h3>
+      <p>3GP was designed for early mobile networks, when bandwidth was measured in kilobits. It pairs H.263 or MPEG-4 video with AMR audio, a codec built for speech at very low bitrates. Files in this format are usually old phone recordings or voice notes, and their audio is rarely readable by editing software.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is copied without re-encoding; the page preview may not show it, but the downloaded file is complete.</p>
+      <h3>The fix for your 3GP files: FLAC audio in an MKV</h3>
+
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The H.263 video is copied without re-encoding, so the picture is untouched, although the page preview may not be able to show it.</p>
+
+      <p>Be realistic about AMR: it discards a great deal to reach very low bitrates, and FLAC preserves exactly what remains. It cannot restore what was never stored.</p>
+    </article>
+  </section>
+
+  <section class="card seo-card" id="m4v" aria-labelledby="guia-m4v">
+    <div class="card-title">M4V → FLAC</div>
+    <article>
+      <h2 id="guia-m4v">Everything about converting M4V to FLAC</h2>
+      <h3>What M4V actually is</h3>
+      <p>M4V is essentially MP4 with an Apple label, and the contents are much the same: H.264 or HEVC video with AAC audio. The difference that matters is that M4V files bought from iTunes carry FairPlay DRM, which changes what is possible entirely.</p>
+      <h3>What VidToFLAC does with it</h3>
+      <p>For your own exports the conversion is straightforward: the audio becomes FLAC, and the video is copied if it is H.264 or re-encoded if it is HEVC. For DRM-protected purchases nothing can be done — the file is encrypted and no tool opens it legally, this one included.</p>
+      <h3>The fix for your M4V files: FLAC audio in an MKV</h3>
+
+      <p>M4V files bought from iTunes carry FairPlay DRM. Those are encrypted and no tool opens them legally, this one included. Your own exports convert normally.</p>
     </article>
   </section>
 
 
   <section class="card seo-card" aria-labelledby="formatos-titulo">
-    <div class="card-title">Guías y artículos</div>
-    <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Aprende más sobre el audio en DaVinci Resolve</h2>
-    <p>VidToFLAC detecta automáticamente el formato de entrada —MP4, MOV, MKV, AVI, WEBM, WMV, FLV, MPEG, TS, VOB, 3GP y M4V de vídeo, además de MP3, AAC, M4A, WAV, AIFF, OGG, Opus y WMA de audio—: solo arrastra tu archivo. Si quieres entender a fondo por qué falla el audio en Resolve y cómo evitarlo, lee nuestras guías:</p>
-    <nav class="format-links" aria-label="Artículos y guías">
-      <a href="/articulos/errores-audio-davinci-resolve/">Errores de audio en Resolve</a>
-      <a href="/articulos/que-formato-video-usar-davinci-resolve/">Qué formato de vídeo usar</a>
-      <a href="/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/">Exportar sin perder audio</a>
-      <a href="/convertir-video-a-flac/">AVI, WebM y otros vídeos a FLAC</a>
-      <a href="/convertir-audio-a-flac/">MP3, AAC y otros audios a FLAC</a>
-      <a href="/articulos/">Todos los artículos →</a>
+    <div class="card-title">Supported input formats</div>
+    <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Works with virtually any video or audio file</h2>
+    <p>VidToFLAC automatically detects the input format — just drop your file. It handles MP4, MOV, MKV, AVI, WEBM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V video, plus MP3, AAC, M4A, WAV, AIFF, OGG, Opus and WMA audio. The video stream is copied bit-for-bit (a lossless remux) and only the audio is re-encoded to FLAC, so DaVinci Resolve, Premiere Pro and Avid import it with sound on Windows, macOS and Linux — no codec packs or plugins required.</p>
+  </section>
+
+  <section class="card seo-card" aria-labelledby="guides-titulo">
+    <div class="card-title">Guides and articles</div>
+    <h2 id="guides-titulo" style="margin-bottom:0.7rem">Learn more about audio in DaVinci Resolve</h2>
+    <p>VidToFLAC automatically detects the input format — just drop your file. If you want to understand why audio fails in Resolve and how to avoid it, read our guides:</p>
+    <nav class="format-links" aria-label="Articles and guides">
+      <a href="/en/articles/davinci-resolve-audio-errors/">Audio errors in Resolve</a>
+      <a href="/en/articles/best-video-format-for-davinci-resolve/">Which video format to use</a>
+      <a href="/en/articles/export-video-davinci-resolve-without-losing-audio-quality/">Export without losing audio</a>
+      <a href="/en/convert-video-to-flac/">AVI, WebM and other video to FLAC</a>
+      <a href="/en/convert-audio-to-flac/">MP3, AAC and other audio to FLAC</a>
+      <a href="/en/articles/">All articles →</a>
     </nav>
   </section>
 
   <footer>
     <p class="footer-tagline">
-      Todo el procesamiento ocurre en tu dispositivo usando
-      <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+      All processing happens on your device using
+      <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.
     </p>
-    <nav class="footer-links" aria-label="Páginas legales">
-      <a href="/politica-de-privacidad/">Política de privacidad</a>
-      <a href="/terminos-de-servicio/">Términos de servicio</a>
-      <a href="/aviso-legal/">Aviso legal</a>
-      <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
-      <a href="/contacto/">Contacto</a>
+    <nav class="footer-links" aria-label="Legal pages">
+      <a href="/en/privacy-policy/">Privacy policy</a>
+      <a href="/en/terms-of-service/">Terms of service</a>
+      <a href="/en/legal-notice/">Legal notice</a>
+      <a href="/en/about/">About</a>
+      <a href="/en/contact/">Contact</a>
     </nav>
-    <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
+    <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>
   </footer>
 
 </div>
@@ -2722,7 +2909,7 @@ termsCheck.addEventListener('change', () => {
   updateConvertBtn();
 });
 
-// En macOS el atajo de favoritos es ⌘+D, no Ctrl+D
+// On macOS the bookmark shortcut is ⌘+D, not Ctrl+D
 if (/Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent)) {
   const bhMod = $('bhMod'), bhShortcut = $('bhShortcut');
   if (bhMod) bhMod.textContent = '⌘';
@@ -2816,7 +3003,7 @@ function setEngine(text, state) {
 
   engineText.textContent  = text;
   engineDot.className     = `engine-dot ${state}`;
-  engineBadge.textContent = { idle: 'En espera', loading: 'Cargando', ready: 'Listo', busy: 'Procesando', error: 'Error' }[state] ?? state;
+  engineBadge.textContent = { idle: 'Waiting', loading: 'Loading', ready: 'Ready', busy: 'Working', error: 'Error' }[state] ?? state;
   engineBadge.className   = `badge badge-${state}`;
   engineCard.classList.toggle('is-loading', state === 'loading');
 
@@ -2865,7 +3052,7 @@ function renderFileList() {
     const badgeMap = {
       pending:    '<span class="badge badge-loading" style="font-size:.7rem;flex-shrink:0">Pendiente</span>',
       converting: '<span class="badge badge-busy"    style="font-size:.7rem;flex-shrink:0">Convirtiendo</span>',
-      done:       '<span class="badge badge-done"    style="font-size:.7rem;flex-shrink:0">Listo ✓</span>',
+      done:       '<span class="badge badge-done"    style="font-size:.7rem;flex-shrink:0">Done ✓</span>',
       error:      '<span class="badge badge-error"   style="font-size:.7rem;flex-shrink:0">Error</span>',
     };
 
@@ -2887,7 +3074,7 @@ function renderFileList() {
         </div>
         ${badgeMap[entry.status] ?? ''}
         ${entry.status === 'done'
-          ? `<button class="btn-chip-action" data-action="download" data-id="${id}" title="Descargar">⬇️</button>`
+          ? `<button class="btn-chip-action" data-action="download" data-id="${id}" title="Download">⬇️</button>`
           : ''}
         ${entry.status !== 'converting'
           ? `<button class="btn-chip-action btn-chip-remove" data-action="remove" data-id="${id}" title="Eliminar">✕</button>`
@@ -2984,21 +3171,21 @@ function updateConvertBtn() {
   const needsAd = left <= 0 && !tandaUnlocked;
   const willConvert = (needsAd || tandaUnlocked) ? pending : Math.min(pending, left);
   const label = willConvert > 1
-    ? `⚙️ Convertir ${willConvert} archivos a vídeo + FLAC`
-    : `⚙️ Convertir a vídeo + FLAC`;
+    ? `⚙️ Convert ${willConvert} files to video + FLAC`
+    : `⚙️ Convert to video + FLAC`;
   if (tandaUnlocked) {
-    convertBtn.textContent = `${label} · tanda activa`;
+    convertBtn.textContent = `${label} · session active`;
   } else if (needsAd) {
-    convertBtn.textContent = `${label} · ver anuncio`;
+    convertBtn.textContent = `${label} · watch ad`;
   } else {
-    convertBtn.textContent = `${label} · ${left} gratis`;
+    convertBtn.textContent = `${label} · ${left} free`;
   }
   updateCountdownDisplay();
 }
 
-// Cuando un medio no se puede previsualizar: oculta el reproductor y muestra un aviso.
-// 1.ª vez → invitar a "volver a convertir todo"; si tras reconvertir vuelve a fallar
-// (previewFails ≥ 2) → derivar a la página de contacto.
+// When a file can't be previewed: hide the player and show a notice.
+// 1st time → invite to "convert everything again"; if it still fails after a
+// reconvert (previewFails ≥ 2) → point the user to the contact page.
 function showPreviewError(item, entry) {
   entry.previewFails = (entry.previewFails || 0) + 1;
   const media = item.querySelector('.preview-media');
@@ -3008,19 +3195,19 @@ function showPreviewError(item, entry) {
   div.className = 'preview-no-support';
   if (entry.previewFails >= 2) {
     div.innerHTML =
-      `No hemos podido previsualizar <strong>${entry.outBaseName}</strong> ni siquiera tras volver a convertir. ` +
-      `El archivo descargado suele funcionar igualmente en tu editor; si no es así, ` +
-      `<a class="preview-contact-link" href="/contacto/">cuéntanoslo en Contáctanos</a> y te ayudamos.`;
+      `We couldn't preview <strong>${entry.outBaseName}</strong> even after converting again. ` +
+      `The downloaded file usually still works in your editor; if it doesn't, ` +
+      `<a class="preview-contact-link" href="/en/contact/">let us know on Contact</a> and we'll help.`;
   } else {
     div.innerHTML =
-      `No se ha podido previsualizar <strong>${entry.outBaseName}</strong> en este navegador.<br>` +
-      `<button type="button" class="btn-reconvert" data-action="reconvert-all">🔄 Volver a convertir todo</button>`;
+      `Couldn't preview <strong>${entry.outBaseName}</strong> in this browser.<br>` +
+      `<button type="button" class="btn-reconvert" data-action="reconvert-all">🔄 Convert everything again</button>`;
   }
   const dl = item.querySelector('.btn-preview-download');
   item.insertBefore(div, dl);
 }
 
-// El medio cargó correctamente: quita cualquier aviso de error y vuelve a mostrar el reproductor.
+// The media loaded fine: remove any error notice and show the player again.
 function clearPreviewError(item, entry) {
   entry.previewFails = 0;
   item.querySelector('.preview-no-support')?.remove();
@@ -3074,7 +3261,7 @@ function renderPreviewList() {
 
       const dl = document.createElement('a');
       dl.className = 'btn-preview-download';
-      dl.textContent = '⬇ Descargar';
+      dl.textContent = '⬇ Download';
       item.appendChild(dl);
 
       previewList.appendChild(item);
@@ -3139,7 +3326,7 @@ async function loadFFmpeg() {
   if (ffmpegLoading) return;
   ffmpegLoading = true;
   log('Iniciando carga de FFmpeg WASM (core single-thread)…', 'sys');
-  setEngine('Cargando FFmpeg WASM…', 'loading');
+  setEngine('Loading FFmpeg WASM…', 'loading');
 
   try {
     ffmpeg = new FFmpeg();
@@ -3159,14 +3346,14 @@ async function loadFFmpeg() {
     log('Inicializando motor…', 'sys');
     await ffmpeg.load({ coreURL, wasmURL });
 
-    setEngine('Motor listo', 'ready');
-    log('✓ FFmpeg WASM cargado y listo', 'success');
+    setEngine('Engine ready', 'ready');
+    log('✓ FFmpeg WASM loaded and ready', 'success');
     updateConvertBtn();
 
   } catch (err) {
     ffmpegLoading = false;
-    setEngine('Error al cargar el motor', 'error');
-    log('✗ Error cargando FFmpeg: ' + err.message, 'error');
+    setEngine('Error loading engine', 'error');
+    log('✗ Error loading FFmpeg: ' + err.message, 'error');
     console.error(err);
   }
 }
@@ -3177,19 +3364,19 @@ function addFiles(fileList) {
   for (const file of fileList) {
     const valid = file.type.startsWith('video/') || file.type.startsWith('audio/') || isVideo(file.name) || isAudioOnly(file);
     if (!valid) {
-      log(`⚠ "${file.name}" no es un formato reconocido. Se intentará de todos modos.`, 'warn');
+      log(`⚠ "${file.name}" is not a recognised format. Trying anyway.`, 'warn');
     }
     // skip duplicates (same name + size)
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
-    if (dup) { log(`⚠ "${file.name}" ya está en la lista, ignorado.`, 'warn'); continue; }
+    if (dup) { log(`⚠ "${file.name}" is already in the list — ignored.`, 'warn'); continue; }
 
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
-    log(`Archivo añadido: ${file.name} (${fmt(file.size)})`, 'sys');
+    log(`File added: ${file.name} (${fmt(file.size)})`, 'sys');
     // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
     // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
     if (file.size > 800 * 1024 * 1024) {
-      log(`⚠ "${file.name}" supera 800 MB — puede fallar por límite de memoria WebAssembly.`, 'warn');
+      log(`⚠ "${file.name}" is over 800 MB — it may fail on the WebAssembly memory limit.`, 'warn');
       showLargeFileModal(file.name, file.size);
     }
     added++;
@@ -3207,9 +3394,9 @@ document.querySelectorAll('input[name="outFormat"]').forEach(radio => {
     const note = $('formatNote');
     if (!note) return;
     if (radio.value === 'flac-only') {
-      note.innerHTML = 'Extrae solo el audio → <strong>FLAC</strong> · el vídeo <strong>no</strong> se incluye en el resultado';
+      note.innerHTML = 'Extracts audio only → <strong>FLAC</strong> · video <strong>not</strong> included in the result';
     } else {
-      note.innerHTML = 'El audio pasa a <strong>FLAC</strong> · el vídeo se copia sin recodificar cuando el códec es compatible';
+      note.innerHTML = 'Audio becomes <strong>FLAC</strong> · video is copied without re-encoding when the codec allows it';
     }
   });
 });
@@ -3354,11 +3541,11 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
   let outputName  = `output_${id}.${outFormat}`;
 
   setProgress(`[${globalIdx + 1}/${totalCount}] ${file.name}`, null);
-  log(`[${globalIdx + 1}/${totalCount}] Procesando: ${file.name}`, 'sys');
+  log(`[${globalIdx + 1}/${totalCount}] Processing: ${file.name}`, 'sys');
 
   try {
     // 1 · Write input to WASM virtual FS
-    log(`Escribiendo "${inputName}" en sistema de archivos virtual…`, 'sys');
+    log(`Writing "${inputName}" to the virtual file system…`, 'sys');
     const buffer   = await file.arrayBuffer();
     const fileData = new Uint8Array(buffer);
     const fileSize = file.size;
@@ -3387,7 +3574,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     ffmpeg.off('log', probeCapture);
 
     if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
-      log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
+      log(`⚠ No video stream detected — converting to audio-only FLAC…`, 'warn');
       outFormat  = 'flac';
       outputName = `output_${id}.flac`;
     }
@@ -3409,20 +3596,20 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     const isAudioOnlyOutput = selectedFormat === 'flac-only' || audioOnly || outFormat === 'flac';
     // HEVC se recodifica a H.264 a propósito: DaVinci Resolve gratuito no puede
     // importar H.265 (de ahí el artículo davinci-resolve-h265-hevc-no-importa).
-    // Quien solo quiera cambiar de contenedor sin esperar tiene /convertir-formatos/.
+    // Quien solo quiera cambiar de contenedor sin esperar tiene /en/convert-formats/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
     const reencoding = !isAudioOnlyOutput && browserIncompatibleVideo;
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {
-      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
-      if (hevcSource) log(`ℹ El vídeo HEVC se convierte a H.264 para que DaVinci Resolve pueda importarlo. Si solo quieres cambiar de contenedor sin esperar, usa la página Formatos.`, 'sys');
+      log(`⚠ Video codec this browser cannot play (${probeVideoCodec}) — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
+      if (hevcSource) log(`ℹ HEVC video is converted to H.264 so DaVinci Resolve can import it. If you only want to change container without the wait, use the Formats page.`, 'sys');
     }
     const videoArgs = reencoding
       ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
       : ['-c:v', 'copy'];
 
-    setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…${eta ? ` · recodificando, ${eta}` : ''}`, null);
+    setProgress(`[${globalIdx + 1}/${totalCount}] Converting…${eta ? ` · re-encoding, ${eta}` : ''}`, null);
     const t0 = Date.now();
     const cmd = isAudioOnlyOutput
       ? ['-i', inputName, '-vn', ...audioEncArgs, outputName]
@@ -3446,7 +3633,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       await ffmpeg.exec(cmd);
     } catch (execErr) {
       if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
-        log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+        log('⚠ Stream copy failed — retrying with video re-encoding…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}
         await loadFFmpeg();
@@ -3465,15 +3652,15 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     }
 
     const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
-    log(`✓ Conversión completada en ${elapsed}s`, 'success');
+    log(`✓ Conversion finished in ${elapsed}s`, 'success');
 
     // 3 · Read output
-    setProgress(`[${globalIdx + 1}/${totalCount}] Leyendo archivo resultante…`, null);
+    setProgress(`[${globalIdx + 1}/${totalCount}] Reading the resulting file…`, null);
     const data = await ffmpeg.readFile(outputName);
 
     // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
     // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
-    if (!data || data.length === 0) throw new Error('la salida ha quedado vacía — FFmpeg no ha podido escribir el archivo. Prueba con otro formato de salida.');
+    if (!data || data.length === 0) throw new Error('the output came out empty — FFmpeg could not write the file. Try a different output format.');
 
     // 4 · Create blob & object URL
     const mimeType = outFormat === 'flac' ? 'audio/flac'
@@ -3510,7 +3697,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     entry.status = 'error';
     const msg = err.message ?? 'error desconocido';
     if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
-      log(`✗ Error de memoria en "${file.name}": el archivo es demasiado grande para la memoria WebAssembly (~2 GB). Divide el vídeo en partes más cortas e intenta de nuevo.`, 'error');
+      log(`✗ Out of memory on "${file.name}": the file is too large for WebAssembly memory (~2 GB). Split the video into shorter sections and try again.`, 'error');
     } else {
       log(`✗ Error en "${file.name}": ${msg}`, 'error');
     }
@@ -3553,22 +3740,21 @@ convertBtn.addEventListener('click', async () => {
   }
 
   convertBtn.disabled = true;
-  setEngine('Procesando…', 'busy');
+  setEngine('Processing…', 'busy');
   updateConvertBtn();
 
   for (let i = 0; i < toProcesar.length; i++) {
     await processOneFile(toProcesar[i], i, toProcesar.length, selectedFormat);
   }
 
-  setEngine('Motor listo', 'ready');
+  setEngine('Engine ready', 'ready');
   updateConvertBtn();
 });
 
-// ─── Re-convertir todo (reintento de previsualización) ─────────────────────────
-// Se dispara desde el aviso "no se pudo previsualizar". Reprocesa los archivos ya
-// convertidos manteniendo su formato de salida, sin consumir cuota ni duplicar el
-// historial. Si tras esto la previsualización vuelve a fallar, showPreviewError
-// deriva a la página de contacto.
+// ─── Convert everything again (preview retry) ──────────────────────────────────
+// Triggered from the "couldn't preview" notice. Re-processes the already-converted
+// files keeping their output format, without spending quota or duplicating history.
+// If the preview still fails afterwards, showPreviewError points to the contact page.
 let reconverting = false;
 async function reconvertAll() {
   if (!ffmpeg || reconverting) return;
@@ -3577,8 +3763,8 @@ async function reconvertAll() {
 
   reconverting = true;
   convertBtn.disabled = true;
-  setEngine('Re-convirtiendo…', 'busy');
-  log('↻ Volviendo a convertir todo para reintentar la previsualización…', 'sys');
+  setEngine('Re-converting…', 'busy');
+  log('↻ Converting everything again to retry the preview…', 'sys');
 
   for (let i = 0; i < done.length; i++) {
     const [, e] = done[i];
@@ -3588,7 +3774,7 @@ async function reconvertAll() {
     await processOneFile(done[i], i, done.length, fmtSel, true);
   }
 
-  setEngine('Motor listo', 'ready');
+  setEngine('Engine ready', 'ready');
   reconverting = false;
   updateConvertBtn();
 }
@@ -3605,8 +3791,8 @@ function showLargeFileModal(name, size) {
   const btn    = $('largeFileModalBtn');
   subEl.innerHTML =
     `<strong>${name}</strong> pesa <strong>${fmt(size)}</strong>. ` +
-    `El motor WebAssembly dispone de unos 2 GB de memoria: con la entrada y la salida juntas es posible que se quede sin espacio y la conversión falle a mitad.<br><br>` +
-    `Si ocurre, divide el vídeo en partes más cortas antes de subirlo (por ejemplo con HandBrake o con <code>ffmpeg -t 3600 -c copy parte1.mp4</code> en tu terminal).`;
+    `The WebAssembly engine has about 2 GB of memory: with input and output together it may run out of space and the conversion can fail part-way.<br><br>` +
+    `If it happens, split the video into shorter parts first (e.g. with HandBrake or <code>ffmpeg -t 3600 -c copy part1.mp4</code> in your terminal).`;
   modal.classList.add('open');
   btn.addEventListener('click', () => modal.classList.remove('open'), { once: true });
 }
@@ -3665,7 +3851,7 @@ function updateCountdownDisplay() {
     updateConvertBtn();   // cuota reiniciada: actualizar el botón
     return;
   }
-  msgEl.innerHTML = '3 conversiones gratis en <strong id="quotaTime">' + formatCountdown(remaining) + '</strong>';
+  msgEl.innerHTML = '3 free conversions in <strong id="quotaTime">' + formatCountdown(remaining) + '</strong>';
   el.classList.add('visible');
   if (!countdownInterval) {
     countdownInterval = setInterval(updateCountdownDisplay, 1000);
@@ -3678,7 +3864,7 @@ function showAdModal() {
     const continueBtn = $('adContinueBtn');
 
     modal.classList.add('open');
-    // El modal se puede cerrar de inmediato: sin cuenta atrás ni espera.
+    // The modal can be closed right away: no countdown, no waiting.
     continueBtn.disabled = false;
     continueBtn.focus();
 
@@ -3697,7 +3883,7 @@ function showAdModal() {
       if (!filled) slotWrap?.classList.add('is-empty');
     }, 2000);
 
-    // Cerrar con el botón, clic en el fondo o tecla Escape → continúa la conversión.
+    // Close with the button, a backdrop click or the Escape key → continue.
     function close() {
       clearTimeout(emptyTimer);
       continueBtn.removeEventListener('click', close);
@@ -3723,7 +3909,7 @@ function showAdModal() {
                       getComputedStyle(modal).display !== 'none' &&
                       getComputedStyle(modal).visibility !== 'hidden';
       if (visible) return;
-      if (++checks > 3) { log('⚠ No se ha podido mostrar el aviso (¿bloqueador de anuncios?) — continuando con la conversión.', 'warn'); close(); return; }
+      if (++checks > 3) { log('⚠ Could not show the notice (ad blocker?) — carrying on with the conversion.', 'warn'); close(); return; }
       setTimeout(ensureVisible, 200);
     })();
   });
@@ -3801,7 +3987,7 @@ async function saveConversionToDB(name, blob, mimeType, srcName) {
 }
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
-setEngine('Selecciona un archivo para iniciar el motor', 'idle');
+setEngine('Select a file to start the engine', 'idle');
 </script>
 </body>
 </html>

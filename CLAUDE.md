@@ -12,7 +12,7 @@ VidToFLAC es una aplicación web de **una sola página y 100% del lado del clien
 
 ## Toda la app es `index.html`
 
-**No hay dependencias, tests ni package.json.** Sí hay un generador, `build_pages.py`, pero solo para las 40 landings de formato, 20 por idioma (ver más abajo); la app en sí no se compila. `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
+**No hay dependencias, tests ni package.json.** Sí hay un generador, `build_pages.py`, pero solo para las landings de formato: 12 páginas completas y 32 redirecciones (ver más abajo); la app en sí no se compila. `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
 
 Al editar, conserva la estructura de archivo único — no separes en archivos JS/CSS aparte.
 
@@ -99,13 +99,39 @@ Los archivos se añaden a un `Map<id, entry>` y quedan `pending` — **nada se p
 - `renderPreviewList()` es intencionadamente **idempotente** — reutiliza los elementos `<video>`/`<audio>` existentes y solo actualiza etiquetas/enlaces, de modo que re-renderizar (p. ej. tras un renombrado en línea) **no** reinicia la reproducción del medio. Conserva esto al modificarla.
 - Los archivos de salida se pueden **renombrar en línea tras la conversión sin reconvertir** — solo cambian `outBaseName` y el enlace de descarga; se mantiene el mismo Blob/object URL.
 
-## Las 40 landings se generan — no las edites a mano
+## Las landings se generan — no las edites a mano
 
-`build_pages.py` genera 40 landings: las 20 españolas `/convertir-*-a-flac/` a
-partir de `index.html`, y las 20 inglesas `/en/convert-*-to-flac/` a partir de
-`en/index.html`. El contenido español vive en `PAGES` (dentro del propio
-`build_pages.py`) y en `CONTENT` de `landing_content.py`; el inglés, en
-`PAGES_EN` y `CONTENT_EN` de `landing_content_en.py`.
+`build_pages.py` genera, por idioma (español desde `index.html`, inglés desde
+`en/index.html`):
+
+- **4 landings propias**: MP4, MKV, MOV y WAV (`/convertir-mp4-a-flac/`,
+  `/en/convert-mp4-to-flac/`…).
+- **2 landings agrupadas**: `/convertir-video-a-flac/` (AVI, WebM, WMV, FLV,
+  MPEG, TS, VOB, 3GP, M4V) y `/convertir-audio-a-flac/` (MP3, AAC, M4A, AIFF,
+  OGG, Opus, WMA), con sus equivalentes en `/en/`. Cada formato es una sección
+  con ancla (`#avi`, `#opus`…).
+- **16 redirecciones** en las URL antiguas de esos formatos, que llevan a su
+  sección (`noindex`, canonical y `meta refresh`, igual que `en/articulos/`).
+
+El texto de cada formato sigue en `PAGES` (dentro de `build_pages.py`) y
+`CONTENT` (`landing_content.py`), o en `PAGES_EN`/`CONTENT_EN`
+(`landing_content_en.py`): **las guías de los formatos agrupados se editan ahí**,
+aunque ya no tengan página propia. Lo que es de la página agrupada —cabecera,
+índice, "La solución" y FAQ— está en `merged_content.py`.
+
+**Por qué se juntaron en vez de borrarse.** Las 32 landings minoritarias eran
+`noindex` y se parecían hasta un 82 % entre sí (las inglesas, escritas sobre
+plantilla). Juntas, cada página agrupada comparte un 13-27 % de n-gramas con la
+portada. Al juntarlas aparecieron dos cosas que no se ven con páginas sueltas:
+
+- **La repetición se traslada dentro de la página.** Las guías inglesas repetían
+  pasos y cierre con el nombre del formato cambiado: un 40-44 % de las secciones
+  eran iguales entre sí. `dedupe_sections()` conserva la primera aparición de
+  cada bloque y quita las demás (queda en 1-8 %). Por eso las FAQ tampoco se
+  heredan: si `merged_content.py` trae `faqs`, mandan esas.
+- **Enlaces viejos.** `rewrite_old_links()` apunta a la sección nueva todo
+  enlace o `data-url` de una landing absorbida en las páginas generadas; en las
+  que no genera el script (portadas, artículos) hay que cambiarlos a mano.
 
 Los textos de la plantilla que hay que sustituir están en `A_ES` y `A_EN`, un
 diccionario de anclajes por idioma. Los largos no se copian a mano: se extraen
@@ -132,13 +158,13 @@ Invariantes que el generador ya respeta y que no hay que romper:
   `PAIRS`: sin par, sin hreflang.
 - **selector de idioma:** `build_page()` reescribe el enlace `.nav-lang` para
   que apunte a la página equivalente y no a la portada del otro idioma.
-- **robots:** solo ocho landings se ofrecen a Google (conjunto `INDEXABLE`:
-  mp4, mkv, mov y wav, en ambos idiomas). El resto va `noindex, follow`.
+- **robots:** las 12 páginas completas están en `INDEXABLE`; las
+  redirecciones van `noindex, follow`.
 - **la guía técnica compartida se elimina** (`RE_SHARED_GUIDE`). Copiada tal
   cual, esas ~916 palabras hacían que cada landing fuese un 64 % idéntica a la
   portada y a sus hermanas, y Google rechazó AdSense por "contenido de poco
   valor". Cada landing ya trae su propia guía en `unique_guide`. Al añadir
-  contenido a la home, comprueba que no se replica a las 40.
+  contenido a la home, comprueba que no se replica a las 12.
 - **sitemap:** `update_sitemap()` nunca añade una página `noindex` ni duplica
   una `<loc>`. Una `noindex` dentro del sitemap es un error en Search Console.
 
@@ -179,7 +205,7 @@ una conversión.
 `media/demo-es.mp4` y `media/demo-en.mp4` (~950 KB, 29 s, 1280×800, H.264 +
 AAC con `faststart`) muestran el problema y la solución con una grabación real.
 Viven solo en `index.html` y `en/index.html`; `build_pages.py` los retira de
-las 40 landings con `RE_DEMO`, porque repetir el bloque y su `VideoObject` en
+las landings con `RE_DEMO`, porque repetir el bloque y su `VideoObject` en
 cada una sería otra fuente de duplicado.
 
 Tres decisiones que no son obvias y que no conviene deshacer:
@@ -197,9 +223,18 @@ Tres decisiones que no son obvias y que no conviene deshacer:
 
 **Lo que demuestra la grabación contradice parte del sitio.** El archivo
 original era H.264 + **AAC-LC**, y **DaVinci Resolve Studio 21 sobre Linux no
-lo reprodujo**. `errores-audio-davinci-resolve` afirma que Studio "incluye… AAC
-en Linux", y las tablas marcan AAC en Studio/Linux como "Parcial". La evidencia
-de primera mano gana a lo que diga cualquier artículo: revisar esas afirmaciones.
+lo reprodujo**. Tres artículos por idioma decían lo contrario (Studio "incluye
+AAC en Linux", tablas con "Parcial", FAQ "solo algunos perfiles de AAC" cuando
+falló el perfil más común); ya están corregidos citando la prueba y enlazando
+a `/#demo-titulo`. La evidencia de primera mano gana a lo que diga cualquier
+artículo. No escribas "Studio lo soluciona en Linux" sin una prueba nueva que
+lo demuestre.
+
+Al corregir una afirmación, lee el artículo entero en una captura, no solo la
+frase buscada: en `davinci-resolve-gratuito-vs-studio`, dos párrafos más abajo
+de la advertencia seguían "copia el vídeo bit a bit (cero pérdida de calidad)"
+y "el problema desaparece completamente", que ningún `grep` sobre Studio/AAC
+iba a encontrar.
 
 Un barrido por frases largas no detecta promesas escritas como viñetas cortas:
 la tarjeta "Antes y después" de la portada conservaba "Proceso en segundos,
@@ -250,9 +285,10 @@ for f in glob.glob('**/*.html',recursive=True):
 print(n,'bloques,',b,'rotos')"
 ```
 
-Valores de referencia: **87** páginas HTML, **52** indexables y **35** `noindex`,
-**84** con hreflang, **306** bloques JSON-LD, **52** URLs en el sitemap, **0**
-enlaces internos rotos, y el generador en **0** líneas de diferencia.
+Valores de referencia: **91** páginas HTML, **56** indexables y **35** `noindex`,
+**56** con hreflang, **166** bloques JSON-LD, **56** URLs en el sitemap, **0**
+enlaces internos rotos (anclas `#formato` incluidas), y el generador en **0**
+líneas de diferencia.
 
 ## Promesas que el producto no puede sostener
 
@@ -269,6 +305,14 @@ El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
   graban en HEVC desde iOS 11. Toda afirmación de "se copia bit a bit / la
   imagen es idéntica" necesita su condición al lado. Contrasta siempre el texto
   contra esa constante del código, no contra lo que diga otro artículo.
+- **DivX, Xvid, H.263 y Sorenson se copian, no se recodifican.** Varias guías
+  decían que se recodificaban, pero `browserIncompatibleVideo` no los incluye:
+  se copian al MKV y la vista previa del navegador puede quedarse sin imagen.
+  Probado con ffmpeg. Si algún día se añaden a la lista, cambia el texto a la vez.
+- **Solo se convierte una pista de audio.** El comando no lleva `-map`, así que
+  FFmpeg elige una. Tres guías prometían "todas las pistas", justo lo que le
+  importa a quien graba juego y micrófono por separado en OBS. Para varias, se
+  remite a `ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv`.
 - **Nada de absolutos.** Ni "la única solución", ni "no funciona en ningún
   sistema", ni "todos los errores". El soporte de códecs depende de versión,
   plataforma y configuración.
