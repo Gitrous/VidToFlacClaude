@@ -52,6 +52,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 has several audio tracks (stereo plus surround, say), VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. To keep them all, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
+      <h3>Where an MP4 keeps its index: the <em>moov atom</em></h3>
+      <p>Every MP4 carries an internal index called the <strong>moov atom</strong> that says where each chunk of video and audio begins. Depending on the software that wrote the file, that index can sit at the start or at the end. When it sits at the end, some players need the whole file before they can play anything — which is why a partly downloaded MP4 often refuses to open. VidToFLAC reads the entire file on your machine before converting, so the position of the <em>moov atom</em> makes no difference to the result.</p>
     </article>
   </section>""",
     },
@@ -96,6 +98,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If your MKV carries <strong>H.265 / HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. If the file holds several audio tracks, such as a game feed plus a microphone, only one of them is converted; the FAQ below explains how to keep them all. And if the MKV came from a download rather than a recording, check first whether the audio is <strong>Opus</strong>: Resolve struggles with that one even on Windows, and the same conversion fixes it.</p>
+      <h3>Why Matroska is the container of choice for remuxing</h3>
+      <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it — and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
     </article>
   </section>""",
     },
@@ -140,6 +144,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If your MOV is <strong>ProRes</strong>, the browser cannot decode it either and the video is re-encoded to H.264 — fine for editing proxies, but not what you want for a ProRes master. Use desktop FFmpeg for those. If the audio is <strong>PCM at 24 bit</strong>, it already works in Resolve and you may not need to convert anything; check the codec before assuming the audio is at fault.</p>
+      <h3>ProRes MOVs already had lossless audio</h3>
+      <p>MOVs recorded or exported as <strong>ProRes</strong> usually carry uncompressed <strong>PCM</strong> audio at 16 or 24 bits. In that case the file already holds its audio in a lossless format, and moving it to FLAC neither improves nor degrades quality: it preserves it bit for bit and takes up considerably less room. The gain here is not fidelity — it is size and compatibility.</p>
     </article>
   </section>""",
     },
@@ -180,6 +186,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Old AVIs are frequently <strong>interlaced</strong>. Converting the audio does not deinterlace the picture — you will want to handle that in your editor's clip attributes. If the AVI is very large and uncompressed, remember the browser's practical ceiling is around 1 GB; split long captures before converting.</p>
+      <h3>AVI and variable frame rate</h3>
+      <p>AVI was designed in 1992 and has no reliable support for <strong>variable frame rate</strong>. Hence this format's classic complaint: over long clips — screen captures and phone footage especially — audio and video drift apart. If your AVI already arrived out of sync, conversion preserves that drift; it has to be corrected in the editor.</p>
     </article>
   </section>""",
     },
@@ -220,6 +228,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Screen recordings made in a browser are very often <strong>variable frame rate</strong>, which makes audio drift as the clip progresses. Converting the audio does not fix that — you need a constant frame rate, which means re-encoding the video with <code>-vf fps=N</code>. If the drift grows over time rather than staying constant, VFR is your problem, not the codec.</p>
+      <h3>WebM is Matroska, trimmed down</h3>
+      <p>WebM is not a different container from MKV: it is a <strong>restricted subset of Matroska</strong>, with the same EBML format underneath and a short list of permitted codecs (VP8, VP9 or AV1 with Vorbis or Opus). That restriction is what makes it fit for the web — and what leaves out the audio editors expect.</p>
     </article>
   </section>""",
     },
@@ -263,6 +273,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If your WAV came from a USB microphone it may be <strong>32-bit floating point</strong> (<code>pcm_f32le</code>). FLAC only stores integer samples, so VidToFLAC converts it to 32-bit integer first. That step is handled automatically and is not audible, but it is why the file is not a pure repackage in that case.</p>
+      <h3>How much a WAV weighs, and how much FLAC saves</h3>
+      <p>A stereo WAV at <strong>48 kHz and 24 bits</strong> takes about <strong>17 MB per minute</strong> — a little over 1 GB per hour of recording. Converting it to FLAC cuts the size by <strong>40 % to 60 %</strong> depending on the material — speech and silence compress far better than dense music — without losing a single bit. Decompress it and you get exactly the original PCM back.</p>
     </article>
   </section>""",
     },
@@ -303,6 +315,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>AAC has been standardised since 1997, and Resolve still will not open it</h3>
+      <p>AAC has been an ISO standard since <strong>1997</strong> and costs the end user nothing to play, so silent audio is not a licensing problem with your file. What happens is that some <strong>Linux</strong> builds of DaVinci Resolve ship without the decoder enabled, because the licence is paid by whoever distributes the software, not by whoever runs it.</p>
     </article>
   </section>""",
     },
@@ -343,6 +357,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>MP3 patents expired in 2017</h3>
+      <p>The MP3 licensing programme was wound up in <strong>2017</strong>, so the format is patent-free today. Even so, several <strong>Linux</strong> builds of DaVinci Resolve still ship without the decoder enabled: the decision comes from how the software is packaged, not from any restriction still in force. That is why the problem outlives its original cause by years.</p>
     </article>
   </section>""",
     },
@@ -383,6 +399,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>If your M4A is ALAC, it was already lossless</h3>
+      <p>Not every M4A holds AAC. Files from Apple Music in <em>lossless</em> quality, or from iTunes exports, may contain <strong>ALAC</strong> (Apple Lossless). Moving those to FLAC is not a recompression: it is a swap between two lossless formats, identical content in a different wrapper. The result matches sample for sample — except that Resolve can actually read it.</p>
     </article>
   </section>""",
     },
@@ -423,6 +441,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>Vorbis has never had active patents</h3>
+      <p><strong>Vorbis</strong>, the codec usually found inside an .ogg, was designed patent-free from the outset. That is why it turns up so often in video games, in open-source software and in projects that value legal peace of mind over file size. The trade-off is that professional video editors, built on proprietary codecs, almost never include it.</p>
     </article>
   </section>""",
     },
@@ -463,6 +483,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>The ASF container outside Windows</h3>
+      <p>WMA travels inside <strong>ASF</strong>, a Microsoft container whose support outside Windows has always been patchy. That explains why many editors on <strong>macOS and Linux</strong> do not merely fail to decode the audio — they do not recognise the file at all. Converting to FLAC fixes both halves at once, the codec and the wrapper.</p>
     </article>
   </section>""",
     },
@@ -503,6 +525,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>AIFF and WAV: same quality, different byte order</h3>
+      <p>AIFF and WAV store the same thing — <strong>uncompressed PCM</strong> — and are equivalent in quality; what differs is the byte order (<em>big-endian</em> in AIFF, <em>little-endian</em> in WAV) and the header. Moving to FLAC adds lossless compression and sturdier metadata without touching a single sample of the original.</p>
     </article>
   </section>""",
     },
@@ -543,6 +567,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <h3>A bare .opus file, stripped of its usual container</h3>
+      <p>Opus almost always travels inside <strong>Ogg or WebM</strong>. Pulled out as a bare <code>.opus</code> file, many video editors will not even recognise it as a valid audio track — they are not failing to decode it, they are failing to identify it. Converting to FLAC gives it a wrapper any editor understands.</p>
     </article>
   </section>""",
     },
@@ -583,6 +609,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>With a WMV the problem is usually twofold</h3>
+      <p>A WMV nearly always carries <strong>WMA</strong> audio inside the same <strong>ASF</strong> container, so the incompatibility hits both tracks at once rather than the audio alone. That is why a WMV often fails before it even shows a picture: VidToFLAC re-encodes the video to H.264 and the audio to FLAC inside an MKV, and the result imports cleanly.</p>
     </article>
   </section>""",
     },
@@ -623,6 +651,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>FLV: orphaned since Flash ended in 2020</h3>
+      <p>When <strong>Flash Player support ended on 31 December 2020</strong>, FLV was left an orphan format: hardly any modern editor recognises it natively, and the tools that handled it have been disappearing. If you still keep material in FLV, converting it now is less a compatibility fix than preventive archiving.</p>
     </article>
   </section>""",
     },
@@ -663,6 +693,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>A VOB can hold several angles and several languages</h3>
+      <p>DVD VOBs can contain <strong>several camera angles</strong> and <strong>several audio tracks</strong> in different languages, interleaved in the same file. VidToFLAC converts the main track FFmpeg detects. If you need to keep them all, use desktop FFmpeg with <code>-map 0</code>.</p>
     </article>
   </section>""",
     },
@@ -703,6 +735,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>Why a TS weighs more: 188-byte packets</h3>
+      <p>The <strong>Transport Stream</strong> was designed for broadcast, where the signal can cut out at any moment. So it splits the stream into <strong>fixed 188-byte packets</strong> with redundant headers that let a receiver join mid-transmission. That redundancy is what makes a TS slightly larger than an MP4 of the same content — and it disappears when the file is repackaged.</p>
     </article>
   </section>""",
     },
@@ -743,6 +777,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>iTunes M4V files and FairPlay DRM</h3>
+      <p>M4V files bought from iTunes may carry <strong>FairPlay DRM</strong>. In that case no converter — not VidToFLAC, not desktop FFmpeg — can process them while the protection remains, and only the rights holder can lawfully remove it. M4V files without DRM, which is most user-generated ones, convert normally.</p>
     </article>
   </section>""",
     },
@@ -783,6 +819,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>Interlaced MPEG-2 and combing artefacts</h3>
+      <p>MPEG-2 allows <strong>interlaced</strong> video, where each frame is built from two fields captured at different instants. Brought into a modern editor working in progressive, that can show the classic <em>combing</em> lines on movement unless it is deinterlaced first. VidToFLAC does not deinterlace: it keeps the video as it is and fixes only the audio, so that adjustment belongs in the editor.</p>
     </article>
   </section>""",
     },
@@ -823,6 +861,8 @@ PAGES_EN = [
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>AMR: a codec built for speech, not music</h3>
+      <p>The <strong>AMR</strong> codec found in many 3GP files was designed for telephone speech at minimal bandwidth. 3GP files with AMR audio sound flat to begin with, and it is worth knowing before you convert: FLAC preserves exactly what is there, but it cannot rebuild what the codec discarded at recording time.</p>
     </article>
   </section>""",
     },

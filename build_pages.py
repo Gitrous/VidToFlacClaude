@@ -113,6 +113,8 @@ PAGES = [
       </ol>
       <h3>Errores frecuentes y qué hacer</h3>
       <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el MP4 trae varias pistas de audio (estéreo y surround, por ejemplo), VidToFLAC convierte solo una: la que FFmpeg elige por defecto, normalmente la de más canales. Para conservarlas todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+      <h3>Dónde guarda el MP4 su índice: el <em>moov atom</em></h3>
+      <p>Todo MP4 lleva un índice interno llamado <strong>moov atom</strong> que indica dónde empieza cada fragmento de vídeo y audio. Según el programa que escribiera el archivo, ese índice puede quedar al principio o al final. Cuando queda al final, algunos reproductores necesitan el archivo completo antes de poder reproducir nada — por eso un MP4 descargado a medias a veces no abre. VidToFLAC lee el archivo entero en tu equipo antes de convertir, así que la posición del <em>moov atom</em> no afecta al resultado.</p>
     </article>
   </section>""",
     },
@@ -159,6 +161,8 @@ PAGES = [
       </ol>
       <h3>Caso especial: MKV con audio Opus de OBS</h3>
       <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en ninguna plataforma, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
+      <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
+      <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
     </article>
   </section>""",
     },
@@ -205,6 +209,8 @@ PAGES = [
       </ol>
       <h3>Tip: iPhone graba en HEVC por defecto desde iOS 11</h3>
       <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. Resolve en Linux no siempre decodifica HEVC de forma nativa. VidToFLAC gestiona ambos casos automáticamente: si el navegador puede decodificar el HEVC, copia el vídeo bit a bit; si no, lo recodifica a H.264 con calidad alta. En ambos casos el audio FLAC del resultado es compatible con Resolve.</p>
+      <h3>Los MOV con ProRes ya traían el audio sin pérdida</h3>
+      <p>Los MOV grabados o exportados en <strong>ProRes</strong> suelen llevar audio <strong>PCM</strong> de 16 o 24 bits sin comprimir. En ese caso el archivo ya tiene el audio en un formato sin pérdida, y pasarlo a FLAC no mejora ni empeora la calidad: la conserva bit a bit y además ocupa bastante menos. La ventaja aquí no es la fidelidad, es el tamaño y la compatibilidad.</p>
     </article>
   </section>""",
     },
@@ -247,6 +253,8 @@ PAGES = [
       </ol>
       <h3>¿Convierte el AAC a FLAC sin pérdida?</h3>
       <p>Técnicamente, la conversión de AAC a FLAC es sin pérdida en el sentido de que FLAC no añade más degradación. Sin embargo, la calidad ya reducida por el AAC original no se recupera: FLAC solo preserva lo que hay. Si tu AAC fue grabado a 128 kbps, el FLAC resultante tendrá esa misma calidad, simplemente sin pérdidas adicionales. Por eso lo más valioso es convertir a FLAC antes de cualquier edición, no después de múltiples exportaciones.</p>
+      <h3>AAC lleva estandarizado desde 1997, y aun así Resolve no lo abre</h3>
+      <p>AAC es un estándar ISO desde <strong>1997</strong> y su reproducción no tiene coste para el usuario final, así que la falta de sonido no es un problema de legalidad de tu archivo. Lo que ocurre es que algunas <em>builds</em> de DaVinci Resolve para <strong>Linux</strong> no traen el decodificador activado de fábrica, porque la licencia la paga quien distribuye el programa, no quien lo usa.</p>
     </article>
   </section>""",
     },
@@ -290,6 +298,8 @@ PAGES = [
       </ol>
       <h3>¿Cuándo tiene sentido convertir MP3 a FLAC?</h3>
       <p>Tiene sentido cuando necesitas importar audio MP3 en un editor que no lo soporta nativamente (especialmente DaVinci Resolve en Linux), cuando quieres evitar la desincronización por encoder delay en proyectos multicámara, o cuando necesitas aplicar efectos de audio y luego exportar sin degradación adicional. No tiene sentido si tu objetivo final es MP3 de nuevo: convertir MP3 → FLAC → MP3 añade una generación extra de pérdida.</p>
+      <h3>Las patentes del MP3 caducaron en 2017</h3>
+      <p>El programa de licencias de MP3 se cerró en <strong>2017</strong>, así que hoy el formato es libre de patentes. Aun así, varias distribuciones de DaVinci Resolve en <strong>Linux</strong> siguen sin el decodificador activado de fábrica: la decisión viene del empaquetado del programa, no de una restricción legal vigente. Por eso el problema sobrevive años a la causa que lo originó.</p>
     </article>
   </section>""",
     },
@@ -334,6 +344,8 @@ PAGES = [
         <li>Pulsa <strong>Convertir</strong>. La codificación FLAC es rápida; un archivo WAV de 100 MB tarda habitualmente menos de 10 segundos.</li>
         <li>Descarga el .flac resultante. Puedes verificar que la calidad es idéntica importando ambos archivos en un editor de audio y comparándolos con inversión de fase: el resultado debería ser silencio completo.</li>
       </ol>
+      <h3>Cuánto ocupa un WAV y cuánto se ahorra con FLAC</h3>
+      <p>Un WAV estéreo a <strong>48 kHz y 24 bits</strong> ocupa unos <strong>17 MB por minuto</strong>: algo más de 1 GB por hora de grabación. Convertirlo a FLAC reduce el tamaño <strong>entre un 40 % y un 60 %</strong> según el material —la voz y el silencio comprimen mucho más que la música densa— sin perder un solo bit de información. Al descomprimirlo recuperas exactamente el PCM original.</p>
     </article>
   </section>""",
     },
@@ -375,6 +387,8 @@ PAGES = [
       </ol>
       <h3>Tip: grabaciones de entrevistas en iPhone</h3>
       <p>Las Notas de Voz del iPhone crean archivos M4A con audio AAC mono a 44.1 kHz. Si grabas entrevistas con el iPhone para luego montarlas en DaVinci Resolve en Linux, convierte los M4A a FLAC antes de importarlos al proyecto. La calidad de voz se preserva completamente y el flujo de trabajo de edición no tiene interrupciones.</p>
+      <h3>Si tu M4A es ALAC, ya era sin pérdida</h3>
+      <p>No todos los M4A llevan AAC. Los que vienen de Apple Music en calidad <em>lossless</em> o de exportaciones de iTunes pueden contener <strong>ALAC</strong> (Apple Lossless). En ese caso pasar a FLAC no es una recompresión: es un cambio entre dos formatos sin pérdida, con el mismo contenido exacto y distinto empaquetado. El resultado es idéntico muestra a muestra, solo que FLAC sí lo lee Resolve.</p>
     </article>
   </section>""",
     },
@@ -417,6 +431,8 @@ PAGES = [
       </ol>
       <h3>Nota sobre OGG FLAC vs. archivos .flac</h3>
       <p>Existe una variante llamada <em>OGG FLAC</em> que encapsula el códec FLAC dentro del contenedor OGG. Aunque el audio es sin pérdida, algunos editores no reconocen la extensión .ogg con FLAC dentro. VidToFLAC detecta este caso y produce un archivo .flac estándar, que tiene mayor compatibilidad universal.</p>
+      <h3>Vorbis nunca ha tenido patentes activas</h3>
+      <p><strong>Vorbis</strong>, el códec que suele ir dentro de un .ogg, se diseñó desde el principio libre de patentes. Por eso aparece tanto en videojuegos, en software de código abierto y en proyectos que priorizan la tranquilidad legal frente al tamaño del archivo. La contrapartida es que los editores de vídeo profesionales, construidos sobre códecs propietarios, casi nunca lo incluyen.</p>
     </article>
   </section>""",
     },
@@ -457,6 +473,8 @@ PAGES = [
         <li>Pulsa <strong>Convertir</strong>. El resultado es un archivo .flac compatible con todos los editores.</li>
         <li>Importa el .flac en DaVinci Resolve, Premiere o Audacity sin problemas de códec.</li>
       </ol>
+      <h3>El contenedor ASF fuera de Windows</h3>
+      <p>WMA viaja dentro de <strong>ASF</strong>, un contenedor de Microsoft cuyo soporte fuera de Windows siempre ha sido incompleto. Eso explica por qué muchos editores en <strong>macOS y Linux</strong> no solo no decodifican el audio: ni siquiera reconocen el archivo. Convertirlo a FLAC resuelve las dos cosas a la vez, el códec y el envoltorio.</p>
     </article>
   </section>""",
     },
@@ -499,6 +517,8 @@ PAGES = [
       </ol>
       <h3>Compatibilidad de AIFF con metadatos</h3>
       <p>AIFF soporta metadatos a través del chunk ID3, pero con limitaciones frente a FLAC, que soporta etiquetas Vorbis Comment nativas con campos arbitrarios (artista, álbum, año, número de pista, letra, portada). Si tu flujo de trabajo de archivo requiere metadatos completos, la conversión a FLAC también mejora la gestión de la biblioteca de audio.</p>
+      <h3>AIFF y WAV: misma calidad, distinto orden de bytes</h3>
+      <p>AIFF y WAV guardan lo mismo —<strong>PCM sin comprimir</strong>— y son equivalentes en calidad; lo que cambia es el orden de bytes (<em>big-endian</em> en AIFF, <em>little-endian</em> en WAV) y la cabecera. Pasar a FLAC aporta compresión sin pérdida y metadatos más robustos, sin tocar una sola muestra del original.</p>
     </article>
   </section>""",
     },
@@ -541,6 +561,8 @@ PAGES = [
       </ol>
       <h3>Caso frecuente: grabaciones de gameplay con Discord overlay</h3>
       <p>Muchos creadores de contenido graban su gameplay con OBS (que genera MKV con Opus de forma predeterminada en versiones recientes) y simultáneamente graban el audio del chat de Discord. Si el MKV de OBS tiene audio Opus y quieres editarlo en DaVinci Resolve, la conversión a FLAC con VidToFLAC es el paso previo imprescindible.</p>
+      <h3>El .opus suelto, sin su contenedor habitual</h3>
+      <p>Opus casi siempre viaja dentro de <strong>Ogg o WebM</strong>. Cuando se extrae como archivo <code>.opus</code> suelto, muchos editores de vídeo ni siquiera lo reconocen como pista de audio válida — no es que fallen al decodificarlo, es que no lo identifican. Convertirlo a FLAC le da un envoltorio que cualquier editor entiende.</p>
     </article>
   </section>""",
     },
@@ -584,6 +606,8 @@ PAGES = [
       </ol>
       <h3>Consejo: digitalización de material de archivo</h3>
       <p>Si estás digitalizando vídeo antiguo de cintas VHS, Hi8 o MiniDV y el capturador genera archivos AVI con PCM linear, no necesitas conversión para DaVinci Resolve. Pero si el capturador genera AVI con MP3 —algunos capturadores USB económicos lo hacen por defecto—, convierte a FLAC antes de importar al proyecto de Resolve para asegurar la compatibilidad y facilitar la edición.</p>
+      <h3>AVI y el frame rate variable</h3>
+      <p>AVI se diseñó en 1992 y no admite de forma fiable el <strong>frame rate variable</strong>. De ahí viene el problema clásico de este formato: en clips largos, sobre todo en capturas de pantalla o material de móvil, el audio y el vídeo se van separando poco a poco. Si tu AVI ya venía desincronizado, la conversión conserva esa desincronización — hay que corregirla en el editor.</p>
     </article>
   </section>""",
     },
@@ -626,6 +650,8 @@ PAGES = [
       </ol>
       <h3>Diferencia entre WebM y MKV</h3>
       <p>WebM es un subconjunto de MKV: usa el mismo contenedor pero está restringido a los códecs VP8/VP9/AV1 para vídeo y Vorbis/Opus para audio. Al convertir un WebM a MKV con FLAC, el resultado es técnicamente un MKV estándar con mayor flexibilidad de códec. El archivo resultante es más compatible con software de edición profesional que el WebM original.</p>
+      <h3>WebM es Matroska recortado</h3>
+      <p>WebM no es un contenedor distinto del MKV: es un <strong>subconjunto restringido de Matroska</strong>, con el mismo formato EBML por debajo y una lista corta de códecs permitidos (VP8, VP9 o AV1 con Vorbis u Opus). Esa restricción es lo que lo hace apto para la web y, a la vez, lo que deja fuera el audio que esperan los editores.</p>
     </article>
   </section>""",
     },
@@ -666,6 +692,8 @@ PAGES = [
         <li>Pulsa <strong>Convertir</strong> y espera. La recodificación de VC-1 puede ser más lenta que un simple remux, ya que implica decodificar y recodificar el vídeo.</li>
         <li>Descarga el MKV resultante e impórtalo en DaVinci Resolve.</li>
       </ol>
+      <h3>En un WMV el problema suele ser doble</h3>
+      <p>Un WMV lleva casi siempre audio <strong>WMA</strong> dentro del mismo contenedor <strong>ASF</strong>, así que la incompatibilidad afecta a las dos pistas a la vez y no solo al audio. Por eso un WMV suele fallar antes incluso de mostrar imagen: VidToFLAC recodifica el vídeo a H.264 y el audio a FLAC dentro de un MKV, y el resultado entra sin problemas.</p>
     </article>
   </section>""",
     },
@@ -708,6 +736,8 @@ PAGES = [
       </ol>
       <h3>Recuperación de vídeos de YouTube descargados en FLV</h3>
       <p>Muchos usuarios descargaron vídeos de YouTube entre 2008 y 2013 en formato FLV usando herramientas como KeepVid o Zamzar. Estos archivos siguen siendo válidos e interesantes como material de archivo, pero necesitan conversión para editarlos con software moderno. VidToFLAC es la forma más rápida de hacerlo directamente en el navegador, sin instalaciones adicionales.</p>
+      <h3>FLV: huérfano desde el final de Flash en 2020</h3>
+      <p>Con el fin del soporte de <strong>Flash Player el 31 de diciembre de 2020</strong>, el FLV quedó como un formato huérfano: casi ningún editor moderno lo reconoce de forma nativa y las herramientas que lo manejaban han ido desapareciendo. Si conservas material en FLV, convertirlo ahora es menos un ajuste de compatibilidad que un archivado preventivo.</p>
     </article>
   </section>""",
     },
@@ -750,6 +780,8 @@ PAGES = [
       </ol>
       <h3>Alternativa: extraer solo el audio</h3>
       <p>Si solo necesitas el audio del DVD (por ejemplo, para sincronizarlo con vídeo grabado en otro dispositivo), puedes usar VidToFLAC para extraer únicamente la pista de audio a un archivo .flac. La herramienta detecta los archivos que tienen vídeo y ofrece la opción de salida en MKV, pero si seleccionas el formato de solo audio, obtendrás el .flac directamente.</p>
+      <h3>Un VOB puede llevar varios ángulos y varios idiomas</h3>
+      <p>Los VOB de DVD pueden contener <strong>varios ángulos de cámara</strong> y <strong>varias pistas de audio</strong> en distintos idiomas, entrelazadas en el mismo archivo. VidToFLAC convierte la pista principal que detecta FFmpeg. Si necesitas conservarlas todas, usa FFmpeg de escritorio con <code>-map 0</code>.</p>
     </article>
   </section>""",
     },
@@ -792,6 +824,8 @@ PAGES = [
       </ol>
       <h3>Pistas múltiples de audio en TS</h3>
       <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC convierte solo una de ellas, la que FFmpeg elige por defecto, que no siempre es el idioma que buscas. Si necesitas una pista concreta o todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+      <h3>Por qué un TS pesa más: paquetes de 188 bytes</h3>
+      <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido — y desaparece al reempaquetarlo.</p>
     </article>
   </section>""",
     },
@@ -832,6 +866,8 @@ PAGES = [
         <li>Selecciona <strong>MKV</strong> como formato de salida y pulsa <strong>Convertir</strong>.</li>
         <li>Importa el MKV en DaVinci Resolve. La pista de audio FLAC se importará correctamente.</li>
       </ol>
+      <h3>Los M4V de iTunes y el DRM FairPlay</h3>
+      <p>Los M4V comprados en iTunes pueden llevar protección <strong>DRM FairPlay</strong>. En ese caso ningún conversor —ni VidToFLAC ni FFmpeg de escritorio— puede procesarlos mientras la protección siga puesta, y retirarla solo puede hacerlo legalmente el titular de los derechos. Los M4V sin DRM, que son la mayoría de los que genera el propio usuario, se convierten con normalidad.</p>
     </article>
   </section>""",
     },
@@ -874,6 +910,8 @@ PAGES = [
       </ol>
       <h3>Digitalización de material VHS y Super 8</h3>
       <p>Muchos escáneres y capturadores de vídeo analógico (VHS, Super 8, Betamax) generan archivos MPEG-2 como formato de salida. Si estás digitalizando tu fondo familiar de vídeo analógico y el capturador produce archivos .mpg, VidToFLAC es una herramienta conveniente para convertirlos a un formato moderno (MKV + H.264 + FLAC) que se pueda editar con DaVinci Resolve sin problemas.</p>
+      <h3>MPEG-2 entrelazado y las líneas de peine</h3>
+      <p>El MPEG-2 permite vídeo <strong>entrelazado</strong>, donde cada fotograma se compone de dos campos capturados en instantes distintos. Al llevarlo a un editor moderno, que trabaja en progresivo, pueden aparecer las clásicas <em>líneas de peine</em> en el movimiento si no se desentrelaza antes. VidToFLAC no desentrelaza: conserva el vídeo tal cual y arregla solo el audio, así que ese ajuste se hace en el editor.</p>
     </article>
   </section>""",
     },
@@ -916,6 +954,8 @@ PAGES = [
       </ol>
       <h3>Consejo: recuperación de vídeos de Nokia y Samsung antiguos</h3>
       <p>Los vídeos grabados con Nokia N70, N73, N95 y similares están en formato 3GP con audio AMR. Si tienes estos archivos en un ordenador antiguo o los has extraído de una tarjeta de memoria, VidToFLAC te permite convertirlos directamente en el navegador sin instalar ningún software. El resultado es un MKV editable en DaVinci Resolve u otros editores modernos.</p>
+      <h3>AMR: un códec pensado para voz, no para música</h3>
+      <p>El códec <strong>AMR</strong> que llevan muchos 3GP se diseñó para voz telefónica, con un ancho de banda mínimo. Los 3GP con audio AMR suenan planos de origen, y conviene saberlo antes de convertir: FLAC conserva con fidelidad exacta lo que haya, pero no puede reconstruir lo que el códec descartó al grabar.</p>
     </article>
   </section>""",
     },

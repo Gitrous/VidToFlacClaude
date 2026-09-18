@@ -2651,6 +2651,8 @@
       </ol>
       <h3>Caso especial: MKV con audio Opus de OBS</h3>
       <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en ninguna plataforma, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
+      <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
+      <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
     </article>
   </section>
 

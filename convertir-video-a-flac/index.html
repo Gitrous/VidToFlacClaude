@@ -2695,6 +2695,8 @@
       </ol>
       <h3>Consejo: digitalización de material de archivo</h3>
       <p>Si estás digitalizando vídeo antiguo de cintas VHS, Hi8 o MiniDV y el capturador genera archivos AVI con PCM linear, no necesitas conversión para DaVinci Resolve. Pero si el capturador genera AVI con MP3 —algunos capturadores USB económicos lo hacen por defecto—, convierte a FLAC antes de importar al proyecto de Resolve para asegurar la compatibilidad y facilitar la edición.</p>
+      <h3>AVI y el frame rate variable</h3>
+      <p>AVI se diseñó en 1992 y no admite de forma fiable el <strong>frame rate variable</strong>. De ahí viene el problema clásico de este formato: en clips largos, sobre todo en capturas de pantalla o material de móvil, el audio y el vídeo se van separando poco a poco. Si tu AVI ya venía desincronizado, la conversión conserva esa desincronización — hay que corregirla en el editor.</p>
       <h3>La solución para tus AVI: audio compatible sin tocar el vídeo</h3>
       <p>Los <strong>AVI</strong> de cámaras antiguas, grabadoras y software de captura suelen llevar el audio en <strong>MP3 o AC3</strong>, formatos que DaVinci Resolve no decodifica sin licencias adicionales. VidToFLAC reempaqueta el AVI en un <strong>MKV</strong> y convierte únicamente esa pista de audio a <strong>FLAC</strong>.</p>
 
@@ -2723,6 +2725,8 @@
       </ol>
       <h3>Diferencia entre WebM y MKV</h3>
       <p>WebM es un subconjunto de MKV: usa el mismo contenedor pero está restringido a los códecs VP8/VP9/AV1 para vídeo y Vorbis/Opus para audio. Al convertir un WebM a MKV con FLAC, el resultado es técnicamente un MKV estándar con mayor flexibilidad de códec. El archivo resultante es más compatible con software de edición profesional que el WebM original.</p>
+      <h3>WebM es Matroska recortado</h3>
+      <p>WebM no es un contenedor distinto del MKV: es un <strong>subconjunto restringido de Matroska</strong>, con el mismo formato EBML por debajo y una lista corta de códecs permitidos (VP8, VP9 o AV1 con Vorbis u Opus). Esa restricción es lo que lo hace apto para la web y, a la vez, lo que deja fuera el audio que esperan los editores.</p>
       <h3>La solución para tus WebM: de Opus/Vorbis a FLAC</h3>
       <p>Los <strong>WebM</strong> descargados de YouTube o generados por grabadores de navegador llevan el audio en <strong>Opus o Vorbis</strong>, dos códecs que DaVinci Resolve no decodifica de serie. VidToFLAC reempaqueta el WebM en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>
 
@@ -2749,6 +2753,8 @@
         <li>Pulsa <strong>Convertir</strong> y espera. La recodificación de VC-1 puede ser más lenta que un simple remux, ya que implica decodificar y recodificar el vídeo.</li>
         <li>Descarga el MKV resultante e impórtalo en DaVinci Resolve.</li>
       </ol>
+      <h3>En un WMV el problema suele ser doble</h3>
+      <p>Un WMV lleva casi siempre audio <strong>WMA</strong> dentro del mismo contenedor <strong>ASF</strong>, así que la incompatibilidad afecta a las dos pistas a la vez y no solo al audio. Por eso un WMV suele fallar antes incluso de mostrar imagen: VidToFLAC recodifica el vídeo a H.264 y el audio a FLAC dentro de un MKV, y el resultado entra sin problemas.</p>
       <h3>La solución para tus WMV: salir del ecosistema Windows Media</h3>
       <p>Los <strong>WMV (Windows Media Video)</strong> usan el códec de audio propietario <strong>WMA</strong> de Microsoft, que DaVinci Resolve no decodifica —sobre todo en Linux y macOS—. VidToFLAC convierte ese audio a <strong>FLAC</strong>, un formato abierto y sin pérdida, dentro de un contenedor <strong>MKV</strong>.</p>
 
@@ -2777,6 +2783,8 @@
       </ol>
       <h3>Recuperación de vídeos de YouTube descargados en FLV</h3>
       <p>Muchos usuarios descargaron vídeos de YouTube entre 2008 y 2013 en formato FLV usando herramientas como KeepVid o Zamzar. Estos archivos siguen siendo válidos e interesantes como material de archivo, pero necesitan conversión para editarlos con software moderno. VidToFLAC es la forma más rápida de hacerlo directamente en el navegador, sin instalaciones adicionales.</p>
+      <h3>FLV: huérfano desde el final de Flash en 2020</h3>
+      <p>Con el fin del soporte de <strong>Flash Player el 31 de diciembre de 2020</strong>, el FLV quedó como un formato huérfano: casi ningún editor moderno lo reconoce de forma nativa y las herramientas que lo manejaban han ido desapareciendo. Si conservas material en FLV, convertirlo ahora es menos un ajuste de compatibilidad que un archivado preventivo.</p>
       <h3>La solución para tus FLV: rescatar audio y vídeo del formato Flash</h3>
       <p>Los <strong>FLV (Flash Video)</strong> —el formato de YouTube hasta 2015 y de muchas webs antiguas— llevan audio en <strong>MP3 o AAC</strong> y vídeo en códecs como H.263 o VP6. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
 
@@ -2805,6 +2813,8 @@
       </ol>
       <h3>Digitalización de material VHS y Super 8</h3>
       <p>Muchos escáneres y capturadores de vídeo analógico (VHS, Super 8, Betamax) generan archivos MPEG-2 como formato de salida. Si estás digitalizando tu fondo familiar de vídeo analógico y el capturador produce archivos .mpg, VidToFLAC es una herramienta conveniente para convertirlos a un formato moderno (MKV + H.264 + FLAC) que se pueda editar con DaVinci Resolve sin problemas.</p>
+      <h3>MPEG-2 entrelazado y las líneas de peine</h3>
+      <p>El MPEG-2 permite vídeo <strong>entrelazado</strong>, donde cada fotograma se compone de dos campos capturados en instantes distintos. Al llevarlo a un editor moderno, que trabaja en progresivo, pueden aparecer las clásicas <em>líneas de peine</em> en el movimiento si no se desentrelaza antes. VidToFLAC no desentrelaza: conserva el vídeo tal cual y arregla solo el audio, así que ese ajuste se hace en el editor.</p>
       <h3>La solución para tus MPEG/MPG: modernizar audio y vídeo</h3>
       <p>Los <strong>MPEG y MPG</strong> de cámaras digitales antiguas, DVD y grabaciones suelen llevar audio en <strong>MP2, MP3 o AC3</strong> y vídeo <strong>MPEG-1/MPEG-2</strong>. DaVinci Resolve no maneja bien esas combinaciones. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
 
@@ -2833,6 +2843,8 @@
       </ol>
       <h3>Pistas múltiples de audio en TS</h3>
       <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC convierte solo una de ellas, la que FFmpeg elige por defecto, que no siempre es el idioma que buscas. Si necesitas una pista concreta o todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+      <h3>Por qué un TS pesa más: paquetes de 188 bytes</h3>
+      <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido — y desaparece al reempaquetarlo.</p>
       <h3>La solución para tus TS y M2TS: grabaciones de TV y Blu-ray editables</h3>
       <p>Los <strong>TS y M2TS</strong> —el formato de grabaciones de TDT, sintonizadores de TV y discos Blu-ray— llevan audio en <strong>AC3, AAC o DTS</strong>. DaVinci Resolve no decodifica esos formatos sin licencias. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
 
@@ -2861,6 +2873,8 @@
       </ol>
       <h3>Alternativa: extraer solo el audio</h3>
       <p>Si solo necesitas el audio del DVD (por ejemplo, para sincronizarlo con vídeo grabado en otro dispositivo), puedes usar VidToFLAC para extraer únicamente la pista de audio a un archivo .flac. La herramienta detecta los archivos que tienen vídeo y ofrece la opción de salida en MKV, pero si seleccionas el formato de solo audio, obtendrás el .flac directamente.</p>
+      <h3>Un VOB puede llevar varios ángulos y varios idiomas</h3>
+      <p>Los VOB de DVD pueden contener <strong>varios ángulos de cámara</strong> y <strong>varias pistas de audio</strong> en distintos idiomas, entrelazadas en el mismo archivo. VidToFLAC convierte la pista principal que detecta FFmpeg. Si necesitas conservarlas todas, usa FFmpeg de escritorio con <code>-map 0</code>.</p>
       <h3>La solución para tus VOB de DVD: AC3/DTS fuera, FLAC dentro</h3>
       <p>Los <strong>VOB</strong> de copias de DVD guardan el audio en <strong>AC3 (Dolby Digital) o DTS</strong> y el vídeo en <strong>MPEG-2</strong>. Ninguno de los dos es decodificable sin licencias en DaVinci Resolve. VidToFLAC convierte el audio a <strong>FLAC</strong> y recodifica el vídeo MPEG-2 a <strong>H.264</strong> dentro de un <strong>MKV</strong>.</p>
 
@@ -2889,6 +2903,8 @@
       </ol>
       <h3>Consejo: recuperación de vídeos de Nokia y Samsung antiguos</h3>
       <p>Los vídeos grabados con Nokia N70, N73, N95 y similares están en formato 3GP con audio AMR. Si tienes estos archivos en un ordenador antiguo o los has extraído de una tarjeta de memoria, VidToFLAC te permite convertirlos directamente en el navegador sin instalar ningún software. El resultado es un MKV editable en DaVinci Resolve u otros editores modernos.</p>
+      <h3>AMR: un códec pensado para voz, no para música</h3>
+      <p>El códec <strong>AMR</strong> que llevan muchos 3GP se diseñó para voz telefónica, con un ancho de banda mínimo. Los 3GP con audio AMR suenan planos de origen, y conviene saberlo antes de convertir: FLAC conserva con fidelidad exacta lo que haya, pero no puede reconstruir lo que el códec descartó al grabar.</p>
       <h3>La solución para tus 3GP de móviles antiguos</h3>
       <p>Los <strong>3GP</strong> de teléfonos antiguos (Nokia, Samsung, Motorola) y cámaras compactas usan audio en <strong>AAC o AMR</strong> y vídeo H.263/MPEG-4. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
 
@@ -2915,6 +2931,8 @@
         <li>Selecciona <strong>MKV</strong> como formato de salida y pulsa <strong>Convertir</strong>.</li>
         <li>Importa el MKV en DaVinci Resolve. La pista de audio FLAC se importará correctamente.</li>
       </ol>
+      <h3>Los M4V de iTunes y el DRM FairPlay</h3>
+      <p>Los M4V comprados en iTunes pueden llevar protección <strong>DRM FairPlay</strong>. En ese caso ningún conversor —ni VidToFLAC ni FFmpeg de escritorio— puede procesarlos mientras la protección siga puesta, y retirarla solo puede hacerlo legalmente el titular de los derechos. Los M4V sin DRM, que son la mayoría de los que genera el propio usuario, se convierten con normalidad.</p>
       <h3>La solución para tus M4V de iTunes y Apple TV</h3>
       <p>Los <strong>M4V</strong> son contenedores MPEG-4 de Apple con audio <strong>AAC</strong>. DaVinci Resolve no decodifica AAC de serie —sobre todo en Linux—, así que el clip entra sin sonido. VidToFLAC reempaqueta el M4V en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte el audio a <strong>FLAC</strong>.</p>
 

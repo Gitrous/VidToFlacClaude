@@ -2649,6 +2649,8 @@
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If your MOV is <strong>ProRes</strong>, the browser cannot decode it either and the video is re-encoded to H.264 — fine for editing proxies, but not what you want for a ProRes master. Use desktop FFmpeg for those. If the audio is <strong>PCM at 24 bit</strong>, it already works in Resolve and you may not need to convert anything; check the codec before assuming the audio is at fault.</p>
+      <h3>ProRes MOVs already had lossless audio</h3>
+      <p>MOVs recorded or exported as <strong>ProRes</strong> usually carry uncompressed <strong>PCM</strong> audio at 16 or 24 bits. In that case the file already holds its audio in a lossless format, and moving it to FLAC neither improves nor degrades quality: it preserves it bit for bit and takes up considerably less room. The gain here is not fidelity — it is size and compatibility.</p>
     </article>
   </section>
 

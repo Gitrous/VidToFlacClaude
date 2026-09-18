@@ -2648,6 +2648,8 @@
       </ol>
       <h3>Common problems and what to do</h3>
       <p>If your WAV came from a USB microphone it may be <strong>32-bit floating point</strong> (<code>pcm_f32le</code>). FLAC only stores integer samples, so VidToFLAC converts it to 32-bit integer first. That step is handled automatically and is not audible, but it is why the file is not a pure repackage in that case.</p>
+      <h3>How much a WAV weighs, and how much FLAC saves</h3>
+      <p>A stereo WAV at <strong>48 kHz and 24 bits</strong> takes about <strong>17 MB per minute</strong> — a little over 1 GB per hour of recording. Converting it to FLAC cuts the size by <strong>40 % to 60 %</strong> depending on the material — speech and silence compress far better than dense music — without losing a single bit. Decompress it and you get exactly the original PCM back.</p>
     </article>
   </section>
 

@@ -2693,6 +2693,8 @@
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Old AVIs are frequently <strong>interlaced</strong>. Converting the audio does not deinterlace the picture — you will want to handle that in your editor's clip attributes. If the AVI is very large and uncompressed, remember the browser's practical ceiling is around 1 GB; split long captures before converting.</p>
+      <h3>AVI and variable frame rate</h3>
+      <p>AVI was designed in 1992 and has no reliable support for <strong>variable frame rate</strong>. Hence this format's classic complaint: over long clips — screen captures and phone footage especially — audio and video drift apart. If your AVI already arrived out of sync, conversion preserves that drift; it has to be corrected in the editor.</p>
       <h3>The fix for your AVI files: FLAC audio in an MKV</h3>
       <p>AVI files from old camcorders, capture cards and legacy recording software carry their audio as <strong>MP3 or AC3</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
@@ -2719,6 +2721,8 @@
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Screen recordings made in a browser are very often <strong>variable frame rate</strong>, which makes audio drift as the clip progresses. Converting the audio does not fix that — you need a constant frame rate, which means re-encoding the video with <code>-vf fps=N</code>. If the drift grows over time rather than staying constant, VFR is your problem, not the codec.</p>
+      <h3>WebM is Matroska, trimmed down</h3>
+      <p>WebM is not a different container from MKV: it is a <strong>restricted subset of Matroska</strong>, with the same EBML format underneath and a short list of permitted codecs (VP8, VP9 or AV1 with Vorbis or Opus). That restriction is what makes it fit for the web — and what leaves out the audio editors expect.</p>
       <h3>The fix for your WebM files: FLAC audio in an MKV</h3>
       <p>WebM files from downloaded video, browser captures and screen recordings carry their audio as <strong>Opus or Vorbis</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
@@ -2743,6 +2747,8 @@
       </ol>
       <h3>Common problems and what to do</h3>
       <p>Older formats are frequently <strong>interlaced</strong>; converting the audio does not deinterlace the picture, so handle that in your editor's clip attributes. Large files can exhaust the browser's memory — the practical ceiling is around 1 GB — so split long recordings before converting. If a file fails, open <strong>Technical details · FFmpeg</strong>: the log names the codec that could not be decoded.</p>
+      <h3>With a WMV the problem is usually twofold</h3>
+      <p>A WMV nearly always carries <strong>WMA</strong> audio inside the same <strong>ASF</strong> container, so the incompatibility hits both tracks at once rather than the audio alone. That is why a WMV often fails before it even shows a picture: VidToFLAC re-encodes the video to H.264 and the audio to FLAC inside an MKV, and the result imports cleanly.</p>
 
     </article>
   </section>
@@ -2755,6 +2761,8 @@
       <p>FLV was the format of web video for over a decade, until Flash was retired in 2020. What survives is archives: old screencasts, downloaded lectures, recordings from long-dead platforms. Inside you might find H.264 with AAC, which modern software reads, or legacy Sorenson and VP6 video with MP3 or Nellymoser audio, which it does not.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>H.264 and Sorenson Spark video are copied across untouched, although the page preview may not show Sorenson. VP6 is re-encoded to H.264 — which is what you want anyway, since nothing modern edits VP6 comfortably. The audio always becomes FLAC.</p>
+      <h3>FLV: orphaned since Flash ended in 2020</h3>
+      <p>When <strong>Flash Player support ended on 31 December 2020</strong>, FLV was left an orphan format: hardly any modern editor recognises it natively, and the tools that handled it have been disappearing. If you still keep material in FLV, converting it now is less a compatibility fix than preventive archiving.</p>
       <h3>The fix for your FLV files: FLAC audio in an MKV</h3>
 
       <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied when it is H.264 or Sorenson Spark, and re-encoded to H.264 when it is VP6, which the browser cannot decode.</p>
@@ -2771,6 +2779,8 @@
       <p>MPEG is the family of standards that digital video began with. MPEG-1 gave us the Video CD and the MP3; MPEG-2 gave us the DVD and digital television. Files in these formats are usually old, often interlaced, and carry MP2 or AC3 audio that modern editors decode poorly if at all.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>Neither MPEG-1 nor MPEG-2 video can be decoded in the browser, so the picture is re-encoded to H.264 and the audio becomes FLAC. The result is far easier to edit than the original, though it is a full conversion rather than a remux.</p>
+      <h3>Interlaced MPEG-2 and combing artefacts</h3>
+      <p>MPEG-2 allows <strong>interlaced</strong> video, where each frame is built from two fields captured at different instants. Brought into a modern editor working in progressive, that can show the classic <em>combing</em> lines on movement unless it is deinterlaced first. VidToFLAC does not deinterlace: it keeps the video as it is and fixes only the audio, so that adjustment belongs in the editor.</p>
       <h3>The fix for your MPEG files: FLAC audio in an MKV</h3>
 
       <p>MPEG files are usually old and often interlaced. The conversion makes them far easier to edit, but it is a full re-encode rather than a remux.</p>
@@ -2785,6 +2795,8 @@
       <p>MPEG-TS was designed for broadcast: a stream of small packets that survives transmission errors and can be tuned into halfway through. That makes it ideal for digital television and capture hardware, and awkward for editing, because it has no clean index and often carries several programmes at once.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>TS files usually hold H.264 or MPEG-2 video. If it is H.264 the video is copied across untouched; MPEG-2 is re-encoded to H.264 because the browser cannot decode it. Either way the audio, typically AC3 or AAC, becomes FLAC and the result imports cleanly.</p>
+      <h3>Why a TS weighs more: 188-byte packets</h3>
+      <p>The <strong>Transport Stream</strong> was designed for broadcast, where the signal can cut out at any moment. So it splits the stream into <strong>fixed 188-byte packets</strong> with redundant headers that let a receiver join mid-transmission. That redundancy is what makes a TS slightly larger than an MP4 of the same content — and it disappears when the file is repackaged.</p>
       <h3>The fix for your TS files: FLAC audio in an MKV</h3>
       <p>TS files from digital television, capture cards and stream recorders carry their audio as <strong>AC3 or AAC</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
@@ -2800,6 +2812,8 @@
       <p>A VOB is what sits inside the VIDEO_TS folder of a DVD: MPEG-2 video paired with AC3 (Dolby Digital) or PCM audio. AC3 is a licensed codec that DaVinci Resolve does not decode on Linux and handles unevenly elsewhere; PCM, when a disc uses it, imports without trouble.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>MPEG-2 cannot be decoded in the browser, so the video is re-encoded to H.264 and the AC3 becomes FLAC. Note that VOB files from commercial DVDs are usually encrypted with CSS; those cannot be processed by any tool without circumventing the protection, and this one will not open them.</p>
+      <h3>A VOB can hold several angles and several languages</h3>
+      <p>DVD VOBs can contain <strong>several camera angles</strong> and <strong>several audio tracks</strong> in different languages, interleaved in the same file. VidToFLAC converts the main track FFmpeg detects. If you need to keep them all, use desktop FFmpeg with <code>-map 0</code>.</p>
 
     </article>
   </section>
@@ -2812,6 +2826,8 @@
       <p>3GP was designed for early mobile networks, when bandwidth was measured in kilobits. It pairs H.263 or MPEG-4 video with AMR audio, a codec built for speech at very low bitrates. Files in this format are usually old phone recordings or voice notes, and their audio is rarely readable by editing software.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is copied without re-encoding; the page preview may not show it, but the downloaded file is complete.</p>
+      <h3>AMR: a codec built for speech, not music</h3>
+      <p>The <strong>AMR</strong> codec found in many 3GP files was designed for telephone speech at minimal bandwidth. 3GP files with AMR audio sound flat to begin with, and it is worth knowing before you convert: FLAC preserves exactly what is there, but it cannot rebuild what the codec discarded at recording time.</p>
       <h3>The fix for your 3GP files: FLAC audio in an MKV</h3>
 
       <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The H.263 video is copied without re-encoding, so the picture is untouched, although the page preview may not be able to show it.</p>
@@ -2828,6 +2844,8 @@
       <p>M4V is essentially MP4 with an Apple label, and the contents are much the same: H.264 or HEVC video with AAC audio. The difference that matters is that M4V files bought from iTunes carry FairPlay DRM, which changes what is possible entirely.</p>
       <h3>What VidToFLAC does with it</h3>
       <p>For your own exports the conversion is straightforward: the audio becomes FLAC, and the video is copied if it is H.264 or re-encoded if it is HEVC. For DRM-protected purchases nothing can be done — the file is encrypted and no tool opens it legally, this one included.</p>
+      <h3>iTunes M4V files and FairPlay DRM</h3>
+      <p>M4V files bought from iTunes may carry <strong>FairPlay DRM</strong>. In that case no converter — not VidToFLAC, not desktop FFmpeg — can process them while the protection remains, and only the rights holder can lawfully remove it. M4V files without DRM, which is most user-generated ones, convert normally.</p>
       <h3>The fix for your M4V files: FLAC audio in an MKV</h3>
 
       <p>M4V files bought from iTunes carry FairPlay DRM. Those are encrypted and no tool opens them legally, this one included. Your own exports convert normally.</p>
