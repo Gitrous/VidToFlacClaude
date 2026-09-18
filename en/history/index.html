@@ -553,6 +553,12 @@
       .hist-layout { grid-template-columns: 1fr; }
       .hist-sidebar { display: none; }
     }
+    .hist-explainer{max-width:760px;margin:3rem auto 0;padding-top:2rem;border-top:1px solid var(--line)}
+    .hist-explainer h2{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--ink);margin:1.75rem 0 0.6rem}
+    .hist-explainer h2:first-child{margin-top:0}
+    .hist-explainer p{color:var(--ink-dim);font-size:0.92rem;line-height:1.75;margin-bottom:0.8rem}
+    .hist-explainer ul{padding-left:1.25rem;color:var(--ink-dim);font-size:0.92rem;line-height:1.75;margin-bottom:0.8rem;display:flex;flex-direction:column;gap:0.3rem}
+    .hist-explainer strong{color:var(--ink);font-weight:600}
   </style>
 </head>
 <body>
@@ -655,6 +661,28 @@
   </aside>
 
   </div><!-- /hist-layout -->
+
+  <section class="hist-explainer">
+    <h2>What this page stores, and where</h2>
+    <p>The history lives in <strong>IndexedDB</strong>, the database every browser sets aside for each website inside your own machine. There is no copy on any server, no account attached and no syncing between devices: what you see here was written by this browser, and only this browser can read it.</p>
+    <p>Four things are kept for each conversion: the <strong>output file name</strong>, the <strong>date</strong>, the <strong>size</strong> and the <strong>converted file</strong> itself. The whole file, yes — that is why you can download or play it again days later without converting anything twice. The original file you dropped in is never stored.</p>
+
+    <h2>How long it lasts</h2>
+    <p>Until you delete it, or until the browser reclaims space. Three things are worth knowing:</p>
+    <ul>
+      <li>In a <strong>private or incognito window</strong>, the history disappears when you close it.</li>
+      <li>Clearing "site data" or "cookies and site data" in your browser settings clears this too.</li>
+      <li>If the disk runs low, the browser may discard storage for sites you rarely visit. That is not a bug: it is how IndexedDB works.</li>
+    </ul>
+
+    <h2>How to delete it</h2>
+    <p>The <strong>Clear history</strong> button at the top of this page empties the whole database and asks for confirmation first. Individual rows can be deleted on their own if you only want one conversion gone. To be certain nothing remains, you can also remove the site's data from your browser settings.</p>
+
+    <h2>Why it takes up space</h2>
+    <p>Because the converted files are kept, the history can grow large: an MKV with FLAC audio weighs what it weighs. If you convert big videos often, empty it now and then. The memory indicator in the right-hand column shows how much memory the browser has available to work with, which is a different limit from disk space.</p>
+
+    <p>What data the site actually processes, contact form and advertising included, is set out in the <a href="/en/privacy-policy/">privacy policy</a>. How the conversion works under the hood is in <a href="/en/about/">About VidToFLAC</a>.</p>
+  </section>
 </main>
 
 <footer>
@@ -663,7 +691,8 @@
     <a href="/politica-de-privacidad/">Privacy policy</a>
     <a href="/terminos-de-servicio/">Terms of service</a>
     <a href="/aviso-legal/">Legal notice</a>
-    <a href="/contacto/">Contact</a>
+    <a href="/en/author/guillem-sanchez/">Author</a>
+      <a href="/contacto/">Contact</a>
   </nav>
   <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>
 </footer>

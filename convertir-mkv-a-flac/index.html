@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir MKV a FLAC – Remux sin pérdida para DaVinci Resolve | VidToFLAC</title>
-  <meta name="description" content="Cambia el códec de audio de cualquier archivo MKV a FLAC sin pérdida, 100% en tu navegador. Soluciona el error de audio de DaVinci Resolve en MKV de OBS, grabaciones y cámaras." />
+  <meta name="description" content="Cambia a FLAC el códec de audio de cualquier MKV, sin pérdida y en tu navegador. Soluciona el error de audio de DaVinci Resolve en grabaciones de OBS." />
   <meta name="keywords" content="convertir MKV a FLAC, MKV audio FLAC, MKV DaVinci Resolve sin sonido, remux MKV FLAC, MKV FFmpeg navegador, audio MKV sin pérdida" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -2118,6 +2118,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2391,7 +2405,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · el vídeo se copia cuando el códec lo permite</span>
           </span>
         </label>
       </div>
@@ -2618,6 +2632,10 @@
     <div class="card-title">Guía de conversión</div>
     <article>
       <h2 id="guia-formato-titulo">Todo sobre la conversión de MKV a FLAC</h2>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 344" width="660" height="344" role="img" aria-labelledby="ctes cdes" xmlns="http://www.w3.org/2000/svg"><title id="ctes">Qué códec de audio lleva cada formato y cuál se queda sin sonido en DaVinci Resolve sobre Linux</title><desc id="cdes">Tabla: MP4 y MOV llevan AAC-LC, los MKV de OBS AAC u Opus, WebM Opus o Vorbis, AVI MP3 o AC-3 y VOB AC-3, y todos entran sin sonido en DaVinci Resolve sobre Linux; WAV y AIFF con PCM y el MKV convertido con FLAC sí se leen.</desc><text x="20" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">FORMATO DE ORIGEN</text><text x="230" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">CÓDEC DE AUDIO HABITUAL</text><text x="440" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">EN RESOLVE SOBRE LINUX</text><line x1="20" y1="48" x2="640" y2="48" stroke="rgba(255,255,255,.12)"/><text x="20" y="74" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MP4 · MOV</text><text x="230" y="74" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC-LC</text><rect x="440" y="59" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="74" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="84" x2="640" y2="84" stroke="rgba(255,255,255,.055)"/><text x="20" y="108" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MKV de OBS</text><text x="230" y="108" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC u Opus</text><rect x="440" y="93" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="108" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="118" x2="640" y2="118" stroke="rgba(255,255,255,.055)"/><text x="20" y="142" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WebM</text><text x="230" y="142" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">Opus o Vorbis</text><rect x="440" y="127" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="142" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="152" x2="640" y2="152" stroke="rgba(255,255,255,.055)"/><text x="20" y="176" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">AVI antiguo</text><text x="230" y="176" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">MP3 o AC-3</text><rect x="440" y="161" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="176" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="186" x2="640" y2="186" stroke="rgba(255,255,255,.055)"/><text x="20" y="210" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">VOB de DVD</text><text x="230" y="210" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AC-3</text><rect x="440" y="195" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="210" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="220" x2="640" y2="220" stroke="rgba(255,255,255,.055)"/><text x="20" y="244" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WAV · AIFF</text><text x="230" y="244" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">PCM</text><rect x="440" y="229" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="244" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve lo lee</text><line x1="20" y1="254" x2="640" y2="254" stroke="rgba(255,255,255,.055)"/><text x="20" y="278" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MKV convertido</text><text x="230" y="278" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">FLAC</text><rect x="440" y="263" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="278" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve lo lee</text><text x="20" y="304" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Probado en DaVinci Resolve Studio 21 sobre Ubuntu, septiembre de 2026.</text><text x="20" y="321" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">En Windows y macOS, AAC y MP3 suelen funcionar; el resto sigue siendo irregular.</text></svg>
+        <figcaption>Códec de audio habitual de cada formato y su resultado en DaVinci Resolve sobre Linux.</figcaption>
+      </figure>
       <h3>El contenedor MKV: flexible pero heterogéneo</h3>
       <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante —y también la más problemática— es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
       <h3>Qué códec de audio lleva tu MKV</h3>
@@ -2661,6 +2679,7 @@
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
       <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

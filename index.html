@@ -194,7 +194,7 @@
         "name": "¿Cómo extraer el audio de un vídeo en formato FLAC sin perder calidad?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC usa FFmpeg para hacer un remux: copia el flujo de vídeo bit a bit sin volver a comprimirlo y recodifica únicamente la pista de audio al códec FLAC oficial, que es sin pérdida. El resultado es un archivo MKV con audio FLAC de calidad idéntica al original. Todo ocurre dentro de tu navegador mediante WebAssembly — sin subir el archivo a ningún servidor."
+          "text": "VidToFLAC usa FFmpeg para hacer un remux: copia el flujo de vídeo bit a bit, siempre que su códec se pueda copiar al contenedor de salida, y recodifica únicamente la pista de audio al códec FLAC oficial, que es sin pérdida. Con H.265/HEVC, ProRes, DNxHD o MJPEG el vídeo sí se recodifica a H.264. El resultado es un archivo MKV con audio FLAC de calidad idéntica al original. Todo ocurre dentro de tu navegador mediante WebAssembly — sin subir el archivo a ningún servidor."
         }
       },
       {
@@ -2150,6 +2150,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
 </head>
@@ -2412,7 +2426,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · el vídeo se copia cuando el códec lo permite</span>
           </span>
         </label>
       </div>
@@ -2682,7 +2696,7 @@
       <details class="faq-item">
         <summary>¿Cómo extraer el audio de un vídeo en formato FLAC sin perder calidad?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>VidToFLAC usa <strong>FFmpeg</strong> para hacer un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong> sin volver a comprimirlo y recodifica únicamente la pista de audio al códec <strong>FLAC</strong> oficial, que es sin pérdida. El resultado es un archivo MKV con audio FLAC de calidad idéntica al original. Todo ocurre dentro de tu navegador mediante WebAssembly — sin subir el archivo a ningún servidor.</p>
+          <p>VidToFLAC usa <strong>FFmpeg</strong> para hacer un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, siempre que su códec se pueda copiar al contenedor de salida, y recodifica únicamente la pista de audio al códec <strong>FLAC</strong> oficial, que es sin pérdida. Con H.265/HEVC, ProRes, DNxHD o MJPEG el vídeo sí se recodifica a H.264. El resultado es un archivo MKV con audio FLAC de calidad idéntica al original. Todo ocurre dentro de tu navegador mediante WebAssembly — sin subir el archivo a ningún servidor.</p>
         </div>
       </details>
 
@@ -2728,7 +2742,7 @@
 
       <h3>El remux: por qué es más rápido que una conversión convencional</h3>
       <p>Una conversión de vídeo tradicional implica decodificar cada frame (costosa operación de CPU o GPU) y luego recodificarlo. Para un vídeo de 30 minutos en 4K, este proceso puede tardar horas incluso en hardware potente.</p>
-      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso es <strong>mucho más rápido que una conversión completa</strong>. La imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma.</p>
+      <p>VidToFLAC realiza en su lugar un <strong>remux</strong>: copia el flujo de vídeo <strong>bit a bit</strong>, sin decodificarlo ni recodificarlo, y solo transcodifica la pista de audio. Dado que el audio representa habitualmente menos del 5 % del tamaño del archivo, el proceso es <strong>mucho más rápido que una conversión completa</strong>. Cuando el vídeo se copia, la imagen resultante es idéntica al original: no hay artefactos adicionales, no hay degradación, no se pierde ni un fotograma. Cuando hay que recodificar, la calidad es alta pero ya no idéntica.</p>
       <p>Cuando el códec de vídeo no es compatible con el navegador (<strong>H.265/HEVC</strong>, ProRes, DNxHD, MJPEG, MPEG-2, VC-1, WMV…), VidToFLAC recodifica automáticamente el vídeo a H.264 con calidad alta (<code>libx264 -crf 18</code>) para permitir la previsualización en la propia página.</p>
 
       <h3>Flujos de trabajo recomendados por editor</h3>
@@ -2766,6 +2780,7 @@
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
       <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

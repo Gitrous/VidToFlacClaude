@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DaVinci Resolve no importa audio de MP4, MOV u OBS: causas y soluciones</title>
-  <meta name="description" content="DaVinci Resolve no reproduce el audio de tu MP4, MOV o grabación de OBS Studio? Guía paso a paso para solucionar el problema de códec de audio sin reinstalar nada." />
+  <meta name="description" content="¿DaVinci Resolve no reproduce el audio de tu MP4, MOV o grabación de OBS? Guía paso a paso para arreglar el códec de audio sin reinstalar nada." />
   <meta name="keywords" content="DaVinci Resolve no importa audio MP4, DaVinci Resolve sin audio OBS, DaVinci Resolve MOV sin sonido, DaVinci Resolve no reproduce audio grabación pantalla, DaVinci Resolve audio codec error MP4, solucionar audio DaVinci Resolve OBS Studio, convertir audio MP4 a FLAC DaVinci Resolve, DaVinci Resolve AAC no compatible, OBS audio no funciona DaVinci Resolve, iPhone vídeo sin audio DaVinci Resolve" />
-  <meta name="author" content="VidToFLAC" />
+  <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/" />
@@ -44,15 +44,16 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "DaVinci Resolve no importa audio de MP4, MOV u OBS: causas y soluciones",
+    "image": "https://vidtoflac.tech/media/capturas/resolve-forma-de-onda.webp",
     "description": "DaVinci Resolve no reproduce el audio de tu MP4, MOV o grabación de OBS Studio? Guía paso a paso para solucionar el problema de códec de audio sin reinstalar nada.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/",
     "datePublished": "2026-06-30",
     "dateModified": "2026-06-30",
     "inLanguage": "es",
     "author": {
-      "@type": "Organization",
-      "name": "VidToFLAC",
-      "url": "https://vidtoflac.tech/"
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/autor/guillem-sanchez/"
     },
     "publisher": {
       "@type": "Organization",
@@ -303,6 +304,18 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .article-outer{animation:fadeUp .4s ease both}
     @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+    .author-box{display:flex;gap:1rem;align-items:flex-start;margin-top:3.5rem;padding:1.25rem 1.35rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+    .author-box-mark{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(25,195,125,.12);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--amber-2);font-size:1rem}
+    .author-box-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+    .author-box-name a{color:inherit;text-decoration:none}
+    .author-box-name a:hover{color:var(--amber-2)}
+    .author-box p{font-size:0.86rem;color:var(--ink-dim);line-height:1.65;margin:0}
+    .hero-meta a{color:rgba(255,255,255,.62);text-decoration:none}
+    .hero-meta a:hover{color:var(--amber-2)}
+    .fig{margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .fig img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel)}
+    .fig-svg{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel);padding:0.35rem}
+    .fig figcaption{font-family:var(--font-mono);font-size:0.72rem;line-height:1.6;color:var(--ink-mute);letter-spacing:0.02em}
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -388,6 +401,8 @@
       DaVinci Resolve no importa audio de MP4, MOV u OBS: causas y soluciones
     </h1>
     <div class="hero-meta">
+      <span class="byline">Por <a href="/autor/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
+      <span aria-hidden="true">·</span>
       <time datetime="2026-06-30" itemprop="datePublished">30 de junio de 2026</time>
       <span aria-hidden="true">·</span>
       <span>7 min de lectura</span>
@@ -473,6 +488,11 @@
       <p>Cuando grabas un vídeo con un móvil, una cámara de acción, una mirrorless o con OBS Studio, el archivo resultante lleva el audio comprimido con un <strong>códec</strong>: casi siempre <strong>AAC</strong> (el estándar en MP4 y MOV de cámara) o <strong>MP3</strong> (habitual en grabaciones de pantalla y software antiguo).</p>
 
       <p>DaVinci Resolve gratuito <strong>no incluye decodificadores para AAC ni MP3 en Linux</strong>, porque Blackmagic Design no paga esas licencias de patente para la versión de Linux. En Windows y macOS el soporte de AAC existe, pero hay combinaciones concretas de contenedor y códec que siguen fallando, especialmente con archivos grabados por software de captura o cámaras con ajustes no estándar.</p>
+      <figure class="fig">
+        <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="Pista de audio con forma de onda visible en la línea de tiempo de DaVinci Resolve" />
+        <figcaption>Así se ve la pista cuando el códec sí es compatible: la forma de onda aparece nada más importar.</figcaption>
+      </figure>
+
 
       <div class="error-box">
         <strong>Síntomas habituales:</strong> pista de audio en gris en el Media Pool · <code>Unsupported audio codec</code> al importar · la forma de onda aparece plana · el clip se importa pero no hay sonido al reproducir
@@ -550,6 +570,10 @@
       <h2 id="obs">El caso especial de OBS Studio</h2>
 
       <p>OBS Studio es el software de grabación y streaming más usado por creadores de contenido y, por defecto, graba en <strong>MKV o MP4 con audio AAC a 160 kbps</strong>. Esto convierte a OBS en la fuente más frecuente de este problema entre editores que trabajan con DaVinci Resolve en Linux.</p>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 262" width="660" height="262" role="img" aria-labelledby="t2127 d2909" xmlns="http://www.w3.org/2000/svg"><title id="t2127">Remux: el vídeo se copia y solo se recodifica el audio</title><desc id="d2909">Diagrama: la pista de vídeo pasa sin recodificar al MKV de salida, mientras la pista de audio AAC, MP3, AC-3 u Opus se decodifica y se vuelve a codificar en FLAC.</desc><text x="20" y="26" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">ARCHIVO DE ENTRADA</text><text x="640" y="26" text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">ARCHIVO DE SALIDA (MKV)</text><rect x="20" y="40" width="170" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="105.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Pista de vídeo</text><text x="105.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">H.264 · VP9 · MPEG-4</text><line x1="190" y1="75" x2="267" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,75 267,71 267,79" fill="rgba(255,255,255,.28)"/><text x="232.5" y="66" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">se copia</text><rect x="275" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="350.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Sin tocar</text><text x="350.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">0 recodificaciones</text><line x1="425" y1="75" x2="482" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,75 482,71 482,79" fill="rgba(255,255,255,.28)"/><rect x="490" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Vídeo idéntico</text><text x="565.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">misma calidad</text><rect x="20" y="135" width="170" height="70" rx="8" fill="rgba(255,96,88,.07)" stroke="#ff6058"/><text x="105.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Pista de audio</text><text x="105.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">AAC · MP3 · AC-3 · Opus</text><line x1="190" y1="170" x2="267" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,170 267,166 267,174" fill="rgba(255,255,255,.28)"/><text x="232.5" y="161" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">decodifica</text><rect x="275" y="135" width="150" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="350.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Recodificar</text><text x="350.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">a FLAC sin pérdida</text><line x1="425" y1="170" x2="482" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,170 482,166 482,174" fill="rgba(255,255,255,.28)"/><rect x="490" y="135" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Audio FLAC</text><text x="565.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">el editor sí lo lee</text><text x="20" y="228" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Excepción: si el navegador no puede decodificar el vídeo</text><text x="20" y="245" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">(H.265/HEVC, MPEG-2, WMV, VP6), también se recodifica a H.264.</text></svg>
+        <figcaption>Qué se copia y qué se recodifica al convertir una grabación para editarla.</figcaption>
+      </figure>
 
       <p>Hay dos variantes del problema con OBS:</p>
 
@@ -736,6 +760,15 @@
     
     </div><!-- /.article-body -->
 
+
+    <aside class="author-box">
+      <span class="author-box-mark" aria-hidden="true">GS</span>
+      <div>
+        <p class="author-box-name"><a href="/autor/guillem-sanchez/" rel="author">Guillem Sánchez</a></p>
+        <p>Desarrollador de VidToFLAC y editor en DaVinci Resolve. Escribió esta herramienta después de quedarse sin audio al importar sus propias grabaciones. Las guías se comprueban en <strong>DaVinci Resolve Studio 21 sobre Ubuntu</strong>, y los comandos de FFmpeg se ejecutan antes de recomendarlos. <a href="/autor/guillem-sanchez/">Cómo se verifica lo que se publica</a>.</p>
+      </div>
+    </aside>
+
     <nav class="prev-next-nav" aria-label="Artículos anterior y siguiente">
       <a href="/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/" class="prev-next-item">
         <span class="prev-next-label">← Anterior</span>
@@ -779,6 +812,7 @@
     <a href="/terminos-de-servicio/">Términos de servicio</a>
     <a href="/aviso-legal/">Aviso legal</a>
     <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
     <a href="/contacto/">Contacto</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

@@ -450,6 +450,12 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .card { animation: rise .22s ease both; }
+    .hist-explainer{max-width:760px;margin:3rem auto 0;padding-top:2rem;border-top:1px solid var(--line)}
+    .hist-explainer h2{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--ink);margin:1.75rem 0 0.6rem}
+    .hist-explainer h2:first-child{margin-top:0}
+    .hist-explainer p{color:var(--ink-dim);font-size:0.92rem;line-height:1.75;margin-bottom:0.8rem}
+    .hist-explainer ul{padding-left:1.25rem;color:var(--ink-dim);font-size:0.92rem;line-height:1.75;margin-bottom:0.8rem;display:flex;flex-direction:column;gap:0.3rem}
+    .hist-explainer strong{color:var(--ink);font-weight:600}
   </style>
 </head>
 <body>
@@ -551,6 +557,28 @@
   </aside>
 
   </div><!-- /hist-layout -->
+
+  <section class="hist-explainer">
+    <h2>Qué guarda esta página y dónde</h2>
+    <p>El historial vive en <strong>IndexedDB</strong>, la base de datos que cada navegador reserva para cada sitio web dentro de tu propio equipo. No hay copia en ningún servidor, ni cuenta asociada, ni sincronización entre dispositivos: lo que ves aquí lo ha escrito este navegador y solo él puede leerlo.</p>
+    <p>De cada conversión se guardan cuatro cosas: el <strong>nombre del archivo de salida</strong>, la <strong>fecha</strong>, el <strong>tamaño</strong> y el <strong>archivo convertido</strong>. Sí, el archivo entero: por eso puedes volver a descargarlo o reproducirlo días después sin repetir la conversión. El archivo original, el que soltaste para convertir, no se guarda en ningún momento.</p>
+
+    <h2>Cuánto dura</h2>
+    <p>Hasta que lo borres tú o hasta que el navegador libere espacio. Conviene saber tres cosas:</p>
+    <ul>
+      <li>En <strong>modo incógnito</strong> o en una ventana privada, el historial desaparece al cerrarla.</li>
+      <li>Al borrar "datos de sitios" o "cookies y datos" desde los ajustes del navegador, se borra también esto.</li>
+      <li>Si el disco se queda sin espacio, el navegador puede descartar el almacenamiento de sitios que no visitas a menudo. No es un fallo: es cómo funciona IndexedDB.</li>
+    </ul>
+
+    <h2>Cómo borrarlo</h2>
+    <p>El botón <strong>Limpiar historial</strong>, arriba en esta misma página, vacía la base de datos entera y pide confirmación antes. Cada fila se puede borrar por separado si solo quieres quitar una conversión. Para asegurarte de que no queda nada, también puedes eliminar los datos del sitio desde los ajustes de tu navegador.</p>
+
+    <h2>Por qué ocupa espacio</h2>
+    <p>Como se guardan los archivos convertidos, el historial puede ocupar bastante: un MKV con audio FLAC pesa lo que pesa. Si conviertes vídeos grandes a menudo, vacíalo de vez en cuando. El indicador de memoria de la columna derecha muestra cuánta memoria tiene disponible el navegador para trabajar, que es un límite distinto del espacio en disco.</p>
+
+    <p>El detalle de qué datos trata el sitio, incluido el formulario de contacto y la publicidad, está en la <a href="/politica-de-privacidad/">política de privacidad</a>. Cómo funciona la conversión por dentro, en <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>.</p>
+  </section>
 </main>
 
 <footer>
@@ -560,6 +588,7 @@
     <a href="/terminos-de-servicio/">Términos de servicio</a>
     <a href="/aviso-legal/">Aviso legal</a>
     <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
     <a href="/contacto/">Contacto</a>
   </nav>
   <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

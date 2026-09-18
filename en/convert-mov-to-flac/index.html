@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convert MOV to FLAC – iPhone and GoPro Audio for DaVinci Resolve | VidToFLAC</title>
-  <meta name="description" content="Convert the audio in MOV files from iPhone, GoPro and mirrorless cameras to lossless FLAC. Fixes the DaVinci Resolve audio codec error, entirely in your browser." />
+  <meta name="description" content="Convert the audio in MOV files from iPhone, GoPro or a camera to lossless FLAC. Fixes the DaVinci Resolve audio codec error, right in your browser." />
   <meta name="keywords" content="convert MOV to FLAC, MOV FLAC DaVinci Resolve, iPhone MOV no sound, GoPro MOV audio, MOV ProRes FLAC, QuickTime audio DaVinci Resolve" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -2118,6 +2118,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2391,7 +2405,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · video copied bit-for-bit unchanged</span>
+            <span class="format-desc">Audio → FLAC · the video is copied when its codec allows it</span>
           </span>
         </label>
       </div>
@@ -2618,6 +2632,10 @@
     <div class="card-title">Conversion guide</div>
     <article>
       <h2 id="guia-formato-titulo">Everything about converting MOV to FLAC</h2>
+      <figure class="fig">
+        <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="Audio track showing its waveform after the file was converted" />
+        <figcaption>The same clip with its audio already in FLAC: the waveform appears and the sound plays.</figcaption>
+      </figure>
       <h3>What is actually inside a camera MOV</h3>
       <p>MOV is Apple's QuickTime container and the native format of the iPhone, GoPro and most Sony, Canon and Fujifilm bodies. Inside you will usually find <strong>H.264 or H.265 video with AAC audio</strong>. Professional workflows are the exception: field and cinema cameras write <strong>ProRes video with linear PCM audio</strong>, which behaves very differently. Knowing which of the two you have explains most of what happens next.</p>
       <h3>The iPhone and HEVC</h3>
@@ -2665,6 +2683,7 @@
       <a href="/en/terms-of-service/">Terms of service</a>
       <a href="/en/legal-notice/">Legal notice</a>
       <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
       <a href="/en/contact/">Contact</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>

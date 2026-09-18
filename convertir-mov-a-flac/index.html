@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir MOV a FLAC – Audio de iPhone y GoPro para DaVinci Resolve | VidToFLAC</title>
-  <meta name="description" content="Convierte el audio de tus archivos MOV de iPhone, GoPro o cámara a FLAC sin pérdida, en tu navegador. Soluciona el error de códec de audio de DaVinci Resolve en clips MOV." />
+  <meta name="description" content="Convierte a FLAC el audio de tus MOV de iPhone, GoPro o cámara, en tu navegador. Soluciona el error de códec de audio de DaVinci Resolve en clips MOV." />
   <meta name="keywords" content="convertir MOV a FLAC, MOV FLAC DaVinci Resolve, MOV iPhone DaVinci Resolve sin sonido, convertir vídeo iPhone a FLAC, GoPro MOV audio FLAC, remux MOV MKV FLAC" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -2118,6 +2118,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2391,7 +2405,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · el vídeo se copia cuando el códec lo permite</span>
           </span>
         </label>
       </div>
@@ -2618,6 +2632,10 @@
     <div class="card-title">Guía de conversión</div>
     <article>
       <h2 id="guia-formato-titulo">Todo sobre la conversión de MOV a FLAC</h2>
+      <figure class="fig">
+        <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="Pista de audio con forma de onda tras convertir el archivo" />
+        <figcaption>El mismo clip con su audio ya en FLAC: la forma de onda aparece y el sonido se reproduce.</figcaption>
+      </figure>
       <h3>El formato MOV: nativo de Apple, problemático fuera de macOS</h3>
       <p>MOV es el formato de contenedor de QuickTime, desarrollado por Apple. Es el formato nativo de grabación del <strong>iPhone</strong> (todos los modelos), <strong>GoPro</strong> (antes de cambiar a MP4), cámaras Sony Alpha en modo XAVC S, Canon EOS en algunos modos y muchas otras cámaras digitales orientadas a la producción. En macOS, los archivos MOV se abren sin problemas en casi cualquier aplicación porque el sistema incluye los decodificadores necesarios. En <strong>Linux</strong> —donde reside la mayor parte de los usuarios afectados por el problema de audio en DaVinci Resolve— la historia es diferente.</p>
       <h3>Códecs de audio en archivos MOV</h3>
@@ -2661,6 +2679,7 @@
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
       <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

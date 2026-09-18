@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DaVinci Resolve exports video with no audio: causes and fixes</title>
-  <meta name="description" content="DaVinci Resolve exporting video but no audio? A complete guide to every possible cause and how to fix it: render settings, muted tracks, incompatible audio codecs and more." />
+  <meta name="description" content="DaVinci Resolve exporting video with no audio? Every possible cause and its fix: render settings, muted tracks and incompatible audio codecs." />
   <meta name="keywords" content="DaVinci Resolve no audio on export, DaVinci Resolve render no audio, DaVinci Resolve export video no sound, DaVinci Resolve deliver no audio, DaVinci Resolve export no audio, fix DaVinci Resolve export audio, DaVinci Resolve render missing audio, DaVinci Resolve exported video no sound, DaVinci Resolve audio export settings" />
-  <meta name="author" content="VidToFLAC" />
+  <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/en/articles/davinci-resolve-render-no-audio/" />
@@ -44,15 +44,16 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "DaVinci Resolve exports video with no audio: causes and fixes",
+    "image": "https://vidtoflac.tech/og-image.png",
     "description": "DaVinci Resolve exporting video but no audio? A complete guide to every possible cause and how to fix it: render settings, muted tracks, incompatible audio codecs and more.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-render-no-audio/",
     "datePublished": "2026-06-30",
     "dateModified": "2026-06-30",
     "inLanguage": "en",
     "author": {
-      "@type": "Organization",
-      "name": "VidToFLAC",
-      "url": "https://vidtoflac.tech/"
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/en/author/guillem-sanchez/"
     },
     "publisher": {
       "@type": "Organization",
@@ -287,6 +288,18 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .article-outer{animation:fadeUp .4s ease both}
     @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+    .author-box{display:flex;gap:1rem;align-items:flex-start;margin-top:3.5rem;padding:1.25rem 1.35rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+    .author-box-mark{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(25,195,125,.12);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--amber-2);font-size:1rem}
+    .author-box-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+    .author-box-name a{color:inherit;text-decoration:none}
+    .author-box-name a:hover{color:var(--amber-2)}
+    .author-box p{font-size:0.86rem;color:var(--ink-dim);line-height:1.65;margin:0}
+    .hero-meta a{color:rgba(255,255,255,.62);text-decoration:none}
+    .hero-meta a:hover{color:var(--amber-2)}
+    .fig{margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .fig img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel)}
+    .fig-svg{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel);padding:0.35rem}
+    .fig figcaption{font-family:var(--font-mono);font-size:0.72rem;line-height:1.6;color:var(--ink-mute);letter-spacing:0.02em}
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -372,6 +385,8 @@
       DaVinci Resolve exports video with no audio: causes and fixes
     </h1>
     <div class="hero-meta">
+      <span class="byline">By <a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
+      <span aria-hidden="true">·</span>
       <time datetime="2026-06-30" itemprop="datePublished">30 June 2026</time>
       <span aria-hidden="true">·</span>
       <span>8 min read</span>
@@ -478,6 +493,11 @@
       <h2 id="causa-1">Cause 1: "Export Audio" is off in Deliver</h2>
 
       <p>This is the most common cause, and the easiest to overlook. On DaVinci Resolve's <strong>Deliver</strong> page, the settings panel has an <em>Audio</em> section with an <strong>"Export Audio"</strong> checkbox. If it is unticked, the render produces video with no audio track at all.</p>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 262" width="660" height="262" role="img" aria-labelledby="t7617 d9084" xmlns="http://www.w3.org/2000/svg"><title id="t7617">Remux: the video is copied and only the audio is re-encoded</title><desc id="d9084">Diagram: the video track passes into the output MKV without re-encoding, while the AAC, MP3, AC-3 or Opus audio track is decoded and re-encoded as FLAC.</desc><text x="20" y="26" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">INPUT FILE</text><text x="640" y="26" text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">OUTPUT FILE (MKV)</text><rect x="20" y="40" width="170" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="105.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Video track</text><text x="105.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">H.264 · VP9 · MPEG-4</text><line x1="190" y1="75" x2="267" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,75 267,71 267,79" fill="rgba(255,255,255,.28)"/><text x="232.5" y="66" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">copied</text><rect x="275" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="350.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Untouched</text><text x="350.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">0 re-encodes</text><line x1="425" y1="75" x2="482" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,75 482,71 482,79" fill="rgba(255,255,255,.28)"/><rect x="490" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Identical video</text><text x="565.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">same quality</text><rect x="20" y="135" width="170" height="70" rx="8" fill="rgba(255,96,88,.07)" stroke="#ff6058"/><text x="105.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Audio track</text><text x="105.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">AAC · MP3 · AC-3 · Opus</text><line x1="190" y1="170" x2="267" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,170 267,166 267,174" fill="rgba(255,255,255,.28)"/><text x="232.5" y="161" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">decoded</text><rect x="275" y="135" width="150" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="350.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Re-encoded</text><text x="350.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">to lossless FLAC</text><line x1="425" y1="170" x2="482" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,170 482,166 482,174" fill="rgba(255,255,255,.28)"/><rect x="490" y="135" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">FLAC audio</text><text x="565.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">the editor reads it</text><text x="20" y="228" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Exception: when the browser cannot decode the video</text><text x="20" y="245" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">(H.265/HEVC, MPEG-2, WMV, VP6), it is re-encoded to H.264 too.</text></svg>
+        <figcaption>When converting for editing, the video is copied and only the audio track changes.</figcaption>
+      </figure>
+
 
       <p>How to check and fix it:</p>
       <ol>
@@ -642,6 +662,15 @@
     
     </div><!-- /.article-body -->
 
+
+    <aside class="author-box">
+      <span class="author-box-mark" aria-hidden="true">GS</span>
+      <div>
+        <p class="author-box-name"><a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></p>
+        <p>Developer of VidToFLAC and a DaVinci Resolve editor. He wrote this tool after losing the audio on his own footage. The guides are checked on <strong>DaVinci Resolve Studio 21 on Ubuntu</strong>, and the FFmpeg commands are run before being recommended. <a href="/en/author/guillem-sanchez/">How everything here gets verified</a>.</p>
+      </div>
+    </aside>
+
     <nav class="prev-next-nav" aria-label="Previous and next articles">
       <a href="/en/articles/davinci-resolve-h265-hevc-not-importing/" class="prev-next-item">
         <span class="prev-next-label">← Previous</span>
@@ -685,6 +714,7 @@
     <a href="/en/terms-of-service/">Terms of service</a>
     <a href="/en/legal-notice/">Legal notice</a>
     <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
     <a href="/en/contact/">Contact</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>

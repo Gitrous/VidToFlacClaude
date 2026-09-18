@@ -7,7 +7,7 @@
   <title>Which video format to use in DaVinci Resolve: a 2026 codec guide</title>
   <meta name="description" content="A complete guide to formats and codecs for DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW, and which to choose for your camera and workflow." />
   <meta name="keywords" content="DaVinci Resolve video format, which format to use DaVinci Resolve, DaVinci Resolve codec, best editing format DaVinci Resolve, DaVinci Resolve H.264 H.265, DaVinci Resolve ProRes, DaVinci Resolve DNxHD, DaVinci Resolve audio format, MKV DaVinci Resolve, MOV DaVinci Resolve" />
-  <meta name="author" content="VidToFLAC" />
+  <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/en/articles/best-video-format-for-davinci-resolve/" />
@@ -40,15 +40,16 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Which video format to use in DaVinci Resolve: a 2026 codec guide",
+    "image": "https://vidtoflac.tech/og-image.png",
     "description": "A complete guide to formats and codecs for DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW, and which to choose for your camera and workflow.",
     "url": "https://vidtoflac.tech/en/articles/best-video-format-for-davinci-resolve/",
     "datePublished": "2026-06-28",
     "dateModified": "2026-06-28",
     "inLanguage": "en",
     "author": {
-      "@type": "Organization",
-      "name": "VidToFLAC",
-      "url": "https://vidtoflac.tech/"
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/en/author/guillem-sanchez/"
     },
     "publisher": {
       "@type": "Organization",
@@ -297,6 +298,18 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .article-outer{animation:fadeUp .4s ease both}
     @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+    .author-box{display:flex;gap:1rem;align-items:flex-start;margin-top:3.5rem;padding:1.25rem 1.35rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+    .author-box-mark{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(25,195,125,.12);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--amber-2);font-size:1rem}
+    .author-box-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+    .author-box-name a{color:inherit;text-decoration:none}
+    .author-box-name a:hover{color:var(--amber-2)}
+    .author-box p{font-size:0.86rem;color:var(--ink-dim);line-height:1.65;margin:0}
+    .hero-meta a{color:rgba(255,255,255,.62);text-decoration:none}
+    .hero-meta a:hover{color:var(--amber-2)}
+    .fig{margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .fig img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel)}
+    .fig-svg{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel);padding:0.35rem}
+    .fig figcaption{font-family:var(--font-mono);font-size:0.72rem;line-height:1.6;color:var(--ink-mute);letter-spacing:0.02em}
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -382,6 +395,8 @@
       Which video format to use in DaVinci Resolve: a 2026 codec guide
     </h1>
     <div class="hero-meta">
+      <span class="byline">By <a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
+      <span aria-hidden="true">·</span>
       <time datetime="2026-06-28" itemprop="datePublished">28 June 2026</time>
       <span aria-hidden="true">·</span>
       <span>9 min read</span>
@@ -470,6 +485,11 @@
       </ul>
 
       <p>The same container can hold different codecs. An <code>.mp4</code> can carry H.264 or H.265 video with AAC or MP3 audio. An <code>.mkv</code> can carry exactly the same codecs. What determines compatibility with DaVinci Resolve is <strong>the codec, not the container</strong>.</p>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 344" width="660" height="344" role="img" aria-labelledby="cten cden" xmlns="http://www.w3.org/2000/svg"><title id="cten">Which audio codec each format carries, and which ones end up silent in DaVinci Resolve on Linux</title><desc id="cden">Table: MP4 and MOV carry AAC-LC, OBS MKV files AAC or Opus, WebM Opus or Vorbis, AVI MP3 or AC-3 and VOB AC-3, and all of them import without sound in DaVinci Resolve on Linux; WAV and AIFF with PCM and the converted MKV with FLAC do play.</desc><text x="20" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">SOURCE FORMAT</text><text x="230" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">USUAL AUDIO CODEC</text><text x="440" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">IN RESOLVE ON LINUX</text><line x1="20" y1="48" x2="640" y2="48" stroke="rgba(255,255,255,.12)"/><text x="20" y="74" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MP4 · MOV</text><text x="230" y="74" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC-LC</text><rect x="440" y="59" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="74" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="84" x2="640" y2="84" stroke="rgba(255,255,255,.055)"/><text x="20" y="108" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">OBS MKV</text><text x="230" y="108" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC or Opus</text><rect x="440" y="93" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="108" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="118" x2="640" y2="118" stroke="rgba(255,255,255,.055)"/><text x="20" y="142" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WebM</text><text x="230" y="142" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">Opus or Vorbis</text><rect x="440" y="127" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="142" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="152" x2="640" y2="152" stroke="rgba(255,255,255,.055)"/><text x="20" y="176" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">Old AVI</text><text x="230" y="176" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">MP3 or AC-3</text><rect x="440" y="161" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="176" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="186" x2="640" y2="186" stroke="rgba(255,255,255,.055)"/><text x="20" y="210" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">DVD VOB</text><text x="230" y="210" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AC-3</text><rect x="440" y="195" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="210" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="220" x2="640" y2="220" stroke="rgba(255,255,255,.055)"/><text x="20" y="244" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WAV · AIFF</text><text x="230" y="244" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">PCM</text><rect x="440" y="229" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="244" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve reads it</text><line x1="20" y1="254" x2="640" y2="254" stroke="rgba(255,255,255,.055)"/><text x="20" y="278" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">Converted MKV</text><text x="230" y="278" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">FLAC</text><rect x="440" y="263" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="278" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve reads it</text><text x="20" y="304" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Tested in DaVinci Resolve Studio 21 on Ubuntu, September 2026.</text><text x="20" y="321" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">On Windows and macOS, AAC and MP3 usually work; the rest stays uneven.</text></svg>
+        <figcaption>The usual audio codec in each format and how it behaves in DaVinci Resolve on Linux.</figcaption>
+      </figure>
+
 
       <div class="info-box">
         <strong>A concrete example:</strong> an <code>.mkv</code> with AAC audio will hit exactly the same problems in DaVinci Resolve on Linux as an <code>.mp4</code> with AAC audio. Changing the extension from MP4 to MKV fixes nothing — the audio codec has to change.
@@ -774,6 +794,15 @@
     
     </div><!-- /.article-body -->
 
+
+    <aside class="author-box">
+      <span class="author-box-mark" aria-hidden="true">GS</span>
+      <div>
+        <p class="author-box-name"><a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></p>
+        <p>Developer of VidToFLAC and a DaVinci Resolve editor. He wrote this tool after losing the audio on his own footage. The guides are checked on <strong>DaVinci Resolve Studio 21 on Ubuntu</strong>, and the FFmpeg commands are run before being recommended. <a href="/en/author/guillem-sanchez/">How everything here gets verified</a>.</p>
+      </div>
+    </aside>
+
     <nav class="prev-next-nav" aria-label="Previous and next articles">
       <a href="/en/articles/davinci-resolve-audio-errors/" class="prev-next-item">
         <span class="prev-next-label">← Previous</span>
@@ -817,6 +846,7 @@
     <a href="/en/terms-of-service/">Terms of service</a>
     <a href="/en/legal-notice/">Legal notice</a>
     <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
     <a href="/en/contact/">Contact</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>

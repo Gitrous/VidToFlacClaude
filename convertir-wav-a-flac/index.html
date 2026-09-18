@@ -2118,6 +2118,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2391,7 +2405,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · el vídeo se copia cuando el códec lo permite</span>
           </span>
         </label>
       </div>
@@ -2618,6 +2632,10 @@
     <div class="card-title">Guía de conversión</div>
     <article>
       <h2 id="guia-formato-titulo">Todo sobre la conversión de WAV a FLAC</h2>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 262" width="660" height="262" role="img" aria-labelledby="t2127 d2909" xmlns="http://www.w3.org/2000/svg"><title id="t2127">Remux: el vídeo se copia y solo se recodifica el audio</title><desc id="d2909">Diagrama: la pista de vídeo pasa sin recodificar al MKV de salida, mientras la pista de audio AAC, MP3, AC-3 u Opus se decodifica y se vuelve a codificar en FLAC.</desc><text x="20" y="26" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">ARCHIVO DE ENTRADA</text><text x="640" y="26" text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">ARCHIVO DE SALIDA (MKV)</text><rect x="20" y="40" width="170" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="105.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Pista de vídeo</text><text x="105.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">H.264 · VP9 · MPEG-4</text><line x1="190" y1="75" x2="267" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,75 267,71 267,79" fill="rgba(255,255,255,.28)"/><text x="232.5" y="66" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">se copia</text><rect x="275" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="350.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Sin tocar</text><text x="350.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">0 recodificaciones</text><line x1="425" y1="75" x2="482" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,75 482,71 482,79" fill="rgba(255,255,255,.28)"/><rect x="490" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Vídeo idéntico</text><text x="565.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">misma calidad</text><rect x="20" y="135" width="170" height="70" rx="8" fill="rgba(255,96,88,.07)" stroke="#ff6058"/><text x="105.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Pista de audio</text><text x="105.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">AAC · MP3 · AC-3 · Opus</text><line x1="190" y1="170" x2="267" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,170 267,166 267,174" fill="rgba(255,255,255,.28)"/><text x="232.5" y="161" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">decodifica</text><rect x="275" y="135" width="150" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="350.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Recodificar</text><text x="350.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">a FLAC sin pérdida</text><line x1="425" y1="170" x2="482" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,170 482,166 482,174" fill="rgba(255,255,255,.28)"/><rect x="490" y="135" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Audio FLAC</text><text x="565.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">el editor sí lo lee</text><text x="20" y="228" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Excepción: si el navegador no puede decodificar el vídeo</text><text x="20" y="245" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">(H.265/HEVC, MPEG-2, WMV, VP6), también se recodifica a H.264.</text></svg>
+        <figcaption>Con un WAV no hay vídeo que copiar: solo se recodifica el audio, y FLAC conserva las muestras intactas.</figcaption>
+      </figure>
       <h3>WAV vs. FLAC: dos formatos lossless con diferencias importantes</h3>
       <p>WAV (Waveform Audio File Format) fue desarrollado por Microsoft e IBM en 1991 y sigue siendo el formato estándar en estudios de grabación, broadcast y producción musical profesional. Almacena el audio como <strong>PCM sin comprimir</strong>, lo que garantiza la máxima compatibilidad con cualquier software de audio pero genera archivos enormes. FLAC surgió en 2001 como alternativa sin pérdida que añade una capa de compresión reversible sobre el PCM. Ambos formatos preservan el audio al 100 %, pero el tamaño puede diferir enormemente: un WAV de 24 bit / 96 kHz puede pesar 1 GB por cada 30 minutos, mientras que el FLAC equivalente ocupa entre 400 y 600 MB.</p>
       <h3>Cuándo tiene sentido convertir WAV a FLAC</h3>
@@ -2659,6 +2677,7 @@
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
       <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

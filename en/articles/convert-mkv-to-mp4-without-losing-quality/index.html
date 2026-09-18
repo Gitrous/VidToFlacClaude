@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to convert MKV to MP4 without losing quality – complete 2026 guide</title>
-  <meta name="description" content="Convert MKV to MP4 without recompressing the video or losing a single frame. Complete guide: remuxing with VidToFLAC or FFmpeg, when it is safe and when it is not." />
+  <meta name="description" content="Convert MKV to MP4 without recompressing the video: how remuxing works in VidToFLAC or FFmpeg, when it is safe and when it is not." />
   <meta name="keywords" content="convert MKV to MP4 without losing quality, remux MKV to MP4, MKV to MP4 without recompressing, convert MKV MP4 free, MKV to MP4 FFmpeg, convert MKV to MP4 online, MKV MP4 quality difference, convert MKV to MP4 lossless, MKV to MP4 DaVinci Resolve, lossless video remux, change MKV container to MP4" />
-  <meta name="author" content="VidToFLAC" />
+  <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/en/articles/convert-mkv-to-mp4-without-losing-quality/" />
@@ -44,15 +44,16 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "How to convert MKV to MP4 without losing quality – complete 2026 guide",
+    "image": "https://vidtoflac.tech/og-image.png",
     "description": "Convert MKV to MP4 without recompressing the video or losing a single frame. Complete guide: remuxing with VidToFLAC or FFmpeg, when it is safe and when it is not.",
     "url": "https://vidtoflac.tech/en/articles/convert-mkv-to-mp4-without-losing-quality/",
     "datePublished": "2026-06-30",
     "dateModified": "2026-06-30",
     "inLanguage": "en",
     "author": {
-      "@type": "Organization",
-      "name": "VidToFLAC",
-      "url": "https://vidtoflac.tech/"
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/en/author/guillem-sanchez/"
     },
     "publisher": {
       "@type": "Organization",
@@ -303,6 +304,18 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .article-outer{animation:fadeUp .4s ease both}
     @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+    .author-box{display:flex;gap:1rem;align-items:flex-start;margin-top:3.5rem;padding:1.25rem 1.35rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+    .author-box-mark{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(25,195,125,.12);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--amber-2);font-size:1rem}
+    .author-box-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+    .author-box-name a{color:inherit;text-decoration:none}
+    .author-box-name a:hover{color:var(--amber-2)}
+    .author-box p{font-size:0.86rem;color:var(--ink-dim);line-height:1.65;margin:0}
+    .hero-meta a{color:rgba(255,255,255,.62);text-decoration:none}
+    .hero-meta a:hover{color:var(--amber-2)}
+    .fig{margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .fig img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel)}
+    .fig-svg{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel);padding:0.35rem}
+    .fig figcaption{font-family:var(--font-mono);font-size:0.72rem;line-height:1.6;color:var(--ink-mute);letter-spacing:0.02em}
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -388,6 +401,8 @@
       How to convert MKV to MP4 without losing quality – complete 2026 guide
     </h1>
     <div class="hero-meta">
+      <span class="byline">By <a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
+      <span aria-hidden="true">·</span>
       <time datetime="2026-06-30" itemprop="datePublished">30 June 2026</time>
       <span aria-hidden="true">·</span>
       <span>8 min read</span>
@@ -466,6 +481,11 @@
       <p>The first misunderstanding to clear up: <strong>MKV and MP4 are containers</strong>, not codecs. A container is like an envelope — it can hold different kinds of content inside (video, audio and subtitle tracks), but it does not determine the quality of that content. Quality depends on the <strong>codec</strong> inside.</p>
 
       <p>The same H.264 video at the same quality fits inside an MKV or inside an MP4 — the picture is identical either way. What changes is compatibility:</p>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 237" width="660" height="237" role="img" aria-labelledby="kten kden" xmlns="http://www.w3.org/2000/svg"><title id="kten">A container is not a codec</title><desc id="kden">Diagram: an MKV holding H.264 video and FLAC audio becomes an MP4 by copying the streams; re-encoding happens only when the target container will not take the codec.</desc><text x="20" y="26" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">THE CONTAINER IS THE BOX</text><text x="640" y="26" text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">THE CODECS ARE WHAT IS INSIDE</text><rect x="20" y="42" width="250" height="118" rx="10" fill="#131316" stroke="rgba(255,255,255,.16)"/><text x="36" y="66" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="15" font-weight="700" fill="#f3f3ef">MKV</text><rect x="390" y="42" width="250" height="118" rx="10" fill="#131316" stroke="rgba(255,255,255,.16)"/><text x="406" y="66" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="15" font-weight="700" fill="#f3f3ef">MP4</text><rect x="36" y="80" width="218" height="28" rx="6" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="145" y="98" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11.5" fill="#cfcfd4">H.264 video</text><rect x="406" y="80" width="218" height="28" rx="6" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="515" y="98" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11.5" fill="#cfcfd4">H.264 video</text><rect x="36" y="114" width="218" height="28" rx="6" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="145" y="132" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11.5" fill="#cfcfd4">FLAC audio</text><rect x="406" y="114" width="218" height="28" rx="6" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="515" y="132" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11.5" fill="#cfcfd4">AAC audio</text><line x1="272" y1="101" x2="380" y2="101" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="390,101 380,96 380,106" fill="rgba(255,255,255,.28)"/><text x="326" y="92" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">copy streams</text><text x="20" y="186" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Changing container leaves the codecs alone: the streams are copied across.</text><text x="20" y="203" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Re-encoding is only needed when the target container will not take that codec,</text><text x="20" y="220" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">such as FLAC inside an MP4, or when the video codec is DivX, Xvid or MPEG-2.</text></svg>
+        <figcaption>MKV and MP4 are different boxes for the same content, which is why the change can be a copy.</figcaption>
+      </figure>
+
 
       <table class="compare-table">
         <thead>
@@ -767,6 +787,15 @@
     
     </div><!-- /.article-body -->
 
+
+    <aside class="author-box">
+      <span class="author-box-mark" aria-hidden="true">GS</span>
+      <div>
+        <p class="author-box-name"><a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></p>
+        <p>Developer of VidToFLAC and a DaVinci Resolve editor. He wrote this tool after losing the audio on his own footage. The guides are checked on <strong>DaVinci Resolve Studio 21 on Ubuntu</strong>, and the FFmpeg commands are run before being recommended. <a href="/en/author/guillem-sanchez/">How everything here gets verified</a>.</p>
+      </div>
+    </aside>
+
     <nav class="prev-next-nav" aria-label="Previous and next articles">
       <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/" class="prev-next-item">
         <span class="prev-next-label">← Previous</span>
@@ -810,6 +839,7 @@
     <a href="/en/terms-of-service/">Terms of service</a>
     <a href="/en/legal-notice/">Legal notice</a>
     <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
     <a href="/en/contact/">Contact</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>

@@ -241,6 +241,49 @@ la tarjeta "Antes y después" de la portada conservaba "Proceso en segundos,
 solo se toca el audio" y "Sin errores de códec… en Windows, macOS y Linux"
 después de varios barridos. Revisa también los `<li>` de las tarjetas.
 
+## Autoría: el sitio lo firma una persona
+
+AdSense rechazó dos veces por "contenido de poco valor" con el sitio en
+anónimo: `author` era la propia Organization y el nombre real solo aparecía en
+un párrafo suelto de `/sobre-vidtoflac/`. Ahora la autoría vive en cuatro
+sitios a la vez, y hay que mantenerlos sincronizados:
+
+1. `/autor/guillem-sanchez/` y `/en/author/guillem-sanchez/` — página propia con
+   `ProfilePage` + `Person` (`sameAs` a github.com/Gitrous), el equipo de pruebas
+   (DaVinci Resolve Studio 21 sobre Ubuntu) y la lista de afirmaciones corregidas
+   tras probarlas. Al publicar un artículo nuevo, **añádelo a esa lista**.
+2. La firma de `.hero-meta` en los 28 artículos (`rel="author"`).
+3. La caja `.author-box` al final del `<article>`, antes de `.prev-next-nav`.
+4. El `author` de tipo `Person` en el JSON-LD `Article`, con `url` a la página de
+   autor del idioma correspondiente. `publisher` sigue siendo la Organization.
+
+Las páginas institucionales llevan ahora `AboutPage`, `ContactPage` con
+`ContactPoint`, `WebPage` en las legales, y `BreadcrumbList` en todas.
+
+## Imágenes propias: de dónde salen y dónde no van
+
+Las capturas de `media/capturas/` se extraen con ffmpeg de las grabaciones
+originales del usuario (`~/Descargas/Clip1.mp4` y `Clip2.mp4`, 1920×1080), no
+del montaje publicado: el montaje lleva rótulos quemados en una franja superior
+y ata la imagen a un idioma. Se recorta la zona útil y se codifica en WebP
+(`-c:v libwebp -quality 80-82`, 1100-1200 px de ancho, 8-25 KB cada una).
+
+Reglas que ya están aplicadas y conviene no romper:
+
+- **Ninguna figura pegada a un anuncio.** Al insertarlas antes de un `<h2>`
+  quedaron justo debajo del hueco de anuncio, que es el patrón de clic
+  accidental que AdSense penaliza. Van después del primer párrafo de la sección.
+  Hay un script de comprobación en el historial de esta tarea; repítelo al añadir
+  figuras.
+- **El pie es contenido, no decoración**: dice qué se ve, con qué versión y en
+  qué sistema. El `alt` describe la imagen y no repite el pie.
+- `width`, `height`, `loading="lazy"` y `decoding="async"` siempre, para no
+  mover el layout.
+- Los diagramas son **SVG en línea** con los tokens de color del sitio, sin
+  archivos ni peticiones. El mismo SVG se reutiliza en varios artículos: su
+  texto cuenta como contenido compartido, así que no lo repitas en más de
+  cinco páginas por idioma.
+
 ## Un mismo texto vive en muchos sitios a la vez
 
 Nunca cambies una cadena en un solo lugar. Un titular de artículo aparece en
@@ -285,10 +328,10 @@ for f in glob.glob('**/*.html',recursive=True):
 print(n,'bloques,',b,'rotos')"
 ```
 
-Valores de referencia: **91** páginas HTML, **56** indexables y **35** `noindex`,
-**56** con hreflang, **166** bloques JSON-LD, **56** URLs en el sitemap, **0**
-enlaces internos rotos (anclas `#formato` incluidas), y el generador en **0**
-líneas de diferencia.
+Valores de referencia: **93** páginas HTML, **58** indexables y **35** `noindex`,
+**58** con hreflang, **190** bloques JSON-LD, **58** URLs en el sitemap, **0**
+enlaces internos rotos (anclas `#formato` incluidas), **0** descripciones de más
+de 160 caracteres, y el generador en **0** líneas de diferencia.
 
 ## Promesas que el producto no puede sostener
 

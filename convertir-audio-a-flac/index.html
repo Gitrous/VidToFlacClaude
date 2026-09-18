@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir MP3, AAC, M4A, OGG, Opus, WMA y AIFF a FLAC | VidToFLAC</title>
-  <meta name="description" content="Guía de siete formatos de audio —MP3, AAC, M4A, AIFF, OGG, Opus y WMA—: por qué tu editor no los lee, qué ganas y qué no al pasarlos a FLAC, y cómo hacerlo en tu navegador." />
+  <meta name="description" content="Siete formatos de audio —MP3, AAC, M4A, AIFF, OGG, Opus y WMA—: por qué tu editor no los lee y qué ganas, y qué no, al pasarlos a FLAC." />
   <meta name="keywords" content="convertir MP3 a FLAC, convertir AAC a FLAC, M4A a FLAC, OGG a FLAC, Opus a FLAC, WMA a FLAC, AIFF a FLAC, audio a FLAC DaVinci Resolve" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -2134,6 +2134,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2407,7 +2421,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · el vídeo se copia cuando el códec lo permite</span>
           </span>
         </label>
       </div>
@@ -2644,7 +2658,10 @@
     <div class="card-title">Guías por formato</div>
     <h2 id="indice-formatos" style="margin-bottom:0.7rem">Elige tu formato de audio</h2>
     <p>Cada formato tiene su guía más abajo. WAV tiene página propia: <a href="/convertir-wav-a-flac/">convertir WAV a FLAC</a>. Si lo que tienes es un vídeo, ve a <a href="/convertir-video-a-flac/">convertir AVI, WebM, WMV y otros vídeos a FLAC</a>.</p>
-    <nav class="format-links" aria-label="Formatos de esta guía">
+      <figure class="fig">
+        <img src="/media/capturas/vidtoflac-archivo-cargado.webp" width="1100" height="784" loading="lazy" decoding="async" alt="VidToFLAC en el navegador con un archivo cargado y las opciones de salida" />
+        <figcaption>La conversión ocurre en el navegador: el archivo aparece cargado y nunca se sube a un servidor.</figcaption>
+      </figure>    <nav class="format-links" aria-label="Formatos de esta guía">
       <a href="#mp3">MP3</a>
       <a href="#aac">AAC</a>
       <a href="#m4a">M4A</a>
@@ -2873,6 +2890,7 @@
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
       <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

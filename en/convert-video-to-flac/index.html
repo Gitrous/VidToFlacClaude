@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convert AVI, WebM, WMV, FLV and Other Video to FLAC | VidToFLAC</title>
-  <meta name="description" content="A guide to nine video formats (AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V): which audio codec each one carries, why DaVinci Resolve will not read it, and how to turn it into FLAC in your browser." />
+  <meta name="description" content="Nine video formats (AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP, M4V): which audio codec each carries and how to turn it into FLAC in your browser." />
   <meta name="keywords" content="convert AVI to FLAC, convert WebM to FLAC, WMV to FLAC, FLV to FLAC, VOB to FLAC, TS to FLAC, 3GP to FLAC, M4V to FLAC, MPEG to FLAC, DaVinci Resolve no audio" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -2134,6 +2134,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2407,7 +2421,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · video copied bit-for-bit unchanged</span>
+            <span class="format-desc">Audio → FLAC · the video is copied when its codec allows it</span>
           </span>
         </label>
       </div>
@@ -2646,7 +2660,10 @@
     <div class="card-title">Guides by format</div>
     <h2 id="indice-formatos" style="margin-bottom:0.7rem">Pick your video format</h2>
     <p>Each format has its own guide below. MP4, MKV and MOV, the most common ones, have pages of their own: <a href="/en/convert-mp4-to-flac/">MP4</a>, <a href="/en/convert-mkv-to-flac/">MKV</a> and <a href="/en/convert-mov-to-flac/">MOV</a>. If your file is audio only, go to <a href="/en/convert-audio-to-flac/">convert MP3, AAC, Opus and other audio to FLAC</a>.</p>
-    <nav class="format-links" aria-label="Formats in this guide">
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 262" width="660" height="262" role="img" aria-labelledby="t7617 d9084" xmlns="http://www.w3.org/2000/svg"><title id="t7617">Remux: the video is copied and only the audio is re-encoded</title><desc id="d9084">Diagram: the video track passes into the output MKV without re-encoding, while the AAC, MP3, AC-3 or Opus audio track is decoded and re-encoded as FLAC.</desc><text x="20" y="26" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">INPUT FILE</text><text x="640" y="26" text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#66666e">OUTPUT FILE (MKV)</text><rect x="20" y="40" width="170" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="105.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Video track</text><text x="105.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">H.264 · VP9 · MPEG-4</text><line x1="190" y1="75" x2="267" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,75 267,71 267,79" fill="rgba(255,255,255,.28)"/><text x="232.5" y="66" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">copied</text><rect x="275" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="350.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Untouched</text><text x="350.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">0 re-encodes</text><line x1="425" y1="75" x2="482" y2="75" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,75 482,71 482,79" fill="rgba(255,255,255,.28)"/><rect x="490" y="40" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="64" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Identical video</text><text x="565.0" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">same quality</text><rect x="20" y="135" width="170" height="70" rx="8" fill="rgba(255,96,88,.07)" stroke="#ff6058"/><text x="105.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Audio track</text><text x="105.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">AAC · MP3 · AC-3 · Opus</text><line x1="190" y1="170" x2="267" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="275,170 267,166 267,174" fill="rgba(255,255,255,.28)"/><text x="232.5" y="161" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" fill="#66666e">decoded</text><rect x="275" y="135" width="150" height="70" rx="8" fill="#131316" stroke="rgba(255,255,255,.14)"/><text x="350.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">Re-encoded</text><text x="350.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">to lossless FLAC</text><line x1="425" y1="170" x2="482" y2="170" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><polygon points="490,170 482,166 482,174" fill="rgba(255,255,255,.28)"/><rect x="490" y="135" width="150" height="70" rx="8" fill="rgba(25,195,125,.08)" stroke="#19c37d"/><text x="565.0" y="159" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#f3f3ef">FLAC audio</text><text x="565.0" y="179" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">the editor reads it</text><text x="20" y="228" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Exception: when the browser cannot decode the video</text><text x="20" y="245" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">(H.265/HEVC, MPEG-2, WMV, VP6), it is re-encoded to H.264 too.</text></svg>
+        <figcaption>What gets copied and what gets re-encoded in each of these nine video formats.</figcaption>
+      </figure>    <nav class="format-links" aria-label="Formats in this guide">
       <a href="#avi">AVI</a>
       <a href="#webm">WebM</a>
       <a href="#wmv">WMV</a>
@@ -2848,6 +2865,7 @@
       <a href="/en/terms-of-service/">Terms of service</a>
       <a href="/en/legal-notice/">Legal notice</a>
       <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
       <a href="/en/contact/">Contact</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>

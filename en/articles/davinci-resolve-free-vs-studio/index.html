@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DaVinci Resolve free vs Studio: the real differences in 2026</title>
-  <meta name="description" content="Is DaVinci Resolve Studio worth paying for? A full feature comparison, the limits of the free version, and when the audio problem can be solved without paying anything." />
+  <meta name="description" content="Is DaVinci Resolve Studio worth paying for? The real differences, the limits of the free version, and why paying does not fix audio on Linux." />
   <meta name="keywords" content="DaVinci Resolve free vs Studio, DaVinci Resolve free Studio differences, is DaVinci Resolve Studio worth it, DaVinci Resolve free limitations, DaVinci Resolve Studio price, DaVinci Resolve free AAC audio, DaVinci Resolve Studio codecs, buy DaVinci Resolve Studio, DaVinci Resolve no sound free fix, free DaVinci Resolve Studio alternative" />
-  <meta name="author" content="VidToFLAC" />
+  <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/en/articles/davinci-resolve-free-vs-studio/" />
@@ -44,15 +44,16 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "DaVinci Resolve free vs Studio: the real differences in 2026",
+    "image": "https://vidtoflac.tech/media/capturas/resolve-pista-sin-onda.webp",
     "description": "Is DaVinci Resolve Studio worth paying for? A full feature comparison, the limits of the free version, and when the audio problem can be solved without paying anything.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-free-vs-studio/",
     "datePublished": "2026-06-30",
     "dateModified": "2026-09-13",
     "inLanguage": "en",
     "author": {
-      "@type": "Organization",
-      "name": "VidToFLAC",
-      "url": "https://vidtoflac.tech/"
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/en/author/guillem-sanchez/"
     },
     "publisher": {
       "@type": "Organization",
@@ -303,6 +304,18 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .article-outer{animation:fadeUp .4s ease both}
     @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+    .author-box{display:flex;gap:1rem;align-items:flex-start;margin-top:3.5rem;padding:1.25rem 1.35rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+    .author-box-mark{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(25,195,125,.12);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--amber-2);font-size:1rem}
+    .author-box-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+    .author-box-name a{color:inherit;text-decoration:none}
+    .author-box-name a:hover{color:var(--amber-2)}
+    .author-box p{font-size:0.86rem;color:var(--ink-dim);line-height:1.65;margin:0}
+    .hero-meta a{color:rgba(255,255,255,.62);text-decoration:none}
+    .hero-meta a:hover{color:var(--amber-2)}
+    .fig{margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .fig img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel)}
+    .fig-svg{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel);padding:0.35rem}
+    .fig figcaption{font-family:var(--font-mono);font-size:0.72rem;line-height:1.6;color:var(--ink-mute);letter-spacing:0.02em}
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -388,6 +401,8 @@
       DaVinci Resolve free vs Studio: the real differences in 2026
     </h1>
     <div class="hero-meta">
+      <span class="byline">By <a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
+      <span aria-hidden="true">·</span>
       <time datetime="2026-06-30" itemprop="datePublished">30 June 2026</time>
       <span aria-hidden="true">·</span>
       <span>9 min read</span>
@@ -560,9 +575,14 @@
 
       <p>The short version: <strong>for editing, colour grading, audio mixing and basic export, the free release is entirely capable</strong>. The differences that matter are the AI tools (noise reduction, tracking), resolutions above 4K, and team collaboration.</p>
 
+
       <h2 id="audio">The audio problem in the free version</h2>
 
       <p>One of the most frustrating limits of the free DaVinci Resolve — and the one that drives most people to look at Studio — is <strong>audio codec support</strong>, especially on Linux.</p>
+      <figure class="fig">
+        <img src="/media/capturas/resolve-pista-sin-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="DaVinci Resolve Studio 21 with an MP4 clip whose audio track has no waveform" />
+        <figcaption>The paid edition does not fix it either: Studio 21 on Ubuntu, MP4 with AAC-LC, empty track.</figcaption>
+      </figure>
 
       <p>The free version does not include licences to decode certain patent-encumbered audio formats:</p>
 
@@ -774,6 +794,15 @@
     
     </div><!-- /.article-body -->
 
+
+    <aside class="author-box">
+      <span class="author-box-mark" aria-hidden="true">GS</span>
+      <div>
+        <p class="author-box-name"><a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></p>
+        <p>Developer of VidToFLAC and a DaVinci Resolve editor. He wrote this tool after losing the audio on his own footage. The guides are checked on <strong>DaVinci Resolve Studio 21 on Ubuntu</strong>, and the FFmpeg commands are run before being recommended. <a href="/en/author/guillem-sanchez/">How everything here gets verified</a>.</p>
+      </div>
+    </aside>
+
     <nav class="prev-next-nav" aria-label="Previous and next articles">
       <a href="/en/articles/convert-mkv-to-mp4-without-losing-quality/" class="prev-next-item">
         <span class="prev-next-label">← Previous</span>
@@ -817,6 +846,7 @@
     <a href="/en/terms-of-service/">Terms of service</a>
     <a href="/en/legal-notice/">Legal notice</a>
     <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
     <a href="/en/contact/">Contact</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. All rights reserved.</p>

@@ -7,7 +7,7 @@
   <title>DaVinci Resolve audio desincronizado: causas y cómo solucionarlo</title>
   <meta name="description" content="El audio de DaVinci Resolve va desincronizado respecto al vídeo. Guía completa con todas las causas (códec, VFR, exportación) y cómo resolverlas paso a paso." />
   <meta name="keywords" content="DaVinci Resolve audio desincronizado, DaVinci Resolve audio no sincronizado, DaVinci Resolve audio desfasado, DaVinci Resolve audio se desincroniza, DaVinci Resolve video desincronizado audio, DaVinci Resolve audio delay, audio video sync DaVinci Resolve, DaVinci Resolve audio desync, DaVinci Resolve audio out of sync" />
-  <meta name="author" content="VidToFLAC" />
+  <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
@@ -44,15 +44,16 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "DaVinci Resolve audio desincronizado: causas y cómo solucionarlo",
+    "image": "https://vidtoflac.tech/og-image.png",
     "description": "El audio de DaVinci Resolve va desincronizado respecto al vídeo. Guía completa con todas las causas (códec, VFR, exportación) y cómo resolverlas paso a paso.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/",
     "datePublished": "2026-07-01",
     "dateModified": "2026-07-01",
     "inLanguage": "es",
     "author": {
-      "@type": "Organization",
-      "name": "VidToFLAC",
-      "url": "https://vidtoflac.tech/"
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/autor/guillem-sanchez/"
     },
     "publisher": {
       "@type": "Organization",
@@ -287,6 +288,18 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .article-outer{animation:fadeUp .4s ease both}
     @media(prefers-reduced-motion:reduce){*,.article-outer{animation:none !important;transition:none !important}}
+    .author-box{display:flex;gap:1rem;align-items:flex-start;margin-top:3.5rem;padding:1.25rem 1.35rem;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-sm)}
+    .author-box-mark{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(25,195,125,.12);border:1px solid var(--amber-line);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--amber-2);font-size:1rem}
+    .author-box-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+    .author-box-name a{color:inherit;text-decoration:none}
+    .author-box-name a:hover{color:var(--amber-2)}
+    .author-box p{font-size:0.86rem;color:var(--ink-dim);line-height:1.65;margin:0}
+    .hero-meta a{color:rgba(255,255,255,.62);text-decoration:none}
+    .hero-meta a:hover{color:var(--amber-2)}
+    .fig{margin:2rem 0;display:flex;flex-direction:column;gap:0.6rem}
+    .fig img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel)}
+    .fig-svg{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--panel);padding:0.35rem}
+    .fig figcaption{font-family:var(--font-mono);font-size:0.72rem;line-height:1.6;color:var(--ink-mute);letter-spacing:0.02em}
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -372,6 +385,8 @@
       DaVinci Resolve: audio desincronizado — causas y cómo solucionarlo
     </h1>
     <div class="hero-meta">
+      <span class="byline">Por <a href="/autor/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
+      <span aria-hidden="true">·</span>
       <time datetime="2026-07-01" itemprop="datePublished">1 de julio de 2026</time>
       <span aria-hidden="true">·</span>
       <span>8 min de lectura</span>
@@ -491,6 +506,11 @@
       <div class="cause-card">
         <h3><span class="cause-label cause-label-codec">Más común</span> Códec de audio no soportado nativamente</h3>
         <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">DaVinci Resolve (especialmente en Linux) no puede decodificar de forma nativa códecs como AAC, MP3, AC-3 o E-AC-3. Cuando fuerza la decodificación de todos modos, introduce un retraso en el audio que se manifiesta como desincronización.</p>
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 344" width="660" height="344" role="img" aria-labelledby="ctes cdes" xmlns="http://www.w3.org/2000/svg"><title id="ctes">Qué códec de audio lleva cada formato y cuál se queda sin sonido en DaVinci Resolve sobre Linux</title><desc id="cdes">Tabla: MP4 y MOV llevan AAC-LC, los MKV de OBS AAC u Opus, WebM Opus o Vorbis, AVI MP3 o AC-3 y VOB AC-3, y todos entran sin sonido en DaVinci Resolve sobre Linux; WAV y AIFF con PCM y el MKV convertido con FLAC sí se leen.</desc><text x="20" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">FORMATO DE ORIGEN</text><text x="230" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">CÓDEC DE AUDIO HABITUAL</text><text x="440" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">EN RESOLVE SOBRE LINUX</text><line x1="20" y1="48" x2="640" y2="48" stroke="rgba(255,255,255,.12)"/><text x="20" y="74" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MP4 · MOV</text><text x="230" y="74" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC-LC</text><rect x="440" y="59" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="74" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="84" x2="640" y2="84" stroke="rgba(255,255,255,.055)"/><text x="20" y="108" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MKV de OBS</text><text x="230" y="108" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC u Opus</text><rect x="440" y="93" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="108" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="118" x2="640" y2="118" stroke="rgba(255,255,255,.055)"/><text x="20" y="142" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WebM</text><text x="230" y="142" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">Opus o Vorbis</text><rect x="440" y="127" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="142" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="152" x2="640" y2="152" stroke="rgba(255,255,255,.055)"/><text x="20" y="176" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">AVI antiguo</text><text x="230" y="176" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">MP3 o AC-3</text><rect x="440" y="161" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="176" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="186" x2="640" y2="186" stroke="rgba(255,255,255,.055)"/><text x="20" y="210" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">VOB de DVD</text><text x="230" y="210" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AC-3</text><rect x="440" y="195" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="210" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">sin sonido</text><line x1="20" y1="220" x2="640" y2="220" stroke="rgba(255,255,255,.055)"/><text x="20" y="244" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WAV · AIFF</text><text x="230" y="244" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">PCM</text><rect x="440" y="229" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="244" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve lo lee</text><line x1="20" y1="254" x2="640" y2="254" stroke="rgba(255,255,255,.055)"/><text x="20" y="278" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MKV convertido</text><text x="230" y="278" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">FLAC</text><rect x="440" y="263" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="278" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve lo lee</text><text x="20" y="304" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Probado en DaVinci Resolve Studio 21 sobre Ubuntu, septiembre de 2026.</text><text x="20" y="321" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">En Windows y macOS, AAC y MP3 suelen funcionar; el resto sigue siendo irregular.</text></svg>
+        <figcaption>Si el desfase viene del códec y no del frame rate, aquí está el códec que lleva cada formato.</figcaption>
+      </figure>
+
       </div>
 
       <p>Este problema es especialmente frecuente con:</p>
@@ -691,6 +711,15 @@
     
     </div><!-- /.article-body -->
 
+
+    <aside class="author-box">
+      <span class="author-box-mark" aria-hidden="true">GS</span>
+      <div>
+        <p class="author-box-name"><a href="/autor/guillem-sanchez/" rel="author">Guillem Sánchez</a></p>
+        <p>Desarrollador de VidToFLAC y editor en DaVinci Resolve. Escribió esta herramienta después de quedarse sin audio al importar sus propias grabaciones. Las guías se comprueban en <strong>DaVinci Resolve Studio 21 sobre Ubuntu</strong>, y los comandos de FFmpeg se ejecutan antes de recomendarlos. <a href="/autor/guillem-sanchez/">Cómo se verifica lo que se publica</a>.</p>
+      </div>
+    </aside>
+
     <nav class="prev-next-nav" aria-label="Artículos anterior y siguiente">
       <a href="/articulos/ffmpeg-convertir-video-sin-instalar-nada/" class="prev-next-item">
         <span class="prev-next-label">← Anterior</span>
@@ -731,6 +760,7 @@
     <a href="/terminos-de-servicio/">Términos de servicio</a>
     <a href="/aviso-legal/">Aviso legal</a>
     <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
     <a href="/contacto/">Contacto</a>
   </nav>
   <p style="margin:0;opacity:.7;font-size:.68rem;">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>

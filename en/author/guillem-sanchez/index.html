@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guillem Sánchez, author of VidToFLAC: who writes it and how it is tested</title>
+  <meta name="description" content="Who writes the VidToFLAC guides: Guillem Sánchez, developer of the tool and DaVinci Resolve editor. Test machine, versions and verification method." />
+  <meta name="author" content="Guillem Sánchez" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/author/guillem-sanchez/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/autor/guillem-sanchez/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/author/guillem-sanchez/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/autor/guillem-sanchez/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a0a0b; --panel:#0f0f11; --elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);
+      --ink:#f3f3ef; --ink-dim:#a7a7ad; --ink-mute:#66666e;
+      --amber:#19c37d; --amber-2:#4ee6a8;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+    html { -webkit-text-size-adjust:100% }
+    body {
+      background:var(--bg); color:var(--ink);
+      font-family:var(--font-body); font-size:1rem; line-height:1.75;
+      padding:2.5rem 1.25rem 5rem; max-width:780px; margin:0 auto;
+    }
+    a { color:var(--amber); text-decoration:none }
+    a:hover { text-decoration:underline }
+    .brand-header { margin-bottom:2.5rem }
+    .brand-link {
+      display:inline-flex; align-items:center; gap:0.55rem;
+      text-decoration:none; color:inherit;
+    }
+    .brand-name {
+      font-family:var(--font-display); font-size:1.5rem;
+      font-weight:800; letter-spacing:-0.02em; color:var(--ink);
+    }
+    .brand-accent { color:var(--amber) }
+    .legal-title {
+      font-family:var(--font-display); font-size:2rem; font-weight:800;
+      line-height:1.15; letter-spacing:-0.02em; margin-bottom:0.4rem;
+    }
+    .legal-date {
+      font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-mute);
+      letter-spacing:0.03em; margin-bottom:2.5rem; display:block;
+    }
+    h2 {
+      font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+      color:var(--ink); margin:2rem 0 0.5rem;
+    }
+    p { color:var(--ink-dim); font-size:0.97rem; margin-bottom:0.75rem }
+    strong { color:var(--ink); font-weight:600 }
+    footer {
+      text-align:center; color:var(--ink-mute);
+      font-family:var(--font-mono); font-size:0.68rem;
+      letter-spacing:0.02em; line-height:1.7;
+      padding-top:1.25rem; border-top:1px solid var(--line);
+      margin-top:3rem; display:flex; flex-direction:column; gap:0.6rem;
+    }
+    footer strong { color:var(--amber-2); font-weight:600 }
+    .footer-tagline { margin:0 }
+    .footer-links { display:flex; justify-content:center; flex-wrap:wrap; gap:0.25rem 1.5rem }
+    .footer-links a { color:var(--ink-dim); text-decoration:none; transition:color .15s }
+    .footer-links a:hover { color:var(--amber) }
+    .footer-copy { margin:0; opacity:.7 }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation:none !important; transition:none !important }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://vidtoflac.tech/en/author/guillem-sanchez/",
+    "inLanguage": "en",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/en/author/guillem-sanchez/",
+      "email": "gsguille992@gmail.com",
+      "jobTitle": "Developer of VidToFLAC",
+      "description": "Developer of VidToFLAC and DaVinci Resolve editor. Writes and verifies the site guides on audio codecs and DaVinci Resolve.",
+      "knowsAbout": ["DaVinci Resolve", "FFmpeg", "audio codecs", "FLAC", "remux", "WebAssembly", "video editing on Linux"],
+      "sameAs": ["https://github.com/Gitrous"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "VidToFLAC",
+        "url": "https://vidtoflac.tech/"
+      }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "VidToFLAC", "item": "https://vidtoflac.tech/en/"},
+      {"@type": "ListItem", "position": 2, "name": "Guillem Sánchez", "item": "https://vidtoflac.tech/en/author/guillem-sanchez/"}
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="brand-header">
+    <a href="/en/" class="brand-link" aria-label="VidToFLAC – home">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+        <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+        <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+        <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+      </svg>
+      <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
+    </a>
+  </header>
+
+  <main>
+    <h1 class="legal-title">Guillem Sánchez</h1>
+    <span class="legal-date">Developer of VidToFLAC · Esporles, Mallorca · Last updated: September 2026</span>
+
+    <p>I edit video in <strong>DaVinci Resolve</strong>, and I write code. VidToFLAC exists because, editing my own footage, I ran into a failure nothing explained properly: you import a clip, the picture comes in fine and the sound does not. No clear error, no hint, just a grey bar where a waveform should be.</p>
+
+    <p>It took me a while to find the cause — the audio codec, not the file and not the project — and considerably longer to find a fix that did not involve uploading my video to someone else's server. So I wrote the tool I needed, and then the guides I would have liked to find. This page is about who is behind those texts and, above all, how what they say gets checked.</p>
+
+    <h2>What I write about here</h2>
+    <p>The guides cover one very specific problem and what surrounds it: why a video editor ends up with no sound, which codec each format carries, when the video can be copied without re-encoding and when it cannot, and which FFmpeg commands actually do what they promise. I do not write about what I have not tested.</p>
+
+    <h2>What I test it on</h2>
+    <p>Everything published here is checked on this machine:</p>
+    <ul>
+      <li><strong>DaVinci Resolve Studio 21</strong> on <strong>Ubuntu</strong>, which is where the audio problem shows up in its clearest form.</li>
+      <li><strong>FFmpeg</strong> installed on the system, to build the test files and to run the commands before recommending them.</li>
+      <li>Real files rather than descriptions of files: screen recordings, camera and phone footage, and files created on purpose with whichever codec needs measuring.</li>
+    </ul>
+
+    <h2>How I verify what I publish</h2>
+    <p>The method is simple, and it explains why some statements on this site contradict others elsewhere:</p>
+    <ul>
+      <li><strong>Commands are run, not reasoned about.</strong> If a guide recommends an FFmpeg line, that line has been run against a test file and the result inspected with <code>ffprobe</code>.</li>
+      <li><strong>The text is checked against the tool's own code</strong>, not against what another article claims. If the converter re-encodes a codec, the guide says so; if it copies it, it says that instead.</li>
+      <li><strong>What turns out to be wrong gets corrected and reported.</strong> When a test contradicts something already published, the text changes, however awkward that is.</li>
+    </ul>
+
+    <h2>What I have corrected after testing it</h2>
+    <p>Three real examples from this site, each from a test that came out the opposite of what was expected:</p>
+    <ul>
+      <li><strong>AAC in DaVinci Resolve Studio on Linux.</strong> Several guides — mine among them — took it for granted that the paid edition solves the problem. I recorded the test: an MP4 with AAC-LC audio, the most common profile, imported into Studio 21 on Linux, came in with no sound. You can <a href="/en/#demo-titulo">watch the recording on the home page</a>. The site's tables and FAQs have been corrected.</li>
+      <li><strong>The command that did not fix variable frame rate.</strong> Three guides recommended <code>-vsync cfr -c:v copy</code> to go from VFR to CFR. Measured with <code>ffprobe</code>, the output kept the original frame rate: copying the stream gives no way to rescale frame timestamps. The guides now explain the approach that does work.</li>
+      <li><strong>"Every audio track is converted."</strong> Three guides promised it, and it matters most to anyone recording game audio and a microphone on separate tracks in OBS. Tested with a two-track file, one track came out. The text now says so plainly and gives the desktop command that keeps them all.</li>
+    </ul>
+
+    <h2>Guides I have written</h2>
+    <ul>
+      <li><a href="/en/articles/davinci-resolve-audio-errors/">Audio errors in DaVinci Resolve: causes and common fixes</a></li>
+      <li><a href="/en/articles/davinci-resolve-linux-install-audio/">DaVinci Resolve on Linux: installation and the audio fix</a></li>
+      <li><a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/">DaVinci Resolve will not import audio from MP4, MOV or OBS</a></li>
+      <li><a href="/en/articles/davinci-resolve-free-vs-studio/">DaVinci Resolve free vs Studio: the real differences</a></li>
+      <li><a href="/en/articles/davinci-resolve-h265-hevc-not-importing/">DaVinci Resolve will not import H.265 / HEVC</a></li>
+      <li><a href="/en/articles/davinci-resolve-render-no-audio/">DaVinci Resolve exports video with no audio</a></li>
+      <li><a href="/en/articles/davinci-resolve-audio-out-of-sync/">DaVinci Resolve audio out of sync</a></li>
+      <li><a href="/en/articles/best-video-format-for-davinci-resolve/">Which video format to use in DaVinci Resolve</a></li>
+      <li><a href="/en/articles/export-video-davinci-resolve-without-losing-audio-quality/">Exporting from DaVinci Resolve without losing audio quality</a></li>
+      <li><a href="/en/articles/ffmpeg-convert-video-without-installing-anything/">Convert video with FFmpeg without installing it</a></li>
+      <li><a href="/en/articles/convert-mkv-to-mp4-without-losing-quality/">Convert MKV to MP4 without losing quality</a></li>
+      <li><a href="/en/articles/convert-mov-to-mp4-without-losing-quality/">Convert MOV to MP4 without losing quality</a></li>
+      <li><a href="/en/articles/convert-avi-to-mp4-without-losing-quality/">Convert AVI to MP4 without losing quality</a></li>
+      <li><a href="/en/articles/convert-wmv-to-mp4/">Convert WMV to MP4 without losing quality</a></li>
+    </ul>
+    <p>The full list, with its search box, is in <a href="/en/articles/">all articles</a>.</p>
+
+    <h2>Corrections and contact</h2>
+    <p>If you find a wrong figure, a file that does not convert properly, or a guide that no longer matches the current version of the software, write to me: it is the fastest way to get it fixed, and corrections are noted in the article itself. Use the <a href="/en/contact/">contact form</a> or email <a href="mailto:gsguille992@gmail.com">gsguille992@gmail.com</a>. The site's code is published on <a href="https://github.com/Gitrous" rel="me noopener" target="_blank">GitHub</a>.</p>
+    <p>More about the project, its privacy model and the technology behind it in <a href="/en/about/">About VidToFLAC</a>.</p>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">
+      All processing happens on your device using
+      <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.
+    </p>
+    <nav class="footer-links" aria-label="Legal pages">
+      <a href="/en/privacy-policy/">Privacy policy</a>
+      <a href="/en/terms-of-service/">Terms of service</a>
+      <a href="/en/legal-notice/">Legal notice</a>
+      <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
+      <a href="/en/contact/">Contact</a>
+    </nav>
+    <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

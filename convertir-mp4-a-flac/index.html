@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir MP4 a FLAC – Audio sin pérdida para DaVinci Resolve | VidToFLAC</title>
-  <meta name="description" content="Convierte el audio de tus archivos MP4 a FLAC sin pérdida, 100% en tu navegador con FFmpeg. Soluciona el error de códec de audio de DaVinci Resolve en MP4 de cámaras, OBS y smartphones." />
+  <meta name="description" content="Convierte el audio de tus MP4 a FLAC sin pérdida, en tu navegador con FFmpeg. Soluciona el error de códec de audio de DaVinci Resolve en MP4 de cámara u OBS." />
   <meta name="keywords" content="convertir MP4 a FLAC, MP4 FLAC DaVinci Resolve, MP4 sin sonido DaVinci Resolve, remux MP4 MKV FLAC, extraer audio MP4 sin pérdida, FFmpeg MP4 navegador" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -2118,6 +2118,20 @@
       letter-spacing: 0.02em;
       color: var(--ink-mute);
     }
+    .fig { margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .fig img {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg);
+    }
+    .fig-svg {
+      display: block; width: 100%; height: auto;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel-2, var(--bg)); padding: 0.35rem;
+    }
+    .fig figcaption {
+      font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
+      letter-spacing: 0.02em; color: var(--ink-mute);
+    }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
@@ -2391,7 +2405,7 @@
         <label for="fmtMp4">
           <span class="format-badge">MP4</span>
           <span class="format-meta">
-            <span class="format-desc">Audio → FLAC · vídeo copiado bit a bit sin cambios</span>
+            <span class="format-desc">Audio → FLAC · el vídeo se copia cuando el códec lo permite</span>
           </span>
         </label>
       </div>
@@ -2618,6 +2632,10 @@
     <div class="card-title">Guía de conversión</div>
     <article>
       <h2 id="guia-formato-titulo">Todo sobre la conversión de MP4 a FLAC</h2>
+      <figure class="fig">
+        <img src="/media/capturas/resolve-pista-sin-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="Pista de audio de un MP4 sin forma de onda en la línea de tiempo de DaVinci Resolve" />
+        <figcaption>Captura propia: MP4 con audio AAC-LC en DaVinci Resolve Studio 21 sobre Ubuntu, con la pista vacía.</figcaption>
+      </figure>
       <h3>El formato MP4 y sus códecs de audio</h3>
       <p>MP4 (MPEG-4 Part 14) es el contenedor de vídeo más extendido: lo usan cámaras DSLR, smartphones (iPhone, Android), OBS Studio y prácticamente cualquier plataforma de vídeo. Su popularidad se debe a que combina vídeo H.264 o H.265 con audio en un archivo compacto. El problema está en el códec de audio: el 95 % de los archivos MP4 llevan <strong>AAC-LC</strong> (Low Complexity), el perfil estándar para dispositivos de consumo. Los MP4 de OBS pueden usar también <strong>MP3</strong> dependiendo de la configuración. En casos menos frecuentes, grabadoras de campo producen MP4 con audio <strong>PCM linear</strong>, que sí es compatible con Resolve sin conversión.</p>
       <h3>Por qué DaVinci Resolve muestra la pista de audio en gris</h3>
@@ -2659,6 +2677,7 @@
       <a href="/terminos-de-servicio/">Términos de servicio</a>
       <a href="/aviso-legal/">Aviso legal</a>
       <a href="/sobre-vidtoflac/">Sobre VidToFLAC</a>
+      <a href="/autor/guillem-sanchez/">Autor</a>
       <a href="/contacto/">Contacto</a>
     </nav>
     <p class="footer-copy">© 2026 vidtoflac.tech. Todos los derechos reservados.</p>
