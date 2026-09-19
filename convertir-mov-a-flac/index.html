@@ -2654,6 +2654,8 @@
       <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. Resolve en Linux no siempre decodifica HEVC de forma nativa. VidToFLAC gestiona ambos casos automáticamente: si el navegador puede decodificar el HEVC, copia el vídeo bit a bit; si no, lo recodifica a H.264 con calidad alta. En ambos casos el audio FLAC del resultado es compatible con Resolve.</p>
       <h3>Los MOV con ProRes ya traían el audio sin pérdida</h3>
       <p>Los MOV grabados o exportados en <strong>ProRes</strong> suelen llevar audio <strong>PCM</strong> de 16 o 24 bits sin comprimir. En ese caso el archivo ya tiene el audio en un formato sin pérdida, y pasarlo a FLAC no mejora ni empeora la calidad: la conserva bit a bit y además ocupa bastante menos. La ventaja aquí no es la fidelidad, es el tamaño y la compatibilidad.</p>
+      <h3>Medido: el caso del MOV con audio PCM</h3>
+      <p>Aquí hay una sorpresa que solo se ve midiendo. En el <a href="/banco-de-pruebas/">banco de pruebas</a>, un MOV de 6 segundos con vídeo H.264 y audio <strong>PCM de 16 bits</strong> —lo que graban muchas cámaras y grabadoras de campo— <strong>encogió</strong> al convertirlo: de <strong>1.255 KB a 765 KB</strong>. Es el único caso de todo el banco en el que un archivo con vídeo sale más pequeño, y el motivo es que el PCM guarda el audio en crudo mientras que FLAC lo comprime sin perder un solo dato. Si tu MOV ya lleva PCM, puede que no necesites convertir nada para Resolve: comprueba antes el códec.</p>
     </article>
   </section>
 

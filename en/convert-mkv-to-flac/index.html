@@ -2652,6 +2652,8 @@
       <p>If your MKV carries <strong>H.265 / HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. If the file holds several audio tracks, such as a game feed plus a microphone, only one of them is converted; the FAQ below explains how to keep them all. And if the MKV came from a download rather than a recording, check first whether the audio is <strong>Opus</strong>: Resolve struggles with that one even on Windows, and the same conversion fixes it.</p>
       <h3>Why Matroska is the container of choice for remuxing</h3>
       <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it — and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
+      <h3>Measured: what happened to a test MKV</h3>
+      <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 was <strong>copied as it was</strong> — the browser decodes it without trouble — and the file went from <strong>559 KB to 763 KB</strong> once the Opus became FLAC. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
     </article>
   </section>
 

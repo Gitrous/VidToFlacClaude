@@ -600,6 +600,7 @@
 
       <h3>1. Silent audio with no error message</h3>
       <p>The clip imports fine and the waveform appears on the timeline, but nothing is audible on playback. This usually happens with <strong>AAC on Linux</strong> or <strong>Opus inside WebM files</strong>. DaVinci Resolve can see the audio track but cannot decode it.</p>
+      <p>What the tool actually does with each of those codecs is not guesswork: it is measured, file by file, in the <a href="/en/test-bench/">test bench</a>, with the commands so you can repeat it on your own machine.</p>
       <figure class="fig">
         <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="The same timeline after conversion, with the waveform drawn across the audio track" />
         <figcaption>The same clip once its audio became FLAC: the waveform appears and the sound plays.</figcaption>

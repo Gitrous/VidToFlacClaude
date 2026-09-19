@@ -2651,6 +2651,8 @@
       <p>If your WAV came from a USB microphone it may be <strong>32-bit floating point</strong> (<code>pcm_f32le</code>). FLAC only stores integer samples, so VidToFLAC converts it to 32-bit integer first. That step is handled automatically and is not audible, but it is why the file is not a pure repackage in that case.</p>
       <h3>How much a WAV weighs, and how much FLAC saves</h3>
       <p>A stereo WAV at <strong>48 kHz and 24 bits</strong> takes about <strong>17 MB per minute</strong> — a little over 1 GB per hour of recording. Converting it to FLAC cuts the size by <strong>40 % to 60 %</strong> depending on the material — speech and silence compress far better than dense music — without losing a single bit. Decompress it and you get exactly the original PCM back.</p>
+      <h3>Measured: how much a WAV really shrinks</h3>
+      <p>The figures you read about FLAC compression are usually invented, because it depends entirely on the material. These are measured in the <a href="/en/test-bench/">test bench</a>, always from the same 39.5-second stereo WAV at 48 kHz and 16 bits (7.58 MB): with <strong>white noise</strong>, the worst case there is, the FLAC took 3.56 MB, 53 % of the original; with a <strong>pure tone</strong>, 540 KB; and with a <strong>real screen recording</strong>, silences and speech included, 431 KB. Your own material will land between those extremes, usually closer to half than to 6 %.</p>
     </article>
   </section>
 

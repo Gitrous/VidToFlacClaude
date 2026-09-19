@@ -54,6 +54,8 @@ PAGES_EN = [
       <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 has several audio tracks (stereo plus surround, say), VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. To keep them all, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
       <h3>Where an MP4 keeps its index: the <em>moov atom</em></h3>
       <p>Every MP4 carries an internal index called the <strong>moov atom</strong> that says where each chunk of video and audio begins. Depending on the software that wrote the file, that index can sit at the start or at the end. When it sits at the end, some players need the whole file before they can play anything — which is why a partly downloaded MP4 often refuses to open. VidToFLAC reads the entire file on your machine before converting, so the position of the <em>moov atom</em> makes no difference to the result.</p>
+      <h3>Measured: what happened to a test MP4</h3>
+      <p>In the <a href="/en/test-bench/">test bench</a>, a six-second MP4 was built with H.264 video and AAC-LC audio at 192 kbps, the profile cameras, phones and OBS use. Run through the tool, the video was <strong>copied without re-encoding</strong> and the file grew from <strong>807 KB to 1,019 KB</strong>: 26 % larger. That growth is the price of moving from lossy to lossless audio, and it is normal for this format. If your MP4 carries H.265/HEVC video the story changes: in the same run, an HEVC MP4 went from 491 KB to 2,458 KB, because there the video does have to be re-encoded to H.264.</p>
     </article>
   </section>""",
     },
@@ -100,6 +102,8 @@ PAGES_EN = [
       <p>If your MKV carries <strong>H.265 / HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. If the file holds several audio tracks, such as a game feed plus a microphone, only one of them is converted; the FAQ below explains how to keep them all. And if the MKV came from a download rather than a recording, check first whether the audio is <strong>Opus</strong>: Resolve struggles with that one even on Windows, and the same conversion fixes it.</p>
       <h3>Why Matroska is the container of choice for remuxing</h3>
       <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it — and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
+      <h3>Measured: what happened to a test MKV</h3>
+      <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 was <strong>copied as it was</strong> — the browser decodes it without trouble — and the file went from <strong>559 KB to 763 KB</strong> once the Opus became FLAC. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
     </article>
   </section>""",
     },
@@ -146,6 +150,8 @@ PAGES_EN = [
       <p>If your MOV is <strong>ProRes</strong>, the browser cannot decode it either and the video is re-encoded to H.264 — fine for editing proxies, but not what you want for a ProRes master. Use desktop FFmpeg for those. If the audio is <strong>PCM at 24 bit</strong>, it already works in Resolve and you may not need to convert anything; check the codec before assuming the audio is at fault.</p>
       <h3>ProRes MOVs already had lossless audio</h3>
       <p>MOVs recorded or exported as <strong>ProRes</strong> usually carry uncompressed <strong>PCM</strong> audio at 16 or 24 bits. In that case the file already holds its audio in a lossless format, and moving it to FLAC neither improves nor degrades quality: it preserves it bit for bit and takes up considerably less room. The gain here is not fidelity — it is size and compatibility.</p>
+      <h3>Measured: the MOV with PCM audio</h3>
+      <p>There is a surprise here that only measuring reveals. In the <a href="/en/test-bench/">test bench</a>, a six-second MOV with H.264 video and <strong>16-bit PCM</strong> audio — what many cameras and field recorders write — <strong>shrank</strong> when converted: from <strong>1,255 KB to 765 KB</strong>. It is the only case in the whole bench where a file with video comes out smaller, and the reason is that PCM stores audio raw while FLAC compresses it without losing a single sample. If your MOV already carries PCM, you may not need to convert anything for Resolve: check the codec first.</p>
     </article>
   </section>""",
     },
@@ -275,6 +281,8 @@ PAGES_EN = [
       <p>If your WAV came from a USB microphone it may be <strong>32-bit floating point</strong> (<code>pcm_f32le</code>). FLAC only stores integer samples, so VidToFLAC converts it to 32-bit integer first. That step is handled automatically and is not audible, but it is why the file is not a pure repackage in that case.</p>
       <h3>How much a WAV weighs, and how much FLAC saves</h3>
       <p>A stereo WAV at <strong>48 kHz and 24 bits</strong> takes about <strong>17 MB per minute</strong> — a little over 1 GB per hour of recording. Converting it to FLAC cuts the size by <strong>40 % to 60 %</strong> depending on the material — speech and silence compress far better than dense music — without losing a single bit. Decompress it and you get exactly the original PCM back.</p>
+      <h3>Measured: how much a WAV really shrinks</h3>
+      <p>The figures you read about FLAC compression are usually invented, because it depends entirely on the material. These are measured in the <a href="/en/test-bench/">test bench</a>, always from the same 39.5-second stereo WAV at 48 kHz and 16 bits (7.58 MB): with <strong>white noise</strong>, the worst case there is, the FLAC took 3.56 MB, 53 % of the original; with a <strong>pure tone</strong>, 540 KB; and with a <strong>real screen recording</strong>, silences and speech included, 431 KB. Your own material will land between those extremes, usually closer to half than to 6 %.</p>
     </article>
   </section>""",
     },

@@ -181,7 +181,7 @@ el de n-gramas 64-67 % (motivo real del rechazo de AdSense). El vocabulario
 coincide por fuerza entre páginas del mismo tema; lo que delata el copiado son
 las secuencias literales.
 
-Referencia actual tras el recorte: **45-53 %** entre landings y su portada, y
+Referencia actual: **41-46 %** entre las cuatro landings propias y su portada, y
 ese resto es la interfaz de la herramienta —botones, pasos, pie—, que es
 *boilerplate* legítimo y Google descuenta. Por bloques con encabezado, cada
 landing tiene ~1.440 palabras propias frente a ~200 compartidas.
@@ -283,6 +283,11 @@ Reglas que ya están aplicadas y conviene no romper:
   archivos ni peticiones. El mismo SVG se reutiliza en varios artículos: su
   texto cuenta como contenido compartido, así que no lo repitas en más de
   cinco páginas por idioma.
+
+Al añadir un gráfico, la paleta se valida con el script de la skill de
+visualización antes de dibujarlo. El verde del sitio (`#19c37d`) **no pasa** la
+banda de luminosidad como color de serie: el gráfico de tamaños usa `#12a068`
+con `#9b7bc8`, que sí pasa las seis comprobaciones sobre fondo oscuro.
 
 ## El banco de pruebas es la fuente de verdad
 

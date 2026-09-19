@@ -115,6 +115,8 @@ PAGES = [
       <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el MP4 trae varias pistas de audio (estéreo y surround, por ejemplo), VidToFLAC convierte solo una: la que FFmpeg elige por defecto, normalmente la de más canales. Para conservarlas todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
       <h3>Dónde guarda el MP4 su índice: el <em>moov atom</em></h3>
       <p>Todo MP4 lleva un índice interno llamado <strong>moov atom</strong> que indica dónde empieza cada fragmento de vídeo y audio. Según el programa que escribiera el archivo, ese índice puede quedar al principio o al final. Cuando queda al final, algunos reproductores necesitan el archivo completo antes de poder reproducir nada — por eso un MP4 descargado a medias a veces no abre. VidToFLAC lee el archivo entero en tu equipo antes de convertir, así que la posición del <em>moov atom</em> no afecta al resultado.</p>
+      <h3>Medido: qué pasó con un MP4 de prueba</h3>
+      <p>En el <a href="/banco-de-pruebas/">banco de pruebas</a> se generó un MP4 de 6 segundos con vídeo H.264 y audio AAC-LC a 192 kbps, el perfil que usan cámaras, móviles y OBS. Al pasarlo por la herramienta, el vídeo <strong>se copió sin recodificar</strong> y el archivo creció de <strong>807 KB a 1.019 KB</strong>: un 26 % más. Ese aumento es el precio de pasar de un audio comprimido con pérdida a uno sin pérdida, y es lo normal en este formato. Si tu MP4 lleva vídeo H.265/HEVC la historia cambia: en la misma prueba, un MP4 en HEVC pasó de 491 KB a 2.458 KB, porque ahí el vídeo sí hay que recodificarlo a H.264.</p>
     </article>
   </section>""",
     },
@@ -163,6 +165,8 @@ PAGES = [
       <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en ninguna plataforma, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
       <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
       <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
+      <h3>Medido: qué pasó con un MKV de prueba</h3>
+      <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se copió tal cual</strong> —el navegador lo decodifica sin problema— y el archivo pasó de <strong>559 KB a 763 KB</strong> al convertir el Opus a FLAC. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
     </article>
   </section>""",
     },
@@ -211,6 +215,8 @@ PAGES = [
       <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. Resolve en Linux no siempre decodifica HEVC de forma nativa. VidToFLAC gestiona ambos casos automáticamente: si el navegador puede decodificar el HEVC, copia el vídeo bit a bit; si no, lo recodifica a H.264 con calidad alta. En ambos casos el audio FLAC del resultado es compatible con Resolve.</p>
       <h3>Los MOV con ProRes ya traían el audio sin pérdida</h3>
       <p>Los MOV grabados o exportados en <strong>ProRes</strong> suelen llevar audio <strong>PCM</strong> de 16 o 24 bits sin comprimir. En ese caso el archivo ya tiene el audio en un formato sin pérdida, y pasarlo a FLAC no mejora ni empeora la calidad: la conserva bit a bit y además ocupa bastante menos. La ventaja aquí no es la fidelidad, es el tamaño y la compatibilidad.</p>
+      <h3>Medido: el caso del MOV con audio PCM</h3>
+      <p>Aquí hay una sorpresa que solo se ve midiendo. En el <a href="/banco-de-pruebas/">banco de pruebas</a>, un MOV de 6 segundos con vídeo H.264 y audio <strong>PCM de 16 bits</strong> —lo que graban muchas cámaras y grabadoras de campo— <strong>encogió</strong> al convertirlo: de <strong>1.255 KB a 765 KB</strong>. Es el único caso de todo el banco en el que un archivo con vídeo sale más pequeño, y el motivo es que el PCM guarda el audio en crudo mientras que FLAC lo comprime sin perder un solo dato. Si tu MOV ya lleva PCM, puede que no necesites convertir nada para Resolve: comprueba antes el códec.</p>
     </article>
   </section>""",
     },
@@ -346,6 +352,8 @@ PAGES = [
       </ol>
       <h3>Cuánto ocupa un WAV y cuánto se ahorra con FLAC</h3>
       <p>Un WAV estéreo a <strong>48 kHz y 24 bits</strong> ocupa unos <strong>17 MB por minuto</strong>: algo más de 1 GB por hora de grabación. Convertirlo a FLAC reduce el tamaño <strong>entre un 40 % y un 60 %</strong> según el material —la voz y el silencio comprimen mucho más que la música densa— sin perder un solo bit de información. Al descomprimirlo recuperas exactamente el PCM original.</p>
+      <h3>Medido: cuánto encoge de verdad un WAV</h3>
+      <p>Las cifras que circulan sobre lo que comprime FLAC suelen ser inventadas, porque depende por completo del material. Estas están medidas en el <a href="/banco-de-pruebas/">banco de pruebas</a>, siempre partiendo del mismo WAV estéreo de 39,5 segundos a 48 kHz y 16 bits (7,58 MB): con <strong>ruido blanco</strong>, el peor caso posible, el FLAC ocupó 3,56 MB, un 53 % del original; con un <strong>tono puro</strong>, 540 KB; y con una <strong>grabación de pantalla real</strong>, con silencios y voz, 431 KB. Tu material se situará entre esos extremos, normalmente más cerca de la mitad que del 6 %.</p>
     </article>
   </section>""",
     },
