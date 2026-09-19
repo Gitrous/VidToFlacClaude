@@ -338,6 +338,7 @@
     <li><a href="/" class="nav-link">Inicio</a></li>
     <li><a href="/convertir-formatos/" class="nav-link">Formatos</a></li>
     <li><a href="/articulos/" class="nav-link nav-link-active" aria-current="page">Artículos</a></li>
+    <li><a href="/banco-de-pruebas/" class="nav-link">Pruebas</a></li>
     <li><a href="/historial/" class="nav-link">Historial</a></li>
     <li><a href="/contacto/" class="nav-link">Contáctanos</a></li>
   </ul>
@@ -649,7 +650,7 @@
       <ul>
         <li>Un vídeo MP4 grabado con un iPhone (AAC) reproducirá el vídeo pero no el audio.</li>
         <li>Un vídeo MOV de una cámara Sony o Canon (también AAC) tendrá el mismo problema.</li>
-        <li>Vídeos de YouTube descargados (formato Opus en WebM) tampoco tendrán audio.</li>
+        <li>El vídeo publicado en la web suele venir en WebM con Opus, y tampoco tendrá audio.</li>
         <li>Screengrabs o grabaciones de pantalla con audio MP3 tampoco funcionarán.</li>
       </ul>
 
@@ -716,7 +717,7 @@
       <p>Las cámaras mirrorless y réflex suelen grabar en MOV con audio AAC o PCM de 24 bits. El AAC da problemas en Linux; el PCM de 24 bits puede dar problemas en combinaciones específicas de DaVinci Resolve. <a href="/convertir-mov-a-flac/">Convertir MOV a FLAC</a> resuelve ambos casos.</p>
 
       <h3>WebM de YouTube o grabaciones de pantalla</h3>
-      <p>El formato WebM usa Opus o Vorbis para el audio. Ninguno de los dos tiene soporte fiable en DaVinci Resolve. Si descargas vídeos de YouTube o grabas tu pantalla en WebM, necesitarás <a href="/convertir-video-a-flac/#webm">convertir el WebM a FLAC</a>.</p>
+      <p>El formato WebM usa Opus o Vorbis para el audio. Ninguno de los dos tiene soporte fiable en DaVinci Resolve. Si trabajas con vídeo web propio o grabas tu pantalla en WebM, necesitarás <a href="/convertir-video-a-flac/#webm">convertir el WebM a FLAC</a>.</p>
 
       <h3>MKV con audio AAC o AC-3</h3>
       <p>MKV es solo un contenedor: puede llevar cualquier códec de audio dentro. Un MKV con audio AAC tendrá exactamente el mismo problema que un MP4 con AAC. Puedes solucionarlo con un <a href="/convertir-mkv-a-flac/">remux de MKV a FLAC</a>: el contenedor sigue siendo MKV pero el audio cambia a FLAC.</p>

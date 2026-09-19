@@ -149,7 +149,7 @@ PAGES = [
       <h3>El contenedor MKV: flexible pero heterogéneo</h3>
       <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante —y también la más problemática— es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
       <h3>Qué códec de audio lleva tu MKV</h3>
-      <p>El origen del archivo determina el códec: los MKV de <strong>OBS Studio</strong> suelen tener <strong>AAC o Opus</strong> (según la versión y la configuración). Los descargados con yt-dlp o similar desde YouTube pueden traer <strong>Vorbis u Opus</strong>. Los generados por HandBrake con la configuración por defecto suelen tener <strong>AAC</strong>. Los producidos por conversores online pueden traer <strong>MP3</strong>. Solo los MKV con audio FLAC o PCM linear son directamente compatibles con DaVinci Resolve en todas las plataformas.</p>
+      <p>El origen del archivo determina el códec: los MKV de <strong>OBS Studio</strong> suelen tener <strong>AAC o Opus</strong> (según la versión y la configuración). Los MKV y WebM que circulan por la web suelen traer <strong>Vorbis u Opus</strong>. Los generados por HandBrake con la configuración por defecto suelen tener <strong>AAC</strong>. Los producidos por conversores online pueden traer <strong>MP3</strong>. Solo los MKV con audio FLAC o PCM linear son directamente compatibles con DaVinci Resolve en todas las plataformas.</p>
       <h3>Por qué la pista de audio de tu MKV aparece en gris en DaVinci Resolve</h3>
       <p>DaVinci Resolve gratuito no incluye decodificadores para AAC, MP3, Vorbis, Opus, DTS ni AC3. En Linux, Resolve depende del sistema operativo para estos códecs y muchas distribuciones no los incluyen por razones de licencia. El resultado es la pista de audio en gris y sin forma de onda. Cambiar el códec a FLAC soluciona el problema porque FLAC es un estándar abierto que Resolve incluye de serie en todas sus versiones.</p>
       <h3>Paso a paso: cambiar el audio de tu MKV a FLAC</h3>
@@ -628,7 +628,7 @@ PAGES = [
         "hero_h1":          'Convierte tu <span class="accent">WebM a FLAC</span> sin pérdida de calidad',
         "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos WebM de YouTube y grabaciones de navegador. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos WebM?',
-        "seo_lede":         'Los archivos <strong>WebM</strong> descargados de YouTube o generados por grabadores de navegador usan audio <strong>Opus o Vorbis</strong>. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no puede decodificar estos formatos de serie, lo que provoca pistas de audio en gris o un <strong>error de códec de audio</strong> al importar el clip.',
+        "seo_lede":         'Los archivos <strong>WebM</strong> de grabadores de navegador y de vídeo publicado en la web usan audio <strong>Opus o Vorbis</strong>. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no puede decodificar estos formatos de serie, lo que provoca pistas de audio en gris o un <strong>error de códec de audio</strong> al importar el clip.',
         "breadcrumb_label": "Convertir WebM a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -636,7 +636,7 @@ PAGES = [
     <article>
       <h2 id="guia-formato-titulo">Todo sobre la conversión de WebM a FLAC</h2>
       <h3>¿Qué es WebM y de dónde vienen los archivos WebM?</h3>
-      <p>WebM es un formato de vídeo de código abierto desarrollado por Google y basado en el contenedor Matroska (MKV). Fue diseñado específicamente para la web: YouTube lo usa para servir vídeo a navegadores que no tienen Flash, y es el formato de exportación de muchas herramientas de grabación de navegador (extensiones de Chrome, Firefox Screen Recorder, etc.). Los archivos .webm descargados con yt-dlp, youtube-dl u otras herramientas suelen tener vídeo <strong>VP9 o AV1</strong> y audio <strong>Opus o Vorbis</strong>.</p>
+      <p>WebM es un formato de vídeo de código abierto desarrollado por Google y basado en el contenedor Matroska (MKV). Fue diseñado específicamente para la web: YouTube lo usa para servir vídeo a navegadores que no tienen Flash, y es el formato de exportación de muchas herramientas de grabación de navegador (extensiones de Chrome, Firefox Screen Recorder, etc.). Los archivos . Los .webm que circulan por la web suelen tener vídeo <strong>VP9 o AV1</strong> y audio <strong>Opus o Vorbis</strong>.</p>
       <h3>Códecs de audio en WebM y por qué fallan en Resolve</h3>
       <p>YouTube usa <strong>Opus</strong> como códec de audio en la mayoría de sus streams WebM actuales. Los WebM más antiguos de YouTube (anteriores a 2014) pueden tener <strong>Vorbis</strong>. Los WebM de grabadoras de navegador usan también Opus habitualmente. Ninguno de estos códecs (Opus ni Vorbis) está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro o Avid Media Composer. Al importar un WebM en Resolve, el audio simplemente no aparece.</p>
       <h3>Vídeo VP9 y AV1 en WebM: compatibilidad con el navegador</h3>
@@ -734,8 +734,8 @@ PAGES = [
         <li>Pulsa <strong>Convertir</strong>. H.264 y Sorenson Spark se copian sin recodificar; VP6 se recodifica a H.264. El audio siempre pasa a FLAC.</li>
         <li>Importa el MKV resultante en DaVinci Resolve. Tendrás vídeo y audio correctamente sincronizados.</li>
       </ol>
-      <h3>Recuperación de vídeos de YouTube descargados en FLV</h3>
-      <p>Muchos usuarios descargaron vídeos de YouTube entre 2008 y 2013 en formato FLV usando herramientas como KeepVid o Zamzar. Estos archivos siguen siendo válidos e interesantes como material de archivo, pero necesitan conversión para editarlos con software moderno. VidToFLAC es la forma más rápida de hacerlo directamente en el navegador, sin instalaciones adicionales.</p>
+      <h3>Recuperar material propio archivado en FLV</h3>
+      <p>Entre 2008 y 2013, mucho material acabó guardado en FLV: grabaciones de clase, webinars, copias de seguridad de vídeos propios y archivos de plataformas que ya no existen. Si tienes los derechos sobre ese material, sigue siendo perfectamente utilizable, pero necesita conversión para editarlo con software moderno. VidToFLAC es la forma más rápida de hacerlo directamente en el navegador, sin instalaciones adicionales.</p>
       <h3>FLV: huérfano desde el final de Flash en 2020</h3>
       <p>Con el fin del soporte de <strong>Flash Player el 31 de diciembre de 2020</strong>, el FLV quedó como un formato huérfano: casi ningún editor moderno lo reconoce de forma nativa y las herramientas que lo manejaban han ido desapareciendo. Si conservas material en FLV, convertirlo ahora es menos un ajuste de compatibilidad que un archivado preventivo.</p>
     </article>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test bench: what VidToFLAC does with each codec, measured</title>
+  <meta name="description" content="Seventeen container and codec combinations built with FFmpeg and measured one by one: what is copied, what is re-encoded and how big the result gets." />
+  <meta name="author" content="Guillem Sánchez" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/test-bench/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/banco-de-pruebas/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/test-bench/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/banco-de-pruebas/" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#0a0a0b; --panel:#0f0f11; --elev:#1b1b1f;
+      --line:rgba(255,255,255,.07);
+      --ink:#f3f3ef; --ink-dim:#a7a7ad; --ink-mute:#66666e;
+      --amber:#19c37d; --amber-2:#4ee6a8;
+      --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+      --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+    html { -webkit-text-size-adjust:100% }
+    body {
+      background:var(--bg); color:var(--ink);
+      font-family:var(--font-body); font-size:1rem; line-height:1.75;
+      padding:2.5rem 1.25rem 5rem; max-width:780px; margin:0 auto;
+    }
+    a { color:var(--amber); text-decoration:none }
+    a:hover { text-decoration:underline }
+    .brand-header { margin-bottom:2.5rem }
+    .brand-link {
+      display:inline-flex; align-items:center; gap:0.55rem;
+      text-decoration:none; color:inherit;
+    }
+    .brand-name {
+      font-family:var(--font-display); font-size:1.5rem;
+      font-weight:800; letter-spacing:-0.02em; color:var(--ink);
+    }
+    .brand-accent { color:var(--amber) }
+    .legal-title {
+      font-family:var(--font-display); font-size:2rem; font-weight:800;
+      line-height:1.15; letter-spacing:-0.02em; margin-bottom:0.4rem;
+    }
+    .legal-date {
+      font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-mute);
+      letter-spacing:0.03em; margin-bottom:2.5rem; display:block;
+    }
+    h2 {
+      font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+      color:var(--ink); margin:2rem 0 0.5rem;
+    }
+    p { color:var(--ink-dim); font-size:0.97rem; margin-bottom:0.75rem }
+    strong { color:var(--ink); font-weight:600 }
+    footer {
+      text-align:center; color:var(--ink-mute);
+      font-family:var(--font-mono); font-size:0.68rem;
+      letter-spacing:0.02em; line-height:1.7;
+      padding-top:1.25rem; border-top:1px solid var(--line);
+      margin-top:3rem; display:flex; flex-direction:column; gap:0.6rem;
+    }
+    footer strong { color:var(--amber-2); font-weight:600 }
+    .footer-tagline { margin:0 }
+    .footer-links { display:flex; justify-content:center; flex-wrap:wrap; gap:0.25rem 1.5rem }
+    .footer-links a { color:var(--ink-dim); text-decoration:none; transition:color .15s }
+    .footer-links a:hover { color:var(--amber) }
+    .footer-copy { margin:0; opacity:.7 }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation:none !important; transition:none !important }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About VidToFLAC",
+    "url": "https://vidtoflac.tech/en/about/",
+    "inLanguage": "en",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/"
+    },
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/",
+      "founder": {
+        "@type": "Person",
+        "name": "Guillem Sánchez",
+        "url": "https://vidtoflac.tech/en/author/guillem-sanchez/"
+      }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "VidToFLAC",
+        "item": "https://vidtoflac.tech/en/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About VidToFLAC",
+        "item": "https://vidtoflac.tech/en/about/"
+      }
+    ]
+  }
+  </script>
+  <style>
+    .bench-table { width:100%; border-collapse:collapse; margin:1.2rem 0; font-size:0.86rem }
+    .bench-table th { text-align:left; font-family:var(--font-mono); font-size:0.66rem; letter-spacing:.06em;
+      text-transform:uppercase; color:var(--ink-mute); border-bottom:1px solid var(--line); padding:0.5rem 0.6rem }
+    .bench-table td { padding:0.5rem 0.6rem; border-bottom:1px solid rgba(255,255,255,.045); color:var(--ink-dim) }
+    .bench-table td:first-child { color:var(--ink); font-weight:600 }
+    .bench-copy { color:#4ee6a8; font-family:var(--font-mono); font-size:0.75rem }
+    .bench-reenc { color:#ffb454; font-family:var(--font-mono); font-size:0.75rem }
+    .bench-na { color:var(--ink-mute); font-family:var(--font-mono); font-size:0.75rem }
+    .bench-scroll { overflow-x:auto }
+    pre.bench-cmd { background:var(--panel, #0f0f11); border:1px solid var(--line); border-radius:8px;
+      padding:0.8rem 0.9rem; overflow-x:auto; font-family:var(--font-mono); font-size:0.76rem; color:#a7a7ad; margin:0.9rem 0 }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Test bench: what VidToFLAC does with each codec",
+    "description": "Seventeen container and codec combinations built with FFmpeg and run through the same chain VidToFLAC uses.",
+    "datePublished": "2026-09-19",
+    "dateModified": "2026-09-19",
+    "inLanguage": "en",
+    "mainEntityOfPage": "https://vidtoflac.tech/en/test-bench/",
+    "image": "https://vidtoflac.tech/media/capturas/resolve-forma-de-onda.webp",
+    "author": {
+      "@type": "Person",
+      "name": "Guillem Sánchez",
+      "url": "https://vidtoflac.tech/en/author/guillem-sanchez/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "VidToFLAC",
+      "url": "https://vidtoflac.tech/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "VidToFLAC",
+        "item": "https://vidtoflac.tech/en/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Test bench",
+        "item": "https://vidtoflac.tech/en/test-bench/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="brand-header">
+    <a href="/en/" class="brand-link" aria-label="VidToFLAC – home">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
+        <rect x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
+        <rect x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
+        <rect x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
+        <rect x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
+      </svg>
+      <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
+    </a>
+  </header>
+
+  <main>
+    <h1 class="legal-title">Test bench</h1>
+    <span class="legal-date">Tests run on 19 September 2026 · by <a href="/en/author/guillem-sanchez/">Guillem Sánchez</a></span>
+
+    <p>Almost everything written about codecs and video editors gets repeated from site to site without anyone checking it. This page is the opposite: <strong>seventeen files built on purpose, one per container and codec combination</strong>, run through the same chain of commands VidToFLAC executes, with every result measured.</p>
+
+    <p>If anything here contradicts another page on this site, this one wins. And if you get a different result, <a href="/en/contact/">write to me</a> and I will run it again.</p>
+
+    <h2>What it was tested on</h2>
+    <ul>
+      <li><strong>FFmpeg 6.1.1</strong> (Ubuntu package <code>6.1.1-3ubuntu5</code>), the same engine VidToFLAC compiles to WebAssembly.</li>
+      <li><strong>DaVinci Resolve Studio 21</strong> on Ubuntu, for the part that has to be checked inside the editor.</li>
+      <li><strong>Six-second</strong> test files, with synthetic 640×360 video and a 440 Hz tone, generated on the spot. Nothing is downloaded from anywhere: every file is built with FFmpeg from scratch.</li>
+    </ul>
+
+    <h2>How each file is built</h2>
+    <p>One example, the MP4 with AAC audio that stands in for any camera, phone or OBS recording:</p>
+    <pre class="bench-cmd">ffmpeg -f lavfi -i testsrc2=s=640x360:r=30:d=6 -f lavfi -i sine=f=440:d=6:sample_rate=48000 \
+       -c:v libx264 -preset veryfast -crf 20 -c:a aac -b:a 192k -shortest source.mp4</pre>
+    <p>That file then goes through the decision the tool makes: if the video codec is on its list of codecs the browser cannot decode, it is re-encoded to H.264; otherwise it is copied. The audio always becomes FLAC.</p>
+    <pre class="bench-cmd">ffmpeg -i source.mp4 -c:v copy -c:a flac output.mkv          # video codec the browser can decode
+ffmpeg -i source.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac output.mkv   # one it cannot</pre>
+
+    <h2>Results of the seventeen tests</h2>
+    <p>All of them completed: not a single file defeated the chain.</p>
+    <div class="bench-scroll">
+    <table class="bench-table">
+      <thead><tr>
+<th>Source</th>
+<th>Audio</th>
+<th>Where it comes from</th>
+<th>Video</th>
+<th>What it does with the video</th>
+<th>In</th>
+<th>Out</th>
+</tr></thead>
+      <tbody>
+        <tr><td>MP4</td><td>AAC-LC</td><td>Camera, phone, OBS</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>807 KB</td><td>1,019 KB</td></tr>
+        <tr><td>MP4</td><td>MP3</td><td>Older converters</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>834 KB</td><td>1,009 KB</td></tr>
+        <tr><td>MOV</td><td>PCM 16 bits</td><td>Field recorder</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>1,255 KB</td><td>765 KB</td></tr>
+        <tr><td>MKV</td><td>Opus</td><td>OBS, web video</td><td>VP9</td><td><span class="bench-copy">copies it</span></td><td>559 KB</td><td>763 KB</td></tr>
+        <tr><td>WebM</td><td>Vorbis</td><td>Older web video</td><td>VP8</td><td><span class="bench-copy">copies it</span></td><td>474 KB</td><td>772 KB</td></tr>
+        <tr><td>MKV</td><td>AC-3</td><td>DVD copy, broadcast</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>972 KB</td><td>1,008 KB</td></tr>
+        <tr><td>MKV</td><td>E-AC-3</td><td>Digital broadcast</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>972 KB</td><td>1,008 KB</td></tr>
+        <tr><td>MKV</td><td>DTS</td><td>Blu-ray, home cinema</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>1,728 KB</td><td>1,019 KB</td></tr>
+        <tr><td>AVI</td><td>MP3</td><td>Old compact camera</td><td>MPEG-4 (Xvid)</td><td><span class="bench-copy">copies it</span></td><td>1,554 KB</td><td>1,716 KB</td></tr>
+        <tr><td>WMV</td><td>WMA</td><td>Windows Movie Maker</td><td>WMV2</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>1,195 KB</td><td>2,373 KB</td></tr>
+        <tr><td>VOB</td><td>MP2</td><td>DVD</td><td>MPEG-2</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>1,770 KB</td><td>2,519 KB</td></tr>
+        <tr><td>TS</td><td>AAC</td><td>Digital TV recorder</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>867 KB</td><td>1,022 KB</td></tr>
+        <tr><td>3GP</td><td>AMR-NB</td><td>Pre-2010 phone</td><td>H.263</td><td><span class="bench-copy">copies it</span></td><td>266 KB</td><td>339 KB</td></tr>
+        <tr><td>MP4</td><td>AAC-LC</td><td>iPhone since iOS 11 (HEVC video)</td><td>HEVC</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>491 KB</td><td>2,458 KB</td></tr>
+        <tr><td>M4A</td><td>AAC-LC</td><td>Audio only</td><td>—</td><td><span class="bench-na">.flac output</span></td><td>115 KB</td><td>338 KB</td></tr>
+        <tr><td>FLAC</td><td>FLAC</td><td>Audio only</td><td>—</td><td><span class="bench-na">.flac output</span></td><td>85 KB</td><td>85 KB</td></tr>
+        <tr><td>WAV</td><td>PCM 16 bits</td><td>Audio only</td><td>—</td><td><span class="bench-na">.flac output</span></td><td>563 KB</td><td>85 KB</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>These sizes come from six-second files. They are useful for comparing cases against each other, not for estimating what your own video will weigh.</p>
+
+    <h2>What the numbers show</h2>
+    <ul>
+      <li><strong>The video is copied more often than people claim.</strong> H.264, VP8, VP9, MPEG-4 (Xvid) and H.263 all came through untouched. Only three were re-encoded: WMV2, MPEG-2 and HEVC. With DivX, Xvid or H.263 the picture is left alone, even though the browser cannot show you a preview.</li>
+      <li><strong>Converting to FLAC almost always makes the file bigger.</strong> Starting from lossy audio, every output grew: the MP4 with AAC went from 807 KB to 1,019 KB. What you gain is compatibility, not size.</li>
+      <li><strong>Unless the source was already lossless.</strong> The MOV with PCM dropped from 1,255 KB to 765 KB, and the standalone WAV from 563 KB to 85 KB, because FLAC compresses what PCM stores raw.</li>
+      <li><strong>A FLAC input comes out identical</strong>, byte for byte: 85 KB before and after. The tool does not recompress it.</li>
+      <li><strong>Re-encoding the video multiplies the size.</strong> The HEVC MP4 went from 491 KB to 2,458 KB — five times larger, because H.264 needs far more bitrate for the same quality. That is the price of a preview the browser can play.</li>
+      <li><strong>AC-3, E-AC-3, DTS and AMR all decode fine.</strong> The four formats editors usually refuse were converted to FLAC without trouble.</li>
+    </ul>
+
+    <h2>How much FLAC really compresses</h2>
+    <p>It depends entirely on the material, which is why a measured range beats a single percentage. Over 39.5 seconds of stereo audio at 48 kHz and 16 bits, always starting from a 7.58 MB WAV:</p>
+    <ul>
+      <li><strong>White noise</strong> (the worst case there is): 3.56 MB, 53 % of the original.</li>
+      <li><strong>A pure 440 Hz tone</strong>: 540 KB, 7 %.</li>
+      <li><strong>A real screen recording</strong>, with silences and speech: 431 KB, 6 %.</li>
+    </ul>
+    <p>Music and continuous speech sit between those extremes, usually closer to half than to 6 %. Anyone promising you a fixed percentage has measured nothing.</p>
+
+    <h2>What has been tested inside DaVinci Resolve</h2>
+    <p>This is the part that cannot be automated, so I only claim what I have seen with the program open:</p>
+    <ul>
+      <li>An <strong>H.264 MP4 with AAC-LC audio</strong> imported into <strong>DaVinci Resolve Studio 21 on Ubuntu</strong> comes in with an empty audio track: no waveform, no sound. It is on video: <a href="/en/#demo-titulo">watch it on the home page</a>.</li>
+      <li>The same material with its <strong>audio in FLAC</strong> comes in with its waveform, and plays.</li>
+    </ul>
+    <p>That is where the correction that rippled through several guides on this site came from: paying for Studio does <strong>not</strong> solve AAC on Linux, at least in version 21.</p>
+
+    <h2>What is not tested yet</h2>
+    <p>Stated plainly, because a test bench that hides its gaps is worth nothing:</p>
+    <ul>
+      <li>How each of the seventeen files behaves <strong>inside Resolve</strong>, one by one. In progress.</li>
+      <li>The same tests on <strong>Windows and macOS</strong>, where AAC and MP3 support is licensed.</li>
+      <li>The <strong>free</strong> edition of Resolve on Linux, next to Studio.</li>
+      <li>Long files and real camera footage, to measure the browser memory ceiling.</li>
+    </ul>
+
+    <h2>How to repeat the tests</h2>
+    <p>All of this reproduces with FFmpeg and <code>ffprobe</code> on any machine. Build the file with the first command, convert it with the second, then check what came out:</p>
+    <pre class="bench-cmd">ffprobe -v error -show_entries stream=codec_type,codec_name -of default=nw=1 output.mkv</pre>
+    <p>If your result does not match the table, I want to know: send your FFmpeg version and the exact command through the <a href="/en/contact/">contact form</a>.</p>
+
+    <p>More on how everything here gets verified is on the <a href="/en/author/guillem-sanchez/">author page</a>. And if what you need is to fix your file right now, the tool is on the <a href="/en/">home page</a>.</p>
+  </main>
+
+  <footer>
+    <p class="footer-tagline">
+      All processing happens on your device using
+      <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.
+    </p>
+    <nav class="footer-links" aria-label="Legal pages">
+      <a href="/en/privacy-policy/">Privacy policy</a>
+      <a href="/en/terms-of-service/">Terms of service</a>
+      <a href="/en/legal-notice/">Legal notice</a>
+      <a href="/en/about/">About</a>
+      <a href="/en/author/guillem-sanchez/">Author</a>
+      <a href="/en/contact/">Contact</a>
+    </nav>
+    <p class="footer-copy">© 2026 vidtoflac.tech. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

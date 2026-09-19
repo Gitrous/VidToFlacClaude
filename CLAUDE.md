@@ -284,6 +284,38 @@ Reglas que ya están aplicadas y conviene no romper:
   texto cuenta como contenido compartido, así que no lo repitas en más de
   cinco páginas por idioma.
 
+## El banco de pruebas es la fuente de verdad
+
+`/banco-de-pruebas/` y `/en/test-bench/` publican diecisiete combinaciones de
+contenedor y códec generadas con FFmpeg y pasadas por la misma cadena que
+ejecuta la app. **Si una guía contradice esa tabla, gana la tabla.** Al añadir
+una afirmación sobre qué se copia, qué se recodifica o cuánto ocupa algo,
+mídela allí primero y enlaza la página.
+
+Lo que salió de la primera tanda, todo verificado el 19 de septiembre de 2026:
+
+- Se copian H.264, VP8, VP9, MPEG-4 (Xvid) y H.263. Solo se recodificaron
+  WMV2, MPEG-2 y HEVC. Ninguno de los diecisiete archivos falló.
+- Desde audio con pérdida, el FLAC **engorda** el archivo; desde PCM lo reduce;
+  un FLAC de entrada sale idéntico byte a byte.
+- Recodificar HEVC a H.264 multiplicó el tamaño por cinco.
+- La compresión de FLAC va del 53 % del WAV (ruido blanco, peor caso) al 6 %
+  (grabación de pantalla real). **Nunca des un porcentaje único.**
+
+Dato que conviene recordar: **las grabaciones originales del usuario
+(`~/Descargas/Clip1.mp4` y `Clip2.mp4`) son AV1 con audio FLAC**, no H.264 con
+AAC. El montaje publicado sí es H.264 + AAC porque se recodificó al montarlo.
+
+## Copyright: cómo se habla de vídeo ajeno
+
+AdSense tiene una política aparte sobre facilitar el acceso a contenido
+protegido, y este sitio explica cómo convertir vídeo. Por eso no se nombran
+descargadores (yt-dlp, KeepVid, Zamzar y similares) ni se plantea la descarga
+de vídeo de terceros como caso de uso. Se habla de *vídeo publicado en la web
+del que tengas los derechos*, de grabaciones propias y de material de archivo
+propio. Los hechos técnicos —que YouTube sirve Opus en WebM, por ejemplo— sí
+se pueden contar: lo que no se hace es dar el método para bajarlo.
+
 ## Un mismo texto vive en muchos sitios a la vez
 
 Nunca cambies una cadena en un solo lugar. Un titular de artículo aparece en
@@ -328,8 +360,8 @@ for f in glob.glob('**/*.html',recursive=True):
 print(n,'bloques,',b,'rotos')"
 ```
 
-Valores de referencia: **93** páginas HTML, **58** indexables y **35** `noindex`,
-**58** con hreflang, **190** bloques JSON-LD, **58** URLs en el sitemap, **0**
+Valores de referencia: **95** páginas HTML, **60** indexables y **35** `noindex`,
+**60** con hreflang, **198** bloques JSON-LD, **60** URLs en el sitemap, **0**
 enlaces internos rotos (anclas `#formato` incluidas), **0** descripciones de más
 de 160 caracteres, y el generador en **0** líneas de diferencia.
 

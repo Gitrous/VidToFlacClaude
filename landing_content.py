@@ -111,12 +111,12 @@ CONTENT = {
         "faq_h2": "Preguntas frecuentes sobre convertir WebM a FLAC",
         "seo_body": (
             '      <h3>La solución para tus WebM: de Opus/Vorbis a FLAC</h3>\n'
-            '      <p>Los <strong>WebM</strong> descargados de YouTube o generados por grabadores de navegador llevan el audio en <strong>Opus o Vorbis</strong>, dos códecs que DaVinci Resolve no decodifica de serie. VidToFLAC reempaqueta el WebM en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
+            '      <p>Los <strong>WebM</strong> de grabadores de navegador, capturas de pantalla y vídeo publicado en la web llevan el audio en <strong>Opus o Vorbis</strong>, dos códecs que DaVinci Resolve no decodifica de serie. VidToFLAC reempaqueta el WebM en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
             '      <p>El vídeo (normalmente VP8 o VP9) se copia <strong>bit a bit</strong> siempre que el navegador pueda manejarlo, sin recompresión ni pérdida de calidad. El MKV resultante se importa con sonido en cualquier editor profesional.</p>\n\n'
             '      <p>Si el vídeo no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para asegurar una previsualización correcta.</p>'
         ),
         "faqs": [
-            ("¿Por qué mi WebM de YouTube no tiene audio en el editor?",
+            ("¿Por qué mi WebM no tiene audio en el editor?",
              "Los WebM usan audio <strong>Opus o Vorbis</strong>, que DaVinci Resolve no decodifica sin más. Pasar ese audio a FLAC dentro de un MKV lo hace compatible."),
             ("¿Pierdo calidad al convertir WebM a FLAC?",
              "No en el audio: FLAC es sin pérdida. El vídeo VP8/VP9 se copia <strong>bit a bit</strong> cuando el navegador puede decodificarlo, conservando la calidad original."),
