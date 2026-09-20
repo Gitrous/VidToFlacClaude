@@ -4,16 +4,16 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DaVinci Resolve audio out of sync: causes and how to fix it</title>
-  <meta name="description" content="Audio drifting out of sync in DaVinci Resolve? Every cause explained — codec, variable frame rate, export settings — and how to fix each one." />
-  <meta name="keywords" content="DaVinci Resolve audio out of sync, DaVinci Resolve audio not synced, DaVinci Resolve audio offset, DaVinci Resolve audio drifts, DaVinci Resolve video audio out of sync, DaVinci Resolve audio delay, audio video sync DaVinci Resolve, DaVinci Resolve audio desync, DaVinci Resolve VFR sync" />
+  <title>Converting to FLAC: how much space it takes, by source codec</title>
+  <meta name="description" content="Thirteen audio codecs converted to FLAC and measured with FFmpeg: how much the file grows, why bit depth decides it, and what changes in quality." />
+  <meta name="keywords" content="FLAC larger than MP3, FLAC file size compared to AAC, convert AAC to FLAC size, FLAC 24 bit file size, how big is a FLAC file, convert Opus to FLAC, FLAC for DaVinci Resolve size, audio codec FLAC comparison, FFmpeg FLAC measurement, FLAC bit depth" />
   <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
-  <link rel="canonical" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
-  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
-  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
-  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/convertir-a-flac-cuanto-ocupa-segun-el-codec/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/convertir-a-flac-cuanto-ocupa-segun-el-codec/" />
 
   <!-- Icons & PWA -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -25,17 +25,17 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="VidToFLAC" />
   <meta property="og:locale" content="en_US" />
-  <meta property="og:url" content="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
-  <meta property="og:title" content="DaVinci Resolve audio out of sync: causes and how to fix it" />
-  <meta property="og:description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta property="og:url" content="https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/" />
+  <meta property="og:title" content="Converting to FLAC: how much space it takes, by source codec" />
+  <meta property="og:description" content="Thirteen audio codecs converted to FLAC from the same recording and measured with FFmpeg: how much the file grows, and why." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <!-- Twitter/X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DaVinci Resolve audio out of sync: causes and how to fix it" />
-  <meta name="twitter:description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta name="twitter:title" content="Converting to FLAC: how much space it takes, by source codec" />
+  <meta name="twitter:description" content="Thirteen audio codecs converted to FLAC from the same recording and measured with FFmpeg: how much the file grows, and why." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
 
   <!-- Article schema -->
@@ -43,12 +43,12 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "DaVinci Resolve audio out of sync: causes and how to fix it",
+    "headline": "Converting to FLAC: how much space it takes, by source codec",
     "image": "https://vidtoflac.tech/og-image.png",
-    "description": "Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step.",
-    "url": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/",
-    "datePublished": "2026-07-01",
-    "dateModified": "2026-07-01",
+    "description": "Thirteen audio codecs converted to FLAC from the same recording and measured with FFmpeg: how much the file grows, why bit depth decides it, and what changes in quality.",
+    "url": "https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/",
+    "datePublished": "2026-09-20",
+    "dateModified": "2026-09-20",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -63,7 +63,7 @@
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/"
+      "@id": "https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/"
     }
   }
   </script>
@@ -76,34 +76,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Why does audio drift out of sync in DaVinci Resolve?",
+        "name": "Why is the FLAC bigger than the original MP3 or AAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The most common causes are: (1) an audio codec DaVinci Resolve does not decode cleanly (AAC, MP3, AC-3), especially on Linux; (2) video shot at a variable frame rate, typical of phones, OBS and screen recorders; (3) incorrect export settings. A constant offset points to the codec; drift that grows points to VFR."
+          "text": "Because FLAC does not compress with loss again: it stores exactly what the decoder hands it. A 60 kbps AAC track decodes to a full signal that FLAC compressed down to 478 kbps in this measurement, almost eight times the size of the original track. FLAC adds no quality that was not there; it simply stops throwing data away."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I re-sync the audio by hand in DaVinci Resolve?",
+        "name": "What determines the size of the resulting FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Select the audio track on the timeline and use Ctrl+Alt+left/right arrow to nudge it frame by frame. That only works if the offset is constant across the whole clip, though. If the drift grows over time (VFR), manual adjustment will not do: sync will be right at one point and wrong everywhere else. In that case, convert the file to CFR before importing."
+          "text": "Mostly the bit depth the source codec decodes to, not its bitrate. MP2 and MP3 both started at 194 kbps, but MP2 decodes to 16-bit integers and its FLAC came out at 228 kbps, while MP3 decodes to floating point, gets stored as 24-bit FLAC and came out at 480 kbps: more than double, for the same material."
         }
       },
       {
         "@type": "Question",
-        "name": "Does the drift show up in the exported file too?",
+        "name": "Does converting to FLAC lose quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends where it starts. If the drift comes from the source file — codec or VFR — the export will carry it too, even where the preview looks fine. If you nudge the offset on the timeline without addressing the VFR, the exported file can come out wrong again. The right fix is to repair the source file before importing, not to patch it by hand."
+          "text": "It adds no loss. Comparing the decoded input and output sample by sample, the 16-bit sources (PCM, FLAC, ALAC, MP2) showed a maximum difference of exactly zero. The ones that decode to floating point showed 1.19 x 10^-7, which is one 24-bit quantisation step. Whatever was lost was lost by the original encoder, not by the conversion."
         }
       },
       {
         "@type": "Question",
-        "name": "Does VidToFLAC fix VFR-related audio drift?",
+        "name": "When does the file get smaller after converting to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC resolves drift caused by an incompatible audio codec (AAC, MP3, AC-3), which is the most common cause. For VFR-related drift you need to convert the video to a constant frame rate with FFmpeg using the fps filter. If your drift grows over time, VFR is the problem and that extra step is required."
+          "text": "When the source is already lossless. A 16-bit WAV dropped to 17 percent of its original track size and 32-bit float PCM to 9 percent. DTS at 771 kbps also dropped, to 478 kbps. Everything else grew."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it worth converting to FLAC if the file grows this much?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FLAC is a working format, not a delivery format. It grows during the edit and disappears on export: the final master is encoded from the timeline with whatever codec the destination needs. If disk space is tight, convert only the clips you are going to use and delete the intermediate MKV files when the project is done."
         }
       }
     ]
@@ -118,7 +126,7 @@
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vidtoflac.tech/en/" },
       { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://vidtoflac.tech/en/articles/" },
-      { "@type": "ListItem", "position": 3, "name": "DaVinci Resolve audio out of sync", "item": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" }
+      { "@type": "ListItem", "position": 3, "name": "FLAC file size by source codec", "item": "https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/" }
     ]
   }
   </script>
@@ -209,6 +217,9 @@
     .info-box strong{color:var(--ink)}
     .warn-box{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-left:3px solid var(--warn);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
     .warn-box strong{color:var(--ink)}
+    .error-box{background:var(--panel-2);border:1px solid var(--line-strong);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:0.9rem 1.1rem;margin:1.25rem 0;overflow-x:auto}
+    .error-box code{display:block;white-space:pre;font-family:var(--font-mono);line-height:1.6}
+    .codec-legend{font-size:0.78rem;color:var(--ink-mute);margin-top:0.5rem;line-height:1.6}
     .solution-box{background:var(--amber-soft);border:1px solid var(--amber-line);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
     .solution-box strong{color:var(--ink)}
     .compare-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.875rem;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line-strong)}
@@ -379,20 +390,21 @@
       <span class="breadcrumb-sep" aria-hidden="true">›</span>
       <a href="/en/articles/">Articles</a>
       <span class="breadcrumb-sep" aria-hidden="true">›</span>
-      <span aria-current="page">Out of sync</span>
+      <span aria-current="page">FLAC file size</span>
     </nav>
-    <span class="article-badge">Fix</span>
+    <span class="article-badge">Measured</span>
     <h1 class="article-title" itemprop="headline">
-      DaVinci Resolve: audio desincronizado — causas y cómo solucionarlo
+      Converting to FLAC: how much space it takes, by source codec
     </h1>
     <div class="hero-meta">
       <span class="byline">By <a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
       <span aria-hidden="true">·</span>
-      <time datetime="2026-07-01" itemprop="datePublished">1 July 2026</time>
+      <time datetime="2026-09-20" itemprop="datePublished">20 September 2026</time>
       <span aria-hidden="true">·</span>
       <span>8 min read</span>
     </div>
-    <p class="hero-tagline">Sync drift · VFR to CFR · Audio · DaVinci Resolve</p>
+    <p class="hero-tagline">FLAC · File size · 13 codecs measured · FFmpeg 6.1.1</p>
+
   </div>
 </section>
 
@@ -404,15 +416,16 @@
     <nav aria-label="Table of contents">
       <p class="sidebar-toc-heading">Contents</p>
       <ul class="sidebar-toc-list">
-        <li><a href="#causas" class="sidebar-toc-link">The most common causes of audio drift</a></li>
-        <li><a href="#causa-codec" class="sidebar-toc-link">Cause 1: an incompatible audio codec</a></li>
-        <li><a href="#causa-vfr" class="sidebar-toc-link">Cause 2: variable frame rate (VFR)</a></li>
-        <li><a href="#causa-exportacion" class="sidebar-toc-link">Cause 3: an export mistake</a></li>
-        <li><a href="#solucion-codec" class="sidebar-toc-link">Fixing codec-related drift</a></li>
-        <li><a href="#solucion-vfr" class="sidebar-toc-link">Fixing VFR-related drift</a></li>
-        <li><a href="#diagnostico" class="sidebar-toc-link">Working out which cause is yours</a></li>
+        <li><a href="#short" class="sidebar-toc-link">The short answer</a></li>
+        <li><a href="#method" class="sidebar-toc-link">How this was measured</a></li>
+        <li><a href="#table" class="sidebar-toc-link">Thirteen codecs, one by one</a></li>
+        <li><a href="#bit-depth" class="sidebar-toc-link">Bit depth decides it, not bitrate</a></li>
+        <li><a href="#quality" class="sidebar-toc-link">What is lost, sample by sample</a></li>
+        <li><a href="#wmv" class="sidebar-toc-link">The case where the video grows instead</a></li>
+        <li><a href="#what-to-do" class="sidebar-toc-link">What to do with this</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
+
     </nav>
 
     <div>
@@ -432,35 +445,8 @@
   <article class="article-content" itemscope itemtype="https://schema.org/Article">
 
     <p class="article-lead" itemprop="description">
-      You import a video into DaVinci Resolve and the audio runs ahead of or behind the picture, or drifts further out as the clip goes on. It is one of the most frustrating problems because it looks random: it happens with some files and not others, and nudging it by hand on the timeline is no guarantee the exported file will come out right. This guide explains the three main causes, how to tell which one is yours, and how to fix it at the root.
+      Converting the audio to FLAC fixes importing in DaVinci Resolve, but it almost always leaves you with a bigger file than you started with — sometimes much bigger. I took one recording, gave it thirteen different audio tracks and converted them all through the same command VidToFLAC runs, so I could put numbers on where that growth comes from and when it does not happen at all.
     </p>
-
-    <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
-      <svg viewBox="0 0 780 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="780" height="180" fill="#0f0f11"/>
-        <rect x="60" y="35" width="270" height="110" rx="13" fill="#1a0f0f" stroke="rgba(255,96,88,.25)" stroke-width="1.5"/>
-        <text x="195" y="58" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">DESINCRONIZADO</text>
-        <rect x="80" y="68" width="110" height="10" rx="3" fill="rgba(255,255,255,.2)"/>
-        <text x="80" y="65" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="7">VÍDEO</text>
-        <rect x="120" y="90" width="110" height="10" rx="3" fill="rgba(255,96,88,.5)"/>
-        <text x="120" y="87" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="7">AUDIO</text>
-        <line x1="80" y1="73" x2="300" y2="73" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <line x1="120" y1="95" x2="300" y2="95" stroke="rgba(255,96,88,.15)" stroke-width="1"/>
-        <text x="195" y="128" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9">+0.4 s de retraso</text>
-        <path d="M348 90 L394 90" stroke="#19c37d" stroke-width="1.5" stroke-linecap="round"/>
-        <polyline points="386,82 394,90 386,98" stroke="#19c37d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="371" y="76" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="8" font-weight="600" letter-spacing="1">FLAC</text>
-        <rect x="408" y="35" width="270" height="110" rx="13" fill="rgba(25,195,125,.07)" stroke="rgba(25,195,125,.3)" stroke-width="1.5"/>
-        <text x="543" y="58" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">SINCRONIZADO</text>
-        <rect x="428" y="68" width="110" height="10" rx="3" fill="rgba(255,255,255,.2)"/>
-        <text x="428" y="65" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="7">VÍDEO</text>
-        <rect x="428" y="90" width="110" height="10" rx="3" fill="rgba(25,195,125,.45)"/>
-        <text x="428" y="87" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="7">AUDIO</text>
-        <line x1="428" y1="73" x2="650" y2="73" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <line x1="428" y1="95" x2="650" y2="95" stroke="rgba(25,195,125,.15)" stroke-width="1"/>
-        <text x="543" y="128" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9">alineado ✓</text>
-      </svg>
-    </div>
 
     <div class="ad-slot">
       <p class="ad-label">Advertisement</p>
@@ -470,97 +456,86 @@
 
     <div class="article-body" itemprop="articleBody">
 
+      <h2 id="short">The short answer</h2>
 
-      <h2 id="causas">The most common causes of audio drift</h2>
+      <p>Of the thirteen codecs tested, <strong>nine produced a bigger file and four a smaller one</strong>. The ones that grow most are precisely the most efficient: a 40 kbps Opus track ended up at 478 kbps as FLAC, almost twelve times larger. The ones that shrink are the ones that were already lossless: a 16-bit WAV dropped to 17 percent of its track size.</p>
 
-      <p>Audio/video drift in DaVinci Resolve is rarely random: in most cases it comes down to one of these three causes, though they are not the only possibilities. The trouble is that the symptoms look alike even when the causes differ, so people often reach for the wrong fix — nudging the offset by hand on the timeline — without addressing the root.</p>
+      <p>The finding I did not expect, and the one that explains most of the table, is that <strong>the size of the FLAC is decided by the bit depth the source codec decodes to, not by its bitrate</strong>. MP2 and MP3 both went in at 194 kbps and came out at 228 and 480 kbps respectively: double, for the same material at the same bitrate.</p>
+
+      <h2 id="method">How this was measured</h2>
+
+      <p>The starting material is <strong>16.7 seconds of my own screen recording</strong> in 1080p, with speech at −21 LUFS: not a test tone and not silence, so that the sizes resemble a real project. From that clip I made a MOV master with H.264 video and 16-bit PCM audio, and from it thirteen copies that differ only in the audio codec. The video is <em>the same stream copied</em> in all of them, so every size difference comes from the audio.</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i master.mov -c:v copy -c:a aac -b:a 192k input_aac.mp4</code>
+      </div>
+
+      <p>Each copy then went through the same command VidToFLAC issues when it converts a video: the video stream is copied and only the audio is re-encoded.</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i input_aac.mp4 -c:v copy -c:a flac output.mkv</code>
+      </div>
+
+      <p>Measurements come from <code>ffprobe</code> and from the on-disk size of each track extracted separately, with FFmpeg 6.1.1 on Ubuntu. It is the same method as the <a href="/en/test-bench/">test bench</a>, where the seventeen container and video codec combinations are published; this round looks only at audio.</p>
+
+      <h2 id="table">Thirteen codecs, one by one</h2>
+
+      <p>The column that matters is the third one: how much the same track takes up once converted to FLAC. Bitrates are calculated over the 16.7 seconds of the clip.</p>
 
       <table class="compare-table">
         <thead>
           <tr>
-            <th>Cause</th>
-            <th>Main symptom</th>
-            <th>Does it accumulate?</th>
+            <th>Source codec</th>
+            <th>Original track</th>
+            <th>As FLAC</th>
+            <th>Change</th>
+            <th>Output</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Incompatible audio codec</strong></td>
-            <td>Constant offset from the start of the clip</td>
-            <td><span class="badge-partial">Sometimes</span></td>
-          </tr>
-          <tr>
-            <td><strong>Variable frame rate (VFR)</strong></td>
-            <td>Drift that grows through the clip</td>
-            <td><span class="badge-fail">Yes, always</span></td>
-          </tr>
-          <tr>
-            <td><strong>Export mistake</strong></td>
-            <td>Fine in preview, wrong in the export</td>
-            <td><span class="badge-partial">Varies</span></td>
-          </tr>
+          <tr><td><strong>16-bit PCM (WAV)</strong></td><td>3,121 KB · 1,534 kbps</td><td>545 KB · 268 kbps</td><td><span class="badge-ok">17%</span></td><td>16-bit</td></tr>
+          <tr><td><strong>32-bit float PCM</strong></td><td>6,235 KB · 3,064 kbps</td><td>572 KB · 281 kbps</td><td><span class="badge-ok">9%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>DTS</strong></td><td>1,568 KB · 771 kbps</td><td>972 KB · 478 kbps</td><td><span class="badge-ok">62%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>ALAC</strong></td><td>569 KB · 280 kbps</td><td>545 KB · 268 kbps</td><td><span class="badge-ok">96%</span></td><td>16-bit</td></tr>
+          <tr><td><strong>FLAC</strong></td><td>539 KB · 265 kbps</td><td>545 KB · 268 kbps</td><td><span class="badge-ok">copied</span></td><td>16-bit</td></tr>
+          <tr><td><strong>MP2</strong></td><td>395 KB · 194 kbps</td><td>463 KB · 228 kbps</td><td><span class="badge-partial">117%</span></td><td>16-bit</td></tr>
+          <tr><td><strong>AC-3</strong></td><td>783 KB · 385 kbps</td><td>1,323 KB · 650 kbps</td><td><span class="badge-partial">169%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>E-AC-3</strong></td><td>783 KB · 385 kbps</td><td>1,323 KB · 650 kbps</td><td><span class="badge-partial">169%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>MP3</strong></td><td>395 KB · 194 kbps</td><td>977 KB · 480 kbps</td><td><span class="badge-fail">247%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>WMA v2</strong></td><td>393 KB · 193 kbps</td><td>1,012 KB · 498 kbps</td><td><span class="badge-fail">257%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>AAC-LC</strong></td><td>122 KB · 60 kbps</td><td>972 KB · 478 kbps</td><td><span class="badge-fail">795%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>Vorbis</strong></td><td>90 KB · 44 kbps</td><td>976 KB · 480 kbps</td><td><span class="badge-fail">1,091%</span></td><td>24-bit</td></tr>
+          <tr><td><strong>Opus</strong></td><td>82 KB · 40 kbps</td><td>978 KB · 480 kbps</td><td><span class="badge-fail">1,189%</span></td><td>24-bit</td></tr>
         </tbody>
       </table>
 
-      <h2 id="causa-codec">Cause 1: an incompatible audio codec</h2>
+      <p class="codec-legend">All thirteen converted without a single error. AAC and Opus landed below the bitrate they were asked for because their encoders match the spend to the material, and this recording has a lot of silence between sentences.</p>
 
-      <div class="cause-card">
-        <h3><span class="cause-label cause-label-codec">Most common</span> An audio codec with no native support</h3>
-        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">DaVinci Resolve, particularly on Linux, cannot natively decode codecs such as AAC, MP3, AC-3 or E-AC-3. When it forces the decode anyway, it introduces an audio delay that shows up as drift.</p>
+      <h2 id="bit-depth">Bit depth decides it, not bitrate</h2>
+
+      <p>Sort the table by the last column and the pattern appears. Every codec that decodes to <strong>floating point</strong> ends up as a 24-bit FLAC of around 480 kbps, whether it came in at 40 kbps or at 194. The ones that decode to <strong>16-bit integers</strong> end up as a 16-bit FLAC of roughly 230-270 kbps.</p>
+
       <figure class="fig">
-        <svg class="fig-svg" viewBox="0 0 660 344" width="660" height="344" role="img" aria-labelledby="cten cden" xmlns="http://www.w3.org/2000/svg"><title id="cten">Which audio codec each format carries, and which ones end up silent in DaVinci Resolve on Linux</title><desc id="cden">Table: MP4 and MOV carry AAC-LC, OBS MKV files AAC or Opus, WebM Opus or Vorbis, AVI MP3 or AC-3 and VOB AC-3, and all of them import without sound in DaVinci Resolve on Linux; WAV and AIFF with PCM and the converted MKV with FLAC do play.</desc><text x="20" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">SOURCE FORMAT</text><text x="230" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">USUAL AUDIO CODEC</text><text x="440" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">IN RESOLVE ON LINUX</text><line x1="20" y1="48" x2="640" y2="48" stroke="rgba(255,255,255,.12)"/><text x="20" y="74" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MP4 · MOV</text><text x="230" y="74" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC-LC</text><rect x="440" y="59" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="74" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="84" x2="640" y2="84" stroke="rgba(255,255,255,.055)"/><text x="20" y="108" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">OBS MKV</text><text x="230" y="108" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC or Opus</text><rect x="440" y="93" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="108" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="118" x2="640" y2="118" stroke="rgba(255,255,255,.055)"/><text x="20" y="142" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WebM</text><text x="230" y="142" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">Opus or Vorbis</text><rect x="440" y="127" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="142" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="152" x2="640" y2="152" stroke="rgba(255,255,255,.055)"/><text x="20" y="176" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">Old AVI</text><text x="230" y="176" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">MP3 or AC-3</text><rect x="440" y="161" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="176" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="186" x2="640" y2="186" stroke="rgba(255,255,255,.055)"/><text x="20" y="210" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">DVD VOB</text><text x="230" y="210" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AC-3</text><rect x="440" y="195" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="210" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="220" x2="640" y2="220" stroke="rgba(255,255,255,.055)"/><text x="20" y="244" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WAV · AIFF</text><text x="230" y="244" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">PCM</text><rect x="440" y="229" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="244" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve reads it</text><line x1="20" y1="254" x2="640" y2="254" stroke="rgba(255,255,255,.055)"/><text x="20" y="278" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">Converted MKV</text><text x="230" y="278" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">FLAC</text><rect x="440" y="263" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="278" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve reads it</text><text x="20" y="304" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Tested in DaVinci Resolve Studio 21 on Ubuntu, September 2026.</text><text x="20" y="321" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">On Windows and macOS, AAC and MP3 usually work; the rest stays uneven.</text></svg>
-        <figcaption>When the drift comes from the codec rather than the frame rate, this is what each format carries.</figcaption>
+        <svg class="fig-svg" viewBox="0 0 660 542" width="660" height="542" role="img" aria-labelledby="bft bfd" xmlns="http://www.w3.org/2000/svg"><title id="bft">Audio track before and after converting to FLAC</title><desc id="bfd">Bar chart with six source codecs. Opus goes from 82 to 978 KB, AAC-LC from 122 to 972 KB, MP3 from 395 to 977 KB, MP2 from 395 to 463 KB, AC-3 from 783 to 1,323 KB, and 16-bit PCM drops from 3,121 to 545 KB.</desc><text x="20" y="24" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="700" fill="#f3f3ef">Audio track before and after converting to FLAC</text><rect x="20" y="36" width="10" height="10" rx="3" fill="#9b7bc8"/><text x="36" y="45" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">Original track</text><rect x="170" y="36" width="10" height="10" rx="3" fill="#12a068"/><text x="186" y="45" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#a7a7ad">Same track as FLAC</text><text x="20" y="80" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#f3f3ef">Opus - 40 kbps</text><text x="20" y="97" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9.5" fill="#66666e">to floating point</text><rect x="150" y="64" width="10.0" height="15" rx="4" fill="#9b7bc8"/><text x="167.0" y="76" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">82 KB</text><rect x="150" y="81" width="119.1" height="15" rx="4" fill="#12a068"/><text x="276.1" y="93" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">978 KB</text><text x="20" y="154" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#f3f3ef">AAC-LC - 60 kbps</text><text x="20" y="171" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9.5" fill="#66666e">to floating point</text><rect x="150" y="138" width="14.9" height="15" rx="4" fill="#9b7bc8"/><text x="171.9" y="150" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">122 KB</text><rect x="150" y="155" width="118.3" height="15" rx="4" fill="#12a068"/><text x="275.3" y="167" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">972 KB</text><text x="20" y="228" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#f3f3ef">MP3 - 194 kbps</text><text x="20" y="245" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9.5" fill="#66666e">to floating point</text><rect x="150" y="212" width="48.1" height="15" rx="4" fill="#9b7bc8"/><text x="205.1" y="224" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">395 KB</text><rect x="150" y="229" width="119.0" height="15" rx="4" fill="#12a068"/><text x="276.0" y="241" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">977 KB</text><text x="20" y="302" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#f3f3ef">MP2 - 194 kbps</text><text x="20" y="319" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9.5" fill="#66666e">to 16-bit</text><rect x="150" y="286" width="48.1" height="15" rx="4" fill="#9b7bc8"/><text x="205.1" y="298" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">395 KB</text><rect x="150" y="303" width="56.4" height="15" rx="4" fill="#12a068"/><text x="213.4" y="315" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">463 KB</text><text x="20" y="376" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#f3f3ef">AC-3 - 385 kbps</text><text x="20" y="393" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9.5" fill="#66666e">to floating point</text><rect x="150" y="360" width="95.3" height="15" rx="4" fill="#9b7bc8"/><text x="252.3" y="372" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">783 KB</text><rect x="150" y="377" width="161.1" height="15" rx="4" fill="#12a068"/><text x="318.1" y="389" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">1,323 KB</text><text x="20" y="450" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#f3f3ef">16-bit PCM</text><text x="20" y="467" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9.5" fill="#66666e">already lossless</text><rect x="150" y="434" width="380.0" height="15" rx="4" fill="#9b7bc8"/><text x="537.0" y="446" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">3,121 KB</text><rect x="150" y="451" width="66.4" height="15" rx="4" fill="#12a068"/><text x="223.4" y="463" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">545 KB</text><text x="20" y="532" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="11.5" fill="#a7a7ad">16.7 s of my own screen recording at −21 LUFS, measured with FFmpeg 6.1.1. Other material gives other sizes.</text></svg>
+        <figcaption>Six of the thirteen cases, with the original track in purple and the same track as FLAC in green. The first three start from codecs that decode to floating point and all three land near 1,000 KB, even though the Opus track was less than a tenth of the size of the MP3 one.</figcaption>
       </figure>
 
-      </div>
+      <p>The reason is that FLAC losslessly compresses whatever it is given, and what it is given is the signal the decoder reconstructed. That signal occupies the full 24 bits: the lower half is numerical residue from the decompression, noise for all practical purposes, but noise FLAC is obliged to preserve bit for bit because it cannot know it is disposable. A lossy encoder would throw it away and nobody would notice; a lossless one, by definition, will not.</p>
 
-      <p>This is especially common with:</p>
+      <p>That gives the clearest comparison in the whole table: <strong>MP2 and MP3, both at 194 kbps</strong>. MP2 decodes to 16-bit and its FLAC takes 463 KB; MP3 decodes to floating point and its FLAC takes 977 KB. Same material, same starting bitrate, same FLAC encoder, twice the file.</p>
 
-      <ul>
-        <li><strong>MP4 files shot on phones (iPhone, Android):</strong> they carry AAC audio, which DaVinci Resolve on Linux does not decode cleanly.</li>
-        <li><strong>Camera MOV files:</strong> AAC or PCM audio at certain sample rates.</li>
-        <li><strong>OBS Studio recordings:</strong> by default OBS records MP4 with AAC audio.</li>
-        <li><strong>GoPro and drone MP4s:</strong> H.264/H.265 paired with AAC.</li>
-      </ul>
+      <h2 id="quality">What is lost, sample by sample</h2>
 
-      <p>The classic symptom is that the offset stays constant through the clip rather than growing. On Linux it is more pronounced, because DaVinci Resolve Free ships no licensed AAC or MP3 decoders.</p>
-
-      <h2 id="causa-vfr">Cause 2: variable frame rate (VFR)</h2>
-
-      <div class="cause-card">
-        <h3><span class="cause-label cause-label-vfr">Very common</span> Video with a variable frame rate</h3>
-        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">Phones, screen recorders and action cameras record at a frame rate that varies from frame to frame (VFR). DaVinci Resolve assumes a constant frame rate (CFR), so the video timestamps stop lining up with the audio and the drift grows as the clip runs on.</p>
-      </div>
-
-      <p>VFR (<em>Variable Frame Rate</em>) turns up very often in:</p>
+      <p>With the file growing that much, the fair question is whether something is being lost in exchange. To check, I decoded both the input and the output audio of every case to 32-bit floating point and compared them sample by sample, looking for the largest difference.</p>
 
       <ul>
-        <li><strong>OBS screen captures:</strong> screen capture mode produces VFR by default when the content has no stable frame rate.</li>
-        <li><strong>Phone video in efficiency modes:</strong> some Android phones and iPhones record VFR to save battery.</li>
-        <li><strong>NVIDIA ShadowPlay / GeForce Experience captures:</strong> these frequently record VFR.</li>
-        <li><strong>Meeting recordings (Zoom, Teams, Meet):</strong> the frame rate varies with available bandwidth.</li>
+        <li><strong>16-bit sources</strong> (PCM, FLAC, ALAC, MP2): maximum difference <strong>exactly zero</strong>. The output is the same signal, sample for sample.</li>
+        <li><strong>Sources that decode to floating point</strong> (AAC, MP3, Opus, Vorbis, AC-3, E-AC-3, DTS, WMA): maximum difference <strong>1.19 × 10⁻⁷</strong>, which is exactly one 24-bit quantisation step (2⁻²³).</li>
       </ul>
 
-      <p>The tell-tale sign of VFR is that the drift <strong>starts small and grows</strong> as the clip progresses. At 30 seconds the audio might be 0.2 s behind; at five minutes it can be 2–3 seconds behind.</p>
-
-      <div class="warn-box">
-        <strong>Nudging the offset by hand does not work with VFR.</strong> Shift the audio track by a fixed number of frames and sync improves at one point in the clip while staying wrong everywhere else. The only real fix is to convert the video to CFR before importing.
+      <div class="solution-box">
+        <strong>What this means:</strong> converting to FLAC adds no loss, audible or otherwise, beyond rounding to 24-bit. What was lost from the original was lost by the encoder that created it, and it does not come back: a FLAC made from an MP3 sounds like the MP3 while taking twice the space. FLAC does not improve anything, it just stops getting in the editor's way.
       </div>
-
-      <h2 id="causa-exportacion">Cause 3: an export mistake</h2>
-
-      <div class="cause-card">
-        <h3><span class="cause-label cause-label-export">Less common</span> Drift only in the exported file</h3>
-        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">Everything sounds right in the DaVinci Resolve preview, but the exported MP4 or MOV has the audio out of sync. This usually comes down to an incompatible audio codec plus export setting combination, or to using hardware acceleration during the render.</p>
-      </div>
-
-      <p>This particular case is usually resolved with these settings on the Deliver page:</p>
-
-      <ul>
-        <li>Change the <strong>Audio Codec</strong> from AAC to Linear PCM or FLAC.</li>
-        <li>Turn off video <em>Hardware acceleration</em> for the render.</li>
-        <li>Lower the video <em>Data Rate</em> if you are pushing your GPU to its limit.</li>
-      </ul>
 
       <!-- Ad slot: mid-article -->
       <div class="ad-slot">
@@ -574,93 +549,34 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
 
-      <h2 id="solucion-codec">Fixing codec-related drift: convert to FLAC</h2>
+      <h2 id="wmv">The case where the video grows instead</h2>
 
-      <p>If the problem is the audio codec — AAC, MP3, AC-3 — the fix is to convert the file into an MKV container with <strong>FLAC audio</strong> before importing it into DaVinci Resolve. FLAC is the lossless audio format DaVinci Resolve supports natively on Windows, macOS and Linux, Linux included.</p>
+      <p>One row breaks the pattern if you look at the whole file instead of the audio track: the WMV. Its track went from 393 KB to 1,012 KB, in line with the rest, but the file as a whole went from 6.7 MB to 11.1 MB.</p>
 
-      <p>VidToFLAC does precisely that: it takes your MP4, MOV or whatever else, copies the video without re-encoding, and converts only the audio to FLAC. It all happens in your browser, with nothing uploaded to any server.</p>
+      <p>The audio is not to blame. The video in that file is WMV2, a codec browsers cannot decode, so VidToFLAC re-encodes it to H.264 so the preview works. The same happens with ProRes, DNxHD, MPEG-2, VC-1 and <strong>H.265/HEVC</strong>, which is the most common case today because iPhones have recorded in HEVC since iOS 11. That jump is measured in the <a href="/en/test-bench/">test bench</a>: an HEVC MP4 went from 491 KB to 2,458 KB. Every other video codec — H.264, VP8, VP9, MPEG-4, H.263 — is copied as-is and adds nothing.</p>
 
-      <div class="tool-cta">
-        <span class="tool-cta-label">Free tool · nothing uploaded</span>
-        <h3>Convert the audio to FLAC and clear the drift</h3>
-        <p>Drop in your video (MP4, MOV, MKV, AVI…), VidToFLAC converts the audio to FLAC, and you download the resulting MKV. The video is copied losslessly. Works with DaVinci Resolve on Windows, macOS and Linux.</p>
-        <a href="/en/" class="tool-cta-btn" aria-label="Convert audio to FLAC with VidToFLAC">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Convert to MKV + FLAC free
-        </a>
-      </div>
+      <h2 id="what-to-do">What to do with this</h2>
 
-      <h2 id="solucion-vfr">Fixing VFR-related drift: convert to CFR</h2>
+      <p><strong>Treat FLAC as a working format, not a delivery format.</strong> The MKV with FLAC audio exists so the timeline has sound; the final master is exported from Resolve with whatever codec the destination needs, and the size goes back to normal there. The intermediates can be deleted when the project closes.</p>
 
-      <p>If the problem is a variable frame rate, you need to convert the video to a <strong>constant frame rate (CFR)</strong>. That does mean re-encoding the video rather than remuxing, so there is some quality loss with a lossy codec. At <code>-crf 18</code> that loss is visually imperceptible.</p>
+      <p><strong>Convert only what you are going to edit.</strong> If you recorded three hours and will use twenty minutes, convert those twenty minutes. Multiplying the audio of all your raw footage by ten is the easiest way to fill a disk for no reason.</p>
 
-      <p>With FFmpeg, the command to convert VFR to CFR is:</p>
+      <p><strong>If you are the one recording, recording lossless already pays off.</strong> A 16-bit WAV shrank to 17 percent when converted to FLAC, and it imports into Resolve with no conversion at all. If your camera or capture software can do PCM, that is the shortest path: nothing to convert and less space than WAV.</p>
 
-      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
-        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i video_vfr.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac video_cfr.mkv</code>
-      </div>
-
-      <p>Change <code>fps=30</code> to your video's original frame rate — 25 for European PAL, 24 for cinema, 60 for gaming. If you do not know it, check with:</p>
-
-      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
-        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v quiet -show_streams -select_streams v:0 video.mp4 | grep r_frame_rate</code>
-      </div>
-
-      <div class="info-box">
-        <strong>VidToFLAC and VFR:</strong> VidToFLAC converts the audio to FLAC but copies the video without re-encoding (<code>-c:v copy</code>), which preserves the original VFR. If VFR is specifically your problem, you need FFmpeg in the terminal with the <code>fps</code> filter to force CFR. VidToFLAC resolves codec-related drift, but not VFR-related drift.
-      </div>
-
-      <h2 id="diagnostico">Working out which cause is yours</h2>
-
-      <p>Before applying any fix, identify the cause with these three questions:</p>
-
-      <ol class="steps-list">
-        <li class="step-item">
-          <span class="step-num">1</span>
-          <span class="step-text"><strong>Does the drift grow through the clip?</strong> If the audio is 0.1 s behind at the start and 2 s behind at the end, it is VFR. Convert to CFR with FFmpeg.</span>
-        </li>
-        <li class="step-item">
-          <span class="step-num">2</span>
-          <span class="step-text"><strong>Is the offset constant from the start?</strong> If the audio is always exactly the same amount ahead or behind, it is most likely a codec problem. Convert the audio to FLAC with VidToFLAC.</span>
-        </li>
-        <li class="step-item">
-          <span class="step-num">3</span>
-          <span class="step-text"><strong>Fine in preview but wrong in the export?</strong> That is an export settings problem. Change the audio codec to Linear PCM or FLAC on the Deliver page, and turn off hardware acceleration.</span>
-        </li>
-      </ol>
-
-      <p>If you cannot tell VFR from a codec problem, check the file with <code>ffprobe</code>:</p>
-
-      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
-        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v quiet -show_streams -select_streams a:0 video.mp4 | grep codec_name</code>
-      </div>
-
-      <p>If the result is <code>aac</code>, <code>mp3</code> or <code>ac3</code>, the codec is the problem and VidToFLAC resolves it. If it comes back <code>pcm_s16le</code> or similar and the drift still grows, the problem is VFR.</p>
-
-      <!-- Ad slot: before FAQ -->
-      <div class="ad-slot">
-        <p class="ad-label">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-1123812992313934"
-             data-ad-slot="9253210070"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
+      <p><strong>Do not expect your file to match the table.</strong> These values come from a screen recording with speech, which compresses very well. With dense music or constant background noise the FLAC goes up considerably; in the test bench, the same encoder ranges from 53 percent of the WAV with white noise to 6 percent with a screen recording. What does hold is the direction: from lossy audio, it goes up.</p>
 
       <div class="tool-cta">
-        <span class="tool-cta-label">Codec-related drift?</span>
-        <h3>Convert to FLAC and fix it at the root</h3>
-        <p>Nothing to install. The audio is converted to FLAC, losslessly; the video is copied untouched. DaVinci Resolve imports the result with no sync problems.</p>
-        <a href="/en/" class="tool-cta-btn" aria-label="Fix audio drift with VidToFLAC">
+        <span class="tool-cta-label">Try it with your own file</span>
+        <h3>Convert the audio to FLAC and see the real size</h3>
+        <p>Drop in your video, hit Convert and compare the resulting MKV with the original. Everything happens in your browser, nothing is uploaded to any server, and there is no server-imposed limit (the practical ceiling is your browser's memory).</p>
+        <a href="/en/" class="tool-cta-btn" aria-label="Convert a video to FLAC">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Convert to MKV + FLAC free
+          Convert now
         </a>
       </div>
 
       <div class="info-box">
-        <strong>What we checked ourselves:</strong> our test bench is <strong>DaVinci Resolve Studio 21 and 21.0.4 on Linux Mint 22.3</strong>, across two different machines (an NVIDIA RTX 5060 Ti 16 GB and a GTX 1050 Ti). On it we have verified first-hand the site's core case: an MP4 with H.264 video and AAC audio imports silent into Resolve, and once converted to MKV with FLAC audio it imports with a proper waveform and sound. <strong>The other causes and settings described in this guide come from documentation and reported cases, not from our own testing</strong>, and we have not reproduced them on Windows or macOS. Last reviewed: September 2026.
+        <strong>What was verified here:</strong> the thirteen files were generated and converted with <strong>FFmpeg 6.1.1 on Ubuntu</strong> on 20 September 2026, using the same command the app runs. The sizes, the bitrates and the sample-by-sample differences are measured, not estimated. <strong>What this round did not test is what DaVinci Resolve does with each of those thirteen files</strong>: that will be added to the <a href="/en/test-bench/">test bench</a> as it gets measured.
       </div>
 
       <section class="faq-section" aria-labelledby="faq">
@@ -668,48 +584,57 @@
 
         <details class="faq-item">
           <summary>
-            Why does audio drift out of sync in DaVinci Resolve?
+            Why is the FLAC bigger than the original MP3 or AAC?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>The most common causes are: (1) an audio codec DaVinci Resolve does not decode cleanly (AAC, MP3, AC-3), especially on Linux; (2) video shot at a variable frame rate, typical of phones, OBS and screen recorders; (3) incorrect export settings. A constant offset points to the codec; drift that grows points to VFR.</p>
+            <p>Because FLAC does not compress with loss again: it stores exactly what the decoder hands it. A 60 kbps AAC track decodes to a full signal that FLAC compressed down to 478 kbps in this measurement, almost eight times the size of the original track. FLAC adds no quality that was not there; it simply stops throwing data away.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            How do I re-sync the audio by hand in DaVinci Resolve?
+            What determines the size of the resulting FLAC?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Select the audio track on the timeline and use <strong>Ctrl+Alt+left/right arrow</strong> to nudge it frame by frame. That only works if the offset is constant across the whole clip, though. If the drift grows over time (VFR), manual adjustment will not do: sync will be right at one point and wrong everywhere else. In that case, convert the file to CFR before importing.</p>
+            <p>Mostly the bit depth the source codec decodes to, not its bitrate. MP2 and MP3 both started at 194 kbps, but MP2 decodes to 16-bit integers and its FLAC came out at 228 kbps, while MP3 decodes to floating point, gets stored as 24-bit FLAC and came out at 480 kbps: more than double, for the same material.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            Does the drift show up in the exported file too?
+            Does converting to FLAC lose quality?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>It depends where it starts. If the drift comes from the source file — codec or VFR — the export will carry it too, even where the preview looks fine. If you nudge the offset on the timeline without addressing the VFR, the exported file can come out wrong again. The right fix is to repair the source file before importing, not to patch it by hand.</p>
+            <p>It adds no loss. Comparing the decoded input and output sample by sample, the 16-bit sources (PCM, FLAC, ALAC, MP2) showed a maximum difference of exactly zero. The ones that decode to floating point showed 1.19 × 10⁻⁷, which is one 24-bit quantisation step. Whatever was lost was lost by the original encoder, not by the conversion.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            Does VidToFLAC fix VFR-related audio drift?
+            When does the file get smaller after converting to FLAC?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>VidToFLAC resolves drift caused by an <strong>incompatible audio codec</strong> (AAC, MP3, AC-3), which is the most common cause. For VFR-related drift you need to convert the video to a constant frame rate with FFmpeg using the <code>fps</code> filter. If your drift grows over time, VFR is the problem and that extra step is required.</p>
+            <p>When the source is already lossless. A 16-bit WAV dropped to 17 percent of its original track size and 32-bit float PCM to 9 percent. DTS at 771 kbps also dropped, to 478 kbps. Everything else grew. See the <a href="/en/convert-wav-to-flac/">WAV to FLAC guide</a> for that specific case.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Is it worth converting to FLAC if the file grows this much?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>FLAC is a working format, not a delivery format. It grows during the edit and disappears on export: the final master is encoded from the timeline with whatever codec the destination needs. If disk space is tight, convert only the clips you are going to use and delete the intermediate MKV files when the project is done.</p>
           </div>
         </details>
       </section>
 
-      <p style="margin-top:2.5rem;">If the audio is not just drifting but silent altogether, see the guide to <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/">why DaVinci Resolve will not import MP4 and OBS audio</a>. For audio problems on export, see <a href="/en/articles/davinci-resolve-render-no-audio/">DaVinci Resolve rendering with no audio</a>.</p>
+      <p style="margin-top:2.5rem;">If what brought you here is Resolve not playing any sound, the guide to <a href="/en/articles/davinci-resolve-audio-errors/">audio errors in DaVinci Resolve</a> covers the problem at its root, and <a href="/en/articles/best-video-format-for-davinci-resolve/">the best video format for DaVinci Resolve</a> covers the other half of the decision.</p>
 
-    
     </div><!-- /.article-body -->
 
 
@@ -722,37 +647,39 @@
     </aside>
 
     <nav class="prev-next-nav" aria-label="Previous and next articles">
-      <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/" class="prev-next-item">
+      <a href="/en/articles/davinci-resolve-audio-out-of-sync/" class="prev-next-item">
         <span class="prev-next-label">← Previous</span>
-        <span class="prev-next-title">Convert video with FFmpeg without installing it: online alternatives</span>
+        <span class="prev-next-title">Video and audio out of sync in DaVinci Resolve: causes and fixes</span>
       </a>
-      <a href="/en/articles/flac-file-size-by-source-codec-measured/" class="prev-next-item is-next">
+      <a href="/en/articles/obs-two-audio-tracks-davinci-resolve/" class="prev-next-item is-next">
         <span class="prev-next-label">Next →</span>
-        <span class="prev-next-title">Converting to FLAC: how much space it takes, by source codec</span>
+        <span class="prev-next-title">OBS with two audio tracks: why DaVinci Resolve only gets one</span>
       </a>
     </nav>
 
+
     <section class="related-articles" aria-labelledby="related-heading">
       <h2 class="related-heading" id="related-heading">Related articles</h2>
-      <p class="related-sub">More conversion and DaVinci Resolve compatibility guides.</p>
+      <p class="related-sub">More first-hand measurements and compatibility guides.</p>
       <div class="related-grid">
         <a href="/en/articles/davinci-resolve-audio-errors/" class="related-card">
           <span class="related-card-badge">Fix</span>
           <span class="related-card-title">Audio errors in DaVinci Resolve</span>
           <span class="related-card-arrow">Read →</span>
         </a>
-        <a href="/en/articles/davinci-resolve-render-no-audio/" class="related-card">
-          <span class="related-card-badge">Fix</span>
-          <span class="related-card-title">DaVinci Resolve exports video with no audio</span>
+        <a href="/en/articles/export-video-davinci-resolve-without-losing-audio-quality/" class="related-card">
+          <span class="related-card-badge">Guide</span>
+          <span class="related-card-title">Exporting from DaVinci Resolve without losing audio quality</span>
           <span class="related-card-arrow">Read →</span>
         </a>
-        <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/" class="related-card">
-          <span class="related-card-badge">Fix</span>
-          <span class="related-card-title">DaVinci Resolve won't import MP4 audio</span>
+        <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/" class="related-card">
+          <span class="related-card-badge">Guide</span>
+          <span class="related-card-title">Convert video with FFmpeg without installing anything</span>
           <span class="related-card-arrow">Read →</span>
         </a>
       </div>
     </section>
+
 
   </article>
 </div><!-- /.article-outer -->

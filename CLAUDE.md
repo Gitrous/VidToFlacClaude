@@ -365,10 +365,40 @@ for f in glob.glob('**/*.html',recursive=True):
 print(n,'bloques,',b,'rotos')"
 ```
 
-Valores de referencia: **95** páginas HTML, **60** indexables y **35** `noindex`,
-**60** con hreflang, **198** bloques JSON-LD, **60** URLs en el sitemap, **0**
+Valores de referencia: **99** páginas HTML, **64** indexables y **35** `noindex`,
+**66** con hreflang, **210** bloques JSON-LD, **64** URLs en el sitemap, **0**
 enlaces internos rotos (anclas `#formato` incluidas), **0** descripciones de más
 de 160 caracteres, y el generador en **0** líneas de diferencia.
+
+## Publicar un artículo nuevo: los ocho sitios que hay que tocar
+
+Un artículo no es un directorio con un `index.html`. Al añadir uno hay que
+actualizar, en los dos idiomas: (1) el archivo nuevo, generado a partir de otro
+artículo como plantilla —se sustituyen `<head>`, hero, índice lateral, cuerpo,
+anterior/siguiente y relacionados, y se conserva todo lo demás—; (2) la tarjeta
+del índice (`articulos/index.html`), que lleva su propia miniatura SVG de
+400×110; (3) el `CORPUS` del buscador de ese índice, con el texto **sin
+apóstrofos**; (4) el `prev-next-nav` de los dos artículos vecinos, que en los
+extremos de la cadena tienen un `<div></div>` vacío que hay que sustituir; (5)
+la lista «Guías que he escrito» de la página de autor; (6) el `sitemap.xml`; y
+(7) los valores de referencia de aquí arriba. Falta uno y el artículo queda
+huérfano sin que ninguna comprobación se queje.
+
+Dos cosas que solo se ven ejecutando:
+
+- **`.error-box` no tiene CSS en ninguna parte.** 36 bloques de código en 13
+  páginas lo usan con estilos en línea que fijan color de borde pero no
+  `border-style`, así que el borde no se dibuja. Los artículos nuevos llevan la
+  regla en su `<style>`; los viejos siguen sin ella.
+- **Las etiquetas de un gráfico se solapan con las barras.** El texto de la
+  izquierda no se recorta solo: si pasa de la `x` donde empiezan las barras, se
+  superpone. Solo se ve en una captura, no en el SVG.
+
+Y el error que se coló dos veces en el mismo sitio: formatear miles con
+`.replace(',', '.')` sobre la cadena entera del SVG convierte también
+`font-family="JetBrains Mono, ui-monospace, monospace"` en
+`"JetBrains Mono. ui-monospace. monospace"`, que el navegador descarta. El
+gráfico del banco de pruebas lo arrastra desde su primera versión.
 
 ## Promesas que el producto no puede sostener
 

@@ -4,16 +4,16 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DaVinci Resolve audio out of sync: causes and how to fix it</title>
-  <meta name="description" content="Audio drifting out of sync in DaVinci Resolve? Every cause explained — codec, variable frame rate, export settings — and how to fix each one." />
-  <meta name="keywords" content="DaVinci Resolve audio out of sync, DaVinci Resolve audio not synced, DaVinci Resolve audio offset, DaVinci Resolve audio drifts, DaVinci Resolve video audio out of sync, DaVinci Resolve audio delay, audio video sync DaVinci Resolve, DaVinci Resolve audio desync, DaVinci Resolve VFR sync" />
+  <title>OBS with two audio tracks: why DaVinci Resolve only gets one</title>
+  <meta name="description" content="You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all." />
+  <meta name="keywords" content="OBS two audio tracks, OBS separate tracks DaVinci Resolve, OBS game and mic separate tracks, convert OBS multiple audio tracks, ffmpeg map all audio tracks, DaVinci Resolve only one audio track, OBS multitrack audio, OBS record mic separately, MKV multiple FLAC tracks, OBS audio track 2" />
   <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
-  <link rel="canonical" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
-  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
-  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
-  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/" />
+  <link rel="canonical" href="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
+  <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
+  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
+  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
 
   <!-- Icons & PWA -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -25,17 +25,17 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="VidToFLAC" />
   <meta property="og:locale" content="en_US" />
-  <meta property="og:url" content="https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" />
-  <meta property="og:title" content="DaVinci Resolve audio out of sync: causes and how to fix it" />
-  <meta property="og:description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta property="og:url" content="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
+  <meta property="og:title" content="OBS with two audio tracks: why DaVinci Resolve only gets one" />
+  <meta property="og:description" content="You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <!-- Twitter/X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DaVinci Resolve audio out of sync: causes and how to fix it" />
-  <meta name="twitter:description" content="Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step." />
+  <meta name="twitter:title" content="OBS with two audio tracks: why DaVinci Resolve only gets one" />
+  <meta name="twitter:description" content="You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
 
   <!-- Article schema -->
@@ -43,12 +43,12 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "DaVinci Resolve audio out of sync: causes and how to fix it",
+    "headline": "OBS with two audio tracks: why DaVinci Resolve only gets one",
     "image": "https://vidtoflac.tech/og-image.png",
-    "description": "Audio drifting out of sync with the video in DaVinci Resolve? A complete guide to every cause — codec, VFR, export settings — and how to fix each one step by step.",
-    "url": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/",
-    "datePublished": "2026-07-01",
-    "dateModified": "2026-07-01",
+    "description": "You record game and mic on separate tracks in OBS and the conversion drops one of them. What happens exactly, measured with FFmpeg, and the command that keeps them all.",
+    "url": "https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/",
+    "datePublished": "2026-09-20",
+    "dateModified": "2026-09-20",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -63,7 +63,7 @@
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/"
+      "@id": "https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/"
     }
   }
   </script>
@@ -76,34 +76,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Why does audio drift out of sync in DaVinci Resolve?",
+        "name": "Does VidToFLAC keep both audio tracks from an OBS recording?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The most common causes are: (1) an audio codec DaVinci Resolve does not decode cleanly (AAC, MP3, AC-3), especially on Linux; (2) video shot at a variable frame rate, typical of phones, OBS and screen recorders; (3) incorrect export settings. A constant offset points to the codec; drift that grows points to VFR."
+          "text": "No. The command the tool runs has no -map, so FFmpeg picks a single audio track and discards the rest. In the test with a two-track AAC MP4, the output had one FLAC track, identical to the first one in the original. If you need both, convert with FFmpeg in the terminal using -map."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I re-sync the audio by hand in DaVinci Resolve?",
+        "name": "Which track survives when there are several?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Select the audio track on the timeline and use Ctrl+Alt+left/right arrow to nudge it frame by frame. That only works if the offset is constant across the whole clip, though. If the drift grows over time (VFR), manual adjustment will not do: sync will be right at one point and wrong everywhere else. In that case, convert the file to CFR before importing."
+          "text": "The one FFmpeg considers best: with equal channel count and bitrate, the first one in the file. In the measurement, the output audio matched track 1 sample for sample and had no relation to track 2. In a typical OBS recording track 1 is the mix or the game sound, and the microphone sits on track 2."
         }
       },
       {
         "@type": "Question",
-        "name": "Does the drift show up in the exported file too?",
+        "name": "Which FFmpeg command keeps every track when converting to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends where it starts. If the drift comes from the source file — codec or VFR — the export will carry it too, even where the preview looks fine. If you nudge the offset on the timeline without addressing the VFR, the exported file can come out wrong again. The right fix is to repair the source file before importing, not to patch it by hand."
+          "text": "ffmpeg -i input.mp4 -map 0:v -map 0:a -c:v copy -c:a flac output.mkv. The -map 0:a selects every audio track in the input instead of letting FFmpeg choose one. In the test, the output went from one to two FLAC tracks and the file grew from 2,546 to 3,402 KB."
         }
       },
       {
         "@type": "Question",
-        "name": "Does VidToFLAC fix VFR-related audio drift?",
+        "name": "How do I know how many audio tracks my recording has?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC resolves drift caused by an incompatible audio codec (AAC, MP3, AC-3), which is the most common cause. For VFR-related drift you need to convert the video to a constant frame rate with FFmpeg using the fps filter. If your drift grows over time, VFR is the problem and that extra step is required."
+          "text": "Run ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 file.mp4 to list every stream in the file. In OBS, the number of tracks is the number of boxes ticked under Settings, Output, Recording, Audio Track."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it better to record a single mixed track in OBS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on whether you will want to duck the game under your voice while editing. If the answer is yes, record separate tracks and convert them with -map. If you will never touch them separately, one track simplifies the whole workflow: a smaller file, a conversion the tool handles on its own, and an import that works in any editor."
         }
       }
     ]
@@ -118,7 +126,7 @@
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vidtoflac.tech/en/" },
       { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://vidtoflac.tech/en/articles/" },
-      { "@type": "ListItem", "position": 3, "name": "DaVinci Resolve audio out of sync", "item": "https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/" }
+      { "@type": "ListItem", "position": 3, "name": "OBS with two audio tracks", "item": "https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" }
     ]
   }
   </script>
@@ -209,6 +217,9 @@
     .info-box strong{color:var(--ink)}
     .warn-box{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-left:3px solid var(--warn);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
     .warn-box strong{color:var(--ink)}
+    .error-box{background:var(--panel-2);border:1px solid var(--line-strong);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:0.9rem 1.1rem;margin:1.25rem 0;overflow-x:auto}
+    .error-box code{display:block;white-space:pre;font-family:var(--font-mono);line-height:1.6}
+    .codec-legend{font-size:0.78rem;color:var(--ink-mute);margin-top:0.5rem;line-height:1.6}
     .solution-box{background:var(--amber-soft);border:1px solid var(--amber-line);border-left:3px solid var(--amber);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.25rem 0;color:var(--ink-dim);font-size:0.875rem;line-height:1.65}
     .solution-box strong{color:var(--ink)}
     .compare-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.875rem;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line-strong)}
@@ -379,20 +390,21 @@
       <span class="breadcrumb-sep" aria-hidden="true">›</span>
       <a href="/en/articles/">Articles</a>
       <span class="breadcrumb-sep" aria-hidden="true">›</span>
-      <span aria-current="page">Out of sync</span>
+      <span aria-current="page">OBS with two tracks</span>
     </nav>
-    <span class="article-badge">Fix</span>
+    <span class="article-badge">Measured</span>
     <h1 class="article-title" itemprop="headline">
-      DaVinci Resolve: audio desincronizado — causas y cómo solucionarlo
+      OBS with two audio tracks: why DaVinci Resolve only gets one
     </h1>
     <div class="hero-meta">
       <span class="byline">By <a href="/en/author/guillem-sanchez/" rel="author">Guillem Sánchez</a></span>
       <span aria-hidden="true">·</span>
-      <time datetime="2026-07-01" itemprop="datePublished">1 July 2026</time>
+      <time datetime="2026-09-20" itemprop="datePublished">20 September 2026</time>
       <span aria-hidden="true">·</span>
-      <span>8 min read</span>
+      <span>7 min read</span>
     </div>
-    <p class="hero-tagline">Sync drift · VFR to CFR · Audio · DaVinci Resolve</p>
+    <p class="hero-tagline">OBS Studio · Separate tracks · FFmpeg -map · DaVinci Resolve</p>
+
   </div>
 </section>
 
@@ -404,15 +416,16 @@
     <nav aria-label="Table of contents">
       <p class="sidebar-toc-heading">Contents</p>
       <ul class="sidebar-toc-list">
-        <li><a href="#causas" class="sidebar-toc-link">The most common causes of audio drift</a></li>
-        <li><a href="#causa-codec" class="sidebar-toc-link">Cause 1: an incompatible audio codec</a></li>
-        <li><a href="#causa-vfr" class="sidebar-toc-link">Cause 2: variable frame rate (VFR)</a></li>
-        <li><a href="#causa-exportacion" class="sidebar-toc-link">Cause 3: an export mistake</a></li>
-        <li><a href="#solucion-codec" class="sidebar-toc-link">Fixing codec-related drift</a></li>
-        <li><a href="#solucion-vfr" class="sidebar-toc-link">Fixing VFR-related drift</a></li>
-        <li><a href="#diagnostico" class="sidebar-toc-link">Working out which cause is yours</a></li>
+        <li><a href="#what-happens" class="sidebar-toc-link">What happens, in one sentence</a></li>
+        <li><a href="#why-several" class="sidebar-toc-link">Why OBS records several tracks</a></li>
+        <li><a href="#measurement" class="sidebar-toc-link">The test: two tracks in, one out</a></li>
+        <li><a href="#which-survives" class="sidebar-toc-link">Which of the two survives</a></li>
+        <li><a href="#command" class="sidebar-toc-link">The command that keeps them all</a></li>
+        <li><a href="#check" class="sidebar-toc-link">How to see how many tracks you have</a></li>
+        <li><a href="#from-obs" class="sidebar-toc-link">How to avoid it from OBS</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
+
     </nav>
 
     <div>
@@ -432,35 +445,8 @@
   <article class="article-content" itemscope itemtype="https://schema.org/Article">
 
     <p class="article-lead" itemprop="description">
-      You import a video into DaVinci Resolve and the audio runs ahead of or behind the picture, or drifts further out as the clip goes on. It is one of the most frustrating problems because it looks random: it happens with some files and not others, and nudging it by hand on the timeline is no guarantee the exported file will come out right. This guide explains the three main causes, how to tell which one is yours, and how to fix it at the root.
+      If you record with OBS and keep the game on one track and your microphone on another, there is one detail worth knowing before you convert the file: <strong>the conversion keeps a single track and throws the rest away</strong>. It gives no warning, and on the DaVinci Resolve timeline everything looks fine until you go looking for your voice and it is not there. I measured it with a two-track file so I could say exactly what stays and what disappears.
     </p>
-
-    <div style="border-radius:16px;overflow:hidden;margin-bottom:2.5rem;border:1px solid rgba(255,255,255,.13);" aria-hidden="true">
-      <svg viewBox="0 0 780 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="780" height="180" fill="#0f0f11"/>
-        <rect x="60" y="35" width="270" height="110" rx="13" fill="#1a0f0f" stroke="rgba(255,96,88,.25)" stroke-width="1.5"/>
-        <text x="195" y="58" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">DESINCRONIZADO</text>
-        <rect x="80" y="68" width="110" height="10" rx="3" fill="rgba(255,255,255,.2)"/>
-        <text x="80" y="65" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="7">VÍDEO</text>
-        <rect x="120" y="90" width="110" height="10" rx="3" fill="rgba(255,96,88,.5)"/>
-        <text x="120" y="87" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="7">AUDIO</text>
-        <line x1="80" y1="73" x2="300" y2="73" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <line x1="120" y1="95" x2="300" y2="95" stroke="rgba(255,96,88,.15)" stroke-width="1"/>
-        <text x="195" y="128" text-anchor="middle" fill="#ff6058" font-family="'JetBrains Mono',monospace" font-size="9">+0.4 s de retraso</text>
-        <path d="M348 90 L394 90" stroke="#19c37d" stroke-width="1.5" stroke-linecap="round"/>
-        <polyline points="386,82 394,90 386,98" stroke="#19c37d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="371" y="76" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="8" font-weight="600" letter-spacing="1">FLAC</text>
-        <rect x="408" y="35" width="270" height="110" rx="13" fill="rgba(25,195,125,.07)" stroke="rgba(25,195,125,.3)" stroke-width="1.5"/>
-        <text x="543" y="58" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="1.5">SINCRONIZADO</text>
-        <rect x="428" y="68" width="110" height="10" rx="3" fill="rgba(255,255,255,.2)"/>
-        <text x="428" y="65" fill="#66666e" font-family="'JetBrains Mono',monospace" font-size="7">VÍDEO</text>
-        <rect x="428" y="90" width="110" height="10" rx="3" fill="rgba(25,195,125,.45)"/>
-        <text x="428" y="87" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="7">AUDIO</text>
-        <line x1="428" y1="73" x2="650" y2="73" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <line x1="428" y1="95" x2="650" y2="95" stroke="rgba(25,195,125,.15)" stroke-width="1"/>
-        <text x="543" y="128" text-anchor="middle" fill="#19c37d" font-family="'JetBrains Mono',monospace" font-size="9">alineado ✓</text>
-      </svg>
-    </div>
 
     <div class="ad-slot">
       <p class="ad-label">Advertisement</p>
@@ -470,97 +456,71 @@
 
     <div class="article-body" itemprop="articleBody">
 
+      <h2 id="what-happens">What happens, in one sentence</h2>
 
-      <h2 id="causas">The most common causes of audio drift</h2>
+      <p>The command VidToFLAC runs is <code>ffmpeg -i input -c:v copy -c:a flac output.mkv</code>, and it <strong>has no <code>-map</code></strong>. Without that option FFmpeg applies its default selection: one video stream, one audio stream, everything else left out. With a single-track file — most files — you never notice. With a multitrack OBS recording, half the recording is gone.</p>
 
-      <p>Audio/video drift in DaVinci Resolve is rarely random: in most cases it comes down to one of these three causes, though they are not the only possibilities. The trouble is that the symptoms look alike even when the causes differ, so people often reach for the wrong fix — nudging the offset by hand on the timeline — without addressing the root.</p>
+      <div class="solution-box">
+        <strong>The practical summary:</strong> if your file has one audio track, the tool does what you expect. If it has two or more and you want them all, convert it with FFmpeg in the terminal adding <code>-map 0:v -map 0:a</code>. The exact command is <a href="#command">further down</a>.
+      </div>
+
+      <h2 id="why-several">Why OBS records several tracks</h2>
+
+      <p>Under <strong>Settings → Output → Recording</strong>, OBS has a row of checkboxes labelled "Audio Track". Each box you tick adds an independent track to the file, and in the mixer you decide which source goes to which. The usual split for someone recording gameplay is: track 1 with the full mix, track 2 with the game audio and track 3 with the microphone.</p>
+
+      <p>There is a very specific reason for it: while editing you want to pull the game down without pulling your voice down with it, or clean up a noise on the mic without touching the music. With everything mixed into one track that is no longer possible. So someone recording multitrack does not want "the good track" — they want all of them.</p>
+
+      <p>The price is that from then on, any tool that is not built for multitrack may keep just one, and that discard almost never shows up on screen.</p>
+
+      <h2 id="measurement">The test: two tracks in, one out</h2>
+
+      <p>To measure it I used FFmpeg to build a file shaped like what OBS produces: H.264 video and two stereo AAC tracks at 160 kbps, with different content on each so they could be told apart afterwards.</p>
+
+      <figure class="fig">
+        <svg class="fig-svg" viewBox="0 0 660 290" width="660" height="290" role="img" aria-labelledby="mtt mtd" xmlns="http://www.w3.org/2000/svg"><title id="mtt">What happens to each track without -map and with -map</title><desc id="mtd">An OBS MP4 with one video track and two AAC audio tracks. Without -map the output keeps the video and only the first audio track; with -map 0:v -map 0:a the output keeps the video and both tracks converted to FLAC.</desc><text x="16" y="22" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="14" font-weight="700" fill="#f3f3ef">What goes in and what comes out</text><rect x="16" y="44" width="170" height="150" rx="12" fill="#121214" stroke="rgba(255,255,255,.13)"/><text x="101" y="66" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9" font-weight="600" letter-spacing="1.2" fill="#a7a7ad">OBS RECORDING</text><rect x="32" y="78" width="138" height="30" rx="7" fill="rgba(155,123,200,.12)" stroke="rgba(155,123,200,.45)"/><text x="101" y="97" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">H.264 video</text><rect x="32" y="114" width="138" height="30" rx="7" fill="rgba(18,160,104,.12)" stroke="rgba(18,160,104,.45)"/><text x="101" y="133" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">track 1 - AAC</text><rect x="32" y="150" width="138" height="30" rx="7" fill="rgba(18,160,104,.12)" stroke="rgba(18,160,104,.45)"/><text x="101" y="169" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">track 2 - AAC</text><path d="M196 96 L246 96" stroke="#66666e" stroke-width="1.5" stroke-linecap="round"/><polyline points="239,90 246,96 239,102" fill="none" stroke="#66666e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="221" y="84" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#66666e">no -map</text><path d="M196 160 L246 200" stroke="#66666e" stroke-width="1.5" stroke-linecap="round"/><polyline points="238,196 246,200 242,192" fill="none" stroke="#66666e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="234" y="232" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#66666e">with -map</text><rect x="282" y="44" width="170" height="114" rx="12" fill="#121214" stroke="rgba(255,96,88,.3)"/><text x="367" y="66" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9" font-weight="600" letter-spacing="1.2" fill="#ff6058">OUTPUT WITHOUT -MAP</text><rect x="298" y="78" width="138" height="30" rx="7" fill="rgba(155,123,200,.12)" stroke="rgba(155,123,200,.45)"/><text x="367" y="97" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">video copied</text><rect x="298" y="114" width="138" height="30" rx="7" fill="rgba(18,160,104,.12)" stroke="rgba(18,160,104,.45)"/><text x="367" y="133" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">track 1 - FLAC</text><text x="367" y="176" text-anchor="middle" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="11.5" fill="#ff6058">track 2 is gone</text><rect x="474" y="132" width="170" height="150" rx="12" fill="#121214" stroke="rgba(18,160,104,.35)"/><text x="559" y="154" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9" font-weight="600" letter-spacing="1.2" fill="#12a068">OUTPUT WITH -MAP</text><rect x="490" y="166" width="138" height="30" rx="7" fill="rgba(155,123,200,.12)" stroke="rgba(155,123,200,.45)"/><text x="559" y="185" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">video copied</text><rect x="490" y="202" width="138" height="30" rx="7" fill="rgba(18,160,104,.12)" stroke="rgba(18,160,104,.45)"/><text x="559" y="221" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">track 1 - FLAC</text><rect x="490" y="238" width="138" height="30" rx="7" fill="rgba(18,160,104,.12)" stroke="rgba(18,160,104,.45)"/><text x="559" y="257" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" fill="#cfcfd4">track 2 - FLAC</text></svg>
+        <figcaption>The same file converted two ways. Without <code>-map</code> the output carries only the first track; with <code>-map 0:v -map 0:a</code> both arrive, already as FLAC. Verified with FFmpeg 6.1.1 on Ubuntu.</figcaption>
+      </figure>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 obs.mp4
+0,video,h264
+1,audio,aac
+2,audio,aac</code>
+      </div>
+
+      <p>That file went through the same command the tool issues when converting a video. The result:</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 output.mkv
+0,video,h264
+1,audio,flac</code>
+      </div>
+
+      <p>Two tracks in, one out. The file takes 2,546 KB instead of the 3,402 KB it takes when both are kept, and there is no error message anywhere: FFmpeg considers that it did exactly what it was asked, because it did.</p>
+
+      <h2 id="which-survives">Which of the two survives</h2>
+
+      <p>FFmpeg does not take the first one by position — it takes the one it considers "best": first it looks at the channel count, then at the bitrate, and only on a tie does it keep the one that appears earlier in the file. Since both test tracks were stereo at the same bitrate, the first one won.</p>
+
+      <p>To confirm that without trusting the theory, I decoded all three signals — the two input tracks and the output — and compared them sample by sample:</p>
 
       <table class="compare-table">
         <thead>
           <tr>
-            <th>Cause</th>
-            <th>Main symptom</th>
-            <th>Does it accumulate?</th>
+            <th>Comparison</th>
+            <th>Maximum difference</th>
+            <th>Conclusion</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Incompatible audio codec</strong></td>
-            <td>Constant offset from the start of the clip</td>
-            <td><span class="badge-partial">Sometimes</span></td>
-          </tr>
-          <tr>
-            <td><strong>Variable frame rate (VFR)</strong></td>
-            <td>Drift that grows through the clip</td>
-            <td><span class="badge-fail">Yes, always</span></td>
-          </tr>
-          <tr>
-            <td><strong>Export mistake</strong></td>
-            <td>Fine in preview, wrong in the export</td>
-            <td><span class="badge-partial">Varies</span></td>
-          </tr>
+          <tr><td><strong>Output against track 1</strong></td><td>1.19 × 10⁻⁷</td><td><span class="badge-ok">Same signal</span></td></tr>
+          <tr><td><strong>Output against track 2</strong></td><td>0.92</td><td><span class="badge-fail">Unrelated</span></td></tr>
         </tbody>
       </table>
 
-      <h2 id="causa-codec">Cause 1: an incompatible audio codec</h2>
+      <p class="codec-legend">That 1.19 × 10⁻⁷ is one 24-bit quantisation step: track 1 arrives whole, merely rounded when stored as FLAC. The 0.92 figure is simply a different signal.</p>
 
-      <div class="cause-card">
-        <h3><span class="cause-label cause-label-codec">Most common</span> An audio codec with no native support</h3>
-        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">DaVinci Resolve, particularly on Linux, cannot natively decode codecs such as AAC, MP3, AC-3 or E-AC-3. When it forces the decode anyway, it introduces an audio delay that shows up as drift.</p>
-      <figure class="fig">
-        <svg class="fig-svg" viewBox="0 0 660 344" width="660" height="344" role="img" aria-labelledby="cten cden" xmlns="http://www.w3.org/2000/svg"><title id="cten">Which audio codec each format carries, and which ones end up silent in DaVinci Resolve on Linux</title><desc id="cden">Table: MP4 and MOV carry AAC-LC, OBS MKV files AAC or Opus, WebM Opus or Vorbis, AVI MP3 or AC-3 and VOB AC-3, and all of them import without sound in DaVinci Resolve on Linux; WAV and AIFF with PCM and the converted MKV with FLAC do play.</desc><text x="20" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">SOURCE FORMAT</text><text x="230" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">USUAL AUDIO CODEC</text><text x="440" y="40" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10.5" letter-spacing="0.08em" fill="#66666e" text-anchor="start">IN RESOLVE ON LINUX</text><line x1="20" y1="48" x2="640" y2="48" stroke="rgba(255,255,255,.12)"/><text x="20" y="74" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">MP4 · MOV</text><text x="230" y="74" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC-LC</text><rect x="440" y="59" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="74" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="84" x2="640" y2="84" stroke="rgba(255,255,255,.055)"/><text x="20" y="108" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">OBS MKV</text><text x="230" y="108" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AAC or Opus</text><rect x="440" y="93" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="108" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="118" x2="640" y2="118" stroke="rgba(255,255,255,.055)"/><text x="20" y="142" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WebM</text><text x="230" y="142" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">Opus or Vorbis</text><rect x="440" y="127" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="142" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="152" x2="640" y2="152" stroke="rgba(255,255,255,.055)"/><text x="20" y="176" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">Old AVI</text><text x="230" y="176" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">MP3 or AC-3</text><rect x="440" y="161" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="176" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="186" x2="640" y2="186" stroke="rgba(255,255,255,.055)"/><text x="20" y="210" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">DVD VOB</text><text x="230" y="210" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">AC-3</text><rect x="440" y="195" width="160" height="22" rx="11" fill="rgba(255,96,88,.1)" stroke="rgba(255,96,88,.55)"/><text x="520" y="210" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#ff8c86">no sound</text><line x1="20" y1="220" x2="640" y2="220" stroke="rgba(255,255,255,.055)"/><text x="20" y="244" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">WAV · AIFF</text><text x="230" y="244" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">PCM</text><rect x="440" y="229" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="244" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve reads it</text><line x1="20" y1="254" x2="640" y2="254" stroke="rgba(255,255,255,.055)"/><text x="20" y="278" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="13.5" font-weight="600" fill="#f3f3ef">Converted MKV</text><text x="230" y="278" font-family="JetBrains Mono, ui-monospace, monospace" font-size="12" fill="#a7a7ad">FLAC</text><rect x="440" y="263" width="160" height="22" rx="11" fill="rgba(25,195,125,.12)" stroke="#19c37d"/><text x="520" y="278" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#4ee6a8">Resolve reads it</text><text x="20" y="304" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">Tested in DaVinci Resolve Studio 21 on Ubuntu, September 2026.</text><text x="20" y="321" font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" fill="#a7a7ad">On Windows and macOS, AAC and MP3 usually work; the rest stays uneven.</text></svg>
-        <figcaption>When the drift comes from the codec rather than the frame rate, this is what each format carries.</figcaption>
-      </figure>
-
-      </div>
-
-      <p>This is especially common with:</p>
-
-      <ul>
-        <li><strong>MP4 files shot on phones (iPhone, Android):</strong> they carry AAC audio, which DaVinci Resolve on Linux does not decode cleanly.</li>
-        <li><strong>Camera MOV files:</strong> AAC or PCM audio at certain sample rates.</li>
-        <li><strong>OBS Studio recordings:</strong> by default OBS records MP4 with AAC audio.</li>
-        <li><strong>GoPro and drone MP4s:</strong> H.264/H.265 paired with AAC.</li>
-      </ul>
-
-      <p>The classic symptom is that the offset stays constant through the clip rather than growing. On Linux it is more pronounced, because DaVinci Resolve Free ships no licensed AAC or MP3 decoders.</p>
-
-      <h2 id="causa-vfr">Cause 2: variable frame rate (VFR)</h2>
-
-      <div class="cause-card">
-        <h3><span class="cause-label cause-label-vfr">Very common</span> Video with a variable frame rate</h3>
-        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">Phones, screen recorders and action cameras record at a frame rate that varies from frame to frame (VFR). DaVinci Resolve assumes a constant frame rate (CFR), so the video timestamps stop lining up with the audio and the drift grows as the clip runs on.</p>
-      </div>
-
-      <p>VFR (<em>Variable Frame Rate</em>) turns up very often in:</p>
-
-      <ul>
-        <li><strong>OBS screen captures:</strong> screen capture mode produces VFR by default when the content has no stable frame rate.</li>
-        <li><strong>Phone video in efficiency modes:</strong> some Android phones and iPhones record VFR to save battery.</li>
-        <li><strong>NVIDIA ShadowPlay / GeForce Experience captures:</strong> these frequently record VFR.</li>
-        <li><strong>Meeting recordings (Zoom, Teams, Meet):</strong> the frame rate varies with available bandwidth.</li>
-      </ul>
-
-      <p>The tell-tale sign of VFR is that the drift <strong>starts small and grows</strong> as the clip progresses. At 30 seconds the audio might be 0.2 s behind; at five minutes it can be 2–3 seconds behind.</p>
-
-      <div class="warn-box">
-        <strong>Nudging the offset by hand does not work with VFR.</strong> Shift the audio track by a fixed number of frames and sync improves at one point in the clip while staying wrong everywhere else. The only real fix is to convert the video to CFR before importing.
-      </div>
-
-      <h2 id="causa-exportacion">Cause 3: an export mistake</h2>
-
-      <div class="cause-card">
-        <h3><span class="cause-label cause-label-export">Less common</span> Drift only in the exported file</h3>
-        <p style="color:var(--ink-dim);font-size:0.9rem;line-height:1.7;margin-top:0.5rem;">Everything sounds right in the DaVinci Resolve preview, but the exported MP4 or MOV has the audio out of sync. This usually comes down to an incompatible audio codec plus export setting combination, or to using hardware acceleration during the render.</p>
-      </div>
-
-      <p>This particular case is usually resolved with these settings on the Deliver page:</p>
-
-      <ul>
-        <li>Change the <strong>Audio Codec</strong> from AAC to Linear PCM or FLAC.</li>
-        <li>Turn off video <em>Hardware acceleration</em> for the render.</li>
-        <li>Lower the video <em>Data Rate</em> if you are pushing your GPU to its limit.</li>
-      </ul>
+      <p>What that means in practice depends on how your OBS tracks are laid out. If track 1 is the full mix, you got lucky: what reaches the editor has everything in it, even if you can no longer separate it. If track 1 is the game and the microphone is on track 2, <strong>what reaches the editor is the session without your voice</strong>.</p>
 
       <!-- Ad slot: mid-article -->
       <div class="ad-slot">
@@ -574,93 +534,54 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
 
-      <h2 id="solucion-codec">Fixing codec-related drift: convert to FLAC</h2>
+      <h2 id="command">The command that keeps them all</h2>
 
-      <p>If the problem is the audio codec — AAC, MP3, AC-3 — the fix is to convert the file into an MKV container with <strong>FLAC audio</strong> before importing it into DaVinci Resolve. FLAC is the lossless audio format DaVinci Resolve supports natively on Windows, macOS and Linux, Linux included.</p>
+      <p>With FFmpeg installed on your system, you just have to tell it explicitly which streams you want in the output:</p>
 
-      <p>VidToFLAC does precisely that: it takes your MP4, MOV or whatever else, copies the video without re-encoding, and converts only the audio to FLAC. It all happens in your browser, with nothing uploaded to any server.</p>
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i obs.mp4 -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>
+      </div>
+
+      <p><code>-map 0:v</code> takes every video stream from the first input and <code>-map 0:a</code> every audio stream. The video is copied untouched, exactly as the tool does it, and each audio track is encoded to FLAC separately. In the test the output went from one track to two, and the file from 2,546 to 3,402 KB.</p>
+
+      <p>For a whole folder of recordings:</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">for f in *.mp4; do ffmpeg -i "$f" -map 0:v -map 0:a -c:v copy -c:a flac "${f%.mp4}.mkv"; done</code>
+      </div>
+
+      <p>The container has to be MKV. MP4 does allow several audio tracks, but FLAC inside MP4 is still experimental in FFmpeg and causes more problems than it solves; MKV holds as many FLAC tracks as you need without any odd flags. If you have never used FFmpeg in a terminal, the guide on <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/">converting video with FFmpeg without installing anything</a> covers the rest of the syntax.</p>
+
+      <h2 id="check">How to see how many tracks you have</h2>
+
+      <p>Before converting anything, look at what is inside. With FFmpeg installed:</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 recording.mp4</code>
+      </div>
+
+      <p>Each line is one stream. If more than one says <code>audio</code>, your file is multitrack. Without FFmpeg, the same information shows up in MediaInfo, and in DaVinci Resolve you can see it on import: the audio panel of the Inspector shows a selector listing the available tracks instead of a single one.</p>
+
+      <h2 id="from-obs">How to avoid it from OBS</h2>
+
+      <p><strong>If you are not going to mix separately</strong>, leave only track 1 ticked under Settings → Output → Recording and make sure every source in the mixer is routed to it. That is a smaller file, it converts in the tool without touching a terminal, and it imports anywhere without surprises.</p>
+
+      <p><strong>If you are going to mix separately</strong>, keep the tracks, but <em>also</em> send the full mix to track 1. That way, if one day you convert the file with a tool that keeps only one, what survives is the complete mix rather than half the recording.</p>
+
+      <p>And there is a third option that skips the problem entirely: <strong>record in MKV from the start</strong>. Under Settings → Output → Recording → Recording Format, choose <em>mkv</em> instead of <em>mp4</em>. You can then use FLAC as the recording's audio codec, which leaves nothing to convert afterwards. It is also safer if something crashes: an MP4 cut off mid-write is corrupt, an MKV is not.</p>
 
       <div class="tool-cta">
-        <span class="tool-cta-label">Free tool · nothing uploaded</span>
-        <h3>Convert the audio to FLAC and clear the drift</h3>
-        <p>Drop in your video (MP4, MOV, MKV, AVI…), VidToFLAC converts the audio to FLAC, and you download the resulting MKV. The video is copied losslessly. Works with DaVinci Resolve on Windows, macOS and Linux.</p>
-        <a href="/en/" class="tool-cta-btn" aria-label="Convert audio to FLAC with VidToFLAC">
+        <span class="tool-cta-label">For single-track recordings</span>
+        <h3>Convert the audio to FLAC in your browser</h3>
+        <p>Drop in the recording, hit Convert and download the MKV ready to import into DaVinci Resolve. Nothing is uploaded to any server. If your file is multitrack, run the <code>-map</code> command above first.</p>
+        <a href="/en/" class="tool-cta-btn" aria-label="Convert a recording to FLAC">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Convert to MKV + FLAC free
-        </a>
-      </div>
-
-      <h2 id="solucion-vfr">Fixing VFR-related drift: convert to CFR</h2>
-
-      <p>If the problem is a variable frame rate, you need to convert the video to a <strong>constant frame rate (CFR)</strong>. That does mean re-encoding the video rather than remuxing, so there is some quality loss with a lossy codec. At <code>-crf 18</code> that loss is visually imperceptible.</p>
-
-      <p>With FFmpeg, the command to convert VFR to CFR is:</p>
-
-      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
-        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i video_vfr.mp4 -vf fps=30 -c:v libx264 -crf 18 -c:a flac video_cfr.mkv</code>
-      </div>
-
-      <p>Change <code>fps=30</code> to your video's original frame rate — 25 for European PAL, 24 for cinema, 60 for gaming. If you do not know it, check with:</p>
-
-      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
-        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v quiet -show_streams -select_streams v:0 video.mp4 | grep r_frame_rate</code>
-      </div>
-
-      <div class="info-box">
-        <strong>VidToFLAC and VFR:</strong> VidToFLAC converts the audio to FLAC but copies the video without re-encoding (<code>-c:v copy</code>), which preserves the original VFR. If VFR is specifically your problem, you need FFmpeg in the terminal with the <code>fps</code> filter to force CFR. VidToFLAC resolves codec-related drift, but not VFR-related drift.
-      </div>
-
-      <h2 id="diagnostico">Working out which cause is yours</h2>
-
-      <p>Before applying any fix, identify the cause with these three questions:</p>
-
-      <ol class="steps-list">
-        <li class="step-item">
-          <span class="step-num">1</span>
-          <span class="step-text"><strong>Does the drift grow through the clip?</strong> If the audio is 0.1 s behind at the start and 2 s behind at the end, it is VFR. Convert to CFR with FFmpeg.</span>
-        </li>
-        <li class="step-item">
-          <span class="step-num">2</span>
-          <span class="step-text"><strong>Is the offset constant from the start?</strong> If the audio is always exactly the same amount ahead or behind, it is most likely a codec problem. Convert the audio to FLAC with VidToFLAC.</span>
-        </li>
-        <li class="step-item">
-          <span class="step-num">3</span>
-          <span class="step-text"><strong>Fine in preview but wrong in the export?</strong> That is an export settings problem. Change the audio codec to Linear PCM or FLAC on the Deliver page, and turn off hardware acceleration.</span>
-        </li>
-      </ol>
-
-      <p>If you cannot tell VFR from a codec problem, check the file with <code>ffprobe</code>:</p>
-
-      <div style="background:var(--panel-2); border:1px solid var(--line-strong); border-left:3px solid var(--amber); border-radius:var(--radius-sm); padding:1rem 1.2rem; margin:1.25rem 0;">
-        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v quiet -show_streams -select_streams a:0 video.mp4 | grep codec_name</code>
-      </div>
-
-      <p>If the result is <code>aac</code>, <code>mp3</code> or <code>ac3</code>, the codec is the problem and VidToFLAC resolves it. If it comes back <code>pcm_s16le</code> or similar and the drift still grows, the problem is VFR.</p>
-
-      <!-- Ad slot: before FAQ -->
-      <div class="ad-slot">
-        <p class="ad-label">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-1123812992313934"
-             data-ad-slot="9253210070"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
-
-      <div class="tool-cta">
-        <span class="tool-cta-label">Codec-related drift?</span>
-        <h3>Convert to FLAC and fix it at the root</h3>
-        <p>Nothing to install. The audio is converted to FLAC, losslessly; the video is copied untouched. DaVinci Resolve imports the result with no sync problems.</p>
-        <a href="/en/" class="tool-cta-btn" aria-label="Fix audio drift with VidToFLAC">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Convert to MKV + FLAC free
+          Convert now
         </a>
       </div>
 
       <div class="info-box">
-        <strong>What we checked ourselves:</strong> our test bench is <strong>DaVinci Resolve Studio 21 and 21.0.4 on Linux Mint 22.3</strong>, across two different machines (an NVIDIA RTX 5060 Ti 16 GB and a GTX 1050 Ti). On it we have verified first-hand the site's core case: an MP4 with H.264 video and AAC audio imports silent into Resolve, and once converted to MKV with FLAC audio it imports with a proper waveform and sound. <strong>The other causes and settings described in this guide come from documentation and reported cases, not from our own testing</strong>, and we have not reproduced them on Windows or macOS. Last reviewed: September 2026.
+        <strong>What was verified here:</strong> the two-track file was generated and converted with <strong>FFmpeg 6.1.1 on Ubuntu</strong> on 20 September 2026, using the same command the app runs, and the signals were compared sample by sample to identify which track survives. <strong>What was not verified here is OBS behaviour version by version</strong>: the setting names match OBS Studio 30 and may differ in earlier releases.
       </div>
 
       <section class="faq-section" aria-labelledby="faq">
@@ -668,48 +589,57 @@
 
         <details class="faq-item">
           <summary>
-            Why does audio drift out of sync in DaVinci Resolve?
+            Does VidToFLAC keep both audio tracks from an OBS recording?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>The most common causes are: (1) an audio codec DaVinci Resolve does not decode cleanly (AAC, MP3, AC-3), especially on Linux; (2) video shot at a variable frame rate, typical of phones, OBS and screen recorders; (3) incorrect export settings. A constant offset points to the codec; drift that grows points to VFR.</p>
+            <p>No. The command the tool runs has no <code>-map</code>, so FFmpeg picks a single audio track and discards the rest. In the test with a two-track AAC MP4, the output had one FLAC track, identical to the first one in the original. If you need both, convert with FFmpeg in the terminal using <code>-map</code>.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            How do I re-sync the audio by hand in DaVinci Resolve?
+            Which track survives when there are several?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Select the audio track on the timeline and use <strong>Ctrl+Alt+left/right arrow</strong> to nudge it frame by frame. That only works if the offset is constant across the whole clip, though. If the drift grows over time (VFR), manual adjustment will not do: sync will be right at one point and wrong everywhere else. In that case, convert the file to CFR before importing.</p>
+            <p>The one FFmpeg considers best: with equal channel count and bitrate, the first one in the file. In the measurement, the output audio matched track 1 sample for sample and had no relation to track 2. In a typical OBS recording track 1 is the mix or the game sound, and the microphone sits on track 2.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            Does the drift show up in the exported file too?
+            Which FFmpeg command keeps every track when converting to FLAC?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>It depends where it starts. If the drift comes from the source file — codec or VFR — the export will carry it too, even where the preview looks fine. If you nudge the offset on the timeline without addressing the VFR, the exported file can come out wrong again. The right fix is to repair the source file before importing, not to patch it by hand.</p>
+            <p><code>ffmpeg -i input.mp4 -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>. The <code>-map 0:a</code> selects every audio track in the input instead of letting FFmpeg choose one. In the test, the output went from one to two FLAC tracks and the file grew from 2,546 to 3,402 KB.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            Does VidToFLAC fix VFR-related audio drift?
+            How do I know how many audio tracks my recording has?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>VidToFLAC resolves drift caused by an <strong>incompatible audio codec</strong> (AAC, MP3, AC-3), which is the most common cause. For VFR-related drift you need to convert the video to a constant frame rate with FFmpeg using the <code>fps</code> filter. If your drift grows over time, VFR is the problem and that extra step is required.</p>
+            <p>Run <code>ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 file.mp4</code> to list every stream in the file. In OBS, the number of tracks is the number of boxes ticked under Settings → Output → Recording → Audio Track.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            Is it better to record a single mixed track in OBS?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>It depends on whether you will want to duck the game under your voice while editing. If the answer is yes, record separate tracks and convert them with <code>-map</code>. If you will never touch them separately, one track simplifies the whole workflow: a smaller file, a conversion the tool handles on its own, and an import that works in any editor.</p>
           </div>
         </details>
       </section>
 
-      <p style="margin-top:2.5rem;">If the audio is not just drifting but silent altogether, see the guide to <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/">why DaVinci Resolve will not import MP4 and OBS audio</a>. For audio problems on export, see <a href="/en/articles/davinci-resolve-render-no-audio/">DaVinci Resolve rendering with no audio</a>.</p>
+      <p style="margin-top:2.5rem;">If the underlying problem is that Resolve plays nothing at all, start with <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/">DaVinci Resolve not importing audio from an OBS MP4</a>. And if what worries you is the size of the resulting file, it is measured in <a href="/en/articles/flac-file-size-by-source-codec-measured/">how much space FLAC takes by source codec</a>.</p>
 
-    
     </div><!-- /.article-body -->
 
 
@@ -722,37 +652,39 @@
     </aside>
 
     <nav class="prev-next-nav" aria-label="Previous and next articles">
-      <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/" class="prev-next-item">
+      <a href="/en/articles/flac-file-size-by-source-codec-measured/" class="prev-next-item">
         <span class="prev-next-label">← Previous</span>
-        <span class="prev-next-title">Convert video with FFmpeg without installing it: online alternatives</span>
-      </a>
-      <a href="/en/articles/flac-file-size-by-source-codec-measured/" class="prev-next-item is-next">
-        <span class="prev-next-label">Next →</span>
         <span class="prev-next-title">Converting to FLAC: how much space it takes, by source codec</span>
+      </a>
+      <a href="/en/articles/davinci-resolve-audio-errors/" class="prev-next-item is-next">
+        <span class="prev-next-label">Next →</span>
+        <span class="prev-next-title">Audio errors in DaVinci Resolve: causes and fixes</span>
       </a>
     </nav>
 
+
     <section class="related-articles" aria-labelledby="related-heading">
       <h2 class="related-heading" id="related-heading">Related articles</h2>
-      <p class="related-sub">More conversion and DaVinci Resolve compatibility guides.</p>
+      <p class="related-sub">Recording, converting and audio in DaVinci Resolve.</p>
       <div class="related-grid">
-        <a href="/en/articles/davinci-resolve-audio-errors/" class="related-card">
-          <span class="related-card-badge">Fix</span>
-          <span class="related-card-title">Audio errors in DaVinci Resolve</span>
-          <span class="related-card-arrow">Read →</span>
-        </a>
-        <a href="/en/articles/davinci-resolve-render-no-audio/" class="related-card">
-          <span class="related-card-badge">Fix</span>
-          <span class="related-card-title">DaVinci Resolve exports video with no audio</span>
-          <span class="related-card-arrow">Read →</span>
-        </a>
         <a href="/en/articles/davinci-resolve-not-importing-obs-mp4-audio/" class="related-card">
           <span class="related-card-badge">Fix</span>
-          <span class="related-card-title">DaVinci Resolve won't import MP4 audio</span>
+          <span class="related-card-title">DaVinci Resolve not importing audio from an OBS MP4</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+        <a href="/en/articles/flac-file-size-by-source-codec-measured/" class="related-card">
+          <span class="related-card-badge">Measured</span>
+          <span class="related-card-title">How much space FLAC takes, by source codec</span>
+          <span class="related-card-arrow">Read →</span>
+        </a>
+        <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/" class="related-card">
+          <span class="related-card-badge">Guide</span>
+          <span class="related-card-title">Convert video with FFmpeg without installing anything</span>
           <span class="related-card-arrow">Read →</span>
         </a>
       </div>
     </section>
+
 
   </article>
 </div><!-- /.article-outer -->
