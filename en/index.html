@@ -3540,11 +3540,21 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // Quien solo quiera cambiar de contenedor sin esperar tiene /en/convert-formats/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    const reencoding = !isAudioOnlyOutput && browserIncompatibleVideo;
+    // Browsers decode all six of these, but DaVinci Resolve does not: with
+    // VP8/VP9 inside the MKV it mutes the FLAC track, and with H.263, Theora,
+    // FLV1 (Sorenson) and MS MPEG-4 v3 (DivX 3) it imports the clip with no
+    // picture. AV1, H.264 and MPEG-4 (Xvid) do work when copied, so they are
+    // not here. Measured on Studio 21.0.4 under Ubuntu; see /en/test-bench/.
+    const editorIncompatibleVideo = /^(vp8|vp9|h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
+    const reencoding = !isAudioOnlyOutput && (browserIncompatibleVideo || editorIncompatibleVideo);
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {
-      log(`⚠ Video codec this browser cannot play (${probeVideoCodec}) — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
+      const reason = browserIncompatibleVideo
+        ? `this browser cannot play (${probeVideoCodec})`
+        : `${probeVideoCodec}: the editor will not play it`;
+      log(`⚠ Video codec ${reason} — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
       if (hevcSource) log(`ℹ HEVC video is converted to H.264 so DaVinci Resolve can import it. If you only want to change container without the wait, use the Formats page.`, 'sys');
+      if (editorIncompatibleVideo) log(`ℹ With ${probeVideoCodec} video copied as-is, DaVinci Resolve opens the clip but plays no audio. That is why it is re-encoded. The numbers are on the Tests page.`, 'sys');
     }
     const videoArgs = reencoding
       ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
@@ -3573,7 +3583,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     try {
       await ffmpeg.exec(cmd);
     } catch (execErr) {
-      if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
+      if (!isAudioOnlyOutput && !reencoding) {
         log('⚠ Stream copy failed — retrying with video re-encoding…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}

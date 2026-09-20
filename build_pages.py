@@ -166,7 +166,7 @@ PAGES = [
       <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
       <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
       <h3>Medido: qué pasó con un MKV de prueba</h3>
-      <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se copió tal cual</strong> —el navegador lo decodifica sin problema— y el archivo pasó de <strong>559 KB a 763 KB</strong> al convertir el Opus a FLAC. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
+      <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se recodifica a H.264</strong> —el navegador lo decodifica sin problema, pero DaVinci Resolve enmudece el audio si llega copiado— y el archivo pasó de <strong>559 KB a 2.678 KB</strong>. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
     </article>
   </section>""",
     },
@@ -648,12 +648,12 @@ PAGES = [
       <h3>Códecs de audio en WebM y por qué fallan en Resolve</h3>
       <p>YouTube usa <strong>Opus</strong> como códec de audio en la mayoría de sus streams WebM actuales. Los WebM más antiguos de YouTube (anteriores a 2014) pueden tener <strong>Vorbis</strong>. Los WebM de grabadoras de navegador usan también Opus habitualmente. Ninguno de estos códecs (Opus ni Vorbis) está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro o Avid Media Composer. Al importar un WebM en Resolve, el audio simplemente no aparece.</p>
       <h3>Vídeo VP9 y AV1 en WebM: compatibilidad con el navegador</h3>
-      <p>El vídeo VP9, usado por YouTube para resoluciones hasta 4K, es decodificable por los navegadores modernos (Chrome, Firefox, Edge). VidToFLAC puede copiar el stream VP9 bit a bit si el navegador lo soporta. AV1, el códec más reciente de YouTube para 4K y 8K, tiene soporte variable según el navegador y la CPU disponible. Si el AV1 no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para la previsualización. En todos los casos, el audio pasa siempre a FLAC.</p>
+      <p>El vídeo VP9, usado por YouTube para resoluciones hasta 4K, es decodificable por los navegadores modernos (Chrome, Firefox, Edge). Aun así, VidToFLAC <strong>lo recodifica a H.264</strong>: copiado tal cual, DaVinci Resolve muestra la imagen pero no reproduce la pista de audio. AV1, el códec más reciente de YouTube para 4K y 8K, tiene soporte variable según el navegador y la CPU disponible. Si el AV1 no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para la previsualización. En todos los casos, el audio pasa siempre a FLAC.</p>
       <h3>Paso a paso: convertir tu WebM a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .webm a VidToFLAC.</li>
         <li>Selecciona <strong>MKV</strong> como formato de salida para mantener la mayor compatibilidad.</li>
-        <li>Pulsa <strong>Convertir</strong>. El audio Opus o Vorbis se recodifica a FLAC; el vídeo VP9 o AV1 se copia bit a bit o se recodifica a H.264 según el soporte del navegador.</li>
+        <li>Pulsa <strong>Convertir</strong>. El audio Opus o Vorbis se recodifica a FLAC; el vídeo VP8 y VP9 se recodifica a H.264 para que el editor reproduzca el audio, mientras que el AV1 se copia sin tocarlo.</li>
         <li>Importa el MKV en DaVinci Resolve. La pista de audio FLAC se importará correctamente.</li>
       </ol>
       <h3>Diferencia entre WebM y MKV</h3>
@@ -956,8 +956,8 @@ PAGES = [
       <h3>Paso a paso: convertir tu 3GP a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .3gp a VidToFLAC.</li>
-        <li>La herramienta detecta el códec de vídeo (H.263 o H.264) y el de audio (AMR o AAC).</li>
-        <li>Pulsa <strong>Convertir</strong>. El vídeo se copia sin recodificar y el audio AMR o AAC pasa a FLAC. Si la vista previa no muestra la imagen es porque el navegador no decodifica H.263; el archivo descargado está completo.</li>
+        <li>La herramienta detecta el códec de vídeo (H.263, H.264 o MPEG-4) y el de audio (AMR o AAC), y decide con eso qué copiar y qué recodificar.</li>
+        <li>Pulsa <strong>Convertir</strong>. El audio AMR o AAC pasa a FLAC. El vídeo H.264 o MPEG-4 se copia sin recodificar; el H.263 se recodifica a H.264, porque copiado tal cual DaVinci Resolve importa el clip sin imagen.</li>
         <li>Importa el MKV resultante en DaVinci Resolve. El audio ya no aparecerá en gris.</li>
       </ol>
       <h3>Consejo: recuperación de vídeos de Nokia y Samsung antiguos</h3>

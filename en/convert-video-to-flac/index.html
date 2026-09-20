@@ -154,7 +154,7 @@
         "name": "Is the video re-encoded during conversion?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends on the codec, not the file extension. H.264, VP8, VP9, MPEG-4 (DivX, Xvid) and H.263 are copied without re-encoding. MPEG-2, WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (-crf 18), which takes longer and does not leave the video bit-for-bit identical, although the difference is not visible to the eye."
+          "text": "It depends on the codec, not the file extension. H.264, AV1 and MPEG-4 (Xvid) are copied without re-encoding. MPEG-2, WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (-crf 18), which takes longer and does not leave the video bit-for-bit identical, although the difference is not visible to the eye. VP8, VP9, H.263, Theora, FLV1 and DivX 3 are re-encoded as well, even though browsers read them fine, because DaVinci Resolve does not play them properly when they are copied."
         }
       },
       {
@@ -162,7 +162,7 @@
         "name": "The page preview shows no picture for my AVI or 3GP. Did it fail?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Not necessarily. If the video is DivX, Xvid or H.263, VidToFLAC copies it into the MKV as it is, but the browser cannot decode those codecs to display them. The downloaded file is complete; check it by opening it in your editor or in a player such as VLC."
+          "text": "Not necessarily. If the video is Xvid, VidToFLAC copies it into the MKV as it is, and the browser cannot always decode it to display it. The downloaded file is complete; check it by opening it in your editor or in a player such as VLC."
         }
       },
       {
@@ -2591,9 +2591,9 @@
       <h3>What VidToFLAC does with any of these videos</h3>
       <p>The process is the same for all nine: the tool reads the file, identifies its codecs and writes an <strong>MKV</strong> with the audio track in <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Premiere Pro and Avid decode natively.</p>
 
-      <p>What changes from one format to the next is the video. H.264, VP8, VP9, MPEG-4 (DivX, Xvid) and H.263 are copied without re-encoding, so the picture loses nothing. MPEG-2 (found in VOB files, many MPEG files and some TS files), WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (<code>-crf 18</code>): it takes longer, and the result is very close to the original but not bit-for-bit identical.</p>
+      <p>What changes from one format to the next is the video. H.264, AV1 and MPEG-4 (Xvid) are copied without re-encoding, so the picture loses nothing. MPEG-2 (found in VOB files, many MPEG files and some TS files), WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (<code>-crf 18</code>): it takes longer, and the result is very close to the original but not bit-for-bit identical. And a third group is re-encoded too, even though browsers read it without trouble: <strong>VP8, VP9, H.263, Theora, FLV1 (Sorenson) and MS MPEG-4 v3 (DivX 3)</strong>. Copied as they are, DaVinci Resolve imports the clip, but with VP8 or VP9 it plays no audio, and with the other four it shows no picture. Each one is measured in the <a href="/en/test-bench/">test bench</a>.</p>
 
-      <p>When the video is copied but the browser cannot decode it, as with DivX or H.263, the page preview may show no picture. The downloaded file is complete all the same.</p>
+      <p>When the video is copied but the browser cannot decode it, as with Xvid, the page preview may show no picture. The downloaded file is complete all the same.</p>
     </article>
   </section>
 
@@ -2612,13 +2612,13 @@
       <details class="faq-item">
         <summary>Is the video re-encoded during conversion?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>It depends on the codec, not the file extension. H.264, VP8, VP9, MPEG-4 (DivX, Xvid) and H.263 are copied without re-encoding. MPEG-2, WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (<code>-crf 18</code>), which takes longer and does not leave the video bit-for-bit identical, although the difference is not visible to the eye.</p>
+          <p>It depends on the codec, not the file extension. H.264, AV1 and MPEG-4 (Xvid) are copied without re-encoding. MPEG-2, WMV, VP6 and H.265/HEVC are re-encoded to high-quality H.264 (<code>-crf 18</code>), which takes longer and does not leave the video bit-for-bit identical, although the difference is not visible to the eye. VP8, VP9, H.263, Theora, FLV1 and DivX 3 are re-encoded as well, even though browsers read them fine, because DaVinci Resolve does not play them properly when they are copied.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary>The page preview shows no picture for my AVI or 3GP. Did it fail?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Not necessarily. If the video is DivX, Xvid or H.263, VidToFLAC copies it into the MKV as it is, but the browser cannot decode those codecs to display them. The downloaded file is complete; check it by opening it in your editor or in a player such as VLC.</p>
+          <p>Not necessarily. If the video is Xvid, VidToFLAC copies it into the MKV as it is, and the browser cannot always decode it to display it. The downloaded file is complete; check it by opening it in your editor or in a player such as VLC.</p>
         </div>
       </details>
       <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">
@@ -2717,7 +2717,7 @@
       <ol>
         <li>Drop the .webm onto the upload area.</li>
         <li>Choose <strong>MKV</strong> as the output.</li>
-        <li>Press <strong>Convert</strong>. VP8 and VP9 video is copied across when the browser can decode it.</li>
+        <li>Press <strong>Convert</strong>. VP8 and VP9 video is re-encoded to H.264, because DaVinci Resolve will not play the audio otherwise.</li>
         <li>Import the MKV into your editor, where the audio now plays.</li>
       </ol>
       <h3>Common problems and what to do</h3>
@@ -2726,6 +2726,8 @@
       <p>WebM is not a different container from MKV: it is a <strong>restricted subset of Matroska</strong>, with the same EBML format underneath and a short list of permitted codecs (VP8, VP9 or AV1 with Vorbis or Opus). That restriction is what makes it fit for the web — and what leaves out the audio editors expect.</p>
       <h3>The fix for your WebM files: FLAC audio in an MKV</h3>
       <p>WebM files from downloaded video, browser captures and screen recordings carry their audio as <strong>Opus or Vorbis</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
+
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. VP8 and VP9 video is re-encoded to H.264 at high quality, because DaVinci Resolve will not play the audio when they are copied as they are.</p>
 
       <p>Browser-made screen recordings are often variable frame rate, which makes audio drift as the clip runs. That needs a constant frame rate, not an audio conversion.</p>
     </article>
@@ -2826,7 +2828,7 @@
       <h3>What 3GP actually is</h3>
       <p>3GP was designed for early mobile networks, when bandwidth was measured in kilobits. It pairs H.263 or MPEG-4 video with AMR audio, a codec built for speech at very low bitrates. Files in this format are usually old phone recordings or voice notes, and their audio is rarely readable by editing software.</p>
       <h3>What VidToFLAC does with it</h3>
-      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is copied without re-encoding; the page preview may not show it, but the downloaded file is complete.</p>
+      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is re-encoded to H.264: copied as it is, DaVinci Resolve imports the clip with no picture at all.</p>
       <h3>AMR: a codec built for speech, not music</h3>
       <p>The <strong>AMR</strong> codec found in many 3GP files was designed for telephone speech at minimal bandwidth. 3GP files with AMR audio sound flat to begin with, and it is worth knowing before you convert: FLAC preserves exactly what is there, but it cannot rebuild what the codec discarded at recording time.</p>
       <h3>The fix for your 3GP files: FLAC audio in an MKV</h3>
@@ -3637,11 +3639,21 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // Quien solo quiera cambiar de contenedor sin esperar tiene /en/convert-formats/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    const reencoding = !isAudioOnlyOutput && browserIncompatibleVideo;
+    // Browsers decode all six of these, but DaVinci Resolve does not: with
+    // VP8/VP9 inside the MKV it mutes the FLAC track, and with H.263, Theora,
+    // FLV1 (Sorenson) and MS MPEG-4 v3 (DivX 3) it imports the clip with no
+    // picture. AV1, H.264 and MPEG-4 (Xvid) do work when copied, so they are
+    // not here. Measured on Studio 21.0.4 under Ubuntu; see /en/test-bench/.
+    const editorIncompatibleVideo = /^(vp8|vp9|h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
+    const reencoding = !isAudioOnlyOutput && (browserIncompatibleVideo || editorIncompatibleVideo);
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {
-      log(`⚠ Video codec this browser cannot play (${probeVideoCodec}) — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
+      const reason = browserIncompatibleVideo
+        ? `this browser cannot play (${probeVideoCodec})`
+        : `${probeVideoCodec}: the editor will not play it`;
+      log(`⚠ Video codec ${reason} — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
       if (hevcSource) log(`ℹ HEVC video is converted to H.264 so DaVinci Resolve can import it. If you only want to change container without the wait, use the Formats page.`, 'sys');
+      if (editorIncompatibleVideo) log(`ℹ With ${probeVideoCodec} video copied as-is, DaVinci Resolve opens the clip but plays no audio. That is why it is re-encoded. The numbers are on the Tests page.`, 'sys');
     }
     const videoArgs = reencoding
       ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
@@ -3670,7 +3682,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     try {
       await ffmpeg.exec(cmd);
     } catch (execErr) {
-      if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
+      if (!isAudioOnlyOutput && !reencoding) {
         log('⚠ Stream copy failed — retrying with video re-encoding…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}

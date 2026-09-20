@@ -48,7 +48,7 @@ CONTENT = {
         ),
         "faqs": [
             ("¿Tengo que recodificar el vídeo de mi MKV?",
-             "Si el códec de vídeo se puede copiar —H.264, VP9 y similares—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."),
+             "Si el códec de vídeo se puede copiar —H.264, AV1, Xvid—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, o VP8 o VP9, se recodifica a H.264 con calidad alta: los dos últimos porque DaVinci Resolve enmudece el audio cuando llegan copiados. En ambos casos solo la pista de audio pasa a FLAC."),
             ("Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?",
              "OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema."),
             ("¿Por qué la salida sigue siendo MKV y no MP4?",
@@ -112,14 +112,14 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus WebM: de Opus/Vorbis a FLAC</h3>\n'
             '      <p>Los <strong>WebM</strong> de grabadores de navegador, capturas de pantalla y vídeo publicado en la web llevan el audio en <strong>Opus o Vorbis</strong>, dos códecs que DaVinci Resolve no decodifica de serie. VidToFLAC reempaqueta el WebM en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
-            '      <p>El vídeo (normalmente VP8 o VP9) se copia <strong>bit a bit</strong> siempre que el navegador pueda manejarlo, sin recompresión ni pérdida de calidad. El MKV resultante se importa con sonido en cualquier editor profesional.</p>\n\n'
+            '      <p>El vídeo de un WebM (VP8 o VP9) <strong>se recodifica a H.264</strong>, y esta es la excepción a la regla de que el vídeo se copia. El motivo está medido: con VP8 o VP9 dentro del MKV, DaVinci Resolve muestra la imagen pero no reproduce la pista de audio, ni siquiera siendo FLAC. Recodificar tarda bastante más —cuenta unos tres cuartos de segundo por cada segundo de vídeo— y el archivo sale más grande, pero es lo que hace que el clip sirva. Los números están en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>\n\n'
             '      <p>Si el vídeo no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para asegurar una previsualización correcta.</p>'
         ),
         "faqs": [
             ("¿Por qué mi WebM no tiene audio en el editor?",
              "Los WebM usan audio <strong>Opus o Vorbis</strong>, que DaVinci Resolve no decodifica sin más. Pasar ese audio a FLAC dentro de un MKV lo hace compatible."),
             ("¿Pierdo calidad al convertir WebM a FLAC?",
-             "No en el audio: FLAC es sin pérdida. El vídeo VP8/VP9 se copia <strong>bit a bit</strong> cuando el navegador puede decodificarlo, conservando la calidad original."),
+             "En el audio no se pierde nada: FLAC es sin pérdida. El vídeo VP8 o VP9 sí se recodifica a H.264 con calidad alta (<code>-crf 18</code>), porque copiado tal cual DaVinci Resolve no reproduce el audio. La imagen queda muy parecida, no idéntica."),
             ("¿Sirve para grabaciones hechas con extensiones del navegador?",
              "Sí. Muchos grabadores de pantalla web exportan WebM con audio Opus; VidToFLAC los reempaqueta a MKV con audio FLAC listo para editar."),
             ("¿Puedo extraer solo el audio del WebM?",
@@ -273,7 +273,7 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus 3GP de móviles antiguos</h3>\n'
             '      <p>Los <strong>3GP</strong> de teléfonos antiguos (Nokia, Samsung, Motorola) y cámaras compactas usan audio en <strong>AAC o AMR</strong> y vídeo H.263/MPEG-4. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>\n\n'
-            '      <p>El audio AMR (típico de grabaciones de voz móviles) se decodifica y se vuelve a codificar a FLAC sin pérdida. El vídeo H.263, H.264 o MPEG-4 se copia sin recodificar, aunque la vista previa de la página no siempre pueda mostrar H.263.</p>\n\n'
+            '      <p>El audio AMR (típico de grabaciones de voz móviles) se decodifica y se vuelve a codificar a FLAC sin pérdida. El vídeo H.264 o MPEG-4 se copia sin recodificar; el H.263 de los móviles más antiguos <strong>se recodifica a H.264</strong>, porque copiado tal cual DaVinci Resolve importa el clip sin imagen.</p>\n\n'
             '      <p>Así recuperas grabaciones antiguas de móvil en un formato moderno y editable.</p>'
         ),
         "faqs": [
@@ -282,7 +282,7 @@ CONTENT = {
             ("¿Qué es el audio AMR y se puede convertir?",
              "AMR es un códec de voz de baja tasa usado en móviles antiguos. VidToFLAC lo decodifica y lo pasa a FLAC; la calidad no mejora respecto al original, pero gana compatibilidad."),
             ("¿Se recodifica el vídeo del 3GP?",
-             "No en el caso habitual: el vídeo H.263, H.264 o MPEG-4 de un 3GP se copia sin recodificar. Solo pasaría a H.264 si llevase un códec de la lista de recodificación, algo raro en este formato."),
+             "Depende del códec: el vídeo H.264 o MPEG-4 de un 3GP se copia sin recodificar, y ahí la imagen es idéntica. El H.263 de los teléfonos anteriores a 2010 sí se recodifica a H.264, porque copiado tal cual DaVinci Resolve no muestra imagen."),
             ("¿Sirve para grabaciones de teléfonos viejos?",
              "Sí. Es justo para ese metraje heredado: lo moderniza a MKV con audio FLAC para que puedas editarlo o archivarlo."),
             ("¿Tengo que instalar algo?",

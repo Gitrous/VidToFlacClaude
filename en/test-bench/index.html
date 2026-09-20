@@ -132,6 +132,7 @@
   }
   </script>
   <style>
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.2rem 0}
     .bench-table { width:100%; border-collapse:collapse; margin:1.2rem 0; font-size:0.86rem }
     .bench-table th { text-align:left; font-family:var(--font-mono); font-size:0.66rem; letter-spacing:.06em;
       text-transform:uppercase; color:var(--ink-mute); border-bottom:1px solid var(--line); padding:0.5rem 0.6rem }
@@ -242,8 +243,8 @@ ffmpeg -i source.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac output.mkv
         <tr><td>MP4</td><td>AAC-LC</td><td>Camera, phone, OBS</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>807 KB</td><td>1,019 KB</td></tr>
         <tr><td>MP4</td><td>MP3</td><td>Older converters</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>834 KB</td><td>1,009 KB</td></tr>
         <tr><td>MOV</td><td>PCM 16 bits</td><td>Field recorder</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>1,255 KB</td><td>765 KB</td></tr>
-        <tr><td>MKV</td><td>Opus</td><td>OBS, web video</td><td>VP9</td><td><span class="bench-copy">copies it</span></td><td>559 KB</td><td>763 KB</td></tr>
-        <tr><td>WebM</td><td>Vorbis</td><td>Older web video</td><td>VP8</td><td><span class="bench-copy">copies it</span></td><td>474 KB</td><td>772 KB</td></tr>
+        <tr><td>MKV</td><td>Opus</td><td>OBS, web video</td><td>VP9</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>559 KB</td><td>2,678 KB</td></tr>
+        <tr><td>WebM</td><td>Vorbis</td><td>Older web video</td><td>VP8</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>466 KB</td><td>2,273 KB</td></tr>
         <tr><td>MKV</td><td>AC-3</td><td>DVD copy, broadcast</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>972 KB</td><td>1,008 KB</td></tr>
         <tr><td>MKV</td><td>E-AC-3</td><td>Digital broadcast</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>972 KB</td><td>1,008 KB</td></tr>
         <tr><td>MKV</td><td>DTS</td><td>Blu-ray, home cinema</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>1,728 KB</td><td>1,019 KB</td></tr>
@@ -251,7 +252,7 @@ ffmpeg -i source.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac output.mkv
         <tr><td>WMV</td><td>WMA</td><td>Windows Movie Maker</td><td>WMV2</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>1,195 KB</td><td>2,373 KB</td></tr>
         <tr><td>VOB</td><td>MP2</td><td>DVD</td><td>MPEG-2</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>1,770 KB</td><td>2,519 KB</td></tr>
         <tr><td>TS</td><td>AAC</td><td>Digital TV recorder</td><td>H.264</td><td><span class="bench-copy">copies it</span></td><td>867 KB</td><td>1,022 KB</td></tr>
-        <tr><td>3GP</td><td>AMR-NB</td><td>Pre-2010 phone</td><td>H.263</td><td><span class="bench-copy">copies it</span></td><td>266 KB</td><td>339 KB</td></tr>
+        <tr><td>3GP</td><td>AMR-NB</td><td>Pre-2010 phone</td><td>H.263</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>367 KB</td><td>1,216 KB</td></tr>
         <tr><td>MP4</td><td>AAC-LC</td><td>iPhone since iOS 11 (HEVC video)</td><td>HEVC</td><td><span class="bench-reenc">re-encodes to H.264</span></td><td>491 KB</td><td>2,458 KB</td></tr>
         <tr><td>M4A</td><td>AAC-LC</td><td>Audio only</td><td>—</td><td><span class="bench-na">.flac output</span></td><td>115 KB</td><td>338 KB</td></tr>
         <tr><td>FLAC</td><td>FLAC</td><td>Audio only</td><td>—</td><td><span class="bench-na">.flac output</span></td><td>85 KB</td><td>85 KB</td></tr>
@@ -268,7 +269,7 @@ ffmpeg -i source.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac output.mkv
 
     <h2>What the numbers show</h2>
     <ul>
-      <li><strong>The video is copied more often than people claim.</strong> H.264, VP8, VP9, MPEG-4 (Xvid) and H.263 all came through untouched. Only three were re-encoded: WMV2, MPEG-2 and HEVC. With DivX, Xvid or H.263 the picture is left alone, even though the browser cannot show you a preview.</li>
+      <li><strong>What the browser can read and what the editor can read are not the same list.</strong> H.264, AV1 and MPEG-4 (Xvid) are copied. Nine are re-encoded to H.264: WMV2, MPEG-2 and HEVC because browsers cannot decode them, and VP8, VP9, H.263, Theora, FLV1 (Sorenson) and MS MPEG-4 v3 (DivX 3) because DaVinci Resolve does not play them properly when they arrive copied. With Xvid the picture is left alone, even though the browser cannot always show you a preview.</li>
       <li><strong>Converting to FLAC almost always makes the file bigger.</strong> Starting from lossy audio, every output grew: the MP4 with AAC went from 807 KB to 1,019 KB. What you gain is compatibility, not size.</li>
       <li><strong>Unless the source was already lossless.</strong> The MOV with PCM dropped from 1,255 KB to 765 KB, and the standalone WAV from 563 KB to 85 KB, because FLAC compresses what PCM stores raw.</li>
       <li><strong>A FLAC input comes out identical</strong>, byte for byte: 85 KB before and after. The tool does not recompress it.</li>
@@ -286,20 +287,45 @@ ffmpeg -i source.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac output.mkv
     <p>Music and continuous speech sit between those extremes, usually closer to half than to 6 %. Anyone promising you a fixed percentage has measured nothing.</p>
 
     <h2>What has been tested inside DaVinci Resolve</h2>
-    <p>This is the part that cannot be automated, so I only claim what I have seen with the program open:</p>
-    <ul>
-      <li>An <strong>H.264 MP4 with AAC-LC audio</strong> imported into <strong>DaVinci Resolve Studio 21 on Ubuntu</strong> comes in with an empty audio track: no waveform, no sound. It is on video: <a href="/en/#demo-titulo">watch it on the home page</a>.</li>
-      <li>The same material with its <strong>audio in FLAC</strong> comes in with its waveform, and plays.</li>
-    </ul>
-    <p>That is where the correction that rippled through several guides on this site came from: paying for Studio does <strong>not</strong> solve AAC on Linux, at least in version 21.</p>
+    <p>This is the part that cannot be automated. On 20 September 2026 I imported all seventeen files, one by one, into <strong>DaVinci Resolve Studio 21.0.4 build 5 on Ubuntu</strong> — first the originals, then the converted ones. Here is what came out.</p>
+
+    <p><strong>Of the seventeen originals, only three were usable</strong>: the ones carrying MP3, PCM and FLAC. The other fourteen failed in four distinct ways, and the difference between them matters more than it looks:</p>
+
+    <div class="table-scroll">
+      <table class="bench-table">
+        <thead><tr><th>How it fails</th><th>What you see</th><th>Audio codecs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Silent track</strong></td><td>The audio track appears, but nothing plays</td><td>AAC-LC, in all four files where it appears</td></tr>
+          <tr><td><strong>No track at all</strong></td><td>The clip imports with video only</td><td>Opus, Vorbis, E-AC-3, DTS</td></tr>
+          <tr><td><strong>Decodes wrongly</strong></td><td>Something plays, but not what is in the file</td><td>AC-3</td></tr>
+          <tr><td><strong>Will not import</strong></td><td>The file never reaches the Media Pool</td><td>AVI (Xvid), WMV, VOB, 3GP</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The silent track is the worst of the four, because the clip looks fine and you go hunting for the problem in the project settings. The AC-3 case was a surprise: I checked with FFmpeg that the source file is a constant 440 Hz tone from start to finish, so the odd beep that comes out halfway through is the decoder's doing, not the file's.</p>
+
+    <p>Sorted out, the pattern explains itself: <strong>what is free of patents gets through, and what is not does not</strong>. FLAC, PCM and MP3 — whose patents expired in 2017 — import fine; AAC, AC-3, E-AC-3, DTS and WMA do not. And this is the <strong>paid edition</strong>, with every licence Blackmagic ships: paying does not fix it, at least on Linux.</p>
+
+    <p><strong>With the seventeen converted files, all seventeen import and fifteen play.</strong> The four that Resolve refused outright now open without trouble; the AC-3 stops sounding wrong; the AAC stops arriving silent.</p>
+
+    <h3>The two that stayed silent, and why the tool changed</h3>
+
+    <p>The two remaining failures were the MKV with VP9 video and the WebM with VP8: correct picture, silent FLAC track — the same FLAC track that plays fine in the other fifteen files. To isolate the cause I repeated both with the <strong>audio copied bit for bit</strong> and the video codec as the only change, now H.264. Both played.</p>
+
+    <p>So: <strong>the video codec inside the MKV decides whether Resolve plays the audio</strong>. Testing the other codecs the tool used to copy turned up four more with a related problem — Theora, FLV1 (Sorenson), MS MPEG-4 v3 (DivX 3) and the H.263 in the 3GP — which import with sound but <em>no picture</em>.</p>
+
+    <p>That is why VidToFLAC no longer copies those six: <strong>VP8, VP9, H.263, Theora, FLV1 and MS MPEG-4 v3 are re-encoded to H.264</strong>, even though browsers read them perfectly well. It costs time and file size — the three matching rows in the table above show it — but the file that comes out is usable in an editor, which is what the tool is for.</p>
+
+    <p><strong>AV1 is still copied</strong>, and that deserves its own line: it is what many modern screen recorders produce, re-encoding it would be the most expensive job of all, and Resolve turns out to open it with picture and sound untouched. H.264 and MPEG-4 (Xvid) are copied too, and work just as well.</p>
 
     <h2>What is not tested yet</h2>
-    <p>Stated plainly, because a test bench that hides its gaps is worth nothing:</p>
+    <p>For honesty, because a test bench that hides its gaps is worth nothing:</p>
     <ul>
-      <li>How each of the seventeen files behaves <strong>inside Resolve</strong>, one by one. In progress.</li>
-      <li>The same tests on <strong>Windows and macOS</strong>, where AAC and MP3 support is licensed.</li>
-      <li>The <strong>free</strong> edition of Resolve on Linux, next to Studio.</li>
-      <li>Long files and real camera footage, to measure the browser memory ceiling.</li>
+      <li>The same tests on Windows and macOS, where AAC and MP3 support is licensed.</li>
+      <li>The free edition of Resolve on Linux, as against Studio. Everything above is Studio: it says nothing about what the free edition does, not even with AV1 or HEVC.</li>
+      <li>Long files and real camera footage, to find the browser's memory ceiling.</li>
+      <li>One oddity I could not reproduce: the converted WMV came out silent the first time and started halfway through on the second play. The file is correct; this needs repeating before anything is claimed about it.</li>
     </ul>
 
     <h2>How to repeat the tests</h2>

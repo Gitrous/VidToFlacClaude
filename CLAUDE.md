@@ -299,8 +299,10 @@ mídela allí primero y enlaza la página.
 
 Lo que salió de la primera tanda, todo verificado el 19 de septiembre de 2026:
 
-- Se copian H.264, VP8, VP9, MPEG-4 (Xvid) y H.263. Solo se recodificaron
-  WMV2, MPEG-2 y HEVC. Ninguno de los diecisiete archivos falló.
+- Se copian H.264, AV1 y MPEG-4 (Xvid). Se recodifican a H.264 nueve: WMV2,
+  MPEG-2 y HEVC porque el navegador no los decodifica, y VP8, VP9, H.263,
+  Theora, FLV1 y MS MPEG-4 v3 porque **Resolve no los reproduce bien copiados**
+  (ver más abajo). Ninguno de los diecisiete archivos falló al convertir.
 - Desde audio con pérdida, el FLAC **engorda** el archivo; desde PCM lo reduce;
   un FLAC de entrada sale idéntico byte a byte.
 - Recodificar HEVC a H.264 multiplicó el tamaño por cinco.
@@ -400,6 +402,38 @@ Y el error que se coló dos veces en el mismo sitio: formatear miles con
 `"JetBrains Mono. ui-monospace. monospace"`, que el navegador descarta. El
 gráfico del banco de pruebas lo arrastra desde su primera versión.
 
+## Dos listas de códecs, no una
+
+`browserIncompatibleVideo` decide qué recodificar **porque el navegador no sabe
+decodificarlo**. Durante meses se dio por hecho que eso bastaba, y no basta: lo
+que el navegador lee y lo que DaVinci Resolve lee son listas distintas. Medido
+en Studio 21.0.4 sobre Ubuntu el 20 de septiembre de 2026:
+
+- **VP8 y VP9**: Resolve muestra la imagen y **enmudece la pista FLAC**. La
+  misma pista FLAC suena en los otros quince archivos de la tanda. Aislado con
+  un experimento de control: mismo audio copiado bit a bit, solo cambia el
+  vídeo a H.264, y entonces suena.
+- **H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)**: entran con sonido
+  y **sin imagen**.
+- **AV1, H.264 y MPEG-4 (Xvid)**: bien copiados. El AV1 importa porque es lo que
+  graban muchos capturadores de pantalla y recodificarlo sería lo más caro de
+  todo — no lo metas en la lista sin una medición que lo justifique.
+
+Por eso hay una segunda constante, `editorIncompatibleVideo`, al lado de la
+primera y no mezclada con ella: son dos motivos distintos y el registro le dice
+al usuario cuál de los dos aplica. `reencoding` es la unión de las dos, y el
+reintento tras un fallo de copia mira `reencoding`, no la primera.
+
+**Lo que cuesta:** recodificar en ffmpeg.wasm va a unos **0,75 s por segundo de
+vídeo** (WebM de 120 s en 1080p: 0,5 s copiando contra 90,5 s recodificando, y
+de 11,4 MB a 52,4 MB). Un clip de 10 minutos son siete minutos y medio de
+espera. Antes de meter un códec nuevo en esa lista, mídelo en Resolve primero.
+
+**Al cambiar estas listas hay que barrer el texto del sitio**: la tabla del
+banco de pruebas, las FAQ de `merged_content.py`, las guías de WebM y 3GP en
+`build_pages.py` y `landing_content*.py`, y esta misma sección. El sitio afirma
+en media docena de sitios qué se copia y qué no.
+
 ## Promesas que el producto no puede sostener
 
 El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
@@ -415,10 +449,10 @@ El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
   graban en HEVC desde iOS 11. Toda afirmación de "se copia bit a bit / la
   imagen es idéntica" necesita su condición al lado. Contrasta siempre el texto
   contra esa constante del código, no contra lo que diga otro artículo.
-- **DivX, Xvid, H.263 y Sorenson se copian, no se recodifican.** Varias guías
-  decían que se recodificaban, pero `browserIncompatibleVideo` no los incluye:
-  se copian al MKV y la vista previa del navegador puede quedarse sin imagen.
-  Probado con ffmpeg. Si algún día se añaden a la lista, cambia el texto a la vez.
+- **Xvid se copia; DivX 3 no es lo mismo que Xvid.** Xvid es MPEG-4 part 2 y se
+  copia al MKV (la vista previa del navegador puede quedarse sin imagen, pero
+  Resolve lo abre bien). DivX 3 es `msmpeg4v3` y desde el 20 de septiembre de
+  2026 se recodifica, igual que Sorenson. Ver la sección siguiente.
 - **Solo se convierte una pista de audio.** El comando no lleva `-map`, así que
   FFmpeg elige una. Tres guías prometían "todas las pistas", justo lo que le
   importa a quien graba juego y micrófono por separado en OBS. Para varias, se

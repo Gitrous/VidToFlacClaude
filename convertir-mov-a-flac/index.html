@@ -3437,11 +3437,21 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // Quien solo quiera cambiar de contenedor sin esperar tiene /convertir-formatos/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    const reencoding = !isAudioOnlyOutput && browserIncompatibleVideo;
+    // Estos seis sí los decodifica el navegador, pero DaVinci Resolve no: con
+    // VP8/VP9 dentro del MKV enmudece la pista FLAC, y con H.263, Theora, FLV1
+    // (Sorenson) y MS MPEG-4 v3 (DivX 3) importa el clip sin imagen. AV1, H.264
+    // y MPEG-4 (Xvid) sí funcionan copiados y por eso no están aquí.
+    // Medido con Studio 21.0.4 sobre Ubuntu; está en /banco-de-pruebas/.
+    const editorIncompatibleVideo = /^(vp8|vp9|h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
+    const reencoding = !isAudioOnlyOutput && (browserIncompatibleVideo || editorIncompatibleVideo);
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {
-      log(`⚠ Códec de vídeo no compatible con navegador (${probeVideoCodec}) — re-codificando con H.264…` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
+      const motivo = browserIncompatibleVideo
+        ? `no compatible con navegador (${probeVideoCodec})`
+        : `${probeVideoCodec}: el editor no lo reproduce`;
+      log(`⚠ Códec de vídeo ${motivo} — re-codificando con H.264…` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
       if (hevcSource) log(`ℹ El vídeo HEVC se convierte a H.264 para que DaVinci Resolve pueda importarlo. Si solo quieres cambiar de contenedor sin esperar, usa la página Formatos.`, 'sys');
+      if (editorIncompatibleVideo) log(`ℹ Con el vídeo ${probeVideoCodec} copiado tal cual, DaVinci Resolve abre el clip pero no reproduce el audio. Por eso se recodifica. Los números están en la página Pruebas.`, 'sys');
     }
     const videoArgs = reencoding
       ? ['-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18']
@@ -3470,7 +3480,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     try {
       await ffmpeg.exec(cmd);
     } catch (execErr) {
-      if (!isAudioOnlyOutput && !browserIncompatibleVideo) {
+      if (!isAudioOnlyOutput && !reencoding) {
         log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}

@@ -103,7 +103,7 @@ PAGES_EN = [
       <h3>Why Matroska is the container of choice for remuxing</h3>
       <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it — and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
       <h3>Measured: what happened to a test MKV</h3>
-      <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 was <strong>copied as it was</strong> — the browser decodes it without trouble — and the file went from <strong>559 KB to 763 KB</strong> once the Opus became FLAC. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
+      <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 is <strong>re-encoded to H.264</strong> — browsers decode it without trouble, but DaVinci Resolve mutes the audio if it arrives copied — and the file went from <strong>559 KB to 2,678 KB</strong>. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
     </article>
   </section>""",
     },
@@ -229,7 +229,7 @@ PAGES_EN = [
       <ol>
         <li>Drop the .webm onto the upload area.</li>
         <li>Choose <strong>MKV</strong> as the output.</li>
-        <li>Press <strong>Convert</strong>. VP8 and VP9 video is copied across when the browser can decode it.</li>
+        <li>Press <strong>Convert</strong>. VP8 and VP9 video is re-encoded to H.264, because DaVinci Resolve will not play the audio otherwise.</li>
         <li>Import the MKV into your editor, where the audio now plays.</li>
       </ol>
       <h3>Common problems and what to do</h3>
@@ -859,7 +859,7 @@ PAGES_EN = [
       <h3>What 3GP actually is</h3>
       <p>3GP was designed for early mobile networks, when bandwidth was measured in kilobits. It pairs H.263 or MPEG-4 video with AMR audio, a codec built for speech at very low bitrates. Files in this format are usually old phone recordings or voice notes, and their audio is rarely readable by editing software.</p>
       <h3>What VidToFLAC does with it</h3>
-      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is copied without re-encoding; the page preview may not show it, but the downloaded file is complete.</p>
+      <p>AMR is decoded and re-encoded to FLAC. Be realistic about the result: AMR discards a great deal to hit its bitrate, and FLAC preserves exactly what remains — it cannot restore what was never stored. The video, usually H.263, is re-encoded to H.264: copied as it is, DaVinci Resolve imports the clip with no picture at all.</p>
       <h3>Step by step</h3>
       <ol>
         <li>Drop your .3gp file onto the upload area, or click <strong>Select files</strong>.</li>
@@ -911,7 +911,7 @@ CONTENT_EN = {
       <p>If the MKV carries <strong>H.265/HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. Everything else is copied as-is.</p>""",
         "faqs": [
             ("Do I lose quality converting an MKV to FLAC?",
-             "If the video codec can be copied — H.264, VP9 and similar — it is copied <strong>bit for bit</strong> and the picture is exactly the original. If the MKV holds <strong>H.265/HEVC</strong> it is re-encoded to H.264 at high quality. Only the audio track changes in either case, and FLAC is lossless."),
+             "If the video codec can be copied — H.264, AV1, Xvid — it is copied <strong>bit for bit</strong> and the picture is exactly the original. If the MKV holds <strong>H.265/HEVC</strong>, or VP8 or VP9, it is re-encoded to H.264 at high quality: the last two because DaVinci Resolve mutes the audio when they arrive copied. Only the audio track changes in either case, and FLAC is lossless."),
             ("Why does my OBS recording have no audio in DaVinci Resolve?",
              "OBS records <strong>AAC</strong> audio by default, sometimes Opus, and DaVinci Resolve — most notably on Linux — ships no decoder for either. Converting that track to FLAC inside the same MKV restores the sound."),
             ("Is there a size limit for an MKV?",
@@ -1148,7 +1148,7 @@ CONTENT_EN = {
       <h3>The fix for your WebM files: FLAC audio in an MKV</h3>
       <p>WebM files from downloaded video, browser captures and screen recordings carry their audio as <strong>Opus or Vorbis</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
-      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied bit for bit when the VP8 or VP9 video can be decoded by the browser.</p>
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. VP8 and VP9 video is re-encoded to H.264 at high quality, because DaVinci Resolve will not play the audio when they are copied as they are.</p>
 
       <p>Browser-made screen recordings are often variable frame rate, which makes audio drift as the clip runs. That needs a constant frame rate, not an audio conversion.</p>""",
         "faqs": [
@@ -1307,7 +1307,7 @@ CONTENT_EN = {
       <p>Be realistic about AMR: it discards a great deal to reach very low bitrates, and FLAC preserves exactly what remains. It cannot restore what was never stored.</p>""",
         "faqs": [
             ("Do I lose video quality converting a 3GP?",
-             'No, when the video is H.263, H.264 or MPEG-4, which is almost always the case: it is copied without re-encoding, so the picture stays exactly as it was. The audio becomes FLAC, which is lossless, although it cannot restore what AMR discarded.'),
+             'It depends on the codec. H.264 and MPEG-4 video is copied without re-encoding, so the picture stays exactly as it was. H.263, found on pre-2010 phones, is re-encoded to H.264, because DaVinci Resolve shows no picture when it is copied. The audio becomes FLAC, which is lossless, although it cannot restore what AMR discarded.'),
             ("Why does my 3GP import without sound?",
              'Because the audio is <strong>AMR</strong>, and DaVinci Resolve ships no licence to decode it on Linux — and handles it unevenly elsewhere. The video decoders are included, which is why you see the picture but hear nothing.'),
             ("What output format should I choose?",
