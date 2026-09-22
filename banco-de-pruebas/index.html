@@ -8,6 +8,7 @@
   <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://vidtoflac.tech/banco-de-pruebas/" />
+  <link rel="alternate" type="application/rss+xml" title="VidToFLAC — Guías de audio para DaVinci Resolve" href="https://vidtoflac.tech/feed.xml" />
   <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/banco-de-pruebas/" />
   <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/test-bench/" />
   <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/banco-de-pruebas/" />
@@ -152,7 +153,7 @@
     "headline": "Banco de pruebas: qué hace VidToFLAC con cada códec",
     "description": "Diecisiete combinaciones de contenedor y códec generadas con FFmpeg y pasadas por la misma cadena que usa VidToFLAC.",
     "datePublished": "2026-09-19",
-    "dateModified": "2026-09-19",
+    "dateModified": "2026-09-22",
     "inLanguage": "es",
     "mainEntityOfPage": "https://vidtoflac.tech/banco-de-pruebas/",
     "image": "https://vidtoflac.tech/media/capturas/resolve-forma-de-onda.webp",
@@ -336,12 +337,43 @@ ffmpeg -i origen.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac salida.mkv
 
     <p>Lo que sí se recodifica, y por un motivo distinto, son <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>: esos cuatro entran con sonido pero <em>sin imagen</em>, con las marcas de tiempo en cero o sin ellas, y ninguna opción de tiempos lo arregla. <strong>VP8, VP9 y AV1 se copian</strong>, que es lo que interesa: son los códecs del vídeo web y de los capturadores de pantalla modernos, y recodificarlos costaría unos tres cuartos de segundo por cada segundo de vídeo para no ganar nada.</p>
 
+    <h3>Segunda tanda: ocho casos que la primera no cubría</h3>
+
+    <p>El 22 de septiembre de 2026, en el mismo equipo, pasé por Resolve ocho archivos más, todos convertidos con la cadena de la herramienta. No son códecs distintos: son situaciones que los diecisiete primeros no tocaban.</p>
+
+    <div class="table-scroll">
+      <table class="bench-table">
+        <thead><tr><th>Qué se probaba</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Frame rate variable, alternando 30 y 15 fps cada dos segundos</td><td>Entra y va fluido. El audio sigue cuadrando al final del clip</td></tr>
+          <tr><td>FLAC de seis canales, desde un AC-3 5.1</td><td>Los seis canales sobreviven. Suena más fuerte al monitorizar en estéreo, porque Resolve los suma</td></tr>
+          <tr><td>FLAC a 96 kHz y 24 bits, de grabadora de campo</td><td>Entra y suena</td></tr>
+          <tr><td>Dos pistas FLAC separadas en el mismo archivo</td><td>Resolve muestra una sola. Las dos están dentro y se recuperan desde Clip Attributes (abajo)</td></tr>
+          <tr><td>Vídeo AV1 copiado, con audio Opus corregido</td><td>Se ve y suena</td></tr>
+          <tr><td>Archivo sin ninguna pista de audio</td><td>Entra sin dar error</td></tr>
+          <tr><td>Cinco minutos en 1080p, 25 MB</td><td>Entra y va fluido</td></tr>
+          <tr><td>4K recodificado de HEVC a H.264, 31 MB</td><td>Se ve bien a resolución completa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Dos pistas de audio: están dentro, pero Resolve enseña una</h3>
+
+    <p>Este merece su propio apartado porque es el resultado más útil de los ocho y el que más costó. Un MKV con <strong>dos pistas FLAC</strong> dentro, verificadas con <code>ffprobe</code> sin lugar a dudas, se importó con <strong>una sola pista de audio</strong> en la línea de tiempo.</p>
+
+    <p>Y no pasa siempre. Generé <strong>trece variantes</strong> del mismo clip cambiando una sola propiedad cada vez —la marca de pista predeterminada, los nombres de las pistas, 16 frente a 24 bits, 44,1 frente a 48 kHz, la resolución, la duración, las etiquetas que hereda un origen MP4, el contenedor MKV frente a MP4— y unas abrían dos pistas y otras una. Descartadas todas por separado, la conclusión honesta es que <strong>la causa no está en el archivo</strong>, sino en el estado de Resolve, que guarda los atributos de audio de un clip la primera vez que lo lee.</p>
+
+    <p>Lo importante es que <strong>el audio nunca se pierde</strong>. Con clic derecho sobre el clip en el Media Pool, <strong>Clip Attributes → Audio</strong>, el desplegable <strong>Format</strong> deja elegir el número de pistas y <strong>Source Channel</strong> lista los canales que el archivo trae de verdad: <em>Embedded Channel 1</em> y <em>Embedded Channel 2</em>. Asignados ahí, el clip pasa a tener las dos pistas separadas. Hay que hacerlo antes de arrastrarlo a la línea de tiempo.</p>
+
+    <p>Conviene recordar que <strong>la herramienta publicada convierte una sola pista</strong>: el comando no lleva <code>-map</code> y FFmpeg elige una. Para conservarlas todas hace falta FFmpeg de escritorio, y está explicado en <a href="/articulos/obs-dos-pistas-audio-davinci-resolve/">la guía de OBS con dos pistas de audio</a>.</p>
+
     <h2>Lo que todavía no está probado</h2>
     <p>Por honestidad, porque un banco de pruebas que no dice lo que le falta no sirve de nada:</p>
     <ul>
       <li>Las mismas pruebas en Windows y macOS, donde el soporte de AAC y MP3 sí está licenciado.</li>
       <li>La versión gratuita de Resolve sobre Linux, frente a Studio. Todo lo de arriba es Studio: no dice nada de lo que hace la gratuita, ni siquiera con el AV1 o el HEVC.</li>
-      <li>Archivos largos y de cámara real, para medir el techo de memoria del navegador.</li>
+      <li>El <strong>techo de memoria del navegador</strong>. Cinco minutos en 1080p pasan sin despeinarse, pero eso no dice dónde está el límite: falta meter un archivo de varios gigabytes y ver qué ocurre.</li>
+      <li>Por qué Resolve enseña una pista de audio teniendo dos. Trece variantes no lo explicaron; queda por mirar desde el lado del programa, no del archivo.</li>
       <li>Un caso raro que no he sabido reproducir: el WMV convertido salió mudo la primera vez y arrancó por la mitad a la segunda. El archivo es correcto; queda pendiente de repetir antes de afirmar nada.</li>
     </ul>
 

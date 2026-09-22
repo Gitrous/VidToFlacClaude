@@ -11,6 +11,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
+  <link rel="alternate" type="application/rss+xml" title="VidToFLAC — Guías de audio para DaVinci Resolve" href="https://vidtoflac.tech/feed.xml" />
   <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
   <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
   <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
@@ -48,7 +49,7 @@
     "description": "Grabas juego y micrófono en pistas separadas con OBS y al convertir el archivo se pierde una de las dos. Qué ocurre exactamente, medido con FFmpeg, y el comando que las conserva todas.",
     "url": "https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/",
     "datePublished": "2026-09-20",
-    "dateModified": "2026-09-20",
+    "dateModified": "2026-09-22",
     "inLanguage": "es",
     "author": {
       "@type": "Person",
@@ -421,6 +422,7 @@
         <li><a href="#medicion" class="sidebar-toc-link">La prueba: dos pistas dentro, una fuera</a></li>
         <li><a href="#cual-sobrevive" class="sidebar-toc-link">Cuál de las dos sobrevive</a></li>
         <li><a href="#comando" class="sidebar-toc-link">El comando que las conserva todas</a></li>
+        <li><a href="#clip-attributes" class="sidebar-toc-link">Y aun así Resolve puede enseñarte una sola pista</a></li>
         <li><a href="#comprobar" class="sidebar-toc-link">Cómo saber cuántas pistas tiene tu archivo</a></li>
         <li><a href="#desde-obs" class="sidebar-toc-link">Cómo evitarlo desde OBS</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
@@ -552,6 +554,25 @@
 
       <p>El contenedor tiene que ser MKV. MP4 admite varias pistas de audio, pero FLAC dentro de MP4 sigue siendo experimental en FFmpeg y da más problemas de los que resuelve; MKV guarda tantas pistas FLAC como haga falta sin banderas raras. Si nunca has usado FFmpeg en la terminal, la guía de <a href="/articulos/ffmpeg-convertir-video-sin-instalar-nada/">convertir vídeo con FFmpeg sin instalar nada</a> explica el resto de la sintaxis.</p>
 
+      <h2 id="clip-attributes">Y aun así Resolve puede enseñarte una sola pista</h2>
+
+      <p>Aquí viene la parte que no cuenta ninguna guía, y que solo aparece al arrastrar los archivos de verdad al programa. Un MKV con dos pistas FLAC dentro —verificado con <code>ffprobe</code>, sin ninguna duda— se importó en DaVinci Resolve Studio 21.0.4 sobre Ubuntu <strong>con una sola pista de audio</strong> en la línea de tiempo. El comando había hecho su trabajo; el editor no enseñaba el resultado.</p>
+
+      <p>Lo curioso es que no pasa siempre. Generé trece variantes del mismo clip cambiando una sola cosa cada vez —la marca de pista predeterminada, los nombres de las pistas, 16 frente a 24 bits, 44,1 frente a 48 kHz, la resolución, la duración, las etiquetas que hereda un origen MP4— y unas abrían dos pistas y otras una, sin que ninguna de esas propiedades explicara la diferencia. Descartadas todas por separado, la conclusión honesta es que <strong>no está en el archivo</strong>: depende del estado de Resolve, que guarda los atributos de audio de un clip la primera vez que lo lee.</p>
+
+      <p>Lo importante es que el audio nunca se perdió. Está dentro del archivo, y Resolve lo ve:</p>
+
+      <ol>
+        <li>Clic derecho sobre el clip en el <strong>Media Pool</strong>.</li>
+        <li><strong>Clip Attributes…</strong> → pestaña <strong>Audio</strong>.</li>
+        <li>En <strong>Format</strong>, elige cuántas pistas quieres y de qué tipo: dos pistas mono, en el caso típico de OBS con juego y micrófono.</li>
+        <li>En <strong>Source Channel</strong> de cada pista, asigna <strong>Embedded Channel 1</strong> y <strong>Embedded Channel 2</strong>.</li>
+      </ol>
+
+      <p>Al aceptar, el clip pasa a tener las dos pistas separadas en la línea de tiempo, con su volumen y sus efectos independientes, que es para lo que se grabó multipista. Hay que hacerlo <strong>antes</strong> de arrastrarlo: si ya está en la línea de tiempo, quítalo, cambia los atributos y vuelve a arrastrarlo.</p>
+
+      <p>Dicho de otro modo: si conviertes con <code>-map</code> y al arrastrar ves una sola pista, no vuelvas a convertir el archivo. Está bien. Lo que hay que tocar es Clip Attributes.</p>
+
       <h2 id="comprobar">Cómo saber cuántas pistas tiene tu archivo</h2>
 
       <p>Antes de convertir nada, mira lo que hay dentro. Con FFmpeg instalado:</p>
@@ -560,7 +581,7 @@
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 grabacion.mp4</code>
       </div>
 
-      <p>Cada línea es un flujo. Si ves más de una que ponga <code>audio</code>, tu archivo es multipista. Sin FFmpeg, el mismo dato aparece en MediaInfo, y en DaVinci Resolve lo ves al importar el clip: en el panel de audio del Inspector aparece un selector con las pistas disponibles en lugar de una sola.</p>
+      <p>Cada línea es un flujo. Si ves más de una que ponga <code>audio</code>, tu archivo es multipista. Sin FFmpeg, el mismo dato aparece en MediaInfo. En DaVinci Resolve no te fíes de cuántas pistas veas en la línea de tiempo —puede enseñarte una teniendo dos, como se explica <a href="#clip-attributes">más arriba</a>—: míralo en <strong>Clip Attributes → Audio</strong>, donde <strong>Source Channel</strong> lista los canales que trae el archivo de verdad.</p>
 
       <h2 id="desde-obs">Cómo evitarlo desde OBS</h2>
 

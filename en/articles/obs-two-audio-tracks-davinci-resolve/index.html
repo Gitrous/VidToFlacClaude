@@ -11,6 +11,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#0a0a0b" />
   <link rel="canonical" href="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
+  <link rel="alternate" type="application/rss+xml" title="VidToFLAC — Audio guides for DaVinci Resolve" href="https://vidtoflac.tech/en/feed.xml" />
   <link rel="alternate" hreflang="es" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
   <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
   <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
@@ -48,7 +49,7 @@
     "description": "You record game and mic on separate tracks in OBS and the conversion drops one of them. What happens exactly, measured with FFmpeg, and the command that keeps them all.",
     "url": "https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/",
     "datePublished": "2026-09-20",
-    "dateModified": "2026-09-20",
+    "dateModified": "2026-09-22",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -421,6 +422,7 @@
         <li><a href="#measurement" class="sidebar-toc-link">The test: two tracks in, one out</a></li>
         <li><a href="#which-survives" class="sidebar-toc-link">Which of the two survives</a></li>
         <li><a href="#command" class="sidebar-toc-link">The command that keeps them all</a></li>
+        <li><a href="#clip-attributes" class="sidebar-toc-link">And Resolve may still show you a single track</a></li>
         <li><a href="#check" class="sidebar-toc-link">How to see how many tracks you have</a></li>
         <li><a href="#from-obs" class="sidebar-toc-link">How to avoid it from OBS</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
@@ -552,6 +554,25 @@
 
       <p>The container has to be MKV. MP4 does allow several audio tracks, but FLAC inside MP4 is still experimental in FFmpeg and causes more problems than it solves; MKV holds as many FLAC tracks as you need without any odd flags. If you have never used FFmpeg in a terminal, the guide on <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/">converting video with FFmpeg without installing anything</a> covers the rest of the syntax.</p>
 
+      <h2 id="clip-attributes">And Resolve may still show you a single track</h2>
+
+      <p>Here is the part no guide mentions, and it only turns up once you drag the real files into the program. An MKV with two FLAC tracks inside &mdash; confirmed with <code>ffprobe</code>, no room for doubt &mdash; imported into DaVinci Resolve Studio 21.0.4 on Ubuntu <strong>with a single audio track</strong> on the timeline. The command had done its job; the editor was not showing the result.</p>
+
+      <p>The odd thing is that it does not always happen. I generated thirteen variants of the same clip, changing one thing at a time &mdash; the default-track flag, the track names, 16 against 24 bits, 44.1 against 48 kHz, the resolution, the duration, the tags inherited from an MP4 source &mdash; and some opened two tracks while others opened one, with none of those properties explaining the difference. With every one of them ruled out on its own, the honest conclusion is that <strong>it is not in the file</strong>: it depends on the state of Resolve, which stores a clip's audio attributes the first time it reads it.</p>
+
+      <p>What matters is that the audio was never lost. It is inside the file, and Resolve can see it:</p>
+
+      <ol>
+        <li>Right-click the clip in the <strong>Media Pool</strong>.</li>
+        <li><strong>Clip Attributes&hellip;</strong> &rarr; <strong>Audio</strong> tab.</li>
+        <li>Under <strong>Format</strong>, choose how many tracks you want and of what kind: two mono tracks, in the usual OBS case of game and microphone.</li>
+        <li>Under <strong>Source Channel</strong> for each track, assign <strong>Embedded Channel 1</strong> and <strong>Embedded Channel 2</strong>.</li>
+      </ol>
+
+      <p>Once you accept, the clip carries the two separate tracks on the timeline, each with its own volume and effects, which is the whole point of recording multitrack. Do it <strong>before</strong> dragging it in: if it is already on the timeline, remove it, change the attributes and drag it again.</p>
+
+      <p>Put another way: if you convert with <code>-map</code> and see a single track when you drag the file in, do not convert it again. The file is fine. Clip Attributes is what needs changing.</p>
+
       <h2 id="check">How to see how many tracks you have</h2>
 
       <p>Before converting anything, look at what is inside. With FFmpeg installed:</p>
@@ -560,7 +581,7 @@
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 recording.mp4</code>
       </div>
 
-      <p>Each line is one stream. If more than one says <code>audio</code>, your file is multitrack. Without FFmpeg, the same information shows up in MediaInfo, and in DaVinci Resolve you can see it on import: the audio panel of the Inspector shows a selector listing the available tracks instead of a single one.</p>
+      <p>Each line is one stream. If more than one says <code>audio</code>, your file is multitrack. Without FFmpeg, the same information shows up in MediaInfo. In DaVinci Resolve, do not trust how many tracks you see on the timeline &mdash; it can show one while the file holds two, as explained <a href="#clip-attributes">above</a>: check it in <strong>Clip Attributes &rarr; Audio</strong>, where <strong>Source Channel</strong> lists the channels the file actually carries.</p>
 
       <h2 id="from-obs">How to avoid it from OBS</h2>
 
