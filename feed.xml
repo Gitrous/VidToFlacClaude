@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>VidToFLAC — Guías de audio para DaVinci Resolve</title>
+    <link>https://vidtoflac.tech/articulos/</link>
+    <description>Artículos medidos sobre audio en DaVinci Resolve, códecs y conversión a FLAC. Cada afirmación se prueba con archivos reales antes de publicarla.</description>
+    <language>es-ES</language>
+    <lastBuildDate>Tue, 22 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://vidtoflac.tech/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una</title>
+      <link>https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/</guid>
+      <description>Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Qué pasa exactamente, medido, y el comando que conserva todas.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convertir a FLAC: cuánto ocupa según el códec de origen</title>
+      <link>https://vidtoflac.tech/articulos/convertir-a-flac-cuanto-ocupa-segun-el-codec/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/convertir-a-flac-cuanto-ocupa-segun-el-codec/</guid>
+      <description>Trece códecs convertidos a FLAC y medidos con FFmpeg: cuánto crece el archivo, por qué depende de la profundidad de bits y qué cambia en calidad.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve audio desincronizado: causas y cómo solucionarlo</title>
+      <link>https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/</guid>
+      <description>El audio de DaVinci Resolve va desincronizado respecto al vídeo. Guía completa con todas las causas (códec, VFR, exportación) y cómo resolverlas paso a paso.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convertir vídeo con FFmpeg sin instalarlo: alternativas online 2026</title>
+      <link>https://vidtoflac.tech/articulos/ffmpeg-convertir-video-sin-instalar-nada/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/ffmpeg-convertir-video-sin-instalar-nada/</guid>
+      <description>¿Necesitas FFmpeg pero no quieres instalarlo? Cómo convertir vídeo con FFmpeg dentro del navegador, sin instalar nada y sin subir el archivo a ningún servidor.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve exporta vídeo sin audio: causas y soluciones 2026</title>
+      <link>https://vidtoflac.tech/articulos/davinci-resolve-render-sin-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/davinci-resolve-render-sin-audio/</guid>
+      <description>¿DaVinci Resolve exporta el vídeo sin audio? Todas las causas y su solución: ajustes de render, pistas silenciadas y códecs de audio incompatibles.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve no importa audio de MP4, MOV u OBS: causas y soluciones</title>
+      <link>https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/</guid>
+      <description>¿DaVinci Resolve no reproduce el audio de tu MP4, MOV o grabación de OBS? Guía paso a paso para arreglar el códec de audio sin reinstalar nada.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve en Linux: instalación y solución al problema de audio</title>
+      <link>https://vidtoflac.tech/articulos/davinci-resolve-linux-instalacion-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/davinci-resolve-linux-instalacion-audio/</guid>
+      <description>Instalar DaVinci Resolve en Ubuntu, Pop!_OS y Fedora, y solucionar el problema del audio AAC en Linux: por qué ocurre y cómo arreglarlo gratis.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve no importa H.265 / HEVC: causas y soluciones</title>
+      <link>https://vidtoflac.tech/articulos/davinci-resolve-h265-hevc-no-importa/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/davinci-resolve-h265-hevc-no-importa/</guid>
+      <description>¿DaVinci Resolve no abre tu archivo H.265 o HEVC? Causas por GPU y por versión, y cómo solucionar la importación sin perder calidad de imagen.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve gratuito vs Studio: diferencias reales en 2026</title>
+      <link>https://vidtoflac.tech/articulos/davinci-resolve-gratuito-vs-studio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/davinci-resolve-gratuito-vs-studio/</guid>
+      <description>¿Merece la pena pagar DaVinci Resolve Studio? Diferencias reales, límites de la versión gratuita y por qué el audio en Linux no se arregla pagando.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Cómo convertir WMV a MP4 sin perder calidad – Guía 2026</title>
+      <link>https://vidtoflac.tech/articulos/convertir-wmv-a-mp4/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/convertir-wmv-a-mp4/</guid>
+      <description>Convierte WMV a MP4 gratis y sin instalar nada: qué es WMV, por qué conviene convertirlo y cómo hacerlo en el navegador o con FFmpeg en la terminal.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convertir MOV a MP4 sin perder calidad: cuándo es posible</title>
+      <link>https://vidtoflac.tech/articulos/convertir-mov-a-mp4-sin-perder-calidad/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/convertir-mov-a-mp4-sin-perder-calidad/</guid>
+      <description>Convierte MOV a MP4 sin perder un solo bit de calidad. Guía completa: remux vs re-encode, VidToFLAC, FFmpeg, iPhone, GoPro, Sony, Canon. Gratis y en segundos.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Cómo convertir MKV a MP4 sin perder calidad – Guía completa 2026</title>
+      <link>https://vidtoflac.tech/articulos/convertir-mkv-a-mp4-sin-perder-calidad/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/convertir-mkv-a-mp4-sin-perder-calidad/</guid>
+      <description>Convierte MKV a MP4 sin recomprimir el vídeo ni perder un solo fotograma. Guía completa: remux con VidToFLAC o FFmpeg, cuándo es seguro y cuándo no.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convertir AVI a MP4 sin perder calidad: cuándo es posible</title>
+      <link>https://vidtoflac.tech/articulos/convertir-avi-a-mp4-sin-perder-calidad/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/convertir-avi-a-mp4-sin-perder-calidad/</guid>
+      <description>Convertir AVI a MP4 sin perder calidad: cuándo se puede copiar el vídeo y cuándo hay que recodificarlo, con VidToFLAC o con FFmpeg, y qué hacer con su audio.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Qué formato de vídeo usar en DaVinci Resolve: guía de códecs 2026</title>
+      <link>https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/</guid>
+      <description>Guía completa de formatos y códecs para DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW y cuál elegir según tu cámara y flujo de trabajo.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Cómo exportar vídeo de DaVinci Resolve sin perder calidad de audio</title>
+      <link>https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/exportar-video-davinci-resolve-sin-perder-calidad-audio/</guid>
+      <description>Guía paso a paso para exportar desde DaVinci Resolve sin degradar el audio: ajustes de la página Deliver, códecs recomendados y errores habituales.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Errores de audio en DaVinci Resolve: causas y soluciones habituales</title>
+      <link>https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/</guid>
+      <description>Guía completa para solucionar los errores de audio en DaVinci Resolve: sin sonido, códec no compatible, AAC en Linux, MOV sin audio y más. Sin subir archivos.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -172,6 +172,25 @@ Antes de regenerar, haz siempre una pasada en seco comparando la salida del
 generador con el disco. Después de regenerar, **debe dar 0 líneas de
 diferencia**: si no, disco y generador han divergido.
 
+## El feed RSS se genera, como las landings
+
+`build_feed.py` escribe `feed.xml` y `en/feed.xml` leyendo los 16 artículos de
+cada idioma. Saca el titular del `"headline"` del JSON-LD y no del `<title>`,
+porque el `<title>` lleva a veces el sufijo del sitio; la entradilla sale de la
+`meta description`, y las fechas de `datePublished` / `dateModified`. Un
+artículo sin `datePublished` se omite con un aviso en vez de inventarle una
+fecha, porque un `<item>` sin `pubDate` desordena el feed en cualquier lector.
+
+Al publicar un artículo hay que **ejecutar `build_feed.py`**: es el noveno sitio
+que tocar, además de los ocho de la sección de arriba. Tiene `--dry-run`, igual
+que `build_pages.py`.
+
+El `<link rel="alternate" type="application/rss+xml">` está en **52 páginas**:
+portada, índice de artículos, los 32 artículos, las 12 landings, el banco de
+pruebas y las páginas de autor, cada idioma apuntando a su propio feed. En las
+landings no se pone a mano: viene de `index.html` y `en/index.html` a través del
+generador. Comprueba que ninguna página española enlace `en/feed.xml`.
+
 ## Medir duplicación: n-gramas, nunca vocabulario
 
 Para saber si dos páginas son duplicados, compara **conjuntos de n-gramas de 8
@@ -454,6 +473,34 @@ Y al cambiar estas listas hay que barrer el texto del sitio: la tabla del banco
 de pruebas, las FAQ de `merged_content.py`, las guías de WebM, MKV y 3GP en
 `build_pages.py` y `landing_content*.py`, y esta misma sección.
 
+## Dos pistas de audio: el archivo está bien, lo que engaña es Resolve
+
+Medido el 22 de septiembre de 2026 sobre Studio 21.0.4 en Ubuntu. Un MKV con
+**dos pistas FLAC** dentro, verificadas con `ffprobe`, se importa a veces con
+**una sola pista** en la línea de tiempo. Se generaron **trece variantes**
+cambiando una propiedad cada vez —marca de pista predeterminada, nombres de
+pista, 16 vs 24 bits, 44,1 vs 48 kHz, resolución, duración, etiquetas
+`HANDLER_NAME`/`VENDOR_ID` heredadas de un origen MP4, MKV vs MP4— y **ninguna
+explica la diferencia**: unas abrían dos y otras una.
+
+La salida no es convertir otra vez, es **Clip Attributes**: clic derecho en el
+Media Pool → `Clip Attributes…` → pestaña `Audio`. `Format` deja elegir el
+número de pistas y `Source Channel` lista `Embedded Channel 1` y `2`, es decir,
+los canales que el archivo trae de verdad. Hay que hacerlo **antes** de
+arrastrar el clip.
+
+Esto está publicado en la guía de OBS de los dos idiomas (sección
+`#clip-attributes`) y en el banco de pruebas. Corrige de paso una afirmación que
+había escrito yo: que el Inspector mostraba un selector con las pistas al
+importar. No lo hace.
+
+**La lección de método, distinta de la del experimento de control.** Cuando cada
+variable queda descartada por separado pero la combinación sí cambia el
+resultado, la causa no está donde estás mirando. Aquí estaba en el estado del
+programa —Resolve cachea los atributos de audio de un clip la primera vez que lo
+lee—, no en el archivo. Señal para parar de generar archivos y decirlo así en el
+sitio, con la incertidumbre incluida, en vez de publicar una causa inventada.
+
 ## Promesas que el producto no puede sostener
 
 El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
@@ -477,6 +524,8 @@ El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
   FFmpeg elige una. Tres guías prometían "todas las pistas", justo lo que le
   importa a quien graba juego y micrófono por separado en OBS. Para varias, se
   remite a `ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv`.
+  Ese comando **sí** mete las dos pistas en el archivo, pero Resolve puede
+  enseñar una: ver "Dos pistas de audio" más arriba.
 - **Nada de absolutos.** Ni "la única solución", ni "no funciona en ningún
   sistema", ni "todos los errores". El soporte de códecs depende de versión,
   plataforma y configuración.

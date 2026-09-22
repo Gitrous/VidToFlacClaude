@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>VidToFLAC — Audio guides for DaVinci Resolve</title>
+    <link>https://vidtoflac.tech/en/articles/</link>
+    <description>Measured articles on audio in DaVinci Resolve, codecs and FLAC conversion. Every claim is tested against real files before it is published.</description>
+    <language>en</language>
+    <lastBuildDate>Tue, 22 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://vidtoflac.tech/en/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OBS with two audio tracks: why DaVinci Resolve only gets one</title>
+      <link>https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/</guid>
+      <description>You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Converting to FLAC: how much space it takes, by source codec</title>
+      <link>https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/flac-file-size-by-source-codec-measured/</guid>
+      <description>Thirteen audio codecs converted to FLAC and measured with FFmpeg: how much the file grows, why bit depth decides it, and what changes in quality.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve audio out of sync: causes and how to fix it</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/</guid>
+      <description>Audio drifting out of sync in DaVinci Resolve? Every cause explained — codec, variable frame rate, export settings — and how to fix each one.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convert video with FFmpeg without installing it: online alternatives</title>
+      <link>https://vidtoflac.tech/en/articles/ffmpeg-convert-video-without-installing-anything/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/ffmpeg-convert-video-without-installing-anything/</guid>
+      <description>Need FFmpeg but will not install it? How to convert video with FFmpeg inside your browser, with nothing to install and nothing uploaded anywhere.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve exports video with no audio: causes and fixes</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-render-no-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-render-no-audio/</guid>
+      <description>DaVinci Resolve exporting video with no audio? Every possible cause and its fix: render settings, muted tracks and incompatible audio codecs.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve won&#x27;t import audio from MP4, MOV or OBS: causes and fixes</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-not-importing-obs-mp4-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-not-importing-obs-mp4-audio/</guid>
+      <description>DaVinci Resolve playing no audio from your MP4, MOV or OBS recording? A step-by-step fix for the audio codec problem, with nothing to reinstall.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve on Linux: installation and the audio fix</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-linux-install-audio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-linux-install-audio/</guid>
+      <description>Install DaVinci Resolve on Ubuntu, Pop!_OS or Fedora, and fix the AAC audio problem on Linux: why it happens and how to solve it for free.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve won&#x27;t import H.265 / HEVC: causes and fixes</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-h265-hevc-not-importing/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-h265-hevc-not-importing/</guid>
+      <description>Free DaVinci Resolve refusing to open your H.265 or HEVC file? A complete guide to fixing H.265 import problems in DaVinci Resolve without losing quality.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>DaVinci Resolve free vs Studio: the real differences in 2026</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-free-vs-studio/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-free-vs-studio/</guid>
+      <description>Is DaVinci Resolve Studio worth paying for? The real differences, the limits of the free version, and why paying does not fix audio on Linux.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>How to convert WMV to MP4 without losing quality – 2026 guide</title>
+      <link>https://vidtoflac.tech/en/articles/convert-wmv-to-mp4/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/convert-wmv-to-mp4/</guid>
+      <description>Convert WMV to MP4 free with nothing to install: what WMV is, why you may need to convert it, and how to do it in the browser or with FFmpeg.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convert MOV to MP4 without losing quality: when it is possible</title>
+      <link>https://vidtoflac.tech/en/articles/convert-mov-to-mp4-without-losing-quality/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/convert-mov-to-mp4-without-losing-quality/</guid>
+      <description>Convert MOV to MP4 without losing quality: remux or re-encode, with VidToFLAC or FFmpeg, for footage from iPhone, GoPro, Sony and Canon.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>How to convert MKV to MP4 without losing quality – complete 2026 guide</title>
+      <link>https://vidtoflac.tech/en/articles/convert-mkv-to-mp4-without-losing-quality/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/convert-mkv-to-mp4-without-losing-quality/</guid>
+      <description>Convert MKV to MP4 without recompressing the video: how remuxing works in VidToFLAC or FFmpeg, when it is safe and when it is not.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Convert AVI to MP4 without losing quality: when it is possible</title>
+      <link>https://vidtoflac.tech/en/articles/convert-avi-to-mp4-without-losing-quality/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/convert-avi-to-mp4-without-losing-quality/</guid>
+      <description>Convert AVI to MP4 without losing quality: when the video can be copied, when it must be re-encoded, and how to fix AVI audio that will not play.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Tue, 30 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>How to export video from DaVinci Resolve without losing audio quality</title>
+      <link>https://vidtoflac.tech/en/articles/export-video-davinci-resolve-without-losing-audio-quality/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/export-video-davinci-resolve-without-losing-audio-quality/</guid>
+      <description>A step-by-step guide to exporting from DaVinci Resolve without degrading the audio: Deliver page settings, recommended codecs and the usual mistakes.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Audio errors in DaVinci Resolve: causes and common fixes</title>
+      <link>https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/</guid>
+      <description>A complete guide to fixing audio errors in DaVinci Resolve: no sound, unsupported codecs, AAC on Linux, silent MOV files and more. Nothing uploaded.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Which video format to use in DaVinci Resolve: a 2026 codec guide</title>
+      <link>https://vidtoflac.tech/en/articles/best-video-format-for-davinci-resolve/</link>
+      <guid isPermaLink="true">https://vidtoflac.tech/en/articles/best-video-format-for-davinci-resolve/</guid>
+      <description>A complete guide to formats and codecs for DaVinci Resolve: H.264, H.265, ProRes, DNxHD, BRAW, and which to choose for your camera and workflow.</description>
+      <dc:creator>Guillem Sánchez</dc:creator>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
