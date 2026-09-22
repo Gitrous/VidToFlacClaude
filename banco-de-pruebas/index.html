@@ -243,8 +243,8 @@ ffmpeg -i origen.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac salida.mkv
         <tr><td>MP4</td><td>AAC-LC</td><td>Cámara, móvil, OBS</td><td>H.264</td><td><span class="bench-copy">lo copia</span></td><td>807 KB</td><td>1.019 KB</td></tr>
         <tr><td>MP4</td><td>MP3</td><td>Conversores antiguos</td><td>H.264</td><td><span class="bench-copy">lo copia</span></td><td>834 KB</td><td>1.009 KB</td></tr>
         <tr><td>MOV</td><td>PCM 16 bits</td><td>Grabadora de campo</td><td>H.264</td><td><span class="bench-copy">lo copia</span></td><td>1.255 KB</td><td>765 KB</td></tr>
-        <tr><td>MKV</td><td>Opus</td><td>OBS, vídeo web</td><td>VP9</td><td><span class="bench-reenc">recodifica a H.264</span></td><td>559 KB</td><td>2.678 KB</td></tr>
-        <tr><td>WebM</td><td>Vorbis</td><td>Vídeo web antiguo</td><td>VP8</td><td><span class="bench-reenc">recodifica a H.264</span></td><td>466 KB</td><td>2.273 KB</td></tr>
+        <tr><td>MKV</td><td>Opus</td><td>OBS, vídeo web</td><td>VP9</td><td><span class="bench-copy">lo copia</span></td><td>559 KB</td><td>763 KB</td></tr>
+        <tr><td>WebM</td><td>Vorbis</td><td>Vídeo web antiguo</td><td>VP8</td><td><span class="bench-copy">lo copia</span></td><td>466 KB</td><td>755 KB</td></tr>
         <tr><td>MKV</td><td>AC-3</td><td>Copia de DVD, TDT</td><td>H.264</td><td><span class="bench-copy">lo copia</span></td><td>972 KB</td><td>1.008 KB</td></tr>
         <tr><td>MKV</td><td>E-AC-3</td><td>Emisión digital</td><td>H.264</td><td><span class="bench-copy">lo copia</span></td><td>972 KB</td><td>1.008 KB</td></tr>
         <tr><td>MKV</td><td>DTS</td><td>Blu-ray, cine en casa</td><td>H.264</td><td><span class="bench-copy">lo copia</span></td><td>1.728 KB</td><td>1.019 KB</td></tr>
@@ -269,7 +269,7 @@ ffmpeg -i origen.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac salida.mkv
 
     <h2>Qué demuestran estos números</h2>
     <ul>
-      <li><strong>Lo que el navegador sabe leer y lo que el editor sabe leer no es lo mismo.</strong> Se copian H.264, AV1 y MPEG-4 (Xvid). Se recodifican a H.264 nueve: WMV2, MPEG-2 y HEVC porque el navegador no los decodifica, y VP8, VP9, H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3) porque DaVinci Resolve no los reproduce bien cuando llegan copiados. Con Xvid la imagen no se toca, aunque el navegador no siempre pueda enseñarte la vista previa.</li>
+      <li><strong>El vídeo se copia casi siempre.</strong> Pasan intactos H.264, AV1, VP8, VP9 y MPEG-4 (Xvid). Se recodifican a H.264 siete: WMV2, MPEG-2 y HEVC porque el navegador no los decodifica, y H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3) porque DaVinci Resolve los importa sin imagen si llegan copiados. De los diecisiete archivos, cuatro caen en ese grupo.</li>
       <li><strong>Convertir a FLAC casi siempre engorda el archivo.</strong> Partiendo de audio con pérdida, la salida creció en todos los casos: el MP4 con AAC pasó de 807 a 1.019 KB. Se gana compatibilidad, no tamaño.</li>
       <li><strong>Salvo cuando el origen ya era sin pérdida.</strong> El MOV con PCM bajó de 1.255 a 765 KB, y el WAV suelto de 563 a 85 KB, porque FLAC comprime lo que PCM guarda en crudo.</li>
       <li><strong>Un FLAC de entrada sale idéntico</strong>, byte a byte: 85 KB antes y después. La herramienta no lo vuelve a comprimir.</li>
@@ -307,17 +307,34 @@ ffmpeg -i origen.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac salida.mkv
 
     <p>El patrón, una vez ordenado, se explica solo: <strong>pasa lo que está libre de patentes y falla lo que no lo está</strong>. FLAC, PCM y MP3 —cuyas patentes expiraron en 2017— entran; AAC, AC-3, E-AC-3, DTS y WMA, no. Y esto es la <strong>edición de pago</strong>, con todas las licencias que incluye Blackmagic: no se arregla pagando, al menos en Linux.</p>
 
-    <p><strong>Con los diecisiete convertidos, entran los diecisiete y suenan quince.</strong> Los cuatro que Resolve rechazaba de plano pasan a abrirse sin problema; el AC-3 deja de sonar raro; el AAC deja de entrar mudo.</p>
+    <p><strong>Con los diecisiete convertidos, entran los diecisiete.</strong> Los cuatro que Resolve rechazaba de plano pasan a abrirse sin problema; el AC-3 deja de sonar raro; el AAC deja de entrar mudo. En aquella primera tanda sonaron quince de diecisiete: los dos que faltaban destaparon el fallo que se explica justo debajo, ya corregido.</p>
 
-    <h3>Los dos que no sonaban, y por qué se cambió la herramienta</h3>
+    <h3>Los dos que no sonaban, y la pista falsa que seguí primero</h3>
 
-    <p>Los dos fallos que quedaban eran el MKV con vídeo VP9 y el WebM con VP8: imagen correcta y pista FLAC muda, la misma pista FLAC que sí suena en los otros quince archivos. Para aislar la causa repetí los dos con el <strong>audio copiado bit a bit</strong> y lo único cambiado el códec de vídeo, ahora H.264. Sonaron los dos.</p>
+    <p>Los dos fallos que quedaban eran el MKV con vídeo VP9 y el WebM con VP8: imagen correcta y pista FLAC muda, la misma pista FLAC que suena en los otros quince archivos. Como los dos eran los únicos con vídeo que no era H.264, di por hecho que la culpa era del códec de vídeo, lo comprobé recodificándolo, sonó, y me lo creí.</p>
 
-    <p>Es decir: <strong>el códec de vídeo que va dentro del MKV decide si Resolve reproduce el audio</strong>. Probando después los demás códecs que la herramienta copiaba, aparecieron otros cuatro con un problema parecido —Theora, FLV1 (Sorenson), MS MPEG-4 v3 (DivX 3) y el H.263 del 3GP— que entran con sonido pero <em>sin imagen</em>.</p>
+    <p><strong>Era una conclusión falsa.</strong> Al recodificar el vídeo, FFmpeg también pone a cero las marcas de tiempo, así que ese experimento cambiaba dos cosas a la vez y yo solo miraba una. Repetido como debía —mismo vídeo VP9, mismo audio FLAC, copiados los dos, y como única diferencia siete milisegundos en la marca de inicio— el archivo desplazado seguía mudo y el otro sonaba.</p>
 
-    <p>Por eso VidToFLAC ya no copia esos seis códecs: <strong>VP8, VP9, H.263, Theora, FLV1 y MS MPEG-4 v3 se recodifican a H.264</strong> aunque el navegador sepa leerlos. Cuesta tiempo y tamaño —las tres filas correspondientes de la tabla de arriba lo muestran— pero el archivo que sale sirve para editar, que es para lo que existe la herramienta.</p>
+    <p>La causa real es esa: <strong>DaVinci Resolve necesita que la pista de audio empiece exactamente en cero</strong>. Cruzando las marcas de tiempo de los diecisiete archivos convertidos con lo que hizo cada uno, la correlación no tiene ni una excepción:</p>
 
-    <p><strong>AV1 sí se copia</strong>, y eso merece un párrafo aparte: es lo que graban muchos capturadores de pantalla modernos, recodificarlo sería lo más caro de todo, y resulta que Resolve lo abre con imagen y sonido sin tocar nada. También se copian H.264 y MPEG-4 (Xvid), que funcionan igual de bien.</p>
+    <div class="table-scroll">
+      <table class="bench-table">
+        <thead><tr><th>Inicio de la pista de audio</th><th>Archivos</th><th>En Resolve</th></tr></thead>
+        <tbody>
+          <tr><td>0,000 s</td><td>catorce</td><td>suenan los catorce</td></tr>
+          <tr><td>0,007 s · 0,003 s</td><td>MKV con VP9 · WebM con VP8</td><td>mudos</td></tr>
+          <tr><td>0,086 s</td><td>WMV</td><td>arranca por la mitad</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Al <strong>vídeo</strong> el desfase le da igual: el MKV con AC-3 y el de E-AC-3 empiezan la imagen en 0,005 s y el TS en 0,021 s, y los tres suenan perfectamente. El problema es exclusivamente del audio.</p>
+
+    <p>¿De dónde salen esos milisegundos? Del propio formato de origen. Opus guarda en su cabecera un <em>pre-skip</em>, el retardo que necesita su decodificador para arrancar, y el WebM llega con el audio empezando en −0,007 s. Como FFmpeg no escribe tiempos negativos, al remuxar desplaza todo hacia delante y el MKV sale con el audio en +0,007. El WMV trae lo mismo por el preroll de ASF.</p>
+
+    <p><strong>El arreglo es una opción, no una recodificación.</strong> Añadiendo <code>aresample=async=1:first_pts=0</code> al filtro de audio, la pista queda anclada al cero. Comparando muestra a muestra la salida de antes con la de ahora, los trece archivos que ya funcionaban salen <strong>idénticos, diferencia exactamente cero</strong>: el filtro solo mueve los que estaban desplazados. El vídeo se sigue copiando y la conversión sigue siendo igual de rápida.</p>
+
+    <p>Lo que sí se recodifica, y por un motivo distinto, son <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>: esos cuatro entran con sonido pero <em>sin imagen</em>, con las marcas de tiempo en cero o sin ellas, y ninguna opción de tiempos lo arregla. <strong>VP8, VP9 y AV1 se copian</strong>, que es lo que interesa: son los códecs del vídeo web y de los capturadores de pantalla modernos, y recodificarlos costaría unos tres cuartos de segundo por cada segundo de vídeo para no ganar nada.</p>
 
     <h2>Lo que todavía no está probado</h2>
     <p>Por honestidad, porque un banco de pruebas que no dice lo que le falta no sirve de nada:</p>

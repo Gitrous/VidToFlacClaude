@@ -154,7 +154,7 @@
         "name": "¿Se recodifica el vídeo al convertir?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende del códec, no de la extensión. H.264, AV1 y MPEG-4 (Xvid) se copian sin recodificar. MPEG-2, WMV, VP6 y H.265/HEVC se recodifican a H.264 con calidad alta (-crf 18), lo que tarda más y no deja un vídeo idéntico bit a bit, aunque la diferencia no se aprecia a simple vista. VP8, VP9, H.263, Theora, FLV1 y DivX 3 también se recodifican, aunque el navegador sepa leerlos, porque DaVinci Resolve no los reproduce bien copiados."
+          "text": "Depende del códec, no de la extensión. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar. MPEG-2, WMV, VP6 y H.265/HEVC se recodifican a H.264 con calidad alta (-crf 18), lo que tarda más y no deja un vídeo idéntico bit a bit, aunque la diferencia no se aprecia a simple vista. H.263, Theora, FLV1 y DivX 3 también se recodifican, aunque el navegador sepa leerlos, porque DaVinci Resolve los importa sin imagen si llegan copiados."
         }
       },
       {
@@ -2591,7 +2591,7 @@
       <h3>Qué hace VidToFLAC con cualquiera de estos vídeos</h3>
       <p>El proceso es el mismo para los nueve: la herramienta lee el archivo, identifica sus códecs y genera un <strong>MKV</strong> con la pista de audio en <strong>FLAC</strong>, un formato sin pérdida que DaVinci Resolve, Premiere Pro y Avid decodifican de forma nativa.</p>
 
-      <p>Lo que cambia entre formatos es el vídeo. H.264, AV1 y MPEG-4 (Xvid) se copian sin recodificar, así que la imagen no pierde nada. MPEG-2 —el de los VOB, muchos MPEG y algunos TS—, WMV, VP6 y H.265/HEVC se recodifican a H.264 de alta calidad (<code>-crf 18</code>): tarda más, y el resultado es muy parecido al original pero no idéntico bit a bit. Y hay un tercer grupo que también se recodifica aunque el navegador lo lea sin problema: <strong>VP8, VP9, H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>. Copiados tal cual, DaVinci Resolve importa el clip pero con VP8 o VP9 no reproduce el audio, y con los otros cuatro no muestra imagen. Está medido uno a uno en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
+      <p>Lo que cambia entre formatos es el vídeo. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar, así que la imagen no pierde nada. MPEG-2 —el de los VOB, muchos MPEG y algunos TS—, WMV, VP6 y H.265/HEVC se recodifican a H.264 de alta calidad (<code>-crf 18</code>): tarda más, y el resultado es muy parecido al original pero no idéntico bit a bit. Y hay un tercer grupo que también se recodifica aunque el navegador lo lea sin problema: <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>. Copiados tal cual, DaVinci Resolve importa el clip con sonido pero sin imagen. Está medido uno a uno en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
 
       <p>Cuando el vídeo se copia pero el navegador no sabe decodificarlo, como pasa con Xvid, la vista previa de la página puede quedarse sin imagen. El archivo descargado está completo igualmente.</p>
     </article>
@@ -2612,7 +2612,7 @@
       <details class="faq-item">
         <summary>¿Se recodifica el vídeo al convertir?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Depende del códec, no de la extensión. H.264, AV1 y MPEG-4 (Xvid) se copian sin recodificar. MPEG-2, WMV, VP6 y H.265/HEVC se recodifican a H.264 con calidad alta (<code>-crf 18</code>), lo que tarda más y no deja un vídeo idéntico bit a bit, aunque la diferencia no se aprecia a simple vista. VP8, VP9, H.263, Theora, FLV1 y DivX 3 también se recodifican, aunque el navegador sepa leerlos, porque DaVinci Resolve no los reproduce bien copiados.</p>
+          <p>Depende del códec, no de la extensión. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar. MPEG-2, WMV, VP6 y H.265/HEVC se recodifican a H.264 con calidad alta (<code>-crf 18</code>), lo que tarda más y no deja un vídeo idéntico bit a bit, aunque la diferencia no se aprecia a simple vista. H.263, Theora, FLV1 y DivX 3 también se recodifican, aunque el navegador sepa leerlos, porque DaVinci Resolve los importa sin imagen si llegan copiados.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2716,12 +2716,12 @@
       <h3>Códecs de audio en WebM y por qué fallan en Resolve</h3>
       <p>YouTube usa <strong>Opus</strong> como códec de audio en la mayoría de sus streams WebM actuales. Los WebM más antiguos de YouTube (anteriores a 2014) pueden tener <strong>Vorbis</strong>. Los WebM de grabadoras de navegador usan también Opus habitualmente. Ninguno de estos códecs (Opus ni Vorbis) está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro o Avid Media Composer. Al importar un WebM en Resolve, el audio simplemente no aparece.</p>
       <h3>Vídeo VP9 y AV1 en WebM: compatibilidad con el navegador</h3>
-      <p>El vídeo VP9, usado por YouTube para resoluciones hasta 4K, es decodificable por los navegadores modernos (Chrome, Firefox, Edge). Aun así, VidToFLAC <strong>lo recodifica a H.264</strong>: copiado tal cual, DaVinci Resolve muestra la imagen pero no reproduce la pista de audio. AV1, el códec más reciente de YouTube para 4K y 8K, tiene soporte variable según el navegador y la CPU disponible. Si el AV1 no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para la previsualización. En todos los casos, el audio pasa siempre a FLAC.</p>
+      <p>El vídeo VP9, usado por YouTube para resoluciones hasta 4K, es decodificable por los navegadores modernos (Chrome, Firefox, Edge). VidToFLAC copia el stream VP9 bit a bit, sin recomprimirlo. AV1, el códec más reciente de YouTube para 4K y 8K, tiene soporte variable según el navegador y la CPU disponible. Si el AV1 no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para la previsualización. En todos los casos, el audio pasa siempre a FLAC.</p>
       <h3>Paso a paso: convertir tu WebM a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .webm a VidToFLAC.</li>
         <li>Selecciona <strong>MKV</strong> como formato de salida para mantener la mayor compatibilidad.</li>
-        <li>Pulsa <strong>Convertir</strong>. El audio Opus o Vorbis se recodifica a FLAC; el vídeo VP8 y VP9 se recodifica a H.264 para que el editor reproduzca el audio, mientras que el AV1 se copia sin tocarlo.</li>
+        <li>Pulsa <strong>Convertir</strong>. El audio Opus o Vorbis se recodifica a FLAC y la pista se ancla al cero para que el editor la reproduzca; el vídeo VP8, VP9 o AV1 se copia sin tocarlo.</li>
         <li>Importa el MKV en DaVinci Resolve. La pista de audio FLAC se importará correctamente.</li>
       </ol>
       <h3>Diferencia entre WebM y MKV</h3>
@@ -2731,7 +2731,7 @@
       <h3>La solución para tus WebM: de Opus/Vorbis a FLAC</h3>
       <p>Los <strong>WebM</strong> de grabadores de navegador, capturas de pantalla y vídeo publicado en la web llevan el audio en <strong>Opus o Vorbis</strong>, dos códecs que DaVinci Resolve no decodifica de serie. VidToFLAC reempaqueta el WebM en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>
 
-      <p>El vídeo de un WebM (VP8 o VP9) <strong>se recodifica a H.264</strong>, y esta es la excepción a la regla de que el vídeo se copia. El motivo está medido: con VP8 o VP9 dentro del MKV, DaVinci Resolve muestra la imagen pero no reproduce la pista de audio, ni siquiera siendo FLAC. Recodificar tarda bastante más —cuenta unos tres cuartos de segundo por cada segundo de vídeo— y el archivo sale más grande, pero es lo que hace que el clip sirva. Los números están en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
+      <p>El vídeo (VP8 o VP9) se copia <strong>bit a bit</strong>, sin recompresión ni pérdida de calidad. Hay un detalle del WebM que sí hay que tratar: el audio Opus guarda un <em>pre-skip</em> en su cabecera y la pista acaba empezando unos milisegundos después de cero, lo justo para que DaVinci Resolve importe el clip con la caja de audio puesta y sin sonido. La conversión ancla la pista al cero para evitarlo. Está medido en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
 
       <p>Si el vídeo no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para asegurar una previsualización correcta.</p>
     </article>
@@ -3709,8 +3709,18 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // falta la bandera al copiar la pista tal cual: sin ella el muxer no escribe
     // la cabecera y la salida queda vacía.
     const mp4FlacFlag = outFormat === 'mp4' ? ['-strict', 'experimental'] : [];
+    // DaVinci Resolve necesita que la pista de audio empiece exactamente en 0.
+    // Basta con un desfase de 3 ms —el pre-skip que Opus guarda en su cabecera, o
+    // el preroll de un ASF— para que importe el clip con la caja de audio puesta
+    // y sin sonido hasta el final. El vídeo puede empezar donde quiera: da igual.
+    // `first_pts=0` ancla el audio al cero sin tocar una sola muestra de los
+    // archivos que ya empezaban ahí. Medido en /banco-de-pruebas/.
+    const audioFilters = [
+      ...(isFloatPCM ? ['aformat=sample_fmts=s32'] : []),
+      'aresample=async=1:first_pts=0',
+    ];
     const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy', ...mp4FlacFlag] : [
-      ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
+      '-af', audioFilters.join(','),
       '-c:a', 'flac',
       ...mp4FlacFlag,
     ];
@@ -3721,12 +3731,12 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // Quien solo quiera cambiar de contenedor sin esperar tiene /convertir-formatos/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    // Estos seis sí los decodifica el navegador, pero DaVinci Resolve no: con
-    // VP8/VP9 dentro del MKV enmudece la pista FLAC, y con H.263, Theora, FLV1
-    // (Sorenson) y MS MPEG-4 v3 (DivX 3) importa el clip sin imagen. AV1, H.264
-    // y MPEG-4 (Xvid) sí funcionan copiados y por eso no están aquí.
-    // Medido con Studio 21.0.4 sobre Ubuntu; está en /banco-de-pruebas/.
-    const editorIncompatibleVideo = /^(vp8|vp9|h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
+    // Estos cuatro sí los decodifica el navegador, pero DaVinci Resolve importa
+    // el clip **sin imagen** si llegan copiados: H.263, Theora, FLV1 (Sorenson)
+    // y MS MPEG-4 v3 (DivX 3). AV1, H.264, VP8, VP9 y MPEG-4 (Xvid) funcionan
+    // copiados y por eso no están aquí — el problema de los WebM era el desfase
+    // del audio, no su vídeo. Medido con Studio 21.0.4 sobre Ubuntu.
+    const editorIncompatibleVideo = /^(h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
     const reencoding = !isAudioOnlyOutput && (browserIncompatibleVideo || editorIncompatibleVideo);
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {

@@ -146,7 +146,7 @@
         "name": "¿Tengo que recodificar el vídeo de mi MKV?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Si el códec de vídeo se puede copiar —H.264, AV1, Xvid—, se copia bit a bit y la imagen queda exactamente igual que en el original. Si el MKV lleva H.265/HEVC, o VP8 o VP9, se recodifica a H.264 con calidad alta: los dos últimos porque DaVinci Resolve enmudece el audio cuando llegan copiados. En ambos casos solo la pista de audio pasa a FLAC."
+          "text": "Si el códec de vídeo se puede copiar —H.264, AV1, VP8, VP9, Xvid—, se copia bit a bit y la imagen queda exactamente igual que en el original. Si el MKV lleva H.265/HEVC, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."
         }
       },
       {
@@ -2590,7 +2590,7 @@
       <details class="faq-item">
         <summary>¿Tengo que recodificar el vídeo de mi MKV?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Si el códec de vídeo se puede copiar —H.264, AV1, Xvid—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, o VP8 o VP9, se recodifica a H.264 con calidad alta: los dos últimos porque DaVinci Resolve enmudece el audio cuando llegan copiados. En ambos casos solo la pista de audio pasa a FLAC.</p>
+          <p>Si el códec de vídeo se puede copiar —H.264, AV1, VP8, VP9, Xvid—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2655,7 +2655,7 @@
       <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
       <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
       <h3>Medido: qué pasó con un MKV de prueba</h3>
-      <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se recodifica a H.264</strong> —el navegador lo decodifica sin problema, pero DaVinci Resolve enmudece el audio si llega copiado— y el archivo pasó de <strong>559 KB a 2.678 KB</strong>. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
+      <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se copió tal cual</strong> y el archivo pasó de <strong>559 KB a 763 KB</strong> al convertir el Opus a FLAC. Lo que sí hubo que corregir fue el arranque de la pista: el <em>pre-skip</em> de Opus la dejaba empezando siete milisegundos después de cero, y con eso Resolve la importaba muda. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
     </article>
   </section>
 
@@ -3425,8 +3425,18 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // falta la bandera al copiar la pista tal cual: sin ella el muxer no escribe
     // la cabecera y la salida queda vacía.
     const mp4FlacFlag = outFormat === 'mp4' ? ['-strict', 'experimental'] : [];
+    // DaVinci Resolve necesita que la pista de audio empiece exactamente en 0.
+    // Basta con un desfase de 3 ms —el pre-skip que Opus guarda en su cabecera, o
+    // el preroll de un ASF— para que importe el clip con la caja de audio puesta
+    // y sin sonido hasta el final. El vídeo puede empezar donde quiera: da igual.
+    // `first_pts=0` ancla el audio al cero sin tocar una sola muestra de los
+    // archivos que ya empezaban ahí. Medido en /banco-de-pruebas/.
+    const audioFilters = [
+      ...(isFloatPCM ? ['aformat=sample_fmts=s32'] : []),
+      'aresample=async=1:first_pts=0',
+    ];
     const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy', ...mp4FlacFlag] : [
-      ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
+      '-af', audioFilters.join(','),
       '-c:a', 'flac',
       ...mp4FlacFlag,
     ];
@@ -3437,12 +3447,12 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // Quien solo quiera cambiar de contenedor sin esperar tiene /convertir-formatos/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    // Estos seis sí los decodifica el navegador, pero DaVinci Resolve no: con
-    // VP8/VP9 dentro del MKV enmudece la pista FLAC, y con H.263, Theora, FLV1
-    // (Sorenson) y MS MPEG-4 v3 (DivX 3) importa el clip sin imagen. AV1, H.264
-    // y MPEG-4 (Xvid) sí funcionan copiados y por eso no están aquí.
-    // Medido con Studio 21.0.4 sobre Ubuntu; está en /banco-de-pruebas/.
-    const editorIncompatibleVideo = /^(vp8|vp9|h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
+    // Estos cuatro sí los decodifica el navegador, pero DaVinci Resolve importa
+    // el clip **sin imagen** si llegan copiados: H.263, Theora, FLV1 (Sorenson)
+    // y MS MPEG-4 v3 (DivX 3). AV1, H.264, VP8, VP9 y MPEG-4 (Xvid) funcionan
+    // copiados y por eso no están aquí — el problema de los WebM era el desfase
+    // del audio, no su vídeo. Medido con Studio 21.0.4 sobre Ubuntu.
+    const editorIncompatibleVideo = /^(h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
     const reencoding = !isAudioOnlyOutput && (browserIncompatibleVideo || editorIncompatibleVideo);
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {

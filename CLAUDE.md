@@ -299,10 +299,10 @@ mídela allí primero y enlaza la página.
 
 Lo que salió de la primera tanda, todo verificado el 19 de septiembre de 2026:
 
-- Se copian H.264, AV1 y MPEG-4 (Xvid). Se recodifican a H.264 nueve: WMV2,
-  MPEG-2 y HEVC porque el navegador no los decodifica, y VP8, VP9, H.263,
-  Theora, FLV1 y MS MPEG-4 v3 porque **Resolve no los reproduce bien copiados**
-  (ver más abajo). Ninguno de los diecisiete archivos falló al convertir.
+- Se copian H.264, AV1, VP8, VP9 y MPEG-4 (Xvid). Se recodifican a H.264 siete:
+  WMV2, MPEG-2 y HEVC porque el navegador no los decodifica, y H.263, Theora,
+  FLV1 y MS MPEG-4 v3 porque **Resolve los importa sin imagen** (ver más abajo).
+  Ninguno de los diecisiete archivos falló al convertir.
 - Desde audio con pérdida, el FLAC **engorda** el archivo; desde PCM lo reduce;
   un FLAC de entrada sale idéntico byte a byte.
 - Recodificar HEVC a H.264 multiplicó el tamaño por cinco.
@@ -402,37 +402,57 @@ Y el error que se coló dos veces en el mismo sitio: formatear miles con
 `"JetBrains Mono. ui-monospace. monospace"`, que el navegador descarta. El
 gráfico del banco de pruebas lo arrastra desde su primera versión.
 
-## Dos listas de códecs, no una
+## El audio tiene que empezar en cero, y el vídeo casi siempre se copia
 
-`browserIncompatibleVideo` decide qué recodificar **porque el navegador no sabe
-decodificarlo**. Durante meses se dio por hecho que eso bastaba, y no basta: lo
-que el navegador lee y lo que DaVinci Resolve lee son listas distintas. Medido
-en Studio 21.0.4 sobre Ubuntu el 20 de septiembre de 2026:
+Dos cosas distintas, aprendidas el 20-22 de septiembre de 2026 sobre Studio
+21.0.4 en Ubuntu, y una de ellas por el camino largo.
 
-- **VP8 y VP9**: Resolve muestra la imagen y **enmudece la pista FLAC**. La
-  misma pista FLAC suena en los otros quince archivos de la tanda. Aislado con
-  un experimento de control: mismo audio copiado bit a bit, solo cambia el
-  vídeo a H.264, y entonces suena.
-- **H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)**: entran con sonido
-  y **sin imagen**.
-- **AV1, H.264 y MPEG-4 (Xvid)**: bien copiados. El AV1 importa porque es lo que
-  graban muchos capturadores de pantalla y recodificarlo sería lo más caro de
-  todo — no lo metas en la lista sin una medición que lo justifique.
+**1. DaVinci Resolve exige que la pista de audio arranque exactamente en 0.**
+Con 3 ms de desfase basta para que importe el clip con la caja de audio puesta
+y sin sonido hasta el final. Al vídeo el desfase le da igual: hay archivos con
+la imagen empezando en 0,005 y 0,021 s que suenan perfectamente. La correlación
+sobre los diecisiete archivos del banco no tiene excepciones — audio en 0,000,
+suena; audio en 0,007 / 0,003 / 0,086, falla.
 
-Por eso hay una segunda constante, `editorIncompatibleVideo`, al lado de la
-primera y no mezclada con ella: son dos motivos distintos y el registro le dice
-al usuario cuál de los dos aplica. `reencoding` es la unión de las dos, y el
-reintento tras un fallo de copia mira `reencoding`, no la primera.
+El desfase lo trae el origen: Opus guarda un *pre-skip* en su cabecera (el WebM
+llega con el audio en −0,007 s) y ASF trae su preroll. Como FFmpeg no escribe
+tiempos negativos, al remuxar desplaza todo hacia delante. La cadena lleva por
+eso `aresample=async=1:first_pts=0` en el filtro de audio. Comprobado que **no
+toca los archivos que ya empezaban en cero**: diferencia muestra a muestra
+exactamente 0,00e+00 en trece de los diecisiete.
 
-**Lo que cuesta:** recodificar en ffmpeg.wasm va a unos **0,75 s por segundo de
-vídeo** (WebM de 120 s en 1080p: 0,5 s copiando contra 90,5 s recodificando, y
-de 11,4 MB a 52,4 MB). Un clip de 10 minutos son siete minutos y medio de
-espera. Antes de meter un códec nuevo en esa lista, mídelo en Resolve primero.
+`-avoid_negative_ts make_zero` **no** sirve: empeora siete archivos que hoy
+funcionan, moviéndoles el audio a 0,067. Se probó.
 
-**Al cambiar estas listas hay que barrer el texto del sitio**: la tabla del
-banco de pruebas, las FAQ de `merged_content.py`, las guías de WebM y 3GP en
-`build_pages.py` y `landing_content*.py`, y esta misma sección. El sitio afirma
-en media docena de sitios qué se copia y qué no.
+La excepción conocida: cuando la entrada ya es FLAC el audio se copia
+(`-c:a copy`) y no pasa por el filtro. Si ese FLAC viniera desplazado, seguiría
+fallando. No se ha dado el caso en el banco.
+
+**2. `editorIncompatibleVideo` es para lo que Resolve no dibuja.** Cuatro
+códecs que el navegador lee y Resolve importa **sin imagen**: `h263`, `theora`,
+`flv1` (Sorenson) y `msmpeg4v3` (DivX 3). Esos sí se recodifican a H.264.
+**VP8, VP9 y AV1 se copian** — son el vídeo web y el de los capturadores de
+pantalla, y recodificarlos cuesta unos 0,75 s por segundo de vídeo (un WebM de
+120 s en 1080p: 0,5 s copiando contra 90,5 s recodificando) sin ganar nada.
+
+### La lección de método, que es la que más cara salió
+
+Durante dos días el sitio afirmó que el códec de vídeo era la causa del audio
+mudo, y se llegó a publicar un cambio que recodificaba VP8 y VP9. Era falso.
+El error fue un **experimento de control que cambiaba dos variables a la vez**:
+al recodificar el vídeo a H.264 para "aislar el códec", FFmpeg ponía además las
+marcas de tiempo a cero. Sonó, y se atribuyó al códec.
+
+Antes de dar por buena una causa, comprueba con `ffprobe` que el archivo de
+control **solo** difiere en la variable que dices estar probando:
+
+```bash
+ffprobe -v error -show_entries stream=codec_type,codec_name,start_time -of csv=p=0 archivo
+```
+
+Y al cambiar estas listas hay que barrer el texto del sitio: la tabla del banco
+de pruebas, las FAQ de `merged_content.py`, las guías de WebM, MKV y 3GP en
+`build_pages.py` y `landing_content*.py`, y esta misma sección.
 
 ## Promesas que el producto no puede sostener
 
@@ -451,8 +471,8 @@ El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
   contra esa constante del código, no contra lo que diga otro artículo.
 - **Xvid se copia; DivX 3 no es lo mismo que Xvid.** Xvid es MPEG-4 part 2 y se
   copia al MKV (la vista previa del navegador puede quedarse sin imagen, pero
-  Resolve lo abre bien). DivX 3 es `msmpeg4v3` y desde el 20 de septiembre de
-  2026 se recodifica, igual que Sorenson. Ver la sección siguiente.
+  Resolve lo abre bien). DivX 3 es `msmpeg4v3`, y ese sí se recodifica porque
+  Resolve lo importa sin imagen. Ver "El audio tiene que empezar en cero".
 - **Solo se convierte una pista de audio.** El comando no lleva `-map`, así que
   FFmpeg elige una. Tres guías prometían "todas las pistas", justo lo que le
   importa a quien graba juego y micrófono por separado en OBS. Para varias, se

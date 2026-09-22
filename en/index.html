@@ -3528,8 +3528,18 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // falta la bandera al copiar la pista tal cual: sin ella el muxer no escribe
     // la cabecera y la salida queda vacía.
     const mp4FlacFlag = outFormat === 'mp4' ? ['-strict', 'experimental'] : [];
+    // DaVinci Resolve needs the audio track to start at exactly 0. A 3 ms offset
+    // is enough — the pre-skip Opus stores in its header, or an ASF preroll — for
+    // it to import the clip with an audio track that stays silent until the very
+    // end. The video may start wherever it likes; that part does not matter.
+    // `first_pts=0` anchors the audio to zero without touching a single sample of
+    // the files that already started there. Measured in /en/test-bench/.
+    const audioFilters = [
+      ...(isFloatPCM ? ['aformat=sample_fmts=s32'] : []),
+      'aresample=async=1:first_pts=0',
+    ];
     const audioEncArgs = audioAlreadyFlac ? ['-c:a', 'copy', ...mp4FlacFlag] : [
-      ...(isFloatPCM ? ['-af', 'aformat=sample_fmts=s32'] : []),
+      '-af', audioFilters.join(','),
       '-c:a', 'flac',
       ...mp4FlacFlag,
     ];
@@ -3540,12 +3550,12 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     // Quien solo quiera cambiar de contenedor sin esperar tiene /en/convert-formats/.
     const hevcSource = /^(hevc|h265)$/.test(probeVideoCodec);
     const browserIncompatibleVideo = /^(dnxhd|prores|mjpeg|mpeg2video|vc1|wmv[123]|rv[234]|vp6|cinepak|svq|huffyuv|cineform|cfhd|hevc|h265)/.test(probeVideoCodec);
-    // Browsers decode all six of these, but DaVinci Resolve does not: with
-    // VP8/VP9 inside the MKV it mutes the FLAC track, and with H.263, Theora,
-    // FLV1 (Sorenson) and MS MPEG-4 v3 (DivX 3) it imports the clip with no
-    // picture. AV1, H.264 and MPEG-4 (Xvid) do work when copied, so they are
-    // not here. Measured on Studio 21.0.4 under Ubuntu; see /en/test-bench/.
-    const editorIncompatibleVideo = /^(vp8|vp9|h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
+    // Browsers decode these four, but DaVinci Resolve imports the clip **with no
+    // picture** when they arrive copied: H.263, Theora, FLV1 (Sorenson) and MS
+    // MPEG-4 v3 (DivX 3). AV1, H.264, VP8, VP9 and MPEG-4 (Xvid) work fine when
+    // copied, so they are not here — the WebM problem was the audio offset, not
+    // the video. Measured on Studio 21.0.4 under Ubuntu.
+    const editorIncompatibleVideo = /^(h263|theora|flv1|msmpeg4v3)$/.test(probeVideoCodec);
     const reencoding = !isAudioOnlyOutput && (browserIncompatibleVideo || editorIncompatibleVideo);
     const eta = reencoding ? reencodeEstimate(probeW, probeH, probeFps, probeSeconds) : '';
     if (reencoding) {

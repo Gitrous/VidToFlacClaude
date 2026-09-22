@@ -48,7 +48,7 @@ CONTENT = {
         ),
         "faqs": [
             ("¿Tengo que recodificar el vídeo de mi MKV?",
-             "Si el códec de vídeo se puede copiar —H.264, AV1, Xvid—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, o VP8 o VP9, se recodifica a H.264 con calidad alta: los dos últimos porque DaVinci Resolve enmudece el audio cuando llegan copiados. En ambos casos solo la pista de audio pasa a FLAC."),
+             "Si el códec de vídeo se puede copiar —H.264, AV1, VP8, VP9, Xvid—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."),
             ("Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?",
              "OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema."),
             ("¿Por qué la salida sigue siendo MKV y no MP4?",
@@ -112,14 +112,14 @@ CONTENT = {
         "seo_body": (
             '      <h3>La solución para tus WebM: de Opus/Vorbis a FLAC</h3>\n'
             '      <p>Los <strong>WebM</strong> de grabadores de navegador, capturas de pantalla y vídeo publicado en la web llevan el audio en <strong>Opus o Vorbis</strong>, dos códecs que DaVinci Resolve no decodifica de serie. VidToFLAC reempaqueta el WebM en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
-            '      <p>El vídeo de un WebM (VP8 o VP9) <strong>se recodifica a H.264</strong>, y esta es la excepción a la regla de que el vídeo se copia. El motivo está medido: con VP8 o VP9 dentro del MKV, DaVinci Resolve muestra la imagen pero no reproduce la pista de audio, ni siquiera siendo FLAC. Recodificar tarda bastante más —cuenta unos tres cuartos de segundo por cada segundo de vídeo— y el archivo sale más grande, pero es lo que hace que el clip sirva. Los números están en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>\n\n'
+            '      <p>El vídeo (VP8 o VP9) se copia <strong>bit a bit</strong>, sin recompresión ni pérdida de calidad. Hay un detalle del WebM que sí hay que tratar: el audio Opus guarda un <em>pre-skip</em> en su cabecera y la pista acaba empezando unos milisegundos después de cero, lo justo para que DaVinci Resolve importe el clip con la caja de audio puesta y sin sonido. La conversión ancla la pista al cero para evitarlo. Está medido en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>\n\n'
             '      <p>Si el vídeo no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para asegurar una previsualización correcta.</p>'
         ),
         "faqs": [
             ("¿Por qué mi WebM no tiene audio en el editor?",
              "Los WebM usan audio <strong>Opus o Vorbis</strong>, que DaVinci Resolve no decodifica sin más. Pasar ese audio a FLAC dentro de un MKV lo hace compatible."),
             ("¿Pierdo calidad al convertir WebM a FLAC?",
-             "En el audio no se pierde nada: FLAC es sin pérdida. El vídeo VP8 o VP9 sí se recodifica a H.264 con calidad alta (<code>-crf 18</code>), porque copiado tal cual DaVinci Resolve no reproduce el audio. La imagen queda muy parecida, no idéntica."),
+             "No: FLAC es sin pérdida y el vídeo VP8 o VP9 se copia <strong>bit a bit</strong>, así que la imagen queda exactamente igual. Lo único que cambia es el contenedor y la pista de audio."),
             ("¿Sirve para grabaciones hechas con extensiones del navegador?",
              "Sí. Muchos grabadores de pantalla web exportan WebM con audio Opus; VidToFLAC los reempaqueta a MKV con audio FLAC listo para editar."),
             ("¿Puedo extraer solo el audio del WebM?",

@@ -103,7 +103,7 @@ PAGES_EN = [
       <h3>Why Matroska is the container of choice for remuxing</h3>
       <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it — and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
       <h3>Measured: what happened to a test MKV</h3>
-      <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 is <strong>re-encoded to H.264</strong> — browsers decode it without trouble, but DaVinci Resolve mutes the audio if it arrives copied — and the file went from <strong>559 KB to 2,678 KB</strong>. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
+      <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 was <strong>copied as it was</strong> and the file went from <strong>559 KB to 763 KB</strong> once the Opus became FLAC. What did need fixing was the track's start: the Opus pre-skip left it beginning seven milliseconds after zero, and that was enough for Resolve to import it silent. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
     </article>
   </section>""",
     },
@@ -229,7 +229,7 @@ PAGES_EN = [
       <ol>
         <li>Drop the .webm onto the upload area.</li>
         <li>Choose <strong>MKV</strong> as the output.</li>
-        <li>Press <strong>Convert</strong>. VP8 and VP9 video is re-encoded to H.264, because DaVinci Resolve will not play the audio otherwise.</li>
+        <li>Press <strong>Convert</strong>. VP8 and VP9 video is copied across untouched, and the audio track is anchored to zero so Resolve plays it.</li>
         <li>Import the MKV into your editor, where the audio now plays.</li>
       </ol>
       <h3>Common problems and what to do</h3>
@@ -911,7 +911,7 @@ CONTENT_EN = {
       <p>If the MKV carries <strong>H.265/HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. Everything else is copied as-is.</p>""",
         "faqs": [
             ("Do I lose quality converting an MKV to FLAC?",
-             "If the video codec can be copied — H.264, AV1, Xvid — it is copied <strong>bit for bit</strong> and the picture is exactly the original. If the MKV holds <strong>H.265/HEVC</strong>, or VP8 or VP9, it is re-encoded to H.264 at high quality: the last two because DaVinci Resolve mutes the audio when they arrive copied. Only the audio track changes in either case, and FLAC is lossless."),
+             "If the video codec can be copied — H.264, AV1, VP8, VP9, Xvid — it is copied <strong>bit for bit</strong> and the picture is exactly the original. If the MKV holds <strong>H.265/HEVC</strong> it is re-encoded to H.264 at high quality. Only the audio track changes in either case, and FLAC is lossless."),
             ("Why does my OBS recording have no audio in DaVinci Resolve?",
              "OBS records <strong>AAC</strong> audio by default, sometimes Opus, and DaVinci Resolve — most notably on Linux — ships no decoder for either. Converting that track to FLAC inside the same MKV restores the sound."),
             ("Is there a size limit for an MKV?",
@@ -1148,7 +1148,7 @@ CONTENT_EN = {
       <h3>The fix for your WebM files: FLAC audio in an MKV</h3>
       <p>WebM files from downloaded video, browser captures and screen recordings carry their audio as <strong>Opus or Vorbis</strong>, and that is what DaVinci Resolve refuses to decode — on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
 
-      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. VP8 and VP9 video is re-encoded to H.264 at high quality, because DaVinci Resolve will not play the audio when they are copied as they are.</p>
+      <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. VP8 and VP9 video is copied bit for bit. The one WebM detail that needs handling is the Opus pre-skip, which leaves the audio track starting a few milliseconds after zero — enough for DaVinci Resolve to import the clip with a silent audio track. The conversion anchors the track to zero instead.</p>
 
       <p>Browser-made screen recordings are often variable frame rate, which makes audio drift as the clip runs. That needs a constant frame rate, not an audio conversion.</p>""",
         "faqs": [
