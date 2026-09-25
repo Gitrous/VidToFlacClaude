@@ -462,10 +462,14 @@ huérfano sin que ninguna comprobación se queje.
 
 Dos cosas que solo se ven ejecutando:
 
-- **`.error-box` no tiene CSS en ninguna parte.** 36 bloques de código en 13
-  páginas lo usan con estilos en línea que fijan color de borde pero no
-  `border-style`, así que el borde no se dibuja. Los artículos nuevos llevan la
-  regla en su `<style>`; los viejos siguen sin ella.
+- **`.error-box` no tiene CSS compartido: cada artículo lleva la regla en su
+  `<style>`.** Durante meses 34 cajas en 12 artículos se quedaron sin borde,
+  porque sus estilos en línea fijan el color pero no `border-style`. Arreglado
+  el 25-09-2026 copiando solo la regla de la caja. **No copies también
+  `.error-box code{display:block;white-space:pre}`** de los artículos nuevos: en
+  los viejos la caja lleva prosa con `<code>` en línea, y esa regla convierte
+  cada código en un bloque. Al crear un artículo a partir de otro, comprueba que
+  la regla viaja con la plantilla.
 - **Las etiquetas de un gráfico se solapan con las barras.** El texto de la
   izquierda no se recorta solo: si pasa de la `x` donde empiezan las barras, se
   superpone. Solo se ve en una captura, no en el SVG.
@@ -474,7 +478,10 @@ Y el error que se coló dos veces en el mismo sitio: formatear miles con
 `.replace(',', '.')` sobre la cadena entera del SVG convierte también
 `font-family="JetBrains Mono, ui-monospace, monospace"` en
 `"JetBrains Mono. ui-monospace. monospace"`, que el navegador descarta. El
-gráfico del banco de pruebas lo arrastra desde su primera versión.
+gráfico del banco de pruebas lo arrastró desde su primera versión, y se había
+copiado al artículo de HEVC; arreglados los dos el 25-09-2026 (16 atributos).
+Los `rgba()` y las coordenadas de esos SVG no salieron dañados. Comprobación:
+`grep -rE 'font-family="[^"]*\. ' --include=*.html .` tiene que dar vacío.
 
 ## El audio tiene que empezar en cero, y el vídeo casi siempre se copia
 
