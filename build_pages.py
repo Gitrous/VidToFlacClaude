@@ -1022,6 +1022,82 @@ RE_SHARED_GUIDE = re.compile(
     r'\n  <section class="card seo-card" aria-labelledby="guia-titulo">.*?\n  </section>\n',
     re.S)
 
+
+# Bloques de la portada que las landings NO heredan. Tras el tercer rechazo de
+# AdSense por "contenido de poco valor" (22-09-2026) se midió el sitio con
+# n-gramas de 8 palabras: los artículos y el banco comparten un 1 % con la
+# portada, pero las cuatro landings propias compartían un 37-39 %, y entre ellas
+# hasta un 39,5 %. Desglosada una landing, 683 de sus 1.991 palabras eran esta
+# interfaz copiada. El conversor sigue funcionando en la landing; lo que se va
+# es el texto que la convertía en otra copia de la home.
+RE_TRUST   = re.compile(r'  <!-- Trust pillars.*?(?=\n  <!-- Conversion counter)', re.S)
+RE_STEPS   = re.compile(r'  <!-- How it works.*?(?=\n  <!-- Before / after)', re.S)
+RE_COMPARE = re.compile(r'  <!-- Before / after.*?(?=\n  <!-- Ad:)', re.S)
+
+# Secciones de cierre. La española mete los enlaces a los artículos dentro de la
+# misma sección de formatos; la inglesa los tiene en otra aparte, y su sección de
+# formatos es solo texto repetido. De ahí la condición: si la sección lleva
+# enlaces se conserva sin su entradilla, y si no, sobra entera.
+RE_CLOSING = re.compile(
+    r'  <section class="card seo-card" aria-labelledby="(?:formatos|guides)-titulo">'
+    r'.*?\n  </section>\n\n', re.S)
+RE_CLOSING_LEDE = re.compile(
+    r'(<h2 id="(?:formatos|guides)-titulo"[^>]*>.*?</h2>\n)    <p>.*?</p>\n', re.S)
+
+# El HowTo describe los tres pasos que acaban de dejar de estar visibles, y los
+# datos estructurados tienen que describir lo que la página muestra.
+RE_HOWTO_JSONLD = re.compile(
+    r'  <!-- Structured data: how-to \(3 steps\) -->\n'
+    r'  <script type="application/ld\+json">.*?</script>\n', re.S)
+
+# El hueco de anuncio iba "entre la herramienta y el contenido SEO". Quitada la
+# tarjeta "Antes y después", quedaría pegado al panel de registro del conversor:
+# el patrón de clic accidental que AdSense trata como infracción. En las landings
+# baja hasta justo antes de las preguntas frecuentes, con texto por arriba y un
+# encabezado por abajo. La portada no se toca.
+RE_AD_TOOL = re.compile(
+    r'  <!-- Ad: between tool and SEO content.*?\n  </div>\n\n', re.S)
+O_FAQ_SECTION = '  <!-- SEO: FAQ accordion -->'
+
+# El selector "¿Sabes qué formato vas a convertir?" ofrece las veinte guías. En
+# la portada es navegación; dentro de la guía de MP4 es la lista repetida otra
+# vez, ~120 palabras idénticas en trece páginas. El JS ya lo da por opcional
+# (`formatDropdown?.` y `if (ddSummary && ddPanel)`), así que quitarlo no rompe
+# nada, y los enlaces internos siguen en la sección de cierre y en el pie.
+RE_FORMAT_PICKER = re.compile(
+    r'\n    <span class="format-picker-label">.*?\n    </details>\n', re.S)
+
+# El párrafo de "muchas cámaras graban en AAC y Resolve no trae la licencia" es
+# el mismo en la portada y en las doce landings. Alrededor de él todo es propio:
+# el h2, la entradilla y, desde el <h3>, el `seo_body` de cada formato. Fuera él,
+# la sección entera pasa a ser única.
+RE_PROBLEM_SHARED = re.compile(
+    r'(      <p class="lede">.*?</p>\n)(?:\n      <p>.*?</p>\n)+(?=\n      <h3>)', re.S)
+
+
+
+def strip_home_chrome(h: str) -> str:
+    """Quita de una landing los bloques que solo tienen sentido en la portada."""
+    for rx in (RE_TRUST, RE_STEPS, RE_COMPARE, RE_HOWTO_JSONLD, RE_FORMAT_PICKER):
+        h = rx.sub('', h, count=1)
+    h = RE_PROBLEM_SHARED.sub(r'\1', h, count=1)
+
+    def _closing(m):
+        s = m.group(0)
+        if '<nav' not in s:
+            return ''
+        return RE_CLOSING_LEDE.sub(r'\1', s, count=1)
+    h = RE_CLOSING.sub(_closing, h)
+
+    m = RE_AD_TOOL.search(h)
+    if m:
+        h = h[:m.start()] + h[m.end():]
+        if O_FAQ_SECTION not in h:
+            raise SystemExit('no se encuentra el ancla de las FAQ para recolocar el anuncio')
+        h = h.replace(O_FAQ_SECTION, m.group(0) + O_FAQ_SECTION, 1)
+    return h
+
+
 # Bloques que se sustituyen por contenido único de cada formato (anti-duplicado).
 O_FAQ_H2     = '<h2 id="faq-titulo" style="margin-bottom:1.1rem">Dudas habituales sobre la conversión a FLAC</h2>'
 RE_SOLUTION  = re.compile(r'      <h3>La solución: cambiar el contenedor.*?\n    </article>', re.S)
@@ -1204,9 +1280,6 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
         f'    "url": "{page["webapp_url"]}",\n'
         f'    "description": "{page["webapp_desc"]}",')
 
-    h = h.replace(A['HOWTO_NAME'], f'"name": "{page["howto_name"]}",')
-    h = h.replace(A['HOWTO_URL'],  f'"url": "{page["canonical"]}"')
-
     h = h.replace(A['HERO_H1'],  f'    <h1 class="hero-title">{page["hero_h1"]}</h1>')
     h = h.replace(A['HERO_SUB'], f'    <p class="hero-sub">{page["hero_sub"]}</p>')
     h = h.replace(A['SEO_H2'],   f'      <h2 id="problema-titulo">{page["seo_h2"]}</h2>')
@@ -1219,6 +1292,9 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
 
     # Fuera la demostración en vídeo: es exclusiva de la portada.
     h = A['DEMO_RE'].sub('', h, count=1)
+
+    # Fuera la interfaz repetida de la portada (ver RE_TRUST y compañía).
+    h = strip_home_chrome(h)
 
     # Contenido único por formato: sección "La solución", FAQ visible y JSON-LD.
     if page.get("seo_body"):

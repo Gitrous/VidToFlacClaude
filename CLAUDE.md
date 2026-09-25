@@ -200,10 +200,65 @@ el de n-gramas 64-67 % (motivo real del rechazo de AdSense). El vocabulario
 coincide por fuerza entre páginas del mismo tema; lo que delata el copiado son
 las secuencias literales.
 
-Referencia actual: **41-46 %** entre las cuatro landings propias y su portada, y
-ese resto es la interfaz de la herramienta —botones, pasos, pie—, que es
-*boilerplate* legítimo y Google descuenta. Por bloques con encabezado, cada
-landing tiene ~1.440 palabras propias frente a ~200 compartidas.
+Referencia actual (25-09-2026, después de adelgazar las landings): **18,7-20,7 %**
+entre las cuatro landings propias y su portada, y **28-29 %** en el peor par de
+landings entre sí. Lo que queda es cabecera, pie, los controles del conversor y
+el texto de consentimiento: *boilerplate* funcional que no se puede quitar sin
+romper la página. Las páginas agrupadas van en el 4,6-9,7 %, y los artículos y
+el banco de pruebas en el 1 %.
+
+Antes de ese cambio eran **37-39 %** contra la portada y **39,5 %** entre
+landings. Si vuelves a ver cifras así, alguien ha repuesto un bloque de la
+portada en la plantilla: mira la sección siguiente.
+
+## Las landings llevan el conversor, no la portada entera
+
+AdSense rechazó por "contenido de poco valor" una **tercera** vez el 22 de
+septiembre de 2026, después de dos semanas añadiendo contenido original medido.
+Eso descartaba los artículos, así que se midió el sitio entero con n-gramas de 8
+palabras y salió dónde estaba: los artículos y el banco compartían un **1 %** con
+la portada, pero las cuatro landings propias un **37-39 %**, y entre ellas hasta
+un **39,5 %**. Desglosada una landing, **683 de sus 1.991 palabras eran la
+interfaz de la portada copiada**.
+
+`strip_home_chrome()` en `build_pages.py` quita de las doce landings, con el
+mismo patrón que `RE_DEMO` y `RE_SHARED_GUIDE`:
+
+- los **pilares de confianza** (`RE_TRUST`),
+- los **pasos "Cómo funciona"** (`RE_STEPS`),
+- la tarjeta **"Antes y después"** (`RE_COMPARE`),
+- el **selector de formato** del paso 01 (`RE_FORMAT_PICKER`), que ofrece las
+  veinte guías: en la portada es navegación, dentro de la guía de MP4 es la
+  lista otra vez. El JS ya lo daba por opcional (`formatDropdown?.` y
+  `if (ddSummary && ddPanel)`), así que no rompe nada,
+- el **párrafo compartido** de la sección del problema (`RE_PROBLEM_SHARED`), el
+  de "muchas cámaras graban en AAC". Alrededor todo es propio —el h2, la
+  entradilla y, desde el `<h3>`, el `seo_body` de cada formato—, así que
+  quitándolo la sección entera pasa a ser única,
+- el **JSON-LD de `HowTo`** (`RE_HOWTO_JSONLD`), porque sus tres pasos dejan de
+  estar visibles y los datos estructurados describen lo que la página muestra.
+  De ahí que los bloques JSON-LD bajaran de 210 a 198.
+
+**Las secciones de cierre se tratan distinto según el idioma**, y la condición
+está en el código: si la sección lleva `<nav>` se conserva sin su entradilla, y
+si no, sobra entera. La española mete los enlaces a los artículos dentro de la
+misma sección de formatos; la inglesa los tiene en `guides-titulo` y su
+`formatos-titulo` es solo texto repetido, así que desaparece.
+
+**El hueco de anuncio se recoloca** (`RE_AD_TOOL`). Iba "entre la herramienta y
+el contenido SEO", apoyado en la tarjeta "Antes y después"; sin ella quedaba
+pegado al panel de registro del conversor, que es el patrón de clic accidental
+que AdSense trata como infracción. En las landings baja hasta justo antes de las
+preguntas frecuentes, con texto por arriba y un encabezado por abajo. La portada
+no se toca.
+
+Lo que **sí** se queda en la landing: el conversor completo —zona de arrastre,
+botón de convertir, progreso, previsualización, registro—, los dos `.ad-modal`,
+la cabecera, el pie y los enlaces internos. Una landing sigue siendo una página
+donde se puede convertir; lo que ya no es es otra copia de la home.
+
+Al añadir un bloque nuevo a `index.html`, pregúntate si tiene sentido repetido
+doce veces. Si no, añádele su regex aquí.
 
 ## La versión inglesa se escribe, no se traduce a medias
 
@@ -387,7 +442,7 @@ print(n,'bloques,',b,'rotos')"
 ```
 
 Valores de referencia: **99** páginas HTML, **64** indexables y **35** `noindex`,
-**66** con hreflang, **210** bloques JSON-LD, **64** URLs en el sitemap, **0**
+**66** con hreflang, **198** bloques JSON-LD, **64** URLs en el sitemap, **0**
 enlaces internos rotos (anclas `#formato` incluidas), **0** descripciones de más
 de 160 caracteres, y el generador en **0** líneas de diferencia.
 
