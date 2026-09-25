@@ -153,7 +153,7 @@
     "headline": "Banco de pruebas: qué hace VidToFLAC con cada códec",
     "description": "Diecisiete combinaciones de contenedor y códec generadas con FFmpeg y pasadas por la misma cadena que usa VidToFLAC.",
     "datePublished": "2026-09-19",
-    "dateModified": "2026-09-22",
+    "dateModified": "2026-09-25",
     "inLanguage": "es",
     "mainEntityOfPage": "https://vidtoflac.tech/banco-de-pruebas/",
     "image": "https://vidtoflac.tech/media/capturas/resolve-forma-de-onda.webp",
@@ -365,7 +365,7 @@ ffmpeg -i origen.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac salida.mkv
 
     <p>Lo importante es que <strong>el audio nunca se pierde</strong>. Con clic derecho sobre el clip en el Media Pool, <strong>Clip Attributes → Audio</strong>, el desplegable <strong>Format</strong> deja elegir el número de pistas y <strong>Source Channel</strong> lista los canales que el archivo trae de verdad: <em>Embedded Channel 1</em> y <em>Embedded Channel 2</em>. Asignados ahí, el clip pasa a tener las dos pistas separadas. Hay que hacerlo antes de arrastrarlo a la línea de tiempo.</p>
 
-    <p>Conviene recordar que <strong>la herramienta publicada convierte una sola pista</strong>: el comando no lleva <code>-map</code> y FFmpeg elige una. Para conservarlas todas hace falta FFmpeg de escritorio, y está explicado en <a href="/articulos/obs-dos-pistas-audio-davinci-resolve/">la guía de OBS con dos pistas de audio</a>.</p>
+    <p>Y un cambio posterior: <strong>desde el 24 de septiembre la herramienta conserva las pistas</strong>. Si el archivo trae varias, enseña una casilla por pista antes de convertir y cada una que dejes marcada sale como una pista FLAC. Lo probé el 25 en la propia aplicación con un MKV de dos pistas AAC: dos marcadas, dos FLAC; una desmarcada, una; en MKV y en MP4, y siempre con el audio empezando en 0,000. Está detallado en <a href="/articulos/obs-dos-pistas-audio-davinci-resolve/#herramienta">la guía de OBS con dos pistas de audio</a>. Lo de Clip Attributes sigue valiendo: que el archivo lleve las dos pistas no cambia que Resolve pueda enseñar una.</p>
 
     <h2>Lo que todavía no está probado</h2>
     <p>Por honestidad, porque un banco de pruebas que no dice lo que le falta no sirve de nada:</p>

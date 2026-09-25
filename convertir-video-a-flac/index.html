@@ -147,7 +147,7 @@
         "name": "¿Puedo convertir el audio DTS de un TS o un M2TS?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sí. La pista DTS se decodifica y se codifica en FLAC, que es sin pérdida, de modo que el editor recibe exactamente el sonido que había decodificado. Si el archivo tiene varias pistas de audio, VidToFLAC convierte solo una, la que FFmpeg elige por defecto; para conservarlas todas, usa FFmpeg de escritorio: ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv."
+          "text": "Sí. La pista DTS se decodifica y se codifica en FLAC, que es sin pérdida, de modo que el editor recibe exactamente el sonido que había decodificado. Si el archivo tiene varias pistas de audio, VidToFLAC te enseña una casilla por pista antes de convertir y conserva las que dejes marcadas, cada una como una pista FLAC."
         }
       },
       {
@@ -2527,7 +2527,7 @@
       <details class="faq-item">
         <summary>¿Puedo convertir el audio DTS de un TS o un M2TS?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Sí. La pista DTS se decodifica y se codifica en FLAC, que es sin pérdida, de modo que el editor recibe exactamente el sonido que había decodificado. Si el archivo tiene varias pistas de audio, VidToFLAC convierte solo una, la que FFmpeg elige por defecto; para conservarlas todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+          <p>Sí. La pista DTS se decodifica y se codifica en FLAC, que es sin pérdida, de modo que el editor recibe exactamente el sonido que había decodificado. Si el archivo tiene varias pistas de audio, VidToFLAC te enseña una casilla por pista antes de convertir y conserva las que dejes marcadas, cada una como una pista FLAC.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2731,7 +2731,7 @@
         <li>Descarga el MKV e impórtalo en DaVinci Resolve. La pista de audio convertida estará disponible como FLAC.</li>
       </ol>
       <h3>Pistas múltiples de audio en TS</h3>
-      <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC convierte solo una de ellas, la que FFmpeg elige por defecto, que no siempre es el idioma que buscas. Si necesitas una pista concreta o todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+      <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC las detecta antes de convertir y te enseña una casilla por pista, así que puedes quedarte con el idioma que buscas, con todas, o quitar la audiodescripción. Desde la terminal, <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code> las conserva todas.</p>
       <h3>Por qué un TS pesa más: paquetes de 188 bytes</h3>
       <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido — y desaparece al reempaquetarlo.</p>
       <h3>La solución para tus TS y M2TS: grabaciones de TV y Blu-ray editables</h3>

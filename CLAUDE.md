@@ -575,12 +575,24 @@ El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
   copia al MKV (la vista previa del navegador puede quedarse sin imagen, pero
   Resolve lo abre bien). DivX 3 es `msmpeg4v3`, y ese sí se recodifica porque
   Resolve lo importa sin imagen. Ver "El audio tiene que empezar en cero".
-- **Solo se convierte una pista de audio.** El comando no lleva `-map`, así que
-  FFmpeg elige una. Tres guías prometían "todas las pistas", justo lo que le
-  importa a quien graba juego y micrófono por separado en OBS. Para varias, se
-  remite a `ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv`.
-  Ese comando **sí** mete las dos pistas en el archivo, pero Resolve puede
-  enseñar una: ver "Dos pistas de audio" más arriba.
+- **Las pistas de audio: se conservan desde el 24-09-2026, pero hay un paso.**
+  Hasta esa fecha el comando no llevaba `-map` y FFmpeg elegía una; el sitio lo
+  decía así. Los commits `d3ad75e`/`ebe326b` (otra sesión) añadieron la
+  selección: al pulsar Convertir la app sondea el archivo y, si hay varias
+  pistas, se para y enseña una casilla por pista (todas marcadas) hasta que se
+  pulsa «Iniciar conversión». Probado el 25-09-2026 en la propia app, en el
+  navegador, con un MKV de dos pistas AAC: dos marcadas → dos FLAC; una
+  desmarcada → la marcada; salida MP4 → dos FLAC; archivo de una pista → sin
+  casillas. **Todas las pistas con `start_time` 0,000**, que es lo que exige
+  Resolve. Al escribir: no digas "conserva todas" sin decir que se eligen, y
+  no quites la advertencia de Clip Attributes: que el archivo lleve dos pistas
+  no impide que Resolve enseñe una (ver "Dos pistas de audio" más arriba).
+
+  **Cómo se probó, por si hay que repetirlo:** la app solo sondea al pulsar
+  Convertir, no al añadir el archivo. Para sacar la salida del navegador sin
+  descargarla, un receptor HTTP con CORS en `127.0.0.1:8765` y un `fetch` del
+  blob desde la página. Tras tres conversiones salta el aviso de anuncio: en
+  `localhost` se reinicia borrando `vidtoflac_quota_v2` de `localStorage`.
 - **Nada de absolutos.** Ni "la única solución", ni "no funciona en ningún
   sistema", ni "todos los errores". El soporte de códecs depende de versión,
   plataforma y configuración.

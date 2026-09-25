@@ -5,13 +5,13 @@
     <link>https://vidtoflac.tech/articulos/</link>
     <description>Artículos medidos sobre audio en DaVinci Resolve, códecs y conversión a FLAC. Cada afirmación se prueba con archivos reales antes de publicarla.</description>
     <language>es-ES</language>
-    <lastBuildDate>Tue, 22 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://vidtoflac.tech/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una</title>
       <link>https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/</link>
       <guid isPermaLink="true">https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/</guid>
-      <description>Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Qué pasa exactamente, medido, y el comando que conserva todas.</description>
+      <description>Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Por qué pasa, medido, y cómo conservar las dos hasta Resolve.</description>
       <dc:creator>Guillem Sánchez</dc:creator>
       <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>
     </item>

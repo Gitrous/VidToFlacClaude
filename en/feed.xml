@@ -5,13 +5,13 @@
     <link>https://vidtoflac.tech/en/articles/</link>
     <description>Measured articles on audio in DaVinci Resolve, codecs and FLAC conversion. Every claim is tested against real files before it is published.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 22 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://vidtoflac.tech/en/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>OBS with two audio tracks: why DaVinci Resolve only gets one</title>
       <link>https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/</link>
       <guid isPermaLink="true">https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/</guid>
-      <description>You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all.</description>
+      <description>You record game and mic on separate tracks in OBS and the conversion drops one. Why it happens, measured, and how to keep both all the way into Resolve.</description>
       <dc:creator>Guillem Sánchez</dc:creator>
       <pubDate>Sun, 20 Sep 2026 00:00:00 +0000</pubDate>
     </item>

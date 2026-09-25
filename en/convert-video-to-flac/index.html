@@ -147,7 +147,7 @@
         "name": "Can I convert the DTS audio in a TS or M2TS file?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The DTS track is decoded and encoded as FLAC, which is lossless, so the editor receives exactly the sound that was decoded. If the file has several audio tracks, VidToFLAC converts only one, the track FFmpeg picks by default; to keep them all, use desktop FFmpeg: ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv."
+          "text": "Yes. The DTS track is decoded and encoded as FLAC, which is lossless, so the editor receives exactly the sound that was decoded. If the file has several audio tracks, VidToFLAC shows a checkbox per track before converting and keeps the ones you leave ticked, each as a FLAC track."
         }
       },
       {
@@ -2527,7 +2527,7 @@
       <details class="faq-item">
         <summary>Can I convert the DTS audio in a TS or M2TS file?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Yes. The DTS track is decoded and encoded as FLAC, which is lossless, so the editor receives exactly the sound that was decoded. If the file has several audio tracks, VidToFLAC converts only one, the track FFmpeg picks by default; to keep them all, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
+          <p>Yes. The DTS track is decoded and encoded as FLAC, which is lossless, so the editor receives exactly the sound that was decoded. If the file has several audio tracks, VidToFLAC shows a checkbox per track before converting and keeps the ones you leave ticked, each as a FLAC track.</p>
         </div>
       </details>
       <details class="faq-item">

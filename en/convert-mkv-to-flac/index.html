@@ -139,7 +139,7 @@
         "name": "What if my MKV has several audio tracks?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. That matters for OBS recordings with game audio and a microphone on separate tracks, because the rest are left out. To keep every track as FLAC, use desktop FFmpeg: ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv."
+          "text": "VidToFLAC detects them before converting and shows a checkbox per track, all ticked; every track you keep comes out as a separate FLAC track. That matters for OBS recordings with game audio and a microphone on separate tracks. From the terminal, ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv keeps them all. If DaVinci Resolve then shows a single track, the file is fine: set the tracks under Clip Attributes."
         }
       },
       {
@@ -2505,7 +2505,7 @@
       <details class="faq-item">
         <summary>What if my MKV has several audio tracks?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. That matters for OBS recordings with game audio and a microphone on separate tracks, because the rest are left out. To keep every track as FLAC, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
+          <p>VidToFLAC detects them before converting and shows a checkbox per track, all ticked; every track you keep comes out as a separate FLAC track. That matters for OBS recordings with game audio and a microphone on separate tracks. From the terminal, <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code> keeps them all. If DaVinci Resolve then shows a single track, the file is fine: set the tracks under Clip Attributes.</p>
         </div>
       </details>
       <details class="faq-item">
