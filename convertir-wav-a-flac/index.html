@@ -760,6 +760,48 @@
     .file-chip.is-error { border-color: rgba(255,96,88,.3); }
     .file-chip.is-error .chip-bar-fill  { background: var(--red); width: 100%; }
 
+    .track-picker {
+      padding: 0.6rem 0.85rem 0.7rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+    }
+    .track-picker-heading {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.2rem;
+    }
+    .track-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--ink-dim);
+      cursor: pointer;
+      padding: 0.05rem 0;
+      user-select: none;
+    }
+    .track-row input[type="checkbox"] {
+      accent-color: var(--amber);
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .track-row.is-unchecked { color: var(--ink-mute); text-decoration: line-through; }
+    .track-codec {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--ink-mute);
+      margin-left: auto;
+      letter-spacing: 0.04em;
+    }
+
     @keyframes doneFlash {
       0%   { box-shadow: 0 0 0 0 var(--green-soft); }
       40%  { box-shadow: 0 0 0 5px var(--green-soft); }
@@ -2636,8 +2678,12 @@ let ffmpegLoading = false;
 let nextId = 0;
 let currentId = null;
 let adUnitsCreated = 0;
-// Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName }>
+// Map<id, { file, status: 'pending'|'converting'|'done'|'error', outputURL, outBaseName,
+//           probeInfo: {audioStreams,videoCodec,...}|null, selectedAudioTracks: bool[]|null }>
 const files = new Map();
+let convertPhase = 'idle'; // 'idle' | 'probed' | 'converting'
+let probedBatch  = null;   // archivos listos para conversión tras el sondeo
+let probedFormat = null;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function fmt(bytes) {
@@ -2766,6 +2812,24 @@ function renderFileList() {
       </div>
     `;
 
+    // Selector de pistas de audio (solo para archivos pendientes con >1 pista detectada)
+    const audioStreams = entry.probeInfo?.audioStreams;
+    if (audioStreams?.length > 1 && entry.status === 'pending') {
+      const sel = entry.selectedAudioTracks || audioStreams.map(() => true);
+      const pickerEl = document.createElement('div');
+      pickerEl.className = 'track-picker';
+      pickerEl.innerHTML =
+        `<div class="track-picker-heading">${audioStreams.length} pistas de audio detectadas</div>` +
+        audioStreams.map((s, i) => {
+          const name = s.title || `Pista ${i + 1}`;
+          return `<label class="track-row${sel[i] ? '' : ' is-unchecked'}">
+            <input type="checkbox" data-action="toggle-track" data-id="${id}" data-idx="${i}" ${sel[i] ? 'checked' : ''}>
+            ${name}<span class="track-codec">${s.codec.toUpperCase()}</span>
+          </label>`;
+        }).join('');
+      chip.appendChild(pickerEl);
+    }
+
     // click chip to scroll to its preview (done files only) — sin reconstruir el medio.
     // Se ignoran clics en botones y en el nombre editable (esos tienen su propia acción).
     if (entry.status === 'done') {
@@ -2777,6 +2841,18 @@ function renderFileList() {
 
     fileListEl.appendChild(chip);
   }
+
+  // track checkbox delegation
+  fileListEl.querySelectorAll('[data-action="toggle-track"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const id  = Number(cb.dataset.id);
+      const idx = Number(cb.dataset.idx);
+      const entry = files.get(id);
+      if (!entry?.selectedAudioTracks) return;
+      entry.selectedAudioTracks[idx] = cb.checked;
+      cb.closest('.track-row')?.classList.toggle('is-unchecked', !cb.checked);
+    });
+  });
 
   // event delegation for buttons
   fileListEl.querySelectorAll('[data-action]').forEach(btn => {
@@ -2846,6 +2922,11 @@ function renderFileList() {
 }
 
 function updateConvertBtn() {
+  if (convertPhase === 'probed') {
+    convertBtn.textContent = '▶ Iniciar conversión';
+    convertBtn.disabled = false;
+    return;
+  }
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
   convertBtn.disabled = !ffmpeg || pending === 0 || !termsCheck.checked;
   const left = freeLeft();
@@ -3063,6 +3144,8 @@ function addFiles(fileList) {
     added++;
   }
   if (added) {
+    // Si el usuario añade archivos mientras espera confirmar pistas, volvemos a «idle»
+    if (convertPhase === 'probed') { convertPhase = 'idle'; probedBatch = null; probedFormat = null; }
     renderFileList(); renderPreviewList(); updateConvertBtn();
     if (!ffmpeg && !ffmpegLoading) loadFFmpeg();
   }
@@ -3208,6 +3291,48 @@ function reencodeEstimate(w, h, fps, seconds) {
   return `~${(secs / 3600).toFixed(1)} h`;
 }
 
+// ─── Pre-probe: detecta pistas de audio sin convertir ─────────────────────────
+async function probeOnlyFile(id, entry) {
+  const file      = entry.file;
+  const ext       = file.name.split('.').pop().toLowerCase() || 'mkv';
+  const inputName = `input_probe_${id}.${ext}`;
+  const probeInfo = { audioStreams: [], videoCodec: '', seconds: 0, w: 0, h: 0, fps: 0 };
+  let lastWasAudio = false;
+
+  const capture = ({ message }) => {
+    const mA = message.match(/Stream #\d+:\d+[^:]*:\s*Audio:\s*([a-z0-9_]+)/i);
+    if (mA) {
+      probeInfo.audioStreams.push({ idx: probeInfo.audioStreams.length, codec: mA[1].toLowerCase(), title: '' });
+      lastWasAudio = true;
+    }
+    const mV = message.match(/Stream #\d+:\d+[^:]*:\s*Video:\s*([a-z0-9_]+)/i);
+    if (mV) { probeInfo.videoCodec = mV[1].toLowerCase(); lastWasAudio = false; }
+    if (!mA && !mV && /Stream #\d+/.test(message)) lastWasAudio = false;
+    const mTitle = message.match(/^\s+title\s*:\s*(.+)/i);
+    if (mTitle && lastWasAudio && probeInfo.audioStreams.length > 0)
+      probeInfo.audioStreams[probeInfo.audioStreams.length - 1].title = mTitle[1].trim();
+    const md = message.match(/Duration:\s*(\d+):(\d\d):(\d\d(?:\.\d+)?)/);
+    if (md) probeInfo.seconds = (+md[1]) * 3600 + (+md[2]) * 60 + parseFloat(md[3]);
+    const mr = message.match(/Video:.*?[\s,](\d{2,5})x(\d{2,5})[\s,]/);
+    if (mr) { probeInfo.w = +mr[1]; probeInfo.h = +mr[2]; }
+    const mf = message.match(/([\d.]+)\s*fps/);
+    if (mf) probeInfo.fps = parseFloat(mf[1]);
+  };
+
+  try {
+    await ffmpeg.writeFile(inputName, new Uint8Array(await file.arrayBuffer()));
+    ffmpeg.on('log', capture);
+    try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
+    ffmpeg.off('log', capture);
+  } finally {
+    try { await ffmpeg.deleteFile(inputName); } catch (_) {}
+  }
+
+  entry.probeInfo = probeInfo;
+  if (probeInfo.audioStreams.length > 1)
+    entry.selectedAudioTracks = probeInfo.audioStreams.map(() => true);
+}
+
 // ─── Per-file processor ───────────────────────────────────────────────────────
 async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat, isReconvert = false) {
   const file = entry.file;
@@ -3235,24 +3360,43 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
     // 2 · Probe audio/video codecs, then build command.
     setProgress(`[${globalIdx + 1}/${totalCount}] Analizando formato…`, null);
-    let probeAudioCodec = '';
-    let probeVideoCodec = '';
+    let probeAudioStreams = [];
+    let probeVideoCodec  = '';
     let probeSeconds = 0, probeW = 0, probeH = 0, probeFps = 0;
-    const probeCapture = ({ message }) => {
-      const ma = message.match(/Audio:\s+([a-z0-9_]+)/i);
-      if (ma) probeAudioCodec = ma[1].toLowerCase();
-      const mv = message.match(/Video:\s+([a-z0-9_]+)/i);
-      if (mv) probeVideoCodec = mv[1].toLowerCase();
-      const md = message.match(/Duration:\s*(\d+):(\d\d):(\d\d(?:\.\d+)?)/);
-      if (md) probeSeconds = (+md[1]) * 3600 + (+md[2]) * 60 + parseFloat(md[3]);
-      const mr = message.match(/Video:.*?[\s,](\d{2,5})x(\d{2,5})[\s,]/);
-      if (mr) { probeW = +mr[1]; probeH = +mr[2]; }
-      const mf = message.match(/([\d.]+)\s*fps/);
-      if (mf) probeFps = parseFloat(mf[1]);
-    };
-    ffmpeg.on('log', probeCapture);
-    try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
-    ffmpeg.off('log', probeCapture);
+
+    if (entry.probeInfo) {
+      // Datos ya cacheados por el sondeo previo — no releer el archivo
+      const p = entry.probeInfo;
+      probeAudioStreams = p.audioStreams;
+      probeVideoCodec  = p.videoCodec;
+      probeSeconds = p.seconds; probeW = p.w; probeH = p.h; probeFps = p.fps;
+    } else {
+      let lastWasAudio = false;
+      const probeCapture = ({ message }) => {
+        const mA = message.match(/Stream #\d+:\d+[^:]*:\s*Audio:\s*([a-z0-9_]+)/i);
+        if (mA) {
+          probeAudioStreams.push({ idx: probeAudioStreams.length, codec: mA[1].toLowerCase(), title: '' });
+          lastWasAudio = true;
+        }
+        const mV = message.match(/Stream #\d+:\d+[^:]*:\s*Video:\s*([a-z0-9_]+)/i);
+        if (mV) { probeVideoCodec = mV[1].toLowerCase(); lastWasAudio = false; }
+        if (!mA && !mV && /Stream #\d+/.test(message)) lastWasAudio = false;
+        const mTitle = message.match(/^\s+title\s*:\s*(.+)/i);
+        if (mTitle && lastWasAudio && probeAudioStreams.length > 0)
+          probeAudioStreams[probeAudioStreams.length - 1].title = mTitle[1].trim();
+        const md = message.match(/Duration:\s*(\d+):(\d\d):(\d\d(?:\.\d+)?)/);
+        if (md) probeSeconds = (+md[1]) * 3600 + (+md[2]) * 60 + parseFloat(md[3]);
+        const mr = message.match(/Video:.*?[\s,](\d{2,5})x(\d{2,5})[\s,]/);
+        if (mr) { probeW = +mr[1]; probeH = +mr[2]; }
+        const mf = message.match(/([\d.]+)\s*fps/);
+        if (mf) probeFps = parseFloat(mf[1]);
+      };
+      ffmpeg.on('log', probeCapture);
+      try { await ffmpeg.exec(['-i', inputName]); } catch (_) {}
+      ffmpeg.off('log', probeCapture);
+    }
+
+    const probeAudioCodec = probeAudioStreams[0]?.codec || '';
 
     if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
       log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
@@ -3260,10 +3404,20 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       outputName = `output_${id}.flac`;
     }
 
-    const isFloatPCM = /^pcm_f|^flt|^dbl/.test(probeAudioCodec);
-    if (isFloatPCM) log(`⚠ PCM flotante detectado (${probeAudioCodec}) — convirtiendo a entero antes de FLAC`, 'warn');
+    // Pistas seleccionadas (por defecto todas)
+    const selectedStreams = entry.selectedAudioTracks
+      ? probeAudioStreams.filter((_, i) => entry.selectedAudioTracks[i])
+      : probeAudioStreams;
+    const keepMultiTrack = selectedStreams.length > 1;
+    if (keepMultiTrack) {
+      const names = selectedStreams.map(s => s.title || `Pista ${s.idx + 1}`).join(', ');
+      log(`ℹ ${selectedStreams.length} pistas de audio conservadas: ${names}`, 'sys');
+    }
 
-    const audioAlreadyFlac = probeAudioCodec === 'flac';
+    const isFloatPCM = selectedStreams.some(s => /^pcm_f|^flt|^dbl/.test(s.codec));
+    if (isFloatPCM) log(`⚠ PCM flotante detectado — convirtiendo a entero antes de FLAC`, 'warn');
+
+    const audioAlreadyFlac = selectedStreams.length > 0 && selectedStreams.every(s => s.codec === 'flac');
     // FLAC dentro de MP4 sigue marcado como experimental en FFmpeg, y también hace
     // falta la bandera al copiar la pista tal cual: sin ella el muxer no escribe
     // la cabecera y la salida queda vacía.
@@ -3312,9 +3466,16 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
     setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…${eta ? ` · recodificando, ${eta}` : ''}`, null);
     const t0 = Date.now();
-    const cmd = isAudioOnlyOutput
-      ? ['-i', inputName, '-vn', ...audioEncArgs, outputName]
-      : ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
+    // Con múltiples pistas se usa -map explícito; con una sola, comportamiento estándar.
+    let cmd;
+    if (isAudioOnlyOutput) {
+      cmd = ['-i', inputName, '-vn', ...audioEncArgs, outputName];
+    } else if (keepMultiTrack) {
+      const mapArgs = ['-map', '0:v:0', ...selectedStreams.flatMap(s => ['-map', `0:a:${s.idx}`])];
+      cmd = ['-i', inputName, ...mapArgs, ...videoArgs, ...audioEncArgs, outputName];
+    } else {
+      cmd = ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
+    }
 
     const onProgress = ({ progress }) => {
       if (progress > 0 && progress <= 1) {
@@ -3415,6 +3576,24 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
   if (!termsCheck.checked) return;
+
+  // Segunda pulsación: el usuario ya configuró las pistas → iniciar conversión
+  if (convertPhase === 'probed') {
+    convertPhase = 'converting';
+    convertBtn.disabled = true;
+    setEngine('Procesando…', 'busy');
+    updateConvertBtn();
+    for (let i = 0; i < probedBatch.length; i++) {
+      await processOneFile(probedBatch[i], i, probedBatch.length, probedFormat);
+    }
+    convertPhase = 'idle';
+    probedBatch  = null;
+    probedFormat = null;
+    setEngine('Motor listo', 'ready');
+    updateConvertBtn();
+    return;
+  }
+
   const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!allPending.length) return;
 
@@ -3423,17 +3602,13 @@ convertBtn.addEventListener('click', async () => {
   // Determinar qué archivos se procesan en este clic.
   let toProcesar;
   if (tandaUnlocked) {
-    // Anuncio ya visto: convertir todo lo pendiente.
     toProcesar = allPending;
   } else {
     const left = freeLeft();
     if (left > 0) {
-      // Quedan conversiones gratuitas: convertir solo hasta agotar la cuota.
-      // Si hay más archivos, quedan pendientes para el siguiente clic (con anuncio).
       toProcesar = allPending.slice(0, left);
       incQuota(toProcesar.length);
     } else {
-      // Cuota agotada: el usuario pulsa Convertir a sabiendas → mostrar anuncio.
       await showAdModal();
       tandaUnlocked = true;
       toProcesar = allPending;
@@ -3441,13 +3616,40 @@ convertBtn.addEventListener('click', async () => {
   }
 
   convertBtn.disabled = true;
+  setEngine('Analizando…', 'busy');
+
+  // Fase 1: sondeo previo de todos los archivos (detecta pistas de audio múltiples)
+  for (const [id, entry] of toProcesar) {
+    if (!entry.probeInfo) {
+      setProgress(`Analizando ${entry.file.name}…`, null);
+      log(`Analizando pistas de audio en "${entry.file.name}"…`, 'sys');
+      await probeOnlyFile(id, entry);
+    }
+  }
+
+  const hasMultiTrack = toProcesar.some(([, e]) => (e.probeInfo?.audioStreams?.length ?? 0) > 1);
+
+  if (hasMultiTrack) {
+    // Mostrar selector de pistas y esperar confirmación del usuario
+    convertPhase = 'probed';
+    probedBatch  = toProcesar;
+    probedFormat = selectedFormat;
+    renderFileList();
+    setEngine('Motor listo', 'ready');
+    const nMT = toProcesar.filter(([, e]) => (e.probeInfo?.audioStreams?.length ?? 0) > 1).length;
+    log(`${nMT === 1 ? 'Un archivo tiene' : `${nMT} archivos tienen`} varias pistas de audio — selecciona las que quieres conservar y pulsa «Iniciar conversión».`, 'sys');
+    updateConvertBtn();
+    return;
+  }
+
+  // Sin archivos multi-pista: conversión directa (flujo original)
+  convertPhase = 'converting';
   setEngine('Procesando…', 'busy');
   updateConvertBtn();
-
   for (let i = 0; i < toProcesar.length; i++) {
     await processOneFile(toProcesar[i], i, toProcesar.length, selectedFormat);
   }
-
+  convertPhase = 'idle';
   setEngine('Motor listo', 'ready');
   updateConvertBtn();
 });
