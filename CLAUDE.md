@@ -260,6 +260,34 @@ donde se puede convertir; lo que ya no es es otra copia de la home.
 Al añadir un bloque nuevo a `index.html`, pregúntate si tiene sentido repetido
 doce veces. Si no, añádele su regex aquí.
 
+## Anuncios dentro de la herramienta: quitados, y lo que costó verlos
+
+El 26-09-2026 se quitaron el aviso de "3 conversiones gratuitas" con anuncio y
+los anuncios que se insertaban en la lista de resultados, porque incumplen las
+políticas de AdSense (recompensa por ver un anuncio, anuncio encima de un botón,
+anuncios entre botones de descarga). Está todo en el commit aislado `45520eb`:
+el usuario quiere recuperarlo más adelante, pero **no tal cual** — antes de un
+`git revert` hay que proponerle una forma que cumpla.
+
+Tres cosas que salieron al hacerlo:
+
+- **Los anuncios que mete el JavaScript no se ven en el HTML.** La comprobación
+  de "ningún anuncio junto a los controles" buscaba `<ins class="adsbygoogle">`
+  fijos, y dio 0 mientras la lista de resultados recibía un anuncio cada cinco
+  archivos. Busca también `className = 'adsbygoogle'` y `adsbygoogle.push` fuera
+  de los huecos conocidos.
+- **`node --check` solo mira la sintaxis.** Al quitar el bloque de la cuota,
+  `fmtName` se quedó sin declarar en las páginas de formatos: el JS pasaba la
+  comprobación y el botón de convertir moría al ejecutarse. Después de borrar
+  código, pruébalo en el navegador.
+- **Hay cuatro copias del conversor, no dos.** Además de `index.html` y
+  `en/index.html`, `convertir-formatos/` y `en/convert-formats/` llevan su propia
+  copia (una herramienta de conversión entre formatos), hecha a mano y fuera del
+  generador. Y **las dos portadas ya no tienen el JS idéntico**: la selección de
+  pistas se escribió distinta en cada idioma (la española aplica la cuota y
+  luego sondea; la inglesa sondea primero, con `probedBatch` y `actualList`). Un
+  cambio en la lógica hay que comprobarlo en las cuatro.
+
 ## La versión inglesa se escribe, no se traduce a medias
 
 Al generar las landings inglesas aparecieron 14 cadenas en español dentro del
