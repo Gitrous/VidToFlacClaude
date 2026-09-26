@@ -5,7 +5,7 @@
     <link>https://vidtoflac.tech/articulos/</link>
     <description>Artículos medidos sobre audio en DaVinci Resolve, códecs y conversión a FLAC. Cada afirmación se prueba con archivos reales antes de publicarla.</description>
     <language>es-ES</language>
-    <lastBuildDate>Fri, 25 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://vidtoflac.tech/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una</title>

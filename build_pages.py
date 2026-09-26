@@ -998,7 +998,7 @@ O_WEBAPP     = ('    "url": "https://vidtoflac.tech/",\n'
 O_HOWTO_NAME = '"name": "Cómo convertir el audio de un vídeo a FLAC para DaVinci Resolve",'
 O_HOWTO_URL  = '"url": "https://vidtoflac.tech/#problema-titulo"'
 O_HERO_H1    = '    <h1 class="hero-title">Convierte el audio de tus vídeos a <span class="accent">FLAC para DaVinci Resolve</span></h1>'
-O_HERO_SUB   = '    <p class="hero-sub">De forma instantánea y 100% privada. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>'
+O_HERO_SUB   = '    <p class="hero-sub">Gratis, en segundos y 100% privado. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>'
 O_SEO_H2     = '      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus vídeos?</h2>'
 O_SEO_LEDE   = ('      <p class="lede">Si has abierto un clip en DaVinci Resolve y aparece <strong>sin sonido</strong>'
                 ' —o directamente con la pista de audio en gris— casi siempre es un <strong>error de códec de audio</strong>,'
@@ -1165,7 +1165,7 @@ A_EN = {
     'HOWTO_NAME': '"name": "How to convert video audio to FLAC for DaVinci Resolve",',
     'HOWTO_URL':  '"url": "https://vidtoflac.tech/#problema-titulo"',
     'HERO_H1':    '    <h1 class="hero-title">Convert your video audio to <span class="accent">FLAC for DaVinci Resolve</span></h1>',
-    'HERO_SUB':   '    <p class="hero-sub">Instantly and 100% privately. All processing happens inside your browser — not a single byte is uploaded to any server.</p>',
+    'HERO_SUB':   '    <p class="hero-sub">Free, in seconds and 100% private. All processing happens inside your browser — not a single byte is uploaded to any server.</p>',
     'SEO_H2':     '      <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your videos?</h2>',
     'SEO_LEDE':   None,
     'UNIQUE_GUIDE': O_UNIQUE_GUIDE,

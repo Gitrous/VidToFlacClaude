@@ -69,7 +69,9 @@ Nota: las URLs con ancla (`#problema-titulo`) no hacen scroll de forma fiable en
 
 ## Despliegue
 
-GitHub Pages en **modo legacy**, origen = rama `main` raíz (`/`), dominio personalizado `vidtoflac.tech` (definido por `CNAME`, HTTPS forzado). **Hacer push a `main` dispara automáticamente un despliegue** — no hay archivo de workflow. El flujo establecido es commitear directamente a `main` (sin ramas de feature ni PRs). Verifica un despliegue con:
+GitHub Pages en **modo legacy**, origen = rama `main` raíz (`/`), dominio personalizado `vidtoflac.tech` (definido por `CNAME`).
+
+**El HTTPS no lo pone GitHub, lo pone Cloudflare**, que hace de proxy delante del dominio (las respuestas llevan `Server: cloudflare`). Por eso `gh api repos/Gitrous/VidToFlacClaude/pages` da `https_enforced: false` y ningún certificado: GitHub no puede emitirlo con el proxy delante. Comprobado el 26-09-2026: `http://vidtoflac.tech/` respondía **200 sin redirigir** a HTTPS. La canónica evita el duplicado, pero la redirección se activa en Cloudflare (SSL/TLS → *Always Use HTTPS*), no en el repositorio. `www` sí redirige (301) al dominio sin `www`. **Hacer push a `main` dispara automáticamente un despliegue** — no hay archivo de workflow. El flujo establecido es commitear directamente a `main` (sin ramas de feature ni PRs). Verifica un despliegue con:
 
 ```bash
 gh api repos/Gitrous/VidToFlacClaude/pages/builds/latest
@@ -595,11 +597,17 @@ sitio, con la incertidumbre incluida, en vez de publicar una causa inventada.
 
 El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
 
-- **Nada de cronómetros.** Ni "menos de 30 segundos", ni "en segundos", ni
-  "instantáneo". Se dice la relación ("mucho más rápido que una conversión
-  completa, porque el vídeo no se recodifica") y de qué depende: tamaño, equipo,
-  y si hay que recodificar. Las estimaciones con su condición explícita
-  ("depende de tu ordenador") sí valen.
+- **"En segundos" sí; "instantáneo" y cifras concretas, no.** Decisión del
+  usuario el 26-09-2026: prefiere "en segundos" a "instantáneamente", y los ~45
+  "en segundos" del sitio se quedan (portada incluida: "Gratis, en segundos y
+  100% privado"). **No los "corrijas".** Lo que sigue prohibido: "instantáneo",
+  "instantly", "near-instant" y cronómetros exactos ("menos de 30 segundos").
+  "Descarga al instante" sí vale, porque habla de bajar un archivo que ya está
+  en el navegador, no de convertir. Dato para cuando haga falta matizar: el
+  remux de un WebM de 120 s en 1080p tardó 0,5 s, pero recodificar HEVC cuesta
+  ~0,75 s por segundo de vídeo, así que un vídeo de iPhone de 5 minutos tarda
+  casi 4. Donde el texto hable de HEVC o de recodificar, lleva la condición al
+  lado.
 - **El vídeo no siempre se copia.** `browserIncompatibleVideo` en `index.html`
   recodifica a H.264 cuando el navegador no puede decodificar el códec, y esa
   lista **incluye H.265/HEVC** — el caso más frecuente hoy, porque los iPhone
