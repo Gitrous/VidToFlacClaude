@@ -262,6 +262,26 @@ donde se puede convertir; lo que ya no es es otra copia de la home.
 Al añadir un bloque nuevo a `index.html`, pregúntate si tiene sentido repetido
 doce veces. Si no, añádele su regex aquí.
 
+## Enlaces que Google puede seguir: `<a href>`, no botones
+
+El 26-09-2026, con Search Console mostrando solo 6 páginas indexadas, se midieron
+los enlaces internos que recibe cada página indexable (solo `<a href>` del
+cuerpo, sin `<head>` ni JS). Las páginas que más importan eran las peor
+enlazadas: las cuatro landings propias recibían 5 y las dos guías medidas 4-5,
+frente a una mediana de 11.
+
+El motivo: **la portada solo llevaba a las landings a través del selector de
+formato, que usa `<button data-url>`**, y Google no sigue botones. La página más
+fuerte del sitio no les pasaba ni un enlace. Se añadieron seis `<a href>` a la
+sección de cierre "Guías y artículos" de las dos portadas (las cuatro landings y
+las dos guías medidas). Como esa `<nav>` sobrevive en las landings, también se
+enlazan entre ellas. Resultado: de 4-5 a 10-12 enlaces entrantes, sin subir la
+duplicación.
+
+Al añadir una página que importa, compruébalo: que tenga enlaces `<a href>`
+desde la portada o desde páginas que la reciben. Un `data-url`, un `onclick` o
+un botón no cuentan.
+
 ## Anuncios dentro de la herramienta: quitados, y lo que costó verlos
 
 El 26-09-2026 se quitaron el aviso de "3 conversiones gratuitas" con anuncio y
