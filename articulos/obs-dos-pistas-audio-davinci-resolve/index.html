@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una</title>
-  <meta name="description" content="Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Qué pasa exactamente, medido, y el comando que conserva todas." />
+  <meta name="description" content="Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Por qué pasa, medido, y cómo conservar las dos hasta Resolve." />
   <meta name="keywords" content="OBS dos pistas de audio, OBS pistas separadas DaVinci Resolve, OBS juego y micrófono pistas separadas, convertir OBS varias pistas audio, ffmpeg map todas las pistas de audio, DaVinci Resolve solo una pista de audio, OBS multitrack audio, OBS grabar micro aparte, MKV varias pistas FLAC, OBS audio track 2" />
   <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -28,7 +28,7 @@
   <meta property="og:locale" content="es_ES" />
   <meta property="og:url" content="https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/" />
   <meta property="og:title" content="OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una" />
-  <meta property="og:description" content="Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Qué pasa exactamente, medido, y el comando que conserva todas." />
+  <meta property="og:description" content="Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Por qué pasa, medido, y cómo conservar las dos hasta Resolve." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -36,7 +36,7 @@
   <!-- Twitter/X -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una" />
-  <meta name="twitter:description" content="Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Qué pasa exactamente, medido, y el comando que conserva todas." />
+  <meta name="twitter:description" content="Grabas juego y micrófono en pistas separadas con OBS y al convertir se pierde una. Por qué pasa, medido, y cómo conservar las dos hasta Resolve." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
 
   <!-- Article schema -->
@@ -46,10 +46,10 @@
     "@type": "Article",
     "headline": "OBS con dos pistas de audio: por qué a DaVinci Resolve solo llega una",
     "image": "https://vidtoflac.tech/og-image.png",
-    "description": "Grabas juego y micrófono en pistas separadas con OBS y al convertir el archivo se pierde una de las dos. Qué ocurre exactamente, medido con FFmpeg, y el comando que las conserva todas.",
+    "description": "Grabas juego y micrófono en pistas separadas con OBS y al convertir el archivo se pierde una de las dos. Por qué ocurre, medido con FFmpeg, cómo conservarlas con VidToFLAC o con la terminal, y qué hacer si Resolve enseña una sola.",
     "url": "https://vidtoflac.tech/articulos/obs-dos-pistas-audio-davinci-resolve/",
     "datePublished": "2026-09-20",
-    "dateModified": "2026-09-22",
+    "dateModified": "2026-09-25",
     "inLanguage": "es",
     "author": {
       "@type": "Person",
@@ -80,12 +80,12 @@
         "name": "¿VidToFLAC conserva las dos pistas de audio de una grabación de OBS?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. La orden que ejecuta la herramienta no lleva -map, así que FFmpeg elige una sola pista de audio y descarta el resto. En la prueba con un MP4 de dos pistas AAC, la salida tenía una sola pista FLAC, idéntica a la primera del original. Si necesitas las dos, hay que usar FFmpeg en la terminal con -map."
+          "text": "Sí, desde el 24 de septiembre de 2026. Si el archivo tiene varias pistas, la herramienta enseña una casilla por pista antes de convertir, todas marcadas, y cada una de las que dejes llega como una pista FLAC independiente. Probado con un archivo de dos pistas AAC: salieron las dos, en MKV y en MP4, y las dos empezando en cero. Antes de esa fecha convertía una sola."
         }
       },
       {
         "@type": "Question",
-        "name": "¿Qué pista se queda cuando hay varias?",
+        "name": "¿Qué pista se queda si conviertes sin -map?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "La que FFmpeg considera mejor: en igualdad de canales y bitrate, la primera del archivo. En la medición, el audio de salida coincidía muestra a muestra con la pista 1 y no tenía ninguna relación con la pista 2. En una grabación típica de OBS la pista 1 suele ser la mezcla o el sonido del juego, y el micrófono va en la 2."
@@ -112,7 +112,7 @@
         "name": "¿Es mejor grabar una sola pista mezclada en OBS?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende de si vas a querer bajar el volumen del juego por debajo de tu voz al montar. Si la respuesta es sí, graba en pistas separadas y conviértelas con -map. Si nunca las vas a tocar por separado, una sola pista simplifica todo el flujo: es un archivo más pequeño, se convierte con la herramienta sin más y entra en cualquier editor."
+          "text": "Depende de si vas a querer bajar el volumen del juego por debajo de tu voz al montar. Si la respuesta es sí, graba en pistas separadas y conviértelas conservándolas: la herramienta te deja elegirlas, y en la terminal es -map. Si nunca las vas a tocar por separado, una sola pista simplifica todo el flujo: es un archivo más pequeño, se convierte con la herramienta sin más y entra en cualquier editor."
         }
       }
     ]
@@ -421,6 +421,7 @@
         <li><a href="#por-que-varias" class="sidebar-toc-link">Por qué OBS graba varias pistas</a></li>
         <li><a href="#medicion" class="sidebar-toc-link">La prueba: dos pistas dentro, una fuera</a></li>
         <li><a href="#cual-sobrevive" class="sidebar-toc-link">Cuál de las dos sobrevive</a></li>
+        <li><a href="#herramienta" class="sidebar-toc-link">Cómo lo resuelve ahora VidToFLAC</a></li>
         <li><a href="#comando" class="sidebar-toc-link">El comando que las conserva todas</a></li>
         <li><a href="#clip-attributes" class="sidebar-toc-link">Y aun así Resolve puede enseñarte una sola pista</a></li>
         <li><a href="#comprobar" class="sidebar-toc-link">Cómo saber cuántas pistas tiene tu archivo</a></li>
@@ -460,10 +461,10 @@
 
       <h2 id="que-pasa">Lo que pasa, en una frase</h2>
 
-      <p>La orden que ejecuta VidToFLAC es <code>ffmpeg -i entrada -c:v copy -c:a flac salida.mkv</code>, y <strong>no lleva <code>-map</code></strong>. Sin esa opción, FFmpeg aplica su selección por defecto: un flujo de vídeo, uno de audio, y los demás se quedan fuera. Con un archivo de una sola pista —la mayoría— eso no se nota. Con una grabación de OBS multipista, se pierde media grabación.</p>
+      <p>La orden básica para pasar un vídeo a FLAC es <code>ffmpeg -i entrada -c:v copy -c:a flac salida.mkv</code>, y <strong>no lleva <code>-map</code></strong>. Sin esa opción, FFmpeg aplica su selección por defecto: un flujo de vídeo, uno de audio, y los demás se quedan fuera. Con un archivo de una sola pista —la mayoría— eso no se nota. Con una grabación de OBS multipista, se pierde media grabación. Es lo que hacen muchos conversores, y es lo que hacía VidToFLAC hasta el 24 de septiembre de 2026.</p>
 
       <div class="solution-box">
-        <strong>El resumen práctico:</strong> si tu archivo tiene una sola pista de audio, la herramienta hace lo que esperas. Si tiene dos o más y las quieres todas, hay que convertirlo con FFmpeg en la terminal añadiendo <code>-map 0:v -map 0:a</code>. El comando exacto está <a href="#comando">más abajo</a>.
+        <strong>El resumen práctico:</strong> VidToFLAC detecta ahora las pistas de audio de tu archivo y, si hay más de una, te enseña una casilla por pista antes de convertir; las que dejes marcadas llegan todas en FLAC. Está <a href="#herramienta">medido más abajo</a>. Si prefieres la terminal, el comando equivalente es <code>-map 0:v -map 0:a</code>. Y si al arrastrar el archivo a Resolve ves una sola pista, el archivo está bien: <a href="#clip-attributes">es cosa de Clip Attributes</a>.
       </div>
 
       <h2 id="por-que-varias">Por qué OBS graba varias pistas</h2>
@@ -490,7 +491,7 @@
 2,audio,aac</code>
       </div>
 
-      <p>Ese archivo pasó por la misma orden que lanza la herramienta al convertir un vídeo. El resultado:</p>
+      <p>Ese archivo pasó por la orden sin <code>-map</code>, la misma que lanzaba la herramienta antes de la selección de pistas. El resultado:</p>
 
       <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 salida.mkv
@@ -536,9 +537,35 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
 
+      <h2 id="herramienta">Cómo lo resuelve ahora VidToFLAC</h2>
+
+      <p>Desde el 24 de septiembre de 2026 la herramienta sondea el archivo antes de convertir. Si encuentra una sola pista de audio, convierte sin preguntar, como siempre. Si encuentra varias, se para y enseña una casilla por pista —«Pista 1 · AAC», «Pista 2 · AAC»—, todas marcadas. Desmarcas las que no quieras, pulsas <strong>Iniciar conversión</strong>, y cada pista que quede marcada llega al archivo final como una pista FLAC independiente.</p>
+
+      <p>Lo probé el 25 de septiembre pasando por la propia aplicación, en el navegador, un MKV como el de OBS: vídeo H.264 y dos pistas AAC con contenido distinto, un tono grave en la primera y uno agudo en la segunda, para poder saber cuál es cuál al final.</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Caso</th>
+            <th>Pistas en la salida</th>
+            <th>Inicio del audio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Las dos marcadas, salida MKV</strong></td><td>Dos FLAC: la grave y la aguda</td><td><span class="badge-ok">0,000 s en las dos</span></td></tr>
+          <tr><td><strong>Solo la primera marcada</strong></td><td>Una FLAC: la grave</td><td><span class="badge-ok">0,000 s</span></td></tr>
+          <tr><td><strong>Las dos marcadas, salida MP4</strong></td><td>Dos FLAC: la grave y la aguda</td><td><span class="badge-ok">0,000 s en las dos</span></td></tr>
+          <tr><td><strong>Archivo de una sola pista</strong></td><td>Una FLAC, sin casillas en pantalla</td><td><span class="badge-ok">0,000 s</span></td></tr>
+        </tbody>
+      </table>
+
+      <p class="codec-legend">La columna del inicio importa más de lo que parece: DaVinci Resolve importa sin sonido cualquier pista de audio que no empiece exactamente en cero, y el AAC de origen empezaba en −0,021 s. Está explicado en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
+
+      <p>Para identificar las pistas no bastaba con contarlas: decodifiqué cada una y medí su frecuencia, y la pista que desmarqué es la que falta, no otra. Lo único que no cambia es el paso extra: con un archivo multipista hay que pulsar dos veces, una para que la herramienta vea las pistas y otra para convertir.</p>
+
       <h2 id="comando">El comando que las conserva todas</h2>
 
-      <p>Con FFmpeg instalado en el sistema, basta con decirle explícitamente qué flujos quieres en la salida:</p>
+      <p>Si prefieres la terminal, o tienes una carpeta entera de grabaciones, con FFmpeg instalado basta con decirle explícitamente qué flujos quieres en la salida:</p>
 
       <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i obs.mp4 -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>
@@ -552,7 +579,7 @@
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">for f in *.mp4; do ffmpeg -i "$f" -map 0:v -map 0:a -c:v copy -c:a flac "${f%.mp4}.mkv"; done</code>
       </div>
 
-      <p>El contenedor tiene que ser MKV. MP4 admite varias pistas de audio, pero FLAC dentro de MP4 sigue siendo experimental en FFmpeg y da más problemas de los que resuelve; MKV guarda tantas pistas FLAC como haga falta sin banderas raras. Si nunca has usado FFmpeg en la terminal, la guía de <a href="/articulos/ffmpeg-convertir-video-sin-instalar-nada/">convertir vídeo con FFmpeg sin instalar nada</a> explica el resto de la sintaxis.</p>
+      <p>Mejor MKV que MP4. MP4 también admite varias pistas FLAC —la herramienta las escribe bien, y Resolve abrió un MP4 así con sus dos pistas—, pero en FFmpeg sigue marcado como experimental y en la terminal necesita <code>-strict experimental</code>; MKV guarda tantas pistas FLAC como haga falta sin banderas raras. Si nunca has usado FFmpeg en la terminal, la guía de <a href="/articulos/ffmpeg-convertir-video-sin-instalar-nada/">convertir vídeo con FFmpeg sin instalar nada</a> explica el resto de la sintaxis.</p>
 
       <h2 id="clip-attributes">Y aun así Resolve puede enseñarte una sola pista</h2>
 
@@ -571,7 +598,7 @@
 
       <p>Al aceptar, el clip pasa a tener las dos pistas separadas en la línea de tiempo, con su volumen y sus efectos independientes, que es para lo que se grabó multipista. Hay que hacerlo <strong>antes</strong> de arrastrarlo: si ya está en la línea de tiempo, quítalo, cambia los atributos y vuelve a arrastrarlo.</p>
 
-      <p>Dicho de otro modo: si conviertes con <code>-map</code> y al arrastrar ves una sola pista, no vuelvas a convertir el archivo. Está bien. Lo que hay que tocar es Clip Attributes.</p>
+      <p>Dicho de otro modo: si conviertes conservando las pistas —con la herramienta o con <code>-map</code>— y al arrastrar ves una sola, no vuelvas a convertir el archivo. Está bien. Lo que hay que tocar es Clip Attributes.</p>
 
       <h2 id="comprobar">Cómo saber cuántas pistas tiene tu archivo</h2>
 
@@ -592,9 +619,9 @@
       <p>Y hay una tercera opción que ahorra el problema entero: <strong>grabar en MKV desde el principio</strong>. En Ajustes → Salida → Grabación → Formato de grabación, elegir <em>mkv</em> en lugar de <em>mp4</em>. Se puede seguir usando FLAC como códec de audio de la grabación, con lo que no hay nada que convertir después. También es más seguro ante un cierre inesperado: un MP4 cortado a medias se corrompe, un MKV no.</p>
 
       <div class="tool-cta">
-        <span class="tool-cta-label">Para grabaciones de una sola pista</span>
+        <span class="tool-cta-label">Una pista o varias</span>
         <h3>Convierte el audio a FLAC en el navegador</h3>
-        <p>Arrastra la grabación, pulsa Convertir y descarga el MKV listo para importar en DaVinci Resolve. Nada se sube a ningún servidor. Si tu archivo es multipista, usa antes el comando con <code>-map</code> de arriba.</p>
+        <p>Arrastra la grabación, pulsa Convertir y descarga el MKV listo para importar en DaVinci Resolve. Nada se sube a ningún servidor. Si tu grabación es multipista, te enseña una casilla por pista y conserva las que marques.</p>
         <a href="/" class="tool-cta-btn" aria-label="Convertir una grabación a FLAC">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Convertir ahora
@@ -602,7 +629,7 @@
       </div>
 
       <div class="info-box">
-        <strong>Qué se ha comprobado aquí:</strong> el archivo de dos pistas se generó y se convirtió con <strong>FFmpeg 6.1.1 sobre Ubuntu</strong> el 20 de septiembre de 2026, con la misma orden que ejecuta la aplicación, y las señales se compararon muestra a muestra para identificar qué pista sobrevive. <strong>Lo que no se ha comprobado aquí es el comportamiento de OBS versión por versión</strong>: los nombres de los ajustes corresponden a OBS Studio 30 y pueden variar en versiones anteriores.
+        <strong>Qué se ha comprobado aquí:</strong> el archivo de dos pistas se generó y se convirtió con <strong>FFmpeg 6.1.1 sobre Ubuntu</strong> el 20 de septiembre de 2026, con la misma orden que ejecuta la aplicación, y las señales se compararon muestra a muestra para identificar qué pista sobrevive. La selección de pistas de la herramienta se probó en la propia aplicación, en el navegador, el 25 de septiembre de 2026, con salidas MKV y MP4 analizadas con <code>ffprobe</code>. <strong>Lo que no se ha comprobado aquí es el comportamiento de OBS versión por versión</strong>: los nombres de los ajustes corresponden a OBS Studio 30 y pueden variar en versiones anteriores.
       </div>
 
       <section class="faq-section" aria-labelledby="faq">
@@ -614,13 +641,13 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>No. La orden que ejecuta la herramienta no lleva <code>-map</code>, así que FFmpeg elige una sola pista de audio y descarta el resto. En la prueba con un MP4 de dos pistas AAC, la salida tenía una sola pista FLAC, idéntica a la primera del original. Si necesitas las dos, hay que usar FFmpeg en la terminal con <code>-map</code>.</p>
+            <p>Sí, desde el 24 de septiembre de 2026. Si el archivo tiene varias pistas, la herramienta enseña una casilla por pista antes de convertir, todas marcadas, y cada una de las que dejes llega como una pista FLAC independiente. Probado con un archivo de dos pistas AAC: salieron las dos, en MKV y en MP4, y las dos empezando en cero. Antes de esa fecha convertía una sola.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            ¿Qué pista se queda cuando hay varias?
+            ¿Qué pista se queda si conviertes sin -map?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
@@ -654,7 +681,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Depende de si vas a querer bajar el volumen del juego por debajo de tu voz al montar. Si la respuesta es sí, graba en pistas separadas y conviértelas con <code>-map</code>. Si nunca las vas a tocar por separado, una sola pista simplifica todo el flujo: es un archivo más pequeño, se convierte con la herramienta sin más y entra en cualquier editor.</p>
+            <p>Depende de si vas a querer bajar el volumen del juego por debajo de tu voz al montar. Si la respuesta es sí, graba en pistas separadas y conviértelas conservándolas: la herramienta te deja elegirlas, y en la terminal es <code>-map</code>. Si nunca las vas a tocar por separado, una sola pista simplifica todo el flujo: es un archivo más pequeño, se convierte con la herramienta sin más y entra en cualquier editor.</p>
           </div>
         </details>
       </section>

@@ -45,7 +45,7 @@
     "description": "Convierte MOV a MP4 sin perder un solo bit de calidad. Guía completa: remux vs re-encode, VidToFLAC, FFmpeg, iPhone, GoPro, Sony, Canon.",
     "url": "https://vidtoflac.tech/articulos/convertir-mov-a-mp4-sin-perder-calidad/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-09-25",
     "inLanguage": "es",
     "author": {
       "@type": "Person",
@@ -675,7 +675,7 @@
       <p>Las cámaras mirrorless y réflex de estos fabricantes graban en MOV (o MP4) con H.264 o H.265 y audio AAC o PCM estéreo. El remux es directo. La excepción son los modelos que graban en <strong>XAVC</strong> (Sony) o modos de alta calidad con codificación interna propietaria — en esos casos, VidToFLAC detecta automáticamente si necesita hacer algo adicional.</p>
 
       <h3>GoPro MAX / cámaras 360</h3>
-      <p>Los vídeos 360 en MOV pueden llevar múltiples pistas de audio (estéreo espacial) que complican el remux. Si el resultado tiene solo una pista de audio, es normal — usa el software nativo de la cámara para procesar el 360 antes de convertir.</p>
+      <p>Los vídeos 360 en MOV pueden llevar varias pistas de audio (estéreo espacial) que complican el remux. Muchos conversores se quedan con una sola sin avisar; VidToFLAC te enseña una casilla por pista antes de convertir y conserva las que marques. Aun así, la proyección 360 y el audio espacial los interpreta el software de la cámara, así que lo más seguro es exportar desde él antes de convertir.</p>
 
       <h2 id="ffmpeg">Convertir MOV a MP4 con FFmpeg en la terminal</h2>
 

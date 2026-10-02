@@ -153,7 +153,7 @@
     "headline": "Test bench: what VidToFLAC does with each codec",
     "description": "Seventeen container and codec combinations built with FFmpeg and run through the same chain VidToFLAC uses.",
     "datePublished": "2026-09-19",
-    "dateModified": "2026-09-22",
+    "dateModified": "2026-09-25",
     "inLanguage": "en",
     "mainEntityOfPage": "https://vidtoflac.tech/en/test-bench/",
     "image": "https://vidtoflac.tech/media/capturas/resolve-forma-de-onda.webp",
@@ -365,7 +365,7 @@ ffmpeg -i source.mp4 -c:v libx264 -preset ultrafast -crf 18 -c:a flac output.mkv
 
     <p>What matters is that <strong>the audio is never lost</strong>. Right-click the clip in the Media Pool, <strong>Clip Attributes &rarr; Audio</strong>, and the <strong>Format</strong> dropdown lets you choose the number of tracks while <strong>Source Channel</strong> lists the channels the file actually carries: <em>Embedded Channel 1</em> and <em>Embedded Channel 2</em>. Assign them there and the clip carries two separate tracks. Do it before dragging it to the timeline.</p>
 
-    <p>Worth repeating that <strong>the published tool converts a single track</strong>: the command carries no <code>-map</code>, so FFmpeg picks one. Keeping them all needs desktop FFmpeg, and that is explained in <a href="/en/articles/obs-two-audio-tracks-davinci-resolve/">the guide on OBS with two audio tracks</a>.</p>
+    <p>And a later change: <strong>since 24 September the tool keeps the tracks</strong>. If the file carries several, it shows a checkbox per track before converting, and each one left ticked comes out as a FLAC track. I tested it on the 25th in the app itself with a two-track AAC MKV: two ticked, two FLAC; one unticked, one; in MKV and in MP4, with the audio always starting at 0.000. It is detailed in <a href="/en/articles/obs-two-audio-tracks-davinci-resolve/#tool">the guide on OBS with two audio tracks</a>. The Clip Attributes advice still stands: the file carrying both tracks does not change the fact that Resolve may show one.</p>
 
     <h2>What is not tested yet</h2>
     <p>For honesty, because a test bench that hides its gaps is worth nothing:</p>

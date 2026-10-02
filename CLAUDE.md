@@ -69,7 +69,9 @@ Nota: las URLs con ancla (`#problema-titulo`) no hacen scroll de forma fiable en
 
 ## Despliegue
 
-GitHub Pages en **modo legacy**, origen = rama `main` raíz (`/`), dominio personalizado `vidtoflac.tech` (definido por `CNAME`, HTTPS forzado). **Hacer push a `main` dispara automáticamente un despliegue** — no hay archivo de workflow. El flujo establecido es commitear directamente a `main` (sin ramas de feature ni PRs). Verifica un despliegue con:
+GitHub Pages en **modo legacy**, origen = rama `main` raíz (`/`), dominio personalizado `vidtoflac.tech` (definido por `CNAME`).
+
+**El HTTPS no lo pone GitHub, lo pone Cloudflare**, que hace de proxy delante del dominio (las respuestas llevan `Server: cloudflare`). Por eso `gh api repos/Gitrous/VidToFlacClaude/pages` da `https_enforced: false` y ningún certificado: GitHub no puede emitirlo con el proxy delante. Hasta el 26-09-2026 `http://vidtoflac.tech/` respondía **200 sin redirigir**; ese día se activó en Cloudflare SSL/TLS → *Always Use HTTPS* y ahora todo `http://` da 301 a `https://` conservando la ruta, y `www` da 301 al dominio sin `www` (desde `http://www` son dos saltos, que es aceptable). Eso vive en Cloudflare, no en el repositorio. **No cambies el modo SSL/TLS de Cloudflare**: GitHub no tiene certificado para el dominio (`https_certificate: null`), así que un modo "Full (strict)" dejaría el sitio sin cargar. **Hacer push a `main` dispara automáticamente un despliegue** — no hay archivo de workflow. El flujo establecido es commitear directamente a `main` (sin ramas de feature ni PRs). Verifica un despliegue con:
 
 ```bash
 gh api repos/Gitrous/VidToFlacClaude/pages/builds/latest
@@ -200,10 +202,113 @@ el de n-gramas 64-67 % (motivo real del rechazo de AdSense). El vocabulario
 coincide por fuerza entre páginas del mismo tema; lo que delata el copiado son
 las secuencias literales.
 
-Referencia actual: **41-46 %** entre las cuatro landings propias y su portada, y
-ese resto es la interfaz de la herramienta —botones, pasos, pie—, que es
-*boilerplate* legítimo y Google descuenta. Por bloques con encabezado, cada
-landing tiene ~1.440 palabras propias frente a ~200 compartidas.
+Referencia actual (25-09-2026, después de adelgazar las landings): **18,7-20,7 %**
+entre las cuatro landings propias y su portada, y **28-29 %** en el peor par de
+landings entre sí. Lo que queda es cabecera, pie, los controles del conversor y
+el texto de consentimiento: *boilerplate* funcional que no se puede quitar sin
+romper la página. Las páginas agrupadas van en el 4,6-9,7 %, y los artículos y
+el banco de pruebas en el 1 %.
+
+Antes de ese cambio eran **37-39 %** contra la portada y **39,5 %** entre
+landings. Si vuelves a ver cifras así, alguien ha repuesto un bloque de la
+portada en la plantilla: mira la sección siguiente.
+
+## Las landings llevan el conversor, no la portada entera
+
+AdSense rechazó por "contenido de poco valor" una **tercera** vez el 22 de
+septiembre de 2026, después de dos semanas añadiendo contenido original medido.
+Eso descartaba los artículos, así que se midió el sitio entero con n-gramas de 8
+palabras y salió dónde estaba: los artículos y el banco compartían un **1 %** con
+la portada, pero las cuatro landings propias un **37-39 %**, y entre ellas hasta
+un **39,5 %**. Desglosada una landing, **683 de sus 1.991 palabras eran la
+interfaz de la portada copiada**.
+
+`strip_home_chrome()` en `build_pages.py` quita de las doce landings, con el
+mismo patrón que `RE_DEMO` y `RE_SHARED_GUIDE`:
+
+- los **pilares de confianza** (`RE_TRUST`),
+- los **pasos "Cómo funciona"** (`RE_STEPS`),
+- la tarjeta **"Antes y después"** (`RE_COMPARE`),
+- el **selector de formato** del paso 01 (`RE_FORMAT_PICKER`), que ofrece las
+  veinte guías: en la portada es navegación, dentro de la guía de MP4 es la
+  lista otra vez. El JS ya lo daba por opcional (`formatDropdown?.` y
+  `if (ddSummary && ddPanel)`), así que no rompe nada,
+- el **párrafo compartido** de la sección del problema (`RE_PROBLEM_SHARED`), el
+  de "muchas cámaras graban en AAC". Alrededor todo es propio —el h2, la
+  entradilla y, desde el `<h3>`, el `seo_body` de cada formato—, así que
+  quitándolo la sección entera pasa a ser única,
+- el **JSON-LD de `HowTo`** (`RE_HOWTO_JSONLD`), porque sus tres pasos dejan de
+  estar visibles y los datos estructurados describen lo que la página muestra.
+  De ahí que los bloques JSON-LD bajaran de 210 a 198.
+
+**Las secciones de cierre se tratan distinto según el idioma**, y la condición
+está en el código: si la sección lleva `<nav>` se conserva sin su entradilla, y
+si no, sobra entera. La española mete los enlaces a los artículos dentro de la
+misma sección de formatos; la inglesa los tiene en `guides-titulo` y su
+`formatos-titulo` es solo texto repetido, así que desaparece.
+
+**El hueco de anuncio se recoloca** (`RE_AD_TOOL`). Iba "entre la herramienta y
+el contenido SEO", apoyado en la tarjeta "Antes y después"; sin ella quedaba
+pegado al panel de registro del conversor, que es el patrón de clic accidental
+que AdSense trata como infracción. En las landings baja hasta justo antes de las
+preguntas frecuentes, con texto por arriba y un encabezado por abajo. La portada
+no se toca.
+
+Lo que **sí** se queda en la landing: el conversor completo —zona de arrastre,
+botón de convertir, progreso, previsualización, registro—, los dos `.ad-modal`,
+la cabecera, el pie y los enlaces internos. Una landing sigue siendo una página
+donde se puede convertir; lo que ya no es es otra copia de la home.
+
+Al añadir un bloque nuevo a `index.html`, pregúntate si tiene sentido repetido
+doce veces. Si no, añádele su regex aquí.
+
+## Enlaces que Google puede seguir: `<a href>`, no botones
+
+El 26-09-2026, con Search Console mostrando solo 6 páginas indexadas, se midieron
+los enlaces internos que recibe cada página indexable (solo `<a href>` del
+cuerpo, sin `<head>` ni JS). Las páginas que más importan eran las peor
+enlazadas: las cuatro landings propias recibían 5 y las dos guías medidas 4-5,
+frente a una mediana de 11.
+
+El motivo: **la portada solo llevaba a las landings a través del selector de
+formato, que usa `<button data-url>`**, y Google no sigue botones. La página más
+fuerte del sitio no les pasaba ni un enlace. Se añadieron seis `<a href>` a la
+sección de cierre "Guías y artículos" de las dos portadas (las cuatro landings y
+las dos guías medidas). Como esa `<nav>` sobrevive en las landings, también se
+enlazan entre ellas. Resultado: de 4-5 a 10-12 enlaces entrantes, sin subir la
+duplicación.
+
+Al añadir una página que importa, compruébalo: que tenga enlaces `<a href>`
+desde la portada o desde páginas que la reciben. Un `data-url`, un `onclick` o
+un botón no cuentan.
+
+## Anuncios dentro de la herramienta: quitados, y lo que costó verlos
+
+El 26-09-2026 se quitaron el aviso de "3 conversiones gratuitas" con anuncio y
+los anuncios que se insertaban en la lista de resultados, porque incumplen las
+políticas de AdSense (recompensa por ver un anuncio, anuncio encima de un botón,
+anuncios entre botones de descarga). Está todo en el commit aislado `45520eb`:
+el usuario quiere recuperarlo más adelante, pero **no tal cual** — antes de un
+`git revert` hay que proponerle una forma que cumpla.
+
+Tres cosas que salieron al hacerlo:
+
+- **Los anuncios que mete el JavaScript no se ven en el HTML.** La comprobación
+  de "ningún anuncio junto a los controles" buscaba `<ins class="adsbygoogle">`
+  fijos, y dio 0 mientras la lista de resultados recibía un anuncio cada cinco
+  archivos. Busca también `className = 'adsbygoogle'` y `adsbygoogle.push` fuera
+  de los huecos conocidos.
+- **`node --check` solo mira la sintaxis.** Al quitar el bloque de la cuota,
+  `fmtName` se quedó sin declarar en las páginas de formatos: el JS pasaba la
+  comprobación y el botón de convertir moría al ejecutarse. Después de borrar
+  código, pruébalo en el navegador.
+- **Hay cuatro copias del conversor, no dos.** Además de `index.html` y
+  `en/index.html`, `convertir-formatos/` y `en/convert-formats/` llevan su propia
+  copia (una herramienta de conversión entre formatos), hecha a mano y fuera del
+  generador. Y **las dos portadas ya no tienen el JS idéntico**: la selección de
+  pistas se escribió distinta en cada idioma (la española aplica la cuota y
+  luego sondea; la inglesa sondea primero, con `probedBatch` y `actualList`). Un
+  cambio en la lógica hay que comprobarlo en las cuatro.
 
 ## La versión inglesa se escribe, no se traduce a medias
 
@@ -387,7 +492,7 @@ print(n,'bloques,',b,'rotos')"
 ```
 
 Valores de referencia: **99** páginas HTML, **64** indexables y **35** `noindex`,
-**66** con hreflang, **210** bloques JSON-LD, **64** URLs en el sitemap, **0**
+**66** con hreflang, **198** bloques JSON-LD, **64** URLs en el sitemap, **0**
 enlaces internos rotos (anclas `#formato` incluidas), **0** descripciones de más
 de 160 caracteres, y el generador en **0** líneas de diferencia.
 
@@ -407,10 +512,14 @@ huérfano sin que ninguna comprobación se queje.
 
 Dos cosas que solo se ven ejecutando:
 
-- **`.error-box` no tiene CSS en ninguna parte.** 36 bloques de código en 13
-  páginas lo usan con estilos en línea que fijan color de borde pero no
-  `border-style`, así que el borde no se dibuja. Los artículos nuevos llevan la
-  regla en su `<style>`; los viejos siguen sin ella.
+- **`.error-box` no tiene CSS compartido: cada artículo lleva la regla en su
+  `<style>`.** Durante meses 34 cajas en 12 artículos se quedaron sin borde,
+  porque sus estilos en línea fijan el color pero no `border-style`. Arreglado
+  el 25-09-2026 copiando solo la regla de la caja. **No copies también
+  `.error-box code{display:block;white-space:pre}`** de los artículos nuevos: en
+  los viejos la caja lleva prosa con `<code>` en línea, y esa regla convierte
+  cada código en un bloque. Al crear un artículo a partir de otro, comprueba que
+  la regla viaja con la plantilla.
 - **Las etiquetas de un gráfico se solapan con las barras.** El texto de la
   izquierda no se recorta solo: si pasa de la `x` donde empiezan las barras, se
   superpone. Solo se ve en una captura, no en el SVG.
@@ -419,7 +528,10 @@ Y el error que se coló dos veces en el mismo sitio: formatear miles con
 `.replace(',', '.')` sobre la cadena entera del SVG convierte también
 `font-family="JetBrains Mono, ui-monospace, monospace"` en
 `"JetBrains Mono. ui-monospace. monospace"`, que el navegador descarta. El
-gráfico del banco de pruebas lo arrastra desde su primera versión.
+gráfico del banco de pruebas lo arrastró desde su primera versión, y se había
+copiado al artículo de HEVC; arreglados los dos el 25-09-2026 (16 atributos).
+Los `rgba()` y las coordenadas de esos SVG no salieron dañados. Comprobación:
+`grep -rE 'font-family="[^"]*\. ' --include=*.html .` tiene que dar vacío.
 
 ## El audio tiene que empezar en cero, y el vídeo casi siempre se copia
 
@@ -505,11 +617,17 @@ sitio, con la incertidumbre incluida, en vez de publicar una causa inventada.
 
 El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
 
-- **Nada de cronómetros.** Ni "menos de 30 segundos", ni "en segundos", ni
-  "instantáneo". Se dice la relación ("mucho más rápido que una conversión
-  completa, porque el vídeo no se recodifica") y de qué depende: tamaño, equipo,
-  y si hay que recodificar. Las estimaciones con su condición explícita
-  ("depende de tu ordenador") sí valen.
+- **"En segundos" sí; "instantáneo" y cifras concretas, no.** Decisión del
+  usuario el 26-09-2026: prefiere "en segundos" a "instantáneamente", y los ~45
+  "en segundos" del sitio se quedan (portada incluida: "Gratis, en segundos y
+  100% privado"). **No los "corrijas".** Lo que sigue prohibido: "instantáneo",
+  "instantly", "near-instant" y cronómetros exactos ("menos de 30 segundos").
+  "Descarga al instante" sí vale, porque habla de bajar un archivo que ya está
+  en el navegador, no de convertir. Dato para cuando haga falta matizar: el
+  remux de un WebM de 120 s en 1080p tardó 0,5 s, pero recodificar HEVC cuesta
+  ~0,75 s por segundo de vídeo, así que un vídeo de iPhone de 5 minutos tarda
+  casi 4. Donde el texto hable de HEVC o de recodificar, lleva la condición al
+  lado.
 - **El vídeo no siempre se copia.** `browserIncompatibleVideo` en `index.html`
   recodifica a H.264 cuando el navegador no puede decodificar el códec, y esa
   lista **incluye H.265/HEVC** — el caso más frecuente hoy, porque los iPhone
@@ -520,12 +638,24 @@ El sitio arrastraba afirmaciones que no se cumplen. Al escribir texto nuevo:
   copia al MKV (la vista previa del navegador puede quedarse sin imagen, pero
   Resolve lo abre bien). DivX 3 es `msmpeg4v3`, y ese sí se recodifica porque
   Resolve lo importa sin imagen. Ver "El audio tiene que empezar en cero".
-- **Solo se convierte una pista de audio.** El comando no lleva `-map`, así que
-  FFmpeg elige una. Tres guías prometían "todas las pistas", justo lo que le
-  importa a quien graba juego y micrófono por separado en OBS. Para varias, se
-  remite a `ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv`.
-  Ese comando **sí** mete las dos pistas en el archivo, pero Resolve puede
-  enseñar una: ver "Dos pistas de audio" más arriba.
+- **Las pistas de audio: se conservan desde el 24-09-2026, pero hay un paso.**
+  Hasta esa fecha el comando no llevaba `-map` y FFmpeg elegía una; el sitio lo
+  decía así. Los commits `d3ad75e`/`ebe326b` (otra sesión) añadieron la
+  selección: al pulsar Convertir la app sondea el archivo y, si hay varias
+  pistas, se para y enseña una casilla por pista (todas marcadas) hasta que se
+  pulsa «Iniciar conversión». Probado el 25-09-2026 en la propia app, en el
+  navegador, con un MKV de dos pistas AAC: dos marcadas → dos FLAC; una
+  desmarcada → la marcada; salida MP4 → dos FLAC; archivo de una pista → sin
+  casillas. **Todas las pistas con `start_time` 0,000**, que es lo que exige
+  Resolve. Al escribir: no digas "conserva todas" sin decir que se eligen, y
+  no quites la advertencia de Clip Attributes: que el archivo lleve dos pistas
+  no impide que Resolve enseñe una (ver "Dos pistas de audio" más arriba).
+
+  **Cómo se probó, por si hay que repetirlo:** la app solo sondea al pulsar
+  Convertir, no al añadir el archivo. Para sacar la salida del navegador sin
+  descargarla, un receptor HTTP con CORS en `127.0.0.1:8765` y un `fetch` del
+  blob desde la página. Tras tres conversiones salta el aviso de anuncio: en
+  `localhost` se reinicia borrando `vidtoflac_quota_v2` de `localStorage`.
 - **Nada de absolutos.** Ni "la única solución", ni "no funciona en ningún
   sistema", ni "todos los errores". El soporte de códecs depende de versión,
   plataforma y configuración.

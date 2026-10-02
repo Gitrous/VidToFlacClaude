@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OBS with two audio tracks: why DaVinci Resolve only gets one</title>
-  <meta name="description" content="You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all." />
+  <meta name="description" content="You record game and mic on separate tracks in OBS and the conversion drops one. Why it happens, measured, and how to keep both all the way into Resolve." />
   <meta name="keywords" content="OBS two audio tracks, OBS separate tracks DaVinci Resolve, OBS game and mic separate tracks, convert OBS multiple audio tracks, ffmpeg map all audio tracks, DaVinci Resolve only one audio track, OBS multitrack audio, OBS record mic separately, MKV multiple FLAC tracks, OBS audio track 2" />
   <meta name="author" content="Guillem Sánchez" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -28,7 +28,7 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/" />
   <meta property="og:title" content="OBS with two audio tracks: why DaVinci Resolve only gets one" />
-  <meta property="og:description" content="You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all." />
+  <meta property="og:description" content="You record game and mic on separate tracks in OBS and the conversion drops one. Why it happens, measured, and how to keep both all the way into Resolve." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -36,7 +36,7 @@
   <!-- Twitter/X -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="OBS with two audio tracks: why DaVinci Resolve only gets one" />
-  <meta name="twitter:description" content="You record game and mic on separate tracks in OBS and the conversion drops one. What happens exactly, measured, and the command that keeps them all." />
+  <meta name="twitter:description" content="You record game and mic on separate tracks in OBS and the conversion drops one. Why it happens, measured, and how to keep both all the way into Resolve." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
 
   <!-- Article schema -->
@@ -46,10 +46,10 @@
     "@type": "Article",
     "headline": "OBS with two audio tracks: why DaVinci Resolve only gets one",
     "image": "https://vidtoflac.tech/og-image.png",
-    "description": "You record game and mic on separate tracks in OBS and the conversion drops one of them. What happens exactly, measured with FFmpeg, and the command that keeps them all.",
+    "description": "You record game and mic on separate tracks in OBS and the conversion drops one of them. Why it happens, measured with FFmpeg, how to keep them with VidToFLAC or in the terminal, and what to do if Resolve shows only one.",
     "url": "https://vidtoflac.tech/en/articles/obs-two-audio-tracks-davinci-resolve/",
     "datePublished": "2026-09-20",
-    "dateModified": "2026-09-22",
+    "dateModified": "2026-09-25",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -80,12 +80,12 @@
         "name": "Does VidToFLAC keep both audio tracks from an OBS recording?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. The command the tool runs has no -map, so FFmpeg picks a single audio track and discards the rest. In the test with a two-track AAC MP4, the output had one FLAC track, identical to the first one in the original. If you need both, convert with FFmpeg in the terminal using -map."
+          "text": "Yes, since 24 September 2026. If the file has several tracks, the tool shows a checkbox per track before converting, all ticked, and each one you keep comes out as a separate FLAC track. Tested with a two-track AAC file: both came out, in MKV and in MP4, both starting at zero. Before that date it converted only one."
         }
       },
       {
         "@type": "Question",
-        "name": "Which track survives when there are several?",
+        "name": "Which track survives if you convert without -map?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "The one FFmpeg considers best: with equal channel count and bitrate, the first one in the file. In the measurement, the output audio matched track 1 sample for sample and had no relation to track 2. In a typical OBS recording track 1 is the mix or the game sound, and the microphone sits on track 2."
@@ -112,7 +112,7 @@
         "name": "Is it better to record a single mixed track in OBS?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends on whether you will want to duck the game under your voice while editing. If the answer is yes, record separate tracks and convert them with -map. If you will never touch them separately, one track simplifies the whole workflow: a smaller file, a conversion the tool handles on its own, and an import that works in any editor."
+          "text": "It depends on whether you will want to duck the game under your voice while editing. If the answer is yes, record separate tracks and convert them keeping both: the tool lets you pick them, and in the terminal it is -map. If you will never touch them separately, one track simplifies the whole workflow: a smaller file, a conversion the tool handles on its own, and an import that works in any editor."
         }
       }
     ]
@@ -421,6 +421,7 @@
         <li><a href="#why-several" class="sidebar-toc-link">Why OBS records several tracks</a></li>
         <li><a href="#measurement" class="sidebar-toc-link">The test: two tracks in, one out</a></li>
         <li><a href="#which-survives" class="sidebar-toc-link">Which of the two survives</a></li>
+        <li><a href="#tool" class="sidebar-toc-link">How VidToFLAC handles it now</a></li>
         <li><a href="#command" class="sidebar-toc-link">The command that keeps them all</a></li>
         <li><a href="#clip-attributes" class="sidebar-toc-link">And Resolve may still show you a single track</a></li>
         <li><a href="#check" class="sidebar-toc-link">How to see how many tracks you have</a></li>
@@ -460,10 +461,10 @@
 
       <h2 id="what-happens">What happens, in one sentence</h2>
 
-      <p>The command VidToFLAC runs is <code>ffmpeg -i input -c:v copy -c:a flac output.mkv</code>, and it <strong>has no <code>-map</code></strong>. Without that option FFmpeg applies its default selection: one video stream, one audio stream, everything else left out. With a single-track file — most files — you never notice. With a multitrack OBS recording, half the recording is gone.</p>
+      <p>The basic command for turning a video into FLAC is <code>ffmpeg -i input -c:v copy -c:a flac output.mkv</code>, and it <strong>has no <code>-map</code></strong>. Without that option FFmpeg applies its default selection: one video stream, one audio stream, everything else left out. With a single-track file — most files — you never notice. With a multitrack OBS recording, half the recording is gone. It is what many converters do, and it is what VidToFLAC did until 24 September 2026.</p>
 
       <div class="solution-box">
-        <strong>The practical summary:</strong> if your file has one audio track, the tool does what you expect. If it has two or more and you want them all, convert it with FFmpeg in the terminal adding <code>-map 0:v -map 0:a</code>. The exact command is <a href="#command">further down</a>.
+        <strong>The practical summary:</strong> VidToFLAC now detects the audio tracks in your file and, if there is more than one, shows you a checkbox per track before converting; every track you leave ticked comes out as FLAC. It is <a href="#tool">measured further down</a>. If you prefer the terminal, the equivalent is <code>-map 0:v -map 0:a</code>. And if Resolve shows a single track when you drag the file in, the file is fine: <a href="#clip-attributes">it is a Clip Attributes matter</a>.
       </div>
 
       <h2 id="why-several">Why OBS records several tracks</h2>
@@ -490,7 +491,7 @@
 2,audio,aac</code>
       </div>
 
-      <p>That file went through the same command the tool issues when converting a video. The result:</p>
+      <p>That file went through the command without <code>-map</code>, the same one the tool issued before track selection existed. The result:</p>
 
       <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffprobe -v error -show_entries stream=index,codec_type,codec_name -of csv=p=0 output.mkv
@@ -536,9 +537,35 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
 
+      <h2 id="tool">How VidToFLAC handles it now</h2>
+
+      <p>Since 24 September 2026 the tool probes the file before converting. If it finds a single audio track, it converts without asking, as it always did. If it finds several, it stops and shows a checkbox per track &mdash; &ldquo;Track 1 &middot; AAC&rdquo;, &ldquo;Track 2 &middot; AAC&rdquo; &mdash; all ticked. You untick the ones you do not want, press <strong>Start conversion</strong>, and every track still ticked reaches the final file as a separate FLAC track.</p>
+
+      <p>I tested it on 25 September by putting an OBS-style MKV through the app itself, in the browser: H.264 video and two AAC tracks with different content, a low tone on the first and a high one on the second, so I could tell which was which at the end.</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Case</th>
+            <th>Tracks in the output</th>
+            <th>Audio start</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Both ticked, MKV output</strong></td><td>Two FLAC: the low one and the high one</td><td><span class="badge-ok">0.000 s on both</span></td></tr>
+          <tr><td><strong>Only the first ticked</strong></td><td>One FLAC: the low one</td><td><span class="badge-ok">0.000 s</span></td></tr>
+          <tr><td><strong>Both ticked, MP4 output</strong></td><td>Two FLAC: the low one and the high one</td><td><span class="badge-ok">0.000 s on both</span></td></tr>
+          <tr><td><strong>Single-track file</strong></td><td>One FLAC, no checkboxes on screen</td><td><span class="badge-ok">0.000 s</span></td></tr>
+        </tbody>
+      </table>
+
+      <p class="codec-legend">The start column matters more than it looks: DaVinci Resolve imports with no sound any audio track that does not start at exactly zero, and the source AAC started at &minus;0.021 s. It is explained on the <a href="/en/test-bench/">test bench</a>.</p>
+
+      <p>Counting the tracks was not enough to identify them: I decoded each one and measured its frequency, and the track I unticked is the one missing, not some other. The one thing that does not change is the extra step: with a multitrack file you press twice, once so the tool can see the tracks and once to convert.</p>
+
       <h2 id="command">The command that keeps them all</h2>
 
-      <p>With FFmpeg installed on your system, you just have to tell it explicitly which streams you want in the output:</p>
+      <p>If you prefer the terminal, or you have a whole folder of recordings, with FFmpeg installed you just have to tell it explicitly which streams you want in the output:</p>
 
       <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i obs.mp4 -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>
@@ -552,7 +579,7 @@
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">for f in *.mp4; do ffmpeg -i "$f" -map 0:v -map 0:a -c:v copy -c:a flac "${f%.mp4}.mkv"; done</code>
       </div>
 
-      <p>The container has to be MKV. MP4 does allow several audio tracks, but FLAC inside MP4 is still experimental in FFmpeg and causes more problems than it solves; MKV holds as many FLAC tracks as you need without any odd flags. If you have never used FFmpeg in a terminal, the guide on <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/">converting video with FFmpeg without installing anything</a> covers the rest of the syntax.</p>
+      <p>MKV is the better choice. MP4 also takes several FLAC tracks &mdash; the tool writes them correctly, and Resolve opened such an MP4 with both of its tracks &mdash; but FFmpeg still flags it as experimental and in the terminal it needs <code>-strict experimental</code>; MKV holds as many FLAC tracks as you need without any odd flags. If you have never used FFmpeg in a terminal, the guide on <a href="/en/articles/ffmpeg-convert-video-without-installing-anything/">converting video with FFmpeg without installing anything</a> covers the rest of the syntax.</p>
 
       <h2 id="clip-attributes">And Resolve may still show you a single track</h2>
 
@@ -571,7 +598,7 @@
 
       <p>Once you accept, the clip carries the two separate tracks on the timeline, each with its own volume and effects, which is the whole point of recording multitrack. Do it <strong>before</strong> dragging it in: if it is already on the timeline, remove it, change the attributes and drag it again.</p>
 
-      <p>Put another way: if you convert with <code>-map</code> and see a single track when you drag the file in, do not convert it again. The file is fine. Clip Attributes is what needs changing.</p>
+      <p>Put another way: if you convert keeping the tracks &mdash; with the tool or with <code>-map</code> &mdash; and see a single one when you drag the file in, do not convert it again. The file is fine. Clip Attributes is what needs changing.</p>
 
       <h2 id="check">How to see how many tracks you have</h2>
 
@@ -592,9 +619,9 @@
       <p>And there is a third option that skips the problem entirely: <strong>record in MKV from the start</strong>. Under Settings → Output → Recording → Recording Format, choose <em>mkv</em> instead of <em>mp4</em>. You can then use FLAC as the recording's audio codec, which leaves nothing to convert afterwards. It is also safer if something crashes: an MP4 cut off mid-write is corrupt, an MKV is not.</p>
 
       <div class="tool-cta">
-        <span class="tool-cta-label">For single-track recordings</span>
+        <span class="tool-cta-label">One track or several</span>
         <h3>Convert the audio to FLAC in your browser</h3>
-        <p>Drop in the recording, hit Convert and download the MKV ready to import into DaVinci Resolve. Nothing is uploaded to any server. If your file is multitrack, run the <code>-map</code> command above first.</p>
+        <p>Drop in the recording, hit Convert and download the MKV ready to import into DaVinci Resolve. Nothing is uploaded to any server. If your recording is multitrack, it shows you a checkbox per track and keeps the ones you tick.</p>
         <a href="/en/" class="tool-cta-btn" aria-label="Convert a recording to FLAC">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Convert now
@@ -602,7 +629,7 @@
       </div>
 
       <div class="info-box">
-        <strong>What was verified here:</strong> the two-track file was generated and converted with <strong>FFmpeg 6.1.1 on Ubuntu</strong> on 20 September 2026, using the same command the app runs, and the signals were compared sample by sample to identify which track survives. <strong>What was not verified here is OBS behaviour version by version</strong>: the setting names match OBS Studio 30 and may differ in earlier releases.
+        <strong>What was verified here:</strong> the two-track file was generated and converted with <strong>FFmpeg 6.1.1 on Ubuntu</strong> on 20 September 2026, using the same command the app runs, and the signals were compared sample by sample to identify which track survives. The tool&rsquo;s track selection was tested in the app itself, in the browser, on 25 September 2026, with MKV and MP4 outputs checked with <code>ffprobe</code>. <strong>What was not verified here is OBS behaviour version by version</strong>: the setting names match OBS Studio 30 and may differ in earlier releases.
       </div>
 
       <section class="faq-section" aria-labelledby="faq">
@@ -614,13 +641,13 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>No. The command the tool runs has no <code>-map</code>, so FFmpeg picks a single audio track and discards the rest. In the test with a two-track AAC MP4, the output had one FLAC track, identical to the first one in the original. If you need both, convert with FFmpeg in the terminal using <code>-map</code>.</p>
+            <p>Yes, since 24 September 2026. If the file has several tracks, the tool shows a checkbox per track before converting, all ticked, and each one you keep comes out as a separate FLAC track. Tested with a two-track AAC file: both came out, in MKV and in MP4, both starting at zero. Before that date it converted only one.</p>
           </div>
         </details>
 
         <details class="faq-item">
           <summary>
-            Which track survives when there are several?
+            Which track survives if you convert without -map?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
@@ -654,7 +681,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>It depends on whether you will want to duck the game under your voice while editing. If the answer is yes, record separate tracks and convert them with <code>-map</code>. If you will never touch them separately, one track simplifies the whole workflow: a smaller file, a conversion the tool handles on its own, and an import that works in any editor.</p>
+            <p>It depends on whether you will want to duck the game under your voice while editing. If the answer is yes, record separate tracks and convert them keeping both: the tool lets you pick them, and in the terminal it is <code>-map</code>. If you will never touch them separately, one track simplifies the whole workflow: a smaller file, a conversion the tool handles on its own, and an import that works in any editor.</p>
           </div>
         </details>
       </section>

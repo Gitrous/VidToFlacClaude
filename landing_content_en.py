@@ -51,7 +51,7 @@ PAGES_EN = [
         <li>Download the result and import it into Resolve's Media Pool. The audio track will appear in blue and play without errors.</li>
       </ol>
       <h3>Common problems and what to do</h3>
-      <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 has several audio tracks (stereo plus surround, say), VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. To keep them all, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>.</p>
+      <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 has several audio tracks (stereo plus surround, say), VidToFLAC detects them before converting and shows a checkbox per track, all ticked: each one you keep reaches the file as a separate FLAC track. From the terminal, <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code> does the same.</p>
       <h3>Where an MP4 keeps its index: the <em>moov atom</em></h3>
       <p>Every MP4 carries an internal index called the <strong>moov atom</strong> that says where each chunk of video and audio begins. Depending on the software that wrote the file, that index can sit at the start or at the end. When it sits at the end, some players need the whole file before they can play anything — which is why a partly downloaded MP4 often refuses to open. VidToFLAC reads the entire file on your machine before converting, so the position of the <em>moov atom</em> makes no difference to the result.</p>
       <h3>Measured: what happened to a test MP4</h3>
@@ -917,7 +917,7 @@ CONTENT_EN = {
             ("Is there a size limit for an MKV?",
              "We impose none: processing happens on your own computer with FFmpeg (WebAssembly) and nothing is uploaded. The practical ceiling is the WebAssembly engine's memory — roughly 2 GB for input and output combined, which works comfortably up to around 1 GB of source file."),
             ("What if my MKV has several audio tracks?",
-             "VidToFLAC converts only one: the track FFmpeg picks by default, usually the one with the most channels. That matters for OBS recordings with game audio and a microphone on separate tracks, because the rest are left out. To keep every track as FLAC, use desktop FFmpeg: <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>."),
+             "VidToFLAC detects them before converting and shows a checkbox per track, all ticked; every track you keep comes out as a separate FLAC track. That matters for OBS recordings with game audio and a microphone on separate tracks. From the terminal, <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code> keeps them all. If DaVinci Resolve then shows a single track, the file is fine: set the tracks under Clip Attributes."),
             ("Can I keep MKV instead of converting to MP4?",
              "Yes, and you should. DaVinci Resolve handles MKV without trouble, and MP4 does not officially support FLAC audio. Staying with MKV is the path of least resistance."),
         ],

@@ -112,7 +112,7 @@ PAGES = [
         <li>Descarga el resultado e impórtalo al Media Pool de DaVinci Resolve. La pista de audio aparecerá en azul y se reproducirá sin errores.</li>
       </ol>
       <h3>Errores frecuentes y qué hacer</h3>
-      <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el MP4 trae varias pistas de audio (estéreo y surround, por ejemplo), VidToFLAC convierte solo una: la que FFmpeg elige por defecto, normalmente la de más canales. Para conservarlas todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+      <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el MP4 trae varias pistas de audio (estéreo y surround, por ejemplo), VidToFLAC las detecta antes de convertir y te enseña una casilla por pista, todas marcadas: cada una que dejes llega al archivo como una pista FLAC independiente. Desde la terminal, lo mismo se consigue con <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
       <h3>Dónde guarda el MP4 su índice: el <em>moov atom</em></h3>
       <p>Todo MP4 lleva un índice interno llamado <strong>moov atom</strong> que indica dónde empieza cada fragmento de vídeo y audio. Según el programa que escribiera el archivo, ese índice puede quedar al principio o al final. Cuando queda al final, algunos reproductores necesitan el archivo completo antes de poder reproducir nada — por eso un MP4 descargado a medias a veces no abre. VidToFLAC lee el archivo entero en tu equipo antes de convertir, así que la posición del <em>moov atom</em> no afecta al resultado.</p>
       <h3>Medido: qué pasó con un MP4 de prueba</h3>
@@ -831,7 +831,7 @@ PAGES = [
         <li>Descarga el MKV e impórtalo en DaVinci Resolve. La pista de audio convertida estará disponible como FLAC.</li>
       </ol>
       <h3>Pistas múltiples de audio en TS</h3>
-      <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC convierte solo una de ellas, la que FFmpeg elige por defecto, que no siempre es el idioma que buscas. Si necesitas una pista concreta o todas, usa FFmpeg de escritorio: <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
+      <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC las detecta antes de convertir y te enseña una casilla por pista, así que puedes quedarte con el idioma que buscas, con todas, o quitar la audiodescripción. Desde la terminal, <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code> las conserva todas.</p>
       <h3>Por qué un TS pesa más: paquetes de 188 bytes</h3>
       <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido — y desaparece al reempaquetarlo.</p>
     </article>
@@ -998,7 +998,7 @@ O_WEBAPP     = ('    "url": "https://vidtoflac.tech/",\n'
 O_HOWTO_NAME = '"name": "Cómo convertir el audio de un vídeo a FLAC para DaVinci Resolve",'
 O_HOWTO_URL  = '"url": "https://vidtoflac.tech/#problema-titulo"'
 O_HERO_H1    = '    <h1 class="hero-title">Convierte el audio de tus vídeos a <span class="accent">FLAC para DaVinci Resolve</span></h1>'
-O_HERO_SUB   = '    <p class="hero-sub">De forma instantánea y 100% privada. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>'
+O_HERO_SUB   = '    <p class="hero-sub">Gratis, en segundos y 100% privado. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>'
 O_SEO_H2     = '      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus vídeos?</h2>'
 O_SEO_LEDE   = ('      <p class="lede">Si has abierto un clip en DaVinci Resolve y aparece <strong>sin sonido</strong>'
                 ' —o directamente con la pista de audio en gris— casi siempre es un <strong>error de códec de audio</strong>,'
@@ -1021,6 +1021,82 @@ RE_DEMO = re.compile(r'  <!-- Demo:.*?\n  </section>\n\n', re.S)
 RE_SHARED_GUIDE = re.compile(
     r'\n  <section class="card seo-card" aria-labelledby="guia-titulo">.*?\n  </section>\n',
     re.S)
+
+
+# Bloques de la portada que las landings NO heredan. Tras el tercer rechazo de
+# AdSense por "contenido de poco valor" (22-09-2026) se midió el sitio con
+# n-gramas de 8 palabras: los artículos y el banco comparten un 1 % con la
+# portada, pero las cuatro landings propias compartían un 37-39 %, y entre ellas
+# hasta un 39,5 %. Desglosada una landing, 683 de sus 1.991 palabras eran esta
+# interfaz copiada. El conversor sigue funcionando en la landing; lo que se va
+# es el texto que la convertía en otra copia de la home.
+RE_TRUST   = re.compile(r'  <!-- Trust pillars.*?(?=\n  <!-- Conversion counter)', re.S)
+RE_STEPS   = re.compile(r'  <!-- How it works.*?(?=\n  <!-- Before / after)', re.S)
+RE_COMPARE = re.compile(r'  <!-- Before / after.*?(?=\n  <!-- Ad:)', re.S)
+
+# Secciones de cierre. La española mete los enlaces a los artículos dentro de la
+# misma sección de formatos; la inglesa los tiene en otra aparte, y su sección de
+# formatos es solo texto repetido. De ahí la condición: si la sección lleva
+# enlaces se conserva sin su entradilla, y si no, sobra entera.
+RE_CLOSING = re.compile(
+    r'  <section class="card seo-card" aria-labelledby="(?:formatos|guides)-titulo">'
+    r'.*?\n  </section>\n\n', re.S)
+RE_CLOSING_LEDE = re.compile(
+    r'(<h2 id="(?:formatos|guides)-titulo"[^>]*>.*?</h2>\n)    <p>.*?</p>\n', re.S)
+
+# El HowTo describe los tres pasos que acaban de dejar de estar visibles, y los
+# datos estructurados tienen que describir lo que la página muestra.
+RE_HOWTO_JSONLD = re.compile(
+    r'  <!-- Structured data: how-to \(3 steps\) -->\n'
+    r'  <script type="application/ld\+json">.*?</script>\n', re.S)
+
+# El hueco de anuncio iba "entre la herramienta y el contenido SEO". Quitada la
+# tarjeta "Antes y después", quedaría pegado al panel de registro del conversor:
+# el patrón de clic accidental que AdSense trata como infracción. En las landings
+# baja hasta justo antes de las preguntas frecuentes, con texto por arriba y un
+# encabezado por abajo. La portada no se toca.
+RE_AD_TOOL = re.compile(
+    r'  <!-- Ad: between tool and SEO content.*?\n  </div>\n\n', re.S)
+O_FAQ_SECTION = '  <!-- SEO: FAQ accordion -->'
+
+# El selector "¿Sabes qué formato vas a convertir?" ofrece las veinte guías. En
+# la portada es navegación; dentro de la guía de MP4 es la lista repetida otra
+# vez, ~120 palabras idénticas en trece páginas. El JS ya lo da por opcional
+# (`formatDropdown?.` y `if (ddSummary && ddPanel)`), así que quitarlo no rompe
+# nada, y los enlaces internos siguen en la sección de cierre y en el pie.
+RE_FORMAT_PICKER = re.compile(
+    r'\n    <span class="format-picker-label">.*?\n    </details>\n', re.S)
+
+# El párrafo de "muchas cámaras graban en AAC y Resolve no trae la licencia" es
+# el mismo en la portada y en las doce landings. Alrededor de él todo es propio:
+# el h2, la entradilla y, desde el <h3>, el `seo_body` de cada formato. Fuera él,
+# la sección entera pasa a ser única.
+RE_PROBLEM_SHARED = re.compile(
+    r'(      <p class="lede">.*?</p>\n)(?:\n      <p>.*?</p>\n)+(?=\n      <h3>)', re.S)
+
+
+
+def strip_home_chrome(h: str) -> str:
+    """Quita de una landing los bloques que solo tienen sentido en la portada."""
+    for rx in (RE_TRUST, RE_STEPS, RE_COMPARE, RE_HOWTO_JSONLD, RE_FORMAT_PICKER):
+        h = rx.sub('', h, count=1)
+    h = RE_PROBLEM_SHARED.sub(r'\1', h, count=1)
+
+    def _closing(m):
+        s = m.group(0)
+        if '<nav' not in s:
+            return ''
+        return RE_CLOSING_LEDE.sub(r'\1', s, count=1)
+    h = RE_CLOSING.sub(_closing, h)
+
+    m = RE_AD_TOOL.search(h)
+    if m:
+        h = h[:m.start()] + h[m.end():]
+        if O_FAQ_SECTION not in h:
+            raise SystemExit('no se encuentra el ancla de las FAQ para recolocar el anuncio')
+        h = h.replace(O_FAQ_SECTION, m.group(0) + O_FAQ_SECTION, 1)
+    return h
+
 
 # Bloques que se sustituyen por contenido único de cada formato (anti-duplicado).
 O_FAQ_H2     = '<h2 id="faq-titulo" style="margin-bottom:1.1rem">Dudas habituales sobre la conversión a FLAC</h2>'
@@ -1089,7 +1165,7 @@ A_EN = {
     'HOWTO_NAME': '"name": "How to convert video audio to FLAC for DaVinci Resolve",',
     'HOWTO_URL':  '"url": "https://vidtoflac.tech/#problema-titulo"',
     'HERO_H1':    '    <h1 class="hero-title">Convert your video audio to <span class="accent">FLAC for DaVinci Resolve</span></h1>',
-    'HERO_SUB':   '    <p class="hero-sub">Instantly and 100% privately. All processing happens inside your browser — not a single byte is uploaded to any server.</p>',
+    'HERO_SUB':   '    <p class="hero-sub">Free, in seconds and 100% private. All processing happens inside your browser — not a single byte is uploaded to any server.</p>',
     'SEO_H2':     '      <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your videos?</h2>',
     'SEO_LEDE':   None,
     'UNIQUE_GUIDE': O_UNIQUE_GUIDE,
@@ -1204,9 +1280,6 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
         f'    "url": "{page["webapp_url"]}",\n'
         f'    "description": "{page["webapp_desc"]}",')
 
-    h = h.replace(A['HOWTO_NAME'], f'"name": "{page["howto_name"]}",')
-    h = h.replace(A['HOWTO_URL'],  f'"url": "{page["canonical"]}"')
-
     h = h.replace(A['HERO_H1'],  f'    <h1 class="hero-title">{page["hero_h1"]}</h1>')
     h = h.replace(A['HERO_SUB'], f'    <p class="hero-sub">{page["hero_sub"]}</p>')
     h = h.replace(A['SEO_H2'],   f'      <h2 id="problema-titulo">{page["seo_h2"]}</h2>')
@@ -1219,6 +1292,9 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
 
     # Fuera la demostración en vídeo: es exclusiva de la portada.
     h = A['DEMO_RE'].sub('', h, count=1)
+
+    # Fuera la interfaz repetida de la portada (ver RE_TRUST y compañía).
+    h = strip_home_chrome(h)
 
     # Contenido único por formato: sección "La solución", FAQ visible y JSON-LD.
     if page.get("seo_body"):
