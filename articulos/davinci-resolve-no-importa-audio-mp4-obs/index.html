@@ -49,7 +49,7 @@
     "description": "DaVinci Resolve no reproduce el audio de tu MP4, MOV o grabación de OBS Studio? Guía paso a paso para solucionar el problema de códec de audio sin reinstalar nada.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-10-02",
     "inLanguage": "es",
     "author": {
       "@type": "Person",
@@ -96,7 +96,7 @@
         "name": "¿Pierdo calidad de vídeo al convertir el audio a FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. VidToFLAC hace un remux: el flujo de vídeo se copia bit a bit sin decodificar ni recomprimir. Cada fotograma del archivo resultante es idéntico al original. Solo el audio cambia de AAC a FLAC — y FLAC es sin pérdida, así que la calidad de audio también es idéntica."
+          "text": "No, cuando el códec lo permite. VidToFLAC hace un remux: el flujo de vídeo se copia sin recomprimir (bit a bit cuando el códec es H.264, AV1, VP8, VP9 o MPEG-4/Xvid; si el vídeo usa H.265/HEVC u otro códec que el navegador no puede decodificar, se recodifica a H.264). El audio cambia de AAC a FLAC sin pérdida."
         }
       },
       {
@@ -427,6 +427,7 @@
         <li><a href="#obs" class="sidebar-toc-link">El caso especial de OBS Studio</a></li>
         <li><a href="#solucion" class="sidebar-toc-link">Solución en 4 pasos: convertir el audio a FLAC</a></li>
         <li><a href="#obs-configurar" class="sidebar-toc-link">Cómo configurar OBS para que no vuelva a pasar</a></li>
+        <li><a href="#multiples-pistas" class="sidebar-toc-link">OBS con varias pistas de audio</a></li>
         <li><a href="#ffmpeg" class="sidebar-toc-link">Alternativa: comando FFmpeg en la terminal</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
       </ul>
@@ -507,7 +508,7 @@
 
       <p>Esta tabla resume qué graba cada fuente y si DaVinci Resolve lo puede abrir:</p>
 
-      <table class="source-table">
+      <table class="compare-table">
         <thead>
           <tr>
             <th>Fuente / dispositivo</th>
@@ -603,7 +604,7 @@
 
       <h2 id="solucion">Solución en 4 pasos: convertir el audio a FLAC</h2>
 
-      <p>VidToFLAC hace un <strong>remux sin pérdida</strong>: copia el vídeo bit a bit (sin recomprimir, sin perder ni un fotograma de calidad) y solo convierte el audio de AAC a FLAC. El resultado es un archivo MKV que DaVinci Resolve abre correctamente en Windows, macOS y Linux.</p>
+      <p>VidToFLAC hace un <strong>remux sin pérdida</strong>: copia el vídeo sin recomprimir (bit a bit cuando el códec lo permite — H.264, AV1, VP8, VP9, MPEG-4/Xvid — y recodifica a H.264 en los casos en que el navegador no puede decodificar el códec, como H.265/HEVC) y solo convierte el audio de AAC a FLAC. El resultado es un archivo MKV que DaVinci Resolve abre correctamente en Windows, macOS y Linux.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Herramienta gratuita · sin subir archivos</span>
@@ -652,6 +653,52 @@
       <h3>Opción C: convertir después de grabar (sin tocar OBS)</h3>
       <p>Si no quieres cambiar tu configuración de OBS, o si ya tienes grabaciones antiguas con AAC, usa VidToFLAC para convertirlas. Es la opción más práctica cuando tienes decenas de archivos acumulados.</p>
 
+      <h2 id="multiples-pistas">OBS con varias pistas de audio: Game, Micrófono y Discord</h2>
+
+      <p>OBS permite grabar hasta seis pistas de audio simultáneas — por ejemplo, una para el juego, otra para el micrófono y otra para el audio de Discord. Esto es muy útil para mezclarlas por separado en DaVinci Resolve. VidToFLAC detecta automáticamente cuántas pistas lleva tu archivo y te deja elegir cuáles conservar antes de convertir.</p>
+
+      <h3>Cómo seleccionar las pistas al convertir</h3>
+      <p>Si el archivo tiene más de una pista de audio, VidToFLAC analiza el archivo en un primer paso y muestra una lista de las pistas detectadas. Cada pista aparece con su nombre (si OBS lo ha escrito) y su códec. Puedes marcar o desmarcar las que quieres incluir en el MKV de salida:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Arrastra el archivo de OBS a VidToFLAC</strong>
+            <p>El archivo aparece en la lista de conversión con estado «En espera».</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Pulsa Convertir</strong>
+            <p>La herramienta analiza el archivo. Si tiene más de una pista, aparecen las checkboxes de selección debajo del nombre del archivo.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Marca las pistas que quieres conservar</strong>
+            <p>Por defecto están todas marcadas. Desmarca las que no necesitas en el montaje.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Pulsa Iniciar conversión</strong>
+            <p>El MKV resultante incluirá solo las pistas seleccionadas, todas en FLAC.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Nota sobre DaVinci Resolve:</strong> cuando el MKV tiene varias pistas de audio, Resolve puede mostrar solo una en la línea de tiempo al importar. Si ocurre, haz clic derecho en el clip del Media Pool → <strong>Clip Attributes…</strong> → pestaña <strong>Audio</strong>, y selecciona el número de pistas <em>antes</em> de arrastrar el clip a la línea de tiempo. Este comportamiento está explicado y verificado en el <a href="/banco-de-pruebas/#clip-attributes">banco de pruebas</a>.
+      </div>
+
       <h2 id="ffmpeg">Alternativa: comando FFmpeg en la terminal</h2>
 
       <p>Si prefieres la línea de comandos, este es el equivalente exacto de lo que hace VidToFLAC — copia el vídeo sin recomprimir y convierte solo el audio a FLAC:</p>
@@ -660,7 +707,13 @@
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i grabacion-obs.mkv -c:v copy -c:a flac salida.mkv</code>
       </div>
 
-      <p>Para convertir varios archivos de golpe en bash:</p>
+      <p>Para conservar <strong>todas las pistas de audio</strong> a la vez (Game + Micrófono + Discord), añade <code>-map 0:v -map 0:a</code>:</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i grabacion-obs.mkv -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>
+      </div>
+
+      <p>Sin <code>-map</code>, FFmpeg elige solo una pista de audio. Para convertir varios archivos de golpe en bash:</p>
 
       <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">for f in *.mkv; do ffmpeg -i "$f" -c:v copy -c:a flac "flac_${f}"; done</code>
@@ -723,7 +776,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p><strong>No.</strong> VidToFLAC hace un remux: el flujo de vídeo se copia <strong>bit a bit</strong> sin decodificar ni recomprimir. Cada fotograma del archivo resultante es idéntico al original. Solo el audio cambia de AAC a FLAC — y FLAC es sin pérdida, así que la calidad de audio también es idéntica.</p>
+            <p><strong>No, cuando el códec lo permite.</strong> VidToFLAC hace un remux: el flujo de vídeo se copia sin recomprimir (bit a bit cuando el códec es H.264, AV1, VP8, VP9 o MPEG-4/Xvid). Si el vídeo usa H.265/HEVC u otro códec que el navegador no puede decodificar, se recodifica a H.264 para que la previsualización funcione. En cualquier caso, el audio cambia de AAC a FLAC sin pérdida.</p>
           </div>
         </details>
 
