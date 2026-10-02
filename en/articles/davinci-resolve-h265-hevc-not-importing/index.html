@@ -49,7 +49,7 @@
     "description": "Free DaVinci Resolve refusing to open your H.265 or HEVC file? A complete guide to fixing H.265 import problems in DaVinci Resolve without losing quality.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-h265-hevc-not-importing/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-10-02",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -420,6 +420,7 @@
         <li><a href="#pasos" class="sidebar-toc-link">Step-by-step: converting the file</a></li>
         <li><a href="#ffmpeg" class="sidebar-toc-link">The FFmpeg alternative in the terminal</a></li>
         <li><a href="#prevenir" class="sidebar-toc-link">How to avoid the problem in future</a></li>
+        <li><a href="#audio-hevc" class="sidebar-toc-link">The audio in your HEVC clips matters too</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
     </nav>
@@ -503,7 +504,7 @@
 
       <p>H.265 is now the standard in practically anything that records 4K. This table covers the most common cases:</p>
 
-      <table class="source-table">
+      <table class="compare-table">
         <thead>
           <tr>
             <th>Device / source</th>
@@ -650,6 +651,22 @@
 
       <h3>Option B: use proxies in DaVinci Resolve</h3>
       <p>If you have DaVinci Resolve Studio or a compatible GPU, you can generate <strong>proxies</strong> — lightweight H.264 versions of the clips to edit with — while keeping the original H.265 files for the final render. In DaVinci Resolve: right-click the clip → <em>Generate Proxy Media</em>.</p>
+
+      <h2 id="audio-hevc">The audio in your HEVC clips matters too</h2>
+
+      <p>H.265 files from an iPhone, Samsung or DJI almost always carry AAC audio. On DaVinci Resolve Free on Linux, that audio cannot be decoded either — the same symptom as the video, but caused by a different restriction: the AAC codec licence.</p>
+
+      <p>When VidToFLAC converts an HEVC clip, it does two things at once:</p>
+      <ul>
+        <li>Re-encodes the <strong>video from H.265 to H.264</strong> using <code>libx264 -crf 18</code>.</li>
+        <li>Converts the <strong>audio from AAC (or any other codec) to FLAC</strong>, which DaVinci Resolve can read on every operating system.</li>
+      </ul>
+
+      <p>The result is an MKV that DaVinci Resolve can import and play back in full — picture and sound — with no extra codec packs and no need for DaVinci Resolve Studio.</p>
+
+      <div class="info-box">
+        <strong>What if the HEVC file already has FLAC audio?</strong> Uncommon, but it can happen with professional cameras or after a previous conversion. In that case VidToFLAC copies the audio track directly without re-encoding it, and only re-encodes the video.
+      </div>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot">

@@ -49,7 +49,7 @@
     "description": "DaVinci Resolve exporta el vídeo pero sin audio? Guía completa con todas las causas posibles y cómo solucionarlas: configuración del render, pistas silenciadas, códec de audio incompatible y más.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-render-sin-audio/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-10-02",
     "inLanguage": "es",
     "author": {
       "@type": "Person",
@@ -413,6 +413,7 @@
         <li><a href="#causa-4" class="sidebar-toc-link">Causa 4: problema de AAC en Linux</a></li>
         <li><a href="#causa-5" class="sidebar-toc-link">Causa 5: el archivo de origen no tiene audio compatible</a></li>
         <li><a href="#solucion-audio-origen" class="sidebar-toc-link">Solucionar el audio del archivo de origen</a></li>
+        <li><a href="#pistas-multiples" class="sidebar-toc-link">Causa 6: proyecto con múltiples pistas</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
       </ul>
     </nav>
@@ -579,12 +580,12 @@
 
       <h2 id="solucion-audio-origen">Solucionar el audio del archivo de origen</h2>
 
-      <p>Si el problema está en el archivo fuente (forma de onda plana, audio no reproducible en la timeline), la solución es convertir el audio a FLAC antes de importar en DaVinci Resolve. VidToFLAC hace exactamente esto: copia el vídeo sin pérdida y convierte el audio a FLAC, que DaVinci Resolve puede leer en Windows, macOS y Linux.</p>
+      <p>Si el problema está en el archivo fuente (forma de onda plana, audio no reproducible en la timeline), la solución es convertir el audio a FLAC antes de importar en DaVinci Resolve. VidToFLAC hace exactamente esto: copia el vídeo sin recomprimir (cuando el códec es H.264, AV1, VP8, VP9 o MPEG-4/Xvid) y convierte el audio a FLAC, que DaVinci Resolve puede leer en Windows, macOS y Linux. Si el vídeo usa H.265/HEVC u otro códec que el navegador no puede decodificar, se recodifica a H.264.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Herramienta gratuita · sin subir archivos</span>
         <h3>Convierte el audio a FLAC para que DaVinci Resolve lo lea</h3>
-        <p>Si tu archivo fuente tiene audio AAC, MP3 u otro códec incompatible, conviértelo a FLAC con VidToFLAC. El vídeo se copia sin pérdida — solo cambia el audio.</p>
+        <p>Si tu archivo fuente tiene audio AAC, MP3 u otro códec incompatible, conviértelo a FLAC con VidToFLAC. El vídeo se copia sin recomprimir cuando el códec lo permite (H.264, AV1, VP8, VP9, MPEG-4/Xvid). Si el vídeo usa H.265/HEVC, se recodifica a H.264.</p>
         <a href="/" class="tool-cta-btn" aria-label="Usar VidToFLAC gratis">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Usar VidToFLAC gratis
@@ -599,6 +600,22 @@
         <li>Códec de audio: <strong>FLAC</strong> o <strong>PCM</strong> (en MKV) — <strong>AAC 320 kbps</strong> (en MP4, salvo Linux)</li>
         <li>Asegúrate de que <strong>Export Audio</strong> está marcado</li>
       </ul>
+
+      <h2 id="pistas-multiples">Causa 6: proyecto con múltiples pistas de audio mal configuradas</h2>
+
+      <p>Si tu proyecto tiene pistas separadas de diálogo, música y efectos de sonido, hay dos problemas que pueden hacer que el render salga sin audio o con solo una de las pistas:</p>
+
+      <h3>Bus de salida no asignado</h3>
+      <p>En la página <strong>Fairlight</strong>, cada pista de audio se enruta a un bus. Si una pista de diálogo no está asignada al bus principal (<em>Main</em> o Bus 1), no saldrá en el render. Ve a Fairlight → <strong>Audio > Bus Format</strong> y verifica que todas las pistas están enrutadas al bus de salida.</p>
+
+      <h3>Mezcla a estéreo vs. pistas separadas</h3>
+      <p>En la página Deliver, la sección <em>Audio</em> tiene una opción <strong>"Number of Audio Tracks"</strong>. Si está configurada en <strong>1</strong> o <strong>Stereo</strong>, DaVinci Resolve mezcla todas las pistas en una sola pista estéreo. Esto es lo correcto para publicar. Si quieres pistas separadas en el archivo de salida, selecciona <strong>Multichannel</strong> y ajusta el número de canales.</p>
+
+      <div class="info-box">
+        <strong>Truco:</strong> Si el render sale sin audio en un proyecto con muchas pistas, haz primero un render de prueba de 10 segundos con la opción <em>In/Out Range</em> en Deliver. Así detectas el problema antes de esperar el render completo.
+      </div>
+
+      <p>En proyectos grandes con Compound Clips anidados, verifica que el compound clip tiene la pista de audio asignada a la misma pista de la timeline. Un clip anidado puede tener el audio en la pista A1 del clip, pero si la pista A1 de la timeline está silenciada, el render no incluye ese audio aunque el clip reproduzca bien en la previsualización interna.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot">

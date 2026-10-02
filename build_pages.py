@@ -185,7 +185,7 @@ PAGES = [
         "webapp_desc":      "Convierte el audio de archivos MOV (iPhone, GoPro, cámara) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir el audio de un MOV a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">MOV a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado bit a bit — 100% privado, en tu navegador.",
+        "hero_sub":         "Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado sin recomprimir cuando el códec lo permite — 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MOV?',
         "seo_lede":         'Si has abierto un <strong>archivo MOV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> —o con la pista de audio en gris— el problema suele ser el códec de audio. Los MOV grabados con <strong>iPhone, GoPro</strong> o la mayoría de cámaras digitales usan <strong>AAC</strong>, y DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye de serie las licencias para decodificarlo.',
         "breadcrumb_label": "Convertir MOV a FLAC",
@@ -208,11 +208,11 @@ PAGES = [
       <ol>
         <li>Arrastra tu archivo .mov a VidToFLAC. La herramienta analiza los códecs de audio y vídeo.</li>
         <li>Selecciona <strong>MKV</strong> como formato de salida. Los MOV de iPhone y GoPro se procesan en segundos.</li>
-        <li>Pulsa <strong>Convertir</strong>. Si el vídeo es H.264 o H.265, se copia bit a bit. Si es ProRes, se recodifica a H.264 automáticamente. El audio pasa siempre a FLAC.</li>
+        <li>Pulsa <strong>Convertir</strong>. Si el vídeo es H.264 u otro códec compatible, se copia sin recomprimir. Si es H.265/HEVC o ProRes, se recodifica a H.264 automáticamente. El audio pasa siempre a FLAC.</li>
         <li>Importa el MKV resultante en DaVinci Resolve y asígnalo a tu timeline.</li>
       </ol>
       <h3>Tip: iPhone graba en HEVC por defecto desde iOS 11</h3>
-      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. Resolve en Linux no siempre decodifica HEVC de forma nativa. VidToFLAC gestiona ambos casos automáticamente: si el navegador puede decodificar el HEVC, copia el vídeo bit a bit; si no, lo recodifica a H.264 con calidad alta. En ambos casos el audio FLAC del resultado es compatible con Resolve.</p>
+      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. El navegador no puede decodificar HEVC, así que VidToFLAC lo recodifica a H.264 con calidad alta (<code>-crf 18</code>) —visualmente muy próximo al original— y convierte el audio a FLAC. Si el MOV lleva H.264, el vídeo se copia sin recomprimir.</p>
       <h3>Los MOV con ProRes ya traían el audio sin pérdida</h3>
       <p>Los MOV grabados o exportados en <strong>ProRes</strong> suelen llevar audio <strong>PCM</strong> de 16 o 24 bits sin comprimir. En ese caso el archivo ya tiene el audio en un formato sin pérdida, y pasarlo a FLAC no mejora ni empeora la calidad: la conserva bit a bit y además ocupa bastante menos. La ventaja aquí no es la fidelidad, es el tamaño y la compatibilidad.</p>
       <h3>Medido: el caso del MOV con audio PCM</h3>
