@@ -49,7 +49,7 @@
     "description": "DaVinci Resolve playing no audio from your MP4, MOV or OBS Studio recording? A step-by-step guide to fixing the audio codec problem without reinstalling anything.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-not-importing-obs-mp4-audio/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-10-02",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -96,7 +96,7 @@
         "name": "Do I lose video quality by converting the audio to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. VidToFLAC does a remux: the video stream is copied bit for bit, never decoded or recompressed. Every frame of the resulting file is identical to the original. Only the audio changes from AAC to FLAC — and FLAC is lossless, so the audio quality is identical too."
+          "text": "No, when the codec allows it. VidToFLAC does a remux: the video stream is copied without recompression (bit for bit when the codec is H.264, AV1, VP8, VP9 or MPEG-4/Xvid; if the video uses H.265/HEVC or another codec the browser cannot decode, it is re-encoded to H.264). The audio changes from AAC to FLAC without any loss of quality."
         }
       },
       {
@@ -427,6 +427,7 @@
         <li><a href="#obs" class="sidebar-toc-link">The special case of OBS Studio</a></li>
         <li><a href="#solucion" class="sidebar-toc-link">The fix in 4 steps: convert the audio to FLAC</a></li>
         <li><a href="#obs-configurar" class="sidebar-toc-link">Configuring OBS so it never happens again</a></li>
+        <li><a href="#multiples-pistas" class="sidebar-toc-link">OBS with multiple audio tracks</a></li>
         <li><a href="#ffmpeg" class="sidebar-toc-link">Alternative: an FFmpeg command in the terminal</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
@@ -507,7 +508,7 @@
 
       <p>This table sums up what each source records, and whether DaVinci Resolve can open it:</p>
 
-      <table class="source-table">
+      <table class="compare-table">
         <thead>
           <tr>
             <th>Source / device</th>
@@ -603,7 +604,7 @@
 
       <h2 id="solucion">The fix in 4 steps: convert the audio to FLAC</h2>
 
-      <p>VidToFLAC performs a <strong>lossless remux</strong>: it copies the video bit for bit — no recompression, not a frame of quality lost — and converts only the audio from AAC to FLAC. The result is an MKV that DaVinci Resolve opens correctly on Windows, macOS and Linux.</p>
+      <p>VidToFLAC performs a <strong>lossless remux</strong>: it copies the video without recompressing (bit for bit when the codec is H.264, AV1, VP8, VP9 or MPEG-4/Xvid — and re-encodes to H.264 for codecs the browser cannot decode, such as H.265/HEVC) and converts only the audio from AAC to FLAC. The result is an MKV that DaVinci Resolve opens correctly on Windows, macOS and Linux.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Free tool · nothing uploaded</span>
@@ -652,6 +653,52 @@
       <h3>Option C: convert after recording, leaving OBS alone</h3>
       <p>If you would rather not change your OBS settings, or you already have a pile of older AAC recordings, use VidToFLAC to convert them. It is the most practical option when dozens of files have built up.</p>
 
+      <h2 id="multiples-pistas">OBS with multiple audio tracks: Game, Mic and Discord</h2>
+
+      <p>OBS can record up to six simultaneous audio tracks — for example one for the game, one for the microphone and one for Discord — which is useful for mixing them separately in DaVinci Resolve. VidToFLAC now automatically detects how many tracks your file contains and lets you choose which ones to keep before converting.</p>
+
+      <h3>How track selection works</h3>
+      <p>If the file has more than one audio track, VidToFLAC analyses it first and shows a list of the detected tracks. Each track appears with its name (if OBS wrote one) and its codec. You can tick or untick the ones you want in the output MKV:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Drop your OBS file into VidToFLAC</strong>
+            <p>The file appears in the conversion list with status "Waiting".</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Press Convert</strong>
+            <p>The tool analyses the file. If it has more than one track, the selection checkboxes appear below the filename.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Tick the tracks you want to keep</strong>
+            <p>All are ticked by default. Untick any tracks you do not need in the final edit.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Press Start conversion</strong>
+            <p>The resulting MKV will include only the selected tracks, all converted to FLAC.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Note about DaVinci Resolve:</strong> when an MKV has multiple audio tracks, Resolve may show only one in the timeline on import. If that happens, right-click the clip in the Media Pool → <strong>Clip Attributes…</strong> → <strong>Audio</strong> tab, and select the number of tracks <em>before</em> dragging the clip to the timeline. This behaviour is explained and verified on the <a href="/en/test-bench/#clip-attributes">test bench</a>.
+      </div>
+
       <h2 id="ffmpeg">Alternative: an FFmpeg command in the terminal</h2>
 
       <p>If you prefer the command line, this is the exact equivalent of what VidToFLAC does — copy the video without recompressing and convert only the audio to FLAC:</p>
@@ -660,7 +707,13 @@
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i obs-recording.mkv -c:v copy -c:a flac output.mkv</code>
       </div>
 
-      <p>To convert several files at once in bash:</p>
+      <p>To keep <strong>all audio tracks</strong> at once (Game + Mic + Discord), add <code>-map 0:v -map 0:a</code>:</p>
+
+      <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
+        <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">ffmpeg -i obs-recording.mkv -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code>
+      </div>
+
+      <p>Without <code>-map</code>, FFmpeg picks only one audio track. To convert several files at once in bash:</p>
 
       <div class="error-box" style="background:var(--panel-2); border-color:var(--line-strong); border-left-color:var(--amber);">
         <code style="color:var(--amber-2); background:none; border:none; padding:0; font-size:0.85rem;">for f in *.mkv; do ffmpeg -i "$f" -c:v copy -c:a flac "flac_${f}"; done</code>
@@ -723,7 +776,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p><strong>No.</strong> VidToFLAC does a remux: the video stream is copied <strong>bit for bit</strong>, never decoded or recompressed. Every frame of the resulting file is identical to the original. Only the audio changes from AAC to FLAC — and FLAC is lossless, so the audio quality is identical too.</p>
+            <p><strong>No, when the codec allows it.</strong> VidToFLAC does a remux: the video stream is copied without recompression (bit for bit when the codec is H.264, AV1, VP8, VP9 or MPEG-4/Xvid). If the video uses H.265/HEVC or another codec the browser cannot decode, it is re-encoded to H.264 so the preview works. Either way, the audio changes from AAC to lossless FLAC.</p>
           </div>
         </details>
 
