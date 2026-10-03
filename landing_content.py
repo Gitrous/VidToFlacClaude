@@ -65,7 +65,7 @@ CONTENT = {
         "faq_h2": "Preguntas frecuentes sobre convertir MOV a FLAC",
         "seo_body": (
             '      <h3>La solución para tus MOV de iPhone, GoPro o cámara</h3>\n'
-            '      <p>Los <strong>MOV</strong> de iPhone, GoPro y la mayoría de cámaras guardan el audio en <strong>AAC</strong>, el códec que DaVinci Resolve no decodifica sin licencia. VidToFLAC reempaqueta el MOV en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida.</p>\n\n'
+            '      <p>Los <strong>MOV</strong> de iPhone, GoPro y la mayoría de cámaras guardan el audio en <strong>AAC</strong>, el códec que DaVinci Resolve no decodifica sin licencia. VidToFLAC reempaqueta el MOV en un <strong>MKV</strong> y convierte solo el audio a <strong>FLAC</strong> sin pérdida; el vídeo se copia sin recomprimir cuando el códec lo permite (H.264, AV1, VP8/VP9, MPEG-4/Xvid).</p>\n\n'
             '      <p>Si el vídeo es H.264, el proceso es un remux y la calidad de imagen no se toca. Los iPhone graban en HEVC desde iOS 11, y ese códec se recodifica a H.264 con calidad alta porque el navegador no puede decodificarlo. En ambos casos el sonido vuelve a estar disponible en tu editor.</p>\n\n'
             '      <p>Caso especial: si el MOV contiene <strong>ProRes</strong> —habitual en flujos profesionales—, el navegador no puede decodificarlo para previsualizar, así que VidToFLAC recodifica el vídeo a H.264 manteniendo el audio en FLAC.</p>'
         ),

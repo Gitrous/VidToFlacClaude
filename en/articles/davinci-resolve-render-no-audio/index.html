@@ -49,7 +49,7 @@
     "description": "DaVinci Resolve exporting video but no audio? A complete guide to every possible cause and how to fix it: render settings, muted tracks, incompatible audio codecs and more.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-render-no-audio/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-06-30",
+    "dateModified": "2026-10-02",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -413,6 +413,7 @@
         <li><a href="#causa-4" class="sidebar-toc-link">Cause 4: the AAC problem on Linux</a></li>
         <li><a href="#causa-5" class="sidebar-toc-link">Cause 5: the source file has no compatible audio</a></li>
         <li><a href="#solucion-audio-origen" class="sidebar-toc-link">Fixing the source file's audio</a></li>
+        <li><a href="#pistas-multiples" class="sidebar-toc-link">Cause 6: multi-track project misconfiguration</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
     </nav>
@@ -579,12 +580,12 @@
 
       <h2 id="solucion-audio-origen">Fixing the source file's audio</h2>
 
-      <p>If the problem is the source file — flat waveform, no playable audio on the timeline — the fix is to convert the audio to FLAC before importing into DaVinci Resolve. VidToFLAC does exactly that: it copies the video losslessly and converts the audio to FLAC, which DaVinci Resolve can read on Windows, macOS and Linux.</p>
+      <p>If the problem is the source file — flat waveform, no playable audio on the timeline — the fix is to convert the audio to FLAC before importing into DaVinci Resolve. VidToFLAC does exactly that: it copies the video without recompressing (when the codec is H.264, AV1, VP8, VP9 or MPEG-4/Xvid) and converts the audio to FLAC, which DaVinci Resolve can read on Windows, macOS and Linux. If the video uses H.265/HEVC or another codec the browser cannot decode, it is re-encoded to H.264.</p>
 
       <div class="tool-cta">
         <span class="tool-cta-label">Free tool · nothing uploaded</span>
         <h3>Convert the audio to FLAC so DaVinci Resolve can read it</h3>
-        <p>If your source file has AAC, MP3 or another incompatible codec, convert it to FLAC with VidToFLAC. The video is copied losslessly — only the audio changes.</p>
+        <p>If your source file has AAC, MP3 or another incompatible codec, convert it to FLAC with VidToFLAC. The video is copied without recompressing when the codec allows it (H.264, AV1, VP8, VP9, MPEG-4/Xvid). If the video uses H.265/HEVC, it is re-encoded to H.264.</p>
         <a href="/en/" class="tool-cta-btn" aria-label="Use VidToFLAC for free">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Use VidToFLAC free
@@ -599,6 +600,22 @@
         <li>Audio codec: <strong>FLAC</strong> or <strong>PCM</strong> in MKV — <strong>AAC at 320 kbps</strong> in MP4, except on Linux</li>
         <li>Make sure <strong>Export Audio</strong> is ticked</li>
       </ul>
+
+      <h2 id="pistas-multiples">Cause 6: multi-track project misconfiguration</h2>
+
+      <p>If your project has separate tracks for dialogue, music and sound effects, two problems can cause the render to come out with no audio, or with only one of the tracks:</p>
+
+      <h3>Output bus not assigned</h3>
+      <p>On the <strong>Fairlight</strong> page, each audio track is routed to a bus. If a dialogue track is not assigned to the main bus (<em>Main</em> or Bus 1), it will not appear in the render. Go to Fairlight → <strong>Audio > Bus Format</strong> and check that every track is routed to the output bus.</p>
+
+      <h3>Stereo mix vs. separate tracks</h3>
+      <p>On the Deliver page, the <em>Audio</em> section has a <strong>"Number of Audio Tracks"</strong> setting. If it is set to <strong>1</strong> or <strong>Stereo</strong>, DaVinci Resolve mixes all tracks down to a single stereo track — which is right for publishing. If you want separate tracks in the output file, choose <strong>Multichannel</strong> and set the number of channels accordingly.</p>
+
+      <div class="info-box">
+        <strong>Tip:</strong> If the render comes out with no audio in a project with many tracks, do a quick test render of 10 seconds using <em>In/Out Range</em> in Deliver. That lets you catch the problem before waiting for the full render.
+      </div>
+
+      <p>In large projects using nested Compound Clips, check that the compound clip's audio is assigned to the same track as in the timeline. A nested clip may have audio on track A1 of the clip, but if track A1 of the timeline is muted, that audio will not appear in the render even though the clip plays back fine in the internal preview.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot">
