@@ -310,6 +310,30 @@ Tres cosas que salieron al hacerlo:
   luego sondea; la inglesa sondea primero, con `probedBatch` y `actualList`). Un
   cambio en la lógica hay que comprobarlo en las cuatro.
 
+## Ramas de otras sesiones: pueden traer portadas antiguas
+
+El 2-10-2026 se fusionó el PR #2 (rama `claude/vidtoflac-repo-setup-u8mwf3`, de
+una sesión en la nube que partía de una copia de finales de septiembre). Su
+commit `d1325b2` dejó `index.html` y `en/index.html` **idénticos a `ebe326b`
+(24-09)** y deshizo sin avisar tres cambios: la retirada del aviso de anuncio y
+de los anuncios de la lista (`45520eb`), el subtítulo nuevo (`fb0d826`) y los
+seis enlaces a las landings (`3efa5c1`). El mensaje del commit solo hablaba de
+un artículo. Estuvo publicado un día, con los anuncios que incumplen AdSense de
+vuelta. Se restauraron el 3-10-2026 desde `d359912`.
+
+Después de cualquier fusión que venga de otra sesión, comprueba las marcas del
+estado bueno:
+
+```bash
+grep -c 'id="adModal"' index.html en/index.html      # 0 y 0
+grep -o 'class="hero-sub">[^<]\{0,30\}' index.html   # "Gratis, en segundos…"
+grep -c 'href="/convertir-mp4-a-flac/"' index.html    # 1
+```
+
+Y para ver qué trae de verdad una rama, compárala contra la base común, no
+contra tu `HEAD` (ver la memoria del proyecto): un archivo que aparece "cambiado"
+puede ser simplemente una copia vieja.
+
 ## La versión inglesa se escribe, no se traduce a medias
 
 Al generar las landings inglesas aparecieron 14 cadenas en español dentro del
