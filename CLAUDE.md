@@ -321,6 +321,14 @@ seis enlaces a las landings (`3efa5c1`). El mensaje del commit solo hablaba de
 un artículo. Estuvo publicado un día, con los anuncios que incumplen AdSense de
 vuelta. Se restauraron el 3-10-2026 desde `d359912`.
 
+El 4-10-2026 la misma rama traía otro commit (`90f4e29`, cabecera nueva y
+lectura de artículos) con el mismo defecto: `adModal` de vuelta y sin los
+enlaces. No se fusionó; solo se pasó a mano el CSS de lectura de los 32
+artículos, y la línea `.hero-tagline` (keywords al 11 % de opacidad, que la rama
+ocultaba con `display:none`) se **borró del HTML**: texto con keywords oculto o
+casi invisible es lo que Google trata como manipulación. **Esa rama no se
+fusiona tal cual.**
+
 Después de cualquier fusión que venga de otra sesión, comprueba las marcas del
 estado bueno:
 
