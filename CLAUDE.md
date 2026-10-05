@@ -731,3 +731,11 @@ lo heredan al regenerar, y sus textos propios (`PAGES`, `landing_content*.py`,
 rayas a paréntesis con una regex, **comprueba que el par no cruza una frase**:
 una raya suelta al final de una oración se emparejó con la de la siguiente y
 dejó un paréntesis abierto sobre dos frases.
+
+**El fondo** (5-10-2026): sin las ondas verdes difuminadas (commit `faa5721`, se
+recupera con `git revert`). Quedan el grano y **dos focos que se desplazan con la
+página** (no `fixed`): uno detrás de la cabecera (`body::before`, centrado a 200 px
+para que no lo tape la barra de navegación, que es opaca) y otro más suave detrás
+de la demo. El usuario probó halos grandes fijos por toda la página y se
+descartaron por parecer plantilla de IA: un foco por momento clave, nunca un
+brillo que lo cubra todo.

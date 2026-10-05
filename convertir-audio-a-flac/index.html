@@ -228,13 +228,18 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Warm overhead glow (the blurred wave SVG behind it was removed on 5-10-2026) */
+    /* Header spotlight: a green glow over the hero only. It scrolls away with
+       the page (absolute, not fixed) so the tool and content sit on clean dark.
+       The blurred wave SVG that used to sit behind it was removed on 5-10-2026. */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1000px;
       background:
-        radial-gradient(900px 400px at 50% -5%, rgba(25,195,125,.09), transparent 55%);
+        radial-gradient(1100px 620px at 50% 200px, rgba(25,195,125,.26), transparent 70%);
       pointer-events: none;
       z-index: 1;
     }
@@ -1362,6 +1367,18 @@
       font-family: var(--font-mono);
       font-size: 0.7rem;
       color: var(--ink-mute);
+    }
+
+    /* Second spotlight, softer, behind the demo: the other key moment of the
+       home page. Like the header glow it scrolls with the page. */
+    section[aria-labelledby="demo-titulo"] { position: relative; }
+    section[aria-labelledby="demo-titulo"]::before {
+      content: '';
+      position: absolute;
+      inset: -140px -260px;
+      background: radial-gradient(closest-side, rgba(25,195,125,.18), transparent);
+      pointer-events: none;
+      z-index: -1;
     }
 
     /* ── Trust strip: three short claims, no cards ── */
