@@ -329,14 +329,6 @@
       }
       .hero-sub { margin: 0.75rem auto 0; max-width: 54ch; }
 
-      /* Trust grid: centered with max width for readability */
-      .trust-grid {
-        gap: 1rem;
-        max-width: 860px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .trust-card { padding: 1.4rem 1.2rem; }
 
       /* Conv counter: same width as tool sections */
       .conv-counter { justify-content: center; width: 100%; max-width: 860px; margin-left: auto; margin-right: auto; }
@@ -383,47 +375,6 @@
       padding: 0.5rem 0 1rem;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .brand-mark {
-      width: 58px;
-      height: 58px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(160deg, #1f1f25, #121215);
-      border: 1px solid var(--line-strong);
-      box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 8px 24px rgba(0,0,0,.5), 0 0 32px -8px var(--amber-soft);
-    }
-
-    .brand-mark .bar {
-      transform-origin: center bottom;
-      animation: eq 1.1s ease-in-out infinite;
-    }
-    .brand-mark .bar:nth-child(1) { animation-delay: 0s;    }
-    .brand-mark .bar:nth-child(2) { animation-delay: .18s;  }
-    .brand-mark .bar:nth-child(3) { animation-delay: .36s;  }
-    .brand-mark .bar:nth-child(4) { animation-delay: .54s;  }
-    @keyframes eq {
-      0%, 100% { transform: scaleY(.4); }
-      50%      { transform: scaleY(1); }
-    }
-
-    .brand-name {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 3rem;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      color: var(--ink);
-      text-shadow: 0 0 38px var(--amber-soft);
-    }
-    .brand-accent { color: var(--amber); }
 
     .tagline {
       margin-top: 0.85rem;
@@ -1427,76 +1378,88 @@
       text-wrap: balance;
     }
 
-    /* ── Trust cards ─────────────────────────────────────────── */
-    .trust-grid {
+    /* ── Hero: copy on the left, real Resolve captures on the right ── */
+    .hero-copy { display: flex; flex-direction: column; align-items: inherit; }
+    .hero-visual {
+      margin: 1.4rem 0 0;
+      width: 100%;
+      max-width: 560px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 0.7rem;
+      text-align: left;
+    }
+    .hv-row { display: grid; gap: 0.3rem; }
+    .hv-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-dim);
+    }
+    .hv-label.hv-good { color: var(--amber-2); }
+    .hv-row img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 780 / 144;
+      object-fit: cover;
+      object-position: left center;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+    }
+    .hero-visual figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink-mute);
+    }
+
+    /* ── Trust strip: three short claims, no cards ── */
+    .trust-strip {
+      list-style: none;
+      margin: 0;
+      padding: 0.85rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem 2rem;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
       animation: rise .6s cubic-bezier(.2,.7,.3,1) both;
       animation-delay: .12s;
     }
-
-    .trust-card {
-      background: linear-gradient(180deg, var(--panel-2), var(--panel));
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      padding: 1rem 0.95rem;
+    .trust-strip li {
       display: flex;
-      flex-direction: column;
       align-items: center;
       gap: 0.55rem;
-      transition: border-color .2s, transform .2s, box-shadow .2s;
-    }
-    .trust-card:hover {
-      border-color: var(--amber-line);
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px -22px rgba(25,195,125,.6);
-    }
-
-    .trust-icon {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--amber-soft);
-      border: 1px solid var(--amber-line);
-      color: var(--amber-2);
-      line-height: 1;
-      flex-shrink: 0;
-      align-self: center;
-    }
-    .trust-icon svg {
-      width: 20px;
-      height: 20px;
-    }
-    .trust-card:hover .trust-icon { color: var(--amber); }
-    .trust-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 0.92rem;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      text-align: center;
-    }
-    .trust-desc {
-      font-size: 0.78rem;
-      line-height: 1.5;
+      font-size: 0.86rem;
       color: var(--ink-dim);
-      text-align: justify;
-      text-align-last: center;
-      hyphens: auto;
     }
-    .trust-desc strong { color: var(--ink); font-weight: 600; }
-    .trust-desc code {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--amber-2);
-      background: var(--amber-soft);
-      padding: 0.05em 0.32em;
-      border-radius: 4px;
-    }
+    .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
+    .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    @media (min-width: 880px) {
+      .header:has(.hero-visual) {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 2.5rem;
+        text-align: left;
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1.5rem 0 1.25rem;
+      }
+      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title,
+      .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
+      .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
+      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
+    }
+    @media (min-width: 1200px) {
+      .trust-strip { justify-content: space-between; }
+    }
+    @media (max-width: 560px) {
+      .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
     /* ── How-it-works steps ──────────────────────────────────── */
     .steps {
       display: grid;
@@ -1539,7 +1502,6 @@
     }
 
     @media (max-width: 560px) {
-      .trust-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: 1fr; gap: 1.1rem; }
       .step-item:not(:last-child)::after {
         content: '↓';
@@ -1802,9 +1764,6 @@
 
     @media (max-width: 480px) {
       body { padding: 2.25rem 0.9rem 4rem; }
-      .brand-mark { width: 46px; height: 46px; border-radius: 13px; }
-      .brand-mark svg { width: 28px; height: 28px; }
-      .brand-name { font-size: 2.2rem; }
       .card { padding: 1.15rem; }
     }
 
@@ -2233,55 +2192,30 @@
 
   <!-- Header -->
   <header class="header">
-    <div class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
-          <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
-          <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
-          <rect class="bar" x="12" y="5"  width="3" height="12" rx="1.5" fill="#19c37d"/>
-          <rect class="bar" x="17" y="8"  width="3" height="6"  rx="1.5" fill="#b7f5da"/>
-        </svg>
-      </span>
-      <span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>
-    </div>
+    <div class="hero-copy">
     <h1 class="hero-title">Convierte el audio de tus vídeos a <span class="accent">FLAC para DaVinci Resolve</span></h1>
     <p class="hero-sub">Gratis, en segundos y 100% privado. Todo el procesamiento ocurre dentro de tu navegador — no se sube ni un solo byte a ningún servidor.</p>
+    </div>
+    <!-- Hero visual: real before/after captures (stripped from landings by RE_HERO_VISUAL) -->
+    <figure class="hero-visual">
+      <div class="hv-row">
+        <span class="hv-label">Antes: AAC en Resolve</span>
+        <img src="/media/capturas/resolve-pista-sin-onda.webp" width="1200" height="144" alt="Línea de tiempo de DaVinci Resolve con un clip MP4 cuya pista de audio aparece en verde liso, sin forma de onda" fetchpriority="high" decoding="async">
+      </div>
+      <div class="hv-row">
+        <span class="hv-label hv-good">Después: FLAC</span>
+        <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" alt="La misma línea de tiempo tras la conversión, con la forma de onda dibujada sobre la pista de audio" decoding="async">
+      </div>
+      <figcaption>Capturas propias en DaVinci Resolve Studio 21 sobre Ubuntu.</figcaption>
+    </figure>
   </header>
 
   <!-- Trust pillars: seguridad · calidad lossless · velocidad -->
-  <div class="trust-grid">
-    <div class="trust-card">
-      <span class="trust-icon" aria-hidden="true">
-        <!-- shield / lock -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-          <path d="M12 3 4.5 6v5.5c0 4.4 3.1 7.6 7.5 9 4.4-1.4 7.5-4.6 7.5-9V6L12 3Z"/>
-          <path d="M9.3 12.2 11 14l3.7-3.8"/>
-        </svg>
-      </span>
-      <span class="trust-title">Seguridad y privacidad</span>
-      <span class="trust-desc">Todo se procesa <strong>en local</strong> con <code>FFmpeg.wasm</code> dentro de tu navegador. Tus vídeos no se suben ni se almacenan en ningún servidor: cero bytes salen de tu equipo.</span>
-    </div>
-    <div class="trust-card">
-      <span class="trust-icon" aria-hidden="true">
-        <!-- waveform / lossless -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-          <path d="M3 12h2.2L7.4 5l3 14 2.6-9 1.8 5 1.4-3H21"/>
-        </svg>
-      </span>
-      <span class="trust-title">Calidad lossless</span>
-      <span class="trust-desc">Audio convertido a <strong>FLAC sin pérdida</strong>: fidelidad idéntica al original. Si el códec lo permite, el vídeo se copia bit a bit, sin volver a renderizar ni un solo fotograma.</span>
-    </div>
-    <div class="trust-card">
-      <span class="trust-icon" aria-hidden="true">
-        <!-- lightning / speed -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
-        </svg>
-      </span>
-      <span class="trust-title">Velocidad</span>
-      <span class="trust-desc">Sin esperas de subida ni de descarga. Cuando el códec de vídeo se puede copiar tal cual, la conversión es un <strong>remux</strong> —el vídeo no se recodifica— y resulta mucho más rápida que una conversión completa.</span>
-    </div>
-  </div>
+  <ul class="trust-strip" aria-label="Ventajas">
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 4.5 6v5.5c0 4.4 3.1 7.6 7.5 9 4.4-1.4 7.5-4.6 7.5-9V6L12 3Z"/><path d="M9.3 12.2 11 14l3.7-3.8"/></svg><span><strong>Privado:</strong> tus vídeos no salen de tu equipo</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12h2.2L7.4 5l3 14 2.6-9 1.8 5 1.4-3H21"/></svg><span><strong>Sin pérdida:</strong> audio FLAC, idéntico al original</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg><span><strong>Rápido:</strong> el vídeo se copia sin recodificar cuando el códec lo permite</span></li>
+  </ul>
 
   <!-- Conversion counter -->
   <div class="conv-counter" id="convCounter">

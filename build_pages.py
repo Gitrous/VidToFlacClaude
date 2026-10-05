@@ -1033,6 +1033,10 @@ RE_SHARED_GUIDE = re.compile(
 RE_TRUST   = re.compile(r'  <!-- Trust pillars.*?(?=\n  <!-- Conversion counter)', re.S)
 RE_STEPS   = re.compile(r'  <!-- How it works.*?(?=\n  <!-- Before / after)', re.S)
 RE_COMPARE = re.compile(r'  <!-- Before / after.*?(?=\n  <!-- Ad:)', re.S)
+# Las dos capturas de Resolve (antes/después) de la cabecera de la portada.
+# Sin ellas la cabecera de la landing vuelve a ser una columna centrada: el CSS
+# solo pasa a dos columnas con `.header:has(.hero-visual)`.
+RE_HERO_VISUAL = re.compile(r'    <!-- Hero visual:.*?</figure>\n', re.S)
 
 # Secciones de cierre. La española mete los enlaces a los artículos dentro de la
 # misma sección de formatos; la inglesa los tiene en otra aparte, y su sección de
@@ -1078,7 +1082,7 @@ RE_PROBLEM_SHARED = re.compile(
 
 def strip_home_chrome(h: str) -> str:
     """Quita de una landing los bloques que solo tienen sentido en la portada."""
-    for rx in (RE_TRUST, RE_STEPS, RE_COMPARE, RE_HOWTO_JSONLD, RE_FORMAT_PICKER):
+    for rx in (RE_HERO_VISUAL, RE_TRUST, RE_STEPS, RE_COMPARE, RE_HOWTO_JSONLD, RE_FORMAT_PICKER):
         h = rx.sub('', h, count=1)
     h = RE_PROBLEM_SHARED.sub(r'\1', h, count=1)
 

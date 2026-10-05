@@ -202,8 +202,8 @@ el de n-gramas 64-67 % (motivo real del rechazo de AdSense). El vocabulario
 coincide por fuerza entre páginas del mismo tema; lo que delata el copiado son
 las secuencias literales.
 
-Referencia actual (25-09-2026, después de adelgazar las landings): **18,7-20,7 %**
-entre las cuatro landings propias y su portada, y **28-29 %** en el peor par de
+Referencia actual (5-10-2026, tras quitar el logo repetido de la cabecera): **16-18 %**
+entre las cuatro landings propias y su portada (18,7-20,7 % el 25-09), y **28-29 %** en el peor par de
 landings entre sí. Lo que queda es cabecera, pie, los controles del conversor y
 el texto de consentimiento: *boilerplate* funcional que no se puede quitar sin
 romper la página. Las páginas agrupadas van en el 4,6-9,7 %, y los artículos y
@@ -237,6 +237,14 @@ mismo patrón que `RE_DEMO` y `RE_SHARED_GUIDE`:
   de "muchas cámaras graban en AAC". Alrededor todo es propio —el h2, la
   entradilla y, desde el `<h3>`, el `seo_body` de cada formato—, así que
   quitándolo la sección entera pasa a ser única,
+- las **dos capturas de Resolve de la cabecera** (`RE_HERO_VISUAL`, antes/después
+  de la pista de audio). Desde el 5-10-2026 la cabecera de la portada son dos
+  columnas —texto a la izquierda, capturas reales a la derecha— y las tres
+  tarjetas de confianza pasaron a una franja de una línea (`.trust-strip`); se
+  quitó también el logo grande repetido bajo la barra de navegación. El CSS solo
+  pone las dos columnas con `.header:has(.hero-visual)`, así que en las landings,
+  sin capturas, la cabecera sigue centrada y el conversor sube a la primera
+  pantalla,
 - el **JSON-LD de `HowTo`** (`RE_HOWTO_JSONLD`), porque sus tres pasos dejan de
   estar visibles y los datos estructurados describen lo que la página muestra.
   De ahí que los bloques JSON-LD bajaran de 210 a 198.
