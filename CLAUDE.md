@@ -716,3 +716,12 @@ recodificación. Se comprueba con `ffprobe -show_entries stream=avg_frame_rate`.
 ## Sistema de diseño
 
 Estética oscura de "mesa de mastering": lienzo casi negro y cálido con un único **acento verde de señal** (`--amber` es verde `#19c37d`, a pesar del nombre) más colores de estado. Fuentes: Bricolage Grotesque (display), Hanken Grotesk (cuerpo), JetBrains Mono (etiquetas/logs/meta). Las custom properties de CSS en `:root` controlan todo; reutiliza los tokens existentes (`--ink*`, `--line*`, `--radius*`) y las clases de componentes (`.card`, `.badge`, `.trust-card`, etc.) en lugar de introducir colores nuevos. Respeta `prefers-reduced-motion`.
+
+Desde el 5-10-2026, tras auditar la portada con la skill de diseño: **sin rayas
+largas (—) en el texto visible de las portadas** (paréntesis, coma o dos puntos;
+también en los mensajes del registro y en el JSON-LD de FAQ que repite el texto),
+**sin etiquetas en mayúsculas espaciadas** sobre las secciones (`.card-title` va
+en la fuente del cuerpo, sin `uppercase`; solo los badges de estado y las
+etiquetas de extensión siguen en mayúsculas), sin "PASO 01/02/03" y **sin texto
+justificado**, que en columnas estrechas abría huecos entre palabras. Las landings
+lo heredan al regenerar, pero sus `hero_sub` de `PAGES` aún llevan rayas.

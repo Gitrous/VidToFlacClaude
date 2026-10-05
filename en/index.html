@@ -195,7 +195,7 @@
         "name": "How to extract audio from a video to FLAC without losing quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC uses FFmpeg to perform a remux: it copies the video stream bit by bit, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official FLAC codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly — without uploading the file to any server."
+          "text": "VidToFLAC uses FFmpeg to perform a remux: it copies the video stream bit by bit, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official FLAC codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly, without uploading the file to any server."
         }
       },
       {
@@ -211,7 +211,7 @@
         "name": "What is the difference between MP3 and FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MP3 is a lossy format: it compresses audio by discarding frequencies the ear perceives least, reducing size but irreversibly degrading quality. FLAC is a lossless format: it compresses data without discarding any information, so quality is identical to the original. For professional video editing and high-fidelity archiving, FLAC is the recommended choice — and DaVinci Resolve supports it natively."
+          "text": "MP3 is a lossy format: it compresses audio by discarding frequencies the ear perceives least, reducing size but irreversibly degrading quality. FLAC is a lossless format: it compresses data without discarding any information, so quality is identical to the original. For professional video editing and high-fidelity archiving, FLAC is the recommended choice, and DaVinci Resolve supports it natively."
         }
       }
     ]
@@ -395,17 +395,17 @@
     }
 
     .card-title {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--ink-mute);
+      color: var(--ink-dim);
       margin-bottom: 1.1rem;
     }
     .card-title .step {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
       color: var(--amber);
-      margin-right: 0.15rem;
+      margin-right: 0.35rem;
     }
 
     /* ── Engine status ───────────────────────────────────────── */
@@ -1481,13 +1481,6 @@
       color: var(--ink-mute);
       font-size: 0.85rem;
     }
-    .step-num {
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      color: var(--amber);
-    }
     .step-item-title {
       font-family: var(--font-display);
       font-weight: 700;
@@ -1533,11 +1526,9 @@
       border: 1px solid rgba(74,222,128,.22);
     }
     .compare-header {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       margin-bottom: 0.85rem;
       text-align: center;
     }
@@ -1615,7 +1606,6 @@
     /* Justify body copy in the "problema que solucionamos" section only */
     [aria-labelledby="problema-titulo"] p,
     [aria-labelledby="problema-titulo"] li {
-      text-align: justify;
       hyphens: auto;
     }
 
@@ -2146,7 +2136,7 @@
 
 <!-- Navbar -->
 <nav id="site-nav" aria-label="Main navigation">
-  <a class="nav-brand" href="/en/" aria-label="VidToFLAC — home">
+  <a class="nav-brand" href="/en/" aria-label="VidToFLAC, home">
     <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
       <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
       <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
@@ -2194,7 +2184,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Convert your video audio to <span class="accent">FLAC for DaVinci Resolve</span></h1>
-    <p class="hero-sub">Free, in seconds and 100% private. All processing happens inside your browser — not a single byte is uploaded to any server.</p>
+    <p class="hero-sub">Free, in seconds and 100% private. All processing happens inside your browser: not a single byte is uploaded to any server.</p>
     </div>
     <!-- Hero visual: real before/after captures (stripped from landings by RE_HERO_VISUAL) -->
     <figure class="hero-visual">
@@ -2255,7 +2245,7 @@
           <span>Auto-detect</span>
           <span class="format-dropdown-tag">Recommended</span>
         </button>
-        <span class="format-dropdown-hint">— or go straight to your format guide —</span>
+        <span class="format-dropdown-hint">or go straight to your format guide</span>
         <div class="format-dropdown-grid">
           <button type="button" class="format-dropdown-chip" data-url="/en/convert-mp4-to-flac/"  data-label="MP4 → FLAC">MP4 → FLAC</button>
           <button type="button" class="format-dropdown-chip" data-url="/en/convert-mov-to-flac/"  data-label="MOV → FLAC">MOV → FLAC</button>
@@ -2374,7 +2364,7 @@
   <div class="card progress-card" id="progressCard">
     <div class="progress-meta">
       <span class="progress-meta-label" id="progressLabel">Processing…</span>
-      <span class="progress-meta-pct" id="progressPct">—</span>
+      <span class="progress-meta-pct" id="progressPct">0%</span>
     </div>
     <div class="progress-track">
       <div class="progress-fill indeterminate" id="progressFill"></div>
@@ -2418,17 +2408,14 @@
     <div class="card-title">How it works</div>
     <div class="steps">
       <div class="step-item">
-        <span class="step-num">STEP 01</span>
         <span class="step-item-title">Select</span>
         <span class="step-desc">Drag your video or click to choose it. The file stays on your device.</span>
       </div>
       <div class="step-item">
-        <span class="step-num">STEP 02</span>
         <span class="step-item-title">Transcode only the audio</span>
         <span class="step-desc">The video retains 100% of its original quality: it's never re-rendered, only the audio is repackaged to FLAC.</span>
       </div>
       <div class="step-item">
-        <span class="step-num">STEP 03</span>
         <span class="step-item-title">Download instantly</span>
         <span class="step-desc">You get an MKV with FLAC audio ready for your timeline, with no upload wait.</span>
       </div>
@@ -2507,12 +2494,12 @@
     <article>
       <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your videos?</h2>
 
-      <p class="lede">If you've opened a clip in DaVinci Resolve and it shows <strong>no sound</strong> — or the audio track is greyed out — it's almost always an <strong>audio codec error</strong>, not a problem with your microphone or project.</p>
+      <p class="lede">If you've opened a clip in DaVinci Resolve and it shows <strong>no sound</strong> (or the audio track is greyed out), it's almost always an <strong>audio codec error</strong>, not a problem with your microphone or project.</p>
 
-      <p>Many cameras, recorders, and capture apps like <strong>OBS Studio</strong>, <strong>smartphones</strong>, or action cameras save audio with compressed codecs like <strong>AAC</strong> or <strong>MP3</strong> inside MP4 or MOV containers. The free version of DaVinci Resolve — and especially <strong>DaVinci Resolve on Linux</strong> and in professional environments — does not include the licenses to decode all those audio formats. The result is the classic <span class="hl">DaVinci Resolve no sound</span> issue, desynced audio, or clips that won't even import.</p>
+      <p>Many cameras, recorders, and capture apps like <strong>OBS Studio</strong>, <strong>smartphones</strong>, or action cameras save audio with compressed codecs like <strong>AAC</strong> or <strong>MP3</strong> inside MP4 or MOV containers. The free version of DaVinci Resolve, and especially <strong>DaVinci Resolve on Linux</strong> and in professional environments, does not include the licenses to decode all those audio formats. The result is the classic <span class="hl">DaVinci Resolve no sound</span> issue, desynced audio, or clips that won't even import.</p>
 
       <h3>The fix: change the container, not re-encode the video</h3>
-      <p>VidToFLAC performs a <strong>remux</strong>: it repackages your file into an <strong>MKV</strong> container and converts only the audio track to <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer and Final Cut Pro decode natively. When you <span class="hl">convert video audio to FLAC</span> this way, the video stream is copied <strong>bit by bit</strong>, without re-rendering a single frame — provided the source codec can be copied into the output container. When it cannot (H.265/HEVC, ProRes, DNxHD, MJPEG and the like), the video is re-encoded to H.264 at high quality; there is a full explanation further down.
+      <p>VidToFLAC performs a <strong>remux</strong>: it repackages your file into an <strong>MKV</strong> container and converts only the audio track to <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer and Final Cut Pro decode natively. When you <span class="hl">convert video audio to FLAC</span> this way, the video stream is copied <strong>bit by bit</strong>, without re-rendering a single frame, provided the source codec can be copied into the output container. When it cannot (H.265/HEVC, ProRes, DNxHD, MJPEG and the like), the video is re-encoded to H.264 at high quality; there is a full explanation further down.
 
       <p>This means three things for your workflow:</p>
       <ul>
@@ -2534,7 +2521,7 @@
       <details class="faq-item">
         <summary>Does VidToFLAC reduce my video quality?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>No.</strong> If the video codec can be copied into the output container, the video stream is copied <strong>bit by bit</strong>, without reopening or recompressing frames: it is a remux, not a re-encode, and the image is identical to the original. With codecs the browser cannot decode (H.265/HEVC, ProRes, DNxHD, MJPEG…) the video is re-encoded to H.264 at <code>-crf 18</code> — high quality, but not bit-for-bit identical. Either way the audio becomes <strong>FLAC</strong>, which is lossless.</p>
+          <p><strong>No.</strong> If the video codec can be copied into the output container, the video stream is copied <strong>bit by bit</strong>, without reopening or recompressing frames: it is a remux, not a re-encode, and the image is identical to the original. With codecs the browser cannot decode (H.265/HEVC, ProRes, DNxHD, MJPEG…) the video is re-encoded to H.264 at <code>-crf 18</code>: high quality, but not bit-for-bit identical. Either way the audio becomes <strong>FLAC</strong>, which is lossless.</p>
         </div>
       </details>
 
@@ -2587,7 +2574,7 @@
       <details class="faq-item">
         <summary>How to extract audio from a video to FLAC without losing quality?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>VidToFLAC uses <strong>FFmpeg</strong> to perform a <strong>remux</strong>: it copies the video stream <strong>bit by bit</strong>, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official <strong>FLAC</strong> codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly — without uploading the file to any server.</p>
+          <p>VidToFLAC uses <strong>FFmpeg</strong> to perform a <strong>remux</strong>: it copies the video stream <strong>bit by bit</strong>, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official <strong>FLAC</strong> codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly, without uploading the file to any server.</p>
         </div>
       </details>
 
@@ -2601,7 +2588,7 @@
       <details class="faq-item">
         <summary>What is the difference between MP3 and FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>MP3</strong> is a <strong>lossy</strong> format: it compresses audio by discarding frequencies the ear perceives least, reducing size but irreversibly degrading quality. <strong>FLAC</strong> is a <strong>lossless</strong> format: it compresses data without discarding any information, so quality is identical to the original. For professional video editing and high-fidelity archiving, FLAC is the recommended choice — and DaVinci Resolve supports it natively.</p>
+          <p><strong>MP3</strong> is a <strong>lossy</strong> format: it compresses audio by discarding frequencies the ear perceives least, reducing size but irreversibly degrading quality. <strong>FLAC</strong> is a <strong>lossless</strong> format: it compresses data without discarding any information, so quality is identical to the original. For professional video editing and high-fidelity archiving, FLAC is the recommended choice, and DaVinci Resolve supports it natively.</p>
         </div>
       </details>
     </div>
@@ -2615,11 +2602,11 @@
       <h2 id="guia-titulo">Containers, codecs, and DaVinci Resolve: everything you need to know</h2>
 
       <h3>Containers vs. codecs: the difference that matters</h3>
-      <p>When you record a video, the resulting file — a .mp4, .mov, or .mkv — is not the video itself: it is a <strong>container</strong>, a kind of envelope that packages multiple tracks inside: the picture and the audio. What actually defines quality and compatibility is the <strong>codec</strong>, the algorithm that compresses and decompresses each of those tracks.</p>
-      <p>A single container can hold multiple codecs. An MP4 file, for example, can contain H.264 or H.265 (HEVC) video, and audio in AAC, MP3, AC3, or even FLAC. When DaVinci Resolve — or another editor — cannot open the audio of a clip, the problem is rarely the container (.mp4, .mov, .mkv): almost always it is the <strong>audio codec</strong> inside.</p>
+      <p>When you record a video, the resulting file (a .mp4, .mov, or .mkv) is not the video itself: it is a <strong>container</strong>, a kind of envelope that packages multiple tracks inside: the picture and the audio. What actually defines quality and compatibility is the <strong>codec</strong>, the algorithm that compresses and decompresses each of those tracks.</p>
+      <p>A single container can hold multiple codecs. An MP4 file, for example, can contain H.264 or H.265 (HEVC) video, and audio in AAC, MP3, AC3, or even FLAC. When DaVinci Resolve (or another editor) cannot open the audio of a clip, the problem is rarely the container (.mp4, .mov, .mkv): almost always it is the <strong>audio codec</strong> inside.</p>
 
       <h3>Why DaVinci Resolve cannot decode certain audio</h3>
-      <p>DaVinci Resolve free edition <strong>does not include licenses</strong> for certain proprietary decoders — especially <strong>AAC</strong> (the standard format for iOS cameras, GoPro, and most smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong>, and <strong>DTS</strong>. This restriction is especially pronounced <strong>on Linux</strong>, where Resolve relies entirely on the decoders included in the operating system.</p>
+      <p>DaVinci Resolve free edition <strong>does not include licenses</strong> for certain proprietary decoders, especially <strong>AAC</strong> (the standard format for iOS cameras, GoPro, and most smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong>, and <strong>DTS</strong>. This restriction is especially pronounced <strong>on Linux</strong>, where Resolve relies entirely on the decoders included in the operating system.</p>
       <p>The most common symptom is finding the audio track grayed out in the media inspector, or seeing the message <em>"Audio codec not supported"</em> when trying to import the clip. Another frequent cause is audio encoded as <strong>floating-point PCM</strong> (pcm_f32le), which some USB microphones and recording software use, which is also not directly compatible with all Resolve workflows.</p>
       <p>The solution is not to reinstall DaVinci Resolve or look for paid codecs: it is to change the audio codec of the file to one that Resolve always decodes natively.</p>
 
@@ -2650,13 +2637,13 @@
   <section class="card seo-card" aria-labelledby="formatos-titulo">
     <div class="card-title">Supported input formats</div>
     <h2 id="formatos-titulo" style="margin-bottom:0.7rem">Works with virtually any video or audio file</h2>
-    <p>VidToFLAC automatically detects the input format — just drop your file. It handles MP4, MOV, MKV, AVI, WEBM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V video, plus MP3, AAC, M4A, WAV, AIFF, OGG, Opus and WMA audio. The video stream is copied bit-for-bit (a lossless remux) and only the audio is re-encoded to FLAC, so DaVinci Resolve, Premiere Pro and Avid import it with sound on Windows, macOS and Linux — no codec packs or plugins required.</p>
+    <p>VidToFLAC automatically detects the input format: just drop your file. It handles MP4, MOV, MKV, AVI, WEBM, WMV, FLV, MPEG, TS, VOB, 3GP and M4V video, plus MP3, AAC, M4A, WAV, AIFF, OGG, Opus and WMA audio. The video stream is copied bit-for-bit (a lossless remux) and only the audio is re-encoded to FLAC, so DaVinci Resolve, Premiere Pro and Avid import it with sound on Windows, macOS and Linux, with no codec packs or plugins required.</p>
   </section>
 
   <section class="card seo-card" aria-labelledby="guides-titulo">
     <div class="card-title">Guides and articles</div>
     <h2 id="guides-titulo" style="margin-bottom:0.7rem">Learn more about audio in DaVinci Resolve</h2>
-    <p>VidToFLAC automatically detects the input format — just drop your file. If you want to understand why audio fails in Resolve and how to avoid it, read our guides:</p>
+    <p>VidToFLAC automatically detects the input format: just drop your file. If you want to understand why audio fails in Resolve and how to avoid it, read our guides:</p>
     <nav class="format-links" aria-label="Articles and guides">
       <a href="/en/articles/davinci-resolve-audio-errors/">Audio errors in Resolve</a>
       <a href="/en/articles/best-video-format-for-davinci-resolve/">Which video format to use</a>
@@ -2677,7 +2664,7 @@
   <footer>
     <p class="footer-tagline">
       All processing happens on your device using
-      <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.
+      <strong>ffmpeg.wasm</strong>: no data ever leaves your browser.
     </p>
     <nav class="footer-links" aria-label="Legal pages">
       <a href="/en/privacy-policy/">Privacy policy</a>
@@ -3210,7 +3197,7 @@ function addFiles(fileList) {
     }
     // skip duplicates (same name + size)
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
-    if (dup) { log(`⚠ "${file.name}" is already in the list — ignored.`, 'warn'); continue; }
+    if (dup) { log(`⚠ "${file.name}" is already in the list: ignored.`, 'warn'); continue; }
 
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
@@ -3218,7 +3205,7 @@ function addFiles(fileList) {
     // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
     // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
     if (file.size > 800 * 1024 * 1024) {
-      log(`⚠ "${file.name}" is over 800 MB — it may fail on the WebAssembly memory limit.`, 'warn');
+      log(`⚠ "${file.name}" is over 800 MB: it may fail on the WebAssembly memory limit.`, 'warn');
       showLargeFileModal(file.name, file.size);
     }
     added++;
@@ -3477,7 +3464,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     const probeAudioCodec = probeAudioStreams[0]?.codec || '';
 
     if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
-      log(`⚠ No video stream detected — converting to audio-only FLAC…`, 'warn');
+      log(`⚠ No video stream detected: converting to audio-only FLAC…`, 'warn');
       outFormat  = 'flac';
       outputName = `output_${id}.flac`;
     }
@@ -3493,7 +3480,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     }
 
     const isFloatPCM = selectedStreams.some(s => /^pcm_f|^flt|^dbl/.test(s.codec));
-    if (isFloatPCM) log(`⚠ Float PCM detected — converting to integer before FLAC`, 'warn');
+    if (isFloatPCM) log(`⚠ Float PCM detected: converting to integer before FLAC`, 'warn');
 
     const audioAlreadyFlac = selectedStreams.length > 0 && selectedStreams.every(s => s.codec === 'flac');
     // FLAC dentro de MP4 sigue marcado como experimental en FFmpeg, y también hace
@@ -3534,7 +3521,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       const reason = browserIncompatibleVideo
         ? `this browser cannot play (${probeVideoCodec})`
         : `${probeVideoCodec}: the editor will not play it`;
-      log(`⚠ Video codec ${reason} — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
+      log(`⚠ Video codec ${reason}: re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
       if (hevcSource) log(`ℹ HEVC video is converted to H.264 so DaVinci Resolve can import it. If you only want to change container without the wait, use the Formats page.`, 'sys');
       if (editorIncompatibleVideo) log(`ℹ With ${probeVideoCodec} video copied as-is, DaVinci Resolve opens the clip but plays no audio. That is why it is re-encoded. The numbers are on the Tests page.`, 'sys');
     }
@@ -3572,7 +3559,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       await ffmpeg.exec(cmd);
     } catch (execErr) {
       if (!isAudioOnlyOutput && !reencoding) {
-        log('⚠ Stream copy failed — retrying with video re-encoding…', 'warn');
+        log('⚠ Stream copy failed: retrying with video re-encoding…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}
         await loadFFmpeg();
@@ -3599,7 +3586,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
     // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
     // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
-    if (!data || data.length === 0) throw new Error('the output came out empty — FFmpeg could not write the file. Try a different output format.');
+    if (!data || data.length === 0) throw new Error('the output came out empty: FFmpeg could not write the file. Try a different output format.');
 
     // 4 · Create blob & object URL
     const mimeType = outFormat === 'flac' ? 'audio/flac'

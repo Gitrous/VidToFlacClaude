@@ -331,17 +331,17 @@
     }
 
     .card-title {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--ink-mute);
+      color: var(--ink-dim);
       margin-bottom: 1.1rem;
     }
     .card-title .step {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
       color: var(--amber);
-      margin-right: 0.15rem;
+      margin-right: 0.35rem;
     }
 
     /* ── Engine status ───────────────────────────────────────── */
@@ -1417,13 +1417,6 @@
       color: var(--ink-mute);
       font-size: 0.85rem;
     }
-    .step-num {
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      color: var(--amber);
-    }
     .step-item-title {
       font-family: var(--font-display);
       font-weight: 700;
@@ -1469,11 +1462,9 @@
       border: 1px solid rgba(74,222,128,.22);
     }
     .compare-header {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       margin-bottom: 0.85rem;
       text-align: center;
     }
@@ -1551,7 +1542,6 @@
     /* Justify body copy in the "problema que solucionamos" section only */
     [aria-labelledby="problema-titulo"] p,
     [aria-labelledby="problema-titulo"] li {
-      text-align: justify;
       hyphens: auto;
     }
 
@@ -2093,7 +2083,7 @@
 
 <!-- Navbar -->
 <nav id="site-nav" aria-label="Navegación principal">
-  <a class="nav-brand" href="/" aria-label="VidToFLAC — inicio">
+  <a class="nav-brand" href="/" aria-label="VidToFLAC, inicio">
     <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
       <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
       <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
@@ -2263,7 +2253,7 @@
   <div class="card progress-card" id="progressCard">
     <div class="progress-meta">
       <span class="progress-meta-label" id="progressLabel">Procesando…</span>
-      <span class="progress-meta-pct" id="progressPct">—</span>
+      <span class="progress-meta-pct" id="progressPct">0%</span>
     </div>
     <div class="progress-track">
       <div class="progress-fill indeterminate" id="progressFill"></div>
@@ -2310,7 +2300,7 @@
     <article>
       <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MKV?</h2>
 
-      <p class="lede">Si has abierto un <strong>archivo MKV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> —o con la pista de audio en gris— el problema es el códec de audio del contenedor. Los MKV de <strong>OBS Studio</strong>, grabaciones de pantalla o cámaras pueden llevar audio en <strong>AAC, Opus, MP3 o Vorbis</strong>, formatos que DaVinci Resolve —sobre todo <strong>en Linux</strong>— no puede decodificar de serie.</p>
+      <p class="lede">Si has abierto un clip en DaVinci Resolve y aparece <strong>sin sonido</strong> (o directamente con la pista de audio en gris), casi siempre es un <strong>error de códec de audio</strong>, no un problema de tu micrófono ni de tu proyecto.</p>
 
       <h3>La solución para tus MKV: cambiar solo el audio a FLAC</h3>
       <p>El contenedor <strong>MKV</strong> (Matroska) acepta casi cualquier códec, y ahí está la trampa: muchos MKV de <strong>OBS Studio</strong>, grabaciones de pantalla o cámaras guardan el audio en <strong>Opus, AAC, MP3 o Vorbis</strong>, formatos que DaVinci Resolve no decodifica de serie. VidToFLAC mantiene el MKV, copia el vídeo <strong>bit a bit</strong> y recodifica únicamente el audio a <strong>FLAC</strong>.</p>
@@ -2434,7 +2424,7 @@
   <footer>
     <p class="footer-tagline">
       Todo el procesamiento ocurre en tu dispositivo usando
-      <strong>ffmpeg.wasm</strong> — ningún dato sale de tu navegador.
+      <strong>ffmpeg.wasm</strong>: ningún dato sale de tu navegador.
     </p>
     <nav class="footer-links" aria-label="Páginas legales">
       <a href="/politica-de-privacidad/">Política de privacidad</a>
@@ -2975,7 +2965,7 @@ function addFiles(fileList) {
     // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
     // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
     if (file.size > 800 * 1024 * 1024) {
-      log(`⚠ "${file.name}" supera 800 MB — puede fallar por límite de memoria WebAssembly.`, 'warn');
+      log(`⚠ "${file.name}" supera 800 MB: puede fallar por límite de memoria WebAssembly.`, 'warn');
       showLargeFileModal(file.name, file.size);
     }
     added++;
@@ -3236,7 +3226,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     const probeAudioCodec = probeAudioStreams[0]?.codec || '';
 
     if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
-      log(`⚠ Sin stream de vídeo detectado — convirtiendo a FLAC solo-audio…`, 'warn');
+      log(`⚠ Sin stream de vídeo detectado: convirtiendo a FLAC solo-audio…`, 'warn');
       outFormat  = 'flac';
       outputName = `output_${id}.flac`;
     }
@@ -3252,7 +3242,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     }
 
     const isFloatPCM = selectedStreams.some(s => /^pcm_f|^flt|^dbl/.test(s.codec));
-    if (isFloatPCM) log(`⚠ PCM flotante detectado — convirtiendo a entero antes de FLAC`, 'warn');
+    if (isFloatPCM) log(`⚠ PCM flotante detectado: convirtiendo a entero antes de FLAC`, 'warn');
 
     const audioAlreadyFlac = selectedStreams.length > 0 && selectedStreams.every(s => s.codec === 'flac');
     // FLAC dentro de MP4 sigue marcado como experimental en FFmpeg, y también hace
@@ -3293,7 +3283,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       const motivo = browserIncompatibleVideo
         ? `no compatible con navegador (${probeVideoCodec})`
         : `${probeVideoCodec}: el editor no lo reproduce`;
-      log(`⚠ Códec de vídeo ${motivo} — re-codificando con H.264…` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
+      log(`⚠ Códec de vídeo ${motivo}: re-codificando con H.264…` + (eta ? ` Estimado: ${eta}. No se ha colgado, es normal que tarde.` : ''), 'warn');
       if (hevcSource) log(`ℹ El vídeo HEVC se convierte a H.264 para que DaVinci Resolve pueda importarlo. Si solo quieres cambiar de contenedor sin esperar, usa la página Formatos.`, 'sys');
       if (editorIncompatibleVideo) log(`ℹ Con el vídeo ${probeVideoCodec} copiado tal cual, DaVinci Resolve abre el clip pero no reproduce el audio. Por eso se recodifica. Los números están en la página Pruebas.`, 'sys');
     }
@@ -3332,7 +3322,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       await ffmpeg.exec(cmd);
     } catch (execErr) {
       if (!isAudioOnlyOutput && !reencoding) {
-        log('⚠ Copia de stream fallida — reintentando con re-codificación de vídeo…', 'warn');
+        log('⚠ Copia de stream fallida: reintentando con re-codificación de vídeo…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}
         await loadFFmpeg();
@@ -3359,7 +3349,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
     // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
     // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
-    if (!data || data.length === 0) throw new Error('la salida ha quedado vacía — FFmpeg no ha podido escribir el archivo. Prueba con otro formato de salida.');
+    if (!data || data.length === 0) throw new Error('la salida ha quedado vacía: FFmpeg no ha podido escribir el archivo. Prueba con otro formato de salida.');
 
     // 4 · Create blob & object URL
     const mimeType = outFormat === 'flac' ? 'audio/flac'
@@ -3460,7 +3450,7 @@ convertBtn.addEventListener('click', async () => {
     renderFileList();
     setEngine('Motor listo', 'ready');
     const nMT = toProcesar.filter(([, e]) => (e.probeInfo?.audioStreams?.length ?? 0) > 1).length;
-    log(`${nMT === 1 ? 'Un archivo tiene' : `${nMT} archivos tienen`} varias pistas de audio — selecciona las que quieres conservar y pulsa «Iniciar conversión».`, 'sys');
+    log(`${nMT === 1 ? 'Un archivo tiene' : `${nMT} archivos tienen`} varias pistas de audio: selecciona las que quieres conservar y pulsa «Iniciar conversión».`, 'sys');
     updateConvertBtn();
     return;
   }

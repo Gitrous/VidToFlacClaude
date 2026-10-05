@@ -331,17 +331,17 @@
     }
 
     .card-title {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--ink-mute);
+      color: var(--ink-dim);
       margin-bottom: 1.1rem;
     }
     .card-title .step {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
       color: var(--amber);
-      margin-right: 0.15rem;
+      margin-right: 0.35rem;
     }
 
     /* ── Engine status ───────────────────────────────────────── */
@@ -1417,13 +1417,6 @@
       color: var(--ink-mute);
       font-size: 0.85rem;
     }
-    .step-num {
-      font-family: var(--font-mono);
-      font-size: 0.66rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      color: var(--amber);
-    }
     .step-item-title {
       font-family: var(--font-display);
       font-weight: 700;
@@ -1469,11 +1462,9 @@
       border: 1px solid rgba(74,222,128,.22);
     }
     .compare-header {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       margin-bottom: 0.85rem;
       text-align: center;
     }
@@ -1551,7 +1542,6 @@
     /* Justify body copy in the "problema que solucionamos" section only */
     [aria-labelledby="problema-titulo"] p,
     [aria-labelledby="problema-titulo"] li {
-      text-align: justify;
       hyphens: auto;
     }
 
@@ -2093,7 +2083,7 @@
 
 <!-- Navbar -->
 <nav id="site-nav" aria-label="Main navigation">
-  <a class="nav-brand" href="/en/" aria-label="VidToFLAC — home">
+  <a class="nav-brand" href="/en/" aria-label="VidToFLAC, home">
     <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true" focusable="false">
       <rect class="bar" x="2"  y="6"  width="3" height="10" rx="1.5" fill="#19c37d"/>
       <rect class="bar" x="7"  y="3"  width="3" height="16" rx="1.5" fill="#4ee6a8"/>
@@ -2263,7 +2253,7 @@
   <div class="card progress-card" id="progressCard">
     <div class="progress-meta">
       <span class="progress-meta-label" id="progressLabel">Processing…</span>
-      <span class="progress-meta-pct" id="progressPct">—</span>
+      <span class="progress-meta-pct" id="progressPct">0%</span>
     </div>
     <div class="progress-track">
       <div class="progress-fill indeterminate" id="progressFill"></div>
@@ -2432,7 +2422,7 @@
   <footer>
     <p class="footer-tagline">
       All processing happens on your device using
-      <strong>ffmpeg.wasm</strong> — no data ever leaves your browser.
+      <strong>ffmpeg.wasm</strong>: no data ever leaves your browser.
     </p>
     <nav class="footer-links" aria-label="Legal pages">
       <a href="/en/privacy-policy/">Privacy policy</a>
@@ -2965,7 +2955,7 @@ function addFiles(fileList) {
     }
     // skip duplicates (same name + size)
     const dup = [...files.values()].some(e => e.file.name === file.name && e.file.size === file.size);
-    if (dup) { log(`⚠ "${file.name}" is already in the list — ignored.`, 'warn'); continue; }
+    if (dup) { log(`⚠ "${file.name}" is already in the list: ignored.`, 'warn'); continue; }
 
     // Todo archivo queda pendiente: nada se procesa hasta pulsar "Convertir".
     files.set(nextId++, { file, status: 'pending', outputURL: null, outBaseName: null, customBaseName: null });
@@ -2973,7 +2963,7 @@ function addFiles(fileList) {
     // ffmpeg.wasm (single-thread, 32-bit heap) tiene ~2 GB de memoria total.
     // Con archivos > 800 MB, la entrada + salida pueden superar ese límite.
     if (file.size > 800 * 1024 * 1024) {
-      log(`⚠ "${file.name}" is over 800 MB — it may fail on the WebAssembly memory limit.`, 'warn');
+      log(`⚠ "${file.name}" is over 800 MB: it may fail on the WebAssembly memory limit.`, 'warn');
       showLargeFileModal(file.name, file.size);
     }
     added++;
@@ -3232,7 +3222,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     const probeAudioCodec = probeAudioStreams[0]?.codec || '';
 
     if (!audioOnly && outFormat !== 'flac' && probeVideoCodec === '') {
-      log(`⚠ No video stream detected — converting to audio-only FLAC…`, 'warn');
+      log(`⚠ No video stream detected: converting to audio-only FLAC…`, 'warn');
       outFormat  = 'flac';
       outputName = `output_${id}.flac`;
     }
@@ -3248,7 +3238,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     }
 
     const isFloatPCM = selectedStreams.some(s => /^pcm_f|^flt|^dbl/.test(s.codec));
-    if (isFloatPCM) log(`⚠ Float PCM detected — converting to integer before FLAC`, 'warn');
+    if (isFloatPCM) log(`⚠ Float PCM detected: converting to integer before FLAC`, 'warn');
 
     const audioAlreadyFlac = selectedStreams.length > 0 && selectedStreams.every(s => s.codec === 'flac');
     // FLAC dentro de MP4 sigue marcado como experimental en FFmpeg, y también hace
@@ -3289,7 +3279,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       const reason = browserIncompatibleVideo
         ? `this browser cannot play (${probeVideoCodec})`
         : `${probeVideoCodec}: the editor will not play it`;
-      log(`⚠ Video codec ${reason} — re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
+      log(`⚠ Video codec ${reason}: re-encoding to H.264…` + (eta ? ` Estimate: ${eta}. It has not frozen, this simply takes a while.` : ''), 'warn');
       if (hevcSource) log(`ℹ HEVC video is converted to H.264 so DaVinci Resolve can import it. If you only want to change container without the wait, use the Formats page.`, 'sys');
       if (editorIncompatibleVideo) log(`ℹ With ${probeVideoCodec} video copied as-is, DaVinci Resolve opens the clip but plays no audio. That is why it is re-encoded. The numbers are on the Tests page.`, 'sys');
     }
@@ -3327,7 +3317,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
       await ffmpeg.exec(cmd);
     } catch (execErr) {
       if (!isAudioOnlyOutput && !reencoding) {
-        log('⚠ Stream copy failed — retrying with video re-encoding…', 'warn');
+        log('⚠ Stream copy failed: retrying with video re-encoding…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}
         await loadFFmpeg();
@@ -3354,7 +3344,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
     // ffmpeg.wasm no siempre lanza excepción cuando el muxer falla: puede terminar
     // dejando un archivo de 0 bytes. Sin esta comprobación se anunciaba como éxito.
-    if (!data || data.length === 0) throw new Error('the output came out empty — FFmpeg could not write the file. Try a different output format.');
+    if (!data || data.length === 0) throw new Error('the output came out empty: FFmpeg could not write the file. Try a different output format.');
 
     // 4 · Create blob & object URL
     const mimeType = outFormat === 'flac' ? 'audio/flac'
