@@ -35,7 +35,7 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://vidtoflac.tech/en/convert-mp4-to-flac/" />
   <meta property="og:title" content="Convert MP4 to FLAC – Lossless Audio | VidToFLAC" />
-  <meta property="og:description" content="Convert your MP4 audio to FLAC in your browser. Fixes the DaVinci Resolve audio error on MP4 files — nothing uploaded." />
+  <meta property="og:description" content="Convert your MP4 audio to FLAC in your browser. Fixes the DaVinci Resolve audio error on MP4 files: nothing uploaded." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:type" content="image/png" />
@@ -46,7 +46,7 @@
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convert MP4 to FLAC – Lossless Audio | VidToFLAC" />
-  <meta name="twitter:description" content="Convert your MP4 audio to FLAC in your browser. Fixes the DaVinci Resolve audio error — nothing uploaded." />
+  <meta name="twitter:description" content="Convert your MP4 audio to FLAC in your browser. Fixes the DaVinci Resolve audio error: nothing uploaded." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
   <meta name="twitter:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, 100% private and local." />
 
@@ -115,7 +115,7 @@
         "name": "Do I lose video quality converting an MP4 to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "If the video is H.264 it is copied bit for bit without recompression: that is a remux, not a re-encode. If it is H.265/HEVC the browser cannot decode it, so the video is re-encoded to H.264 at high quality (-crf 18) — very close to the original, though not bit-for-bit identical. The audio becomes FLAC, which is lossless, in both cases."
+          "text": "If the video is H.264 it is copied bit for bit without recompression: that is a remux, not a re-encode. If it is H.265/HEVC the browser cannot decode it, so the video is re-encoded to H.264 at high quality (-crf 18): very close to the original, though not bit-for-bit identical. The audio becomes FLAC, which is lossless, in both cases."
         }
       },
       {
@@ -123,7 +123,7 @@
         "name": "Why does DaVinci Resolve open my MP4 but play no sound?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Because the MP4 stores its audio as AAC or MP3, and the free DaVinci Resolve — especially on Linux — ships no licence to decode them. The video decoders are included, which is why you see the picture but hear nothing."
+          "text": "Because the MP4 stores its audio as AAC or MP3, and the free DaVinci Resolve (especially on Linux) ships no licence to decode them. The video decoders are included, which is why you see the picture but hear nothing."
         }
       },
       {
@@ -139,7 +139,7 @@
         "name": "Does it work with H.265 (HEVC) MP4 files?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The audio is converted to FLAC regardless. If your browser cannot decode the HEVC video for on-page preview, VidToFLAC re-encodes it to H.264 — which is also what DaVinci Resolve Free prefers, since it struggles with HEVC in its own right."
+          "text": "Yes. The audio is converted to FLAC regardless. If your browser cannot decode the HEVC video for on-page preview, VidToFLAC re-encodes it to H.264, which is also what DaVinci Resolve Free prefers, since it struggles with HEVC in its own right."
         }
       },
       {
@@ -1372,26 +1372,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2131,7 +2143,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Convert your <span class="accent">MP4 to FLAC</span> without losing quality</h1>
-    <p class="hero-sub">Fixes the DaVinci Resolve audio codec error on MP4 files from cameras, OBS and smartphones. Processing is 100% local — not a single byte is uploaded to any server.</p>
+    <p class="hero-sub">Fixes the DaVinci Resolve audio codec error on MP4 files from cameras, OBS and smartphones. Processing is 100% local, not a single byte is uploaded to any server.</p>
     </div>
   </header>
 
@@ -2300,14 +2312,14 @@
     <article>
       <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your MP4 files?</h2>
 
-      <p class="lede">If you have opened an <strong>MP4 file</strong> in DaVinci Resolve and it plays <strong>silently</strong> — or the audio track sits greyed out — it is almost always the audio codec. MP4s recorded by cameras, OBS Studio and smartphones carry <strong>AAC or MP3</strong> audio, and the free DaVinci Resolve — especially <strong>on Linux</strong> — ships no licence to decode them.</p>
+      <p class="lede">If you have opened an <strong>MP4 file</strong> in DaVinci Resolve and it plays <strong>silently</strong> (or the audio track sits greyed out) it is almost always the audio codec. MP4s recorded by cameras, OBS Studio and smartphones carry <strong>AAC or MP3</strong> audio, and the free DaVinci Resolve (especially <strong>on Linux</strong>) ships no licence to decode them.</p>
 
       <h3>The fix for your MP4: remux to MKV with FLAC audio</h3>
-      <p>The trick is to separate the two halves of the problem. The <strong>video</strong> in your MP4 — normally H.264 or H.265 — is almost always perfectly compatible; what DaVinci Resolve cannot stomach is the <strong>AAC or MP3 audio</strong>. VidToFLAC repackages the MP4 into an <strong>MKV</strong> container, copying the video across <strong>bit for bit</strong> and re-encoding only the audio track to lossless <strong>FLAC</strong>.</p>
+      <p>The trick is to separate the two halves of the problem. The <strong>video</strong> in your MP4 (normally H.264 or H.265) is almost always perfectly compatible; what DaVinci Resolve cannot stomach is the <strong>AAC or MP3 audio</strong>. VidToFLAC repackages the MP4 into an <strong>MKV</strong> container, copying the video across <strong>bit for bit</strong> and re-encoding only the audio track to lossless <strong>FLAC</strong>.</p>
 
       <p>Because the video is never recompressed, no quality is lost and the job is far quicker than a full conversion. The resulting MKV imports with sound into DaVinci Resolve, Premiere Pro and Avid, with no codecs or plugins to install.</p>
 
-      <p>If your MP4 carries video the browser cannot decode — HEVC/H.265 on some machines, for instance — VidToFLAC re-encodes it to H.264 at high quality so that preview works on the page. The audio still ends up as FLAC either way.</p>
+      <p>If your MP4 carries video the browser cannot decode (HEVC/H.265 on some machines, for instance) VidToFLAC re-encodes it to H.264 at high quality so that preview works on the page. The audio still ends up as FLAC either way.</p>
     </article>
   </section>
 
@@ -2331,13 +2343,13 @@
       <details class="faq-item">
         <summary>Do I lose video quality converting an MP4 to FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>If the video is H.264 it is copied <strong>bit for bit</strong> without recompression: that is a remux, not a re-encode. If it is <strong>H.265/HEVC</strong> the browser cannot decode it, so the video is re-encoded to H.264 at high quality (<code>-crf 18</code>) — very close to the original, though not bit-for-bit identical. The audio becomes FLAC, which is lossless, in both cases.</p>
+          <p>If the video is H.264 it is copied <strong>bit for bit</strong> without recompression: that is a remux, not a re-encode. If it is <strong>H.265/HEVC</strong> the browser cannot decode it, so the video is re-encoded to H.264 at high quality (<code>-crf 18</code>): very close to the original, though not bit-for-bit identical. The audio becomes FLAC, which is lossless, in both cases.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary>Why does DaVinci Resolve open my MP4 but play no sound?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Because the MP4 stores its audio as <strong>AAC or MP3</strong>, and the free DaVinci Resolve — especially on Linux — ships no licence to decode them. The video decoders are included, which is why you see the picture but hear nothing.</p>
+          <p>Because the MP4 stores its audio as <strong>AAC or MP3</strong>, and the free DaVinci Resolve (especially on Linux) ships no licence to decode them. The video decoders are included, which is why you see the picture but hear nothing.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2358,7 +2370,7 @@
       <details class="faq-item">
         <summary>Does it work with H.265 (HEVC) MP4 files?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Yes. The audio is converted to FLAC regardless. If your browser cannot decode the HEVC video for on-page preview, VidToFLAC re-encodes it to H.264 — which is also what DaVinci Resolve Free prefers, since it struggles with HEVC in its own right.</p>
+          <p>Yes. The audio is converted to FLAC regardless. If your browser cannot decode the HEVC video for on-page preview, VidToFLAC re-encodes it to H.264, which is also what DaVinci Resolve Free prefers, since it struggles with HEVC in its own right.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2381,7 +2393,7 @@
       <h3>The MP4 container and its audio codecs</h3>
       <p>MP4 (MPEG-4 Part 14) is the most widespread video container there is: DSLRs, smartphones, OBS Studio and practically every video platform use it. Its popularity comes from packing H.264 or H.265 video together with audio into one compact file. The trouble is the audio codec: the overwhelming majority of MP4 files carry <strong>AAC-LC</strong> (Low Complexity), the standard profile for consumer devices. OBS can also produce <strong>MP3</strong> depending on how it is configured. Less commonly, field recorders write MP4 with <strong>linear PCM</strong>, which Resolve does read without conversion.</p>
       <h3>Why DaVinci Resolve greys out the audio track</h3>
-      <p>The free DaVinci Resolve — most visibly on Linux — ships no AAC decoder, because the licence is proprietary and costs money per distribution. Open an MP4 with AAC and the media inspector may show the audio greyed out, the clip with no waveform, or the message <em>"Audio codec not supported (AAC)"</em>. The restriction affects audio only: H.264 and H.265 video open fine, because those decoders are included. The fix is to replace the AAC with <strong>FLAC</strong>, which Resolve decodes natively on every platform.</p>
+      <p>The free DaVinci Resolve (most visibly on Linux) ships no AAC decoder, because the licence is proprietary and costs money per distribution. Open an MP4 with AAC and the media inspector may show the audio greyed out, the clip with no waveform, or the message <em>"Audio codec not supported (AAC)"</em>. The restriction affects audio only: H.264 and H.265 video open fine, because those decoders are included. The fix is to replace the AAC with <strong>FLAC</strong>, which Resolve decodes natively on every platform.</p>
       <h3>Step by step: converting your MP4 to FLAC</h3>
       <ol>
         <li>Drop your .mp4 onto the upload area, or click <strong>Select files</strong>.</li>
@@ -2392,7 +2404,7 @@
       <h3>Common problems and what to do</h3>
       <p>If your MP4 carries <strong>H.265 / HEVC</strong> video and the job takes longer than you expected, it is because the browser cannot decode HEVC for preview. VidToFLAC re-encodes the video to H.264 in that case; the audio is still FLAC and the file still works in Resolve. If the MP4 has several audio tracks (stereo plus surround, say), VidToFLAC detects them before converting and shows a checkbox per track, all ticked: each one you keep reaches the file as a separate FLAC track. From the terminal, <code>ffmpeg -i input -map 0:v -map 0:a -c:v copy -c:a flac output.mkv</code> does the same.</p>
       <h3>Where an MP4 keeps its index: the <em>moov atom</em></h3>
-      <p>Every MP4 carries an internal index called the <strong>moov atom</strong> that says where each chunk of video and audio begins. Depending on the software that wrote the file, that index can sit at the start or at the end. When it sits at the end, some players need the whole file before they can play anything — which is why a partly downloaded MP4 often refuses to open. VidToFLAC reads the entire file on your machine before converting, so the position of the <em>moov atom</em> makes no difference to the result.</p>
+      <p>Every MP4 carries an internal index called the <strong>moov atom</strong> that says where each chunk of video and audio begins. Depending on the software that wrote the file, that index can sit at the start or at the end. When it sits at the end, some players need the whole file before they can play anything, which is why a partly downloaded MP4 often refuses to open. VidToFLAC reads the entire file on your machine before converting, so the position of the <em>moov atom</em> makes no difference to the result.</p>
       <h3>Measured: what happened to a test MP4</h3>
       <p>In the <a href="/en/test-bench/">test bench</a>, a six-second MP4 was built with H.264 video and AAC-LC audio at 192 kbps, the profile cameras, phones and OBS use. Run through the tool, the video was <strong>copied without re-encoding</strong> and the file grew from <strong>807 KB to 1,019 KB</strong>: 26 % larger. That growth is the price of moving from lossy to lossless audio, and it is normal for this format. If your MP4 carries H.265/HEVC video the story changes: in the same run, an HEVC MP4 went from 491 KB to 2,458 KB, because there the video does have to be re-encoded to H.264.</p>
     </article>

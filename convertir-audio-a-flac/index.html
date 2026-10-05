@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir MP3, AAC, M4A, OGG, Opus, WMA y AIFF a FLAC | VidToFLAC</title>
-  <meta name="description" content="Siete formatos de audio —MP3, AAC, M4A, AIFF, OGG, Opus y WMA—: por qué tu editor no los lee y qué ganas, y qué no, al pasarlos a FLAC." />
+  <meta name="description" content="Siete formatos de audio (MP3, AAC, M4A, AIFF, OGG, Opus y WMA): por qué tu editor no los lee y qué ganas, y qué no, al pasarlos a FLAC." />
   <meta name="keywords" content="convertir MP3 a FLAC, convertir AAC a FLAC, M4A a FLAC, OGG a FLAC, Opus a FLAC, WMA a FLAC, AIFF a FLAC, audio a FLAC DaVinci Resolve" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -1388,26 +1388,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2436,7 +2448,7 @@
       <h3>Las patentes del MP3 caducaron en 2017</h3>
       <p>El programa de licencias de MP3 se cerró en <strong>2017</strong>, así que hoy el formato es libre de patentes. Aun así, varias distribuciones de DaVinci Resolve en <strong>Linux</strong> siguen sin el decodificador activado de fábrica: la decisión viene del empaquetado del programa, no de una restricción legal vigente. Por eso el problema sobrevive años a la causa que lo originó.</p>
       <h3>La solución: convertir MP3 a FLAC para edición y archivado</h3>
-      <p><strong>MP3</strong> es el formato con pérdida más extendido, pero no siempre se integra bien en editores de vídeo profesionales. Convertir a <strong>FLAC</strong> —sin pérdida— garantiza compatibilidad nativa con DaVinci Resolve, Premiere Pro y Avid, sobre todo en <strong>Linux</strong>, donde los decodificadores de MP3 pueden faltar.</p>
+      <p><strong>MP3</strong> es el formato con pérdida más extendido, pero no siempre se integra bien en editores de vídeo profesionales. Convertir a <strong>FLAC</strong> (sin pérdida) garantiza compatibilidad nativa con DaVinci Resolve, Premiere Pro y Avid, sobre todo en <strong>Linux</strong>, donde los decodificadores de MP3 pueden faltar.</p>
 
       <p>Pasar de MP3 a FLAC no recupera la calidad perdida en la compresión original, pero <strong>evita que se degrade más</strong> y deja el audio en un formato estable para reeditar tantas veces como quieras.</p>
 
@@ -2451,7 +2463,7 @@
       <h3>¿Qué es AAC y por qué está en todas partes?</h3>
       <p>AAC (Advanced Audio Coding) es el códec de audio con pérdida que sucedió al MP3 como estándar de la industria. Lo adoptaron Apple (iPhone, iTunes, Apple Music), YouTube (como códec de audio en muchos streams), las grabaciones de voz de WhatsApp, los vídeos de cámaras digitales y la mayoría de aplicaciones de grabación en iOS y Android. AAC ofrece mejor calidad que MP3 al mismo bitrate, pero sigue siendo un formato <strong>con pérdida</strong>: elimina información de frecuencias que el algoritmo considera prescindible. Eso significa que cada vez que recodificas un AAC a otro formato con pérdida, la calidad se degrada un poco más.</p>
       <h3>Por qué no deberías quedarte con el AAC para edición</h3>
-      <p>En un flujo de trabajo de edición profesional, el audio pasa por múltiples etapas: importación, edición en el timeline, mezcla, exportación. Si el audio de partida es AAC, cada operación de recodificación acumula artefactos. Además, DaVinci Resolve gratuito —en especial <strong>en Linux</strong>— no incluye el decodificador de AAC, por lo que no podrás ni abrirlo. Convertir a <strong>FLAC</strong> en este paso garantiza que trabajas con audio sin pérdida desde el principio, evitando degradaciones acumulativas y asegurando la compatibilidad con el editor.</p>
+      <p>En un flujo de trabajo de edición profesional, el audio pasa por múltiples etapas: importación, edición en el timeline, mezcla, exportación. Si el audio de partida es AAC, cada operación de recodificación acumula artefactos. Además, DaVinci Resolve gratuito (en especial <strong>en Linux</strong>) no incluye el decodificador de AAC, por lo que no podrás ni abrirlo. Convertir a <strong>FLAC</strong> en este paso garantiza que trabajas con audio sin pérdida desde el principio, evitando degradaciones acumulativas y asegurando la compatibilidad con el editor.</p>
       <h3>Diferencias técnicas entre AAC y FLAC</h3>
       <p>AAC usa compresión <em>destructiva</em> basada en modelos perceptuales del oído humano: elimina información que el algoritmo considera inaudible para reducir el tamaño. FLAC usa compresión <em>lossless</em> basada en predicción lineal: codifica la diferencia entre la señal real y la predicha, de modo que la decodificación restaura exactamente la señal original. Un archivo AAC de 3 minutos a 128 kbps pesa unos 2,9 MB; el mismo audio en FLAC a 16 bit / 44.1 kHz pesaría unos 20 MB, pero con calidad idéntica al original sin comprimir.</p>
       <h3>Paso a paso: convertir tu AAC a FLAC</h3>
@@ -2468,7 +2480,7 @@
       <h3>La solución: pasar tu AAC a FLAC para compatibilidad sin pérdidas futuras</h3>
       <p><strong>AAC</strong> es un formato <strong>con pérdida</strong>: cada recodificación degrada un poco más el audio. Convertir a <strong>FLAC</strong> no recupera la calidad ya perdida, pero <strong>congela</strong> el audio en un formato sin pérdida, de modo que cualquier edición o exportación posterior no añade más degradación.</p>
 
-      <p>Además, DaVinci Resolve —especialmente en Linux— no decodifica AAC de serie, por lo que pasar tu audio a FLAC soluciona de raíz el <strong>error de códec de audio</strong> al importar.</p>
+      <p>Además, DaVinci Resolve (especialmente en Linux) no decodifica AAC de serie, por lo que pasar tu audio a FLAC soluciona de raíz el <strong>error de códec de audio</strong> al importar.</p>
 
       <p>Como se trata de un archivo solo de audio, la salida es un <strong>.flac</strong> directo, generado en tu navegador sin subir nada a ningún servidor.</p>
     </article>
@@ -2495,7 +2507,7 @@
       <h3>Si tu M4A es ALAC, ya era sin pérdida</h3>
       <p>No todos los M4A llevan AAC. Los que vienen de Apple Music en calidad <em>lossless</em> o de exportaciones de iTunes pueden contener <strong>ALAC</strong> (Apple Lossless). En ese caso pasar a FLAC no es una recompresión: es un cambio entre dos formatos sin pérdida, con el mismo contenido exacto y distinto empaquetado. El resultado es idéntico muestra a muestra, solo que FLAC sí lo lee Resolve.</p>
       <h3>La solución: liberar el audio AAC de tus M4A a FLAC</h3>
-      <p>Los <strong>M4A</strong> de iPhone, las grabaciones de voz de Apple y las exportaciones de iTunes contienen audio <strong>AAC</strong> dentro de un contenedor MPEG-4. DaVinci Resolve no decodifica AAC de serie —menos en Linux—, lo que provoca pistas en gris o un <strong>error de códec de audio</strong>.</p>
+      <p>Los <strong>M4A</strong> de iPhone, las grabaciones de voz de Apple y las exportaciones de iTunes contienen audio <strong>AAC</strong> dentro de un contenedor MPEG-4. DaVinci Resolve no decodifica AAC de serie (menos en Linux), lo que provoca pistas en gris o un <strong>error de códec de audio</strong>.</p>
 
       <p>VidToFLAC extrae ese audio y lo convierte a <strong>FLAC</strong>, un formato abierto y sin pérdida. No recupera la calidad perdida por el AAC, pero evita degradaciones futuras y da compatibilidad inmediata.</p>
 
@@ -2523,11 +2535,11 @@
       <h3>Compatibilidad de AIFF con metadatos</h3>
       <p>AIFF soporta metadatos a través del chunk ID3, pero con limitaciones frente a FLAC, que soporta etiquetas Vorbis Comment nativas con campos arbitrarios (artista, álbum, año, número de pista, letra, portada). Si tu flujo de trabajo de archivo requiere metadatos completos, la conversión a FLAC también mejora la gestión de la biblioteca de audio.</p>
       <h3>AIFF y WAV: misma calidad, distinto orden de bytes</h3>
-      <p>AIFF y WAV guardan lo mismo —<strong>PCM sin comprimir</strong>— y son equivalentes en calidad; lo que cambia es el orden de bytes (<em>big-endian</em> en AIFF, <em>little-endian</em> en WAV) y la cabecera. Pasar a FLAC aporta compresión sin pérdida y metadatos más robustos, sin tocar una sola muestra del original.</p>
+      <p>AIFF y WAV guardan lo mismo (<strong>PCM sin comprimir</strong>) y son equivalentes en calidad; lo que cambia es el orden de bytes (<em>big-endian</em> en AIFF, <em>little-endian</em> en WAV) y la cabecera. Pasar a FLAC aporta compresión sin pérdida y metadatos más robustos, sin tocar una sola muestra del original.</p>
       <h3>La solución: comprimir AIFF a FLAC sin perder calidad</h3>
-      <p><strong>AIFF</strong> —el equivalente de Apple al WAV— y <strong>FLAC</strong> son ambos <strong>sin pérdida</strong>, pero AIFF no comprime los datos: ocupa mucho espacio. FLAC aplica compresión lossless y reduce el tamaño entre un <strong>40% y un 60%</strong> sin descartar ni un bit de información.</p>
+      <p><strong>AIFF</strong> (el equivalente de Apple al WAV) y <strong>FLAC</strong> son ambos <strong>sin pérdida</strong>, pero AIFF no comprime los datos: ocupa mucho espacio. FLAC aplica compresión lossless y reduce el tamaño entre un <strong>40% y un 60%</strong> sin descartar ni un bit de información.</p>
 
-      <p>El audio resultante es <strong>idéntico</strong> al AIFF original —misma frecuencia y profundidad de bits— pero mucho más ligero, perfecto para archivar o editar sin saturar el disco.</p>
+      <p>El audio resultante es <strong>idéntico</strong> al AIFF original (misma frecuencia y profundidad de bits) pero mucho más ligero, perfecto para archivar o editar sin saturar el disco.</p>
 
       <p>Obtienes un <strong>.flac</strong> generado en tu navegador, sin enviar el audio a ningún servidor.</p>
     </article>
@@ -2540,7 +2552,7 @@
       <h3>¿Qué es OGG y cuándo lo encuentras?</h3>
       <p>OGG es un formato contenedor de código abierto desarrollado por la Fundación Xiph.Org. El archivo .ogg contiene habitualmente audio con el códec <strong>Vorbis</strong>, aunque también puede contener FLAC u Opus. OGG Vorbis fue diseñado como alternativa libre a MP3 y AAC: ofrece calidad comparable a bitrates más bajos y sin restricciones de patentes. Lo encontrarás en: efectos de sonido de videojuegos (muchos motores como Godot o Unity exportan audio en OGG), música distribuida en plataformas de código abierto, archivos de audio de algunas distribuciones Linux, y exportaciones de software de código abierto como Audacity en ciertas configuraciones.</p>
       <h3>Vorbis vs. FLAC: con pérdida vs. sin pérdida</h3>
-      <p>Vorbis —el códec más común dentro de OGG— es un formato con pérdida, comparable en calidad a AAC o MP3 de similar bitrate. FLAC, en cambio, es sin pérdida. La diferencia es crucial para edición de audio profesional: al editar con audio con pérdida y exportar de nuevo, se acumulan artefactos de compresión. Con FLAC, el audio que editas y exportas es matemáticamente idéntico al original en cada generación.</p>
+      <p>Vorbis (el códec más común dentro de OGG) es un formato con pérdida, comparable en calidad a AAC o MP3 de similar bitrate. FLAC, en cambio, es sin pérdida. La diferencia es crucial para edición de audio profesional: al editar con audio con pérdida y exportar de nuevo, se acumulan artefactos de compresión. Con FLAC, el audio que editas y exportas es matemáticamente idéntico al original en cada generación.</p>
       <h3>Por qué OGG Vorbis no funciona en los principales editores de vídeo</h3>
       <p>DaVinci Resolve, Adobe Premiere Pro y Avid Media Composer están diseñados para flujos de trabajo de producción profesional y no incluyen soporte nativo para Vorbis ni para el contenedor OGG. La razón histórica es que el mercado profesional de vídeo se desarrolló sobre codecs propietarios (AAC, AC3, DTS, PCM) mucho antes de que los formatos de código abierto como Vorbis madurecen. Importar un .ogg en Resolve suele resultar en un error de importación o en que el clip aparece sin pista de audio.</p>
       <h3>Paso a paso: convertir tu OGG a FLAC</h3>
@@ -2568,7 +2580,7 @@
     <article>
       <h2 id="guia-opus">Todo sobre la conversión de OPUS a FLAC</h2>
       <h3>¿Qué es Opus y por qué lo usan Discord y YouTube?</h3>
-      <p>Opus es un códec de audio de código abierto estandarizado por la IETF (RFC 6716) en 2012. Fue diseñado para funcionar bien en un rango muy amplio de bitrates —desde 6 kbps para voz hasta 510 kbps para música— y con latencias muy bajas, lo que lo hace ideal para comunicaciones en tiempo real. <strong>Discord</strong> lo usa como códec de voz y audio en todos sus canales. <strong>YouTube</strong> lo usa para streams de baja latencia y en muchos vídeos del formato WebM. Las grabaciones de Zoom y Teams pueden usar también Opus en sus versiones más recientes. El resultado es que hoy en día muchos usuarios tienen archivos con audio Opus sin saberlo.</p>
+      <p>Opus es un códec de audio de código abierto estandarizado por la IETF (RFC 6716) en 2012. Fue diseñado para funcionar bien en un rango muy amplio de bitrates (desde 6 kbps para voz hasta 510 kbps para música) y con latencias muy bajas, lo que lo hace ideal para comunicaciones en tiempo real. <strong>Discord</strong> lo usa como códec de voz y audio en todos sus canales. <strong>YouTube</strong> lo usa para streams de baja latencia y en muchos vídeos del formato WebM. Las grabaciones de Zoom y Teams pueden usar también Opus en sus versiones más recientes. El resultado es que hoy en día muchos usuarios tienen archivos con audio Opus sin saberlo.</p>
       <h3>Por qué Opus no funciona en DaVinci Resolve</h3>
       <p>A diferencia de AAC o MP3, Opus es un códec relativamente reciente y de código abierto. Los editores de vídeo profesionales como DaVinci Resolve, Adobe Premiere Pro y Avid Media Composer todavía no incluyen soporte nativo para Opus. La razón es principalmente de mercado: el ecosistema de producción de vídeo profesional se desarrolló sobre códecs establecidos (AAC, PCM, AC3) y la adopción de Opus en ese ámbito es lenta. Si tienes una grabación de Discord o un vídeo WebM de YouTube con audio Opus e intentas importarlo en Resolve, el clip aparecerá sin pista de audio o con un error de importación.</p>
       <h3>Opus vs. FLAC: con pérdida vs. sin pérdida</h3>
@@ -2583,7 +2595,7 @@
       <h3>Caso frecuente: grabaciones de gameplay con Discord overlay</h3>
       <p>Muchos creadores de contenido graban su gameplay con OBS (que genera MKV con Opus de forma predeterminada en versiones recientes) y simultáneamente graban el audio del chat de Discord. Si el MKV de OBS tiene audio Opus y quieres editarlo en DaVinci Resolve, la conversión a FLAC con VidToFLAC es el paso previo imprescindible.</p>
       <h3>El .opus suelto, sin su contenedor habitual</h3>
-      <p>Opus casi siempre viaja dentro de <strong>Ogg o WebM</strong>. Cuando se extrae como archivo <code>.opus</code> suelto, muchos editores de vídeo ni siquiera lo reconocen como pista de audio válida — no es que fallen al decodificarlo, es que no lo identifican. Convertirlo a FLAC le da un envoltorio que cualquier editor entiende.</p>
+      <p>Opus casi siempre viaja dentro de <strong>Ogg o WebM</strong>. Cuando se extrae como archivo <code>.opus</code> suelto, muchos editores de vídeo ni siquiera lo reconocen como pista de audio válida: no es que fallen al decodificarlo, es que no lo identifican. Convertirlo a FLAC le da un envoltorio que cualquier editor entiende.</p>
       <h3>La solución: de Opus a FLAC para editar grabaciones de Discord y voz</h3>
       <p><strong>Opus</strong> es el códec por defecto en grabaciones de <strong>Discord</strong>, streams y videollamadas. Ofrece gran calidad a bajo bitrate, pero no es compatible de forma nativa con la mayoría de editores de vídeo. Convertir a <strong>FLAC</strong> garantiza que el audio se importe sin errores.</p>
 
@@ -2613,7 +2625,7 @@
       <h3>El contenedor ASF fuera de Windows</h3>
       <p>WMA viaja dentro de <strong>ASF</strong>, un contenedor de Microsoft cuyo soporte fuera de Windows siempre ha sido incompleto. Eso explica por qué muchos editores en <strong>macOS y Linux</strong> no solo no decodifican el audio: ni siquiera reconocen el archivo. Convertirlo a FLAC resuelve las dos cosas a la vez, el códec y el envoltorio.</p>
       <h3>La solución: salir del WMA propietario hacia FLAC abierto</h3>
-      <p><strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte de los códecs incluidos en DaVinci Resolve —especialmente en <strong>Linux y macOS</strong>—, donde las pistas aparecen en gris o no se importan. Convertir a <strong>FLAC</strong>, abierto y sin pérdida, resuelve la compatibilidad sin cambiar nada más.</p>
+      <p><strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte de los códecs incluidos en DaVinci Resolve (especialmente en <strong>Linux y macOS</strong>), donde las pistas aparecen en gris o no se importan. Convertir a <strong>FLAC</strong>, abierto y sin pérdida, resuelve la compatibilidad sin cambiar nada más.</p>
 
       <p>La conversión decodifica el WMA y vuelve a codificar el audio a FLAC. Si el WMA era con pérdida, FLAC no recupera lo descartado, pero asegura que no haya más degradación y que el audio sea editable en cualquier plataforma.</p>
 

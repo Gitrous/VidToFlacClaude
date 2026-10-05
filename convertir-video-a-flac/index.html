@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Convertir AVI, WebM, WMV, FLV y otros vídeos a FLAC | VidToFLAC</title>
-  <meta name="description" content="Nueve formatos de vídeo —AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP y M4V—: qué códec de audio llevan y cómo pasarlo a FLAC en tu propio navegador." />
+  <meta name="description" content="Nueve formatos de vídeo (AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP y M4V): qué códec de audio llevan y cómo pasarlo a FLAC en tu propio navegador." />
   <meta name="keywords" content="convertir AVI a FLAC, convertir WebM a FLAC, WMV a FLAC, FLV a FLAC, VOB a FLAC, TS a FLAC, 3GP a FLAC, M4V a FLAC, MPEG a FLAC, DaVinci Resolve sin audio" />
   <meta name="author" content="VidToFLAC" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -1388,26 +1388,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2321,7 +2333,7 @@
       <h3>Qué hace VidToFLAC con cualquiera de estos vídeos</h3>
       <p>El proceso es el mismo para los nueve: la herramienta lee el archivo, identifica sus códecs y genera un <strong>MKV</strong> con la pista de audio en <strong>FLAC</strong>, un formato sin pérdida que DaVinci Resolve, Premiere Pro y Avid decodifican de forma nativa.</p>
 
-      <p>Lo que cambia entre formatos es el vídeo. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar, así que la imagen no pierde nada. MPEG-2 —el de los VOB, muchos MPEG y algunos TS—, WMV, VP6 y H.265/HEVC se recodifican a H.264 de alta calidad (<code>-crf 18</code>): tarda más, y el resultado es muy parecido al original pero no idéntico bit a bit. Y hay un tercer grupo que también se recodifica aunque el navegador lo lea sin problema: <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>. Copiados tal cual, DaVinci Resolve importa el clip con sonido pero sin imagen. Está medido uno a uno en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
+      <p>Lo que cambia entre formatos es el vídeo. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar, así que la imagen no pierde nada. MPEG-2 (el de los VOB, muchos MPEG y algunos TS), WMV, VP6 y H.265/HEVC se recodifican a H.264 de alta calidad (<code>-crf 18</code>): tarda más, y el resultado es muy parecido al original pero no idéntico bit a bit. Y hay un tercer grupo que también se recodifica aunque el navegador lo lea sin problema: <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>. Copiados tal cual, DaVinci Resolve importa el clip con sonido pero sin imagen. Está medido uno a uno en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
 
       <p>Cuando el vídeo se copia pero el navegador no sabe decodificarlo, como pasa con Xvid, la vista previa de la página puede quedarse sin imagen. El archivo descargado está completo igualmente.</p>
     </article>
@@ -2436,9 +2448,9 @@
         <li>Descarga el MKV resultante e impórtalo en DaVinci Resolve.</li>
       </ol>
       <h3>Consejo: digitalización de material de archivo</h3>
-      <p>Si estás digitalizando vídeo antiguo de cintas VHS, Hi8 o MiniDV y el capturador genera archivos AVI con PCM linear, no necesitas conversión para DaVinci Resolve. Pero si el capturador genera AVI con MP3 —algunos capturadores USB económicos lo hacen por defecto—, convierte a FLAC antes de importar al proyecto de Resolve para asegurar la compatibilidad y facilitar la edición.</p>
+      <p>Si estás digitalizando vídeo antiguo de cintas VHS, Hi8 o MiniDV y el capturador genera archivos AVI con PCM linear, no necesitas conversión para DaVinci Resolve. Pero si el capturador genera AVI con MP3 (algunos capturadores USB económicos lo hacen por defecto), convierte a FLAC antes de importar al proyecto de Resolve para asegurar la compatibilidad y facilitar la edición.</p>
       <h3>AVI y el frame rate variable</h3>
-      <p>AVI se diseñó en 1992 y no admite de forma fiable el <strong>frame rate variable</strong>. De ahí viene el problema clásico de este formato: en clips largos, sobre todo en capturas de pantalla o material de móvil, el audio y el vídeo se van separando poco a poco. Si tu AVI ya venía desincronizado, la conversión conserva esa desincronización — hay que corregirla en el editor.</p>
+      <p>AVI se diseñó en 1992 y no admite de forma fiable el <strong>frame rate variable</strong>. De ahí viene el problema clásico de este formato: en clips largos, sobre todo en capturas de pantalla o material de móvil, el audio y el vídeo se van separando poco a poco. Si tu AVI ya venía desincronizado, la conversión conserva esa desincronización: hay que corregirla en el editor.</p>
       <h3>La solución para tus AVI: audio compatible sin tocar el vídeo</h3>
       <p>Los <strong>AVI</strong> de cámaras antiguas, grabadoras y software de captura suelen llevar el audio en <strong>MP3 o AC3</strong>, formatos que DaVinci Resolve no decodifica sin licencias adicionales. VidToFLAC reempaqueta el AVI en un <strong>MKV</strong> y convierte únicamente esa pista de audio a <strong>FLAC</strong>.</p>
 
@@ -2498,7 +2510,7 @@
       <h3>En un WMV el problema suele ser doble</h3>
       <p>Un WMV lleva casi siempre audio <strong>WMA</strong> dentro del mismo contenedor <strong>ASF</strong>, así que la incompatibilidad afecta a las dos pistas a la vez y no solo al audio. Por eso un WMV suele fallar antes incluso de mostrar imagen: VidToFLAC recodifica el vídeo a H.264 y el audio a FLAC dentro de un MKV, y el resultado entra sin problemas.</p>
       <h3>La solución para tus WMV: salir del ecosistema Windows Media</h3>
-      <p>Los <strong>WMV (Windows Media Video)</strong> usan el códec de audio propietario <strong>WMA</strong> de Microsoft, que DaVinci Resolve no decodifica —sobre todo en Linux y macOS—. VidToFLAC convierte ese audio a <strong>FLAC</strong>, un formato abierto y sin pérdida, dentro de un contenedor <strong>MKV</strong>.</p>
+      <p>Los <strong>WMV (Windows Media Video)</strong> usan el códec de audio propietario <strong>WMA</strong> de Microsoft, que DaVinci Resolve no decodifica (sobre todo en Linux y macOS). VidToFLAC convierte ese audio a <strong>FLAC</strong>, un formato abierto y sin pérdida, dentro de un contenedor <strong>MKV</strong>.</p>
 
       <p>Como el vídeo de los WMV (VC-1 / WMV3) tampoco es decodificable en el navegador, VidToFLAC lo recodifica a <strong>H.264</strong> para que el clip se importe y se previsualice correctamente, mientras el audio queda en FLAC.</p>
 
@@ -2528,7 +2540,7 @@
       <h3>FLV: huérfano desde el final de Flash en 2020</h3>
       <p>Con el fin del soporte de <strong>Flash Player el 31 de diciembre de 2020</strong>, el FLV quedó como un formato huérfano: casi ningún editor moderno lo reconoce de forma nativa y las herramientas que lo manejaban han ido desapareciendo. Si conservas material en FLV, convertirlo ahora es menos un ajuste de compatibilidad que un archivado preventivo.</p>
       <h3>La solución para tus FLV: rescatar audio y vídeo del formato Flash</h3>
-      <p>Los <strong>FLV (Flash Video)</strong> —el formato de YouTube hasta 2015 y de muchas webs antiguas— llevan audio en <strong>MP3 o AAC</strong> y vídeo en códecs como H.263 o VP6. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
+      <p>Los <strong>FLV (Flash Video)</strong> (el formato de YouTube hasta 2015 y de muchas webs antiguas) llevan audio en <strong>MP3 o AAC</strong> y vídeo en códecs como H.263 o VP6. DaVinci Resolve no decodifica esas pistas de serie. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
 
       <p>Si el vídeo está en un códec moderno que el navegador entiende, se copia <strong>bit a bit</strong>; si es <strong>VP6</strong>, que el navegador no decodifica, VidToFLAC lo recodifica a <strong>H.264</strong>. El Sorenson Spark de los FLV más antiguos se copia tal cual.</p>
 
@@ -2586,9 +2598,9 @@
       <h3>Pistas múltiples de audio en TS</h3>
       <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC las detecta antes de convertir y te enseña una casilla por pista, así que puedes quedarte con el idioma que buscas, con todas, o quitar la audiodescripción. Desde la terminal, <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code> las conserva todas.</p>
       <h3>Por qué un TS pesa más: paquetes de 188 bytes</h3>
-      <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido — y desaparece al reempaquetarlo.</p>
+      <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido, y desaparece al reempaquetarlo.</p>
       <h3>La solución para tus TS y M2TS: grabaciones de TV y Blu-ray editables</h3>
-      <p>Los <strong>TS y M2TS</strong> —el formato de grabaciones de TDT, sintonizadores de TV y discos Blu-ray— llevan audio en <strong>AC3, AAC o DTS</strong>. DaVinci Resolve no decodifica esos formatos sin licencias. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
+      <p>Los <strong>TS y M2TS</strong> (el formato de grabaciones de TDT, sintonizadores de TV y discos Blu-ray) llevan audio en <strong>AC3, AAC o DTS</strong>. DaVinci Resolve no decodifica esos formatos sin licencias. VidToFLAC convierte el audio a <strong>FLAC</strong> dentro de un <strong>MKV</strong>.</p>
 
       <p>El vídeo suele ser H.264 o MPEG-2: si el navegador puede decodificarlo, se copia <strong>bit a bit</strong>; si es MPEG-2 no soportado, se recodifica a H.264. En ambos casos recuperas el sonido en tu editor.</p>
 
@@ -2603,7 +2615,7 @@
       <h3>VOB: el formato nativo del DVD</h3>
       <p>VOB (Video Object) es el formato de contenedor del DVD-Vídeo. Los archivos .vob se encuentran en la carpeta VIDEO_TS del DVD y contienen los streams de vídeo y audio multiplexados según el estándar MPEG-2 Program Stream. Cada DVD puede tener múltiples archivos VOB (VIDEO_TS_01.VOB, VIDEO_TS_02.VOB…) que corresponden a los capítulos del disco. Los archivos VOB son comunes en copias digitalizadas de DVD personales, material de archivo en formato DVD y proyectos de restauración de vídeo antiguo.</p>
       <h3>Códecs en VOB: MPEG-2 y AC3</h3>
-      <p>El vídeo de un archivo VOB es siempre <strong>MPEG-2</strong>, el estándar del DVD. El audio puede ser <strong>AC3 (Dolby Digital)</strong> de 2 a 6 canales —el más habitual en DVDs comerciales—, <strong>DTS</strong> en DVD con pistas de alta calidad, o <strong>PCM linear</strong> en algunos DVDs de karaoke o musicales. MPEG-2 no es decodificable por los navegadores modernos, por lo que VidToFLAC siempre recodifica el vídeo a H.264. AC3 y DTS no están disponibles en DaVinci Resolve gratuito en Linux; el audio pasa a FLAC.</p>
+      <p>El vídeo de un archivo VOB es siempre <strong>MPEG-2</strong>, el estándar del DVD. El audio puede ser <strong>AC3 (Dolby Digital)</strong> de 2 a 6 canales (el más habitual en DVDs comerciales), <strong>DTS</strong> en DVD con pistas de alta calidad, o <strong>PCM linear</strong> en algunos DVDs de karaoke o musicales. MPEG-2 no es decodificable por los navegadores modernos, por lo que VidToFLAC siempre recodifica el vídeo a H.264. AC3 y DTS no están disponibles en DaVinci Resolve gratuito en Linux; el audio pasa a FLAC.</p>
       <h3>El problema del audio multicanal en VOB</h3>
       <p>Los DVDs con audio AC3 5.1 (6 canales: frontal izquierdo, frontal derecho, centro, subwoofer, surround izquierdo, surround derecho) presentan un caso especial. Al convertir a FLAC, VidToFLAC preserva todos los canales: el archivo FLAC resultante será también multicanal (5.1 o el número de canales original). DaVinci Resolve puede importar FLAC multicanal y asignar los canales individuales en el inspector de audio del timeline.</p>
       <h3>Paso a paso: convertir tu VOB a FLAC</h3>
@@ -2674,9 +2686,9 @@
         <li>Importa el MKV en DaVinci Resolve. La pista de audio FLAC se importará correctamente.</li>
       </ol>
       <h3>Los M4V de iTunes y el DRM FairPlay</h3>
-      <p>Los M4V comprados en iTunes pueden llevar protección <strong>DRM FairPlay</strong>. En ese caso ningún conversor —ni VidToFLAC ni FFmpeg de escritorio— puede procesarlos mientras la protección siga puesta, y retirarla solo puede hacerlo legalmente el titular de los derechos. Los M4V sin DRM, que son la mayoría de los que genera el propio usuario, se convierten con normalidad.</p>
+      <p>Los M4V comprados en iTunes pueden llevar protección <strong>DRM FairPlay</strong>. En ese caso ningún conversor (ni VidToFLAC ni FFmpeg de escritorio) puede procesarlos mientras la protección siga puesta, y retirarla solo puede hacerlo legalmente el titular de los derechos. Los M4V sin DRM, que son la mayoría de los que genera el propio usuario, se convierten con normalidad.</p>
       <h3>La solución para tus M4V de iTunes y Apple TV</h3>
-      <p>Los <strong>M4V</strong> son contenedores MPEG-4 de Apple con audio <strong>AAC</strong>. DaVinci Resolve no decodifica AAC de serie —sobre todo en Linux—, así que el clip entra sin sonido. VidToFLAC reempaqueta el M4V en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte el audio a <strong>FLAC</strong>.</p>
+      <p>Los <strong>M4V</strong> son contenedores MPEG-4 de Apple con audio <strong>AAC</strong>. DaVinci Resolve no decodifica AAC de serie (sobre todo en Linux), así que el clip entra sin sonido. VidToFLAC reempaqueta el M4V en un <strong>MKV</strong>, copia el vídeo <strong>bit a bit</strong> y convierte el audio a <strong>FLAC</strong>.</p>
 
       <p>Si el vídeo es H.264, es un remux sin pérdida de calidad; si es HEVC, se recodifica a H.264 con calidad alta porque el navegador no lo decodifica. El sonido vuelve a estar disponible en cualquier editor profesional.</p>
 

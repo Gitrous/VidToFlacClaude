@@ -1436,26 +1436,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2422,6 +2434,35 @@
     </div>
   </div>
 
+  <!-- Demo: el problema y la solución en vídeo. Va justo después de "Cómo
+       funciona" y lejos del hueco de anuncio (entre medias, la tarjeta "Antes y
+       después"), para que los controles del reproductor no queden pegados al
+       anuncio (clics accidentales). -->
+  <section class="card seo-card" aria-labelledby="demo-titulo">
+    <div class="card-title">Demostración</div>
+    <h2 id="demo-titulo">Así se ve el problema, <span class="accent">y así se soluciona</span></h2>
+    <p>Un MP4 con audio AAC entra en DaVinci Resolve: el vídeo se ve, pero la pista de audio aparece vacía y no suena. Después pasa por VidToFLAC y se vuelve a importar. <strong>Activa el sonido</strong> para oír la diferencia.</p>
+    <figure class="demo-figure">
+      <video controls preload="none" playsinline poster="/media/demo-es.jpg" width="1280" height="800" aria-describedby="demo-pie">
+        <source src="/media/demo-es.mp4" type="video/mp4" />
+      </video>
+      <figcaption id="demo-pie">Grabación real en DaVinci Resolve Studio 21 sobre Linux, con un MP4 H.264 y audio AAC-LC. El montaje recorta la selección de archivos y los tiempos muertos; el resultado es el mismo archivo con el audio en FLAC.</figcaption>
+    </figure>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "DaVinci Resolve sin sonido: el problema y la solución con VidToFLAC",
+      "description": "Grabación real: un MP4 con audio AAC se reproduce sin sonido en DaVinci Resolve Studio 21 sobre Linux. Tras convertir el audio a FLAC con VidToFLAC, la pista muestra la forma de onda y suena.",
+      "thumbnailUrl": "https://vidtoflac.tech/media/demo-es.jpg",
+      "contentUrl": "https://vidtoflac.tech/media/demo-es.mp4",
+      "uploadDate": "2026-09-13",
+      "duration": "PT29S",
+      "inLanguage": "es"
+    }
+    </script>
+  </section>
+
   <!-- Before / after comparison -->
   <div class="card compare-card">
     <div class="card-title">Antes y después</div>
@@ -2459,34 +2500,6 @@
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
-
-  <!-- Demo: el problema y la solución en vídeo. Va DESPUÉS del hueco de anuncio,
-       con título y entradilla de por medio, para que los controles del
-       reproductor no queden pegados al anuncio (clics accidentales). -->
-  <section class="card seo-card" aria-labelledby="demo-titulo">
-    <div class="card-title">Demostración</div>
-    <h2 id="demo-titulo">Así se ve el problema, <span class="accent">y así se soluciona</span></h2>
-    <p>Un MP4 con audio AAC entra en DaVinci Resolve: el vídeo se ve, pero la pista de audio aparece vacía y no suena. Después pasa por VidToFLAC y se vuelve a importar. <strong>Activa el sonido</strong> para oír la diferencia.</p>
-    <figure class="demo-figure">
-      <video controls preload="none" playsinline poster="/media/demo-es.jpg" width="1280" height="800" aria-describedby="demo-pie">
-        <source src="/media/demo-es.mp4" type="video/mp4" />
-      </video>
-      <figcaption id="demo-pie">Grabación real en DaVinci Resolve Studio 21 sobre Linux, con un MP4 H.264 y audio AAC-LC. El montaje recorta la selección de archivos y los tiempos muertos; el resultado es el mismo archivo con el audio en FLAC.</figcaption>
-    </figure>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "VideoObject",
-      "name": "DaVinci Resolve sin sonido: el problema y la solución con VidToFLAC",
-      "description": "Grabación real: un MP4 con audio AAC se reproduce sin sonido en DaVinci Resolve Studio 21 sobre Linux. Tras convertir el audio a FLAC con VidToFLAC, la pista muestra la forma de onda y suena.",
-      "thumbnailUrl": "https://vidtoflac.tech/media/demo-es.jpg",
-      "contentUrl": "https://vidtoflac.tech/media/demo-es.mp4",
-      "uploadDate": "2026-09-13",
-      "duration": "PT29S",
-      "inLanguage": "es"
-    }
-    </script>
-  </section>
 
   <!-- SEO: the problem we solve -->
   <section class="card seo-card" aria-labelledby="problema-titulo">

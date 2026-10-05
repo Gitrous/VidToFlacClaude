@@ -1388,26 +1388,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2430,7 +2442,7 @@
         <li>Download the FLAC and import it into your editor.</li>
       </ol>
       <h3>Common problems and what to do</h3>
-      <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first — handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
+      <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first: handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
       <h3>MP3 patents expired in 2017</h3>
       <p>The MP3 licensing programme was wound up in <strong>2017</strong>, so the format is patent-free today. Even so, several <strong>Linux</strong> builds of DaVinci Resolve still ship without the decoder enabled: the decision comes from how the software is packaged, not from any restriction still in force. That is why the problem outlives its original cause by years.</p>
       <h3>The fix for your MP3 files: transcode the audio to FLAC</h3>
@@ -2449,11 +2461,11 @@
       <h3>What AAC actually is</h3>
       <p>AAC (Advanced Audio Coding) succeeded MP3 and is what almost every camera, phone and streaming platform records. It is efficient and it sounds good, but it is patent-encumbered, and that is precisely why the free DaVinci Resolve ships no decoder for it on Linux.</p>
       <h3>What this conversion does, and what it does not</h3>
-      <p>Converting AAC to FLAC does not recover quality that lossy compression already discarded — nothing can. What it does is stop any further loss and produce a file every editor can read. Treat it as a compatibility conversion, not a restoration.</p>
+      <p>Converting AAC to FLAC does not recover quality that lossy compression already discarded: nothing can. What it does is stop any further loss and produce a file every editor can read. Treat it as a compatibility conversion, not a restoration.</p>
       <h3>AAC has been standardised since 1997, and Resolve still will not open it</h3>
       <p>AAC has been an ISO standard since <strong>1997</strong> and costs the end user nothing to play, so silent audio is not a licensing problem with your file. What happens is that some <strong>Linux</strong> builds of DaVinci Resolve ship without the decoder enabled, because the licence is paid by whoever distributes the software, not by whoever runs it.</p>
       <h3>The fix for your AAC files: transcode the audio to FLAC</h3>
-      <p>AAC turns up in MP4 and MOV files from cameras, phones and OBS. AAC is patent-encumbered, and the free DaVinci Resolve ships no licence to decode it — most visibly on Linux, where it fails outright.</p>
+      <p>AAC turns up in MP4 and MOV files from cameras, phones and OBS. AAC is patent-encumbered, and the free DaVinci Resolve ships no licence to decode it, most visibly on Linux, where it fails outright.</p>
 
       <p>Nothing is recovered that AAC already discarded; FLAC preserves what remains, exactly, and every editor can read it.</p>
     </article>
@@ -2468,7 +2480,7 @@
       <h3>What this conversion does, and what it does not</h3>
       <p>If your M4A holds ALAC rather than AAC, the conversion to FLAC is genuinely lossless end to end: both formats store the same samples, so nothing at all is discarded. If it holds AAC, the FLAC preserves that AAC exactly as it is, artefacts included.</p>
       <h3>If your M4A is ALAC, it was already lossless</h3>
-      <p>Not every M4A holds AAC. Files from Apple Music in <em>lossless</em> quality, or from iTunes exports, may contain <strong>ALAC</strong> (Apple Lossless). Moving those to FLAC is not a recompression: it is a swap between two lossless formats, identical content in a different wrapper. The result matches sample for sample — except that Resolve can actually read it.</p>
+      <p>Not every M4A holds AAC. Files from Apple Music in <em>lossless</em> quality, or from iTunes exports, may contain <strong>ALAC</strong> (Apple Lossless). Moving those to FLAC is not a recompression: it is a swap between two lossless formats, identical content in a different wrapper. The result matches sample for sample, except that Resolve can actually read it.</p>
       <h3>The fix for your M4A files: transcode the audio to FLAC</h3>
       <p>M4A turns up in Voice Memos, GarageBand exports and iTunes audio. M4A usually wraps AAC, which DaVinci Resolve cannot decode without a licence. Purchased iTunes files may also carry FairPlay DRM, which nothing can open.</p>
 
@@ -2481,13 +2493,13 @@
     <article>
       <h2 id="guia-aiff">Everything about converting AIFF to FLAC</h2>
       <h3>What AIFF actually is</h3>
-      <p>AIFF (Audio Interchange File Format) is the Apple equivalent of WAV: uncompressed PCM audio, no quality loss, and files that grow enormous. It is the standard delivery format in a lot of Mac-based music production, and it is supported everywhere — it is simply wasteful.</p>
+      <p>AIFF (Audio Interchange File Format) is the Apple equivalent of WAV: uncompressed PCM audio, no quality loss, and files that grow enormous. It is the standard delivery format in a lot of Mac-based music production, and it is supported everywhere: it is simply wasteful.</p>
       <h3>What this conversion does, and what it does not</h3>
       <p>Because AIFF is already lossless, converting to FLAC discards nothing whatsoever. You keep every sample and typically reclaim 40 to 60% of the disk space. This is the one conversion on this site with no trade-off to explain.</p>
       <h3>AIFF and WAV: same quality, different byte order</h3>
-      <p>AIFF and WAV store the same thing — <strong>uncompressed PCM</strong> — and are equivalent in quality; what differs is the byte order (<em>big-endian</em> in AIFF, <em>little-endian</em> in WAV) and the header. Moving to FLAC adds lossless compression and sturdier metadata without touching a single sample of the original.</p>
+      <p>AIFF and WAV store the same thing (<strong>uncompressed PCM</strong>) and are equivalent in quality; what differs is the byte order (<em>big-endian</em> in AIFF, <em>little-endian</em> in WAV) and the header. Moving to FLAC adds lossless compression and sturdier metadata without touching a single sample of the original.</p>
       <h3>The fix for your AIFF files: transcode the audio to FLAC</h3>
-      <p>AIFF turns up in Mac-based music production and mastering deliveries. AIFF itself is widely supported — the problem is size, not compatibility. Uncompressed PCM eats disk space at about 250 MB per stereo hour.</p>
+      <p>AIFF turns up in Mac-based music production and mastering deliveries. AIFF itself is widely supported: the problem is size, not compatibility. Uncompressed PCM eats disk space at about 250 MB per stereo hour.</p>
 
       <p>Because AIFF is already lossless, nothing at all is discarded. You keep every sample and typically reclaim 40 to 60% of the space.</p>
     </article>
@@ -2517,9 +2529,9 @@
       <h3>What Opus actually is</h3>
       <p>Opus is the best lossy codec available at low bitrates, which is why Discord, WhatsApp, Zoom and WebRTC all adopted it. It is also recent and open, and the professional editing world settled on its codecs long before Opus existed. The result is that recordings of calls and Discord sessions import silently.</p>
       <h3>What this conversion does, and what it does not</h3>
-      <p>Nothing about converting Opus to FLAC improves the audio — Opus already performed the lossy compression, and that is permanent. The point is purely that your editor can read the result.</p>
+      <p>Nothing about converting Opus to FLAC improves the audio: Opus already performed the lossy compression, and that is permanent. The point is purely that your editor can read the result.</p>
       <h3>A bare .opus file, stripped of its usual container</h3>
-      <p>Opus almost always travels inside <strong>Ogg or WebM</strong>. Pulled out as a bare <code>.opus</code> file, many video editors will not even recognise it as a valid audio track — they are not failing to decode it, they are failing to identify it. Converting to FLAC gives it a wrapper any editor understands.</p>
+      <p>Opus almost always travels inside <strong>Ogg or WebM</strong>. Pulled out as a bare <code>.opus</code> file, many video editors will not even recognise it as a valid audio track: they are not failing to decode it, they are failing to identify it. Converting to FLAC gives it a wrapper any editor understands.</p>
       <h3>The fix for your Opus files: transcode the audio to FLAC</h3>
       <p>Opus turns up in Discord, WhatsApp, Zoom and WebRTC recordings. Opus postdates the codecs the editing industry standardised on, so almost no NLE decodes it, on any platform.</p>
 
@@ -2536,7 +2548,7 @@
       <h3>What this conversion does, and what it does not</h3>
       <p>WMA files usually come from old archives, so treat this as a rescue operation. Converting to FLAC preserves whatever is in the original and gives you a format that will still be readable in twenty years, which WMA increasingly will not.</p>
       <h3>The ASF container outside Windows</h3>
-      <p>WMA travels inside <strong>ASF</strong>, a Microsoft container whose support outside Windows has always been patchy. That explains why many editors on <strong>macOS and Linux</strong> do not merely fail to decode the audio — they do not recognise the file at all. Converting to FLAC fixes both halves at once, the codec and the wrapper.</p>
+      <p>WMA travels inside <strong>ASF</strong>, a Microsoft container whose support outside Windows has always been patchy. That explains why many editors on <strong>macOS and Linux</strong> do not merely fail to decode the audio: they do not recognise the file at all. Converting to FLAC fixes both halves at once, the codec and the wrapper.</p>
       <h3>The fix for your WMA files: transcode the audio to FLAC</h3>
       <p>WMA turns up in old Windows recordings and Windows-era archives. WMA is proprietary to Microsoft, and support outside Windows has always been thin and keeps thinning.</p>
 

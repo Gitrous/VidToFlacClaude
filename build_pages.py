@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_pages.py — genera páginas de aterrizaje SEO a partir de index.html.
+build_pages.py: genera páginas de aterrizaje SEO a partir de index.html.
 Uso: python3 build_pages.py
 
 Añadir una página nueva = agregar una entrada a PAGES y volver a ejecutar.
@@ -80,16 +80,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-mp4-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-mp4-a-flac/",
         "og_title":         "Convertir MP4 a FLAC – Audio sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus MP4 a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos MP4 — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus MP4 a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos MP4, sin subir nada.",
         "tw_title":         "Convertir MP4 a FLAC – Audio sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus MP4 a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus MP4 a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-mp4-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos MP4 a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir el audio de un MP4 a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">MP4 a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos MP4 de cámaras, OBS y smartphones. Procesamiento 100% local — no se sube ni un solo byte a ningún servidor.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos MP4 de cámaras, OBS y smartphones. Procesamiento 100% local: no se sube ni un solo byte a ningún servidor.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MP4?',
-        "seo_lede":         'Si has abierto un <strong>archivo MP4</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> —o con la pista de audio en gris— casi siempre es por el códec de audio. Los MP4 grabados con cámaras, OBS Studio y smartphones llevan audio <strong>AAC o MP3</strong>, y la versión gratuita de DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye las licencias para decodificarlos.',
+        "seo_lede":         'Si has abierto un <strong>archivo MP4</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> (o con la pista de audio en gris) casi siempre es por el códec de audio. Los MP4 grabados con cámaras, OBS Studio y smartphones llevan audio <strong>AAC o MP3</strong>, y la versión gratuita de DaVinci Resolve (especialmente <strong>en Linux</strong>) no incluye las licencias para decodificarlos.',
         "breadcrumb_label": "Convertir MP4 a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -103,7 +103,7 @@ PAGES = [
       <h3>El formato MP4 y sus códecs de audio</h3>
       <p>MP4 (MPEG-4 Part 14) es el contenedor de vídeo más extendido: lo usan cámaras DSLR, smartphones (iPhone, Android), OBS Studio y prácticamente cualquier plataforma de vídeo. Su popularidad se debe a que combina vídeo H.264 o H.265 con audio en un archivo compacto. El problema está en el códec de audio: el 95 % de los archivos MP4 llevan <strong>AAC-LC</strong> (Low Complexity), el perfil estándar para dispositivos de consumo. Los MP4 de OBS pueden usar también <strong>MP3</strong> dependiendo de la configuración. En casos menos frecuentes, grabadoras de campo producen MP4 con audio <strong>PCM linear</strong>, que sí es compatible con Resolve sin conversión.</p>
       <h3>Por qué DaVinci Resolve muestra la pista de audio en gris</h3>
-      <p>DaVinci Resolve gratuito —especialmente en Linux— no incluye el decodificador de AAC porque su licencia es propietaria y tiene coste por distribución. Al abrir un MP4 con AAC, el inspector de medios puede mostrar la pista de audio en gris, el clip sin forma de onda, o el mensaje <em>"Audio codec not supported (AAC)"</em>. Esta restricción afecta solo al audio: el vídeo H.264 o H.265 se abre correctamente porque sus decodificadores sí están incluidos. La solución es reemplazar el AAC por <strong>FLAC</strong>, que Resolve decodifica de forma nativa en todas las plataformas.</p>
+      <p>DaVinci Resolve gratuito (especialmente en Linux) no incluye el decodificador de AAC porque su licencia es propietaria y tiene coste por distribución. Al abrir un MP4 con AAC, el inspector de medios puede mostrar la pista de audio en gris, el clip sin forma de onda, o el mensaje <em>"Audio codec not supported (AAC)"</em>. Esta restricción afecta solo al audio: el vídeo H.264 o H.265 se abre correctamente porque sus decodificadores sí están incluidos. La solución es reemplazar el AAC por <strong>FLAC</strong>, que Resolve decodifica de forma nativa en todas las plataformas.</p>
       <h3>Paso a paso: convertir tu MP4 a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .mp4 al área de carga o pulsa <strong>Seleccionar archivos</strong>.</li>
@@ -114,7 +114,7 @@ PAGES = [
       <h3>Errores frecuentes y qué hacer</h3>
       <p>Si tu MP4 usa vídeo <strong>H.265 / HEVC</strong> y el proceso tarda más de lo esperado, es porque el navegador no decodifica HEVC para previsualización. VidToFLAC recodifica automáticamente el vídeo a H.264 en ese caso; el audio seguirá siendo FLAC y el archivo será compatible con Resolve. Si el MP4 trae varias pistas de audio (estéreo y surround, por ejemplo), VidToFLAC las detecta antes de convertir y te enseña una casilla por pista, todas marcadas: cada una que dejes llega al archivo como una pista FLAC independiente. Desde la terminal, lo mismo se consigue con <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code>.</p>
       <h3>Dónde guarda el MP4 su índice: el <em>moov atom</em></h3>
-      <p>Todo MP4 lleva un índice interno llamado <strong>moov atom</strong> que indica dónde empieza cada fragmento de vídeo y audio. Según el programa que escribiera el archivo, ese índice puede quedar al principio o al final. Cuando queda al final, algunos reproductores necesitan el archivo completo antes de poder reproducir nada — por eso un MP4 descargado a medias a veces no abre. VidToFLAC lee el archivo entero en tu equipo antes de convertir, así que la posición del <em>moov atom</em> no afecta al resultado.</p>
+      <p>Todo MP4 lleva un índice interno llamado <strong>moov atom</strong> que indica dónde empieza cada fragmento de vídeo y audio. Según el programa que escribiera el archivo, ese índice puede quedar al principio o al final. Cuando queda al final, algunos reproductores necesitan el archivo completo antes de poder reproducir nada, por eso un MP4 descargado a medias a veces no abre. VidToFLAC lee el archivo entero en tu equipo antes de convertir, así que la posición del <em>moov atom</em> no afecta al resultado.</p>
       <h3>Medido: qué pasó con un MP4 de prueba</h3>
       <p>En el <a href="/banco-de-pruebas/">banco de pruebas</a> se generó un MP4 de 6 segundos con vídeo H.264 y audio AAC-LC a 192 kbps, el perfil que usan cámaras, móviles y OBS. Al pasarlo por la herramienta, el vídeo <strong>se copió sin recodificar</strong> y el archivo creció de <strong>807 KB a 1.019 KB</strong>: un 26 % más. Ese aumento es el precio de pasar de un audio comprimido con pérdida a uno sin pérdida, y es lo normal en este formato. Si tu MP4 lleva vídeo H.265/HEVC la historia cambia: en la misma prueba, un MP4 en HEVC pasó de 491 KB a 2.458 KB, porque ahí el vídeo sí hay que recodificarlo a H.264.</p>
     </article>
@@ -128,16 +128,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-mkv-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-mkv-a-flac/",
         "og_title":         "Convertir MKV a FLAC – Remux sin pérdida | VidToFLAC",
-        "og_desc":          "Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos MKV — sin subir nada.",
+        "og_desc":          "Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos MKV, sin subir nada.",
         "tw_title":         "Convertir MKV a FLAC – Remux sin pérdida | VidToFLAC",
-        "tw_desc":          "Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-mkv-a-flac/",
         "webapp_desc":      "Cambia el códec de audio de archivos MKV a FLAC sin pérdida (remux) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir el audio de un MKV a FLAC para DaVinci Resolve",
         "hero_h1":          'Cambia el audio de tu <span class="accent">MKV a FLAC</span> sin pérdida',
-        "hero_sub":         "Recodifica solo el audio de cualquier archivo MKV a FLAC, copiando el vídeo bit a bit. Soluciona el error de códec de audio en DaVinci Resolve — 100% privado, sin subir nada.",
+        "hero_sub":         "Recodifica solo el audio de cualquier archivo MKV a FLAC, copiando el vídeo bit a bit. Soluciona el error de códec de audio en DaVinci Resolve: 100% privado, sin subir nada.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MKV?',
-        "seo_lede":         'Si has abierto un <strong>archivo MKV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> —o con la pista de audio en gris— el problema es el códec de audio del contenedor. Los MKV de <strong>OBS Studio</strong>, grabaciones de pantalla o cámaras pueden llevar audio en <strong>AAC, Opus, MP3 o Vorbis</strong>, formatos que DaVinci Resolve —sobre todo <strong>en Linux</strong>— no puede decodificar de serie.',
+        "seo_lede":         'Si has abierto un <strong>archivo MKV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> (o con la pista de audio en gris) el problema es el códec de audio del contenedor. Los MKV de <strong>OBS Studio</strong>, grabaciones de pantalla o cámaras pueden llevar audio en <strong>AAC, Opus, MP3 o Vorbis</strong>, formatos que DaVinci Resolve (sobre todo <strong>en Linux</strong>) no puede decodificar de serie.',
         "breadcrumb_label": "Convertir MKV a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -149,7 +149,7 @@ PAGES = [
         <figcaption>Códec de audio habitual de cada formato y su resultado en DaVinci Resolve sobre Linux.</figcaption>
       </figure>
       <h3>El contenedor MKV: flexible pero heterogéneo</h3>
-      <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante —y también la más problemática— es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
+      <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante (y también la más problemática) es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
       <h3>Qué códec de audio lleva tu MKV</h3>
       <p>El origen del archivo determina el códec: los MKV de <strong>OBS Studio</strong> suelen tener <strong>AAC o Opus</strong> (según la versión y la configuración). Los MKV y WebM que circulan por la web suelen traer <strong>Vorbis u Opus</strong>. Los generados por HandBrake con la configuración por defecto suelen tener <strong>AAC</strong>. Los producidos por conversores online pueden traer <strong>MP3</strong>. Solo los MKV con audio FLAC o PCM linear son directamente compatibles con DaVinci Resolve en todas las plataformas.</p>
       <h3>Por qué la pista de audio de tu MKV aparece en gris en DaVinci Resolve</h3>
@@ -164,7 +164,7 @@ PAGES = [
       <h3>Caso especial: MKV con audio Opus de OBS</h3>
       <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en ninguna plataforma, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
       <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
-      <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
+      <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux, y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
       <h3>Medido: qué pasó con un MKV de prueba</h3>
       <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se copió tal cual</strong> y el archivo pasó de <strong>559 KB a 763 KB</strong> al convertir el Opus a FLAC. Lo que sí hubo que corregir fue el arranque de la pista: el <em>pre-skip</em> de Opus la dejaba empezando siete milisegundos después de cero, y con eso Resolve la importaba muda. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
     </article>
@@ -178,16 +178,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-mov-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-mov-a-flac/",
         "og_title":         "Convertir MOV a FLAC – Audio iPhone y GoPro | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus clips MOV (iPhone, GoPro, cámara) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus clips MOV (iPhone, GoPro, cámara) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir MOV a FLAC – Audio iPhone y GoPro | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus clips MOV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus clips MOV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-mov-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos MOV (iPhone, GoPro, cámara) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir el audio de un MOV a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">MOV a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado sin recomprimir cuando el códec lo permite — 100% privado, en tu navegador.",
+        "hero_sub":         "Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado sin recomprimir cuando el códec lo permite: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MOV?',
-        "seo_lede":         'Si has abierto un <strong>archivo MOV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> —o con la pista de audio en gris— el problema suele ser el códec de audio. Los MOV grabados con <strong>iPhone, GoPro</strong> o la mayoría de cámaras digitales usan <strong>AAC</strong>, y DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye de serie las licencias para decodificarlo.',
+        "seo_lede":         'Si has abierto un <strong>archivo MOV</strong> en DaVinci Resolve y aparece <strong>sin sonido</strong> (o con la pista de audio en gris) el problema suele ser el códec de audio. Los MOV grabados con <strong>iPhone, GoPro</strong> o la mayoría de cámaras digitales usan <strong>AAC</strong>, y DaVinci Resolve (especialmente <strong>en Linux</strong>) no incluye de serie las licencias para decodificarlo.',
         "breadcrumb_label": "Convertir MOV a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -199,7 +199,7 @@ PAGES = [
         <figcaption>El mismo clip con su audio ya en FLAC: la forma de onda aparece y el sonido se reproduce.</figcaption>
       </figure>
       <h3>El formato MOV: nativo de Apple, problemático fuera de macOS</h3>
-      <p>MOV es el formato de contenedor de QuickTime, desarrollado por Apple. Es el formato nativo de grabación del <strong>iPhone</strong> (todos los modelos), <strong>GoPro</strong> (antes de cambiar a MP4), cámaras Sony Alpha en modo XAVC S, Canon EOS en algunos modos y muchas otras cámaras digitales orientadas a la producción. En macOS, los archivos MOV se abren sin problemas en casi cualquier aplicación porque el sistema incluye los decodificadores necesarios. En <strong>Linux</strong> —donde reside la mayor parte de los usuarios afectados por el problema de audio en DaVinci Resolve— la historia es diferente.</p>
+      <p>MOV es el formato de contenedor de QuickTime, desarrollado por Apple. Es el formato nativo de grabación del <strong>iPhone</strong> (todos los modelos), <strong>GoPro</strong> (antes de cambiar a MP4), cámaras Sony Alpha en modo XAVC S, Canon EOS en algunos modos y muchas otras cámaras digitales orientadas a la producción. En macOS, los archivos MOV se abren sin problemas en casi cualquier aplicación porque el sistema incluye los decodificadores necesarios. En <strong>Linux</strong> (donde reside la mayor parte de los usuarios afectados por el problema de audio en DaVinci Resolve) la historia es diferente.</p>
       <h3>Códecs de audio en archivos MOV</h3>
       <p>Los MOV de iPhone y GoPro usan casi siempre <strong>AAC estéreo</strong> a 44.1 kHz o 48 kHz. Los MOV de cámaras Sony Alpha con grabación de alta calidad pueden usar <strong>PCM linear de 4 canales</strong>. Las cámaras Canon con modo Cinema RAW Light generan MOV con <strong>PCM linear</strong>. Los MOV de grabación en pantalla de macOS (QuickTime Player) suelen tener <strong>AAC</strong>. El denominador común de los problemas en Resolve es el AAC: solo el PCM linear es directamente compatible.</p>
       <h3>El caso especial de los MOV con ProRes</h3>
@@ -212,11 +212,11 @@ PAGES = [
         <li>Importa el MKV resultante en DaVinci Resolve y asígnalo a tu timeline.</li>
       </ol>
       <h3>Tip: iPhone graba en HEVC por defecto desde iOS 11</h3>
-      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. El navegador no puede decodificar HEVC, así que VidToFLAC lo recodifica a H.264 con calidad alta (<code>-crf 18</code>) —visualmente muy próximo al original— y convierte el audio a FLAC. Si el MOV lleva H.264, el vídeo se copia sin recomprimir.</p>
+      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. El navegador no puede decodificar HEVC, así que VidToFLAC lo recodifica a H.264 con calidad alta (<code>-crf 18</code>), visualmente muy próximo al original, y convierte el audio a FLAC. Si el MOV lleva H.264, el vídeo se copia sin recomprimir.</p>
       <h3>Los MOV con ProRes ya traían el audio sin pérdida</h3>
       <p>Los MOV grabados o exportados en <strong>ProRes</strong> suelen llevar audio <strong>PCM</strong> de 16 o 24 bits sin comprimir. En ese caso el archivo ya tiene el audio en un formato sin pérdida, y pasarlo a FLAC no mejora ni empeora la calidad: la conserva bit a bit y además ocupa bastante menos. La ventaja aquí no es la fidelidad, es el tamaño y la compatibilidad.</p>
       <h3>Medido: el caso del MOV con audio PCM</h3>
-      <p>Aquí hay una sorpresa que solo se ve midiendo. En el <a href="/banco-de-pruebas/">banco de pruebas</a>, un MOV de 6 segundos con vídeo H.264 y audio <strong>PCM de 16 bits</strong> —lo que graban muchas cámaras y grabadoras de campo— <strong>encogió</strong> al convertirlo: de <strong>1.255 KB a 765 KB</strong>. Es el único caso de todo el banco en el que un archivo con vídeo sale más pequeño, y el motivo es que el PCM guarda el audio en crudo mientras que FLAC lo comprime sin perder un solo dato. Si tu MOV ya lleva PCM, puede que no necesites convertir nada para Resolve: comprueba antes el códec.</p>
+      <p>Aquí hay una sorpresa que solo se ve midiendo. En el <a href="/banco-de-pruebas/">banco de pruebas</a>, un MOV de 6 segundos con vídeo H.264 y audio <strong>PCM de 16 bits</strong> (lo que graban muchas cámaras y grabadoras de campo) <strong>encogió</strong> al convertirlo: de <strong>1.255 KB a 765 KB</strong>. Es el único caso de todo el banco en el que un archivo con vídeo sale más pequeño, y el motivo es que el PCM guarda el audio en crudo mientras que FLAC lo comprime sin perder un solo dato. Si tu MOV ya lleva PCM, puede que no necesites convertir nada para Resolve: comprueba antes el códec.</p>
     </article>
   </section>""",
     },
@@ -237,7 +237,7 @@ PAGES = [
         "hero_h1":          'Convierte tu <span class="accent">AAC a FLAC</span> sin pérdida de calidad',
         "hero_sub":         "Transcodifica archivos AAC a FLAC lossless en segundos, directamente en tu navegador. Sin registro, sin límite de tamaño, sin que ningún byte salga de tu equipo.",
         "seo_h2":           '¿Por qué convertir <span class="accent">AAC a FLAC</span> en lugar de quedarte con el AAC?',
-        "seo_lede":         '<strong>AAC</strong> es un formato con pérdida: cada vez que lo recodificas vuelves a perder calidad. <strong>FLAC</strong> es sin pérdida: una vez convertido, puedes exportar, editar o archivar sin degradar el audio. Además, DaVinci Resolve —especialmente <strong>en Linux</strong>— no decodifica AAC de serie, por lo que convertir a FLAC soluciona de raíz el <strong>error de códec de audio</strong>.',
+        "seo_lede":         '<strong>AAC</strong> es un formato con pérdida: cada vez que lo recodificas vuelves a perder calidad. <strong>FLAC</strong> es sin pérdida: una vez convertido, puedes exportar, editar o archivar sin degradar el audio. Además, DaVinci Resolve (especialmente <strong>en Linux</strong>) no decodifica AAC de serie, por lo que convertir a FLAC soluciona de raíz el <strong>error de códec de audio</strong>.',
         "breadcrumb_label": "Convertir AAC a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -247,7 +247,7 @@ PAGES = [
       <h3>¿Qué es AAC y por qué está en todas partes?</h3>
       <p>AAC (Advanced Audio Coding) es el códec de audio con pérdida que sucedió al MP3 como estándar de la industria. Lo adoptaron Apple (iPhone, iTunes, Apple Music), YouTube (como códec de audio en muchos streams), las grabaciones de voz de WhatsApp, los vídeos de cámaras digitales y la mayoría de aplicaciones de grabación en iOS y Android. AAC ofrece mejor calidad que MP3 al mismo bitrate, pero sigue siendo un formato <strong>con pérdida</strong>: elimina información de frecuencias que el algoritmo considera prescindible. Eso significa que cada vez que recodificas un AAC a otro formato con pérdida, la calidad se degrada un poco más.</p>
       <h3>Por qué no deberías quedarte con el AAC para edición</h3>
-      <p>En un flujo de trabajo de edición profesional, el audio pasa por múltiples etapas: importación, edición en el timeline, mezcla, exportación. Si el audio de partida es AAC, cada operación de recodificación acumula artefactos. Además, DaVinci Resolve gratuito —en especial <strong>en Linux</strong>— no incluye el decodificador de AAC, por lo que no podrás ni abrirlo. Convertir a <strong>FLAC</strong> en este paso garantiza que trabajas con audio sin pérdida desde el principio, evitando degradaciones acumulativas y asegurando la compatibilidad con el editor.</p>
+      <p>En un flujo de trabajo de edición profesional, el audio pasa por múltiples etapas: importación, edición en el timeline, mezcla, exportación. Si el audio de partida es AAC, cada operación de recodificación acumula artefactos. Además, DaVinci Resolve gratuito (en especial <strong>en Linux</strong>) no incluye el decodificador de AAC, por lo que no podrás ni abrirlo. Convertir a <strong>FLAC</strong> en este paso garantiza que trabajas con audio sin pérdida desde el principio, evitando degradaciones acumulativas y asegurando la compatibilidad con el editor.</p>
       <h3>Diferencias técnicas entre AAC y FLAC</h3>
       <p>AAC usa compresión <em>destructiva</em> basada en modelos perceptuales del oído humano: elimina información que el algoritmo considera inaudible para reducir el tamaño. FLAC usa compresión <em>lossless</em> basada en predicción lineal: codifica la diferencia entre la señal real y la predicha, de modo que la decodificación restaura exactamente la señal original. Un archivo AAC de 3 minutos a 128 kbps pesa unos 2,9 MB; el mismo audio en FLAC a 16 bit / 44.1 kHz pesaría unos 20 MB, pero con calidad idéntica al original sin comprimir.</p>
       <h3>Paso a paso: convertir tu AAC a FLAC</h3>
@@ -282,7 +282,7 @@ PAGES = [
         "hero_h1":          'Convierte tu <span class="accent">MP3 a FLAC</span> sin pérdida de calidad',
         "hero_sub":         "Transcodifica archivos MP3 a FLAC lossless en segundos, directamente en tu navegador. Sin registro, sin límite de tamaño, sin que ningún byte salga de tu equipo.",
         "seo_h2":           '¿Por qué convertir <span class="accent">MP3 a FLAC</span> para tu flujo de trabajo?',
-        "seo_lede":         '<strong>MP3</strong> es un formato con pérdida que no es compatible de forma nativa con todos los editores de vídeo profesionales. Convertir a <strong>FLAC</strong> —un formato sin pérdida— garantiza la máxima compatibilidad con DaVinci Resolve, Premiere Pro y Avid, especialmente <strong>en Linux</strong>, donde los decodificadores de MP3 pueden no estar disponibles sin licencias adicionales.',
+        "seo_lede":         '<strong>MP3</strong> es un formato con pérdida que no es compatible de forma nativa con todos los editores de vídeo profesionales. Convertir a <strong>FLAC</strong> (un formato sin pérdida) garantiza la máxima compatibilidad con DaVinci Resolve, Premiere Pro y Avid, especialmente <strong>en Linux</strong>, donde los decodificadores de MP3 pueden no estar disponibles sin licencias adicionales.',
         "breadcrumb_label": "Convertir MP3 a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -324,7 +324,7 @@ PAGES = [
         "webapp_desc":      "Convierte archivos WAV a FLAC sin pérdida de calidad, reduciendo el tamaño del archivo hasta un 60%. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir un archivo WAV a FLAC sin pérdida de calidad",
         "hero_h1":          'Convierte tu <span class="accent">WAV a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Misma calidad lossless que el WAV original, hasta un 60% menos de espacio. Conversión en segundos, directamente en tu navegador — sin subir ni un solo byte.",
+        "hero_sub":         "Misma calidad lossless que el WAV original, hasta un 60% menos de espacio. Conversión en segundos, directamente en tu navegador, sin subir ni un solo byte.",
         "seo_h2":           '¿Por qué convertir <span class="accent">WAV a FLAC</span> en lugar de guardar el WAV?',
         "seo_lede":         '<strong>WAV</strong> y <strong>FLAC</strong> son ambos formatos sin pérdida, pero el WAV no comprime los datos: un archivo de 10 minutos puede pesar más de 100 MB. FLAC aplica compresión lossless y reduce el tamaño entre un 40% y un 60% <strong>sin perder ni un bit de información</strong>. El resultado suena idéntico al WAV original y ocupa mucho menos.',
         "breadcrumb_label": "Convertir WAV a FLAC",
@@ -351,7 +351,7 @@ PAGES = [
         <li>Descarga el .flac resultante. Puedes verificar que la calidad es idéntica importando ambos archivos en un editor de audio y comparándolos con inversión de fase: el resultado debería ser silencio completo.</li>
       </ol>
       <h3>Cuánto ocupa un WAV y cuánto se ahorra con FLAC</h3>
-      <p>Un WAV estéreo a <strong>48 kHz y 24 bits</strong> ocupa unos <strong>17 MB por minuto</strong>: algo más de 1 GB por hora de grabación. Convertirlo a FLAC reduce el tamaño <strong>entre un 40 % y un 60 %</strong> según el material —la voz y el silencio comprimen mucho más que la música densa— sin perder un solo bit de información. Al descomprimirlo recuperas exactamente el PCM original.</p>
+      <p>Un WAV estéreo a <strong>48 kHz y 24 bits</strong> ocupa unos <strong>17 MB por minuto</strong>: algo más de 1 GB por hora de grabación. Convertirlo a FLAC reduce el tamaño <strong>entre un 40 % y un 60 %</strong> según el material (la voz y el silencio comprimen mucho más que la música densa) sin perder un solo bit de información. Al descomprimirlo recuperas exactamente el PCM original.</p>
       <h3>Medido: cuánto encoge de verdad un WAV</h3>
       <p>Las cifras que circulan sobre lo que comprime FLAC suelen ser inventadas, porque depende por completo del material. Estas están medidas en el <a href="/banco-de-pruebas/">banco de pruebas</a>, siempre partiendo del mismo WAV estéreo de 39,5 segundos a 48 kHz y 16 bits (7,58 MB): con <strong>ruido blanco</strong>, el peor caso posible, el FLAC ocupó 3,56 MB, un 53 % del original; con un <strong>tono puro</strong>, 540 KB; y con una <strong>grabación de pantalla real</strong>, con silencios y voz, 431 KB. Tu material se situará entre esos extremos, normalmente más cerca de la mitad que del 6 %.</p>
     </article>
@@ -365,16 +365,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-m4a-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-m4a-a-flac/",
         "og_title":         "Convertir M4A a FLAC – Audio iPhone y iTunes | VidToFLAC",
-        "og_desc":          "Convierte tus archivos M4A de iPhone o iTunes a FLAC en tu navegador. Compatibilidad total con DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte tus archivos M4A de iPhone o iTunes a FLAC en tu navegador. Compatibilidad total con DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir M4A a FLAC – Audio iPhone y iTunes | VidToFLAC",
-        "tw_desc":          "Convierte tus archivos M4A a FLAC en tu navegador. Compatibilidad total con DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte tus archivos M4A a FLAC en tu navegador. Compatibilidad total con DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-m4a-a-flac/",
         "webapp_desc":      "Convierte archivos M4A (iPhone, iTunes, grabaciones de voz Apple) a FLAC sin pérdida, 100% en el navegador con FFmpeg (WebAssembly). Soluciona problemas de compatibilidad con DaVinci Resolve en Linux.",
         "howto_name":       "Cómo convertir un archivo M4A a FLAC sin pérdida",
         "hero_h1":          'Convierte tu <span class="accent">M4A a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Transcodifica archivos M4A de iPhone, iTunes o grabaciones de voz Apple a FLAC lossless. Compatibilidad total con DaVinci Resolve y Premiere — 100% privado, en tu navegador.",
+        "hero_sub":         "Transcodifica archivos M4A de iPhone, iTunes o grabaciones de voz Apple a FLAC lossless. Compatibilidad total con DaVinci Resolve y Premiere: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no reproduce</span> tus archivos M4A?',
-        "seo_lede":         'Los archivos <strong>M4A</strong> de iPhone, grabaciones de voz de Apple o exportaciones de iTunes usan el códec <strong>AAC</strong> envuelto en un contenedor MPEG-4. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no incluye el decodificador de AAC de serie, lo que provoca pistas de audio en gris o un <strong>error de códec de audio</strong> al importar.',
+        "seo_lede":         'Los archivos <strong>M4A</strong> de iPhone, grabaciones de voz de Apple o exportaciones de iTunes usan el códec <strong>AAC</strong> envuelto en un contenedor MPEG-4. DaVinci Resolve (sobre todo <strong>en Linux</strong>) no incluye el decodificador de AAC de serie, lo que provoca pistas de audio en gris o un <strong>error de códec de audio</strong> al importar.',
         "breadcrumb_label": "Convertir M4A a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -415,7 +415,7 @@ PAGES = [
         "webapp_desc":      "Convierte archivos OGG (Vorbis) a FLAC sin pérdida, 100% en el navegador con FFmpeg (WebAssembly). Sin subir archivos, sin límite de tamaño.",
         "howto_name":       "Cómo convertir un archivo OGG a FLAC sin pérdida",
         "hero_h1":          'Convierte tu <span class="accent">OGG a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Transcodifica archivos OGG Vorbis a FLAC lossless directamente en tu navegador. Máxima compatibilidad con editores de vídeo profesionales — sin subir ni un solo byte.",
+        "hero_sub":         "Transcodifica archivos OGG Vorbis a FLAC lossless directamente en tu navegador. Máxima compatibilidad con editores de vídeo profesionales, sin subir ni un solo byte.",
         "seo_h2":           '¿Por qué convertir <span class="accent">OGG a FLAC</span> para edición profesional?',
         "seo_lede":         '<strong>OGG Vorbis</strong> es un formato con pérdida de código abierto: ofrece buena calidad a tamaños reducidos, pero no es compatible de forma nativa con la mayoría de editores de vídeo profesionales como DaVinci Resolve, Premiere Pro o Avid. Convertir a <strong>FLAC</strong> resuelve el problema de compatibilidad y garantiza que el audio se importe sin errores.',
         "breadcrumb_label": "Convertir OGG a FLAC",
@@ -427,7 +427,7 @@ PAGES = [
       <h3>¿Qué es OGG y cuándo lo encuentras?</h3>
       <p>OGG es un formato contenedor de código abierto desarrollado por la Fundación Xiph.Org. El archivo .ogg contiene habitualmente audio con el códec <strong>Vorbis</strong>, aunque también puede contener FLAC u Opus. OGG Vorbis fue diseñado como alternativa libre a MP3 y AAC: ofrece calidad comparable a bitrates más bajos y sin restricciones de patentes. Lo encontrarás en: efectos de sonido de videojuegos (muchos motores como Godot o Unity exportan audio en OGG), música distribuida en plataformas de código abierto, archivos de audio de algunas distribuciones Linux, y exportaciones de software de código abierto como Audacity en ciertas configuraciones.</p>
       <h3>Vorbis vs. FLAC: con pérdida vs. sin pérdida</h3>
-      <p>Vorbis —el códec más común dentro de OGG— es un formato con pérdida, comparable en calidad a AAC o MP3 de similar bitrate. FLAC, en cambio, es sin pérdida. La diferencia es crucial para edición de audio profesional: al editar con audio con pérdida y exportar de nuevo, se acumulan artefactos de compresión. Con FLAC, el audio que editas y exportas es matemáticamente idéntico al original en cada generación.</p>
+      <p>Vorbis (el códec más común dentro de OGG) es un formato con pérdida, comparable en calidad a AAC o MP3 de similar bitrate. FLAC, en cambio, es sin pérdida. La diferencia es crucial para edición de audio profesional: al editar con audio con pérdida y exportar de nuevo, se acumulan artefactos de compresión. Con FLAC, el audio que editas y exportas es matemáticamente idéntico al original en cada generación.</p>
       <h3>Por qué OGG Vorbis no funciona en los principales editores de vídeo</h3>
       <p>DaVinci Resolve, Adobe Premiere Pro y Avid Media Composer están diseñados para flujos de trabajo de producción profesional y no incluyen soporte nativo para Vorbis ni para el contenedor OGG. La razón histórica es que el mercado profesional de vídeo se desarrolló sobre codecs propietarios (AAC, AC3, DTS, PCM) mucho antes de que los formatos de código abierto como Vorbis madurecen. Importar un .ogg en Resolve suele resultar en un error de importación o en que el clip aparece sin pista de audio.</p>
       <h3>Paso a paso: convertir tu OGG a FLAC</h3>
@@ -452,16 +452,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-wma-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-wma-a-flac/",
         "og_title":         "Convertir WMA a FLAC – Audio Windows sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte tus archivos WMA a FLAC en tu navegador. Compatibilidad total con DaVinci Resolve y editores profesionales — sin subir nada.",
+        "og_desc":          "Convierte tus archivos WMA a FLAC en tu navegador. Compatibilidad total con DaVinci Resolve y editores profesionales, sin subir nada.",
         "tw_title":         "Convertir WMA a FLAC – Audio Windows sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte tus archivos WMA a FLAC en tu navegador. Compatibilidad total con editores profesionales — sin subir nada.",
+        "tw_desc":          "Convierte tus archivos WMA a FLAC en tu navegador. Compatibilidad total con editores profesionales, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-wma-a-flac/",
         "webapp_desc":      "Convierte archivos WMA (Windows Media Audio) a FLAC sin pérdida, 100% en el navegador con FFmpeg (WebAssembly). Soluciona problemas de compatibilidad con DaVinci Resolve, Premiere Pro y Avid.",
         "howto_name":       "Cómo convertir un archivo WMA a FLAC sin pérdida",
         "hero_h1":          'Convierte tu <span class="accent">WMA a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Transcodifica archivos WMA de Windows a FLAC lossless en tu navegador. Compatibilidad total con DaVinci Resolve, Premiere y Avid — 100% privado, sin subir nada.",
+        "hero_sub":         "Transcodifica archivos WMA de Windows a FLAC lossless en tu navegador. Compatibilidad total con DaVinci Resolve, Premiere y Avid: 100% privado, sin subir nada.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no abre</span> tus archivos WMA?',
-        "seo_lede":         '<strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte del estándar de códecs incluidos en DaVinci Resolve —especialmente <strong>en Linux y macOS</strong>—, lo que provoca que las pistas de audio aparezcan en gris o directamente no se importen. Convertir a <strong>FLAC</strong> resuelve el problema de compatibilidad.',
+        "seo_lede":         '<strong>WMA (Windows Media Audio)</strong> es un formato propietario de Microsoft que no forma parte del estándar de códecs incluidos en DaVinci Resolve (especialmente <strong>en Linux y macOS</strong>), lo que provoca que las pistas de audio aparezcan en gris o directamente no se importen. Convertir a <strong>FLAC</strong> resuelve el problema de compatibilidad.',
         "breadcrumb_label": "Convertir WMA a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -501,7 +501,7 @@ PAGES = [
         "webapp_desc":      "Convierte archivos AIFF a FLAC sin pérdida de calidad, 100% en el navegador con FFmpeg (WebAssembly). Ideal para flujos de trabajo de Mac, Logic Pro y Pro Tools. Sin subir archivos.",
         "howto_name":       "Cómo convertir un archivo AIFF a FLAC sin pérdida de calidad",
         "hero_h1":          'Convierte tu <span class="accent">AIFF a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Misma calidad lossless que el AIFF original, con un tamaño hasta un 60% menor. Conversión en segundos, en tu navegador — sin subir ni un solo byte.",
+        "hero_sub":         "Misma calidad lossless que el AIFF original, con un tamaño hasta un 60% menor. Conversión en segundos, en tu navegador, sin subir ni un solo byte.",
         "seo_h2":           '¿Por qué convertir <span class="accent">AIFF a FLAC</span> en lugar de mantener el AIFF?',
         "seo_lede":         '<strong>AIFF</strong> y <strong>FLAC</strong> son ambos formatos sin pérdida, pero AIFF no comprime los datos de audio: un archivo de 10 minutos puede pesar más de 100 MB. FLAC aplica compresión lossless y reduce el tamaño entre un 40% y un 60% <strong>sin perder ni un bit de información</strong>. El resultado suena idéntico al AIFF original y ocupa mucho menos espacio en disco.',
         "breadcrumb_label": "Convertir AIFF a FLAC",
@@ -526,7 +526,7 @@ PAGES = [
       <h3>Compatibilidad de AIFF con metadatos</h3>
       <p>AIFF soporta metadatos a través del chunk ID3, pero con limitaciones frente a FLAC, que soporta etiquetas Vorbis Comment nativas con campos arbitrarios (artista, álbum, año, número de pista, letra, portada). Si tu flujo de trabajo de archivo requiere metadatos completos, la conversión a FLAC también mejora la gestión de la biblioteca de audio.</p>
       <h3>AIFF y WAV: misma calidad, distinto orden de bytes</h3>
-      <p>AIFF y WAV guardan lo mismo —<strong>PCM sin comprimir</strong>— y son equivalentes en calidad; lo que cambia es el orden de bytes (<em>big-endian</em> en AIFF, <em>little-endian</em> en WAV) y la cabecera. Pasar a FLAC aporta compresión sin pérdida y metadatos más robustos, sin tocar una sola muestra del original.</p>
+      <p>AIFF y WAV guardan lo mismo (<strong>PCM sin comprimir</strong>) y son equivalentes en calidad; lo que cambia es el orden de bytes (<em>big-endian</em> en AIFF, <em>little-endian</em> en WAV) y la cabecera. Pasar a FLAC aporta compresión sin pérdida y metadatos más robustos, sin tocar una sola muestra del original.</p>
     </article>
   </section>""",
     },
@@ -545,7 +545,7 @@ PAGES = [
         "webapp_desc":      "Convierte archivos OPUS a FLAC sin pérdida, 100% en el navegador con FFmpeg (WebAssembly). Ideal para grabaciones de Discord, YouTube y videollamadas. Sin subir archivos.",
         "howto_name":       "Cómo convertir un archivo OPUS a FLAC sin pérdida",
         "hero_h1":          'Convierte tu <span class="accent">OPUS a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Transcodifica grabaciones OPUS de Discord, YouTube o videollamadas a FLAC lossless en tu navegador. Compatibilidad total con editores profesionales — sin subir nada.",
+        "hero_sub":         "Transcodifica grabaciones OPUS de Discord, YouTube o videollamadas a FLAC lossless en tu navegador. Compatibilidad total con editores profesionales, sin subir nada.",
         "seo_h2":           '¿Por qué convertir <span class="accent">OPUS a FLAC</span> para edición profesional?',
         "seo_lede":         '<strong>OPUS</strong> es el códec de audio por defecto en grabaciones de <strong>Discord</strong>, streams de YouTube y muchas videollamadas. Aunque ofrece excelente calidad a bajo bitrate, no es compatible de forma nativa con la mayoría de editores de vídeo profesionales. Convertir a <strong>FLAC</strong> garantiza que el audio se importe sin errores en DaVinci Resolve, Premiere Pro y Avid.',
         "breadcrumb_label": "Convertir OPUS a FLAC",
@@ -555,7 +555,7 @@ PAGES = [
     <article>
       <h2 id="guia-formato-titulo">Todo sobre la conversión de OPUS a FLAC</h2>
       <h3>¿Qué es Opus y por qué lo usan Discord y YouTube?</h3>
-      <p>Opus es un códec de audio de código abierto estandarizado por la IETF (RFC 6716) en 2012. Fue diseñado para funcionar bien en un rango muy amplio de bitrates —desde 6 kbps para voz hasta 510 kbps para música— y con latencias muy bajas, lo que lo hace ideal para comunicaciones en tiempo real. <strong>Discord</strong> lo usa como códec de voz y audio en todos sus canales. <strong>YouTube</strong> lo usa para streams de baja latencia y en muchos vídeos del formato WebM. Las grabaciones de Zoom y Teams pueden usar también Opus en sus versiones más recientes. El resultado es que hoy en día muchos usuarios tienen archivos con audio Opus sin saberlo.</p>
+      <p>Opus es un códec de audio de código abierto estandarizado por la IETF (RFC 6716) en 2012. Fue diseñado para funcionar bien en un rango muy amplio de bitrates (desde 6 kbps para voz hasta 510 kbps para música) y con latencias muy bajas, lo que lo hace ideal para comunicaciones en tiempo real. <strong>Discord</strong> lo usa como códec de voz y audio en todos sus canales. <strong>YouTube</strong> lo usa para streams de baja latencia y en muchos vídeos del formato WebM. Las grabaciones de Zoom y Teams pueden usar también Opus en sus versiones más recientes. El resultado es que hoy en día muchos usuarios tienen archivos con audio Opus sin saberlo.</p>
       <h3>Por qué Opus no funciona en DaVinci Resolve</h3>
       <p>A diferencia de AAC o MP3, Opus es un códec relativamente reciente y de código abierto. Los editores de vídeo profesionales como DaVinci Resolve, Adobe Premiere Pro y Avid Media Composer todavía no incluyen soporte nativo para Opus. La razón es principalmente de mercado: el ecosistema de producción de vídeo profesional se desarrolló sobre códecs establecidos (AAC, PCM, AC3) y la adopción de Opus en ese ámbito es lenta. Si tienes una grabación de Discord o un vídeo WebM de YouTube con audio Opus e intentas importarlo en Resolve, el clip aparecerá sin pista de audio o con un error de importación.</p>
       <h3>Opus vs. FLAC: con pérdida vs. sin pérdida</h3>
@@ -570,7 +570,7 @@ PAGES = [
       <h3>Caso frecuente: grabaciones de gameplay con Discord overlay</h3>
       <p>Muchos creadores de contenido graban su gameplay con OBS (que genera MKV con Opus de forma predeterminada en versiones recientes) y simultáneamente graban el audio del chat de Discord. Si el MKV de OBS tiene audio Opus y quieres editarlo en DaVinci Resolve, la conversión a FLAC con VidToFLAC es el paso previo imprescindible.</p>
       <h3>El .opus suelto, sin su contenedor habitual</h3>
-      <p>Opus casi siempre viaja dentro de <strong>Ogg o WebM</strong>. Cuando se extrae como archivo <code>.opus</code> suelto, muchos editores de vídeo ni siquiera lo reconocen como pista de audio válida — no es que fallen al decodificarlo, es que no lo identifican. Convertirlo a FLAC le da un envoltorio que cualquier editor entiende.</p>
+      <p>Opus casi siempre viaja dentro de <strong>Ogg o WebM</strong>. Cuando se extrae como archivo <code>.opus</code> suelto, muchos editores de vídeo ni siquiera lo reconocen como pista de audio válida: no es que fallen al decodificarlo, es que no lo identifican. Convertirlo a FLAC le da un envoltorio que cualquier editor entiende.</p>
     </article>
   </section>""",
     },
@@ -583,16 +583,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-avi-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-avi-a-flac/",
         "og_title":         "Convertir AVI a FLAC – Audio sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus AVI a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos AVI — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus AVI a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos AVI, sin subir nada.",
         "tw_title":         "Convertir AVI a FLAC – Audio sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus AVI a FLAC en segundos. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus AVI a FLAC en segundos. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-avi-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos AVI a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir el audio de un AVI a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">AVI a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos AVI de cámaras y grabaciones antiguas. Vídeo copiado bit a bit, audio a FLAC — 100% privado, en tu navegador.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos AVI de cámaras y grabaciones antiguas. Vídeo copiado bit a bit, audio a FLAC: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos AVI?',
-        "seo_lede":         'Los archivos <strong>AVI</strong> de cámaras antiguas, grabadoras y software de captura suelen llevar audio en <strong>MP3 o AC3</strong>. DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye los decodificadores para estos formatos sin licencias adicionales, provocando pistas de audio en gris o el clásico <strong>error de códec de audio</strong> al importar.',
+        "seo_lede":         'Los archivos <strong>AVI</strong> de cámaras antiguas, grabadoras y software de captura suelen llevar audio en <strong>MP3 o AC3</strong>. DaVinci Resolve (especialmente <strong>en Linux</strong>) no incluye los decodificadores para estos formatos sin licencias adicionales, provocando pistas de audio en gris o el clásico <strong>error de códec de audio</strong> al importar.',
         "breadcrumb_label": "Convertir AVI a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -613,9 +613,9 @@ PAGES = [
         <li>Descarga el MKV resultante e impórtalo en DaVinci Resolve.</li>
       </ol>
       <h3>Consejo: digitalización de material de archivo</h3>
-      <p>Si estás digitalizando vídeo antiguo de cintas VHS, Hi8 o MiniDV y el capturador genera archivos AVI con PCM linear, no necesitas conversión para DaVinci Resolve. Pero si el capturador genera AVI con MP3 —algunos capturadores USB económicos lo hacen por defecto—, convierte a FLAC antes de importar al proyecto de Resolve para asegurar la compatibilidad y facilitar la edición.</p>
+      <p>Si estás digitalizando vídeo antiguo de cintas VHS, Hi8 o MiniDV y el capturador genera archivos AVI con PCM linear, no necesitas conversión para DaVinci Resolve. Pero si el capturador genera AVI con MP3 (algunos capturadores USB económicos lo hacen por defecto), convierte a FLAC antes de importar al proyecto de Resolve para asegurar la compatibilidad y facilitar la edición.</p>
       <h3>AVI y el frame rate variable</h3>
-      <p>AVI se diseñó en 1992 y no admite de forma fiable el <strong>frame rate variable</strong>. De ahí viene el problema clásico de este formato: en clips largos, sobre todo en capturas de pantalla o material de móvil, el audio y el vídeo se van separando poco a poco. Si tu AVI ya venía desincronizado, la conversión conserva esa desincronización — hay que corregirla en el editor.</p>
+      <p>AVI se diseñó en 1992 y no admite de forma fiable el <strong>frame rate variable</strong>. De ahí viene el problema clásico de este formato: en clips largos, sobre todo en capturas de pantalla o material de móvil, el audio y el vídeo se van separando poco a poco. Si tu AVI ya venía desincronizado, la conversión conserva esa desincronización: hay que corregirla en el editor.</p>
     </article>
   </section>""",
     },
@@ -627,16 +627,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-webm-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-webm-a-flac/",
         "og_title":         "Convertir WebM a FLAC – Audio YouTube sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus WebM (YouTube, navegador) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus WebM (YouTube, navegador) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir WebM a FLAC – Audio YouTube sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus WebM a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus WebM a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-webm-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos WebM (YouTube, grabaciones de navegador) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir el audio de un WebM a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">WebM a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos WebM de YouTube y grabaciones de navegador. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos WebM de YouTube y grabaciones de navegador. Audio a FLAC lossless, vídeo copiado bit a bit: 100% privado.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos WebM?',
-        "seo_lede":         'Los archivos <strong>WebM</strong> de grabadores de navegador y de vídeo publicado en la web usan audio <strong>Opus o Vorbis</strong>. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no puede decodificar estos formatos de serie, lo que provoca pistas de audio en gris o un <strong>error de códec de audio</strong> al importar el clip.',
+        "seo_lede":         'Los archivos <strong>WebM</strong> de grabadores de navegador y de vídeo publicado en la web usan audio <strong>Opus o Vorbis</strong>. DaVinci Resolve (sobre todo <strong>en Linux</strong>) no puede decodificar estos formatos de serie, lo que provoca pistas de audio en gris o un <strong>error de códec de audio</strong> al importar el clip.',
         "breadcrumb_label": "Convertir WebM a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -671,16 +671,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-wmv-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-wmv-a-flac/",
         "og_title":         "Convertir WMV a FLAC – Audio Windows Media sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus WMV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve con archivos Windows Media — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus WMV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve con archivos Windows Media, sin subir nada.",
         "tw_title":         "Convertir WMV a FLAC – Audio Windows Media sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus WMV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus WMV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-wmv-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos WMV (Windows Media Video) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve y Premiere. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un WMV a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">WMV a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos Windows Media Video. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado, en tu navegador.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos Windows Media Video. Audio a FLAC lossless, vídeo copiado bit a bit: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos WMV?',
-        "seo_lede":         'Los archivos <strong>WMV (Windows Media Video)</strong> usan el códec de audio propietario <strong>WMA</strong> de Microsoft. DaVinci Resolve —especialmente <strong>en Linux y macOS</strong>— no incluye el decodificador de WMA de serie, lo que provoca que las pistas de audio aparezcan en gris o no se importen al abrir el clip.',
+        "seo_lede":         'Los archivos <strong>WMV (Windows Media Video)</strong> usan el códec de audio propietario <strong>WMA</strong> de Microsoft. DaVinci Resolve (especialmente <strong>en Linux y macOS</strong>) no incluye el decodificador de WMA de serie, lo que provoca que las pistas de audio aparezcan en gris o no se importen al abrir el clip.',
         "breadcrumb_label": "Convertir WMV a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -713,16 +713,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-flv-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-flv-a-flac/",
         "og_title":         "Convertir FLV a FLAC – Flash Video sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus FLV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve con archivos Flash Video — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus FLV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve con archivos Flash Video, sin subir nada.",
         "tw_title":         "Convertir FLV a FLAC – Flash Video sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus FLV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus FLV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-flv-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos FLV (Flash Video) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un FLV a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">FLV a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Recupera el audio de vídeos Flash antiguos reempaquetándolo a FLAC lossless. Vídeo copiado bit a bit, audio compatible con cualquier editor profesional — 100% privado, en tu navegador.",
+        "hero_sub":         "Recupera el audio de vídeos Flash antiguos reempaquetándolo a FLAC lossless. Vídeo copiado bit a bit, audio compatible con cualquier editor profesional: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos FLV?',
-        "seo_lede":         'Los archivos <strong>FLV (Flash Video)</strong> —el formato de vídeo de YouTube hasta 2015 y de muchas plataformas web antiguas— llevan audio en <strong>MP3 o AAC</strong>. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no incluye los decodificadores necesarios de serie, lo que provoca pistas en gris o un <strong>error de códec de audio</strong> al importar estos clips.',
+        "seo_lede":         'Los archivos <strong>FLV (Flash Video)</strong> (el formato de vídeo de YouTube hasta 2015 y de muchas plataformas web antiguas) llevan audio en <strong>MP3 o AAC</strong>. DaVinci Resolve (sobre todo <strong>en Linux</strong>) no incluye los decodificadores necesarios de serie, lo que provoca pistas en gris o un <strong>error de códec de audio</strong> al importar estos clips.',
         "breadcrumb_label": "Convertir FLV a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -757,16 +757,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-vob-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-vob-a-flac/",
         "og_title":         "Convertir VOB a FLAC – Audio DVD sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus archivos VOB de DVD a FLAC en tu navegador. Soluciona el error de AC3/DTS de DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus archivos VOB de DVD a FLAC en tu navegador. Soluciona el error de AC3/DTS de DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir VOB a FLAC – Audio DVD sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus VOB de DVD a FLAC en tu navegador. Soluciona el error de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus VOB de DVD a FLAC en tu navegador. Soluciona el error de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-vob-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos VOB (DVD) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec AC3/DTS en DaVinci Resolve. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un VOB de DVD a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">VOB a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec AC3/DTS de DaVinci Resolve en archivos VOB de DVD. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado, en tu navegador.",
+        "hero_sub":         "Soluciona el error de códec AC3/DTS de DaVinci Resolve en archivos VOB de DVD. Audio a FLAC lossless, vídeo copiado bit a bit: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos VOB?',
-        "seo_lede":         'Los archivos <strong>VOB</strong> de copias de DVD llevan audio en <strong>AC3 (Dolby Digital) o DTS</strong>. DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye los decodificadores para estos formatos sin licencias de pago, lo que provoca que las pistas de audio aparezcan en gris o que el clip no se importe con sonido.',
+        "seo_lede":         'Los archivos <strong>VOB</strong> de copias de DVD llevan audio en <strong>AC3 (Dolby Digital) o DTS</strong>. DaVinci Resolve (especialmente <strong>en Linux</strong>) no incluye los decodificadores para estos formatos sin licencias de pago, lo que provoca que las pistas de audio aparezcan en gris o que el clip no se importe con sonido.',
         "breadcrumb_label": "Convertir VOB a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -776,7 +776,7 @@ PAGES = [
       <h3>VOB: el formato nativo del DVD</h3>
       <p>VOB (Video Object) es el formato de contenedor del DVD-Vídeo. Los archivos .vob se encuentran en la carpeta VIDEO_TS del DVD y contienen los streams de vídeo y audio multiplexados según el estándar MPEG-2 Program Stream. Cada DVD puede tener múltiples archivos VOB (VIDEO_TS_01.VOB, VIDEO_TS_02.VOB…) que corresponden a los capítulos del disco. Los archivos VOB son comunes en copias digitalizadas de DVD personales, material de archivo en formato DVD y proyectos de restauración de vídeo antiguo.</p>
       <h3>Códecs en VOB: MPEG-2 y AC3</h3>
-      <p>El vídeo de un archivo VOB es siempre <strong>MPEG-2</strong>, el estándar del DVD. El audio puede ser <strong>AC3 (Dolby Digital)</strong> de 2 a 6 canales —el más habitual en DVDs comerciales—, <strong>DTS</strong> en DVD con pistas de alta calidad, o <strong>PCM linear</strong> en algunos DVDs de karaoke o musicales. MPEG-2 no es decodificable por los navegadores modernos, por lo que VidToFLAC siempre recodifica el vídeo a H.264. AC3 y DTS no están disponibles en DaVinci Resolve gratuito en Linux; el audio pasa a FLAC.</p>
+      <p>El vídeo de un archivo VOB es siempre <strong>MPEG-2</strong>, el estándar del DVD. El audio puede ser <strong>AC3 (Dolby Digital)</strong> de 2 a 6 canales (el más habitual en DVDs comerciales), <strong>DTS</strong> en DVD con pistas de alta calidad, o <strong>PCM linear</strong> en algunos DVDs de karaoke o musicales. MPEG-2 no es decodificable por los navegadores modernos, por lo que VidToFLAC siempre recodifica el vídeo a H.264. AC3 y DTS no están disponibles en DaVinci Resolve gratuito en Linux; el audio pasa a FLAC.</p>
       <h3>El problema del audio multicanal en VOB</h3>
       <p>Los DVDs con audio AC3 5.1 (6 canales: frontal izquierdo, frontal derecho, centro, subwoofer, surround izquierdo, surround derecho) presentan un caso especial. Al convertir a FLAC, VidToFLAC preserva todos los canales: el archivo FLAC resultante será también multicanal (5.1 o el número de canales original). DaVinci Resolve puede importar FLAC multicanal y asignar los canales individuales en el inspector de audio del timeline.</p>
       <h3>Paso a paso: convertir tu VOB a FLAC</h3>
@@ -801,16 +801,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-ts-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-ts-a-flac/",
         "og_title":         "Convertir TS a FLAC – Grabaciones TV sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus archivos TS de grabaciones de TV o Blu-ray a FLAC en tu navegador. Soluciona el error de DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus archivos TS de grabaciones de TV o Blu-ray a FLAC en tu navegador. Soluciona el error de DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir TS a FLAC – Grabaciones TV sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus archivos TS a FLAC en tu navegador. Soluciona el error de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus archivos TS a FLAC en tu navegador. Soluciona el error de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-ts-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos TS y M2TS (Transport Stream, grabaciones de TV, Blu-ray) a FLAC sin pérdida dentro de un MKV (remux). Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un archivo TS a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">TS a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en grabaciones de TV y archivos Blu-ray TS/M2TS. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en grabaciones de TV y archivos Blu-ray TS/M2TS. Audio a FLAC lossless, vídeo copiado bit a bit: 100% privado.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos TS?',
-        "seo_lede":         'Los archivos <strong>TS y M2TS</strong> —el formato estándar de grabaciones de TDT, sintonizadores de TV y discos Blu-ray— suelen llevar audio en <strong>AC3, AAC o DTS</strong>. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no incluye los decodificadores para estos formatos sin licencias adicionales, provocando pistas de audio en gris al importar.',
+        "seo_lede":         'Los archivos <strong>TS y M2TS</strong> (el formato estándar de grabaciones de TDT, sintonizadores de TV y discos Blu-ray) suelen llevar audio en <strong>AC3, AAC o DTS</strong>. DaVinci Resolve (sobre todo <strong>en Linux</strong>) no incluye los decodificadores para estos formatos sin licencias adicionales, provocando pistas de audio en gris al importar.',
         "breadcrumb_label": "Convertir TS a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -833,7 +833,7 @@ PAGES = [
       <h3>Pistas múltiples de audio en TS</h3>
       <p>Las grabaciones de TDT pueden incluir varias pistas de audio: el idioma original, el doblaje y la audiodescripción para personas con discapacidad visual. VidToFLAC las detecta antes de convertir y te enseña una casilla por pista, así que puedes quedarte con el idioma que buscas, con todas, o quitar la audiodescripción. Desde la terminal, <code>ffmpeg -i entrada -map 0:v -map 0:a -c:v copy -c:a flac salida.mkv</code> las conserva todas.</p>
       <h3>Por qué un TS pesa más: paquetes de 188 bytes</h3>
-      <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido — y desaparece al reempaquetarlo.</p>
+      <p>El <strong>Transport Stream</strong> se diseñó para retransmisión, donde la señal puede cortarse en cualquier momento. Por eso divide el flujo en <strong>paquetes fijos de 188 bytes</strong> con cabeceras redundantes que permiten engancharse a mitad de emisión. Esa redundancia es la que hace que un TS pese algo más que un MP4 con el mismo contenido, y desaparece al reempaquetarlo.</p>
     </article>
   </section>""",
     },
@@ -845,16 +845,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-m4v-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-m4v-a-flac/",
         "og_title":         "Convertir M4V a FLAC – Audio iTunes sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus archivos M4V de iTunes o Apple TV a FLAC en tu navegador. Soluciona el error de DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus archivos M4V de iTunes o Apple TV a FLAC en tu navegador. Soluciona el error de DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir M4V a FLAC – Audio iTunes sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus M4V a FLAC en tu navegador. Soluciona el error de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus M4V a FLAC en tu navegador. Soluciona el error de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-m4v-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos M4V (iTunes, Apple TV) a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un M4V a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">M4V a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos M4V de iTunes y Apple TV. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado, en tu navegador.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos M4V de iTunes y Apple TV. Audio a FLAC lossless, vídeo copiado bit a bit: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos M4V?',
-        "seo_lede":         'Los archivos <strong>M4V</strong> de iTunes y Apple TV usan audio <strong>AAC</strong> envuelto en un contenedor MPEG-4 con extensión Apple. DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye el decodificador de AAC de serie, lo que provoca pistas de audio en gris o que el clip no se importe con sonido al abrir el archivo.',
+        "seo_lede":         'Los archivos <strong>M4V</strong> de iTunes y Apple TV usan audio <strong>AAC</strong> envuelto en un contenedor MPEG-4 con extensión Apple. DaVinci Resolve (especialmente <strong>en Linux</strong>) no incluye el decodificador de AAC de serie, lo que provoca pistas de audio en gris o que el clip no se importe con sonido al abrir el archivo.',
         "breadcrumb_label": "Convertir M4V a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -875,7 +875,7 @@ PAGES = [
         <li>Importa el MKV en DaVinci Resolve. La pista de audio FLAC se importará correctamente.</li>
       </ol>
       <h3>Los M4V de iTunes y el DRM FairPlay</h3>
-      <p>Los M4V comprados en iTunes pueden llevar protección <strong>DRM FairPlay</strong>. En ese caso ningún conversor —ni VidToFLAC ni FFmpeg de escritorio— puede procesarlos mientras la protección siga puesta, y retirarla solo puede hacerlo legalmente el titular de los derechos. Los M4V sin DRM, que son la mayoría de los que genera el propio usuario, se convierten con normalidad.</p>
+      <p>Los M4V comprados en iTunes pueden llevar protección <strong>DRM FairPlay</strong>. En ese caso ningún conversor (ni VidToFLAC ni FFmpeg de escritorio) puede procesarlos mientras la protección siga puesta, y retirarla solo puede hacerlo legalmente el titular de los derechos. Los M4V sin DRM, que son la mayoría de los que genera el propio usuario, se convierten con normalidad.</p>
     </article>
   </section>""",
     },
@@ -887,16 +887,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-mpeg-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-mpeg-a-flac/",
         "og_title":         "Convertir MPEG a FLAC – Audio sin pérdida | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus archivos MPEG/MPG a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus archivos MPEG/MPG a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "tw_title":         "Convertir MPEG a FLAC – Audio sin pérdida | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus MPEG a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus MPEG a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-mpeg-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos MPEG/MPG a FLAC sin pérdida dentro de un MKV (remux) para solucionar el error de códec de audio en DaVinci Resolve. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un MPEG a FLAC para DaVinci Resolve",
         "hero_h1":          'Convierte tu <span class="accent">MPEG a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos MPEG/MPG de cámaras, DVDs y grabaciones antiguas. Audio a FLAC lossless, vídeo copiado bit a bit — 100% privado.",
+        "hero_sub":         "Soluciona el error de códec de audio de DaVinci Resolve en archivos MPEG/MPG de cámaras, DVDs y grabaciones antiguas. Audio a FLAC lossless, vídeo copiado bit a bit: 100% privado.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos MPEG?',
-        "seo_lede":         'Los archivos <strong>MPEG y MPG</strong> —el formato estándar de cámaras de vídeo digitales antiguas, DVD y muchas grabaciones— llevan audio en <strong>MP2, MP3 o AC3</strong>. DaVinci Resolve —sobre todo <strong>en Linux</strong>— no incluye los decodificadores para estos formatos de serie, lo que provoca que las pistas de audio aparezcan en gris o no se importen al abrir el clip.',
+        "seo_lede":         'Los archivos <strong>MPEG y MPG</strong> (el formato estándar de cámaras de vídeo digitales antiguas, DVD y muchas grabaciones) llevan audio en <strong>MP2, MP3 o AC3</strong>. DaVinci Resolve (sobre todo <strong>en Linux</strong>) no incluye los decodificadores para estos formatos de serie, lo que provoca que las pistas de audio aparezcan en gris o no se importen al abrir el clip.',
         "breadcrumb_label": "Convertir MPEG a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -931,16 +931,16 @@ PAGES = [
         "canonical":        "https://vidtoflac.tech/convertir-3gp-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-3gp-a-flac/",
         "og_title":         "Convertir 3GP a FLAC – Audio móviles antiguos | VidToFLAC",
-        "og_desc":          "Convierte el audio de tus archivos 3GP de móviles antiguos a FLAC en tu navegador. Recupera vídeos Nokia, Samsung y grabaciones antiguas — sin subir nada.",
+        "og_desc":          "Convierte el audio de tus archivos 3GP de móviles antiguos a FLAC en tu navegador. Recupera vídeos Nokia, Samsung y grabaciones antiguas, sin subir nada.",
         "tw_title":         "Convertir 3GP a FLAC – Audio móviles antiguos | VidToFLAC",
-        "tw_desc":          "Convierte el audio de tus 3GP a FLAC en tu navegador. Recupera vídeos de móviles antiguos — sin subir nada.",
+        "tw_desc":          "Convierte el audio de tus 3GP a FLAC en tu navegador. Recupera vídeos de móviles antiguos, sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-3gp-a-flac/",
         "webapp_desc":      "Convierte el audio de archivos 3GP (vídeos de móviles antiguos) a FLAC sin pérdida dentro de un MKV (remux) para compatibilidad con editores de vídeo profesionales. Funciona 100% en el navegador con FFmpeg (WebAssembly).",
         "howto_name":       "Cómo convertir el audio de un archivo 3GP a FLAC",
         "hero_h1":          'Convierte tu <span class="accent">3GP a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Recupera el audio de vídeos 3GP de Nokia, Samsung y grabaciones antiguas de smartphone a FLAC lossless. Compatible con cualquier editor profesional — 100% privado, en tu navegador.",
+        "hero_sub":         "Recupera el audio de vídeos 3GP de Nokia, Samsung y grabaciones antiguas de smartphone a FLAC lossless. Compatible con cualquier editor profesional: 100% privado, en tu navegador.",
         "seo_h2":           '¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus archivos 3GP?',
-        "seo_lede":         'Los archivos <strong>3GP</strong> —el formato de vídeo de móviles antiguos (Nokia, Samsung, Motorola) y algunas cámaras compactas— usan audio en <strong>AAC o AMR</strong>. DaVinci Resolve —especialmente <strong>en Linux</strong>— no incluye los decodificadores para estos formatos de serie, lo que provoca que las pistas de audio no se importen o aparezcan en gris al abrir el clip.',
+        "seo_lede":         'Los archivos <strong>3GP</strong> (el formato de vídeo de móviles antiguos (Nokia, Samsung, Motorola) y algunas cámaras compactas) usan audio en <strong>AAC o AMR</strong>. DaVinci Resolve (especialmente <strong>en Linux</strong>) no incluye los decodificadores para estos formatos de serie, lo que provoca que las pistas de audio no se importen o aparezcan en gris al abrir el clip.',
         "breadcrumb_label": "Convertir 3GP a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -1001,7 +1001,7 @@ O_HERO_H1    = '    <h1 class="hero-title">Convierte el audio de tus vídeos a <
 O_HERO_SUB   = '    <p class="hero-sub">Gratis, en segundos y 100% privado. Todo el procesamiento ocurre dentro de tu navegador: no se sube ni un solo byte a ningún servidor.</p>'
 O_SEO_H2     = '      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus vídeos?</h2>'
 O_SEO_LEDE   = ('      <p class="lede">Si has abierto un clip en DaVinci Resolve y aparece <strong>sin sonido</strong>'
-                ' —o directamente con la pista de audio en gris— casi siempre es un <strong>error de códec de audio</strong>,'
+                ' (o directamente con la pista de audio en gris) casi siempre es un <strong>error de códec de audio</strong>,'
                 ' no un problema de tu micrófono ni de tu proyecto.</p>')
 O_BRAND        = '<span class="brand-name">VidTo<span class="brand-accent">FLAC</span></span>'
 # Cierre del <style>. Antes era '  </style>\n</head>', que no existe en la

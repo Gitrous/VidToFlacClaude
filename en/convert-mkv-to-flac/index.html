@@ -115,7 +115,7 @@
         "name": "Do I lose quality converting an MKV to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "If the video codec can be copied — H.264, AV1, VP8, VP9, Xvid — it is copied bit for bit and the picture is exactly the original. If the MKV holds H.265/HEVC it is re-encoded to H.264 at high quality. Only the audio track changes in either case, and FLAC is lossless."
+          "text": "If the video codec can be copied (H.264, AV1, VP8, VP9, Xvid) it is copied bit for bit and the picture is exactly the original. If the MKV holds H.265/HEVC it is re-encoded to H.264 at high quality. Only the audio track changes in either case, and FLAC is lossless."
         }
       },
       {
@@ -123,7 +123,7 @@
         "name": "Why does my OBS recording have no audio in DaVinci Resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "OBS records AAC audio by default, sometimes Opus, and DaVinci Resolve — most notably on Linux — ships no decoder for either. Converting that track to FLAC inside the same MKV restores the sound."
+          "text": "OBS records AAC audio by default, sometimes Opus, and DaVinci Resolve (most notably on Linux) ships no decoder for either. Converting that track to FLAC inside the same MKV restores the sound."
         }
       },
       {
@@ -131,7 +131,7 @@
         "name": "Is there a size limit for an MKV?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "We impose none: processing happens on your own computer with FFmpeg (WebAssembly) and nothing is uploaded. The practical ceiling is the WebAssembly engine's memory — roughly 2 GB for input and output combined, which works comfortably up to around 1 GB of source file."
+          "text": "We impose none: processing happens on your own computer with FFmpeg (WebAssembly) and nothing is uploaded. The practical ceiling is the WebAssembly engine's memory: roughly 2 GB for input and output combined, which works comfortably up to around 1 GB of source file."
         }
       },
       {
@@ -1372,26 +1372,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2131,7 +2143,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Convert your <span class="accent">MKV to FLAC</span> without re-encoding the video</h1>
-    <p class="hero-sub">Fixes silent OBS Studio recordings, screen captures and camera MKVs in DaVinci Resolve. Everything runs in your browser — nothing is uploaded anywhere.</p>
+    <p class="hero-sub">Fixes silent OBS Studio recordings, screen captures and camera MKVs in DaVinci Resolve. Everything runs in your browser: nothing is uploaded anywhere.</p>
     </div>
   </header>
 
@@ -2300,7 +2312,7 @@
     <article>
       <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your MKV files?</h2>
 
-      <p class="lede">An <strong>MKV</strong> is a container that accepts almost any codec, and that is exactly where the trouble starts. MKVs from <strong>OBS Studio</strong>, screen recorders and cameras usually store audio as <strong>AAC</strong>, sometimes Opus — and the free DaVinci Resolve decodes neither reliably, least of all on Linux.</p>
+      <p class="lede">An <strong>MKV</strong> is a container that accepts almost any codec, and that is exactly where the trouble starts. MKVs from <strong>OBS Studio</strong>, screen recorders and cameras usually store audio as <strong>AAC</strong>, sometimes Opus, and the free DaVinci Resolve decodes neither reliably, least of all on Linux.</p>
 
       <h3>The fix for your MKV: swap the audio, keep the container</h3>
       <p>Because <strong>MKV is already the output container</strong>, nothing about the packaging has to change. VidToFLAC copies the video stream across untouched and re-encodes only the audio track to lossless <strong>FLAC</strong>. The file you get back is the same MKV in every respect that matters, with an audio track DaVinci Resolve can actually read.</p>
@@ -2331,19 +2343,19 @@
       <details class="faq-item">
         <summary>Do I lose quality converting an MKV to FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>If the video codec can be copied — H.264, AV1, VP8, VP9, Xvid — it is copied <strong>bit for bit</strong> and the picture is exactly the original. If the MKV holds <strong>H.265/HEVC</strong> it is re-encoded to H.264 at high quality. Only the audio track changes in either case, and FLAC is lossless.</p>
+          <p>If the video codec can be copied (H.264, AV1, VP8, VP9, Xvid) it is copied <strong>bit for bit</strong> and the picture is exactly the original. If the MKV holds <strong>H.265/HEVC</strong> it is re-encoded to H.264 at high quality. Only the audio track changes in either case, and FLAC is lossless.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary>Why does my OBS recording have no audio in DaVinci Resolve?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>OBS records <strong>AAC</strong> audio by default, sometimes Opus, and DaVinci Resolve — most notably on Linux — ships no decoder for either. Converting that track to FLAC inside the same MKV restores the sound.</p>
+          <p>OBS records <strong>AAC</strong> audio by default, sometimes Opus, and DaVinci Resolve (most notably on Linux) ships no decoder for either. Converting that track to FLAC inside the same MKV restores the sound.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary>Is there a size limit for an MKV?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>We impose none: processing happens on your own computer with FFmpeg (WebAssembly) and nothing is uploaded. The practical ceiling is the WebAssembly engine's memory — roughly 2 GB for input and output combined, which works comfortably up to around 1 GB of source file.</p>
+          <p>We impose none: processing happens on your own computer with FFmpeg (WebAssembly) and nothing is uploaded. The practical ceiling is the WebAssembly engine's memory: roughly 2 GB for input and output combined, which works comfortably up to around 1 GB of source file.</p>
         </div>
       </details>
       <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">
@@ -2379,9 +2391,9 @@
         <figcaption>The usual audio codec in each format and what it does in DaVinci Resolve on Linux.</figcaption>
       </figure>
       <h3>Why MKV is both the best and the worst container</h3>
-      <p>Matroska (MKV) is an open container that imposes almost no limits on what goes inside it: any video codec, any audio codec, any number of tracks, subtitles and chapters. That flexibility is why OBS Studio recommends it for recording — an MKV survives a crash, whereas a half-written MP4 is often unusable. The flip side is that "MKV" tells you nothing about whether your editor can read the contents. Two MKVs can behave completely differently.</p>
+      <p>Matroska (MKV) is an open container that imposes almost no limits on what goes inside it: any video codec, any audio codec, any number of tracks, subtitles and chapters. That flexibility is why OBS Studio recommends it for recording: an MKV survives a crash, whereas a half-written MP4 is often unusable. The flip side is that "MKV" tells you nothing about whether your editor can read the contents. Two MKVs can behave completely differently.</p>
       <h3>The OBS Studio case</h3>
-      <p>OBS records MKV with <strong>AAC audio at 160 kbps</strong> by default. That single default is behind a large share of the "no audio in DaVinci Resolve" reports from people editing on Linux. The video, normally H.264, imports perfectly; the audio track shows up greyed out or silent. Converting that audio to FLAC inside the same MKV is enough — the container never has to change.</p>
+      <p>OBS records MKV with <strong>AAC audio at 160 kbps</strong> by default. That single default is behind a large share of the "no audio in DaVinci Resolve" reports from people editing on Linux. The video, normally H.264, imports perfectly; the audio track shows up greyed out or silent. Converting that audio to FLAC inside the same MKV is enough: the container never has to change.</p>
       <h3>Step by step: converting your MKV to FLAC</h3>
       <ol>
         <li>Drop the .mkv file onto the upload area. You can queue several recordings at once.</li>
@@ -2392,7 +2404,7 @@
       <h3>Common problems and what to do</h3>
       <p>If your MKV carries <strong>H.265 / HEVC</strong> video, the browser cannot decode it for preview and VidToFLAC re-encodes it to H.264 at high quality. If the file holds several audio tracks, such as a game feed plus a microphone, only one of them is converted; the FAQ below explains how to keep them all. And if the MKV came from a download rather than a recording, check first whether the audio is <strong>Opus</strong>: Resolve struggles with that one even on Windows, and the same conversion fixes it.</p>
       <h3>Why Matroska is the container of choice for remuxing</h3>
-      <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it — and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
+      <p><strong>Matroska</strong> carries no patent restrictions in the container itself, and it accepts almost any combination of codecs without recompressing anything. That is why remuxing tools reach for it, and it is the same principle VidToFLAC applies: change the wrapper and the audio track, leave the video untouched.</p>
       <h3>Measured: what happened to a test MKV</h3>
       <p>The <a href="/en/test-bench/">test bench</a> includes a six-second MKV with VP9 video and Opus audio, the usual pairing in an OBS recording or web video. The VP9 was <strong>copied as it was</strong> and the file went from <strong>559 KB to 763 KB</strong> once the Opus became FLAC. What did need fixing was the track's start: the Opus pre-skip left it beginning seven milliseconds after zero, and that was enough for Resolve to import it silent. In the same run, an MKV with AC-3 audio and others with E-AC-3 and DTS also converted without a single error: those are precisely the three codecs that most often leave a silent track in an editor.</p>
     </article>

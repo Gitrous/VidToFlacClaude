@@ -35,7 +35,7 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://vidtoflac.tech/en/convert-mov-to-flac/" />
   <meta property="og:title" content="Convert MOV to FLAC – iPhone and GoPro Audio | VidToFLAC" />
-  <meta property="og:description" content="Convert MOV audio from iPhone, GoPro and cameras to lossless FLAC. Fixes the DaVinci Resolve audio error — nothing uploaded." />
+  <meta property="og:description" content="Convert MOV audio from iPhone, GoPro and cameras to lossless FLAC. Fixes the DaVinci Resolve audio error: nothing uploaded." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:type" content="image/png" />
@@ -115,7 +115,7 @@
         "name": "Will I lose quality converting an iPhone MOV?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "If the video is H.264 it is copied bit for bit and the recording is identical. iPhones record in HEVC by default since iOS 11, and that codec cannot be decoded in the browser, so it is re-encoded to H.264 at high quality (-crf 18) — very close to the original, but not bit-for-bit identical. The audio becomes lossless FLAC in both cases."
+          "text": "If the video is H.264 it is copied bit for bit and the recording is identical. iPhones record in HEVC by default since iOS 11, and that codec cannot be decoded in the browser, so it is re-encoded to H.264 at high quality (-crf 18): very close to the original, but not bit-for-bit identical. The audio becomes lossless FLAC in both cases."
         }
       },
       {
@@ -1372,26 +1372,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2300,12 +2312,12 @@
     <article>
       <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your MOV files?</h2>
 
-      <p class="lede"><strong>MOV</strong> is the QuickTime container, and it is what iPhone, GoPro and most mirrorless cameras write. Nearly all of them store audio as <strong>AAC</strong> — the codec the free DaVinci Resolve cannot decode without a licence, particularly on Linux. The video is fine; only the sound is missing.</p>
+      <p class="lede"><strong>MOV</strong> is the QuickTime container, and it is what iPhone, GoPro and most mirrorless cameras write. Nearly all of them store audio as <strong>AAC</strong>: the codec the free DaVinci Resolve cannot decode without a licence, particularly on Linux. The video is fine; only the sound is missing.</p>
 
       <h3>The fix for your MOV: remux to MKV with FLAC audio</h3>
       <p>MOV files from iPhone, GoPro and most cameras store their audio as <strong>AAC</strong>, the codec DaVinci Resolve cannot decode without a licence. VidToFLAC repackages the MOV into an <strong>MKV</strong> and re-encodes only that audio track to lossless <strong>FLAC</strong>, leaving the picture alone wherever it can.</p>
 
-      <p>If the video is H.264, it is copied across <strong>bit for bit</strong> and the image is exactly the original. iPhones have recorded in <strong>HEVC</strong> since iOS 11, and that codec cannot be decoded in the browser, so it is re-encoded to H.264 at high quality — visually very close, though not bit-for-bit identical.</p>
+      <p>If the video is H.264, it is copied across <strong>bit for bit</strong> and the image is exactly the original. iPhones have recorded in <strong>HEVC</strong> since iOS 11, and that codec cannot be decoded in the browser, so it is re-encoded to H.264 at high quality: visually very close, though not bit-for-bit identical.</p>
 
       <p>The resulting MKV imports with sound into DaVinci Resolve, Premiere Pro and Avid on Windows, macOS and Linux alike.</p>
     </article>
@@ -2331,7 +2343,7 @@
       <details class="faq-item">
         <summary>Will I lose quality converting an iPhone MOV?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>If the video is H.264 it is copied <strong>bit for bit</strong> and the recording is identical. iPhones record in <strong>HEVC</strong> by default since iOS 11, and that codec cannot be decoded in the browser, so it is re-encoded to H.264 at high quality (<code>-crf 18</code>) — very close to the original, but not bit-for-bit identical. The audio becomes lossless FLAC in both cases.</p>
+          <p>If the video is H.264 it is copied <strong>bit for bit</strong> and the recording is identical. iPhones record in <strong>HEVC</strong> by default since iOS 11, and that codec cannot be decoded in the browser, so it is re-encoded to H.264 at high quality (<code>-crf 18</code>): very close to the original, but not bit-for-bit identical. The audio becomes lossless FLAC in both cases.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2381,7 +2393,7 @@
       <h3>What is actually inside a camera MOV</h3>
       <p>MOV is Apple's QuickTime container and the native format of the iPhone, GoPro and most Sony, Canon and Fujifilm bodies. Inside you will usually find <strong>H.264 or H.265 video with AAC audio</strong>. Professional workflows are the exception: field and cinema cameras write <strong>ProRes video with linear PCM audio</strong>, which behaves very differently. Knowing which of the two you have explains most of what happens next.</p>
       <h3>The iPhone and HEVC</h3>
-      <p>Since iOS 11 the iPhone has recorded in <strong>HEVC (H.265)</strong> by default, in "High Efficiency" mode. That halves the file size, but the browser cannot decode HEVC for preview, so VidToFLAC re-encodes the video to H.264 at high quality (<code>-crf 18</code>) — visually very close to the original, though not bit-for-bit identical. If you would rather keep the video untouched, switch the iPhone to <em>Settings → Camera → Formats → Most Compatible</em>, which records H.264.</p>
+      <p>Since iOS 11 the iPhone has recorded in <strong>HEVC (H.265)</strong> by default, in "High Efficiency" mode. That halves the file size, but the browser cannot decode HEVC for preview, so VidToFLAC re-encodes the video to H.264 at high quality (<code>-crf 18</code>): visually very close to the original, though not bit-for-bit identical. If you would rather keep the video untouched, switch the iPhone to <em>Settings → Camera → Formats → Most Compatible</em>, which records H.264.</p>
       <h3>Step by step: converting your MOV to FLAC</h3>
       <ol>
         <li>Drop the .mov file onto the upload area.</li>
@@ -2390,11 +2402,11 @@
         <li>Import the result into DaVinci Resolve, where the audio now plays.</li>
       </ol>
       <h3>Common problems and what to do</h3>
-      <p>If your MOV is <strong>ProRes</strong>, the browser cannot decode it either and the video is re-encoded to H.264 — fine for editing proxies, but not what you want for a ProRes master. Use desktop FFmpeg for those. If the audio is <strong>PCM at 24 bit</strong>, it already works in Resolve and you may not need to convert anything; check the codec before assuming the audio is at fault.</p>
+      <p>If your MOV is <strong>ProRes</strong>, the browser cannot decode it either and the video is re-encoded to H.264: fine for editing proxies, but not what you want for a ProRes master. Use desktop FFmpeg for those. If the audio is <strong>PCM at 24 bit</strong>, it already works in Resolve and you may not need to convert anything; check the codec before assuming the audio is at fault.</p>
       <h3>ProRes MOVs already had lossless audio</h3>
-      <p>MOVs recorded or exported as <strong>ProRes</strong> usually carry uncompressed <strong>PCM</strong> audio at 16 or 24 bits. In that case the file already holds its audio in a lossless format, and moving it to FLAC neither improves nor degrades quality: it preserves it bit for bit and takes up considerably less room. The gain here is not fidelity — it is size and compatibility.</p>
+      <p>MOVs recorded or exported as <strong>ProRes</strong> usually carry uncompressed <strong>PCM</strong> audio at 16 or 24 bits. In that case the file already holds its audio in a lossless format, and moving it to FLAC neither improves nor degrades quality: it preserves it bit for bit and takes up considerably less room. The gain here is not fidelity: it is size and compatibility.</p>
       <h3>Measured: the MOV with PCM audio</h3>
-      <p>There is a surprise here that only measuring reveals. In the <a href="/en/test-bench/">test bench</a>, a six-second MOV with H.264 video and <strong>16-bit PCM</strong> audio — what many cameras and field recorders write — <strong>shrank</strong> when converted: from <strong>1,255 KB to 765 KB</strong>. It is the only case in the whole bench where a file with video comes out smaller, and the reason is that PCM stores audio raw while FLAC compresses it without losing a single sample. If your MOV already carries PCM, you may not need to convert anything for Resolve: check the codec first.</p>
+      <p>There is a surprise here that only measuring reveals. In the <a href="/en/test-bench/">test bench</a>, a six-second MOV with H.264 video and <strong>16-bit PCM</strong> audio (what many cameras and field recorders write) <strong>shrank</strong> when converted: from <strong>1,255 KB to 765 KB</strong>. It is the only case in the whole bench where a file with video comes out smaller, and the reason is that PCM stores audio raw while FLAC compresses it without losing a single sample. If your MOV already carries PCM, you may not need to convert anything for Resolve: check the codec first.</p>
     </article>
   </section>
 

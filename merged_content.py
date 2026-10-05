@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-merged_content.py — las cuatro páginas que agrupan las landings de formato.
+merged_content.py: las cuatro páginas que agrupan las landings de formato.
 
 Las 32 landings minoritarias (AVI, WebM, MP3, Opus…) eran demasiado parecidas
 entre sí para indexarse por separado, así que build_pages.py las junta en dos
@@ -47,7 +47,7 @@ MERGED_ES = [
         ],
         "formats":          VIDEO_FORMATS,
         "title":            "Convertir AVI, WebM, WMV, FLV y otros vídeos a FLAC | VidToFLAC",
-        "description":      "Nueve formatos de vídeo —AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP y M4V—: qué códec de audio llevan y cómo pasarlo a FLAC en tu propio navegador.",
+        "description":      "Nueve formatos de vídeo (AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP y M4V): qué códec de audio llevan y cómo pasarlo a FLAC en tu propio navegador.",
         "keywords":         "convertir AVI a FLAC, convertir WebM a FLAC, WMV a FLAC, FLV a FLAC, VOB a FLAC, TS a FLAC, 3GP a FLAC, M4V a FLAC, MPEG a FLAC, DaVinci Resolve sin audio",
         "canonical":        "https://vidtoflac.tech/convertir-video-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-video-a-flac/",
@@ -65,7 +65,7 @@ MERGED_ES = [
         "seo_body": (
             '      <h3>Qué hace VidToFLAC con cualquiera de estos vídeos</h3>\n'
             '      <p>El proceso es el mismo para los nueve: la herramienta lee el archivo, identifica sus códecs y genera un <strong>MKV</strong> con la pista de audio en <strong>FLAC</strong>, un formato sin pérdida que DaVinci Resolve, Premiere Pro y Avid decodifican de forma nativa.</p>\n\n'
-            '      <p>Lo que cambia entre formatos es el vídeo. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar, así que la imagen no pierde nada. MPEG-2 —el de los VOB, muchos MPEG y algunos TS—, WMV, VP6 y H.265/HEVC se recodifican a H.264 de alta calidad (<code>-crf 18</code>): tarda más, y el resultado es muy parecido al original pero no idéntico bit a bit. Y hay un tercer grupo que también se recodifica aunque el navegador lo lea sin problema: <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>. Copiados tal cual, DaVinci Resolve importa el clip con sonido pero sin imagen. Está medido uno a uno en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>\n\n'
+            '      <p>Lo que cambia entre formatos es el vídeo. H.264, AV1, VP8, VP9 y MPEG-4 (Xvid) se copian sin recodificar, así que la imagen no pierde nada. MPEG-2 (el de los VOB, muchos MPEG y algunos TS), WMV, VP6 y H.265/HEVC se recodifican a H.264 de alta calidad (<code>-crf 18</code>): tarda más, y el resultado es muy parecido al original pero no idéntico bit a bit. Y hay un tercer grupo que también se recodifica aunque el navegador lo lea sin problema: <strong>H.263, Theora, FLV1 (Sorenson) y MS MPEG-4 v3 (DivX 3)</strong>. Copiados tal cual, DaVinci Resolve importa el clip con sonido pero sin imagen. Está medido uno a uno en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>\n\n'
             '      <p>Cuando el vídeo se copia pero el navegador no sabe decodificarlo, como pasa con Xvid, la vista previa de la página puede quedarse sin imagen. El archivo descargado está completo igualmente.</p>'
         ),
         "breadcrumb_label": "Convertir vídeo a FLAC",
@@ -97,7 +97,7 @@ MERGED_ES = [
         ],
         "formats":          AUDIO_FORMATS,
         "title":            "Convertir MP3, AAC, M4A, OGG, Opus, WMA y AIFF a FLAC | VidToFLAC",
-        "description":      "Siete formatos de audio —MP3, AAC, M4A, AIFF, OGG, Opus y WMA—: por qué tu editor no los lee y qué ganas, y qué no, al pasarlos a FLAC.",
+        "description":      "Siete formatos de audio (MP3, AAC, M4A, AIFF, OGG, Opus y WMA): por qué tu editor no los lee y qué ganas, y qué no, al pasarlos a FLAC.",
         "keywords":         "convertir MP3 a FLAC, convertir AAC a FLAC, M4A a FLAC, OGG a FLAC, Opus a FLAC, WMA a FLAC, AIFF a FLAC, audio a FLAC DaVinci Resolve",
         "canonical":        "https://vidtoflac.tech/convertir-audio-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-audio-a-flac/",

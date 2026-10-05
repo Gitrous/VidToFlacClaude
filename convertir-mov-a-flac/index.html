@@ -35,7 +35,7 @@
   <meta property="og:locale" content="es_ES" />
   <meta property="og:url" content="https://vidtoflac.tech/convertir-mov-a-flac/" />
   <meta property="og:title" content="Convertir MOV a FLAC – Audio iPhone y GoPro | VidToFLAC" />
-  <meta property="og:description" content="Convierte el audio de tus clips MOV (iPhone, GoPro, cámara) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada." />
+  <meta property="og:description" content="Convierte el audio de tus clips MOV (iPhone, GoPro, cámara) a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:type" content="image/png" />
@@ -46,7 +46,7 @@
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convertir MOV a FLAC – Audio iPhone y GoPro | VidToFLAC" />
-  <meta name="twitter:description" content="Convierte el audio de tus clips MOV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada." />
+  <meta name="twitter:description" content="Convierte el audio de tus clips MOV a FLAC en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
   <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
 
@@ -123,7 +123,7 @@
         "name": "Mi MOV de GoPro entra en Resolve sin audio, ¿por qué?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Las GoPro graban el audio en AAC, que DaVinci Resolve no decodifica de serie —sobre todo en Linux—. Pasar ese audio a FLAC dentro de un MKV restaura el sonido."
+          "text": "Las GoPro graban el audio en AAC, que DaVinci Resolve no decodifica de serie (sobre todo en Linux). Pasar ese audio a FLAC dentro de un MKV restaura el sonido."
         }
       },
       {
@@ -1372,26 +1372,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2131,7 +2143,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Convierte tu <span class="accent">MOV a FLAC</span> sin pérdida de calidad</h1>
-    <p class="hero-sub">Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado sin recomprimir cuando el códec lo permite — 100% privado, en tu navegador.</p>
+    <p class="hero-sub">Soluciona los clips MOV de iPhone, GoPro o cámara que DaVinci Resolve no puede reproducir. Audio a FLAC sin pérdida, vídeo copiado sin recomprimir cuando el códec lo permite: 100% privado, en tu navegador.</p>
     </div>
   </header>
 
@@ -2307,7 +2319,7 @@
 
       <p>Si el vídeo es H.264, el proceso es un remux y la calidad de imagen no se toca. Los iPhone graban en HEVC desde iOS 11, y ese códec se recodifica a H.264 con calidad alta porque el navegador no puede decodificarlo. En ambos casos el sonido vuelve a estar disponible en tu editor.</p>
 
-      <p>Caso especial: si el MOV contiene <strong>ProRes</strong> —habitual en flujos profesionales—, el navegador no puede decodificarlo para previsualizar, así que VidToFLAC recodifica el vídeo a H.264 manteniendo el audio en FLAC.</p>
+      <p>Caso especial: si el MOV contiene <strong>ProRes</strong> (habitual en flujos profesionales), el navegador no puede decodificarlo para previsualizar, así que VidToFLAC recodifica el vídeo a H.264 manteniendo el audio en FLAC.</p>
     </article>
   </section>
 
@@ -2337,7 +2349,7 @@
       <details class="faq-item">
         <summary>Mi MOV de GoPro entra en Resolve sin audio, ¿por qué?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Las GoPro graban el audio en <strong>AAC</strong>, que DaVinci Resolve no decodifica de serie —sobre todo en Linux—. Pasar ese audio a FLAC dentro de un MKV restaura el sonido.</p>
+          <p>Las GoPro graban el audio en <strong>AAC</strong>, que DaVinci Resolve no decodifica de serie (sobre todo en Linux). Pasar ese audio a FLAC dentro de un MKV restaura el sonido.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2379,7 +2391,7 @@
         <figcaption>El mismo clip con su audio ya en FLAC: la forma de onda aparece y el sonido se reproduce.</figcaption>
       </figure>
       <h3>El formato MOV: nativo de Apple, problemático fuera de macOS</h3>
-      <p>MOV es el formato de contenedor de QuickTime, desarrollado por Apple. Es el formato nativo de grabación del <strong>iPhone</strong> (todos los modelos), <strong>GoPro</strong> (antes de cambiar a MP4), cámaras Sony Alpha en modo XAVC S, Canon EOS en algunos modos y muchas otras cámaras digitales orientadas a la producción. En macOS, los archivos MOV se abren sin problemas en casi cualquier aplicación porque el sistema incluye los decodificadores necesarios. En <strong>Linux</strong> —donde reside la mayor parte de los usuarios afectados por el problema de audio en DaVinci Resolve— la historia es diferente.</p>
+      <p>MOV es el formato de contenedor de QuickTime, desarrollado por Apple. Es el formato nativo de grabación del <strong>iPhone</strong> (todos los modelos), <strong>GoPro</strong> (antes de cambiar a MP4), cámaras Sony Alpha en modo XAVC S, Canon EOS en algunos modos y muchas otras cámaras digitales orientadas a la producción. En macOS, los archivos MOV se abren sin problemas en casi cualquier aplicación porque el sistema incluye los decodificadores necesarios. En <strong>Linux</strong> (donde reside la mayor parte de los usuarios afectados por el problema de audio en DaVinci Resolve) la historia es diferente.</p>
       <h3>Códecs de audio en archivos MOV</h3>
       <p>Los MOV de iPhone y GoPro usan casi siempre <strong>AAC estéreo</strong> a 44.1 kHz o 48 kHz. Los MOV de cámaras Sony Alpha con grabación de alta calidad pueden usar <strong>PCM linear de 4 canales</strong>. Las cámaras Canon con modo Cinema RAW Light generan MOV con <strong>PCM linear</strong>. Los MOV de grabación en pantalla de macOS (QuickTime Player) suelen tener <strong>AAC</strong>. El denominador común de los problemas en Resolve es el AAC: solo el PCM linear es directamente compatible.</p>
       <h3>El caso especial de los MOV con ProRes</h3>
@@ -2392,11 +2404,11 @@
         <li>Importa el MKV resultante en DaVinci Resolve y asígnalo a tu timeline.</li>
       </ol>
       <h3>Tip: iPhone graba en HEVC por defecto desde iOS 11</h3>
-      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. El navegador no puede decodificar HEVC, así que VidToFLAC lo recodifica a H.264 con calidad alta (<code>-crf 18</code>) —visualmente muy próximo al original— y convierte el audio a FLAC. Si el MOV lleva H.264, el vídeo se copia sin recomprimir.</p>
+      <p>Desde iOS 11, el iPhone graba vídeo en <strong>H.265 (HEVC)</strong> con audio AAC dentro de un contenedor MOV. El navegador no puede decodificar HEVC, así que VidToFLAC lo recodifica a H.264 con calidad alta (<code>-crf 18</code>), visualmente muy próximo al original, y convierte el audio a FLAC. Si el MOV lleva H.264, el vídeo se copia sin recomprimir.</p>
       <h3>Los MOV con ProRes ya traían el audio sin pérdida</h3>
       <p>Los MOV grabados o exportados en <strong>ProRes</strong> suelen llevar audio <strong>PCM</strong> de 16 o 24 bits sin comprimir. En ese caso el archivo ya tiene el audio en un formato sin pérdida, y pasarlo a FLAC no mejora ni empeora la calidad: la conserva bit a bit y además ocupa bastante menos. La ventaja aquí no es la fidelidad, es el tamaño y la compatibilidad.</p>
       <h3>Medido: el caso del MOV con audio PCM</h3>
-      <p>Aquí hay una sorpresa que solo se ve midiendo. En el <a href="/banco-de-pruebas/">banco de pruebas</a>, un MOV de 6 segundos con vídeo H.264 y audio <strong>PCM de 16 bits</strong> —lo que graban muchas cámaras y grabadoras de campo— <strong>encogió</strong> al convertirlo: de <strong>1.255 KB a 765 KB</strong>. Es el único caso de todo el banco en el que un archivo con vídeo sale más pequeño, y el motivo es que el PCM guarda el audio en crudo mientras que FLAC lo comprime sin perder un solo dato. Si tu MOV ya lleva PCM, puede que no necesites convertir nada para Resolve: comprueba antes el códec.</p>
+      <p>Aquí hay una sorpresa que solo se ve midiendo. En el <a href="/banco-de-pruebas/">banco de pruebas</a>, un MOV de 6 segundos con vídeo H.264 y audio <strong>PCM de 16 bits</strong> (lo que graban muchas cámaras y grabadoras de campo) <strong>encogió</strong> al convertirlo: de <strong>1.255 KB a 765 KB</strong>. Es el único caso de todo el banco en el que un archivo con vídeo sale más pequeño, y el motivo es que el PCM guarda el audio en crudo mientras que FLAC lo comprime sin perder un solo dato. Si tu MOV ya lleva PCM, puede que no necesites convertir nada para Resolve: comprueba antes el códec.</p>
     </article>
   </section>
 

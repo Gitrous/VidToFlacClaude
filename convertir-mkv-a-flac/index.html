@@ -35,7 +35,7 @@
   <meta property="og:locale" content="es_ES" />
   <meta property="og:url" content="https://vidtoflac.tech/convertir-mkv-a-flac/" />
   <meta property="og:title" content="Convertir MKV a FLAC – Remux sin pérdida | VidToFLAC" />
-  <meta property="og:description" content="Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos MKV — sin subir nada." />
+  <meta property="og:description" content="Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve en archivos MKV, sin subir nada." />
   <meta property="og:image" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:secure_url" content="https://vidtoflac.tech/og-image.png" />
   <meta property="og:image:type" content="image/png" />
@@ -46,7 +46,7 @@
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convertir MKV a FLAC – Remux sin pérdida | VidToFLAC" />
-  <meta name="twitter:description" content="Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve — sin subir nada." />
+  <meta name="twitter:description" content="Cambia el audio de tus MKV a FLAC en segundos, en tu navegador. Soluciona el error de audio de DaVinci Resolve, sin subir nada." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
   <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
 
@@ -115,7 +115,7 @@
         "name": "¿Tengo que recodificar el vídeo de mi MKV?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Si el códec de vídeo se puede copiar —H.264, AV1, VP8, VP9, Xvid—, se copia bit a bit y la imagen queda exactamente igual que en el original. Si el MKV lleva H.265/HEVC, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."
+          "text": "Si el códec de vídeo se puede copiar (H.264, AV1, VP8, VP9, Xvid), se copia bit a bit y la imagen queda exactamente igual que en el original. Si el MKV lleva H.265/HEVC, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC."
         }
       },
       {
@@ -123,7 +123,7 @@
         "name": "Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "OBS suele grabar el audio en AAC (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema."
+          "text": "OBS suele grabar el audio en AAC (o a veces Opus), y DaVinci Resolve (especialmente en Linux) no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema."
         }
       },
       {
@@ -1372,26 +1372,38 @@
     .trust-strip svg { width: 18px; height: 18px; color: var(--amber-2); flex-shrink: 0; }
     .trust-strip strong { color: var(--ink); font-weight: 600; }
 
+    /* With the captures the hero reads left-aligned at every width */
+    .header:has(.hero-visual) { align-items: flex-start; text-align: left; }
+    .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+
     @media (min-width: 880px) {
       .header:has(.hero-visual) {
         display: grid;
         grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
         align-items: center;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: left;
-        max-width: 1100px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         padding: 1.5rem 0 1.25rem;
       }
-      .header:has(.hero-visual) .hero-copy { align-items: flex-start; }
+      .header:has(.hero-visual) .hero-title { font-size: 2.3rem; }
       .header:has(.hero-visual) .hero-title,
       .header:has(.hero-visual) .hero-sub { margin-left: 0; margin-right: 0; }
       .header:has(.hero-visual) .hero-visual { margin: 0; justify-self: end; }
-      .trust-strip { max-width: 1100px; width: 100%; margin: 0 auto; justify-content: flex-start; }
-    }
-    @media (min-width: 1200px) {
-      .trust-strip { justify-content: space-between; }
+      /* Same 860px column as the tool below; the longer claim gets more room */
+      .trust-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.35fr;
+        align-items: start;
+        gap: 1.5rem;
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .trust-strip li { align-items: flex-start; font-size: 0.84rem; line-height: 1.45; }
+      .trust-strip svg { margin-top: 0.1rem; }
     }
     @media (max-width: 560px) {
       .trust-strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -2131,7 +2143,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Cambia el audio de tu <span class="accent">MKV a FLAC</span> sin pérdida</h1>
-    <p class="hero-sub">Recodifica solo el audio de cualquier archivo MKV a FLAC, copiando el vídeo bit a bit. Soluciona el error de códec de audio en DaVinci Resolve — 100% privado, sin subir nada.</p>
+    <p class="hero-sub">Recodifica solo el audio de cualquier archivo MKV a FLAC, copiando el vídeo bit a bit. Soluciona el error de códec de audio en DaVinci Resolve: 100% privado, sin subir nada.</p>
     </div>
   </header>
 
@@ -2331,13 +2343,13 @@
       <details class="faq-item">
         <summary>¿Tengo que recodificar el vídeo de mi MKV?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Si el códec de vídeo se puede copiar —H.264, AV1, VP8, VP9, Xvid—, se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC.</p>
+          <p>Si el códec de vídeo se puede copiar (H.264, AV1, VP8, VP9, Xvid), se copia <strong>bit a bit</strong> y la imagen queda exactamente igual que en el original. Si el MKV lleva <strong>H.265/HEVC</strong>, se recodifica a H.264 con calidad alta. En ambos casos solo la pista de audio pasa a FLAC.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary>Mi grabación MKV de OBS no tiene sonido en DaVinci Resolve, ¿por qué?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve —especialmente en Linux— no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema.</p>
+          <p>OBS suele grabar el audio en <strong>AAC</strong> (o a veces Opus), y DaVinci Resolve (especialmente en Linux) no incluye su decodificador. Convertir ese audio a FLAC dentro del MKV soluciona el problema.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2379,7 +2391,7 @@
         <figcaption>Códec de audio habitual de cada formato y su resultado en DaVinci Resolve sobre Linux.</figcaption>
       </figure>
       <h3>El contenedor MKV: flexible pero heterogéneo</h3>
-      <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante —y también la más problemática— es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
+      <p>MKV (Matroska Video) es un contenedor de código abierto especialmente popular en la comunidad de grabación y edición: OBS Studio lo usa como formato de grabación por defecto, y muchas herramientas de descarga y transcodificación como FFmpeg o HandBrake lo producen habitualmente. Su característica más importante (y también la más problemática) es que acepta <em>cualquier</em> códec de audio: <strong>AAC, MP3, Vorbis, Opus, DTS, AC3, FLAC, PCM</strong> y muchos más. No hay forma de saber qué códec lleva un MKV sin analizarlo, y esa variedad es exactamente lo que genera problemas de compatibilidad con DaVinci Resolve.</p>
       <h3>Qué códec de audio lleva tu MKV</h3>
       <p>El origen del archivo determina el códec: los MKV de <strong>OBS Studio</strong> suelen tener <strong>AAC o Opus</strong> (según la versión y la configuración). Los MKV y WebM que circulan por la web suelen traer <strong>Vorbis u Opus</strong>. Los generados por HandBrake con la configuración por defecto suelen tener <strong>AAC</strong>. Los producidos por conversores online pueden traer <strong>MP3</strong>. Solo los MKV con audio FLAC o PCM linear son directamente compatibles con DaVinci Resolve en todas las plataformas.</p>
       <h3>Por qué la pista de audio de tu MKV aparece en gris en DaVinci Resolve</h3>
@@ -2394,7 +2406,7 @@
       <h3>Caso especial: MKV con audio Opus de OBS</h3>
       <p>OBS Studio 28 y posteriores usan Opus como códec de audio por defecto en grabaciones MKV porque ofrece mejor calidad que MP3 a menor bitrate. Resolve no decodifica Opus de serie en ninguna plataforma, así que si grabas con OBS en esas versiones y ves la pista de audio en gris, la conversión a FLAC con VidToFLAC resuelve el problema de forma inmediata.</p>
       <h3>Por qué Matroska es el contenedor preferido para remuxear</h3>
-      <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux — y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
+      <p><strong>Matroska</strong> no arrastra restricciones de patente en el contenedor en sí, y acepta prácticamente cualquier combinación de códecs sin recomprimir nada. Por eso es el formato al que recurren las herramientas de remux, y es el mismo principio que aplica VidToFLAC: cambiar el envoltorio y la pista de audio sin volver a tocar el vídeo.</p>
       <h3>Medido: qué pasó con un MKV de prueba</h3>
       <p>El <a href="/banco-de-pruebas/">banco de pruebas</a> incluye un MKV de 6 segundos con vídeo VP9 y audio Opus, la combinación típica de una grabación de OBS o de vídeo web. El VP9 <strong>se copió tal cual</strong> y el archivo pasó de <strong>559 KB a 763 KB</strong> al convertir el Opus a FLAC. Lo que sí hubo que corregir fue el arranque de la pista: el <em>pre-skip</em> de Opus la dejaba empezando siete milisegundos después de cero, y con eso Resolve la importaba muda. En la misma tanda, un MKV con audio AC-3 y otro con E-AC-3 y DTS también se convirtieron sin un solo error: son precisamente los tres códecs que más veces dejan una pista muda en el editor.</p>
     </article>

@@ -378,9 +378,11 @@ Tres decisiones que no son obvias y que no conviene deshacer:
   controles del reproductor ocupa la parte baja del vídeo y, en pausa o al
   pasar el ratón, tapaba exactamente el mensaje. Solo se ve en el navegador,
   no en los fotogramas extraídos con ffmpeg: compruébalo con una captura.
-- **La sección va después del hueco de anuncio**, con título y entradilla de por
-  medio. Colocada antes, los controles del reproductor quedaban pegados al
-  anuncio: riesgo de clic accidental, que AdSense trata como infracción.
+- **La sección va justo debajo de "Cómo funciona"** (decisión del usuario,
+  5-10-2026), antes de la tarjeta "Antes y después", que la separa del hueco de
+  anuncio. Lo que no puede pasar es que los controles del reproductor queden
+  pegados al anuncio: riesgo de clic accidental, que AdSense trata como
+  infracción. Hasta esa fecha iba después del anuncio por el mismo motivo.
 - **`preload="none"` con póster**: la página solo descarga la imagen (~85 KB)
   hasta que alguien pulsa reproducir. Sin autoplay, así que el audio suena al
   pulsar, que es lo que la demo necesita: el contraste silencio → sonido.
@@ -724,4 +726,8 @@ también en los mensajes del registro y en el JSON-LD de FAQ que repite el texto
 en la fuente del cuerpo, sin `uppercase`; solo los badges de estado y las
 etiquetas de extensión siguen en mayúsculas), sin "PASO 01/02/03" y **sin texto
 justificado**, que en columnas estrechas abría huecos entre palabras. Las landings
-lo heredan al regenerar, pero sus `hero_sub` de `PAGES` aún llevan rayas.
+lo heredan al regenerar, y sus textos propios (`PAGES`, `landing_content*.py`,
+`merged_content.py`) se limpiaron igual: 0 rayas visibles en las doce. Al pasar
+rayas a paréntesis con una regex, **comprueba que el par no cruza una frase**:
+una raya suelta al final de una oración se emparejó con la de la siguiente y
+dejó un paréntesis abierto sobre dos frases.
