@@ -49,7 +49,7 @@
     "description": "DaVinci Resolve no reproduce el audio de tu MP4, MOV o grabación de OBS Studio? Guía paso a paso para solucionar el problema de códec de audio sin reinstalar nada.",
     "url": "https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-10-02",
+    "dateModified": "2026-10-08",
     "inLanguage": "es",
     "author": {
       "@type": "Person",
@@ -80,7 +80,7 @@
         "name": "¿Por qué DaVinci Resolve no reproduce el audio de un MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Los MP4 grabados con smartphones, cámaras y OBS usan AAC o MP3 para el audio. DaVinci Resolve gratuito en Linux no incluye los decodificadores de esos códecs. La solución es convertir el audio a FLAC con VidToFLAC: el vídeo se copia sin pérdida y el audio queda compatible en Windows, macOS y Linux."
+          "text": "Los MP4 grabados con smartphones, cámaras y OBS usan AAC para el audio. DaVinci Resolve en Linux no incluye el decodificador de ese códec, tampoco la versión Studio. La solución es convertir el audio a FLAC con VidToFLAC: el vídeo se copia sin pérdida y el audio queda compatible en Windows, macOS y Linux."
         }
       },
       {
@@ -498,7 +498,7 @@
 
       <p>Cuando grabas un vídeo con un móvil, una cámara de acción, una mirrorless o con OBS Studio, el archivo resultante lleva el audio comprimido con un <strong>códec</strong>: casi siempre <strong>AAC</strong> (el estándar en MP4 y MOV de cámara) o <strong>MP3</strong> (habitual en grabaciones de pantalla y software antiguo).</p>
 
-      <p>DaVinci Resolve gratuito <strong>no incluye decodificadores para AAC ni MP3 en Linux</strong>, porque Blackmagic Design no paga esas licencias de patente para la versión de Linux. En Windows y macOS el soporte de AAC existe, pero hay combinaciones concretas de contenedor y códec que siguen fallando, especialmente con archivos grabados por software de captura o cámaras con ajustes no estándar.</p>
+      <p>DaVinci Resolve <strong>no incluye decodificador de AAC en Linux</strong>, porque Blackmagic Design no paga esa licencia de patente para la versión de Linux (lo probamos también en Studio 21: el clip entra mudo). MP3, cuyas patentes ya expiraron, sí entró en <a href="/banco-de-pruebas/">la misma prueba</a>. En Windows y macOS el soporte de AAC existe, pero hay combinaciones concretas de contenedor y códec que siguen fallando, especialmente con archivos grabados por software de captura o cámaras con ajustes no estándar.</p>
       <figure class="fig">
         <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="Pista de audio con forma de onda visible en la línea de tiempo de DaVinci Resolve" />
         <figcaption>Así se ve la pista cuando el códec sí es compatible: la forma de onda aparece nada más importar.</figcaption>
@@ -552,7 +552,7 @@
           <tr>
             <td><strong>OBS Studio (por defecto)</strong></td>
             <td>MKV / MP4</td>
-            <td>AAC o MP3</td>
+            <td>AAC</td>
             <td><span class="badge-fail">Sin audio</span></td>
           </tr>
           <tr>
@@ -763,7 +763,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>Los MP4 grabados con smartphones, cámaras y OBS usan <strong>AAC o MP3</strong> para el audio. DaVinci Resolve gratuito en Linux no incluye los decodificadores de esos códecs. La solución es convertir el audio a FLAC con VidToFLAC: el vídeo se copia sin pérdida y el audio queda compatible en Windows, macOS y Linux.</p>
+            <p>Los MP4 grabados con smartphones, cámaras y OBS usan <strong>AAC</strong> para el audio. DaVinci Resolve en Linux no incluye el decodificador de ese códec, tampoco la versión Studio. La solución es convertir el audio a FLAC con VidToFLAC: el vídeo se copia sin pérdida y el audio queda compatible en Windows, macOS y Linux.</p>
           </div>
         </details>
 

@@ -179,7 +179,7 @@
         "name": "Does it work for DaVinci Resolve on Linux?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. DaVinci Resolve on Linux is exactly where the audio codec error appears most, because it does not include AAC or MP3 decoders. By converting the audio to FLAC inside an MKV you get a file that DaVinci Resolve plays natively, restoring sound without installing paid codecs."
+          "text": "Yes. DaVinci Resolve on Linux is exactly where the audio codec error appears most, because it does not include an AAC decoder. By converting the audio to FLAC inside an MKV you get a file that DaVinci Resolve plays natively, restoring sound without installing paid codecs."
         }
       },
       {
@@ -2457,7 +2457,7 @@
         <ul class="compare-list">
           <li>Audio track grayed out in DaVinci Resolve</li>
           <li>"Audio codec not supported (AAC)"</li>
-          <li>AAC or MP3 codec not supported on Linux</li>
+          <li>AAC codec not supported on Linux</li>
           <li>Hunting for paid codecs or moving to Resolve Studio, which does not always fix it</li>
           <li>Re-encoding the entire video (slow)</li>
         </ul>
@@ -2494,7 +2494,7 @@
 
       <p class="lede">If you've opened a clip in DaVinci Resolve and it shows <strong>no sound</strong> (or the audio track is greyed out), it's almost always an <strong>audio codec error</strong>, not a problem with your microphone or project.</p>
 
-      <p>Many cameras, recorders, and capture apps like <strong>OBS Studio</strong>, <strong>smartphones</strong>, or action cameras save audio with compressed codecs like <strong>AAC</strong> or <strong>MP3</strong> inside MP4 or MOV containers. The free version of DaVinci Resolve, and especially <strong>DaVinci Resolve on Linux</strong> and in professional environments, does not include the licenses to decode all those audio formats. The result is the classic <span class="hl">DaVinci Resolve no sound</span> issue, desynced audio, or clips that won't even import.</p>
+      <p>Many cameras, recorders, and capture apps like <strong>OBS Studio</strong>, <strong>smartphones</strong>, or action cameras save audio as <strong>AAC</strong>, a compressed codec, inside MP4 or MOV containers. The free version of DaVinci Resolve, and especially <strong>DaVinci Resolve on Linux</strong> and in professional environments, does not include the licenses to decode all those audio formats. The result is the classic <span class="hl">DaVinci Resolve no sound</span> issue, desynced audio, or clips that won't even import.</p>
 
       <h3>The fix: change the container, not re-encode the video</h3>
       <p>VidToFLAC performs a <strong>remux</strong>: it repackages your file into an <strong>MKV</strong> container and converts only the audio track to <strong>FLAC</strong>, a lossless format that DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer and Final Cut Pro decode natively. When you <span class="hl">convert video audio to FLAC</span> this way, the video stream is copied <strong>bit by bit</strong>, without re-rendering a single frame, provided the source codec can be copied into the output container. When it cannot (H.265/HEVC, ProRes, DNxHD, MJPEG and the like), the video is re-encoded to H.264 at high quality; there is a full explanation further down.
@@ -2547,7 +2547,7 @@
       <details class="faq-item">
         <summary>Does it work for DaVinci Resolve on Linux?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Yes.</strong> <strong>DaVinci Resolve on Linux</strong> is exactly where the <strong>audio codec error</strong> appears most, because it does not include AAC or MP3 decoders. By converting the audio to <strong>FLAC inside an MKV</strong> you get a file that DaVinci Resolve plays natively, restoring sound without installing paid codecs.</p>
+          <p><strong>Yes.</strong> <strong>DaVinci Resolve on Linux</strong> is exactly where the <strong>audio codec error</strong> appears most, because it does not include an AAC decoder. By converting the audio to <strong>FLAC inside an MKV</strong> you get a file that DaVinci Resolve plays natively, restoring sound without installing paid codecs.</p>
         </div>
       </details>
 
@@ -2604,7 +2604,7 @@
       <p>A single container can hold multiple codecs. An MP4 file, for example, can contain H.264 or H.265 (HEVC) video, and audio in AAC, MP3, AC3, or even FLAC. When DaVinci Resolve (or another editor) cannot open the audio of a clip, the problem is rarely the container (.mp4, .mov, .mkv): almost always it is the <strong>audio codec</strong> inside.</p>
 
       <h3>Why DaVinci Resolve cannot decode certain audio</h3>
-      <p>DaVinci Resolve free edition <strong>does not include licenses</strong> for certain proprietary decoders, especially <strong>AAC</strong> (the standard format for iOS cameras, GoPro, and most smartphones), <strong>MP3</strong>, <strong>AC3 (Dolby Digital)</strong>, and <strong>DTS</strong>. This restriction is especially pronounced <strong>on Linux</strong>, where Resolve relies entirely on the decoders included in the operating system.</p>
+      <p>DaVinci Resolve free edition <strong>does not include licenses</strong> for certain proprietary decoders, especially <strong>AAC</strong> (the standard format for iOS cameras, GoPro, and most smartphones), <strong>AC3 (Dolby Digital)</strong>, and <strong>DTS</strong>. This restriction is especially pronounced <strong>on Linux</strong>, where Resolve relies entirely on the decoders included in the operating system.</p>
       <p>The most common symptom is finding the audio track grayed out in the media inspector, or seeing the message <em>"Audio codec not supported"</em> when trying to import the clip. Another frequent cause is audio encoded as <strong>floating-point PCM</strong> (pcm_f32le), which some USB microphones and recording software use, which is also not directly compatible with all Resolve workflows.</p>
       <p>The solution is not to reinstall DaVinci Resolve or look for paid codecs: it is to change the audio codec of the file to one that Resolve always decodes natively.</p>
 

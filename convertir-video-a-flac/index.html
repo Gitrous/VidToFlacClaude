@@ -1375,8 +1375,8 @@
     section[aria-labelledby="demo-titulo"]::before {
       content: '';
       position: absolute;
-      inset: -140px -260px;
-      background: radial-gradient(closest-side, rgba(25,195,125,.18), transparent);
+      inset: -160px -320px;
+      background: radial-gradient(closest-side, rgba(25,195,125,.32), transparent);
       pointer-events: none;
       z-index: -1;
     }
@@ -2422,7 +2422,7 @@
       <h3>AVI: el legado de Microsoft y sus múltiples códecs</h3>
       <p>AVI (Audio Video Interleave) fue el formato de vídeo estándar de Windows desde los años 90. Todavía hoy es el formato de salida de muchas <strong>cámaras digitales compactas antiguas</strong>, <strong>grabadoras de dashcam</strong> y algunas cámaras de seguridad IP. También es el formato de muchas grabaciones y películas en dominio público digitalizadas. El contenedor AVI es muy permisivo en cuanto a códecs: puede contener vídeo DivX, Xvid, H.264, MPEG-4 o incluso MJPEG, y audio en MP3, AC3, PCM linear o incluso AAC. Esta variedad es exactamente lo que genera problemas de compatibilidad.</p>
       <h3>Qué códecs de audio lleva un AVI y por qué fallan</h3>
-      <p>Los AVI de cámaras de consumo de los años 2000-2010 suelen llevar audio <strong>MP3</strong>. Los AVI procedentes de DVD ripeados o material de broadcast suelen llevar <strong>AC3 (Dolby Digital)</strong>. Los AVI grabados con software como VirtualDub o Avisynth pueden llevar <strong>PCM linear</strong>, que sí es compatible. DaVinci Resolve en Linux no incluye decodificadores para MP3 ni AC3, lo que provoca que la pista de audio aparezca vacía o en gris al importar. Si el AVI tiene PCM linear, el audio sí se importa correctamente.</p>
+      <p>Los AVI de cámaras de consumo de los años 2000-2010 suelen llevar audio <strong>MP3</strong>. Los AVI procedentes de DVD ripeados o material de broadcast suelen llevar <strong>AC3 (Dolby Digital)</strong>. Los AVI grabados con software como VirtualDub o Avisynth pueden llevar <strong>PCM linear</strong>, que sí es compatible. DaVinci Resolve en Linux no incluye decodificador para AC3, lo que deja la pista de audio vacía o en gris al importar. El MP3 en sí no es el problema (entra sin dificultad dentro de un MP4), pero en <a href="/banco-de-pruebas/">nuestra prueba con Studio 21</a> el AVI ni siquiera llegó al Media Pool. Si el AVI tiene PCM linear, el audio sí se importa correctamente.</p>
       <h3>El problema del vídeo en AVI: DivX y Xvid</h3>
       <p>Muchos AVI de los años 2000 usan vídeo <strong>DivX o Xvid</strong> (variantes de MPEG-4 Part 2), que los navegadores no decodifican. VidToFLAC los copia tal cual dentro del MKV, sin recodificar, así que la imagen no pierde calidad; lo que puede pasar es que la vista previa de la página no muestre el vídeo. El audio pasa a FLAC igualmente. Si tu editor tampoco lee DivX o Xvid, recodifica el vídeo a H.264 con FFmpeg de escritorio (<code>-c:v libx264 -crf 18</code>).</p>
       <h3>Paso a paso: convertir tu AVI a FLAC</h3>
@@ -2512,7 +2512,7 @@
       <h3>Códecs en FLV: H.263, H.264, MP3 y AAC</h3>
       <p>Los FLV antiguos (anteriores a 2008) usan vídeo <strong>Sorenson Spark (una variante de H.263) o VP6</strong> y audio <strong>MP3</strong>. Los FLV más modernos de YouTube (2008-2015) usan vídeo <strong>H.264</strong> y audio <strong>AAC</strong>. VidToFLAC detecta el códec de vídeo: H.264 y Sorenson Spark se copian sin recodificar, y VP6, que el navegador no decodifica, se recodifica a H.264. Con Sorenson Spark la vista previa de la página puede no mostrar la imagen, aunque el archivo se genera igual. En todos los casos, el audio pasa a FLAC.</p>
       <h3>Por qué DaVinci Resolve no abre el audio de los FLV</h3>
-      <p>DaVinci Resolve en Linux no incluye los decodificadores para MP3 ni para AAC. Si intentas importar un FLV en Resolve (suponiendo que el propio contenedor FLV sea reconocido, lo cual no está garantizado), la pista de audio aparecerá vacía. Además, el contenedor FLV en sí tiene soporte limitado en editores modernos. La solución es convertir el FLV a MKV con audio FLAC, que es un formato universalmente compatible.</p>
+      <p>DaVinci Resolve en Linux no incluye el decodificador de AAC, el audio de los FLV más recientes, y el contenedor FLV en sí no está garantizado que lo reconozca. Si lleva AAC, la pista de audio aparecerá vacía. Además, el contenedor FLV en sí tiene soporte limitado en editores modernos. La solución es convertir el FLV a MKV con audio FLAC, que es un formato universalmente compatible.</p>
       <h3>Paso a paso: convertir tu FLV a FLAC</h3>
       <ol>
         <li>Arrastra tu archivo .flv a VidToFLAC.</li>

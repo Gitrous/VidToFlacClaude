@@ -83,7 +83,7 @@ MERGED_ES = [
             ("¿Convertir un MP3, un AAC o un Opus a FLAC mejora la calidad?",
              "No. Esos formatos descartan información al comprimir y ya no se puede recuperar. FLAC guarda exactamente lo que queda, así que el resultado suena igual que el original, ni mejor ni peor."),
             ("Entonces, ¿para qué sirve pasarlo a FLAC?",
-             "Para dos cosas. La primera, compatibilidad: DaVinci Resolve, Premiere y Avid leen FLAC de forma nativa, y muchos de ellos no leen Opus, Vorbis o WMA, ni AAC y MP3 en Linux. La segunda, que al editar y exportar no sumes una segunda compresión con pérdida sobre la que ya tenía el archivo."),
+             "Para dos cosas. La primera, compatibilidad: DaVinci Resolve, Premiere y Avid leen FLAC de forma nativa, y muchos de ellos no leen Opus, Vorbis o WMA, ni AAC en Linux. La segunda, que al editar y exportar no sumes una segunda compresión con pérdida sobre la que ya tenía el archivo."),
             ("¿Cuánto más ocupa el FLAC?",
              "Bastante más que un formato con pérdida: un FLAC suele ocupar varias veces lo que un MP3 o un AAC de buena calidad, y todavía más frente a un Opus de voz. Frente a un AIFF o un WAV sin comprimir, en cambio, ocupa menos, normalmente entre la mitad y dos tercios, según el contenido."),
             ("¿Pierdo algo al pasar un AIFF a FLAC?",
@@ -111,7 +111,7 @@ MERGED_ES = [
         "hero_h1":          'Convierte <span class="accent">MP3, AAC, Opus y otros audios</span> a FLAC',
         "hero_sub":         "Siete formatos de audio que DaVinci Resolve y otros editores leen mal o no leen. VidToFLAC los pasa a FLAC en tu navegador, sin subir nada.",
         "seo_h2":           '¿Por qué tu editor <span class="accent">no lee este archivo de audio</span>?',
-        "seo_lede":         'Los archivos de audio sueltos fallan por lo mismo que los vídeos: el <strong>códec</strong>. MP3, AAC y M4A dependen de licencias que DaVinci Resolve no incluye en Linux; Opus, Vorbis (el de los OGG) y WMA no tienen soporte fiable en ninguna plataforma; y AIFF, aunque es sin pérdida, da problemas en algunas combinaciones. Más abajo tienes la guía de cada uno.',
+        "seo_lede":         'Los archivos de audio sueltos fallan por lo mismo que los vídeos: el <strong>códec</strong>. AAC y M4A dependen de una licencia que DaVinci Resolve no incluye en Linux (MP3, libre de patentes desde 2017, sí entra); Opus, Vorbis (el de los OGG) y WMA no tienen soporte fiable en ninguna plataforma; y AIFF, aunque es sin pérdida, da problemas en algunas combinaciones. Más abajo tienes la guía de cada uno.',
         "seo_body": (
             '      <h3>Qué hace VidToFLAC con un archivo de audio</h3>\n'
             '      <p>Cuando el archivo no tiene vídeo, la salida es directamente un <strong>.flac</strong>, sin contenedor MKV. La herramienta decodifica el audio original y lo codifica en FLAC, un formato sin pérdida que DaVinci Resolve, Premiere Pro, Audacity y la mayoría de reproductores leen sin plugins.</p>\n\n'
@@ -185,7 +185,7 @@ MERGED_EN = [
             ("Does converting an MP3, AAC or Opus file to FLAC improve the quality?",
              "No. Those formats throw information away when they compress, and it cannot be brought back. FLAC stores exactly what is left, so the result sounds the same as the original, no better and no worse."),
             ("So what is the point of converting to FLAC?",
-             "Two things. First, compatibility: DaVinci Resolve, Premiere and Avid read FLAC natively, and many of them do not read Opus, Vorbis or WMA, nor AAC and MP3 on Linux. Second, it keeps edits and exports from stacking a second lossy compression on top of the one the file already had."),
+             "Two things. First, compatibility: DaVinci Resolve, Premiere and Avid read FLAC natively, and many of them do not read Opus, Vorbis or WMA, nor AAC on Linux. Second, it keeps edits and exports from stacking a second lossy compression on top of the one the file already had."),
             ("How much bigger is the FLAC file?",
              "Considerably bigger than a lossy format: a FLAC file is usually several times the size of a good-quality MP3 or AAC, and larger still next to a speech Opus file. Next to an uncompressed AIFF or WAV, though, it is smaller, typically between half and two thirds of the size, depending on the material."),
             ("Do I lose anything converting AIFF to FLAC?",
@@ -213,7 +213,7 @@ MERGED_EN = [
         "hero_h1":          'Convert <span class="accent">MP3, AAC, Opus and other audio</span> to FLAC',
         "hero_sub":         "Seven audio formats that DaVinci Resolve and other editors read badly or not at all. VidToFLAC turns them into FLAC in your browser, nothing uploaded.",
         "seo_h2":           'Why will your editor <span class="accent">not read this audio file</span>?',
-        "seo_lede":         'Standalone audio files fail for the same reason videos do: the <strong>codec</strong>. MP3, AAC and M4A depend on licences DaVinci Resolve does not ship on Linux; Opus, Vorbis (the codec inside OGG files) and WMA have no dependable support on any platform; and AIFF, lossless as it is, causes trouble in some combinations. Below is a guide to each one.',
+        "seo_lede":         'Standalone audio files fail for the same reason videos do: the <strong>codec</strong>. AAC and M4A depend on a licence DaVinci Resolve does not ship on Linux (MP3, patent-free since 2017, does import); Opus, Vorbis (the codec inside OGG files) and WMA have no dependable support on any platform; and AIFF, lossless as it is, causes trouble in some combinations. Below is a guide to each one.',
         "seo_body": (
             '      <h3>What VidToFLAC does with an audio file</h3>\n'
             '      <p>When the file has no video, the output is a plain <strong>.flac</strong>, with no MKV container. The tool decodes the original audio and encodes it as FLAC, a lossless format that DaVinci Resolve, Premiere Pro, Audacity and most players read without plugins.</p>\n\n'

@@ -27,7 +27,7 @@ CONTENT = {
             ("¿Pierdo calidad de vídeo al convertir un MP4 a FLAC?",
              "Si el vídeo es H.264, se copia <strong>bit a bit</strong> sin recomprimirlo: es un remux, no un re-encode. Si es <strong>H.265/HEVC</strong>, el navegador no puede decodificarlo y se recodifica a H.264 con calidad alta (<code>-crf 18</code>). En ambos casos la pista de audio pasa a FLAC, que es un formato sin pérdida, así que la imagen final es idéntica al original."),
             ("¿Por qué DaVinci Resolve abre mi MP4 pero sin sonido?",
-             "Porque el MP4 lleva el audio en <strong>AAC o MP3</strong>, y la versión gratuita de DaVinci Resolve (sobre todo en Linux) no incluye las licencias para decodificar esos códecs. Al pasar el audio a FLAC dentro de un MKV, Resolve lo reproduce de forma nativa."),
+             "Porque el MP4 lleva casi siempre el audio en <strong>AAC</strong>, y DaVinci Resolve (sobre todo en Linux) no incluye la licencia para decodificarlo. Al pasar el audio a FLAC dentro de un MKV, Resolve lo reproduce de forma nativa."),
             ("¿Sirve para los MP4 grabados con OBS Studio o con el móvil?",
              "Sí. Los MP4 de OBS, smartphones, cámaras y capturadoras usan precisamente audio AAC, que es el origen del problema. VidToFLAC los reempaqueta sin tocar el vídeo y recupera el audio compatible."),
             ("¿Funciona con MP4 en H.265 (HEVC)?",
@@ -94,7 +94,7 @@ CONTENT = {
         ),
         "faqs": [
             ("¿Por qué mi AVI no tiene audio en DaVinci Resolve?",
-             "Los AVI suelen guardar el audio en <strong>MP3 o AC3</strong>, códecs que Resolve no decodifica sin licencias (especialmente en Linux). Convertirlo a FLAC dentro de un MKV soluciona la falta de sonido."),
+             "Los AVI suelen guardar el audio en <strong>MP3 o AC3</strong>. El AC3 no lo decodifica Resolve en Linux por falta de licencia, y el propio contenedor AVI a veces ni se importa. Convertirlo a FLAC dentro de un MKV soluciona la falta de sonido."),
             ("¿Se conserva la calidad del vídeo del AVI?",
              "Si el navegador puede decodificar el vídeo, se copia <strong>bit a bit</strong> sin recomprimir. Solo el audio cambia a FLAC, que es sin pérdida."),
             ("Tengo AVI muy antiguos de una cámara, ¿funcionarán?",
@@ -318,15 +318,15 @@ CONTENT = {
         "faq_h2": "Preguntas frecuentes sobre convertir MP3 a FLAC",
         "seo_body": (
             '      <h3>La solución: convertir MP3 a FLAC para edición y archivado</h3>\n'
-            '      <p><strong>MP3</strong> es el formato con pérdida más extendido, pero no siempre se integra bien en editores de vídeo profesionales. Convertir a <strong>FLAC</strong> (sin pérdida) garantiza compatibilidad nativa con DaVinci Resolve, Premiere Pro y Avid, sobre todo en <strong>Linux</strong>, donde los decodificadores de MP3 pueden faltar.</p>\n\n'
+            '      <p><strong>MP3</strong> es el formato con pérdida más extendido, y DaVinci Resolve lo importa (también en Linux), pero arrastra un retardo de codificación y cada exportación con pérdida le resta calidad. Convertir a <strong>FLAC</strong> (sin pérdida) lo deja fijo para editarlo en DaVinci Resolve, Premiere Pro y Avid.</p>\n\n'
             '      <p>Pasar de MP3 a FLAC no recupera la calidad perdida en la compresión original, pero <strong>evita que se degrade más</strong> y deja el audio en un formato estable para reeditar tantas veces como quieras.</p>\n\n'
             '      <p>Al ser un archivo solo de audio, obtienes un <strong>.flac</strong> directamente, generado de forma local en tu navegador.</p>'
         ),
         "faqs": [
             ("¿Mejora la calidad al convertir MP3 a FLAC?",
              "No. FLAC no recupera lo que el MP3 eliminó al comprimir. Lo útil es que <strong>no se pierde más calidad</strong> en sucesivas ediciones y que ganas compatibilidad sin pérdida."),
-            ("¿Por qué un editor de vídeo no reproduce mi MP3?",
-             "En algunos sistemas, sobre todo Linux, DaVinci Resolve no incluye el decodificador de MP3 con licencia. Convertir a FLAC, que es abierto, soluciona el problema."),
+            ("¿DaVinci Resolve lee MP3 en Linux?",
+             "Sí. En nuestra prueba con Studio 21 sobre Ubuntu, un MP4 con audio MP3 entró con sonido, y según usuarios la versión gratuita lo lee desde Resolve 17. Convertir a FLAC sirve para evitar el retardo de codificación del MP3 y no perder más calidad al reeditar."),
             ("¿Cuánto ocupará el FLAC respecto al MP3?",
              "Bastante más: el MP3 es muy comprimido con pérdida y el FLAC es sin pérdida. El tamaño extra es el precio de un audio estable y de máxima compatibilidad."),
             ("¿Puedo convertir varios MP3 de golpe?",

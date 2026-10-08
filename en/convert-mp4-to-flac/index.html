@@ -123,7 +123,7 @@
         "name": "Why does DaVinci Resolve open my MP4 but play no sound?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Because the MP4 stores its audio as AAC or MP3, and the free DaVinci Resolve (especially on Linux) ships no licence to decode them. The video decoders are included, which is why you see the picture but hear nothing."
+          "text": "Because the MP4 almost always stores its audio as AAC, and DaVinci Resolve (especially on Linux) ships no licence to decode it. The video decoders are included, which is why you see the picture but hear nothing."
         }
       },
       {
@@ -1359,8 +1359,8 @@
     section[aria-labelledby="demo-titulo"]::before {
       content: '';
       position: absolute;
-      inset: -140px -260px;
-      background: radial-gradient(closest-side, rgba(25,195,125,.18), transparent);
+      inset: -160px -320px;
+      background: radial-gradient(closest-side, rgba(25,195,125,.32), transparent);
       pointer-events: none;
       z-index: -1;
     }
@@ -2297,7 +2297,7 @@
     <article>
       <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your MP4 files?</h2>
 
-      <p class="lede">If you have opened an <strong>MP4 file</strong> in DaVinci Resolve and it plays <strong>silently</strong> (or the audio track sits greyed out) it is almost always the audio codec. MP4s recorded by cameras, OBS Studio and smartphones carry <strong>AAC or MP3</strong> audio, and the free DaVinci Resolve (especially <strong>on Linux</strong>) ships no licence to decode them.</p>
+      <p class="lede">If you have opened an <strong>MP4 file</strong> in DaVinci Resolve and it plays <strong>silently</strong> (or the audio track sits greyed out) it is almost always the audio codec. MP4s recorded by cameras, OBS Studio and smartphones almost always carry <strong>AAC</strong> audio, and DaVinci Resolve (especially <strong>on Linux</strong>) ships no licence to decode it.</p>
 
       <h3>The fix for your MP4: remux to MKV with FLAC audio</h3>
       <p>The trick is to separate the two halves of the problem. The <strong>video</strong> in your MP4 (normally H.264 or H.265) is almost always perfectly compatible; what DaVinci Resolve cannot stomach is the <strong>AAC or MP3 audio</strong>. VidToFLAC repackages the MP4 into an <strong>MKV</strong> container, copying the video across <strong>bit for bit</strong> and re-encoding only the audio track to lossless <strong>FLAC</strong>.</p>
@@ -2334,7 +2334,7 @@
       <details class="faq-item">
         <summary>Why does DaVinci Resolve open my MP4 but play no sound?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Because the MP4 stores its audio as <strong>AAC or MP3</strong>, and the free DaVinci Resolve (especially on Linux) ships no licence to decode them. The video decoders are included, which is why you see the picture but hear nothing.</p>
+          <p>Because the MP4 almost always stores its audio as <strong>AAC</strong>, and DaVinci Resolve (especially on Linux) ships no licence to decode it. The video decoders are included, which is why you see the picture but hear nothing.</p>
         </div>
       </details>
       <details class="faq-item">

@@ -49,7 +49,7 @@
     "description": "DaVinci Resolve playing no audio from your MP4, MOV or OBS Studio recording? A step-by-step guide to fixing the audio codec problem without reinstalling anything.",
     "url": "https://vidtoflac.tech/en/articles/davinci-resolve-not-importing-obs-mp4-audio/",
     "datePublished": "2026-06-30",
-    "dateModified": "2026-10-02",
+    "dateModified": "2026-10-08",
     "inLanguage": "en",
     "author": {
       "@type": "Person",
@@ -80,7 +80,7 @@
         "name": "Why does DaVinci Resolve play no audio from an MP4?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "MP4 files from smartphones, cameras and OBS use AAC or MP3 for audio. The free DaVinci Resolve on Linux ships no decoders for those codecs. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on Windows, macOS and Linux."
+          "text": "MP4 files from smartphones, cameras and OBS use AAC for audio. DaVinci Resolve on Linux ships no decoder for it, not even the Studio edition. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on Windows, macOS and Linux."
         }
       },
       {
@@ -498,7 +498,7 @@
 
       <p>When you record on a phone, an action camera, a mirrorless or with OBS Studio, the resulting file carries audio compressed with a <strong>codec</strong>: almost always <strong>AAC</strong>, the standard in MP4 and camera MOV files, or <strong>MP3</strong>, common in screen recordings and older software.</p>
 
-      <p>The free DaVinci Resolve <strong>ships no AAC or MP3 decoders on Linux</strong>, because Blackmagic Design does not pay those patent licences for the Linux build. On Windows and macOS, AAC support exists, but certain container-and-codec combinations still fail, particularly with files from capture software or cameras set to non-standard options.</p>
+      <p>DaVinci Resolve <strong>ships no AAC decoder on Linux</strong>, because Blackmagic Design does not pay that patent licence for the Linux build (we tested Studio 21 too: the clip imports silent). MP3, whose patents have expired, did import in <a href="/en/test-bench/">the same test</a>. On Windows and macOS, AAC support exists, but certain container-and-codec combinations still fail, particularly with files from capture software or cameras set to non-standard options.</p>
       <figure class="fig">
         <img src="/media/capturas/resolve-forma-de-onda.webp" width="1200" height="144" loading="lazy" decoding="async" alt="Audio track showing its waveform in the DaVinci Resolve timeline" />
         <figcaption>This is what the track looks like when the codec is supported: the waveform is there as soon as you import.</figcaption>
@@ -552,7 +552,7 @@
           <tr>
             <td><strong>OBS Studio (defaults)</strong></td>
             <td>MKV / MP4</td>
-            <td>AAC or MP3</td>
+            <td>AAC</td>
             <td><span class="badge-fail">No audio</span></td>
           </tr>
           <tr>
@@ -763,7 +763,7 @@
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-answer">
-            <p>MP4 files from smartphones, cameras and OBS use <strong>AAC or MP3</strong> for audio. The free DaVinci Resolve on Linux ships no decoders for those codecs. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on Windows, macOS and Linux.</p>
+            <p>MP4 files from smartphones, cameras and OBS use <strong>AAC</strong> for audio. DaVinci Resolve on Linux ships no decoder for it, not even the Studio edition. The fix is to convert the audio to FLAC with VidToFLAC: the video is copied losslessly and the audio becomes readable on Windows, macOS and Linux.</p>
           </div>
         </details>
 

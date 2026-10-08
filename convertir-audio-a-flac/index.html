@@ -123,7 +123,7 @@
         "name": "Entonces, ¿para qué sirve pasarlo a FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Para dos cosas. La primera, compatibilidad: DaVinci Resolve, Premiere y Avid leen FLAC de forma nativa, y muchos de ellos no leen Opus, Vorbis o WMA, ni AAC y MP3 en Linux. La segunda, que al editar y exportar no sumes una segunda compresión con pérdida sobre la que ya tenía el archivo."
+          "text": "Para dos cosas. La primera, compatibilidad: DaVinci Resolve, Premiere y Avid leen FLAC de forma nativa, y muchos de ellos no leen Opus, Vorbis o WMA, ni AAC en Linux. La segunda, que al editar y exportar no sumes una segunda compresión con pérdida sobre la que ya tenía el archivo."
         }
       },
       {
@@ -1375,8 +1375,8 @@
     section[aria-labelledby="demo-titulo"]::before {
       content: '';
       position: absolute;
-      inset: -140px -260px;
-      background: radial-gradient(closest-side, rgba(25,195,125,.18), transparent);
+      inset: -160px -320px;
+      background: radial-gradient(closest-side, rgba(25,195,125,.32), transparent);
       pointer-events: none;
       z-index: -1;
     }
@@ -2348,7 +2348,7 @@
       <details class="faq-item">
         <summary>Entonces, ¿para qué sirve pasarlo a FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Para dos cosas. La primera, compatibilidad: DaVinci Resolve, Premiere y Avid leen FLAC de forma nativa, y muchos de ellos no leen Opus, Vorbis o WMA, ni AAC y MP3 en Linux. La segunda, que al editar y exportar no sumes una segunda compresión con pérdida sobre la que ya tenía el archivo.</p>
+          <p>Para dos cosas. La primera, compatibilidad: DaVinci Resolve, Premiere y Avid leen FLAC de forma nativa, y muchos de ellos no leen Opus, Vorbis o WMA, ni AAC en Linux. La segunda, que al editar y exportar no sumes una segunda compresión con pérdida sobre la que ya tenía el archivo.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2418,7 +2418,7 @@
       <h3>MP3: el formato más popular y sus limitaciones</h3>
       <p>MP3 (MPEG Audio Layer III) lleva más de 30 años siendo el formato de audio más extendido del mundo. Se popularizó en los años 90 con los primeros reproductores portátiles y sigue siendo el formato por defecto en muchas grabadoras de voz, podcasts, música descargada y archivos de audio de uso general. Sin embargo, MP3 es un formato <strong>con pérdida</strong>: aplica un modelo psicoacústico para eliminar frecuencias "imperceptibles" y reducir el tamaño del archivo. La calidad perdida en ese proceso no se puede recuperar.</p>
       <h3>Problemas de MP3 en flujos de trabajo de edición</h3>
-      <p>Además de la degradación inherente al formato, los archivos MP3 presentan dos problemas específicos en edición de vídeo. Primero, <strong>DaVinci Resolve en Linux</strong> no incluye el decodificador de MP3 de serie, lo que provoca que los archivos MP3 no se importen o que la pista de audio aparezca en gris. Segundo, el MP3 tiene una limitación de latencia de codificación (encoder delay) que puede provocar una pequeña desincronización de audio al principio de los clips, un problema bien conocido en flujos de trabajo de edición multicámara. FLAC no tiene este problema.</p>
+      <p>Además de la degradación inherente al formato, los archivos MP3 presentan un problema específico en edición de vídeo: el MP3 tiene una limitación de latencia de codificación (encoder delay) que puede provocar una pequeña desincronización de audio al principio de los clips, un problema bien conocido en flujos de trabajo de edición multicámara. FLAC no tiene este problema. Lo que ya no suele fallar es la importación: en <a href="/banco-de-pruebas/">nuestro banco de pruebas</a>, un MP4 con audio MP3 entró con sonido en DaVinci Resolve Studio 21 sobre Ubuntu, y según usuarios la versión gratuita lo lee en Linux desde Resolve 17.</p>
       <h3>Qué ocurre al convertir MP3 a FLAC</h3>
       <p>La conversión de MP3 a FLAC es una transcodificación de lossy a lossless. El resultado es un archivo FLAC que contiene exactamente el audio que había en el MP3, sin añadir ni quitar información. La calidad no mejora respecto al MP3 original (lo que se perdió en la compresión MP3 no se puede recuperar), pero el archivo resultante es lossless en el sentido de que no hay degradación adicional, y es compatible con todos los editores de vídeo sin problemas de licencia.</p>
       <h3>Paso a paso: convertir tu MP3 a FLAC</h3>
@@ -2429,11 +2429,11 @@
         <li>Importa el .flac en DaVinci Resolve, Adobe Premiere o Audacity. No habrá problemas de códec ni de latencia de codificación.</li>
       </ol>
       <h3>¿Cuándo tiene sentido convertir MP3 a FLAC?</h3>
-      <p>Tiene sentido cuando necesitas importar audio MP3 en un editor que no lo soporta nativamente (especialmente DaVinci Resolve en Linux), cuando quieres evitar la desincronización por encoder delay en proyectos multicámara, o cuando necesitas aplicar efectos de audio y luego exportar sin degradación adicional. No tiene sentido si tu objetivo final es MP3 de nuevo: convertir MP3 → FLAC → MP3 añade una generación extra de pérdida.</p>
+      <p>Tiene sentido cuando necesitas importar audio MP3 en un editor que no lo soporta nativamente, cuando quieres evitar la desincronización por encoder delay en proyectos multicámara, o cuando necesitas aplicar efectos de audio y luego exportar sin degradación adicional. No tiene sentido si tu objetivo final es MP3 de nuevo: convertir MP3 → FLAC → MP3 añade una generación extra de pérdida.</p>
       <h3>Las patentes del MP3 caducaron en 2017</h3>
-      <p>El programa de licencias de MP3 se cerró en <strong>2017</strong>, así que hoy el formato es libre de patentes. Aun así, varias distribuciones de DaVinci Resolve en <strong>Linux</strong> siguen sin el decodificador activado de fábrica: la decisión viene del empaquetado del programa, no de una restricción legal vigente. Por eso el problema sobrevive años a la causa que lo originó.</p>
+      <p>El programa de licencias de MP3 se cerró en <strong>2017</strong>, así que hoy el formato es libre de patentes. Por eso DaVinci Resolve sí lo decodifica en <strong>Linux</strong>, a diferencia de AAC o AC-3, que siguen protegidos: lo comprobamos en Studio 21, y según usuarios la versión gratuita lo hace desde Resolve 17.</p>
       <h3>La solución: convertir MP3 a FLAC para edición y archivado</h3>
-      <p><strong>MP3</strong> es el formato con pérdida más extendido, pero no siempre se integra bien en editores de vídeo profesionales. Convertir a <strong>FLAC</strong> (sin pérdida) garantiza compatibilidad nativa con DaVinci Resolve, Premiere Pro y Avid, sobre todo en <strong>Linux</strong>, donde los decodificadores de MP3 pueden faltar.</p>
+      <p><strong>MP3</strong> es el formato con pérdida más extendido, y DaVinci Resolve lo importa (también en Linux), pero arrastra un retardo de codificación y cada exportación con pérdida le resta calidad. Convertir a <strong>FLAC</strong> (sin pérdida) lo deja fijo para editarlo en DaVinci Resolve, Premiere Pro y Avid.</p>
 
       <p>Pasar de MP3 a FLAC no recupera la calidad perdida en la compresión original, pero <strong>evita que se degrade más</strong> y deja el audio en un formato estable para reeditar tantas veces como quieras.</p>
 

@@ -1375,8 +1375,8 @@
     section[aria-labelledby="demo-titulo"]::before {
       content: '';
       position: absolute;
-      inset: -140px -260px;
-      background: radial-gradient(closest-side, rgba(25,195,125,.18), transparent);
+      inset: -160px -320px;
+      background: radial-gradient(closest-side, rgba(25,195,125,.32), transparent);
       pointer-events: none;
       z-index: -1;
     }
@@ -2435,7 +2435,7 @@
       <h3>AVI and variable frame rate</h3>
       <p>AVI was designed in 1992 and has no reliable support for <strong>variable frame rate</strong>. Hence this format's classic complaint: over long clips (screen captures and phone footage especially) audio and video drift apart. If your AVI already arrived out of sync, conversion preserves that drift; it has to be corrected in the editor.</p>
       <h3>The fix for your AVI files: FLAC audio in an MKV</h3>
-      <p>AVI files from old camcorders, capture cards and legacy recording software carry their audio as <strong>MP3 or AC3</strong>, and that is what DaVinci Resolve refuses to decode: on Linux always, and on Windows and macOS depending on version and configuration. The picture imports; the sound does not.</p>
+      <p>AVI files from old camcorders, capture cards and legacy recording software carry their audio as <strong>MP3 or AC3</strong>. AC3 is what DaVinci Resolve refuses to decode on Linux; MP3 itself imports fine inside an MP4, but in <a href="/en/test-bench/">our Studio 21 test</a> the AVI did not even reach the Media Pool.</p>
 
       <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied bit for bit when the browser can decode it, or re-encoded to H.264 when it is a legacy codec such as DivX, Xvid or Cinepak.</p>
 
@@ -2505,6 +2505,7 @@
       <h3>FLV: orphaned since Flash ended in 2020</h3>
       <p>When <strong>Flash Player support ended on 31 December 2020</strong>, FLV was left an orphan format: hardly any modern editor recognises it natively, and the tools that handled it have been disappearing. If you still keep material in FLV, converting it now is less a compatibility fix than preventive archiving.</p>
       <h3>The fix for your FLV files: FLAC audio in an MKV</h3>
+      <p>FLV files from archived screencasts, old lectures and downloads from retired platforms carry their audio as <strong>MP3, AAC or Nellymoser</strong>. Resolve has no decoder for Nellymoser and, on Linux, no licence for AAC; the FLV container itself is not reliably supported either.</p>
 
       <p>VidToFLAC repackages the file into an <strong>MKV</strong> and re-encodes the audio track to lossless <strong>FLAC</strong>, which every major editor reads natively. The video is copied when it is H.264 or Sorenson Spark, and re-encoded to H.264 when it is VP6, which the browser cannot decode.</p>
 

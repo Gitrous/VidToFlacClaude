@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://vidtoflac.tech/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -13,7 +13,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -35,13 +35,13 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/que-formato-video-usar-davinci-resolve/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -59,13 +59,13 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/sobre-vidtoflac/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/about/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -107,7 +107,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/davinci-resolve-no-importa-audio-mp4-obs/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -119,7 +119,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/davinci-resolve-gratuito-vs-studio/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -149,37 +149,37 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/davinci-resolve-video-desincronizado-audio/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-mp4-a-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-mov-a-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-mkv-a-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-wav-a-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/convertir-avi-a-mp4-sin-perder-calidad/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -191,7 +191,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/articulos/davinci-resolve-linux-instalacion-audio/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -203,7 +203,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-formatos/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -213,7 +213,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-formats/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -223,7 +223,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/convert-avi-to-mp4-without-losing-quality/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -247,7 +247,7 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/davinci-resolve-free-vs-studio/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -259,13 +259,13 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/davinci-resolve-linux-install-audio/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/davinci-resolve-not-importing-obs-mp4-audio/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -277,13 +277,13 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/davinci-resolve-audio-out-of-sync/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/davinci-resolve-audio-errors/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -301,79 +301,79 @@
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/articles/best-video-format-for-davinci-resolve/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-mp4-to-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-mkv-to-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-mov-to-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-wav-to-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-video-a-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/convertir-audio-a-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-video-to-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/convert-audio-to-flac/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/autor/guillem-sanchez/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/author/guillem-sanchez/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/banco-de-pruebas/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://vidtoflac.tech/en/test-bench/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

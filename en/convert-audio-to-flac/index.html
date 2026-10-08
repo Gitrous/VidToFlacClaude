@@ -123,7 +123,7 @@
         "name": "So what is the point of converting to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Two things. First, compatibility: DaVinci Resolve, Premiere and Avid read FLAC natively, and many of them do not read Opus, Vorbis or WMA, nor AAC and MP3 on Linux. Second, it keeps edits and exports from stacking a second lossy compression on top of the one the file already had."
+          "text": "Two things. First, compatibility: DaVinci Resolve, Premiere and Avid read FLAC natively, and many of them do not read Opus, Vorbis or WMA, nor AAC on Linux. Second, it keeps edits and exports from stacking a second lossy compression on top of the one the file already had."
         }
       },
       {
@@ -1375,8 +1375,8 @@
     section[aria-labelledby="demo-titulo"]::before {
       content: '';
       position: absolute;
-      inset: -140px -260px;
-      background: radial-gradient(closest-side, rgba(25,195,125,.18), transparent);
+      inset: -160px -320px;
+      background: radial-gradient(closest-side, rgba(25,195,125,.32), transparent);
       pointer-events: none;
       z-index: -1;
     }
@@ -2313,7 +2313,7 @@
     <article>
       <h2 id="problema-titulo">Why will your editor <span class="accent">not read this audio file</span>?</h2>
 
-      <p class="lede">Standalone audio files fail for the same reason videos do: the <strong>codec</strong>. MP3, AAC and M4A depend on licences DaVinci Resolve does not ship on Linux; Opus, Vorbis (the codec inside OGG files) and WMA have no dependable support on any platform; and AIFF, lossless as it is, causes trouble in some combinations. Below is a guide to each one.</p>
+      <p class="lede">Standalone audio files fail for the same reason videos do: the <strong>codec</strong>. AAC and M4A depend on a licence DaVinci Resolve does not ship on Linux (MP3, patent-free since 2017, does import); Opus, Vorbis (the codec inside OGG files) and WMA have no dependable support on any platform; and AIFF, lossless as it is, causes trouble in some combinations. Below is a guide to each one.</p>
 
       <h3>What VidToFLAC does with an audio file</h3>
       <p>When the file has no video, the output is a plain <strong>.flac</strong>, with no MKV container. The tool decodes the original audio and encodes it as FLAC, a lossless format that DaVinci Resolve, Premiere Pro, Audacity and most players read without plugins.</p>
@@ -2348,7 +2348,7 @@
       <details class="faq-item">
         <summary>So what is the point of converting to FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>Two things. First, compatibility: DaVinci Resolve, Premiere and Avid read FLAC natively, and many of them do not read Opus, Vorbis or WMA, nor AAC and MP3 on Linux. Second, it keeps edits and exports from stacking a second lossy compression on top of the one the file already had.</p>
+          <p>Two things. First, compatibility: DaVinci Resolve, Premiere and Avid read FLAC natively, and many of them do not read Opus, Vorbis or WMA, nor AAC on Linux. Second, it keeps edits and exports from stacking a second lossy compression on top of the one the file already had.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -2416,7 +2416,7 @@
     <article>
       <h2 id="guia-mp3">Everything about converting MP3 to FLAC</h2>
       <h3>What MP3 actually is</h3>
-      <p>MP3 is the format that made digital audio mainstream, and thirty years on it remains the most widely supported lossy codec there is. In video editing the story differs: many NLEs decode it inconsistently, and DaVinci Resolve on Linux does not decode it at all.</p>
+      <p>MP3 is the format that made digital audio mainstream, and thirty years on it remains the most widely supported lossy codec there is. DaVinci Resolve imports it, on Linux too, but it carries an encoder delay that throws sync off, and every lossy re-export costs quality.</p>
       <h3>What this conversion does, and what it does not</h3>
       <p>Be clear about what this conversion does and does not do. FLAC preserves exactly what is in your MP3, including the artefacts the MP3 encoder introduced. The file gets larger and no better sounding. What you gain is a format your editor reads natively and that will not degrade again on re-export.</p>
       <h3>Step by step</h3>
@@ -2429,9 +2429,9 @@
       <h3>Common problems and what to do</h3>
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first: handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
       <h3>MP3 patents expired in 2017</h3>
-      <p>The MP3 licensing programme was wound up in <strong>2017</strong>, so the format is patent-free today. Even so, several <strong>Linux</strong> builds of DaVinci Resolve still ship without the decoder enabled: the decision comes from how the software is packaged, not from any restriction still in force. That is why the problem outlives its original cause by years.</p>
+      <p>The MP3 licensing programme was wound up in <strong>2017</strong>, so the format is patent-free today. That is why DaVinci Resolve does decode it on <strong>Linux</strong>, unlike AAC or AC-3, which are still protected: we confirmed it in Studio 21, and users report the free version does it since Resolve 17.</p>
       <h3>The fix for your MP3 files: transcode the audio to FLAC</h3>
-      <p>MP3 turns up in screen recordings, old capture software and legacy archives. MP3 decoding in video editors is inconsistent, and DaVinci Resolve on Linux does not decode it at all.</p>
+      <p>MP3 turns up in screen recordings, old capture software and legacy archives. DaVinci Resolve does import it, on Linux too, but its encoder delay throws sync off and every lossy re-export costs quality.</p>
 
       <p>VidToFLAC decodes the MP3 audio and re-encodes it to <strong>FLAC</strong>, an open lossless format that DaVinci Resolve, Premiere Pro, Avid and Final Cut all read natively on Windows, macOS and Linux. The whole job runs inside your browser through FFmpeg compiled to WebAssembly, so the file never leaves your machine.</p>
 

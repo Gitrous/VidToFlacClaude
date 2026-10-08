@@ -474,6 +474,14 @@ Lo que salió de la primera tanda, todo verificado el 19 de septiembre de 2026:
 - Recodificar HEVC a H.264 multiplicó el tamaño por cinco.
 - La compresión de FLAC va del 53 % del WAV (ruido blanco, peor caso) al 6 %
   (grabación de pantalla real). **Nunca des un porcentaje único.**
+- **MP3 sí entra en Linux.** Un MP4 con audio MP3 se importó con sonido en Studio
+  21.0.4 sobre Ubuntu (sus patentes expiraron en 2017). Aun así, unas 45 frases
+  del sitio decían que MP3 no funciona en Linux, incluidas tablas que citaban
+  este banco; se corrigieron el 8-10-2026. Para la versión gratuita, sin probar,
+  se dice "según usuarios, desde Resolve 17". Lo que falla en Linux es AAC, AC-3,
+  E-AC-3, DTS, Opus y Vorbis; el AVI y el VOB fallan antes, porque **ni se
+  importan**. No vuelvas a meter MP3 en la lista de "no funciona en Linux", y al
+  citar el banco, lee lo que dice antes de enlazarlo.
 
 Dato que conviene recordar: **las grabaciones originales del usuario
 (`~/Descargas/Clip1.mp4` y `Clip2.mp4`) son AV1 con audio FLAC**, no H.264 con
