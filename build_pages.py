@@ -972,8 +972,8 @@ PAGES = [
 # ─────────────────────────────────────────────────────────────────────────────
 # Cadenas originales a sustituir (copiadas literalmente de index.html)
 # ─────────────────────────────────────────────────────────────────────────────
-O_TITLE      = '<title>VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve</title>'
-O_META_DESC  = '<meta name="description" content="¿DaVinci Resolve sin sonido? Convierte el audio de tus vídeos a FLAC sin pérdida, gratis y 100% en tu navegador. Sin subir archivos." />'
+O_TITLE      = '<title>Convertir videos a FLAC gratis en tu navegador | VidToFLAC</title>'
+O_META_DESC  = '<meta name="description" content="Convierte videos a FLAC sin pérdida, gratis y 100% en tu navegador con FFmpeg. Sin subir archivos. Soluciona el audio mudo de DaVinci Resolve." />'
 # Se extrae de la plantilla en _fill_anchors(): la cadena literal que había aquí
 # estaba recortada y el replace nunca casaba, así que las landings heredaban las
 # keywords de la home en lugar de las suyas.
@@ -988,16 +988,16 @@ O_HREFLANG   = ('  <link rel="alternate" hreflang="es" href="https://vidtoflac.t
                 '  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/" />\n'
                 '  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/" />\n')
 O_OG_URL     = '<meta property="og:url" content="https://vidtoflac.tech/" />'
-O_OG_TITLE   = '<meta property="og:title" content="VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve" />'
+O_OG_TITLE   = '<meta property="og:title" content="Convertir videos a FLAC gratis en tu navegador | VidToFLAC" />'
 O_OG_DESC    = '<meta property="og:description" content="Soluciona el audio que DaVinci Resolve no reproduce. Remux a MKV con audio FLAC sin pérdida, 100% en tu navegador y privado. Sin subir archivos." />'
-O_TW_TITLE   = '<meta name="twitter:title" content="VidToFLAC – Audio de vídeo a FLAC para DaVinci Resolve" />'
+O_TW_TITLE   = '<meta name="twitter:title" content="Convertir videos a FLAC gratis en tu navegador | VidToFLAC" />'
 O_TW_DESC    = '<meta name="twitter:description" content="Soluciona el audio que DaVinci Resolve no reproduce. Remux a MKV con audio FLAC sin pérdida, 100% en tu navegador y privado." />'
 # url + description combinados para no colisionar con el bloque WebSite/Organization
 O_WEBAPP     = ('    "url": "https://vidtoflac.tech/",\n'
                 '    "description": "Conversor que cambia el audio de tus vídeos a FLAC dentro de un contenedor MKV (remux sin pérdida) para solucionar el error de códec de audio en DaVinci Resolve, Premiere y Avid. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos a ningún servidor.",')
 O_HOWTO_NAME = '"name": "Cómo convertir el audio de un vídeo a FLAC para DaVinci Resolve",'
 O_HOWTO_URL  = '"url": "https://vidtoflac.tech/#problema-titulo"'
-O_HERO_H1    = '    <h1 class="hero-title">Convierte el audio de tus vídeos a <span class="accent">FLAC para DaVinci Resolve</span></h1>'
+O_HERO_H1    = '    <h1 class="hero-title">Convierte <span class="accent">videos a FLAC</span> para DaVinci Resolve</h1>'
 O_HERO_SUB   = '    <p class="hero-sub">Gratis, en segundos y 100% privado. Todo el procesamiento ocurre dentro de tu navegador: no se sube ni un solo byte a ningún servidor.</p>'
 O_SEO_H2     = '      <h2 id="problema-titulo">¿Por qué <span class="accent">DaVinci Resolve no lee el audio</span> de tus vídeos?</h2>'
 O_SEO_LEDE   = ('      <p class="lede">Si has abierto un clip en DaVinci Resolve y aparece <strong>sin sonido</strong>'
@@ -1151,8 +1151,8 @@ A_ES = {
 }
 
 A_EN = {
-    'TITLE':      '<title>VidToFLAC – Convert Video Audio to FLAC for DaVinci Resolve</title>',
-    'META_DESC':  '<meta name="description" content="DaVinci Resolve no audio? Convert your video audio to lossless FLAC, free and 100% in your browser. No file uploads." />',
+    'TITLE':      None,   # se rellena abajo leyendo la plantilla
+    'META_DESC':  None,
     'META_KW':    None,
     'ROBOTS':     ('<meta name="robots" content="index, follow, max-image-preview:large,'
                    ' max-snippet:-1, max-video-preview:-1" />'),
@@ -1161,14 +1161,14 @@ A_EN = {
                    '  <link rel="alternate" hreflang="en" href="https://vidtoflac.tech/en/" />\n'
                    '  <link rel="alternate" hreflang="x-default" href="https://vidtoflac.tech/" />\n'),
     'OG_URL':     '<meta property="og:url" content="https://vidtoflac.tech/en/" />',
-    'OG_TITLE':   '<meta property="og:title" content="VidToFLAC – Convert Video Audio to FLAC for DaVinci Resolve" />',
+    'OG_TITLE':   None,
     'OG_DESC':    None,   # se rellena abajo leyendo la plantilla
-    'TW_TITLE':   '<meta name="twitter:title" content="VidToFLAC – Convert Video Audio to FLAC for DaVinci Resolve" />',
+    'TW_TITLE':   None,
     'TW_DESC':    None,
     'WEBAPP':     None,
     'HOWTO_NAME': '"name": "How to convert video audio to FLAC for DaVinci Resolve",',
     'HOWTO_URL':  '"url": "https://vidtoflac.tech/#problema-titulo"',
-    'HERO_H1':    '    <h1 class="hero-title">Convert your video audio to <span class="accent">FLAC for DaVinci Resolve</span></h1>',
+    'HERO_H1':    None,
     'HERO_SUB':   '    <p class="hero-sub">Free, in seconds and 100% private. All processing happens inside your browser: not a single byte is uploaded to any server.</p>',
     'SEO_H2':     '      <h2 id="problema-titulo">Why does <span class="accent">DaVinci Resolve have no audio</span> from your videos?</h2>',
     'SEO_LEDE':   None,
@@ -1195,6 +1195,15 @@ def _fill_anchors():
     if not m:
         raise SystemExit('anclaje ES no encontrado: META_KW')
     A_ES['META_KW'] = m.group(0)
+    for key, pat in [('TITLE', r'<title>[^<]*</title>'),
+                     ('META_DESC', r'<meta name="description" content="[^"]*" />'),
+                     ('OG_TITLE', r'<meta property="og:title" content="[^"]*" />'),
+                     ('TW_TITLE', r'<meta name="twitter:title" content="[^"]*" />'),
+                     ('HERO_H1', r'    <h1 class="hero-title">.*?</h1>')]:
+        m = re.search(pat, es)
+        if not m:
+            raise SystemExit(f'anclaje ES no encontrado: {key}')
+        A_ES[key] = m.group(0)
     s = open(os.path.join(BASE, 'en/index.html'), encoding='utf-8').read()
     def grab(pat, flags=0):
         m = re.search(pat, s, flags)
@@ -1202,6 +1211,11 @@ def _fill_anchors():
             raise SystemExit(f'anclaje EN no encontrado: {pat[:60]}')
         return m.group(0)
     A_EN['META_KW'] = grab(r'<meta name="keywords" content="[^"]*" />')
+    A_EN['TITLE']    = grab(r'<title>[^<]*</title>')
+    A_EN['META_DESC'] = grab(r'<meta name="description" content="[^"]*" />')
+    A_EN['OG_TITLE'] = grab(r'<meta property="og:title" content="[^"]*" />')
+    A_EN['TW_TITLE'] = grab(r'<meta name="twitter:title" content="[^"]*" />')
+    A_EN['HERO_H1']  = grab(r'    <h1 class="hero-title">.*?</h1>')
     A_EN['OG_DESC']  = grab(r'<meta property="og:description" content="[^"]*" />')
     A_EN['TW_DESC']  = grab(r'<meta name="twitter:description" content="[^"]*" />')
     A_EN['SEO_LEDE'] = grab(r'      <p class="lede">.*?</p>', re.S)

@@ -135,6 +135,12 @@ portada. Al juntarlas aparecieron dos cosas que no se ven con páginas sueltas:
   enlace o `data-url` de una landing absorbida en las páginas generadas; en las
   que no genera el script (portadas, artículos) hay que cambiarlos a mano.
 
+El título, la descripción, `og:title`, `twitter:title` y el H1 de cada portada
+se leen de `index.html` y `en/index.html` en `_fill_anchors()`. Con literales, al cambiar la portada
+el reemplazo fallaba en silencio y las seis landings inglesas heredaban el título
+de la portada (10-10-2026, revertido). Si cambias esos textos, regenera y comprueba
+que las landings no cambian.
+
 Los textos de la plantilla que hay que sustituir están en `A_ES` y `A_EN`, un
 diccionario de anclajes por idioma. Los largos no se copian a mano: se extraen
 de la propia plantilla en `_fill_anchors()`, porque cuando estaban escritos
