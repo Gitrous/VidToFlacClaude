@@ -221,6 +221,10 @@
       z-index: 1;
     }
 
+    .ad-slot { margin: 1.6rem 0; text-align: center; min-height: 90px; }
+    .ad-slot[hidden] { display: none; }
+    .ad-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-mute);
+      letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 0.35rem; }
     .container {
       width: 100%;
       max-width: 1500px;
@@ -2103,7 +2107,7 @@
 
     /* ── Modal de anuncio: hueco vacío cuando el anuncio no llega a mostrarse ─ */
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1123812992313934" crossorigin="anonymous"></script>
+  <script src="/ads.js" defer></script>
 </head>
 <body>
 
@@ -2477,14 +2481,8 @@
   </div>
 
   <!-- Ad: between tool and SEO content (visible to all users) -->
-  <div style="text-align:center;overflow:hidden;">
-    <ins class="adsbygoogle"
-         style="display:block;"
-         data-ad-client="ca-pub-1123812992313934"
-         data-ad-slot="9253210070"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="ad-slot" hidden>
+    <p class="ad-label">Advertisement</p>
   </div>
 
   <!-- SEO: what this page solves -->

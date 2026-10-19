@@ -1,1 +1,10 @@
-google.com, pub-1123812992313934, DIRECT, f08c47fec0942fa0
+# ads.txt — vendedores autorizados a vender el inventario de vidtoflac.tech
+#
+# La línea de Google AdSense se retiró al dejar de usar esa red.
+# PENDIENTE: pegar aquí las líneas que da el panel de Monetag
+# (Sites -> el sitio -> ads.txt), que tienen esta forma:
+#
+#   monetag.com, <TU_ID>, DIRECT, <TAG_ID>
+#
+# Un ads.txt con solo comentarios es válido: no autoriza a nadie, que es lo
+# correcto mientras no haya red activa.

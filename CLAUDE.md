@@ -15,30 +15,86 @@ VidToFLAC es una aplicación web de **una sola página y 100% del lado del clien
 **No hay dependencias, tests ni package.json.** Sí hay un generador, `build_pages.py`, pero solo para las landings de formato: 12 páginas completas y 32 redirecciones (ver más abajo); la app en sí no se compila. `index.html` (~2200 líneas) contiene todo en línea: el `<head>` de SEO (meta, Open Graph, varios bloques JSON-LD), todo el CSS en un único `<style>`, el cuerpo HTML y la lógica de la aplicación en un solo `<script type="module">`. Los demás archivos versionados son recursos estáticos (iconos, `og-image.png`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `CNAME`).
 
 Al editar, conserva la estructura de archivo único — no separes en archivos JS/CSS aparte.
+La **única excepción** es `ads.js` (publicidad y consentimiento); el porqué está
+en la sección de publicidad.
 
-## Revisión de políticas de Google AdSense
+## Publicidad: Monetag, y toda la configuración en `ads.js`
 
-**Después de completar cualquier cambio** y antes de preguntar al usuario qué hacer, revisa si el cambio podría incumplir alguna política de Google AdSense. Las políticas más relevantes para este sitio son:
+El sitio **dejó Google AdSense** (rechazado dos veces por "contenido de poco
+valor") y monetiza con **Monetag**. La migración fueron 634 referencias en 51
+páginas, porque el ID de publicador y los de slot estaban escritos a mano en
+cada una. Ahora no: **`ads.js` es el único sitio con configuración**, y las
+páginas solo traen `<script src="/ads.js" defer></script>` más los huecos
+marcados con `.ad-slot`. **Es la única excepción a la regla de archivo único**,
+y es deliberada: el cargador y el consentimiento son ~60 líneas que, inline,
+serían ~3.000 duplicadas y otro barrido de 51 archivos en la próxima migración.
 
-- **Contenido valioso para el usuario**: la página debe ofrecer contenido original y útil, no ser un sitio vacío o de relleno.
-- **Navegación clara**: el sitio debe ser fácil de navegar; los anuncios no deben interferir con la navegación ni con el contenido principal.
-- **Anuncios no engañosos**: los anuncios no pueden colocarse de forma que induzcan a clics accidentales (p. ej., junto a botones de acción, demasiado cerca del contenido interactivo, ni encima de elementos clicables).
-- **Sin contenido restringido**: nada de contenido para adultos, violento, engañoso, de juegos de azar no regulados, etc.
-- **Sin manipulación del tráfico artificial**: no implementar nada que genere impresiones o clics falsos en anuncios.
-- **Política de privacidad y cumplimiento GDPR/CCPA**: si se añade recogida de datos (formularios, cookies, analítica), debe existir política de privacidad visible y consentimiento adecuado.
-- **Contenido suficiente**: no publicar páginas casi vacías ni stubs; cada página debe tener contenido sustancial.
+Para activar o cambiar la red se edita `CONFIG` en `ads.js` (host y zonas) y
+nada más. **Mientras esté vacío no se carga publicidad ni aparece el aviso de
+cookies**: las páginas funcionan con normalidad.
 
-Si el cambio **incumple alguna política**, NO lo apliques directamente. En su lugar:
+### Formatos: qué se usa y qué se descartó a propósito
 
-1. Indica exactamente **qué política incumple** y por qué.
-2. Explica **qué harías** para corregirlo o adaptarlo.
-3. **Pregunta al usuario si quiere que lo hagas** antes de proceder.
+Solo **Native Banner** (rellena los `.ad-slot`) y **Vignette** limitado a
+`/articulos/` y `/en/articles/` por `VIGNETTE_PATHS`.
 
-Si el cambio no presenta ningún problema con AdSense, continúa con el flujo normal.
+**No se usan popunder ni onclick, y no es un olvido.** Se enganchan a un
+escuchador de clics *a nivel de documento*: no se pueden excluir de un botón
+concreto, y el clic más frecuente del sitio es "Convertir". Se dispararían en
+la primera conversión de cada visitante. El tráfico aquí es SEO de larga cola
+de gente con un problema urgente: llegan, convierten, y vuelven o lo
+recomiendan. Un popunder en el clic de Convertir convierte eso en una visita de
+un solo uso.
+
+**Push: el `sw.js` está puesto**, con el `zoneId` de Monetag. Se probó que un
+service worker de ámbito raíz interceptando todas las peticiones **no rompe
+ffmpeg.wasm** (conversión real, mismo tiempo que sin él). Lo que no se pudo
+probar es el script que Monetag descarga en tiempo de ejecución desde
+`3nbf4.com`, porque ese dominio está bloqueado por el resolver DNS de la
+máquina de desarrollo. **Si aparecen fallos intermitentes del motor en
+producción, `sw.js` es el primer sospechoso**: se borra de la raíz y se
+despliega.
+
+Si se activa un formato nuevo, **cuéntalo aquí y di por qué**.
+
+### Consentimiento: no se carga nada antes de aceptar
+
+`ads.js` construye el aviso de cookies y **no inserta ni un script de la red
+hasta que el usuario acepta** (RGPD: las cookies publicitarias requieren
+consentimiento previo, no basta con avisar). La elección vive en `localStorage`
+bajo `vidtoflac_consent` (`yes`/`no`); si se rechaza, la herramienta funciona
+igual. Todo acceso a `localStorage` va en `try/catch`, porque en modo privado
+lanza.
+
+Las cuatro páginas legales nombran **Monetag**, describen ese consentimiento
+previo y declaran el service worker de notificaciones: `aviso-legal/`,
+`en/legal-notice/`, `politica-de-privacidad/`, `en/privacy-policy/`. Si cambia
+la red o se añade un formato que recoja más datos, hay que actualizar las
+cuatro.
+
+### Revisión tras cada cambio
+
+**Después de completar cualquier cambio** y antes de preguntar al usuario qué
+hacer, comprueba:
+
+- **Ningún anuncio pegado a un control.** Ni junto a "Convertir", ni a los
+  botones de descarga, ni sobre elementos clicables. Era política de AdSense;
+  ahora es criterio de producto y no se relaja. Busca también anuncios metidos
+  desde JavaScript, que no salen en el HTML.
+- **Nada carga antes del consentimiento.** Si tocas `ads.js`, verifica que el
+  camino sin aceptar no inserta ningún `<script>` de la red.
+- **El contenido sigue valiendo por sí mismo.** Monetag no revisa el contenido
+  como hacía AdSense, así que ya no hay un revisor externo que frene una página
+  de relleno. El criterio de calidad se mantiene porque de él depende el SEO,
+  que es de donde viene todo el tráfico.
+- **Sin tráfico ni clics artificiales**, y **nada de contenido restringido**.
+
+Si el cambio incumple algo de lo anterior, NO lo apliques: di qué incumple,
+explica qué harías y pregunta antes de proceder.
 
 ## Flujo de trabajo tras cada cambio
 
-**Después de completar cualquier cambio** (y tras la revisión AdSense anterior), pregunta siempre al usuario:
+**Después de completar cualquier cambio** (y tras la revisión de publicidad anterior), pregunta siempre al usuario:
 
 > "¿Quieres arrancar un servidor para verlo (**s**) o subirlo a GitHub (**g**)?"
 
@@ -304,6 +360,15 @@ políticas de AdSense (recompensa por ver un anuncio, anuncio encima de un botó
 anuncios entre botones de descarga). Está todo en el commit aislado `45520eb`:
 el usuario quiere recuperarlo más adelante, pero **no tal cual** — antes de un
 `git revert` hay que proponerle una forma que cumpla.
+
+**Actualizado al migrar a Monetag (19-10-2026):** el motivo por el que se
+quitaron —las políticas de AdSense— ya no aplica, porque el sitio ya no usa
+AdSense. Monetag no prohíbe la recompensa por ver un anuncio. Pero **no se ha
+restaurado nada**: las otras dos razones siguen en pie y son de producto, no de
+política —un anuncio encima de un botón y anuncios entre los botones de
+descarga siguen siendo mala colocación— y la decisión es del usuario. Si lo
+pide, el camino es `git revert 45520eb` y después recolocar los huecos para que
+no queden pegados a ningún control.
 
 Tres cosas que salieron al hacerlo:
 

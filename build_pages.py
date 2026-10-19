@@ -1110,17 +1110,12 @@ RE_FAQ_JSON  = re.compile(
     r'  <script type="application/ld\+json">\s*\{\s*"@context": "https://schema\.org",'
     r'\s*"@type": "FAQPage".*?</script>', re.S)
 
-FAQ_AD = (
-    '      <div style="text-align:center;overflow:hidden;margin:0.3rem 0;">\n'
-    '        <ins class="adsbygoogle"\n'
-    '             style="display:block;"\n'
-    '             data-ad-client="ca-pub-1123812992313934"\n'
-    '             data-ad-slot="2037769304"\n'
-    '             data-ad-format="auto"\n'
-    '             data-full-width-responsive="true"></ins>\n'
-    '        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>\n'
-    '      </div>'
-)
+def faq_ad(lang: str) -> str:
+    """Hueco de anuncio tras la 3ª pregunta. El rótulo es visible: va traducido."""
+    label = 'Advertisement' if lang == 'en' else 'Publicidad'
+    return ('      <div class="ad-slot" hidden>\n'
+            f'        <p class="ad-label">{label}</p>\n'
+            '      </div>')
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1229,7 +1224,7 @@ def _strip_tags(s: str) -> str:
     return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', s)).strip()
 
 
-def render_faq_html(faqs: list) -> str:
+def render_faq_html(faqs: list, lang: str = 'es') -> str:
     """FAQ visible, con el anuncio insertado tras la 3ª pregunta."""
     parts = ['    <div class="faq-list">']
     for i, (q, a) in enumerate(faqs):
@@ -1242,7 +1237,7 @@ def render_faq_html(faqs: list) -> str:
             '      </details>',
         ]
         if i == 2:
-            parts.append(FAQ_AD)
+            parts.append(faq_ad(lang))
     parts += ['    </div>', '  </section>']
     return '\n'.join(parts)
 
@@ -1321,7 +1316,7 @@ def build_page(page: dict, template: str, A: dict = None) -> str:
         h = h.replace(A['FAQ_H2'],
             f'<h2 id="faq-titulo" style="margin-bottom:1.1rem">{page["faq_h2"]}</h2>')
     if page.get("faqs"):
-        h = A['FAQ_LIST_RE'].sub(lambda _: render_faq_html(page["faqs"]), h, count=1)
+        h = A['FAQ_LIST_RE'].sub(lambda _: render_faq_html(page["faqs"], A["lang"]), h, count=1)
         h = A['FAQ_JSON_RE'].sub(lambda _: render_faq_jsonld(page["faqs"]), h, count=1)
 
     # Brand name → enlace de vuelta al inicio
