@@ -1,4 +1,5 @@
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
 # Buscadores con IA: permitidos de forma explícita para que aparezcan en sus respuestas.
