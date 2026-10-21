@@ -127,7 +127,8 @@
       '.cc a{color:var(--amber,#19c37d)}' +
       '.cc-btns{display:flex;gap:.5rem;flex:0 0 auto}' +
       '.cc,.cc *{box-sizing:border-box}' +
-      '@media (max-width:560px){.cc{flex-direction:column;align-items:stretch;gap:.7rem}' +
+      '@media (max-width:560px){.cc{left:0;right:0;width:min(76vw,22rem);padding:1.6rem 1.2rem;' +
+      'flex-direction:column;align-items:stretch;gap:1rem}' +
       '.cc p{flex:none}.cc-btns{width:100%}.cc-btns button{flex:1 1 0;min-width:0}}' +
       '.cc button{font:inherit;font-size:.8rem;padding:.5rem .9rem;border-radius:8px;' +
       'cursor:pointer;border:1px solid var(--line-strong,#2e3036);background:transparent;' +
