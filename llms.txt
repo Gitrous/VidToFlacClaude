@@ -1,0 +1,39 @@
+# VidToFLAC
+
+> VidToFLAC es una web gratuita que convierte vídeo y audio a FLAC sin pérdida dentro del navegador, con ffmpeg.wasm. Sirve para el caso de "sin audio" o "códec de audio no compatible" en DaVinci Resolve, Premiere y Avid: reempaqueta el vídeo en un MKV con audio FLAC. Ningún archivo se sube a ningún servidor.
+
+Esta web está en español y en inglés. La versión en inglés está en /en/.
+
+## Herramienta y guías principales
+
+- [Convertir a FLAC (herramienta)](https://vidtoflac.tech/): conversor en el navegador, gratis y sin subir archivos.
+- [Convertir MP4 a FLAC](https://vidtoflac.tech/convertir-mp4-a-flac/): guía para MP4 con audio AAC sin sonido en DaVinci Resolve.
+- [Convertir MKV a FLAC](https://vidtoflac.tech/convertir-mkv-a-flac/): guía para MKV.
+- [Convertir MOV a FLAC](https://vidtoflac.tech/convertir-mov-a-flac/): guía para MOV.
+- [Convertir WAV a FLAC](https://vidtoflac.tech/convertir-wav-a-flac/): guía para WAV.
+- [Convertir vídeo a FLAC (AVI, WebM, WMV, FLV, MPEG, TS, VOB, 3GP, M4V)](https://vidtoflac.tech/convertir-video-a-flac/): guía agrupada.
+- [Convertir audio a FLAC (MP3, AAC, M4A, AIFF, OGG, Opus, WMA)](https://vidtoflac.tech/convertir-audio-a-flac/): guía agrupada.
+- [Banco de pruebas](https://vidtoflac.tech/banco-de-pruebas/): 17 combinaciones de contenedor y códec probadas con FFmpeg y DaVinci Resolve. Es la fuente de verdad sobre qué se copia y qué se recodifica.
+
+## Artículos
+
+- [Índice de artículos](https://vidtoflac.tech/articulos/)
+- [Por qué DaVinci Resolve no reproduce el audio](https://vidtoflac.tech/articulos/errores-audio-davinci-resolve/)
+- [DaVinci Resolve: versión gratuita frente a Studio](https://vidtoflac.tech/articulos/davinci-resolve-gratuito-vs-studio/)
+- [DaVinci Resolve en Linux: instalación y audio](https://vidtoflac.tech/articulos/davinci-resolve-linux-instalacion-audio/)
+- [Convertir a FLAC: cuánto ocupa según el códec](https://vidtoflac.tech/articulos/convertir-a-flac-cuanto-ocupa-segun-el-codec/)
+
+## Sobre el sitio
+
+- [Sobre VidToFLAC](https://vidtoflac.tech/sobre-vidtoflac/)
+- [Autor: Guillem Sánchez](https://vidtoflac.tech/autor/guillem-sanchez/): la persona que firma el sitio y prueba las afirmaciones con DaVinci Resolve Studio 21 sobre Ubuntu.
+
+## English
+
+- [Convert MP4 to FLAC](https://vidtoflac.tech/en/convert-mp4-to-flac/)
+- [Convert MKV to FLAC](https://vidtoflac.tech/en/convert-mkv-to-flac/)
+- [Convert MOV to FLAC](https://vidtoflac.tech/en/convert-mov-to-flac/)
+- [Convert WAV to FLAC](https://vidtoflac.tech/en/convert-wav-to-flac/)
+- [Test bench](https://vidtoflac.tech/en/test-bench/)
+- [Articles](https://vidtoflac.tech/en/articles/)
+- [About](https://vidtoflac.tech/en/about/)
