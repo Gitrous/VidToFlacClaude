@@ -27,9 +27,9 @@
   // (Sites → el sitio → el formato → Get code). Mientras estén vacíos no se
   // carga publicidad: las páginas funcionan y los huecos quedan ocultos.
   var CONFIG = {
-    host: '',            // host del tag de Monetag, p. ej. 'https://xxxxx.com/tag.min.js'
+    host: 'https://nap5k.com/tag.min.js',   // host del tag de Monetag, p. ej. 'https://xxxxx.com/tag.min.js'
     zones: {
-      native:   '',      // Native Banner — rellena los huecos .ad-slot
+      native:   '12090903',  // In-Page Push (Banner) de Monetag — rellena los huecos .ad-slot
       vignette: ''       // Vignette — solo en artículos, nunca en el conversor
     }
   };
@@ -126,6 +126,9 @@
       '.cc p{margin:0;flex:1 1 16rem}' +
       '.cc a{color:var(--amber,#19c37d)}' +
       '.cc-btns{display:flex;gap:.5rem;flex:0 0 auto}' +
+      '.cc,.cc *{box-sizing:border-box}' +
+      '@media (max-width:560px){.cc{flex-direction:column;align-items:stretch;gap:.7rem}' +
+      '.cc p{flex:none}.cc-btns{width:100%}.cc-btns button{flex:1 1 0;min-width:0}}' +
       '.cc button{font:inherit;font-size:.8rem;padding:.5rem .9rem;border-radius:8px;' +
       'cursor:pointer;border:1px solid var(--line-strong,#2e3036);background:transparent;' +
       'color:var(--ink,#e8e6e1)}' +
@@ -182,7 +185,16 @@
   // ───────────────────────────────────────────────────────────────────────────
   window.ads = { load: load, mount: mount, consent: function () { return store(CONSENT_KEY); } };
 
-  function start() { banner(); load(); }
+  // Sin configurar, los huecos no existen para el visitante: ocultarlos evita
+  // recuadros vacíos de 90 px en medio del contenido.
+  function hideSlotsIfUnconfigured() {
+    if (configured()) return;
+    var css = document.createElement('style');
+    css.textContent = '.ad-slot,.ad-slot-wrap{display:none!important}';
+    document.head.appendChild(css);
+  }
+
+  function start() { hideSlotsIfUnconfigured(); banner(); load(); }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
