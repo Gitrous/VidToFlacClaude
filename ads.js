@@ -9,7 +9,7 @@
  * editando ESTE archivo y ningún otro.
  *
  * Qué NO hace, a propósito:
- *  - No carga popunder, onclick ni push. El clic principal del sitio es
+ *  - No carga popunder ni onclick. Push solo en artículos (PUSH_RE). El clic principal del sitio es
  *    "Convertir": un popunder enganchado al clic del documento abriría una
  *    ventana en la primera conversión, que es justo lo contrario de lo que la
  *    herramienta promete. Decisión tomada al migrar a Monetag.
@@ -29,17 +29,21 @@
   var CONFIG = {
     host: 'https://nap5k.com/tag.min.js',   // host del tag de Monetag, p. ej. 'https://xxxxx.com/tag.min.js'
     zones: {
-      native:   '12090903',  // In-Page Push (Banner) de Monetag — rellena los huecos .ad-slot
-      vignette: ''       // Vignette — solo en artículos, nunca en el conversor
+      native:   ''  // Zona 12090903 desactivada por Monetag (incumple sus términos). No volver a poner sin revisar la cuenta.
+    },
+    // Push Notifications: solo en artículos y guías (ver PUSH_RE). Usa el mismo
+    // service worker de la raíz, /sw.js, que es el de esta zona.
+    push: {
+      src:  'https://5gvci.com/act/files/tag.min.js?z=12106804',
+      zone: '12106804'
     }
   };
 
-  // El vignette solo se permite en las páginas de artículo. En la portada y en
-  // las landings vive el conversor, y un interstitial a mitad de una
-  // conversión interrumpe el trabajo del usuario.
-  var VIGNETTE_PATHS = ['/articulos/', '/en/articles/'];
-
   var CONSENT_KEY = 'vidtoflac_consent';   // 'yes' | 'no'
+
+  // Push solo en artículos (no en la portada ni en las páginas de conversión).
+  // Así la petición de suscripción nunca aparece junto al botón Convertir.
+  var PUSH_RE = /^\/(en\/)?(articulos|articles)\/[^\/]+\/?$/;
 
   // ───────────────────────────────────────────────────────────────────────────
   // Utilidades
@@ -64,14 +68,7 @@
     catch (_) { return false; }
   }
 
-  function configured() { return !!(CONFIG.host && CONFIG.zones.native); }
-
-  function vignetteAllowed() {
-    for (var i = 0; i < VIGNETTE_PATHS.length; i++) {
-      if (location.pathname.indexOf(VIGNETTE_PATHS[i]) === 0) return true;
-    }
-    return false;
-  }
+  function configured() { return !!(CONFIG.zones.native || CONFIG.push.zone); }
 
   // ───────────────────────────────────────────────────────────────────────────
   // Inserción de los tags
@@ -91,7 +88,7 @@
   // Un hueco concreto. Se usa también desde el conversor para los anuncios que
   // aparecen entre las vistas previas, por eso es público (window.ads.mount).
   function mount(el) {
-    if (!el || !configured() || getConsent() === 'no') return;
+    if (!el || !CONFIG.host || !CONFIG.zones.native || getConsent() === 'no') return;
     if (el.dataset.adMounted) return;        // idempotente: no duplica tags
     el.dataset.adMounted = '1';
     el.hidden = false;
@@ -111,12 +108,28 @@
     }, 2000);
   }
 
+  function pushAllowed() {
+    return !!CONFIG.push.zone && PUSH_RE.test(location.pathname) &&
+      !/\/index\.html$/.test(location.pathname);
+  }
+
+  // Tag de Push Notifications en el <head>, una sola vez por página.
+  function pushTag() {
+    if (document.querySelector('script[data-zone="' + CONFIG.push.zone + '"]')) return;
+    var s = document.createElement('script');
+    s.src = CONFIG.push.src;
+    s.async = true;
+    s.setAttribute('data-zone', CONFIG.push.zone);
+    s.setAttribute('data-cfasync', 'false');
+    document.head.appendChild(s);
+  }
+
   function load() {
     if (loaded || !configured() || getConsent() === 'no') return;
     loaded = true;
     var slots = document.querySelectorAll('.ad-slot');
     for (var i = 0; i < slots.length; i++) mount(slots[i]);
-    if (vignetteAllowed() && CONFIG.zones.vignette) tag(CONFIG.zones.vignette);
+    if (pushAllowed()) pushTag();
   }
 
   // Al rechazar: se quitan los tags y los huecos, se cancela la suscripción push

@@ -35,8 +35,7 @@ cookies**: las páginas funcionan con normalidad.
 
 ### Formatos: qué se usa y qué se descartó a propósito
 
-Solo **Native Banner** (rellena los `.ad-slot`) y **Vignette** limitado a
-`/articulos/` y `/en/articles/` por `VIGNETTE_PATHS`.
+Solo **Native Banner** (rellena los `.ad-slot`). El Vignette se descartó a petición del titular (23-10-2026).
 
 **No se usan popunder ni onclick, y no es un olvido.** Se enganchan a un
 escuchador de clics *a nivel de documento*: no se pueden excluir de un botón
@@ -46,11 +45,17 @@ de gente con un problema urgente: llegan, convierten, y vuelven o lo
 recomiendan. Un popunder en el clic de Convertir convierte eso en una visita de
 un solo uso.
 
-**Push: el `sw.js` está puesto**, con el `zoneId` de Monetag. Se probó que un
-service worker de ámbito raíz interceptando todas las peticiones **no rompe
-ffmpeg.wasm** (conversión real, mismo tiempo que sin él). Lo que no se pudo
-probar es el script que Monetag descarga en tiempo de ejecución desde
-`3nbf4.com`, porque ese dominio está bloqueado por el resolver DNS de la
+**Push Notifications: solo en artículos y guías** (`PUSH_RE` en `ads.js`; nunca
+en la portada ni en las páginas de conversión, para que la petición de
+suscripción no aparezca junto a «Convertir»). La zona es `12106804`, cuyo
+dominio es `5gvci.com`; el tag va en el `<head>` y el `sw.js` de la raíz es el
+de esa misma zona. Sustituyó al de la zona `11862981` (`3nbf4.com`), que no lo
+usaba ninguna página. Copia del anterior fuera del repo.
+
+Se probó que un service worker de ámbito raíz interceptando todas las peticiones
+**no rompe ffmpeg.wasm** (conversión real, mismo tiempo que sin él). Lo que no se
+pudo probar es el script que Monetag descarga en tiempo de ejecución desde
+`5gvci.com`, porque ese dominio está bloqueado por el resolver DNS de la
 máquina de desarrollo. **Si aparecen fallos intermitentes del motor en
 producción, `sw.js` es el primer sospechoso**: se borra de la raíz y se
 despliega.
@@ -61,7 +66,7 @@ Si se activa un formato nuevo, **cuéntalo aquí y di por qué**.
 
 Los anuncios **cargan desde el inicio**, antes de que el visitante elija. El
 aviso de cookies aparece igual; si se pulsa **Rechazar**, `ads.js` retira los
-scripts de la red, oculta los huecos, cancela la suscripción push, da de baja el
+scripts de la red (también el de push), oculta los huecos, cancela la suscripción push, da de baja el
 `sw.js` de la red, recarga la página y guarda `vidtoflac_consent = no` para visitas
 futuras. En cada carga posterior se repite la baja del `sw.js`. Esto **no cumple el RGPD ni la ePrivacy** para visitantes de la
 UE (las cookies publicitarias exigen consentimiento previo). El titular lo asumió
