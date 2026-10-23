@@ -48,9 +48,20 @@
 
   function t(es, en) { return EN ? en : es; }
 
-  function store(key, val) {
-    try { if (val === undefined) return localStorage.getItem(key); localStorage.setItem(key, val); }
-    catch (_) { return null; }     // modo privado o almacenamiento bloqueado
+  // Elección de consentimiento. Si localStorage falla (modo privado, bloqueado),
+  // se recuerda en memoria solo durante esta carga; setConsent devuelve si quedó guardada.
+  var memConsent = null;
+
+  function getConsent() {
+    try { var v = localStorage.getItem(CONSENT_KEY); if (v !== null) return v; }
+    catch (_) {}
+    return memConsent;
+  }
+
+  function setConsent(v) {
+    memConsent = v;
+    try { localStorage.setItem(CONSENT_KEY, v); return true; }
+    catch (_) { return false; }
   }
 
   function configured() { return !!(CONFIG.host && CONFIG.zones.native); }
@@ -80,7 +91,7 @@
   // Un hueco concreto. Se usa también desde el conversor para los anuncios que
   // aparecen entre las vistas previas, por eso es público (window.ads.mount).
   function mount(el) {
-    if (!el || !configured() || store(CONSENT_KEY) === 'no') return;
+    if (!el || !configured() || getConsent() === 'no') return;
     if (el.dataset.adMounted) return;        // idempotente: no duplica tags
     el.dataset.adMounted = '1';
     el.hidden = false;
@@ -101,7 +112,7 @@
   }
 
   function load() {
-    if (loaded || !configured() || store(CONSENT_KEY) === 'no') return;
+    if (loaded || !configured() || getConsent() === 'no') return;
     loaded = true;
     var slots = document.querySelectorAll('.ad-slot');
     for (var i = 0; i < slots.length; i++) mount(slots[i]);
@@ -111,14 +122,16 @@
   // Al rechazar: se quitan los tags y los huecos, se cancela la suscripción push
   // y se da de baja el service worker de la red, y después se recarga la página
   // para que no quede nada de la red en memoria.
-  function unload() {
+  function unload(reload) {
     loaded = false;
     var scripts = document.querySelectorAll('script[data-zone]');
     for (var i = 0; i < scripts.length; i++) scripts[i].remove();
     var frames = document.querySelectorAll('.ad-slot iframe, .ad-slot-wrap iframe');
     for (var j = 0; j < frames.length; j++) frames[j].remove();
     hideSlots();
-    cleanupPush(function () { location.reload(); });
+    // Solo se recarga si la elección quedó guardada; si no, recargar haría
+    // volver el aviso y el rechazo se perdería.
+    cleanupPush(function () { if (reload) location.reload(); });
   }
 
   // Da de baja los service workers de la red (/sw.js) y cancela sus suscripciones
@@ -148,7 +161,7 @@
   // salen de las custom properties del sitio, así que hereda el tema.
   // Se muestra mientras no haya elección guardada. Los anuncios ya cargan.
   function banner() {
-    if (store(CONSENT_KEY) || !configured()) return;
+    if (getConsent() || !configured()) return;
 
     var css = document.createElement('style');
     css.textContent =
@@ -200,9 +213,9 @@
       b.textContent = label;
       if (cls) b.className = cls;
       b.addEventListener('click', function () {
-        store(CONSENT_KEY, value);
+        var saved = setConsent(value);
         box.remove();
-        if (value === 'no') unload();
+        if (value === 'no') unload(saved);
       });
       return b;
     }
@@ -218,7 +231,7 @@
   // ───────────────────────────────────────────────────────────────────────────
   // Arranque
   // ───────────────────────────────────────────────────────────────────────────
-  window.ads = { load: load, mount: mount, consent: function () { return store(CONSENT_KEY); } };
+  window.ads = { load: load, mount: mount, consent: function () { return getConsent(); } };
 
   // Sin configurar, o tras rechazar, los huecos no se muestran: así no quedan
   // recuadros vacíos de 90 px en medio del contenido.
@@ -231,8 +244,8 @@
   }
 
   function start() {
-    if (!configured() || store(CONSENT_KEY) === 'no') hideSlots();
-    if (store(CONSENT_KEY) === 'no') cleanupPush();   // visitas posteriores al rechazo
+    if (!configured() || getConsent() === 'no') hideSlots();
+    if (getConsent() === 'no') cleanupPush();   // visitas posteriores al rechazo
     banner();
     load();
   }
