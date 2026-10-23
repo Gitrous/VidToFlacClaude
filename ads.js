@@ -13,9 +13,9 @@
  *    "Convertir": un popunder enganchado al clic del documento abriría una
  *    ventana en la primera conversión, que es justo lo contrario de lo que la
  *    herramienta promete. Decisión tomada al migrar a Monetag.
- *  - No carga NADA antes del consentimiento. Las cookies publicitarias
- *    requieren consentimiento previo (RGPD); hasta que alguien acepta, no se
- *    inserta ni un script de la red.
+ *  - Los anuncios cargan desde el inicio, sin esperar al aviso de cookies (decisión
+ *    del titular, 23-10-2026). Si el visitante rechaza, se quitan los tags y se
+ *    ocultan los huecos: "no" se guarda y no vuelven a cargarse en visitas futuras.
  */
 (function () {
   'use strict';
@@ -80,7 +80,7 @@
   // Un hueco concreto. Se usa también desde el conversor para los anuncios que
   // aparecen entre las vistas previas, por eso es público (window.ads.mount).
   function mount(el) {
-    if (!el || !configured() || store(CONSENT_KEY) !== 'yes') return;
+    if (!el || !configured() || store(CONSENT_KEY) === 'no') return;
     if (el.dataset.adMounted) return;        // idempotente: no duplica tags
     el.dataset.adMounted = '1';
     el.hidden = false;
@@ -101,11 +101,44 @@
   }
 
   function load() {
-    if (loaded || !configured() || store(CONSENT_KEY) !== 'yes') return;
+    if (loaded || !configured() || store(CONSENT_KEY) === 'no') return;
     loaded = true;
     var slots = document.querySelectorAll('.ad-slot');
     for (var i = 0; i < slots.length; i++) mount(slots[i]);
     if (vignetteAllowed() && CONFIG.zones.vignette) tag(CONFIG.zones.vignette);
+  }
+
+  // Al rechazar: se quitan los tags y los huecos, se cancela la suscripción push
+  // y se da de baja el service worker de la red, y después se recarga la página
+  // para que no quede nada de la red en memoria.
+  function unload() {
+    loaded = false;
+    var scripts = document.querySelectorAll('script[data-zone]');
+    for (var i = 0; i < scripts.length; i++) scripts[i].remove();
+    var frames = document.querySelectorAll('.ad-slot iframe, .ad-slot-wrap iframe');
+    for (var j = 0; j < frames.length; j++) frames[j].remove();
+    hideSlots();
+    cleanupPush(function () { location.reload(); });
+  }
+
+  // Da de baja los service workers de la red (/sw.js) y cancela sus suscripciones
+  // push. Se ejecuta al rechazar y en cada carga posterior, por si el navegador
+  // conserva un registro de una visita anterior.
+  function cleanupPush(done) {
+    var finish = function () { if (done) done(); };
+    try {
+      if (!('serviceWorker' in navigator)) return finish();
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        return Promise.all(regs.filter(function (r) {
+          var w = r.active || r.waiting || r.installing;
+          return w && /\/sw\.js$/.test(w.scriptURL);
+        }).map(function (r) {
+          var sub = r.pushManager ? r.pushManager.getSubscription() : Promise.resolve(null);
+          return sub.then(function (s) { return s ? s.unsubscribe() : false; })
+                    .then(function () { return r.unregister(); });
+        }));
+      }).catch(function () {}).then(finish);
+    } catch (_) { finish(); }
   }
 
   // ───────────────────────────────────────────────────────────────────────────
@@ -113,6 +146,7 @@
   // ───────────────────────────────────────────────────────────────────────────
   // Se construye desde JS para no repetir el markup en 46 páginas. Los colores
   // salen de las custom properties del sitio, así que hereda el tema.
+  // Se muestra mientras no haya elección guardada. Los anuncios ya cargan.
   function banner() {
     if (store(CONSENT_KEY) || !configured()) return;
 
@@ -148,12 +182,12 @@
     var p = document.createElement('p');
     p.innerHTML = t(
       'Este sitio es gratis y tus archivos nunca salen de tu navegador. Para mantenerlo ' +
-      'mostramos publicidad, que usa cookies de terceros. ¿Nos dejas activarlas? ' +
-      'Puedes rechazarlas y la herramienta funciona igual. ' +
+      'mostramos publicidad de terceros, que usa cookies. Si la rechazas, los anuncios ' +
+      'desaparecen y la herramienta funciona igual. ' +
       '<a href="/politica-de-privacidad/">Política de privacidad</a>.',
       'This site is free and your files never leave your browser. To keep it running we ' +
-      'show ads, which use third-party cookies. May we switch them on? ' +
-      'You can decline and the tool works just the same. ' +
+      'show third-party ads, which use cookies. If you decline, the ads disappear and the ' +
+      'tool works just the same. ' +
       '<a href="/en/privacy-policy/">Privacy policy</a>.'
     );
 
@@ -168,7 +202,7 @@
       b.addEventListener('click', function () {
         store(CONSENT_KEY, value);
         box.remove();
-        if (value === 'yes') load();
+        if (value === 'no') unload();
       });
       return b;
     }
@@ -186,16 +220,22 @@
   // ───────────────────────────────────────────────────────────────────────────
   window.ads = { load: load, mount: mount, consent: function () { return store(CONSENT_KEY); } };
 
-  // Sin configurar, los huecos no existen para el visitante: ocultarlos evita
+  // Sin configurar, o tras rechazar, los huecos no se muestran: así no quedan
   // recuadros vacíos de 90 px en medio del contenido.
-  function hideSlotsIfUnconfigured() {
-    if (configured()) return;
+  function hideSlots() {
+    if (document.getElementById('ads-hide')) return;
     var css = document.createElement('style');
+    css.id = 'ads-hide';
     css.textContent = '.ad-slot,.ad-slot-wrap{display:none!important}';
     document.head.appendChild(css);
   }
 
-  function start() { hideSlotsIfUnconfigured(); banner(); load(); }
+  function start() {
+    if (!configured() || store(CONSENT_KEY) === 'no') hideSlots();
+    if (store(CONSENT_KEY) === 'no') cleanupPush();   // visitas posteriores al rechazo
+    banner();
+    load();
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);

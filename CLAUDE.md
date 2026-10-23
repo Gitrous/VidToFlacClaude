@@ -57,17 +57,19 @@ despliega.
 
 Si se activa un formato nuevo, **cuéntalo aquí y di por qué**.
 
-### Consentimiento: no se carga nada antes de aceptar
+### Publicidad sin consentimiento previo (decisión del titular, 23-10-2026)
 
-`ads.js` construye el aviso de cookies y **no inserta ni un script de la red
-hasta que el usuario acepta** (RGPD: las cookies publicitarias requieren
-consentimiento previo, no basta con avisar). La elección vive en `localStorage`
-bajo `vidtoflac_consent` (`yes`/`no`); si se rechaza, la herramienta funciona
-igual. Todo acceso a `localStorage` va en `try/catch`, porque en modo privado
-lanza.
+Los anuncios **cargan desde el inicio**, antes de que el visitante elija. El
+aviso de cookies aparece igual; si se pulsa **Rechazar**, `ads.js` retira los
+scripts de la red, oculta los huecos, cancela la suscripción push, da de baja el
+`sw.js` de la red, recarga la página y guarda `vidtoflac_consent = no` para visitas
+futuras. En cada carga posterior se repite la baja del `sw.js`. Esto **no cumple el RGPD ni la ePrivacy** para visitantes de la
+UE (las cookies publicitarias exigen consentimiento previo). El titular lo asumió
+por escrito; no volver a proponer el consentimiento previo sin que lo pida. Todo
+acceso a `localStorage` va en `try/catch`, porque en modo privado lanza.
 
-Las cuatro páginas legales nombran **Monetag**, describen ese consentimiento
-previo y declaran el service worker de notificaciones: `aviso-legal/`,
+Las cuatro páginas legales nombran **Monetag**, describen el aviso con opción
+de rechazo y declaran el service worker de notificaciones: `aviso-legal/`,
 `en/legal-notice/`, `politica-de-privacidad/`, `en/privacy-policy/`. Si cambia
 la red o se añade un formato que recoja más datos, hay que actualizar las
 cuatro.
@@ -81,8 +83,8 @@ hacer, comprueba:
   botones de descarga, ni sobre elementos clicables. Era política de AdSense;
   ahora es criterio de producto y no se relaja. Busca también anuncios metidos
   desde JavaScript, que no salen en el HTML.
-- **Nada carga antes del consentimiento.** Si tocas `ads.js`, verifica que el
-  camino sin aceptar no inserta ningún `<script>` de la red.
+- **Rechazar retira todo.** Si tocas `ads.js`, verifica que tras pulsar Rechazar
+  no queda ningún `script[data-zone]` ni iframe de la red dentro de los huecos.
 - **El contenido sigue valiendo por sí mismo.** Monetag no revisa el contenido
   como hacía AdSense, así que ya no hay un revisor externo que frene una página
   de relleno. El criterio de calidad se mantiene porque de él depende el SEO,
