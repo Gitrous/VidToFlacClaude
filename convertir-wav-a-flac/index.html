@@ -41,14 +41,14 @@
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+  <meta property="og:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, privado y local." />
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Convertir WAV a FLAC – Compresión lossless | VidToFLAC" />
   <meta name="twitter:description" content="Convierte WAV a FLAC en segundos: misma calidad, hasta un 60% menos de espacio. Sin subir nada." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
-  <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, 100% privado y local." />
+  <meta name="twitter:image:alt" content="VidToFLAC — convierte el audio de tus vídeos a FLAC para DaVinci Resolve, privado y local." />
 
   <!-- Structured data: the tool itself -->
   <script type="application/ld+json">
@@ -2132,7 +2132,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Convierte tu <span class="accent">WAV a FLAC</span> sin pérdida de calidad</h1>
-    <p class="hero-sub">Misma calidad lossless que el WAV original, hasta un 60% menos de espacio. Conversión en segundos, directamente en tu navegador, sin subir ni un solo byte.</p>
+    <p class="hero-sub">Misma calidad lossless que el WAV original, hasta un 60% menos de espacio. Conversión en segundos, directamente en tu navegador, sin subir tus archivos.</p>
     </div>
   </header>
 
@@ -2767,14 +2767,20 @@ function renderFileList() {
   });
 }
 
+// Un archivo con varias pistas al que se han desmarcado todas no tiene nada que convertir.
+function noTrackSelected(entry) {
+  return !!entry.selectedAudioTracks && !entry.selectedAudioTracks.some(Boolean);
+}
+
 function updateConvertBtn() {
+  const blocked = [...files.values()].some(e => e.status === 'pending' && noTrackSelected(e));
   if (convertPhase === 'probed') {
     convertBtn.textContent = '▶ Iniciar conversión';
-    convertBtn.disabled = false;
+    convertBtn.disabled = blocked;
     return;
   }
   const pending = [...files.values()].filter(e => e.status === 'pending').length;
-  convertBtn.disabled = !ffmpeg || pending === 0 || !termsCheck.checked;
+  convertBtn.disabled = !ffmpeg || pending === 0 || !termsCheck.checked || blocked;
   convertBtn.textContent = pending > 1
     ? `⚙️ Convertir ${pending} archivos a vídeo + FLAC`
     : `⚙️ Convertir a vídeo + FLAC`;
@@ -2924,6 +2930,7 @@ async function loadFFmpeg() {
 
     setEngine('Motor listo', 'ready');
     log('✓ FFmpeg WASM cargado y listo', 'success');
+    ffmpegLoading = false;   // sin esto, cualquier recarga posterior (recuperación tras Aborted) sería no-op
     updateConvertBtn();
 
   } catch (err) {
@@ -3222,6 +3229,8 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     const selectedStreams = entry.selectedAudioTracks
       ? probeAudioStreams.filter((_, i) => entry.selectedAudioTracks[i])
       : probeAudioStreams;
+    // Sin pistas marcadas no hay -map: FFmpeg elegiría una pista sin avisar.
+    if (noTrackSelected(entry)) throw new Error('no hay ninguna pista de audio seleccionada');
     const keepMultiTrack = selectedStreams.length > 1;
     if (keepMultiTrack) {
       const names = selectedStreams.map(s => s.title || `Pista ${s.idx + 1}`).join(', ');
@@ -3281,11 +3290,14 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
     setProgress(`[${globalIdx + 1}/${totalCount}] Convirtiendo…${eta ? ` · recodificando, ${eta}` : ''}`, null);
     const t0 = Date.now();
     // Con múltiples pistas se usa -map explícito; con una sola, comportamiento estándar.
+    // Con varias pistas, -map explícito: la selección del usuario vale en todos los caminos (también en el reintento).
+    const mapArgs = keepMultiTrack
+      ? ['-map', '0:v:0', ...selectedStreams.flatMap(s => ['-map', `0:a:${s.idx}`])]
+      : [];
     let cmd;
     if (isAudioOnlyOutput) {
       cmd = ['-i', inputName, '-vn', ...audioEncArgs, outputName];
     } else if (keepMultiTrack) {
-      const mapArgs = ['-map', '0:v:0', ...selectedStreams.flatMap(s => ['-map', `0:a:${s.idx}`])];
       cmd = ['-i', inputName, ...mapArgs, ...videoArgs, ...audioEncArgs, outputName];
     } else {
       cmd = ['-i', inputName, ...videoArgs, ...audioEncArgs, outputName];
@@ -3312,9 +3324,10 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
         log('⚠ Copia de stream fallida: reintentando con re-codificación de vídeo…', 'warn');
         try { await ffmpeg.deleteFile(inputName);  } catch (_) {}
         try { await ffmpeg.deleteFile(outputName); } catch (_) {}
+        ffmpeg.off('progress', onProgress);   // el listener es del motor viejo; se re-registra en el nuevo
         await loadFFmpeg();
         await ffmpeg.writeFile(inputName, fileData);
-        const fallbackCmd = ['-i', inputName,
+        const fallbackCmd = ['-i', inputName, ...mapArgs,
                              '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18',
                              ...audioEncArgs, outputName];
         log(`Reintentando: ffmpeg ${fallbackCmd.join(' ')}`, 'sys');
@@ -3505,17 +3518,26 @@ function showLargeFileModal(name, size) {
 const convCounter  = $('convCounter');
 const convCountEl  = $('convCount');
 
-function getConvCount() { return parseInt(localStorage.getItem('vidtoflac_conv') || '0', 10); }
+// El contador es accesorio: si localStorage falla (modo privado, cuota llena, JSON corrupto)
+// no debe marcar como fallida una conversión que ya se ha completado.
+function getConvCount() {
+  try { return parseInt(localStorage.getItem('vidtoflac_conv') || '0', 10) || 0; }
+  catch (_) { return 0; }
+}
 
 function incConvCount(name) {
   const n = getConvCount() + 1;
-  localStorage.setItem('vidtoflac_conv', n);
-  if (name) {
-    const list = JSON.parse(localStorage.getItem('vidtoflac_history') || '[]');
-    list.unshift({ name, date: new Date().toISOString() });
-    if (list.length > 300) list.length = 300;
-    localStorage.setItem('vidtoflac_history', JSON.stringify(list));
-  }
+  try {
+    localStorage.setItem('vidtoflac_conv', n);
+    if (name) {
+      let list;
+      try { list = JSON.parse(localStorage.getItem('vidtoflac_history') || '[]'); } catch (_) { list = []; }
+      if (!Array.isArray(list)) list = [];
+      list.unshift({ name, date: new Date().toISOString() });
+      if (list.length > 300) list.length = 300;
+      localStorage.setItem('vidtoflac_history', JSON.stringify(list));
+    }
+  } catch (_) { /* sin almacenamiento: el contador se muestra igual, solo no persiste */ }
   renderConvCount(n);
 }
 function renderConvCount(n) {

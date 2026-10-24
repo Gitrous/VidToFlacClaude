@@ -41,14 +41,14 @@
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, 100% private and local." />
+  <meta property="og:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, private and local." />
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Video to FLAC Converter: Free, in Your Browser | VidToFLAC" />
   <meta name="twitter:description" content="Fix audio that DaVinci Resolve won't play. Remux to MKV with lossless FLAC audio, 100% in your browser and private." />
   <meta name="twitter:image" content="https://vidtoflac.tech/og-image.png" />
-  <meta name="twitter:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, 100% private and local." />
+  <meta name="twitter:image:alt" content="VidToFLAC — convert your video audio to FLAC for DaVinci Resolve, private and local." />
 
   <!-- Structured data: the tool itself -->
   <script type="application/ld+json">
@@ -163,7 +163,7 @@
         "name": "Are my video files uploaded to any server?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Never. The entire conversion runs on your own device thanks to FFmpeg compiled to WebAssembly, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's 100% private and local: that's also why there are no upload or download waits."
+          "text": "Never. The entire conversion runs on your own device thanks to FFmpeg compiled to WebAssembly, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's private and local: that's also why there are no upload or download waits."
         }
       },
       {
@@ -195,7 +195,7 @@
         "name": "How to extract audio from a video to FLAC without losing quality?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "VidToFLAC uses FFmpeg to perform a remux: it copies the video stream bit by bit, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official FLAC codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly, without uploading the file to any server."
+          "text": "VidToFLAC uses FFmpeg to perform a remux: it copies the video stream bit by bit, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official FLAC codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. FLAC adds no loss, but if the original track was AAC or MP3, it cannot recover what the original compression already removed. Everything happens inside your browser via WebAssembly, without uploading the file to any server."
         }
       },
       {
@@ -203,7 +203,7 @@
         "name": "Is vidtoflac.tech safe to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. VidToFLAC processes your files 100% locally thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and no third party has access to your files. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site may display third-party advertising, including Google advertising services, which may use cookies; this is detailed in our privacy policy."
+          "text": "Yes. VidToFLAC processes your files 100% locally thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and no third party has access to your files. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site may display third-party advertising, from the Monetag network, which may use cookies; this is detailed in our privacy policy."
         }
       },
       {
@@ -2185,7 +2185,7 @@
   <header class="header">
     <div class="hero-copy">
     <h1 class="hero-title">Convert <span class="accent">video to FLAC</span> for DaVinci Resolve</h1>
-    <p class="hero-sub">Free, in seconds and 100% private. All processing happens inside your browser: not a single byte is uploaded to any server.</p>
+    <p class="hero-sub">Free, in seconds and private. All processing happens inside your browser: your files are not uploaded to any server.</p>
     </div>
     <!-- Hero visual: real before/after captures (stripped from landings by RE_HERO_VISUAL) -->
     <figure class="hero-visual">
@@ -2469,7 +2469,7 @@
       <div class="compare-col compare-after">
         <div class="compare-header">With VidToFLAC</div>
         <ul class="compare-list">
-          <li>Lossless FLAC audio that Resolve decodes natively</li>
+          <li>Lossless FLAC audio that DaVinci Resolve imports without problems, depending on the version</li>
           <li>The audio codec error goes away, Linux included</li>
           <li>Works with free DaVinci Resolve</li>
           <li>No additional installs or licenses needed</li>
@@ -2531,7 +2531,7 @@
       <details class="faq-item">
         <summary>Are my video files uploaded to any server?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Never.</strong> The entire conversion runs on your own device thanks to <strong>FFmpeg compiled to WebAssembly</strong>, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's <strong>100% private and local</strong>: that's also why there are no upload or download waits.</p>
+          <p><strong>Never.</strong> The entire conversion runs on your own device thanks to <strong>FFmpeg compiled to WebAssembly</strong>, running inside your browser. Your videos are not uploaded, do not pass through any server, and are not stored anywhere. It's <strong>private and local</strong>: that's also why there are no upload or download waits.</p>
         </div>
       </details>
 
@@ -2564,14 +2564,14 @@
       <details class="faq-item">
         <summary>How to extract audio from a video to FLAC without losing quality?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p>VidToFLAC uses <strong>FFmpeg</strong> to perform a <strong>remux</strong>: it copies the video stream <strong>bit by bit</strong>, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official <strong>FLAC</strong> codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. The result is an MKV file with FLAC audio of quality identical to the original. Everything happens inside your browser via WebAssembly, without uploading the file to any server.</p>
+          <p>VidToFLAC uses <strong>FFmpeg</strong> to perform a <strong>remux</strong>: it copies the video stream <strong>bit by bit</strong>, as long as its codec can be copied into the output container, and re-encodes only the audio track to the official <strong>FLAC</strong> codec, which is lossless. With H.265/HEVC, ProRes, DNxHD or MJPEG the video is re-encoded to H.264. FLAC adds no loss, but if the original track was AAC or MP3, it cannot recover what the original compression already removed. Everything happens inside your browser via WebAssembly, without uploading the file to any server.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>Is vidtoflac.tech safe to use?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
-          <p><strong>Yes.</strong> VidToFLAC processes your files <strong>100% locally</strong> thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and <strong>no third party has access to your files</strong>. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site may display third-party advertising, including Google advertising services, which may use cookies; this is detailed in our privacy policy.</p>
+          <p><strong>Yes.</strong> VidToFLAC processes your files <strong>100% locally</strong> thanks to FFmpeg compiled to WebAssembly: the video never leaves your device, it's not uploaded to any server, and <strong>no third party has access to your files</strong>. Once you close the tab, the temporary files from the WASM virtual filesystem are deleted automatically. No user registration, no accounts. The site may display third-party advertising, from the Monetag network, which may use cookies; this is detailed in our privacy policy.</p>
         </div>
       </details>
 
@@ -2605,7 +2605,7 @@
       <ul>
         <li><strong>Compared to WAV / uncompressed PCM:</strong> WAV and AIFF are also lossless, but they do not compress. A 10-minute audio at 48 kHz / 24 bits can weigh more than 170 MB in WAV; FLAC reduces this by 40 to 60 % without losing a single bit.</li>
         <li><strong>Compared to floating-point PCM (pcm_f32le):</strong> Some USB microphones export audio as 32-bit floating-point PCM. FLAC requires integer samples; VidToFLAC automatically inserts a format conversion step before encoding to FLAC to guarantee compatibility.</li>
-        <li><strong>Broad compatibility:</strong> FLAC is natively supported in DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer, Final Cut Pro X, and virtually all modern editors. No plugins or additional licences required on Windows, macOS or Linux.</li>
+        <li><strong>Broad compatibility:</strong> FLAC is supported in recent versions of DaVinci Resolve, Adobe Premiere Pro, Avid Media Composer and Final Cut Pro X; support depends on version and system. No plugins or additional licences required on Windows, macOS or Linux.</li>
       </ul>
 
       <h3>Remux: why it is faster than a conventional conversion</h3>
