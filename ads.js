@@ -138,7 +138,11 @@
   // se oculta el hueco para no dejar un recuadro vacío en medio del contenido.
   function watchEmpty(el) {
     setTimeout(function () {
-      if (el.getBoundingClientRect().height > 20) return;
+      // Se mide el contenido inyectado, no el hueco: .ad-slot tiene min-height 90px.
+      var filled = Array.prototype.some.call(el.children, function (c) {
+        return c.tagName !== 'SCRIPT' && c.tagName !== 'P' && c.getBoundingClientRect().height > 20;
+      });
+      if (filled) return;
       var wrap = el.closest('.ad-slot-wrap');
       if (wrap) wrap.classList.add('is-empty');
       else el.hidden = true;
