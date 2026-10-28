@@ -35,7 +35,7 @@ cookies**: las páginas funcionan con normalidad.
 
 ### Formatos: qué se usa y qué se descartó a propósito
 
-Solo **Native Banner** (rellena los `.ad-slot`). El Vignette se descartó a petición del titular (23-10-2026).
+Dos unidades de **Adsterra** (desde el 28-10-2026): **Native Banner** (4:1) en el primer `.ad-slot`, bajo el conversor, y **Banner 300x250** (iframe) en el segundo, dentro de la FAQ de la portada. Se añadieron porque Monetag no sirve banners. Monetag sigue solo para el push en artículos. El Vignette se descartó a petición del titular (23-10-2026).
 
 **No se usan popunder ni onclick, y no es un olvido.** Se enganchan a un
 escuchador de clics *a nivel de documento*: no se pueden excluir de un botón

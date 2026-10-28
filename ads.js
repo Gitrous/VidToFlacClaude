@@ -27,9 +27,20 @@
   // (Sites → el sitio → el formato → Get code). Mientras estén vacíos no se
   // carga publicidad: las páginas funcionan y los huecos quedan ocultos.
   var CONFIG = {
-    host: 'https://nap5k.com/tag.min.js',   // host del tag de Monetag, p. ej. 'https://xxxxx.com/tag.min.js'
-    zones: {
-      native:   ''  // Zona 12090903 desactivada por Monetag (incumple sus términos). No volver a poner sin revisar la cuenta.
+    // Native Banner de Adsterra (4:1, vidtoflac.tech). Su código es un <script>
+    // con la URL de la unidad y un <div> contenedor con id propio.
+    // Monetag ya no sirve huecos (su zona nativa se desactivó): no volver a poner
+    // Monetag aquí sin revisar la cuenta.
+    native: {
+      src:       'https://bauval.org/21/56d66701bd192f4a16472d2e5c1a4b36',
+      container: 'container-56d66701bd192f4a16472d2e5c1a4b36'
+    },
+    // Banner 300x250 de Adsterra (iframe). Va en el segundo .ad-slot.
+    banner: {
+      key:    '193e076c231f958c864b0ac767d86ffd',
+      src:    'https://bauval.org/22/193e076c231f958c864b0ac767d86ffd',
+      width:  300,
+      height: 250
     },
     // Push Notifications: solo en artículos y guías (ver PUSH_RE). Usa el mismo
     // service worker de la raíz, /sw.js, que es el de esta zona.
@@ -68,31 +79,57 @@
     catch (_) { return false; }
   }
 
-  function configured() { return !!(CONFIG.zones.native || CONFIG.push.zone); }
+  function configured() { return !!(CONFIG.native.src || CONFIG.banner.src || CONFIG.push.zone); }
 
   // ───────────────────────────────────────────────────────────────────────────
   // Inserción de los tags
   // ───────────────────────────────────────────────────────────────────────────
   var loaded = false;
 
-  function tag(zone, parent) {
+  // Una unidad Adsterra por página: el <script> de la unidad y su <div> contenedor
+  // con id único. Se marca con data-zone para que unload() y el rechazo lo quiten.
+  function nativeUnit(el) {
     var s = document.createElement('script');
-    s.src = CONFIG.host;
     s.async = true;
-    s.setAttribute('data-zone', zone);
     s.setAttribute('data-cfasync', 'false');
-    (parent || document.body).appendChild(s);
-    return s;
+    s.setAttribute('data-zone', 'adsterra-native');
+    s.src = CONFIG.native.src;
+    var c = document.createElement('div');
+    c.id = CONFIG.native.container;
+    el.appendChild(s);
+    el.appendChild(c);
   }
 
-  // Un hueco concreto. Se usa también desde el conversor para los anuncios que
-  // aparecen entre las vistas previas, por eso es público (window.ads.mount).
-  function mount(el) {
-    if (!el || !CONFIG.host || !CONFIG.zones.native || getConsent() === 'no') return;
+  // Un hueco concreto. Solo el primero: el mismo código de unidad en dos huecos
+  // duplicaría el id del contenedor. Público (window.ads.mount) por si el conversor lo necesita.
+  function mountNative(el) {
+    if (!el || !CONFIG.native.src || getConsent() === 'no') return;
     if (el.dataset.adMounted) return;        // idempotente: no duplica tags
+    if (document.getElementById(CONFIG.native.container)) return;
     el.dataset.adMounted = '1';
     el.hidden = false;
-    tag(CONFIG.zones.native, el);
+    nativeUnit(el);
+    watchEmpty(el);
+  }
+
+  // Banner 300x250: el iframe lo escribe el script de Adsterra junto a sí mismo,
+  // por eso el script va dentro del hueco. atOptions es la configuración global que espera.
+  function mountBanner(el) {
+    if (!el || !CONFIG.banner.src || getConsent() === 'no') return;
+    if (el.dataset.adMounted) return;
+    el.dataset.adMounted = '1';
+    el.hidden = false;
+    var b = CONFIG.banner;
+    var opt = document.createElement('script');
+    opt.setAttribute('data-zone', 'adsterra-banner');
+    opt.textContent = 'atOptions = ' + JSON.stringify({ key: b.key, format: 'iframe', height: b.height, width: b.width, params: {} }) + ';';
+    var s = document.createElement('script');
+    s.async = true;
+    s.setAttribute('data-cfasync', 'false');
+    s.setAttribute('data-zone', 'adsterra-banner');
+    s.src = b.src;
+    el.appendChild(opt);
+    el.appendChild(s);
     watchEmpty(el);
   }
 
@@ -128,7 +165,8 @@
     if (loaded || !configured() || getConsent() === 'no') return;
     loaded = true;
     var slots = document.querySelectorAll('.ad-slot');
-    for (var i = 0; i < slots.length; i++) mount(slots[i]);
+    mountNative(slots[0]);
+    mountBanner(slots[1]);
     if (pushAllowed()) pushTag();
   }
 
@@ -141,6 +179,8 @@
     for (var i = 0; i < scripts.length; i++) scripts[i].remove();
     var frames = document.querySelectorAll('.ad-slot iframe, .ad-slot-wrap iframe');
     for (var j = 0; j < frames.length; j++) frames[j].remove();
+    var box = document.getElementById(CONFIG.native.container);
+    if (box) box.remove();
     hideSlots();
     // Solo se recarga si la elección quedó guardada; si no, recargar haría
     // volver el aviso y el rechazo se perdería.
@@ -244,7 +284,7 @@
   // ───────────────────────────────────────────────────────────────────────────
   // Arranque
   // ───────────────────────────────────────────────────────────────────────────
-  window.ads = { load: load, mount: mount, consent: function () { return getConsent(); } };
+  window.ads = { load: load, mountNative: mountNative, mountBanner: mountBanner, consent: function () { return getConsent(); } };
 
   // Sin configurar, o tras rechazar, los huecos no se muestran: así no quedan
   // recuadros vacíos de 90 px en medio del contenido.
