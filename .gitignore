@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+# graphify (grafo local, no se sube)
+graphify-out/
