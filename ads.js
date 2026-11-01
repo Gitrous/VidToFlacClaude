@@ -137,12 +137,18 @@
   // cuenta aún sin aprobar), se avisa donde haya un mensaje preparado y, si no,
   // se oculta el hueco para no dejar un recuadro vacío en medio del contenido.
   function watchEmpty(el) {
-    setTimeout(function () {
-      // Se mide el contenido inyectado, no el hueco: .ad-slot tiene min-height 90px.
+    // Se mide el contenido inyectado, no el hueco: .ad-slot tiene min-height 90px.
+    // El creativo llega tarde (el iframe empieza en about:blank), así que se
+    // reintenta cada 2 s durante ~20 s antes de rendirse.
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries++;
       var filled = Array.prototype.some.call(el.children, function (c) {
         return c.tagName !== 'SCRIPT' && c.tagName !== 'P' && c.getBoundingClientRect().height > 20;
       });
-      if (filled) return;
+      if (filled) { clearInterval(timer); return; }
+      if (tries < 10) return;
+      clearInterval(timer);
       var wrap = el.closest('.ad-slot-wrap');
       if (wrap) wrap.classList.add('is-empty');
       else el.hidden = true;
