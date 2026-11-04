@@ -341,7 +341,7 @@ CONTENT = {
         "faq_h2": "Preguntas frecuentes sobre convertir WAV a FLAC",
         "seo_body": (
             '      <h3>La solución: comprimir tu WAV a FLAC sin perder ni un bit</h3>\n'
-            '      <p><strong>WAV</strong> y <strong>FLAC</strong> son ambos formatos <strong>sin pérdida</strong>, pero el WAV no comprime: un archivo de 10 minutos puede superar los 100 MB. FLAC aplica compresión lossless y reduce el tamaño entre un <strong>40% y un 60%</strong> conservando exactamente la misma información.</p>\n\n'
+            '      <p><strong>WAV</strong> y <strong>FLAC</strong> son ambos formatos <strong>sin pérdida</strong>, pero el WAV no comprime: un archivo de 10 minutos puede superar los 100 MB. FLAC aplica compresión lossless y ocupa entre un <strong>6% y un 53%</strong> del tamaño del WAV, según el contenido, conservando exactamente la misma información.</p>\n\n'
             '      <p>El resultado suena <strong>idéntico</strong> al WAV original (misma frecuencia de muestreo y profundidad de bits) pero ocupa mucho menos en disco y se transfiere más rápido, sin sacrificar calidad.</p>\n\n'
             '      <p>La conversión genera un <strong>.flac</strong> directamente en tu navegador, sin enviar el audio a ningún servidor.</p>'
         ),
@@ -349,7 +349,7 @@ CONTENT = {
             ("¿Pierdo calidad al convertir un WAV a FLAC?",
              "No. FLAC es sin pérdida: guarda exactamente los mismos datos de audio que el WAV. La conversión es <strong>bit a bit reversible</strong>, sin ninguna degradación."),
             ("¿Cuánto se reduce el tamaño?",
-             "Normalmente entre un <strong>40% y un 60%</strong>, según el contenido del audio. Música y voz se comprimen bien; el silencio y los tonos puros, aún más."),
+             "El FLAC ocupa entre un <strong>6% y un 53%</strong> del tamaño del WAV, según el contenido. El peor caso es el ruido blanco (53%); una grabación de pantalla llega al 6%."),
             ("¿Se mantienen la frecuencia de muestreo y los bits?",
              "Sí. FLAC conserva la misma frecuencia (44.1 kHz, 48 kHz, etc.) y la misma profundidad de bits (16, 24…) que el WAV de origen."),
             ("¿Por qué usar FLAC en lugar de WAV al editar?",

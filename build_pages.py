@@ -312,21 +312,21 @@ PAGES = [
     {
         "slug":             "convertir-wav-a-flac",
         "title":            "Convertir WAV a FLAC – Compresión lossless en el navegador | VidToFLAC",
-        "description":      "Convierte archivos WAV a FLAC sin pérdida, reduciendo el tamaño hasta un 60% sin perder calidad. 100% en tu navegador con FFmpeg. Sin subir archivos.",
+        "description":      "Convierte archivos WAV a FLAC sin pérdida, reduciendo el tamaño según el contenido, sin perder calidad. 100% en tu navegador con FFmpeg. Sin subir archivos.",
         "keywords":         "convertir WAV a FLAC, WAV a FLAC sin pérdida, comprimir WAV a FLAC, WAV FLAC online, FFmpeg WAV FLAC navegador, reducir tamaño WAV",
         "canonical":        "https://vidtoflac.tech/convertir-wav-a-flac/",
         "og_url":           "https://vidtoflac.tech/convertir-wav-a-flac/",
         "og_title":         "Convertir WAV a FLAC – Compresión lossless | VidToFLAC",
-        "og_desc":          "Convierte WAV a FLAC en segundos: misma calidad, hasta un 60% menos de espacio. Directo en el navegador, sin subir nada.",
+        "og_desc":          "Convierte WAV a FLAC en segundos: misma calidad y entre un 47% y un 94% menos de espacio. Directo en tu navegador.",
         "tw_title":         "Convertir WAV a FLAC – Compresión lossless | VidToFLAC",
-        "tw_desc":          "Convierte WAV a FLAC en segundos: misma calidad, hasta un 60% menos de espacio. Sin subir nada.",
+        "tw_desc":          "Convierte WAV a FLAC en segundos: misma calidad y entre un 47% y un 94% menos de espacio. Sin subir nada.",
         "webapp_url":       "https://vidtoflac.tech/convertir-wav-a-flac/",
-        "webapp_desc":      "Convierte archivos WAV a FLAC sin pérdida de calidad, reduciendo el tamaño del archivo hasta un 60%. Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
+        "webapp_desc":      "Convierte archivos WAV a FLAC sin pérdida de calidad, reduciendo el tamaño del archivo según el contenido (entre un 47% y un 94%). Funciona 100% en el navegador con FFmpeg (WebAssembly), sin subir archivos.",
         "howto_name":       "Cómo convertir un archivo WAV a FLAC sin pérdida de calidad",
         "hero_h1":          'Convierte tu <span class="accent">WAV a FLAC</span> sin pérdida de calidad',
-        "hero_sub":         "Misma calidad lossless que el WAV original, hasta un 60% menos de espacio. Conversión en segundos, directamente en tu navegador, sin subir tus archivos.",
+        "hero_sub":         "Misma calidad lossless que el WAV original, entre un 47% y un 94% menos de espacio. Conversión en segundos, directamente en tu navegador, sin subir tus archivos.",
         "seo_h2":           '¿Por qué convertir <span class="accent">WAV a FLAC</span> en lugar de guardar el WAV?',
-        "seo_lede":         '<strong>WAV</strong> y <strong>FLAC</strong> son ambos formatos sin pérdida, pero el WAV no comprime los datos: un archivo de 10 minutos puede pesar más de 100 MB. FLAC aplica compresión lossless y reduce el tamaño entre un 40% y un 60% <strong>sin perder ni un bit de información</strong>. El resultado suena idéntico al WAV original y ocupa mucho menos.',
+        "seo_lede":         '<strong>WAV</strong> y <strong>FLAC</strong> son ambos formatos sin pérdida, pero el WAV no comprime los datos: un archivo de 10 minutos puede pesar más de 100 MB. FLAC aplica compresión lossless y ocupa entre un 6% y un 53% del tamaño del WAV, según el contenido, <strong>sin perder ni un bit de información</strong>. El resultado suena idéntico al WAV original y ocupa mucho menos.',
         "breadcrumb_label": "Convertir WAV a FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -351,7 +351,7 @@ PAGES = [
         <li>Descarga el .flac resultante. Puedes verificar que la calidad es idéntica importando ambos archivos en un editor de audio y comparándolos con inversión de fase: el resultado debería ser silencio completo.</li>
       </ol>
       <h3>Cuánto ocupa un WAV y cuánto se ahorra con FLAC</h3>
-      <p>Un WAV estéreo a <strong>48 kHz y 24 bits</strong> ocupa unos <strong>17 MB por minuto</strong>: algo más de 1 GB por hora de grabación. Convertirlo a FLAC reduce el tamaño <strong>entre un 40 % y un 60 %</strong> según el material (la voz y el silencio comprimen mucho más que la música densa) sin perder un solo bit de información. Al descomprimirlo recuperas exactamente el PCM original.</p>
+      <p>Un WAV estéreo a <strong>48 kHz y 24 bits</strong> ocupa unos <strong>17 MB por minuto</strong>: algo más de 1 GB por hora de grabación. Convertirlo a FLAC lo deja en <strong>entre un 6 % y un 53 %</strong> de su tamaño, según el material (la voz y el silencio comprimen mucho más que la música densa; el ruido, lo que menos) sin perder un solo bit de información. Al descomprimirlo recuperas exactamente el PCM original.</p>
       <h3>Medido: cuánto encoge de verdad un WAV</h3>
       <p>Las cifras que circulan sobre lo que comprime FLAC suelen ser inventadas, porque depende por completo del material. Estas están medidas en el <a href="/banco-de-pruebas/">banco de pruebas</a>, siempre partiendo del mismo WAV estéreo de 39,5 segundos a 48 kHz y 16 bits (7,58 MB): con <strong>ruido blanco</strong>, el peor caso posible, el FLAC ocupó 3,56 MB, un 53 % del original; con un <strong>tono puro</strong>, 540 KB; y con una <strong>grabación de pantalla real</strong>, con silencios y voz, 431 KB. Tu material se situará entre esos extremos, normalmente más cerca de la mitad que del 6 %.</p>
     </article>
@@ -646,7 +646,7 @@ PAGES = [
       <h3>¿Qué es WebM y de dónde vienen los archivos WebM?</h3>
       <p>WebM es un formato de vídeo de código abierto desarrollado por Google y basado en el contenedor Matroska (MKV). Fue diseñado específicamente para la web: YouTube lo usa para servir vídeo a navegadores que no tienen Flash, y es el formato de exportación de muchas herramientas de grabación de navegador (extensiones de Chrome, Firefox Screen Recorder, etc.). Los archivos . Los .webm que circulan por la web suelen tener vídeo <strong>VP9 o AV1</strong> y audio <strong>Opus o Vorbis</strong>.</p>
       <h3>Códecs de audio en WebM y por qué fallan en Resolve</h3>
-      <p>YouTube usa <strong>Opus</strong> como códec de audio en la mayoría de sus streams WebM actuales. Los WebM más antiguos de YouTube (anteriores a 2014) pueden tener <strong>Vorbis</strong>. Los WebM de grabadoras de navegador usan también Opus habitualmente. Ninguno de estos códecs (Opus ni Vorbis) está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro o Avid Media Composer. Al importar un WebM en Resolve, el audio simplemente no aparece.</p>
+      <p>YouTube usa <strong>Opus</strong> como códec de audio en la mayoría de sus streams WebM actuales. Los WebM más antiguos de YouTube (anteriores a 2014) pueden tener <strong>Vorbis</strong>. Los WebM de grabadoras de navegador usan también Opus habitualmente. Ninguno de estos códecs (Opus ni Vorbis) está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro o Avid Media Composer. Al importar un WebM en Resolve, el audio simplemente no aparece. En nuestras pruebas con DaVinci Resolve Studio 21 sobre Ubuntu, el audio Opus de un WebM llegó sin sonido, y el vídeo VP8 o VP9 sí se vio.</p>
       <h3>Vídeo VP9 y AV1 en WebM: compatibilidad con el navegador</h3>
       <p>El vídeo VP9, usado por YouTube para resoluciones hasta 4K, es decodificable por los navegadores modernos (Chrome, Firefox, Edge). VidToFLAC copia el stream VP9 bit a bit, sin recomprimirlo. AV1, el códec más reciente de YouTube para 4K y 8K, tiene soporte variable según el navegador y la CPU disponible. Si el AV1 no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para la previsualización. En todos los casos, el audio pasa siempre a FLAC.</p>
       <h3>Paso a paso: convertir tu WebM a FLAC</h3>

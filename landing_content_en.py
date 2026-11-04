@@ -256,7 +256,7 @@ PAGES_EN = [
         "hero_h1":          'Convert your <span class="accent">WAV to FLAC</span> and halve the size',
         "hero_sub":         "Identical quality, roughly half the space. FLAC keeps every single sample of your WAV: the conversion is reversible, and nothing leaves your browser.",
         "seo_h2":           'Why convert <span class="accent">WAV to FLAC</span> at all?',
-        "seo_lede":         'Both <strong>WAV and FLAC are lossless</strong>, so this is not about quality: it is about size. WAV stores audio uncompressed, which means a two-hour recording can run to several gigabytes. FLAC stores exactly the same samples in <strong>40 to 60% less space</strong>, and DaVinci Resolve, Premiere and Avid all read it natively.',
+        "seo_lede":         'Both <strong>WAV and FLAC are lossless</strong>, so this is not about quality: it is about size. WAV stores audio uncompressed, which means a two-hour recording can run to several gigabytes. FLAC stores exactly the same samples in <strong>between 47% and 94% less space</strong>, and DaVinci Resolve, Premiere and Avid all read it natively.',
         "breadcrumb_label": "Convert WAV to FLAC",
         "unique_guide":     """\
   <section class="card seo-card" aria-labelledby="guia-formato-titulo">
@@ -270,7 +270,7 @@ PAGES_EN = [
       <h3>Lossless does not mean identical file, it means identical audio</h3>
       <p>This trips people up, so it is worth stating plainly: FLAC compresses the way ZIP does. It finds patterns in the data and stores them more efficiently, and decoding returns <strong>exactly the original samples, bit for bit</strong>. Convert WAV to FLAC and back, and you get a file whose audio content is indistinguishable from where you started, not approximately, but precisely. What you lose is only the wasted space.</p>
       <h3>How much smaller, in practice</h3>
-      <p>Typically <strong>40 to 60%</strong>, though it depends entirely on the material. Dense, loud music compresses least; speech, podcasts and anything with silence in it compress most. A field recording with long quiet passages can drop by 70%. Uncompressed 24-bit multitrack sessions sit at the other end. The only way to know your number is to convert and compare.</p>
+      <p>It lands between <strong>6% and 53%</strong> of the WAV size, depending entirely on the material. Dense, loud music compresses least; speech, podcasts and anything with silence in it compress most. A screen recording can drop to about 6% of its WAV size. Uncompressed 24-bit multitrack sessions sit at the other end. The only way to know your number is to convert and compare.</p>
       <h3>When to stay with WAV</h3>
       <ol>
         <li><strong>When a delivery spec demands it.</strong> Some broadcasters and mastering houses require PCM explicitly. Follow the spec.</li>
@@ -280,7 +280,7 @@ PAGES_EN = [
       <h3>Common problems and what to do</h3>
       <p>If your WAV came from a USB microphone it may be <strong>32-bit floating point</strong> (<code>pcm_f32le</code>). FLAC only stores integer samples, so VidToFLAC converts it to 32-bit integer first. That step is handled automatically and is not audible, but it is why the file is not a pure repackage in that case.</p>
       <h3>How much a WAV weighs, and how much FLAC saves</h3>
-      <p>A stereo WAV at <strong>48 kHz and 24 bits</strong> takes about <strong>17 MB per minute</strong>: a little over 1 GB per hour of recording. Converting it to FLAC cuts the size by <strong>40 % to 60 %</strong> depending on the material (speech and silence compress far better than dense music), without losing a single bit. Decompress it and you get exactly the original PCM back.</p>
+      <p>A stereo WAV at <strong>48 kHz and 24 bits</strong> takes about <strong>17 MB per minute</strong>: a little over 1 GB per hour of recording. Converting it to FLAC brings it down to <strong>6 % to 53 %</strong> of its size, depending on the material (speech and silence compress far better than dense music), without losing a single bit. Decompress it and you get exactly the original PCM back.</p>
       <h3>Measured: how much a WAV really shrinks</h3>
       <p>The figures you read about FLAC compression are usually invented, because it depends entirely on the material. These are measured in the <a href="/en/test-bench/">test bench</a>, always from the same 39.5-second stereo WAV at 48 kHz and 16 bits (7.58 MB): with <strong>white noise</strong>, the worst case there is, the FLAC took 3.56 MB, 53 % of the original; with a <strong>pure tone</strong>, 540 KB; and with a <strong>real screen recording</strong>, silences and speech included, 431 KB. Your own material will land between those extremes, usually closer to half than to 6 %.</p>
     </article>
@@ -950,14 +950,14 @@ CONTENT_EN = {
       <h3>The point of WAV to FLAC: same audio, half the size</h3>
       <p>This conversion is not about fixing anything: WAV already works in every editor. It is about <strong>size</strong>. WAV stores audio completely uncompressed, so a stereo file at 48 kHz and 24 bit consumes about 250 MB per hour, and multitrack sessions multiply that quickly.</p>
 
-      <p><strong>FLAC compresses losslessly</strong>, the way ZIP does: it finds redundancy and stores it more efficiently, and decoding returns exactly the original samples. Typically that means <strong>40 to 60% less space</strong> for audio that is bit-for-bit identical to what you started with.</p>
+      <p><strong>FLAC compresses losslessly</strong>, the way ZIP does: it finds redundancy and stores it more efficiently, and decoding returns exactly the original samples. Typically that means <strong>between 47% and 94% less space</strong> for audio that is bit-for-bit identical to what you started with.</p>
 
       <p>DaVinci Resolve, Premiere Pro, Avid and Final Cut all read FLAC natively, so there is no compatibility cost to pay for the saving.</p>""",
         "faqs": [
             ("Do I lose any quality converting WAV to FLAC?",
              "None at all. FLAC is <strong>lossless</strong>: it stores exactly the same samples as the WAV, just packed more efficiently. Convert back and you get the original data bit for bit. The only thing that changes is the file size."),
             ("How much smaller will my file be?",
-             "Usually <strong>40 to 60%</strong>, though it depends on the material. Speech, podcasts and recordings with silence compress most; dense loud music compresses least. The only way to know your figure is to convert and compare."),
+             "Usually it lands between <strong>6% and 53%</strong> of the WAV size, depending on the material. Speech, podcasts and recordings with silence compress most; dense loud music compresses least. The only way to know your figure is to convert and compare."),
             ("When should I stay with WAV instead?",
              "When a delivery specification demands PCM explicitly, when your hardware cannot read FLAC (some older field recorders are PCM-only) or for temporary scratch files nobody will keep, where the encoding time is not worth it."),
             ("What about 32-bit float WAV files from USB microphones?",
