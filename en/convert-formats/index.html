@@ -1898,6 +1898,7 @@
 
     /* ── Navbar ────────────────────────────────────────────────────────── */
     body { padding-top: 56px; }
+    .nav-toggle-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.nav-toggle{display:none}.nav-toggle-input:focus-visible ~ .nav-end .nav-toggle{outline:2px solid var(--amber);outline-offset:2px}
     #site-nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -1974,7 +1975,7 @@
       border-radius: 1px;
     }
     @media (max-width: 560px) {
-      .nav-links { display: none; }
+      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;margin:0;padding:0.5rem 1rem 1rem;flex:none;background:#09090b;border-bottom:1px solid var(--line)}.nav-links .nav-link{display:block;padding:0.75rem 0.8rem;font-size:1rem}.nav-toggle-input:checked ~ .nav-links{display:flex}.nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;margin-right:0.5rem;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:none;cursor:pointer}.nav-end{margin-left:auto}
     }
     .nav-end {
       display: flex;
@@ -2154,6 +2155,7 @@
     </svg>
     <span class="nav-brand-name">VidTo<span class="nav-brand-accent">FLAC</span></span>
   </a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="Menú de navegación">
   <ul class="nav-links" role="list">
     <li><a href="/en/" class="nav-link">Home</a></li>
     <li><a href="/en/convert-formats/" class="nav-link nav-link-active" aria-current="page">Formats</a></li>
@@ -2162,7 +2164,7 @@
     <li><a href="/en/history/" class="nav-link">History</a></li>
     <li><a href="/en/contact/" class="nav-link">Contact</a></li>
   </ul>
-  <div class="nav-end">
+  <div class="nav-end"><label for="nav-toggle" class="nav-toggle" aria-label="Open menu" title="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
     <a href="/convertir-formatos/" class="nav-lang" aria-label="Cambiar a español" hreflang="es">Español</a>
   </div>
 </nav>
