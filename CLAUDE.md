@@ -219,6 +219,13 @@ generador, porque el texto original seguía en `landing_content.py`. Si un
 texto en `landing_content.py` y en `build_pages.py`, arréglalo **ahí**, y
 regenera.
 
+Trampa: las secciones WebM y MP3 de las páginas agrupadas
+(`convertir-video-a-flac/`, `convertir-audio-a-flac/` y sus `en/`) salen de
+`PAGES`/`PAGES_EN` (`unique_guide`) en `build_pages.py` y `landing_content_en.py`,
+no de `CONTENT`/`seo_body` de `landing_content.py`. Al editar, busca primero el
+texto en el HTML generado y en el fuente que lo produce, y tras regenerar
+comprueba que el cambio aparece en la página.
+
 Invariantes que el generador ya respeta y que no hay que romper:
 
 - **hreflang:** cada landing declara su par ES/EN autorreferenciado, que se

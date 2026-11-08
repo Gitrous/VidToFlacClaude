@@ -2447,6 +2447,8 @@
       <p>WebM was designed by Google for the web, not for editing: royalty-free codecs, small files, fast streaming. Those goals are the opposite of what an NLE optimises for. Editors are built around codecs the broadcast industry standardised on decades ago (H.264, ProRes, DNxHD, PCM, AAC) and Opus and Vorbis never entered that world. The format is not broken; it is simply aimed elsewhere.</p>
       <h3>Opus is better than what replaces it, and that is fine</h3>
       <p>Worth being clear about this: Opus is a superb codec, better than AAC at the same bitrate. Converting it to FLAC does not improve the audio: nothing can recover what lossy compression already discarded. What FLAC buys you is that everything downstream can read it, and that no further quality is lost from this point on. It is a compatibility move, not a quality one.</p>
+      <h3>WebM with no sound in DaVinci Resolve: the two causes</h3>
+      <p>The first is the codec: Resolve does not decode Opus or Vorbis by default. The second is an offset: Opus stores a <em>pre-skip</em> in its header, and many WebM files start the audio a few milliseconds after zero. In our tests, a track that did not start exactly at 0 came into Resolve with the audio box on and no sound, while tracks starting at 0 played. VidToFLAC anchors the track to zero when converting. We measured this on the <a href="/en/test-bench/">test bench</a>.</p>
       <h3>Step by step: converting your WebM to FLAC</h3>
       <ol>
         <li>Drop the .webm onto the upload area.</li>

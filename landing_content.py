@@ -24,6 +24,8 @@ CONTENT = {
             '      <p>Si tu MP4 incluye un vídeo que el navegador no puede decodificar (por ejemplo HEVC/H.265 en algunos equipos), VidToFLAC lo recodifica a H.264 para que la previsualización funcione; en cualquier otro caso, el vídeo se conserva intacto.</p>'
         ),
         "faqs": [
+            ("¿Cómo convierto un MP4 a FLAC?",
+             "Arrastra el MP4 a VidToFLAC y pulsa <strong>Convertir</strong>. Obtienes un MKV con el audio en FLAC, que importas en DaVinci Resolve, Premiere o Avid. El vídeo se copia sin recodificar, salvo que el navegador no pueda decodificarlo (H.265/HEVC): entonces se recodifica a H.264."),
             ("¿Pierdo calidad de vídeo al convertir un MP4 a FLAC?",
              "Si el vídeo es H.264, se copia <strong>bit a bit</strong> sin recomprimirlo: es un remux, no un re-encode. Si es <strong>H.265/HEVC</strong>, el navegador no puede decodificarlo y se recodifica a H.264 con calidad alta (<code>-crf 18</code>). En ambos casos la pista de audio pasa a FLAC, que es un formato sin pérdida, así que la imagen final es idéntica al original."),
             ("¿Por qué DaVinci Resolve abre mi MP4 pero sin sonido?",
@@ -346,6 +348,8 @@ CONTENT = {
             '      <p>La conversión genera un <strong>.flac</strong> directamente en tu navegador, sin enviar el audio a ningún servidor.</p>'
         ),
         "faqs": [
+            ("¿Cómo convierto un WAV a FLAC sin perder calidad?",
+             "Arrastra el WAV a VidToFLAC, pulsa <strong>Convertir</strong> y descarga el .flac. La conversión es sin pérdida: el audio decodificado es idéntico al del WAV, y solo cambia el tamaño del archivo."),
             ("¿Pierdo calidad al convertir un WAV a FLAC?",
              "No. FLAC es sin pérdida: guarda exactamente los mismos datos de audio que el WAV. La conversión es <strong>bit a bit reversible</strong>, sin ninguna degradación."),
             ("¿Cuánto se reduce el tamaño?",

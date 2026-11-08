@@ -306,6 +306,8 @@ PAGES = [
       <p>Tiene sentido cuando necesitas importar audio MP3 en un editor que no lo soporta nativamente, cuando quieres evitar la desincronización por encoder delay en proyectos multicámara, o cuando necesitas aplicar efectos de audio y luego exportar sin degradación adicional. No tiene sentido si tu objetivo final es MP3 de nuevo: convertir MP3 → FLAC → MP3 añade una generación extra de pérdida.</p>
       <h3>Las patentes del MP3 caducaron en 2017</h3>
       <p>El programa de licencias de MP3 se cerró en <strong>2017</strong>, así que hoy el formato es libre de patentes. Por eso DaVinci Resolve sí lo decodifica en <strong>Linux</strong>, a diferencia de AAC o AC-3, que siguen protegidos: lo comprobamos en Studio 21, y según usuarios la versión gratuita lo hace desde Resolve 17.</p>
+      <h3>Si DaVinci Resolve no importa tu MP3</h3>
+      <p>Convierte el archivo a FLAC con VidToFLAC e importa el .flac: el FLAC lo lee Resolve sin depender del códec del MP3. En nuestra prueba con Studio 21 sobre Ubuntu, un MP3 ya entró con sonido. La versión gratuita de Resolve con MP3 no la hemos probado.</p>
     </article>
   </section>""",
     },
@@ -647,6 +649,8 @@ PAGES = [
       <p>WebM es un formato de vídeo de código abierto desarrollado por Google y basado en el contenedor Matroska (MKV). Fue diseñado específicamente para la web: YouTube lo usa para servir vídeo a navegadores que no tienen Flash, y es el formato de exportación de muchas herramientas de grabación de navegador (extensiones de Chrome, Firefox Screen Recorder, etc.). Los archivos . Los .webm que circulan por la web suelen tener vídeo <strong>VP9 o AV1</strong> y audio <strong>Opus o Vorbis</strong>.</p>
       <h3>Códecs de audio en WebM y por qué fallan en Resolve</h3>
       <p>YouTube usa <strong>Opus</strong> como códec de audio en la mayoría de sus streams WebM actuales. Los WebM más antiguos de YouTube (anteriores a 2014) pueden tener <strong>Vorbis</strong>. Los WebM de grabadoras de navegador usan también Opus habitualmente. Ninguno de estos códecs (Opus ni Vorbis) está soportado de forma nativa en DaVinci Resolve, Adobe Premiere Pro o Avid Media Composer. Al importar un WebM en Resolve, el audio simplemente no aparece. En nuestras pruebas con DaVinci Resolve Studio 21 sobre Ubuntu, el audio Opus de un WebM llegó sin sonido, y el vídeo VP8 o VP9 sí se vio.</p>
+      <h3>WebM sin sonido en DaVinci Resolve: las dos causas</h3>
+      <p>La primera es el códec: Resolve no decodifica Opus ni Vorbis de serie. La segunda es el desfase: el audio Opus guarda un <em>pre-skip</em> en su cabecera, y muchos WebM empiezan la pista unos milisegundos después de cero. En nuestras pruebas, una pista que no empieza exactamente en 0 llegó a Resolve con la caja de audio puesta y sin sonido, mientras que las que empiezan en 0 sonaron. VidToFLAC ancla la pista al cero al convertir. Lo medimos en el <a href="/banco-de-pruebas/">banco de pruebas</a>.</p>
       <h3>Vídeo VP9 y AV1 en WebM: compatibilidad con el navegador</h3>
       <p>El vídeo VP9, usado por YouTube para resoluciones hasta 4K, es decodificable por los navegadores modernos (Chrome, Firefox, Edge). VidToFLAC copia el stream VP9 bit a bit, sin recomprimirlo. AV1, el códec más reciente de YouTube para 4K y 8K, tiene soporte variable según el navegador y la CPU disponible. Si el AV1 no se puede decodificar en el navegador, VidToFLAC lo recodifica a H.264 para la previsualización. En todos los casos, el audio pasa siempre a FLAC.</p>
       <h3>Paso a paso: convertir tu WebM a FLAC</h3>

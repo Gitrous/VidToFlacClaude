@@ -2426,6 +2426,8 @@
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first: handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
       <h3>MP3 patents expired in 2017</h3>
       <p>The MP3 licensing programme was wound up in <strong>2017</strong>, so the format is patent-free today. That is why DaVinci Resolve does decode it on <strong>Linux</strong>, unlike AAC or AC-3, which are still protected: we confirmed it in Studio 21, and users report the free version does it since Resolve 17.</p>
+      <h3>If DaVinci Resolve will not import your MP3</h3>
+      <p>Convert the file to FLAC with VidToFLAC and import the .flac: Resolve reads FLAC without depending on the MP3 codec. In our test with Studio 21 on Ubuntu, an MP3 already came in with sound. We have not tested MP3 in the free version of Resolve.</p>
       <h3>The fix for your MP3 files: transcode the audio to FLAC</h3>
       <p>MP3 turns up in screen recordings, old capture software and legacy archives. DaVinci Resolve does import it, on Linux too, but its encoder delay throws sync off and every lossy re-export costs quality.</p>
 

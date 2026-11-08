@@ -113,6 +113,14 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "How do I convert WAV to FLAC without losing quality?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Drag the WAV into VidToFLAC, press Convert and download the .flac. The conversion is lossless: the decoded audio is identical to the WAV, and only the file size changes."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "Do I lose any quality converting WAV to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -2328,6 +2336,12 @@
 
     <div class="faq-list">
       <details class="faq-item">
+        <summary>How do I convert WAV to FLAC without losing quality?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Drag the WAV into VidToFLAC, press <strong>Convert</strong> and download the .flac. The conversion is lossless: the decoded audio is identical to the WAV, and only the file size changes.</p>
+        </div>
+      </details>
+      <details class="faq-item">
         <summary>Do I lose any quality converting WAV to FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>None at all. FLAC is <strong>lossless</strong>: it stores exactly the same samples as the WAV, just packed more efficiently. Convert back and you get the original data bit for bit. The only thing that changes is the file size.</p>
@@ -2339,15 +2353,15 @@
           <p>Usually it lands between <strong>6% and 53%</strong> of the WAV size, depending on the material. Speech, podcasts and recordings with silence compress most; dense loud music compresses least. The only way to know your figure is to convert and compare.</p>
         </div>
       </details>
+      <div class="ad-slot" hidden>
+        <p class="ad-label">Advertisement</p>
+      </div>
       <details class="faq-item">
         <summary>When should I stay with WAV instead?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>When a delivery specification demands PCM explicitly, when your hardware cannot read FLAC (some older field recorders are PCM-only) or for temporary scratch files nobody will keep, where the encoding time is not worth it.</p>
         </div>
       </details>
-      <div class="ad-slot" hidden>
-        <p class="ad-label">Advertisement</p>
-      </div>
       <details class="faq-item">
         <summary>What about 32-bit float WAV files from USB microphones?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">

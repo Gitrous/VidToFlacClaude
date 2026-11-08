@@ -2428,6 +2428,8 @@
       <p>Tiene sentido cuando necesitas importar audio MP3 en un editor que no lo soporta nativamente, cuando quieres evitar la desincronización por encoder delay en proyectos multicámara, o cuando necesitas aplicar efectos de audio y luego exportar sin degradación adicional. No tiene sentido si tu objetivo final es MP3 de nuevo: convertir MP3 → FLAC → MP3 añade una generación extra de pérdida.</p>
       <h3>Las patentes del MP3 caducaron en 2017</h3>
       <p>El programa de licencias de MP3 se cerró en <strong>2017</strong>, así que hoy el formato es libre de patentes. Por eso DaVinci Resolve sí lo decodifica en <strong>Linux</strong>, a diferencia de AAC o AC-3, que siguen protegidos: lo comprobamos en Studio 21, y según usuarios la versión gratuita lo hace desde Resolve 17.</p>
+      <h3>Si DaVinci Resolve no importa tu MP3</h3>
+      <p>Convierte el archivo a FLAC con VidToFLAC e importa el .flac: el FLAC lo lee Resolve sin depender del códec del MP3. En nuestra prueba con Studio 21 sobre Ubuntu, un MP3 ya entró con sonido. La versión gratuita de Resolve con MP3 no la hemos probado.</p>
       <h3>La solución: convertir MP3 a FLAC para edición y archivado</h3>
       <p><strong>MP3</strong> es el formato con pérdida más extendido, y DaVinci Resolve lo importa (también en Linux), pero arrastra un retardo de codificación y cada exportación con pérdida le resta calidad. Convertir a <strong>FLAC</strong> (sin pérdida) lo deja fijo para editarlo en DaVinci Resolve, Premiere Pro y Avid.</p>
 

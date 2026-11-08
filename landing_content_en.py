@@ -225,6 +225,8 @@ PAGES_EN = [
       <p>WebM was designed by Google for the web, not for editing: royalty-free codecs, small files, fast streaming. Those goals are the opposite of what an NLE optimises for. Editors are built around codecs the broadcast industry standardised on decades ago (H.264, ProRes, DNxHD, PCM, AAC) and Opus and Vorbis never entered that world. The format is not broken; it is simply aimed elsewhere.</p>
       <h3>Opus is better than what replaces it, and that is fine</h3>
       <p>Worth being clear about this: Opus is a superb codec, better than AAC at the same bitrate. Converting it to FLAC does not improve the audio: nothing can recover what lossy compression already discarded. What FLAC buys you is that everything downstream can read it, and that no further quality is lost from this point on. It is a compatibility move, not a quality one.</p>
+      <h3>WebM with no sound in DaVinci Resolve: the two causes</h3>
+      <p>The first is the codec: Resolve does not decode Opus or Vorbis by default. The second is an offset: Opus stores a <em>pre-skip</em> in its header, and many WebM files start the audio a few milliseconds after zero. In our tests, a track that did not start exactly at 0 came into Resolve with the audio box on and no sound, while tracks starting at 0 played. VidToFLAC anchors the track to zero when converting. We measured this on the <a href="/en/test-bench/">test bench</a>.</p>
       <h3>Step by step: converting your WebM to FLAC</h3>
       <ol>
         <li>Drop the .webm onto the upload area.</li>
@@ -367,6 +369,8 @@ PAGES_EN = [
       <p>If the source is 32-bit floating point audio, FLAC needs integer samples, so it is converted to 32-bit integer first: handled automatically and inaudible. If a file fails outright, open <strong>Technical details · FFmpeg</strong> and read the log: it usually names the codec that could not be decoded.</p>
       <h3>MP3 patents expired in 2017</h3>
       <p>The MP3 licensing programme was wound up in <strong>2017</strong>, so the format is patent-free today. That is why DaVinci Resolve does decode it on <strong>Linux</strong>, unlike AAC or AC-3, which are still protected: we confirmed it in Studio 21, and users report the free version does it since Resolve 17.</p>
+      <h3>If DaVinci Resolve will not import your MP3</h3>
+      <p>Convert the file to FLAC with VidToFLAC and import the .flac: Resolve reads FLAC without depending on the MP3 codec. In our test with Studio 21 on Ubuntu, an MP3 already came in with sound. We have not tested MP3 in the free version of Resolve.</p>
     </article>
   </section>""",
     },
@@ -888,6 +892,8 @@ CONTENT_EN = {
 
       <p>If your MP4 carries video the browser cannot decode (HEVC/H.265 on some machines, for instance) VidToFLAC re-encodes it to H.264 at high quality so that preview works on the page. The audio still ends up as FLAC either way.</p>""",
         "faqs": [
+            ("How do I convert an MP4 to FLAC?",
+             "Drag the MP4 into VidToFLAC and press <strong>Convert</strong>. You get an MKV with the audio in FLAC, ready to import into DaVinci Resolve, Premiere or Avid. The video is copied without re-encoding, unless the browser cannot decode it (H.265/HEVC): then it is re-encoded to H.264."),
             ("Do I lose video quality converting an MP4 to FLAC?",
              "If the video is H.264 it is copied <strong>bit for bit</strong> without recompression: that is a remux, not a re-encode. If it is <strong>H.265/HEVC</strong> the browser cannot decode it, so the video is re-encoded to H.264 at high quality (<code>-crf 18</code>): very close to the original, though not bit-for-bit identical. The audio becomes FLAC, which is lossless, in both cases."),
             ("Why does DaVinci Resolve open my MP4 but play no sound?",
@@ -954,6 +960,8 @@ CONTENT_EN = {
 
       <p>DaVinci Resolve, Premiere Pro, Avid and Final Cut all read FLAC natively, so there is no compatibility cost to pay for the saving.</p>""",
         "faqs": [
+            ("How do I convert WAV to FLAC without losing quality?",
+             "Drag the WAV into VidToFLAC, press <strong>Convert</strong> and download the .flac. The conversion is lossless: the decoded audio is identical to the WAV, and only the file size changes."),
             ("Do I lose any quality converting WAV to FLAC?",
              "None at all. FLAC is <strong>lossless</strong>: it stores exactly the same samples as the WAV, just packed more efficiently. Convert back and you get the original data bit for bit. The only thing that changes is the file size."),
             ("How much smaller will my file be?",

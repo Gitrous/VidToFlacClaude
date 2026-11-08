@@ -113,6 +113,14 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "How do I convert an MP4 to FLAC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Drag the MP4 into VidToFLAC and press Convert. You get an MKV with the audio in FLAC, ready to import into DaVinci Resolve, Premiere or Avid. The video is copied without re-encoding, unless the browser cannot decode it (H.265/HEVC): then it is re-encoded to H.264."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "Do I lose video quality converting an MP4 to FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -2328,6 +2336,12 @@
 
     <div class="faq-list">
       <details class="faq-item">
+        <summary>How do I convert an MP4 to FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Drag the MP4 into VidToFLAC and press <strong>Convert</strong>. You get an MKV with the audio in FLAC, ready to import into DaVinci Resolve, Premiere or Avid. The video is copied without re-encoding, unless the browser cannot decode it (H.265/HEVC): then it is re-encoded to H.264.</p>
+        </div>
+      </details>
+      <details class="faq-item">
         <summary>Do I lose video quality converting an MP4 to FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>If the video is H.264 it is copied <strong>bit for bit</strong> without recompression: that is a remux, not a re-encode. If it is <strong>H.265/HEVC</strong> the browser cannot decode it, so the video is re-encoded to H.264 at high quality (<code>-crf 18</code>): very close to the original, though not bit-for-bit identical. The audio becomes FLAC, which is lossless, in both cases.</p>
@@ -2339,15 +2353,15 @@
           <p>Because the MP4 almost always stores its audio as <strong>AAC</strong>, and DaVinci Resolve (especially on Linux) ships no licence to decode it. The video decoders are included, which is why you see the picture but hear nothing.</p>
         </div>
       </details>
+      <div class="ad-slot" hidden>
+        <p class="ad-label">Advertisement</p>
+      </div>
       <details class="faq-item">
         <summary>Does this work for MP4s recorded with OBS Studio or a phone?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>Yes. MP4s from OBS, smartphones, cameras and capture cards all use AAC audio, which is exactly the source of the problem. VidToFLAC repackages them without touching the video.</p>
         </div>
       </details>
-      <div class="ad-slot" hidden>
-        <p class="ad-label">Advertisement</p>
-      </div>
       <details class="faq-item">
         <summary>Does it work with H.265 (HEVC) MP4 files?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">

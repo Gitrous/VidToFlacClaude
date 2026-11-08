@@ -113,6 +113,14 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "¿Cómo convierto un MP4 a FLAC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Arrastra el MP4 a VidToFLAC y pulsa Convertir. Obtienes un MKV con el audio en FLAC, que importas en DaVinci Resolve, Premiere o Avid. El vídeo se copia sin recodificar, salvo que el navegador no pueda decodificarlo (H.265/HEVC): entonces se recodifica a H.264."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "¿Pierdo calidad de vídeo al convertir un MP4 a FLAC?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -2328,6 +2336,12 @@
 
     <div class="faq-list">
       <details class="faq-item">
+        <summary>¿Cómo convierto un MP4 a FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <div class="faq-answer">
+          <p>Arrastra el MP4 a VidToFLAC y pulsa <strong>Convertir</strong>. Obtienes un MKV con el audio en FLAC, que importas en DaVinci Resolve, Premiere o Avid. El vídeo se copia sin recodificar, salvo que el navegador no pueda decodificarlo (H.265/HEVC): entonces se recodifica a H.264.</p>
+        </div>
+      </details>
+      <details class="faq-item">
         <summary>¿Pierdo calidad de vídeo al convertir un MP4 a FLAC?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>Si el vídeo es H.264, se copia <strong>bit a bit</strong> sin recomprimirlo: es un remux, no un re-encode. Si es <strong>H.265/HEVC</strong>, el navegador no puede decodificarlo y se recodifica a H.264 con calidad alta (<code>-crf 18</code>). En ambos casos la pista de audio pasa a FLAC, que es un formato sin pérdida, así que la imagen final es idéntica al original.</p>
@@ -2339,15 +2353,15 @@
           <p>Porque el MP4 lleva casi siempre el audio en <strong>AAC</strong>, y DaVinci Resolve (sobre todo en Linux) no incluye la licencia para decodificarlo. Al pasar el audio a FLAC dentro de un MKV, Resolve lo reproduce de forma nativa.</p>
         </div>
       </details>
+      <div class="ad-slot" hidden>
+        <p class="ad-label">Publicidad</p>
+      </div>
       <details class="faq-item">
         <summary>¿Sirve para los MP4 grabados con OBS Studio o con el móvil?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
           <p>Sí. Los MP4 de OBS, smartphones, cámaras y capturadoras usan precisamente audio AAC, que es el origen del problema. VidToFLAC los reempaqueta sin tocar el vídeo y recupera el audio compatible.</p>
         </div>
       </details>
-      <div class="ad-slot" hidden>
-        <p class="ad-label">Publicidad</p>
-      </div>
       <details class="faq-item">
         <summary>¿Funciona con MP4 en H.265 (HEVC)?<span class="faq-icon" aria-hidden="true"></span></summary>
         <div class="faq-answer">
