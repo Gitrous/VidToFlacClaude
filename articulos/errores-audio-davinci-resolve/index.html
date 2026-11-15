@@ -728,6 +728,10 @@
       <h3>Vídeos con audio E-AC-3 (Dolby Digital Plus)</h3>
       <p>El E-AC-3 es el formato de audio de muchos contenidos de streaming (Amazon Prime, Netflix). Si editas este tipo de contenido, el E-AC-3 puede presentar problemas de compatibilidad en DaVinci Resolve en Windows, macOS y Linux, según la versión y la configuración. Una solución habitual es convertir el audio a FLAC.</p>
 
+      <h2 id="medido-flac">Lo que medimos: FLAC frente a WAV y PCM</h2>
+
+      <p>En nuestro <a href="/banco-de-pruebas/">banco de pruebas</a>, el FLAC pesa más que el original cuando la entrada tiene audio con pérdida (MP3, AAC), porque no recupera lo que el códec eliminó. Frente a un WAV o PCM sin comprimir, FLAC ocupa entre un 6 % y un 53 % del tamaño del WAV, según el contenido. Un FLAC de entrada sale idéntico byte a byte.</p>
+
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>
         <p class="ad-label">Publicidad</p>

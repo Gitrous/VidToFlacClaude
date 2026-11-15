@@ -640,6 +640,10 @@
         <strong>Regla práctica:</strong> Si conviertes vídeos de vez en cuando y el archivo es de menos de 1 hora en 1080p, usa VidToFLAC (FFmpeg.wasm) — es más rápido de usar aunque algo más lento de procesar. Si conviertes regularmente o en lote, instala FFmpeg.
       </div>
 
+      <h2 id="medido-fps">Lo que medimos: copiar el vídeo no cambia el frame rate</h2>
+
+      <p>Si el clip tiene frame rate variable, copiar el vídeo no lo corrige: VidToFLAC copia la pista de vídeo tal cual, así que el frame rate variable del origen se conserva. Para pasar a frame rate constante hace falta recodificar, por ejemplo con <code>-vf fps=N</code>. Lo comprobamos con <code>ffprobe</code> sobre archivos de prueba.</p>
+
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>
         <p class="ad-label">Publicidad</p>

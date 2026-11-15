@@ -718,6 +718,10 @@
       <h3>For client delivery or post-production</h3>
       <p>Use whatever format the client or the next link in the production chain specifies. Absent any spec, ProRes 422 HQ or DNxHR HQ are the most widely accepted professional delivery formats.</p>
 
+      <h2 id="medido-codec">What we measured: what is copied and what is re-encoded</h2>
+
+      <p>We tested seventeen container and codec combinations in our <a href="/en/test-bench/">test bench</a>. Video is copied as it is in H.264, AV1, VP8, VP9 and MPEG-4 (Xvid). It is re-encoded to H.264 for WMV2, MPEG-2 and HEVC, because the browser cannot decode them, and for H.263, Theora, FLV1 and MS MPEG-4 v3, because DaVinci Resolve imports them without picture. None of the seventeen files failed to convert.</p>
+
       <div class="tool-cta">
         <span class="tool-cta-label">Audio problems on import?</span>
         <h3>Fix the audio before you edit</h3>
