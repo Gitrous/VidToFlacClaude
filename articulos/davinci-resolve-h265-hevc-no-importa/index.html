@@ -430,6 +430,7 @@
         <li><a href="#ffmpeg" class="sidebar-toc-link">Alternativa con FFmpeg en la terminal</a></li>
         <li><a href="#prevenir" class="sidebar-toc-link">Cómo evitar el problema en el futuro</a></li>
         <li><a href="#audio-hevc" class="sidebar-toc-link">El audio de tus clips HEVC también importa</a></li>
+        <li><a href="#medido" class="sidebar-toc-link">Lo que medimos al convertir HEVC</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
       </ul>
     </nav>
@@ -667,6 +668,12 @@
       <div class="info-box">
         <strong>¿Qué pasa si el HEVC ya lleva audio FLAC?</strong> Poco habitual, pero puede darse en material grabado con cámaras profesionales o después de una conversión previa. En ese caso, VidToFLAC copia la pista de audio directamente sin recodificarla, y solo recodifica el vídeo.
       </div>
+
+      <h2 id="medido">Lo que medimos al convertir HEVC</h2>
+
+      <p>Recodificar el vídeo de H.265 a H.264 tiene un coste. En nuestro <a href="/banco-de-pruebas/">banco de pruebas</a>, el archivo resultante pesó unas cinco veces más que el HEVC de origen. Además, la recodificación tardó unos 0,75 segundos por cada segundo de vídeo: un clip de iPhone de 5 minutos necesita casi 4 minutos de conversión.</p>
+
+      <p>Por eso VidToFLAC solo recodifica el vídeo cuando el navegador no puede decodificarlo. Si el clip ya es H.264, el vídeo se copia sin recodificar.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>
