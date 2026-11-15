@@ -527,7 +527,7 @@ PAGES_EN = [
       <h3>What AIFF actually is</h3>
       <p>AIFF (Audio Interchange File Format) is the Apple equivalent of WAV: uncompressed PCM audio, no quality loss, and files that grow enormous. It is the standard delivery format in a lot of Mac-based music production, and it is supported everywhere: it is simply wasteful.</p>
       <h3>What this conversion does, and what it does not</h3>
-      <p>Because AIFF is already lossless, converting to FLAC discards nothing whatsoever. You keep every sample and typically reclaim 40 to 60% of the disk space. This is the one conversion on this site with no trade-off to explain.</p>
+      <p>Because AIFF is already lossless, converting to FLAC discards nothing whatsoever. You keep every sample and typically reclaim 47% to 94% of the disk space. This is the one conversion on this site with no trade-off to explain.</p>
       <h3>Step by step</h3>
       <ol>
         <li>Drop your .aiff file onto the upload area, or click <strong>Select files</strong>. You can queue several at once.</li>
@@ -1092,14 +1092,14 @@ CONTENT_EN = {
 
       <p>VidToFLAC decodes the AIFF audio and re-encodes it to <strong>FLAC</strong>, an open lossless format that DaVinci Resolve, Premiere Pro, Avid and Final Cut all read natively on Windows, macOS and Linux. The whole job runs inside your browser through FFmpeg compiled to WebAssembly, so the file never leaves your machine.</p>
 
-      <p>Because AIFF is already lossless, nothing at all is discarded. You keep every sample and typically reclaim 40 to 60% of the space.</p>""",
+      <p>Because AIFF is already lossless, nothing at all is discarded. You keep every sample and typically reclaim 47% to 94% of the space.</p>""",
         "faqs": [
             ("Does converting AIFF to FLAC improve the audio quality?",
              'It cannot improve it, and it does not need to. AIFF is already lossless, so the FLAC contains exactly the same samples: nothing is discarded in either direction. The gain is purely in file size.'),
             ("Why will my editor not read AIFF files?",
              'AIFF itself is widely supported: the problem is size, not compatibility. Uncompressed PCM eats disk space at about 250 MB per stereo hour. FLAC is the practical way around it, because it is one of the few lossless formats every major editor decodes natively.'),
             ("Will the FLAC file be bigger than the AIFF?",
-             'No, considerably smaller: typically 40 to 60% smaller, because AIFF stores audio uncompressed while FLAC compresses it losslessly.'),
+             'No, considerably smaller: typically 47% to 94% smaller, because AIFF stores audio uncompressed while FLAC compresses it losslessly.'),
             ("Is my file uploaded to a server?",
              "No. Everything runs inside your browser through FFmpeg compiled to WebAssembly. Your audio never leaves your device, which is also why there is no server-imposed size limit: the practical ceiling is the memory your browser makes available."),
             ("Can I convert several files at once?",
