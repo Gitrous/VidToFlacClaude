@@ -423,6 +423,7 @@
         <li><a href="#causa-5" class="sidebar-toc-link">Causa 5: el archivo de origen no tiene audio compatible</a></li>
         <li><a href="#solucion-audio-origen" class="sidebar-toc-link">Solucionar el audio del archivo de origen</a></li>
         <li><a href="#pistas-multiples" class="sidebar-toc-link">Causa 6: proyecto con múltiples pistas</a></li>
+        <li><a href="#medido" class="sidebar-toc-link">Lo que medimos: la pista tiene que empezar en 0</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
       </ul>
     </nav>
@@ -616,6 +617,12 @@
       </div>
 
       <p>En proyectos grandes con Compound Clips anidados, verifica que el compound clip tiene la pista de audio asignada a la misma pista de la timeline. Un clip anidado puede tener el audio en la pista A1 del clip, pero si la pista A1 de la timeline está silenciada, el render no incluye ese audio aunque el clip reproduzca bien en la previsualización interna.</p>
+
+      <h2 id="medido">Lo que medimos: la pista tiene que empezar en 0</h2>
+
+      <p>En nuestro <a href="/banco-de-pruebas/">banco de pruebas</a>, con DaVinci Resolve Studio 21 sobre Ubuntu, la pista de audio tiene que empezar exactamente en 0,000 segundos. Con un desfase de solo 3 milisegundos, Resolve importa el clip con la caja de audio puesta y sin sonido hasta el final. En los 17 archivos del banco no hubo excepciones: las pistas que empezaban en 0,000 sonaron; las que empezaban en 0,003, 0,007 o 0,086 no.</p>
+
+      <p>El vídeo no tiene ese problema: archivos con la imagen empezando en 0,005 o 0,021 segundos se ven y suenan bien. VidToFLAC desplaza la pista de audio para que empiece en cero al convertir, y deja el audio ya en FLAC.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>

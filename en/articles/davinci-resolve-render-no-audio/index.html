@@ -423,6 +423,7 @@
         <li><a href="#causa-5" class="sidebar-toc-link">Cause 5: the source file has no compatible audio</a></li>
         <li><a href="#solucion-audio-origen" class="sidebar-toc-link">Fixing the source file's audio</a></li>
         <li><a href="#pistas-multiples" class="sidebar-toc-link">Cause 6: multi-track project misconfiguration</a></li>
+        <li><a href="#medido" class="sidebar-toc-link">What we measured: the track must start at 0</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
     </nav>
@@ -616,6 +617,12 @@
       </div>
 
       <p>In large projects using nested Compound Clips, check that the compound clip's audio is assigned to the same track as in the timeline. A nested clip may have audio on track A1 of the clip, but if track A1 of the timeline is muted, that audio will not appear in the render even though the clip plays back fine in the internal preview.</p>
+
+      <h2 id="medido">What we measured: the track must start at 0</h2>
+
+      <p>In our <a href="/en/test-bench/">test bench</a>, with DaVinci Resolve Studio 21 on Ubuntu, the audio track has to start at exactly 0.000 seconds. An offset of only 3 milliseconds is enough for Resolve to import the clip with the audio box on and no sound until the end. Across the 17 files in the bench there were no exceptions: tracks starting at 0.000 played; tracks starting at 0.003, 0.007 or 0.086 did not.</p>
+
+      <p>Video does not have this problem: files whose picture starts at 0.005 or 0.021 seconds display and play correctly. VidToFLAC shifts the audio track so it starts at zero when converting, and leaves the audio as FLAC.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>
