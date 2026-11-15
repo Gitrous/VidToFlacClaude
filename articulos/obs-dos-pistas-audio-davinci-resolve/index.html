@@ -468,7 +468,7 @@
 
       <h2 id="que-pasa">Lo que pasa, en una frase</h2>
 
-      <p>La orden básica para pasar un vídeo a FLAC es <code>ffmpeg -i entrada -c:v copy -c:a flac salida.mkv</code>, y <strong>no lleva <code>-map</code></strong>. Sin esa opción, FFmpeg aplica su selección por defecto: un flujo de vídeo, uno de audio, y los demás se quedan fuera. Con un archivo de una sola pista —la mayoría— eso no se nota. Con una grabación de OBS multipista, se pierde media grabación. Es lo que hacen muchos conversores, y es lo que hacía VidToFLAC hasta el 24 de septiembre de 2026.</p>
+      <p>La orden básica para pasar un vídeo a FLAC es <code>ffmpeg -i entrada -c:v copy -c:a flac salida.mkv</code>, y <strong>no lleva <code>-map</code></strong>. Sin esa opción, FFmpeg aplica su selección por defecto: un flujo de vídeo, uno de audio, y los demás se quedan fuera. Con un archivo de una sola pista —la mayoría— eso no se nota. Con una grabación de OBS multipista, se pierde media grabación. Es lo que hacen muchos conversores, y es lo que hacía VidToFLAC hasta el 24 de septiembre de 2026. Si el archivo es un vídeo, <a href="/convertir-video-a-flac/">conviértelo a FLAC en el navegador</a>.</p>
 
       <div class="solution-box">
         <strong>El resumen práctico:</strong> VidToFLAC detecta ahora las pistas de audio de tu archivo y, si hay más de una, te enseña una casilla por pista antes de convertir; las que dejes marcadas llegan todas en FLAC. Está <a href="#herramienta">medido más abajo</a>. Si prefieres la terminal, el comando equivalente es <code>-map 0:v -map 0:a</code>. Y si al arrastrar el archivo a Resolve ves una sola pista, el archivo está bien: <a href="#clip-attributes">es cosa de Clip Attributes</a>.

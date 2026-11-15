@@ -468,7 +468,7 @@
 
       <h2 id="what-happens">What happens, in one sentence</h2>
 
-      <p>The basic command for turning a video into FLAC is <code>ffmpeg -i input -c:v copy -c:a flac output.mkv</code>, and it <strong>has no <code>-map</code></strong>. Without that option FFmpeg applies its default selection: one video stream, one audio stream, everything else left out. With a single-track file — most files — you never notice. With a multitrack OBS recording, half the recording is gone. It is what many converters do, and it is what VidToFLAC did until 24 September 2026.</p>
+      <p>The basic command for turning a video into FLAC is <code>ffmpeg -i input -c:v copy -c:a flac output.mkv</code>, and it <strong>has no <code>-map</code></strong>. Without that option FFmpeg applies its default selection: one video stream, one audio stream, everything else left out. With a single-track file — most files — you never notice. With a multitrack OBS recording, half the recording is gone. It is what many converters do, and it is what VidToFLAC did until 24 September 2026. If your file is a video, <a href="/en/convert-video-to-flac/">convert it to FLAC in your browser</a>.</p>
 
       <div class="solution-box">
         <strong>The practical summary:</strong> VidToFLAC now detects the audio tracks in your file and, if there is more than one, shows you a checkbox per track before converting; every track you leave ticked comes out as FLAC. It is <a href="#tool">measured further down</a>. If you prefer the terminal, the equivalent is <code>-map 0:v -map 0:a</code>. And if Resolve shows a single track when you drag the file in, the file is fine: <a href="#clip-attributes">it is a Clip Attributes matter</a>.

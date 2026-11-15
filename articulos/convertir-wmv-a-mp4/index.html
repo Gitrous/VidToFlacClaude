@@ -541,7 +541,7 @@
 
       <h2 id="convertir">Convertir WMV a MP4 con VidToFLAC</h2>
 
-      <p>A diferencia de los conversores que usan servidores externos (donde tienes que subir el archivo, esperar una cola y descargarlo), VidToFLAC procesa el WMV directamente <strong>en tu navegador</strong> mediante FFmpeg compilado a WebAssembly. El archivo no sale de tu ordenador en ningún momento.</p>
+      <p>A diferencia de los conversores que usan servidores externos (donde tienes que subir el archivo, esperar una cola y descargarlo), VidToFLAC procesa el WMV directamente <strong>en tu navegador</strong> mediante FFmpeg compilado a WebAssembly. El archivo no sale de tu ordenador en ningún momento. Si el archivo es un vídeo, <a href="/convertir-video-a-flac/">conviértelo a FLAC en el navegador</a>.</p>
 
       <p>Para WMV, la conversión implica recodificar el vídeo (de VC-1 a H.264) y el audio (de WMA a FLAC), porque el remux directo no es posible — los códecs de WMV no son compatibles con el contenedor MP4. VidToFLAC usa <code>libx264 -crf 18 -preset ultrafast</code>, que ofrece una calidad visualmente muy alta con buena velocidad de proceso.</p>
 
