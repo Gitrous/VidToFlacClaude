@@ -114,6 +114,8 @@ Interpreta `s` y `g` (en mayúscula o minúscula) como estos atajos siempre que 
 
 ## Desarrollo local
 
+Puerto de este proyecto: **8000** (no 2020: el 2020 lo usa otro proyecto en esta máquina).
+
 Debe servirse por HTTP (la app usa imports de ES modules y `fetch`; `file://` no funciona):
 
 ```bash
@@ -156,6 +158,7 @@ Los archivos se añaden a un `Map<id, entry>` y quedan `pending` — **nada se p
    - Audio PCM flotante (`pcm_f32le`, etc.) → insertar `aformat=sample_fmts=s32` antes de FLAC (FLAC necesita muestras enteras).
 3. **Fallback ante fallo:** si un remux con `-c:v copy` lanza error, reinicializa el motor y reintenta con libx264.
 4. **Recuperación de errores:** ffmpeg.wasm puede caer en seco ("Aborted"); ante cualquier error por archivo el motor se recarga por completo (`loadFFmpeg()`) para que los archivos siguientes sigan convirtiéndose.
+   Los archivos en `error` cuentan para habilitar «Convertir» (`updateConvertBtn`) y se vuelven a `pending` al pulsarlo: si no, reintentar es imposible. El aviso «Sigue sin funcionar» con enlace a contacto sale a partir del 2.º fallo (`entry.failCount`).
 5. La salida se lee de vuelta, se envuelve en un Blob + object URL, y los archivos del FS virtual se eliminan.
 
 ## Convenciones de renderizado de la UI

@@ -2069,6 +2069,14 @@
       font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55;
       letter-spacing: 0.02em; color: var(--ink-mute);
     }
+    /* Aviso de error de conversión */
+    .err-toast { position: fixed; right: 16px; bottom: 16px; z-index: 1000; max-width: 360px; background: #131316; border: 1px solid rgba(255,96,88,.45); border-radius: 12px; padding: 14px 40px 14px 16px; box-shadow: 0 12px 32px rgba(0,0,0,.5); color: var(--ink); font-size: .9rem; line-height: 1.45; }
+    .err-toast strong { display: block; color: var(--red); margin-bottom: 4px; }
+    .err-toast p { margin: 4px 0 0; }
+    .err-toast a { color: var(--amber); }
+    .err-toast-close { position: absolute; top: 6px; right: 6px; background: none; border: 0; color: #a7a7ad; font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 6px 8px; border-radius: 6px; }
+    .err-toast-close:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    @media (max-width: 560px) { .err-toast { left: 12px; right: 12px; bottom: 12px; max-width: none; } }
   .brand-home-link { text-decoration: none; color: inherit; }
   </style>
   <script src="/ads.js" defer></script>
@@ -2575,6 +2583,47 @@ function log(msg, type = 'info') {
 // ─── Engine badge ─────────────────────────────────────────────────────────────
 let lastEngineState = null;
 
+// ─── Avisos de error de conversión (pestañita) ───────────────────────────────
+function explainConversionError(msg) {
+  if (/detached|ArrayBuffer|Aborted|memory/i.test(msg)) return 'The file is too large for browser memory (~2 GB). Split it into shorter parts.';
+  if (/does not contain any stream|matches no streams|Stream map/i.test(msg)) return 'The file has no audio or video stream that can be converted.';
+  if (/ErrnoError|FS error|Invalid data|moov atom not found|Invalid argument/i.test(msg)) return 'The file looks damaged or incomplete.';
+  return 'The conversion engine failed. Technical detail: ' + String(msg).slice(0, 160);
+}
+
+function showConversionAlert(fileName, reason, again) {
+  document.querySelectorAll('.err-toast').forEach(n => n.remove());
+  const box = document.createElement('div');
+  box.className = 'err-toast';
+  box.setAttribute('role', 'alert');
+  const title = document.createElement('strong');
+  title.textContent = again ? 'Still failing' + ': ' + fileName : 'Could not convert' + ' «' + fileName + '»';
+  box.appendChild(title);
+  const p = document.createElement('p');
+  p.textContent = reason;
+  box.appendChild(p);
+  const p2 = document.createElement('p');
+  if (again) {
+    p2.append('Please tell us about it in the ');
+    const a = document.createElement('a');
+    a.href = '/en/contact/';
+    a.textContent = 'contact form';
+    p2.appendChild(a);
+    p2.append(': that way the case reaches us and we can fix it.');
+  } else {
+    p2.textContent = 'You can try again by pressing Convert.';
+  }
+  box.appendChild(p2);
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'err-toast-close';
+  close.setAttribute('aria-label', 'Cerrar aviso');
+  close.textContent = '×';
+  close.addEventListener('click', () => box.remove());
+  box.appendChild(close);
+  document.body.appendChild(box);
+}
+
 function setEngine(text, state) {
   const justBecameReady = state === 'ready' && lastEngineState !== 'ready';
   lastEngineState = state;
@@ -2783,7 +2832,8 @@ function updateConvertBtn() {
     convertBtn.disabled = blocked;
     return;
   }
-  const pending = [...files.values()].filter(e => e.status === 'pending').length;
+  // Los archivos con error cuentan: pulsar Convertir de nuevo los reintenta.
+  const pending = [...files.values()].filter(e => e.status === 'pending' || e.status === 'error').length;
   convertBtn.disabled = !ffmpeg || pending === 0 || !termsCheck.checked || blocked;
   convertBtn.textContent = pending > 1
     ? `⚙️ Convert ${pending} files to video + FLAC`
@@ -3385,12 +3435,12 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 
   } catch (err) {
     entry.status = 'error';
-    const msg = err.message ?? 'error desconocido';
-    if (msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted')) {
-      log(`✗ Out of memory on "${file.name}": the file is too large for WebAssembly memory (~2 GB). Split the video into shorter sections and try again.`, 'error');
-    } else {
-      log(`✗ Error en "${file.name}": ${msg}`, 'error');
-    }
+    entry.failCount = (entry.failCount || 0) + 1;
+    const msg = String(err?.message || err || 'error desconocido');
+    const isMem = msg.includes('detached') || msg.includes('ArrayBuffer') || msg.includes('Aborted');
+    if (isMem) log('✗ Out of memory on "{n}": the file is too large for WebAssembly memory (~2 GB). Split the video into shorter parts and try again.'.replace('{n}', file.name), 'error');
+    else log('✗ Error in "{n}": {m}'.replace('{n}', file.name).replace('{m}', msg), 'error');
+    showConversionAlert(file.name, explainConversionError(msg), entry.failCount >= 2);
     try { await ffmpeg.deleteFile(inputName); } catch (_) {}
     try { await ffmpeg.deleteFile(outputName); } catch (_) {}
     log('↺ Reiniciando motor FFmpeg…', 'sys');
@@ -3404,6 +3454,7 @@ async function processOneFile([id, entry], globalIdx, totalCount, selectedFormat
 convertBtn.addEventListener('click', async () => {
   if (!ffmpeg) return;
   if (!termsCheck.checked) return;
+  for (const e of files.values()) if (e.status === 'error') e.status = 'pending';
   const allPending = [...files.entries()].filter(([, e]) => e.status === 'pending');
   if (!allPending.length) return;
 
