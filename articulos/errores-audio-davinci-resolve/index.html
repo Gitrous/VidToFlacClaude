@@ -122,6 +122,14 @@
           "@type": "Answer",
           "text": "Ambos son sin pérdida y funcionan bien en DaVinci Resolve. La diferencia es el tamaño: FLAC comprime el audio (típicamente entre un 47 % y un 94 % menos que WAV) sin perder ningún dato. Para vídeos largos, la diferencia de tamaño es significativa. Por eso recomendamos FLAC sobre WAV; si ya tienes los archivos en WAV, puedes convertir WAV a FLAC sin perder un solo dato."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "¿DaVinci Resolve puede importar audio MP3?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, al menos en DaVinci Resolve Studio 21.0.4 sobre Ubuntu: en nuestras pruebas, un MP4 con audio MP3 se importó con sonido. La versión gratuita no la hemos probado; según usuarios, funciona desde Resolve 17."
+        }
       }
     ]
   }
@@ -654,7 +662,7 @@
         <li>Un vídeo MP4 grabado con un iPhone (AAC) reproducirá el vídeo pero no el audio.</li>
         <li>Un vídeo MOV de una cámara Sony o Canon (también AAC) tendrá el mismo problema.</li>
         <li>El vídeo publicado en la web suele venir en WebM con Opus, y tampoco tendrá audio.</li>
-        <li>Screengrabs o grabaciones de pantalla con audio MP3 tampoco funcionarán.</li>
+        <li>Las grabaciones de pantalla con audio MP3 dependen de la versión de Resolve: consulta la tabla de códecs de arriba.</li>
       </ul>
 
       <div class="solution-box">
@@ -813,6 +821,16 @@
             <p>Ambos son sin pérdida y funcionan bien en DaVinci Resolve. La diferencia es el tamaño: FLAC comprime el audio (típicamente entre un 47 % y un 94 % menos que WAV) sin perder ningún datos. Para vídeos largos, la diferencia de tamaño es significativa. Por eso recomendamos FLAC sobre WAV; si ya tienes los archivos en WAV, puedes <a href="/convertir-wav-a-flac/">convertir WAV a FLAC</a> sin perder un solo dato.</p>
           </div>
         </details>
+        <details class="faq-item">
+          <summary>
+            ¿DaVinci Resolve puede importar audio MP3?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Sí, al menos en DaVinci Resolve Studio 21.0.4 sobre Ubuntu: en nuestras pruebas, un MP4 con audio MP3 se importó con sonido. La versión gratuita no la hemos probado; según usuarios, funciona desde Resolve 17.</p>
+          </div>
+        </details>
+
       </section>
 
     

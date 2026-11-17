@@ -122,6 +122,14 @@
           "@type": "Answer",
           "text": "Both are lossless and both work well in DaVinci Resolve. The difference is size: FLAC compresses the audio — typically 47 % a 94 % smaller than WAV — without discarding any data. On long videos that difference is significant, which is why we recommend FLAC over WAV; if your files are already WAV, you can convert WAV to FLAC without losing a single sample."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Can DaVinci Resolve import MP3 audio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, at least in DaVinci Resolve Studio 21.0.4 on Ubuntu: in our tests, an MP4 with MP3 audio imported with sound. We have not tested the free version; according to users, it works from Resolve 17."
+        }
       }
     ]
   }
@@ -654,7 +662,7 @@
         <li>An MP4 shot on an iPhone (AAC) will play the video but not the audio.</li>
         <li>A MOV from a Sony or Canon camera — also AAC — has the same problem.</li>
         <li>Video published on the web usually arrives as WebM with Opus, and will have no audio either.</li>
-        <li>Screen recordings with MP3 audio will not work either.</li>
+        <li>Screen recordings with MP3 audio depend on your version of Resolve: see the codec table above.</li>
       </ul>
 
       <div class="solution-box">
@@ -813,6 +821,16 @@
             <p>Both are lossless and both work well in DaVinci Resolve. The difference is size: FLAC compresses the audio — typically 47 % a 94 % smaller than WAV — without discarding any data. On long videos that difference is significant, which is why we recommend FLAC over WAV; if your files are already WAV, you can <a href="/en/convert-wav-to-flac/">convert WAV to FLAC</a> without losing a single sample.</p>
           </div>
         </details>
+        <details class="faq-item">
+          <summary>
+            Can DaVinci Resolve import MP3 audio?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Yes, at least in DaVinci Resolve Studio 21.0.4 on Ubuntu: in our tests, an MP4 with MP3 audio imported with sound. We have not tested the free version; according to users, it works from Resolve 17.</p>
+          </div>
+        </details>
+
       </section>
 
     

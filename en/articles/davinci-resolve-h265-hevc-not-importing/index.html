@@ -114,6 +114,14 @@
           "@type": "Answer",
           "text": "It depends on the clip's resolution and length, and on how powerful your computer is. Roughly, a one-minute 4K H.265 clip takes between 1 and 3 minutes with VidToFLAC using the ultrafast preset. For long material, consider FFmpeg in the terminal with GPU acceleration (-hwaccel cuda for NVIDIA, or -hwaccel vaapi on Linux)."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I import an H.265 clip into DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "With DaVinci Resolve Studio, import it directly: the paid version decodes H.265 in software. With the free version, the clip only opens if your graphics card has a hardware HEVC decoder. If it doesn't, convert it to H.264 with VidToFLAC before importing."
+        }
       }
     ]
   }
@@ -746,6 +754,16 @@
             <p>It depends on the clip's resolution and length, and on how powerful your computer is. Roughly, a one-minute 4K H.265 clip takes between 1 and 3 minutes with VidToFLAC using the ultrafast preset. For long material, consider FFmpeg in the terminal with GPU acceleration (<code>-hwaccel cuda</code> for NVIDIA, or <code>-hwaccel vaapi</code> on Linux).</p>
           </div>
         </details>
+        <details class="faq-item">
+          <summary>
+            How do I import an H.265 clip into DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>With DaVinci Resolve Studio, import it directly: the paid version decodes H.265 in software. With the free version, the clip only opens if your graphics card has a hardware HEVC decoder. If it doesn't, convert it to H.264 with VidToFLAC before importing.</p>
+          </div>
+        </details>
+
       </section>
 
       <p style="margin-top:2.5rem;">Running into audio problems after importing too? See the guide to <a href="/en/articles/davinci-resolve-audio-errors/">every audio error in DaVinci Resolve</a> or the article on <a href="/en/articles/best-video-format-for-davinci-resolve/">which video format to use in DaVinci Resolve</a>.</p>

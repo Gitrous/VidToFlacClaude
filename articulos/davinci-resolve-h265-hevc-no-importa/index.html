@@ -114,6 +114,14 @@
           "@type": "Answer",
           "text": "Depende de la resolución y la duración del clip, y de la potencia de tu ordenador. Aproximadamente, un clip de 1 minuto en 4K H.265 tarda entre 1 y 3 minutos con VidToFLAC usando el preset ultrafast. Para conversiones de material largo, considera usar FFmpeg en la terminal con aceleración por GPU (-hwaccel cuda para NVIDIA o -hwaccel vaapi para Linux)."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo importo un clip H.265 en DaVinci Resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Con DaVinci Resolve Studio, impórtalo directamente: la versión de pago decodifica H.265 por software. Con la versión gratuita, el clip solo se abre si tu tarjeta gráfica tiene decodificador HEVC por hardware. Si no lo tiene, conviértelo a H.264 con VidToFLAC antes de importarlo."
+        }
       }
     ]
   }
@@ -746,6 +754,16 @@
             <p>Depende de la resolución y la duración del clip, y de la potencia de tu ordenador. Aproximadamente, un clip de 1 minuto en 4K H.265 tarda entre 1 y 3 minutos con VidToFLAC usando el preset ultrafast. Para conversiones de material largo, considera usar FFmpeg en la terminal con aceleración por GPU (<code>-hwaccel cuda</code> para NVIDIA o <code>-hwaccel vaapi</code> para Linux).</p>
           </div>
         </details>
+        <details class="faq-item">
+          <summary>
+            ¿Cómo importo un clip H.265 en DaVinci Resolve?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Con DaVinci Resolve Studio, impórtalo directamente: la versión de pago decodifica H.265 por software. Con la versión gratuita, el clip solo se abre si tu tarjeta gráfica tiene decodificador HEVC por hardware. Si no lo tiene, conviértelo a H.264 con VidToFLAC antes de importarlo.</p>
+          </div>
+        </details>
+
       </section>
 
       <p style="margin-top:2.5rem;">¿Tienes también problemas con el audio después de importar? Consulta la guía sobre <a href="/articulos/errores-audio-davinci-resolve/">todos los errores de audio en DaVinci Resolve</a> o el artículo sobre <a href="/articulos/que-formato-video-usar-davinci-resolve/">qué formato de vídeo usar en DaVinci Resolve</a>.</p>

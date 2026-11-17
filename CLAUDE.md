@@ -253,6 +253,13 @@ Antes de regenerar, haz siempre una pasada en seco comparando la salida del
 generador con el disco. Después de regenerar, **debe dar 0 líneas de
 diferencia**: si no, disco y generador han divergido.
 
+Trampas del generador, verificadas el 17-11-2026:
+
+- `--dry-run` solo **lista** las páginas que escribiría; no compara con el disco. Para
+  comprobar sincronía, regenera sin `--dry-run` y mira `git diff --stat`: tiene que salir vacío.
+- No lo ejecutes con `python3 -I`: al ignorar el directorio del script no encuentra
+  `landing_content.py` y falla con `ModuleNotFoundError`.
+
 ## El feed RSS se genera, como las landings
 
 `build_feed.py` escribe `feed.xml` y `en/feed.xml` leyendo los 16 artículos de
