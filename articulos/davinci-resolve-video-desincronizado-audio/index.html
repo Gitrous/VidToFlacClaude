@@ -421,6 +421,7 @@
         <li><a href="#solucion-codec" class="sidebar-toc-link">Solución para el desync por códec</a></li>
         <li><a href="#solucion-vfr" class="sidebar-toc-link">Solución para el desync por VFR</a></li>
         <li><a href="#diagnostico" class="sidebar-toc-link">Cómo identificar qué causa tienes</a></li>
+        <li><a href="#medido-vfr" class="sidebar-toc-link">Lo que medimos: el frame rate variable no se corrige al copiar</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Preguntas frecuentes</a></li>
       </ul>
     </nav>
@@ -637,6 +638,10 @@
       </div>
 
       <p>Si el resultado es <code>aac</code>, <code>mp3</code> o <code>ac3</code>, el problema es el códec y VidToFLAC lo resuelve. Si el resultado es <code>pcm_s16le</code> o similar pero el desync crece, el problema es VFR.</p>
+
+      <h2 id="medido-vfr">Lo que medimos: el frame rate variable no se corrige al copiar</h2>
+
+      <p>Si el desfase aumenta a lo largo del clip, la causa puede ser un frame rate variable (VFR), típico de grabaciones de pantalla y de móvil. VidToFLAC copia la pista de vídeo tal cual, así que el VFR del origen se conserva. Lo comprobamos con <code>ffprobe</code>: copiar el flujo no cambia <code>avg_frame_rate</code>. Para pasar a frame rate constante hace falta recodificar, por ejemplo con <code>-vf fps=N</code>.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>

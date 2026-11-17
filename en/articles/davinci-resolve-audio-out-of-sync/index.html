@@ -421,6 +421,7 @@
         <li><a href="#solucion-codec" class="sidebar-toc-link">Fixing codec-related drift</a></li>
         <li><a href="#solucion-vfr" class="sidebar-toc-link">Fixing VFR-related drift</a></li>
         <li><a href="#diagnostico" class="sidebar-toc-link">Working out which cause is yours</a></li>
+        <li><a href="#medido-vfr" class="sidebar-toc-link">What we measured: variable frame rate is not fixed by copying</a></li>
         <li><a href="#faq" class="sidebar-toc-link">Frequently asked questions</a></li>
       </ul>
     </nav>
@@ -637,6 +638,10 @@
       </div>
 
       <p>If the result is <code>aac</code>, <code>mp3</code> or <code>ac3</code>, the codec is the problem and VidToFLAC resolves it. If it comes back <code>pcm_s16le</code> or similar and the drift still grows, the problem is VFR.</p>
+
+      <h2 id="medido-vfr">What we measured: variable frame rate is not fixed by copying</h2>
+
+      <p>If the drift grows over the length of the clip, the cause can be a variable frame rate (VFR), typical of screen recordings and phone footage. VidToFLAC copies the video track as it is, so the source's VFR is kept. We checked this with <code>ffprobe</code>: copying the stream does not change <code>avg_frame_rate</code>. Converting to a constant frame rate needs a re-encode, for example with <code>-vf fps=N</code>.</p>
 
       <!-- Ad slot: before FAQ -->
       <div class="ad-slot" hidden>
